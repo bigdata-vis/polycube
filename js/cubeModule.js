@@ -3,7 +3,6 @@
  */
 
 var cube = {};
-
 cube.vis = function module(selection) {
 
     var camera;
@@ -28,7 +27,6 @@ cube.vis = function module(selection) {
     });
     var redMat = new THREE.MeshPhongMaterial({color: 0x1DFF50, specular: 0x555555, shininess: 30});
 
-
     init();
     animate();
 
@@ -39,7 +37,7 @@ cube.vis = function module(selection) {
         return this;
     };
 
-    exports.dataManager = function (url) {
+    exports.dataCSV = function (url) {
         //D3 Data Injection
         function v(x, y, z) {
             return new THREE.Vector3(x, y, z);
@@ -54,6 +52,7 @@ cube.vis = function module(selection) {
         d3.queue()
             .defer(d3.csv, url)
             .await(entryPoint);
+
         function entryPoint(error, d) {
             if (error) {
                 console.error(error)
@@ -62,20 +61,9 @@ cube.vis = function module(selection) {
             d.forEach(function (d, i) {
                 unfiltered[i] = {
                     x: +d.x,
-                    y: +d.y,
+                    y: +d.y,//convert date to y axis
                     z: +d.z
                 };
-
-                //lowPass[i] = {
-                //    x: +d.lp_x,
-                //    y: +d.lp_y,
-                //    z: +d.lp_z
-                //};
-                //highPass[i] = {
-                //    x: +d.hp_x,
-                //    y: +d.hp_y,
-                //    z: +d.hp_z
-                //}
             });
 
             var xExent = d3.extent(unfiltered, function (d) {
@@ -115,19 +103,75 @@ cube.vis = function module(selection) {
                 var y = yScale(unfiltered[i].y);
                 var z = zScale(unfiltered[i].z);
 
-                pointGeo.position.set(x,y,z);
+                pointGeo.position.set(x, y, z);
                 cubeBox.add(pointGeo);
 
                 //console.log(pointGeo.position.y)
             }
 
-            //var points = new THREE.Points(pointGeo, redMat);
-            //cubeBox.add(points);
-
             renderer.render(scene, camera);
 
-            //console.log(pointCount)
         }
+    };
+
+    exports.dataGsheet = function (data) {
+        var unfiltered = [];
+        entryPoint(data);
+        function entryPoint(d) {
+
+            d.forEach(function (d, i) {
+                unfiltered[i] = {
+                    x: +d.x,
+                    y: +d.y,//convert date to y axis
+                    z: +d.z
+                };
+            });
+
+            var xExent = d3.extent(unfiltered, function (d) {
+                    return d.x;
+                }),
+                yExent = d3.extent(unfiltered, function (d) {
+                    return d.y;
+                }),
+                zExent = d3.extent(unfiltered, function (d) {
+                    return d.z;
+                });
+
+            //var colour = d3.schemeCategory20c();
+
+            var xScale = d3.scaleLinear()
+                .domain(xExent)
+                .range([-100, 100]);
+
+            var yScale = d3.scaleLinear()
+                .domain(yExent)
+                .range([5, 200]);
+            var zScale = d3.scaleLinear()
+                .domain(zExent)
+                .range([-50, 50]);
+
+            var pointCount = unfiltered.length;
+
+            // Sphere
+            var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
+            sphere.position.set(-15, 130, -20);
+            cubeBox.add(sphere);
+
+            for (var i = 0; i < pointCount; i++) {
+                var pointGeo = new THREE.Mesh(new THREE.SphereGeometry(3, 30, 20), redMat);
+
+                var x = xScale(unfiltered[i].x);
+                var y = yScale(unfiltered[i].y);
+                var z = zScale(unfiltered[i].z);
+
+                pointGeo.position.set(x, y, z);
+                cubeBox.add(pointGeo);
+
+                //console.log(pointGeo.position.y)
+            }
+
+            renderer.render(scene, camera);
+        };
     };
 
     function exports(_selection) {
@@ -190,13 +234,11 @@ cube.vis = function module(selection) {
         var bluePoint = new THREE.PointLight(0xffffff, 3, 150);
         bluePoint.position.set(70, 5, 0);
         scene.add(bluePoint);
-        //scene.add(new THREE.PointLightHelper(bluePoint, 3));
 
         //var greenPoint = new THREE.PointLight(0x33ff00, 1, 150);
         var greenPoint = new THREE.PointLight(0xffffff, 3, 150);
         greenPoint.position.set(-70, 5, 0);
         scene.add(greenPoint);
-        //scene.add(new THREE.PointLightHelper(greenPoint, 3));
 
         //spotlight for object target
         var spotLight = new THREE.SpotLight(0xffffff, 1, 200, 20, 10);
@@ -212,6 +254,11 @@ cube.vis = function module(selection) {
         //Hemisphere light
         var hemLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, .1);
         scene.add(hemLight);
+
+        var newLight = new THREE.PointLight( 0xffffff, 0.4 );
+        camera.add( newLight );
+        scene.add( camera );
+
     }
 
     function addSceneElements() {
@@ -219,21 +266,20 @@ cube.vis = function module(selection) {
         // cube container for all information
         var cube = new THREE.CubeGeometry(200, 1, 200);
 
+        //Add Label to Cube
+        //console.log(cube.vertices);
+
         // Floor
         var floor = new THREE.Mesh(cube, floorMat);
         //scene.add(floor);
         cubeBox.add(floor);
+
 
         //Top
         var roof = new THREE.Mesh(cube, mGlass);
         roof.position.set(0, 200, 0);
         //scene.add(roof);
         cubeBox.add(roof);
-
-        //Middle Layer
-        //var midLayer = new THREE.Mesh(cube, mGlass);
-        //roof.position.set(0, 100, 0);
-        //scene.add(roof);
 
         // Back wall
         var backWall = new THREE.Mesh(cube, mGlass);
@@ -270,7 +316,8 @@ cube.vis = function module(selection) {
         sphere2.position.set(15, 100, 20);
         //scene.add(sphere2);
         cubeBox.add(sphere2);
-
+        //Add Label
+        //var Label = THREE.
     }
 
     function animate() {
