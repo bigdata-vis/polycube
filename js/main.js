@@ -4,8 +4,7 @@
 (function () {
     d3.json("/js/config.json", function(error, config){
         if (error){console.error(error)}
-        //console.log(config.public_spreadsheet);
-        //var public_spreadsheet_url = config.public_spreadsheet;
+
         renderSpreadsheetData(config.public_spreadsheet)
     });
     function renderSpreadsheetData(url) {
@@ -17,7 +16,12 @@
     }
     function draw(data) {
         //load data from google sheets
-        cube.vis("cubeBox").dataGsheet(data);
+        var PCube = cube.vis("cubeBox");
+        PCube.dataGsheet(data);
     }
-
+    //d3.json("/data/kuntMuseum.json", function(error, kunt){
+    //    if(error)(console.error(error));
+    //
+    //    console.log(kunt.items);
+    //})
 })();

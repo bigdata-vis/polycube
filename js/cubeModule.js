@@ -25,6 +25,7 @@ cube.vis = function module(selection) {
         opacity: 0.4,
         transparent: true
     });
+
     var redMat = new THREE.MeshPhongMaterial({color: 0x1DFF50, specular: 0x555555, shininess: 30});
 
     init();
@@ -115,6 +116,7 @@ cube.vis = function module(selection) {
     };
 
     exports.dataGsheet = function (data) {
+
         var unfiltered = [];
         entryPoint(data);
         function entryPoint(d) {
@@ -152,13 +154,15 @@ cube.vis = function module(selection) {
 
             var pointCount = unfiltered.length;
 
-            // Sphere
-            var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
-            sphere.position.set(-15, 130, -20);
-            cubeBox.add(sphere);
+
+            //// Sphere
+            //var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
+            //sphere.position.set(-15, 130, -20);
+            //cubeBox.add(sphere);
+
 
             for (var i = 0; i < pointCount; i++) {
-                var pointGeo = new THREE.Mesh(new THREE.SphereGeometry(3, 30, 20), redMat);
+                var pointGeo = new THREE.Mesh(new THREE.SphereGeometry(3, 10, 10), redMat);
 
                 var x = xScale(unfiltered[i].x);
                 var y = yScale(unfiltered[i].y);
@@ -171,7 +175,7 @@ cube.vis = function module(selection) {
             }
 
             renderer.render(scene, camera);
-        };
+        }
     };
 
     function exports(_selection) {
@@ -255,14 +259,12 @@ cube.vis = function module(selection) {
         var hemLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, .1);
         scene.add(hemLight);
 
-        var newLight = new THREE.PointLight( 0xffffff, 0.4 );
-        camera.add( newLight );
-        scene.add( camera );
-
+        var newLight = new THREE.PointLight(0xffffff, 0.4);
+        camera.add(newLight);
+        scene.add(camera);
     }
 
     function addSceneElements() {
-
         // cube container for all information
         var cube = new THREE.CubeGeometry(200, 1, 200);
 
@@ -306,18 +308,54 @@ cube.vis = function module(selection) {
         cubeBox.add(rightWall);
 
 
-        // Sphere
-        var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
-        sphere.position.set(-15, 130, -20);
-        //scene.add(sphere);
-        cubeBox.add(sphere);
+        //draw axis
 
-        var sphere2 = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
-        sphere2.position.set(15, 100, 20);
-        //scene.add(sphere2);
-        cubeBox.add(sphere2);
-        //Add Label
-        //var Label = THREE.
+        var vert = cube.vertices,
+            dobj = new THREE.Object3D();
+
+        for (var i = 0; i < vert.length; i++) {
+            var x = vert[i].x,
+                y = vert[i].y,
+                z = vert[i].z;
+
+            var label = makeTextSprite(i);
+            label.position.set(x, y, z);
+            dobj.add(label);
+            cubeBox.add(dobj)
+        }
+
+        function makeTextSprite(message, parameters) {
+            if (parameters === undefined) parameters = {};
+
+            var fontface = parameters["fontface"] || "Helvetica";
+            var fontsize = parameters["fontsize"] || 70;
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            context.font = fontsize + "px " + fontface;
+
+            // get size data (height depends only on font size)
+            var metrics = context.measureText(message);
+            var textWidth = metrics.width;
+
+
+            // text color
+            context.fillStyle = "rgba(0, 0, 0, 1.0)";
+            context.fillText(message, 0, fontsize);
+
+            // canvas contents will be used for a texture
+            var texture = new THREE.Texture(canvas);
+            texture.minFilter = THREE.LinearFilter;
+            texture.needsUpdate = true;
+
+            var spriteMaterial = new THREE.SpriteMaterial({map: texture});
+            var sprite = new THREE.Sprite(spriteMaterial);
+            sprite.scale.set(100, 50, 1.0);
+            return sprite;
+        }
+    }
+
+    function addPoints() {
+
     }
 
     function animate() {
