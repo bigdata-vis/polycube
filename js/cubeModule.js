@@ -25,8 +25,9 @@ cube.vis = function module(selection) {
         opacity: 0.4,
         transparent: true
     });
-
     var redMat = new THREE.MeshPhongMaterial({color: 0x1DFF50, specular: 0x555555, shininess: 30});
+
+    var unfiltered = []; //hold unfiltered data
 
     init();
     animate();
@@ -44,11 +45,6 @@ cube.vis = function module(selection) {
             return new THREE.Vector3(x, y, z);
         }
 
-        var unfiltered = [],
-            lowPass = [],
-            highPass = [];
-
-        var format = d3.format("+.3f");
 
         d3.queue()
             .defer(d3.csv, url)
@@ -117,7 +113,6 @@ cube.vis = function module(selection) {
 
     exports.dataGsheet = function (data) {
 
-        var unfiltered = [];
         entryPoint(data);
         function entryPoint(d) {
 
@@ -280,7 +275,7 @@ cube.vis = function module(selection) {
         //Top
         var roof = new THREE.Mesh(cube, mGlass);
         roof.position.set(0, 200, 0);
-        //scene.add(roof);
+        roof.name = "roof";
         cubeBox.add(roof);
 
         // Back wall
@@ -296,7 +291,7 @@ cube.vis = function module(selection) {
         leftWall.rotation.z = Math.PI / 180 * 90;
         leftWall.position.set(-100, 100, 0);
         leftWall.renderDepth = -1.1;
-        //scene.add(leftWall);
+        leftWall.name = "leftwall";
         cubeBox.add(leftWall);
 
         // Right wall
@@ -307,22 +302,54 @@ cube.vis = function module(selection) {
         //scene.add(rightWall);
         cubeBox.add(rightWall);
 
+        //the mesh on the left wall vertices to draw the axis
+        //console.log(cubeBox.children[3].geometry.vertices[5]);
 
-        //draw axis
+        drawAxis({labelCount:20, starting:{
+            x: -80,//offset border
+            y: -10,
+            z: 100}})
+    }
 
-        var vert = cube.vertices,
-            dobj = new THREE.Object3D();
+    function addPoints(data, parameters) {
+        if (parameters === undefined) parameters = {};
 
-        for (var i = 0; i < vert.length; i++) {
-            var x = vert[i].x,
-                y = vert[i].y,
-                z = vert[i].z;
 
-            var label = makeTextSprite(i);
-            label.position.set(x, y, z);
-            dobj.add(label);
-            cubeBox.add(dobj)
+        //var geopPoints
+        //return geoPoints;
+    }
+
+    function drawAxis(parameters){
+
+        if (parameters === undefined) parameters = {};
+
+        var vert = cubeBox.children[3].geometry.vertices[5];//vertices position to determine time axis
+        var dobj = new THREE.Object3D(); //holder for labels
+        var labelCount = parameters["labelCount"] || 8; //use label count or specified parameters
+        var startDate = parameters["startDate"] || "1980-01";
+        var endDate = parameters["endDate"] || "2000-01";
+        var dateArray = d3.scaleTime()
+                .domain([new Date(startDate), new Date(endDate)])
+                .ticks(labelCount);
+        var separator = cHeight / dateArray.length;
+        var p = parameters["starting"] || {
+                x: -80,//offset border
+                y: -10,
+                z: 100
+            };
+        var format = d3.format("+.3f");
+
+        var dateFormate = d3.timeFormat("%Y");
+
+        console.log(dateArray);
+
+        for (var i = 0; i < dateArray.length; i++) {
+            var label = makeTextSprite(dateArray[i], {fontsize: 20});
+            label.position.set(p.x, p.y, p.z);
+            dobj.add(label);//add labels to labels 3d object holder
+            p.y += separator;
         }
+        cubeBox.add(dobj);//add labels group to cubebox
 
         function makeTextSprite(message, parameters) {
             if (parameters === undefined) parameters = {};
@@ -336,7 +363,6 @@ cube.vis = function module(selection) {
             // get size data (height depends only on font size)
             var metrics = context.measureText(message);
             var textWidth = metrics.width;
-
 
             // text color
             context.fillStyle = "rgba(0, 0, 0, 1.0)";
@@ -352,10 +378,6 @@ cube.vis = function module(selection) {
             sprite.scale.set(100, 50, 1.0);
             return sprite;
         }
-    }
-
-    function addPoints() {
-
     }
 
     function animate() {
