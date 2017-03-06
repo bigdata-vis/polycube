@@ -88,10 +88,10 @@ cube.vis = function module(selection) {
 
             var pointCount = unfiltered.length;
 
-            // Sphere
-            var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
-            sphere.position.set(-15, 130, -20);
-            cubeBox.add(sphere);
+            //// Sphere
+            //var sphere = new THREE.Mesh(new THREE.SphereGeometry(5, 70, 20), redMat);
+            //sphere.position.set(-15, 130, -20);
+            //cubeBox.add(sphere);
 
             for (var i = 0; i < pointCount; i++) {
                 var pointGeo = new THREE.Mesh(new THREE.SphereGeometry(3, 30, 20), redMat);
@@ -311,12 +311,53 @@ cube.vis = function module(selection) {
             z: 100}})
     }
 
-    function addPoints(data, parameters) {
+    function addPoints(d, parameters) {
         if (parameters === undefined) parameters = {};
 
+        d.forEach(function (d, i) {
+            unfiltered[i] = {
+                x: +d.x,
+                y: +d.y,//convert date to y axis
+                z: +d.z
+            };
+        });
 
-        //var geopPoints
-        //return geoPoints;
+        var xExent = d3.extent(unfiltered, function (d) {
+                return d.x;
+            }),
+            yExent = d3.extent(unfiltered, function (d) {
+                return d.y;
+            }),
+            zExent = d3.extent(unfiltered, function (d) {
+                return d.z;
+            });
+
+        var xScale = d3.scaleLinear()
+            .domain(xExent)
+            .range([-100, 100]);
+
+        var yScale = d3.scaleLinear()
+            .domain(yExent)
+            .range([5, 200]);
+
+        var zScale = d3.scaleLinear()
+            .domain(zExent)
+            .range([-50, 50]);
+
+        var pointCount = unfiltered.length;
+
+
+        for (var i = 0; i < pointCount; i++) {
+            var pointGeo = new THREE.Mesh(new THREE.SphereGeometry(3, 30, 20), redMat);
+
+            var x = xScale(unfiltered[i].x);
+            var y = yScale(unfiltered[i].y);
+            var z = zScale(unfiltered[i].z);
+
+            pointGeo.position.set(x, y, z);
+            cubeBox.add(pointGeo);
+        }
+
     }
 
     function drawAxis(parameters){
