@@ -67,7 +67,6 @@ function init() {
 
     // segments
     var segments = 10;
-
     for (var z = 0; z < segments; z++) {
         var seg = document.createElement('div');
         seg.style.width = '100px';
@@ -156,7 +155,7 @@ function transform(side) {
 
         //remove box shapes
         if (object.name == "side") {
-            //object.position.y = 10000;
+            object.position.y = 10000;
         }
 
         //show only segments

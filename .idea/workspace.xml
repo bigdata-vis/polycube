@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css3d.html" afterPath="$PROJECT_DIR$/css3d.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/css3d2.js" afterPath="$PROJECT_DIR$/js/css3d2.js" />
     </list>
     <ignored path="polycube.iws" />
@@ -59,13 +58,12 @@
       <file leaf-file-name="css3d2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/css3d2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5">
-              <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.6727273">
+              <caret line="165" column="63" selection-start-line="165" selection-start-column="63" selection-end-line="165" selection-end-column="63" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
                 <element signature="n#!!block;n#tranform#0" expanded="false" />
-                <element signature="e#2839#3769#0" expanded="false" />
-                <element signature="n#!!block;n#transform#0" expanded="false" />
+                <element signature="e#2834#3764#0" expanded="false" />
                 <element signature="n#!!block;n#animate#0" expanded="false" />
               </folding>
             </state>
@@ -719,12 +717,12 @@
       <workItem from="1487582115329" duration="910000" />
       <workItem from="1487584156266" duration="52414000" />
       <workItem from="1488791311876" duration="3230000" />
-      <workItem from="1488917701138" duration="23034000" />
+      <workItem from="1488917701138" duration="23263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79588000" />
+    <option name="totallyTimeSpent" value="79817000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="81" y="36" width="1356" height="780" extended-state="0" />
@@ -733,7 +731,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21802326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.559593" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1163,13 +1161,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/css3d2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5">
-          <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.6727273">
+          <caret line="165" column="63" selection-start-line="165" selection-start-column="63" selection-end-line="165" selection-end-column="63" />
           <folding>
             <element signature="e#0#42#0" expanded="false" />
             <element signature="n#!!block;n#tranform#0" expanded="false" />
-            <element signature="e#2839#3769#0" expanded="false" />
-            <element signature="n#!!block;n#transform#0" expanded="false" />
+            <element signature="e#2834#3764#0" expanded="false" />
             <element signature="n#!!block;n#animate#0" expanded="false" />
           </folding>
         </state>
