@@ -25,11 +25,11 @@
     //var pCube = cube.vis("cubeBox");
     //pCube.dataCSV('/data/cubeData.csv')
 
-    d3.json("/data/kuntMuseum.json", function(error, data){
-        if(error){console.error(error)}
-
-        //console.log(data.items.)
-
-    });
+    //d3.json("/data/kuntMuseum.json", function(error, data){
+    //    if(error){console.error(error)}
+    //
+    //    //console.log(data.items.)
+    //
+    //});
 
 })();
