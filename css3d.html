@@ -3,7 +3,8 @@
 <head>
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
-    <script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
+    <script src="lib/three.js/tween.js"></script>
+    <!--<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>-->
     <script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
     <style>
         body {
@@ -14,12 +15,15 @@
     </style>
 </head>
 <body>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(0)"> Side1 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(1)"> Side2 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(2)"> Side3 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(3)"> Side4 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(4)"> Side5 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="tranform(5)"> Side6 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(0)"> JuxtPos </button><br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();"> Default </button><br>
+
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(0)"> Side1 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(1)"> Side2 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(2)"> Side3 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(3)"> Side4 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(4)"> Side5 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(5)"> Side6 </button>
 <script src="js/css3d2.js"></script>
 </body>
 </html>

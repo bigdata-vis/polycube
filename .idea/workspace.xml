@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/css3d.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/css3d.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/css3d2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css3d.html" afterPath="$PROJECT_DIR$/css3d.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/css3d2.js" afterPath="$PROJECT_DIR$/js/css3d2.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,8 +28,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.25">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state vertical-scroll-proportion="-7.5">
+              <caret line="12" column="17" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -41,17 +38,19 @@
       <file leaf-file-name="css3d.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css3d.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.5">
-              <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+            <state vertical-scroll-proportion="-5.625">
+              <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="e#354#454#0" expanded="false" />
+                <element signature="e#411#511#0" expanded="false" />
                 <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#4;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#7;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,47 +59,14 @@
       <file leaf-file-name="css3d2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/css3d2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60088694">
-              <caret line="92" column="7" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.5">
+              <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
+                <element signature="n#!!block;n#tranform#0" expanded="false" />
+                <element signature="e#2839#3769#0" expanded="false" />
+                <element signature="n#!!block;n#transform#0" expanded="false" />
                 <element signature="n#!!block;n#animate#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cubeModule.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/cubeModule.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-              <folding>
-                <element signature="e#664#744#0" expanded="false" />
-                <element signature="e#961#1070#0" expanded="false" />
-                <element signature="e#1110#3128#0" expanded="false" />
-                <element signature="e#1468#1646#0" expanded="false" />
-                <element signature="e#1710#1761#0" expanded="false" />
-                <element signature="e#1824#1875#0" expanded="false" />
-                <element signature="e#1938#1989#0" expanded="false" />
-                <element signature="e#3172#4934#0" expanded="false" />
-                <element signature="e#3515#3566#0" expanded="false" />
-                <element signature="e#3629#3680#0" expanded="false" />
-                <element signature="e#3743#3794#0" expanded="false" />
-                <element signature="e#4970#5003#0" expanded="false" />
-                <element signature="e#5025#6333#0" expanded="false" />
-                <element signature="e#6360#7697#0" expanded="false" />
-                <element signature="e#7731#9284#0" expanded="false" />
-                <element signature="e#9324#10589#0" expanded="false" />
-                <element signature="e#9630#9673#0" expanded="false" />
-                <element signature="e#9732#9775#0" expanded="false" />
-                <element signature="e#9834#9877#0" expanded="false" />
-                <element signature="e#10624#12986#0" expanded="false" />
-                <element signature="e#11576#11802#0" expanded="false" />
-                <element signature="e#11913#12980#0" expanded="false" />
-                <element signature="e#13011#13146#0" expanded="false" />
-                <element signature="e#13178#13355#0" expanded="false" />
-                <element signature="e#13379#13545#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -198,6 +164,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="polycube" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="polycube" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="polycube" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="three.js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -735,12 +719,12 @@
       <workItem from="1487582115329" duration="910000" />
       <workItem from="1487584156266" duration="52414000" />
       <workItem from="1488791311876" duration="3230000" />
-      <workItem from="1488917701138" duration="11931000" />
+      <workItem from="1488917701138" duration="23034000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68485000" />
+    <option name="totallyTimeSpent" value="79588000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="81" y="36" width="1356" height="780" extended-state="0" />
@@ -749,7 +733,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30377907" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21802326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -874,6 +858,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#323#419#0" expanded="false" />
+            <element signature="e#605#5450#0" expanded="false" />
+            <element signature="e#6053#10618#0" expanded="false" />
+            <element signature="e#10646#10713#0" expanded="false" />
+            <element signature="e#10742#10810#0" expanded="false" />
+            <element signature="e#11590#22909#0" expanded="false" />
+            <element signature="e#16782#16853#0" expanded="false" />
+            <element signature="e#17416#21981#0" expanded="false" />
+            <element signature="e#22009#22076#0" expanded="false" />
+            <element signature="e#22105#22173#0" expanded="false" />
+            <element signature="e#22915#35948#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1030,6 +1027,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25581396">
           <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+          <folding>
+            <element signature="e#323#419#0" expanded="false" />
+            <element signature="e#605#5450#0" expanded="false" />
+            <element signature="e#6053#10618#0" expanded="false" />
+            <element signature="e#10646#10713#0" expanded="false" />
+            <element signature="e#10742#10810#0" expanded="false" />
+            <element signature="e#11590#22909#0" expanded="false" />
+            <element signature="e#16782#16853#0" expanded="false" />
+            <element signature="e#17416#21981#0" expanded="false" />
+            <element signature="e#22009#22076#0" expanded="false" />
+            <element signature="e#22105#22173#0" expanded="false" />
+            <element signature="e#22915#35948#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1085,16 +1095,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.25">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state vertical-scroll-proportion="-7.5">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/cubeModule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        <state vertical-scroll-proportion="-5.962963">
+          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="219" selection-end-column="55" />
           <folding>
             <element signature="e#664#744#0" expanded="false" />
             <element signature="e#961#1070#0" expanded="false" />
@@ -1108,7 +1118,6 @@
             <element signature="e#3629#3680#0" expanded="false" />
             <element signature="e#3743#3794#0" expanded="false" />
             <element signature="e#4970#5003#0" expanded="false" />
-            <element signature="e#5025#6333#0" expanded="false" />
             <element signature="e#6360#7697#0" expanded="false" />
             <element signature="e#7731#9284#0" expanded="false" />
             <element signature="e#9324#10589#0" expanded="false" />
@@ -1125,29 +1134,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/three.js/tween.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="220" column="4" selection-start-line="220" selection-start-column="4" selection-end-line="220" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css3d.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        <state vertical-scroll-proportion="-5.625">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#354#454#0" expanded="false" />
+            <element signature="e#411#511#0" expanded="false" />
             <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#4;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#7;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/css3d2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60088694">
-          <caret line="92" column="7" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.5">
+          <caret line="69" column="4" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
           <folding>
             <element signature="e#0#42#0" expanded="false" />
+            <element signature="n#!!block;n#tranform#0" expanded="false" />
+            <element signature="e#2839#3769#0" expanded="false" />
+            <element signature="n#!!block;n#transform#0" expanded="false" />
             <element signature="n#!!block;n#animate#0" expanded="false" />
           </folding>
         </state>
