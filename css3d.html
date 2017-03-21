@@ -12,18 +12,49 @@
             margin: 0;
             overflow: hidden;
         }
+        .elements_child {
+            background-color: #2f2f2f;
+        }
+
+        .subunit { fill: #dcdcdc; }
+        .place,
+        .place-label {
+            fill: #18b23d;
+        }
+
+        text {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            pointer-events: none;
+        }
+        .subunit-boundary {
+            fill: none;
+            stroke: #777;
+            stroke-dasharray: 2,2;
+            stroke-linejoin: round;
+        }
+        .subunit-label {
+            fill: #777;
+            fill-opacity: .5;
+            font-size: 20px;
+            font-weight: 300;
+            text-anchor: middle;
+        }
+
+        .hide{
+            display: none;
+        }
+
     </style>
 </head>
 <body>
+<h3 style="color: white; position: relative; top: 10px; left: 10px; z-index: 9999">Cultural Heritage Education Centre Concentration Over Time</h3>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(0)"> JuxtPos </button><br>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();"> Default </button><br>
-
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(0)"> Side1 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(1)"> Side2 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(2)"> Side3 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(3)"> Side4 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(4)"> Side5 </button>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="transform(5)"> Side6 </button>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="drawGraphs()"> Draw </button><br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick=""> SuperImposition </button><br>
+<script src="lib/d3/d3.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
 <script src="js/css3d2.js"></script>
 </body>
 </html>
