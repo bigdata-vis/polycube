@@ -64,7 +64,6 @@
             object.rotation.fromArray(rot[i]);
             //object.name = "side" + i;
             object.name = "side";
-
             cube.add(object);
         }
 
@@ -73,7 +72,7 @@
 
         //D3
         var width = 100,
-            height = 130;
+            height = 100;
 
         var projection = d3.geoAlbers()
             .center([0, 45.5])
@@ -115,7 +114,8 @@
                     //return "subunit " + d.id;
                     return "subunit "; //remove id
                 })
-                .classed("hide", function (d) {
+                .classed("hide", function (d, i) {
+
                     counter += 1;
                     if (counter !== 1) { //only display map path for first map
                         return true
@@ -192,6 +192,7 @@
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
+                // object.position.fromArray(pos[i]);
             }
 
             //show only segments
@@ -204,6 +205,7 @@
                     .to({
                         x: (( i % 5 ) * 150) - 300,
                         y: ( -( Math.floor(i / 5) % 5 ) * 150 + 150 ),
+                        // y: 0,
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -264,26 +266,34 @@
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
-            .classed("hide", false);
+            // .classed("hide", true);
+            .classed("hide", function (d, i) {
+                // console.log(i);
+                if (i !== 0) {
+                    return true
+                }
+            });
 
-        d3.selectAll("svg")
+        d3.selectAll("svg") //remove opacity for
             .style("opacity", 0.2);
+
+        var segCounter = 0; //keep list of the segment counters
 
         scene.children[0].children.forEach(function (object, i) {
 
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = false;
-                object.element.style.opacity =  0.2;
             }
 
             //show only segments
             if (object.name == "seg") {
-
+                segCounter ++;
+                console.log(segCounter);
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: 0,
-                        y: (i * interval) - 130,
+                        y:  (segCounter * interval) - 60,
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -372,12 +382,30 @@
     };
 
     pCube.superImpose = function () {
-        //console.log(window.camera.position.x);
-        //console.log(window.camera.position.y);
-        //console.log(window.camera.position.z);
-        //
+        var duration = 1000;
 
-        console.log(camera);
+        //merge all x axis to remive dept
+        scene.children[0].children.forEach(function (object, i) {
+
+            //remove box shapes
+            if (object.name == "side") {
+                object.element.hidden = true;
+            }
+
+            //show only segments
+            if (object.name == "seg") {
+
+                var posTween = new TWEEN.Tween(object.position)
+                    .to({
+                        y: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+            }
+
+        });
+
 
         //change camera view
         //camera super imposition
@@ -387,10 +415,10 @@
             z: camera.position.z
         })
             .to({
-                x: 0,
+                x: 0, //todo: fix rotation of camera axis
                 y: 200,
                 z: -6
-            }, 1000)
+            }, duration)
             //.easing(TWEEN.Easing.Linear.None)
             .easing(TWEEN.Easing.Sinusoidal.Out)
             .onUpdate(function () {
@@ -411,7 +439,7 @@
         //color coding chronological views
 
 
-    }
+    };
 
     function geoVis() {
 
@@ -421,9 +449,32 @@
 
     }
 
-    function netVis() {
+    pCube.morphing = function () {
+        var segCounter = 0; //keep list of the segment counters
+        var duration = 5500;
 
-    }
+        scene.children[0].children.forEach(function (object, i) {
+
+            //show only segments
+            if (object.name == "seg") {
+                segCounter ++;
+                // console.log(segCounter);
+                if(segCounter == 1){
+                    console.log(object);
+                    var posTween = new TWEEN.Tween(object.position)
+                        .to({
+                            x: 0,
+                            y: 50,
+                            z: 0
+                        }, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+                }
+            }
+
+        });
+
+    };
 
     window.polyCube = pCube;
 }());

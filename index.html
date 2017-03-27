@@ -4,7 +4,6 @@
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
     <script src="lib/three.js/tween.js"></script>
-    <!--<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>-->
     <script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
     <style>
         body {
@@ -65,12 +64,19 @@
 </button>
 <br>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.default(0)">
-    Default
+    Default (STC)
 </button>
+
 <br>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
         onclick="polyCube.superImpose()"> SuperImposition
 </button>
+<br>
+
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.morphing()"> Morphing
+</button>
+
 <br>
 <script src="lib/d3/d3.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
