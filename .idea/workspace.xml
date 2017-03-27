@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index_2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/drawlines.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/pcmodule.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sb/PDBLoader.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sb/lines.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sb/molecule.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css3d.html" afterPath="$PROJECT_DIR$/css3d.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/css3d2.js" afterPath="$PROJECT_DIR$/js/css3d2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule.js" afterPath="$PROJECT_DIR$/js/pcmodule.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,71 +25,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="css3d.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css3d.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="45" selection-start-line="0" selection-start-column="0" selection-end-line="59" selection-end-column="7" />
-              <folding>
-                <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="molecule.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sb/molecule.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4785">
-              <caret line="402" column="0" selection-start-line="402" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="e#298#544#0" expanded="false" />
-                <element signature="e#920#1093#0" expanded="false" />
-                <element signature="e#1111#1329#0" expanded="false" />
-                <element signature="e#1345#1515#0" expanded="false" />
-                <element signature="e#1537#1599#0" expanded="false" />
-                <element signature="e#1622#1710#0" expanded="false" />
-                <element signature="e#1725#1844#0" expanded="false" />
-                <element signature="e#2760#3391#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cubeModule.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/cubeModule.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="pcmodule.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/pcmodule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="171" column="12" selection-start-line="171" selection-start-column="12" selection-end-line="171" selection-end-column="12" />
+            <state relative-caret-position="163">
+              <caret line="263" column="0" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
               <folding>
                 <element signature="e#0#42#0" expanded="false" />
-                <element signature="e#1464#2094#0" expanded="false" />
-                <element signature="e#3111#5158#0" expanded="false" />
-                <element signature="e#5264#5705#0" expanded="false" />
-                <element signature="e#5804#8252#0" expanded="false" />
-                <element signature="e#6060#7425#0" expanded="false" />
-                <element signature="e#7492#7604#0" expanded="false" />
-                <element signature="e#7622#7708#0" expanded="false" />
-                <element signature="e#7796#7931#0" expanded="false" />
-                <element signature="e#7969#8043#0" expanded="false" />
-                <element signature="e#8287#8431#0" expanded="false" />
-                <element signature="e#8725#9571#0" expanded="false" />
-                <element signature="e#9617#10806#0" expanded="false" />
+                <element signature="e#7371#7483#0" expanded="false" />
+                <element signature="e#7501#7587#0" expanded="false" />
+                <element signature="e#7675#7810#0" expanded="false" />
+                <element signature="e#7848#7922#0" expanded="false" />
+                <element signature="e#10093#10228#0" expanded="false" />
+                <element signature="e#10266#10340#0" expanded="false" />
+                <element signature="e#10581#10725#0" expanded="false" />
+                <element signature="e#11019#11865#0" expanded="false" />
+                <element signature="e#11911#13100#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -105,8 +49,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
+            <state relative-caret-position="293">
+              <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -725,12 +669,12 @@
       <workItem from="1490043511688" duration="67000" />
       <workItem from="1490099213035" duration="26289000" />
       <workItem from="1490600519348" duration="768000" />
-      <workItem from="1490602617432" duration="3617000" />
+      <workItem from="1490602617432" duration="7003000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128831000" />
+    <option name="totallyTimeSpent" value="132217000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -794,11 +738,11 @@
         <state relative-caret-position="0">
           <caret line="7" column="45" selection-start-line="7" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1105,6 +1049,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1133,36 +1078,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sb/molecule.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4785">
-          <caret line="402" column="0" selection-start-line="402" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#298#544#0" expanded="false" />
-            <element signature="e#920#1093#0" expanded="false" />
-            <element signature="e#1111#1329#0" expanded="false" />
-            <element signature="e#1345#1515#0" expanded="false" />
-            <element signature="e#1537#1599#0" expanded="false" />
-            <element signature="e#1622#1710#0" expanded="false" />
-            <element signature="e#1725#1844#0" expanded="false" />
-            <element signature="e#2760#3391#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/jux.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/cubeModule.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1172,20 +1091,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css3d.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="45" selection-start-line="0" selection-start-column="0" selection-end-line="59" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1211,10 +1116,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/cubeModule.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5428">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sb/molecule.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="402" column="0" selection-start-line="402" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#298#544#0" expanded="false" />
+            <element signature="e#920#1093#0" expanded="false" />
+            <element signature="e#1111#1329#0" expanded="false" />
+            <element signature="e#1345#1515#0" expanded="false" />
+            <element signature="e#1537#1599#0" expanded="false" />
+            <element signature="e#1622#1710#0" expanded="false" />
+            <element signature="e#1725#1844#0" expanded="false" />
+            <element signature="e#2760#3391#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css3d.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="45" selection-start-line="0" selection-start-column="0" selection-end-line="59" selection-end-column="7" />
+          <folding>
+            <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#button#3;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="85" column="7" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
+        <state relative-caret-position="293">
+          <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1228,22 +1173,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/pcmodule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="171" column="12" selection-start-line="171" selection-start-column="12" selection-end-line="171" selection-end-column="12" />
+        <state relative-caret-position="163">
+          <caret line="263" column="0" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
           <folding>
             <element signature="e#0#42#0" expanded="false" />
-            <element signature="e#1464#2094#0" expanded="false" />
-            <element signature="e#3111#5158#0" expanded="false" />
-            <element signature="e#5264#5705#0" expanded="false" />
-            <element signature="e#5804#8252#0" expanded="false" />
-            <element signature="e#6060#7425#0" expanded="false" />
-            <element signature="e#7492#7604#0" expanded="false" />
-            <element signature="e#7622#7708#0" expanded="false" />
-            <element signature="e#7796#7931#0" expanded="false" />
-            <element signature="e#7969#8043#0" expanded="false" />
-            <element signature="e#8287#8431#0" expanded="false" />
-            <element signature="e#8725#9571#0" expanded="false" />
-            <element signature="e#9617#10806#0" expanded="false" />
+            <element signature="e#7371#7483#0" expanded="false" />
+            <element signature="e#7501#7587#0" expanded="false" />
+            <element signature="e#7675#7810#0" expanded="false" />
+            <element signature="e#7848#7922#0" expanded="false" />
+            <element signature="e#10093#10228#0" expanded="false" />
+            <element signature="e#10266#10340#0" expanded="false" />
+            <element signature="e#10581#10725#0" expanded="false" />
+            <element signature="e#11019#11865#0" expanded="false" />
+            <element signature="e#11911#13100#0" expanded="false" />
           </folding>
         </state>
       </provider>

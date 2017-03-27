@@ -8,9 +8,20 @@
     var mesh = new THREE.Object3D();
     var lineList = [];
 
-    pCube.drawElements = function (datasets) {
-        // renderer
+    // params
+    var r = Math.PI / 2;
+    var d = 50;
+    var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
+    var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
+    //data
+    var defaultData = [];
+
+    pCube.drawElements = function (datasets) {
+
+        defaultData = datasets;
+
+        // renderer
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.domElement.style.position = 'absolute';
@@ -33,12 +44,6 @@
         //controls.addEventListener('change', function () {
         //    renderer.render(scene, camera)
         //});
-
-        // params
-        var r = Math.PI / 2;
-        var d = 50;
-        var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
-        var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
         scene.add(cube);
         scene.add(mesh);
@@ -186,9 +191,7 @@
 
             //remove box shapes
             if (object.name == "side") {
-                //object.position.y = 10000;
                 object.element.hidden = true;
-                //console.log(object.element.hidden)
             }
 
             //show only segments
@@ -196,7 +199,6 @@
 
                 //change opacity
                 //object.element.firstChild.style.opacity = 1.5;
-                console.log(object.element.firstChild.style);
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
@@ -249,6 +251,86 @@
         controls.enableZoom = false;
         controls.enableRotate = false;
         controls.enablePan = false;
+
+        renderer.render(scene, camera);
+    };
+
+    pCube.default = function (side) {
+        var segments = defaultData.length;
+        var interval = 100 / segments; //height/segments
+
+        var duration = 2500;
+        TWEEN.removeAll();
+
+        //display all the maps for the segments
+        d3.selectAll("svg").select(".subunit")
+            .classed("hide", false);
+
+        d3.selectAll("svg")
+            .style("opacity", 0.2);
+
+        scene.children[0].children.forEach(function (object, i) {
+
+            //remove box shapes
+            if (object.name == "side") {
+                object.element.hidden = false;
+                object.element.style.opacity =  0.2;
+            }
+
+            //show only segments
+            if (object.name == "seg") {
+
+                var posTween = new TWEEN.Tween(object.position)
+                    .to({
+                        x: 0,
+                        y: (i * interval) - 130,
+                        z: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var rotate = new TWEEN.Tween(object.rotation)
+                    .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        opacity: 0.2,
+                        backgroundColor: "#2f2f2f"
+
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
+            }
+
+        });
+
+
+        //camera movement
+
+        var tween = new TWEEN.Tween({
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        }).to({
+                x: 200,
+                y: 100,
+                z: 250
+            }, 1600)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
+
+        //modify controls
+        controls.enableZoom = true;
+        controls.enableRotate = true;
+        controls.enablePan = true;
 
         renderer.render(scene, camera);
     };
