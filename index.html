@@ -1,24 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="css/main.css" rel="stylesheet">
+    <script src="http://threejs.org/build/three.min.js"></script>
+    <script src="lib/three.js/OrbitControls.js"></script>
+    <script src="lib/three.js/tween.js"></script>
+    <!--<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>-->
+    <script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .elements_child {
+            background-color: #2f2f2f;
+        }
+
+        .subunit {
+            fill: #dcdcdc;
+        }
+
+        .place,
+        .place-label {
+            fill: #18b23d;
+        }
+
+        text {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            pointer-events: none;
+        }
+
+        .subunit-boundary {
+            fill: none;
+            stroke: #777;
+            stroke-dasharray: 2, 2;
+            stroke-linejoin: round;
+        }
+
+        .subunit-label {
+            fill: #777;
+            fill-opacity: .5;
+            font-size: 20px;
+            font-weight: 300;
+            text-anchor: middle;
+        }
+
+        .hide {
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
-<div id="cubeBox"></div>
+<h3 style="color: white; position: relative; top: 10px; left: 10px; z-index: 9999">Cultural Heritage Education Centre
+    Concentration Over Time</h3>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.transform(0)">
+    JuxtPos
+</button>
+<br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();">
+    Default
+</button>
+<br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.drawGraphs()">
+    Draw
+</button>
+<br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.superImpose()"> SuperImposition
+</button>
+<br>
+<script src="lib/d3/d3.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
+<script src="js/pcmodule.js"></script>
 
-<!--library-->
-<!--<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>-->
+<script>
+    var datasets = [0, 45, 2, 8, 89, 5, 9];
+    polyCube.drawElements(datasets);
+    polyCube.animate();
+</script>
 
-<script src="lib/three.js/three.js"></script>
-<script src="lib/three.js/OrbitControls.js"></script>
-<script src="lib/dat.gui/dat.gui.js"></script>
-<script src="lib/d3/d3.js" charset="utf-8"></script>
-<script src="lib/three.js/projector.js" charset="utf-8"></script>
-<script src="lib/three.js/SVGRenderer.js" charset="utf-8"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.4.2/tabletop.min.js"></script>
-
-<!--main code-->
-<script src="js/cubeModule.js"></script>
-<script src="js/main.js"></script>
 </body>
 </html>

@@ -125,7 +125,7 @@ function init() {
             })
             .attr("d", path);
 
-        svg.append("circle")
+        svg.append("circle") //todo: change xyz position of info based on space-time
             .datum(topojson.feature(aut, aut.objects.places).features[0])
             .attr("class", "screen_dots")
             .attr("r", function (d, i) { //generated data to highlight circle radius
@@ -143,20 +143,13 @@ function init() {
                 var cx = d.geometry.coordinates[0] += 10;
 
                 lineList.push([cx, cy]);
-
                 //console.log(lineList)
                 return cy;
             })
             .attr("fill", "red")
-            .attr("fill-opacity", function (d) {
+            .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
                 //return d.uncert
             });
-
-        //svg.append("path")
-        //    .datum(topojson.feature(aut, aut.objects.places))
-        //    .attr("d", path)
-        //    .attr("class", "place");
-
 
         var place = topojson.feature(aut, aut.objects.places);
         //console.log(place);
@@ -303,12 +296,45 @@ function drawGraphs() {
     }
 }
 function superImpose() {
+    //console.log(window.camera.position.x);
+    //console.log(window.camera.position.y);
+    //console.log(window.camera.position.z);
+    //
+
+    console.log(camera);
+
     //change camera view
+    //camera super imposition
+    var tween = new TWEEN.Tween({
+        x: camera.position.x,
+        y: camera.position.y,
+        z: camera.position.z
+    })
+        .to({
+            x: 0,
+            y: 200,
+            z: -6
+        }, 1000)
+        //.easing(TWEEN.Easing.Linear.None)
+        .easing(TWEEN.Easing.Sinusoidal.Out)
+        .onUpdate(function () {
+            camera.position.set(this.x, this.y, this.z);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            //camera.fov = 8; todo: add a new fov to change perspective
+        })
+        .onComplete(function () {
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+        })
+        .start();
+
+    //camera.far = 100;
     //change perspective to top
     //zoom into
     //north south axis
     //medge section into one view
     //color coding chronological views
+
+
 }
 
 function geoVis() {
