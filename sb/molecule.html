@@ -326,7 +326,7 @@
     //
 
     function loadMolecule( url ) {
-
+        console.log(objects);
         for ( var i = 0; i < objects.length; i ++ ) {
 
             var object = objects[ i ];
@@ -511,8 +511,8 @@
 
         var time = Date.now() * 0.0004;
 
-        root.rotation.x = time;
-        root.rotation.y = time * 0.7;
+//        root.rotation.x = time;
+//        root.rotation.y = time * 0.7;
 
         render();
 

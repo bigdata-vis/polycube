@@ -8,6 +8,11 @@
     var mesh = new THREE.Object3D();
     var lineList = [];
 
+    //WebGl Stuff
+    var WGLScene,
+        WGLRenderer;
+
+
     // params
     var r = Math.PI / 2;
     var d = 50;
@@ -21,27 +26,41 @@
 
         defaultData = datasets;
 
-        // renderer
+        // scene
+        WGLScene = new THREE.Scene();
+        scene = new THREE.Scene();
+
+        // webGLRender();
+        spriteRender();
+
+        // CSS renderer
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.domElement.style.position = 'absolute';
         renderer.domElement.style.top = 0;
         document.body.appendChild(renderer.domElement);
 
-        // scene
-        scene = new THREE.Scene();
-
         // camera
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100);
+        // camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100);
+        // camera.position.set(200, 100, 250);
+        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(200, 100, 250);
 
+
         // controls
+        // Orbit Controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target = new THREE.Vector3(0, 0, 0);
         controls.autoRotateSpeed = 0.3;
+        // controls.noZoom = true;
+        controls.noRotate = false;
+        controls.addEventListener('change', render);
 
+
+        //Add objects
         scene.add(cube);
         scene.add(mesh);
+
 
         // sides
         for (var i = 0; i < 6; i++) {
@@ -124,8 +143,7 @@
                     return x + i
                 })
                 .attr("cx", function (d) {
-                    var cx = d.geometry.coordinates[0] += 10;
-                    return cx;
+                    return d.geometry.coordinates[0] += 10;
                     //return projection([d.geometry.coordinates[0], d.geometry.coordinates[1]])
                 })
                 .attr("cy", function (d) {
@@ -221,25 +239,36 @@
                 return object;
             }
         }
+
+        //
+        window.addEventListener('resize', onWindowResize, false);
+        render()
     };
 
     pCube.transform = function (side) {
         var duration = 2500;
         TWEEN.removeAll();
 
+        // conntrols
+        controls.noZoom = false;
+        controls.noRotate = true;
+
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
             .classed("hide", false);
 
-        var segCounter = 0; //keep list of the segment counters
+        //hide canvas temporarily //todo: remove webgl shape (Web GL proper Integration)
+        d3.select("canvas")
+            .classed("hide", true);
 
+        var segCounter = 0; //keep list of the segment counters
         var reduceLeft = function (seg) { // todo: fixleftspace
-            if(seg == 5){
+            if (seg == 5) {
                 // console.log((( seg % 5 ) * 150) - 300 -150);
                 console.log(( -( Math.floor(seg / 5) % 5 ) * 150  ));
-                return (( seg % 5 ) * 150) - 300 -150
+                return (( seg % 5 ) * 150) - 300 - 150
             }
-            return (( seg % 5 ) * 150) - 300 -150
+            return (( seg % 5 ) * 150) - 300 - 150
         };
 
         scene.children[0].children.forEach(function (object, i) {
@@ -258,14 +287,11 @@
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: (( segCounter % 5 ) * 150) - 300,
-                        // x: reduceLeft(segCounter),
-                        // y: ( -( Math.floor(segCounter / 5) % 5 ) * 150 + 150 ),
                         y: ( -( Math.floor(segCounter / 5) % 5 ) * 150  ),
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
-
 
 
                 var rotate = new TWEEN.Tween(object.rotation)
@@ -306,14 +332,17 @@
             .start();
 
         //modify controls
-        controls.enableZoom = false;
-        controls.enableRotate = false;
-        controls.enablePan = false;
-
-        renderer.render(scene, camera);
+        // controls.enableZoom = false;
+        // controls.enableRotate = false;
+        // controls.enablePan = false;
     };
 
     pCube.default = function (side) {
+
+        //display canvas
+        d3.select("canvas")
+            .classed("hide", false);
+
         var segments = defaultData.length;
         var interval = 100 / segments; //height/segments
 
@@ -393,23 +422,34 @@
             .start();
 
         //modify controls
-        controls.enableZoom = true;
-        controls.enableRotate = true;
-        controls.enablePan = true;
-
-        renderer.render(scene, camera);
+        controls.noZoom = true;
+        controls.noRotate = false;
     };
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        // WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        render();
+    }
 
     pCube.animate = function () {
         requestAnimationFrame(pCube.animate);
         TWEEN.update();
         controls.update();
-        renderer.render(scene, camera);
+        render();
     };
 
     pCube.superImpose = function () {
-        var duration = 1000;
 
+        //hide canvas temporarily //todo: remove webgl shape (Web GL proper Integration)
+        d3.select("canvas")
+            .classed("hide", true);
+
+        var duration = 1000;
         //merge all x axis to remive dept
         scene.children[0].children.forEach(function (object, i) {
 
@@ -529,6 +569,84 @@
             return edge;
         }
     };
+
+    function webGLRender() {
+        //WebGL Render
+        WGLRenderer = new THREE.WebGLRenderer();
+        // WGLRenderer.setClearColor( 0xf0f0f0 );
+        WGLRenderer.setPixelRatio(window.devicePixelRatio);
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(WGLRenderer.domElement);
+
+        var texture = new THREE.TextureLoader().load('/texture/crate.gif');
+        // var geometry2 = new THREE.BoxBufferGeometry(10, 10, 10);
+        var geometry2 = new THREE.SphereBufferGeometry(10, 10, 10);
+        var material2 = new THREE.MeshBasicMaterial({map: texture});
+
+        //
+        // var material   = new THREE.MeshBasicMaterial();
+        // material.color.set('green');
+        // material.opacity   = 0;
+        // material.blending  = THREE.NoBlending;
+
+        var box = new THREE.Mesh(geometry2, material2);
+        box.position.z = 0;
+        box.position.y = 0;
+        box.position.x = 0;
+        box.name = "box";
+        WGLScene.add(box);
+
+        //Drawline function
+
+        console.log(lineList);
+
+        makeLine({start: [0, 0, 0], end: [40, 60, 0]});
+
+        function makeLine(parameters) {
+            if (parameters === undefined) parameters = {};
+            var start = parameters["start"] || [-10, 0, 0];
+            var end = parameters["end"] || [10, 0, 0];
+
+            var material = new THREE.LineBasicMaterial({color: 0x0000ff});
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(
+                new THREE.Vector3().fromArray(start),
+                new THREE.Vector3().fromArray(end)
+            );
+            var line = new THREE.Line(geometry, material);
+            WGLScene.add(line);
+
+            return line;
+        }
+    }
+
+    function spriteRender() {
+        var image = document.createElement('img');
+        image.style.width = "20px";
+        image.style.height = "20px";
+
+        image.addEventListener('load', function (event) {
+            for (var i = 0; i < 4; i++) {
+
+                var object = new THREE.CSS3DSprite(image.cloneNode());
+                object.position.x = Math.random() * 100 - 100;
+                object.position.y = Math.random() * 100 - 100;
+                object.position.z = Math.random() * 100 - 100;
+
+                scene.add(object);
+                // objects.push(object);
+            }
+        }, false);
+        // image.src = '/texture/sprite.png';
+        image.src = '/texture/ball.png';
+
+    }
+
+    function render() {
+        // remember to call both renderers!
+        // WGLRenderer.render(WGLScene, camera);
+        renderer.render(scene, camera);
+    }
 
     window.polyCube = pCube;
 }());
