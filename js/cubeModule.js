@@ -107,7 +107,6 @@ cube.vis = function module(selection) {
             }
 
             renderer.render(scene, camera);
-
         }
     };
 

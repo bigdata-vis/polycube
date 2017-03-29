@@ -38,12 +38,7 @@
         // controls
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target = new THREE.Vector3(0, 0, 0);
-        //controls.autoRotate = true;
         controls.autoRotateSpeed = 0.3;
-
-        //controls.addEventListener('change', function () {
-        //    renderer.render(scene, camera)
-        //});
 
         scene.add(cube);
         scene.add(mesh);
@@ -62,14 +57,12 @@
             var object = new THREE.CSS3DObject(element);
             object.position.fromArray(pos[i]);
             object.rotation.fromArray(rot[i]);
-            //object.name = "side" + i;
             object.name = "side";
             cube.add(object);
         }
 
         // segments
         var segments = datasets.length;
-
         //D3
         var width = 100,
             height = 100;
@@ -92,7 +85,6 @@
             .append('div')
             .attr('class', 'elements');
 
-        //console.log(elements[0])
         //Div SVG
         var svg = elements.append("svg")
             .attr("class", "elements_child")
@@ -156,11 +148,19 @@
         elements.each(objectify);
         //hide all subunits paths
 
+        // drawLabels({ //Todo: fix label with proper svg
+        //     labelCount: 10, starting: {
+        //         x: 70,//offset border
+        //         y: -50,
+        //         z: 50
+        //     }
+        // });
+
         function objectify(d, i) {
-            //console.log(this);
             var interval = 100 / segments; //height/segments
 
             var objSeg = new THREE.CSS3DObject(this);
+
             //position
             objSeg.position.x = 0;
             objSeg.position.y = (i * interval) - 50;
@@ -173,10 +173,54 @@
             cube.add(objSeg);
         }
 
-        function draw3D(){
+        function drawLabels(parameters) {
+            if (parameters === undefined) parameters = {};
 
+            var labelCount = parameters["labelCount"] || 8; //use label count or specified parameters
+            var startDate = parameters["startDate"] || "1980-01";
+            var endDate = parameters["endDate"] || "2000-01";
+            var dateArray = d3.scaleTime()
+                .domain([new Date(startDate), new Date(endDate)])
+                .ticks(labelCount);
+
+            // var separator = height / dateArray.length;
+            var separator = height / segments;
+
+            var p = parameters["starting"] || {
+                    x: -80,//offset border
+                    y: -10,
+                    z: 100
+                };
+
+            for (var i = 0; i < segments; i++) {
+                // var label = makeTextSprite(dateArray[i], {fontsize: 10});
+                var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
+                label.position.set(p.x, p.y, p.z);
+                // dobj.add(label);//add labels to labels 3d object holder
+                p.y += separator;
+            }
+
+            function makeTextSprite(message, parameters) {
+                if (parameters === undefined) parameters = {};
+                var fontsize = parameters["fontsize"] || 70;
+
+                var element = document.createElement('p');
+                element.className = "textTitle";
+                element.style.color = 'grey';
+                element.style.fontSize = fontsize + "px";
+                // element.style.fontFaceName = parameters["fontface"] || "Helvetica";
+                var elMessage = document.createTextNode(message);
+                element.appendChild(elMessage);
+
+                var object = new THREE.CSS3DObject(element);
+                // object.position.fromArray(pos[i]);
+                // object.rotation.fromArray(rot[i]);
+                object.name = "titles";
+                mesh.add(object);
+
+                return object;
+            }
         }
-
     };
 
     pCube.transform = function (side) {
@@ -187,29 +231,42 @@
         d3.selectAll("svg").select(".subunit")
             .classed("hide", false);
 
+        var segCounter = 0; //keep list of the segment counters
+
+        var reduceLeft = function (seg) { // todo: fixleftspace
+            if(seg == 5){
+                // console.log((( seg % 5 ) * 150) - 300 -150);
+                console.log(( -( Math.floor(seg / 5) % 5 ) * 150  ));
+                return (( seg % 5 ) * 150) - 300 -150
+            }
+            return (( seg % 5 ) * 150) - 300 -150
+        };
+
         scene.children[0].children.forEach(function (object, i) {
 
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
-                // object.position.fromArray(pos[i]);
             }
 
             //show only segments
             if (object.name == "seg") {
+                segCounter++;
 
-                //change opacity
-                //object.element.firstChild.style.opacity = 1.5;
-
+                // console.log(object);
+                // console.log(segCounter);
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
-                        x: (( i % 5 ) * 150) - 300,
-                        y: ( -( Math.floor(i / 5) % 5 ) * 150 + 150 ),
-                        // y: 0,
+                        x: (( segCounter % 5 ) * 150) - 300,
+                        // x: reduceLeft(segCounter),
+                        // y: ( -( Math.floor(segCounter / 5) % 5 ) * 150 + 150 ),
+                        y: ( -( Math.floor(segCounter / 5) % 5 ) * 150  ),
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
+
+
 
                 var rotate = new TWEEN.Tween(object.rotation)
                     .to({x: 0, y: 0, z: 0}, duration)
@@ -226,7 +283,6 @@
             }
 
         });
-
 
         //camera movement
         var tween = new TWEEN.Tween({
@@ -266,7 +322,7 @@
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
-            // .classed("hide", true);
+        // .classed("hide", true);
             .classed("hide", function (d, i) {
                 // console.log(i);
                 if (i !== 0) {
@@ -288,12 +344,11 @@
 
             //show only segments
             if (object.name == "seg") {
-                segCounter ++;
-                console.log(segCounter);
+                segCounter++;
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: 0,
-                        y:  (segCounter * interval) - 60,
+                        y: (segCounter * interval) - 60,
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -323,10 +378,10 @@
             y: camera.position.y,
             z: camera.position.z
         }).to({
-                x: 200,
-                y: 100,
-                z: 250
-            }, 1600)
+            x: 200,
+            y: 100,
+            z: 250
+        }, 1600)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate(function () {
                 camera.position.set(this.x, this.y, this.z);
@@ -350,35 +405,6 @@
         TWEEN.update();
         controls.update();
         renderer.render(scene, camera);
-    };
-
-    pCube.drawGraphs = function () {
-
-        console.log(lineList);
-        lineList.forEach(function (d) {
-            var x = d[0];
-            var y = d[1];
-            //console.log(y);
-            //cylinderMesh(x,y)
-        });
-        function cylinderMesh(pointX, pointY, material) {
-            var direction = new THREE.Vector3().subVectors(pointY, pointX);
-            var orientation = new THREE.Matrix4();
-            orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
-            orientation.multiply(new THREE.Matrix4().set(1, 0, 0, 0,
-                0, 0, 1, 0,
-                0, -1, 0, 0,
-                0, 0, 0, 1));
-            var edgeGeometry = new THREE.CylinderGeometry(2, 2, direction.length(), 8, 1);
-            var edge = new THREE.Mesh(edgeGeometry, material);
-            edge.applyMatrix(orientation);
-            // position based on midpoints - there may be a better solution than this
-            edge.position.x = (pointY.x + pointX.x) / 2;
-            edge.position.y = (pointY.y + pointX.y) / 2;
-            edge.position.z = (pointY.z + pointX.z) / 2;
-            return edge;
-        }
-
     };
 
     pCube.superImpose = function () {
@@ -430,15 +456,6 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
-
-        //camera.far = 100;
-        //change perspective to top
-        //zoom into
-        //north south axis
-        //medge section into one view
-        //color coding chronological views
-
-
     };
 
     function geoVis() {
@@ -446,34 +463,71 @@
     }
 
     function setVis() {
-
     }
 
-    pCube.morphing = function () {
+    pCube.morphing = function (parameters) {
+        if (parameters === undefined) parameters = {};
+
         var segCounter = 0; //keep list of the segment counters
         var duration = 5500;
+        var yMorph = parameters["axis"] || 50; // todo: create
 
         scene.children[0].children.forEach(function (object, i) {
 
             //show only segments
             if (object.name == "seg") {
-                segCounter ++;
+
+                segCounter++;
                 // console.log(segCounter);
-                if(segCounter == 1){
-                    console.log(object);
-                    var posTween = new TWEEN.Tween(object.position)
-                        .to({
-                            x: 0,
-                            y: 50,
-                            z: 0
-                        }, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
+                if (segCounter == 1) {
+
+                    object.element.firstChild.lastChild.style.display = "none"; //remove red circle
+
+                    object.position.y = yMorph; //todo:for the control
+                    object.position.x = 0; //todo:for the control
+                    object.position.z = 0; //todo:for the control
+
+                    // var posTween = new TWEEN.Tween(object.position) //todo: for the tween
+                    //     .to({
+                    //         x: 0,
+                    //         y: yMorph,
+                    //         z: 0
+                    //     }, duration)
+                    //     .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    //     .start();
+
+                    //todo: animate the data spots on the map as it moves along time
                 }
             }
 
         });
 
+    };
+
+    pCube.drawGraphs = function () {
+
+        console.log(lineList);
+        lineList.forEach(function (d) {
+            var x = d[0];
+            var y = d[1];
+        });
+        function cylinderMesh(pointX, pointY, material) {
+            var direction = new THREE.Vector3().subVectors(pointY, pointX);
+            var orientation = new THREE.Matrix4();
+            orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
+            orientation.multiply(new THREE.Matrix4().set(1, 0, 0, 0,
+                0, 0, 1, 0,
+                0, -1, 0, 0,
+                0, 0, 0, 1));
+            var edgeGeometry = new THREE.CylinderGeometry(2, 2, direction.length(), 8, 1);
+            var edge = new THREE.Mesh(edgeGeometry, material);
+            edge.applyMatrix(orientation);
+            // position based on midpoints - there may be a better solution than this
+            edge.position.x = (pointY.x + pointX.x) / 2;
+            edge.position.y = (pointY.y + pointX.y) / 2;
+            edge.position.z = (pointY.z + pointX.z) / 2;
+            return edge;
+        }
     };
 
     window.polyCube = pCube;

@@ -50,18 +50,50 @@
             display: none;
         }
 
+        /*input*/
+        input[type="range"] {
+            -webkit-appearance:none;
+            width: 200px;
+            height:2px;
+            background: #FFF;
+            background-position:center;
+            background-repeat:no-repeat;
+            margin: auto;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance:none;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background: #130C0E;
+            position:relative;
+            border: 3px solid #FFF;
+            z-index: 2;
+            cursor: pointer;
+        }
+        input:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
+
+<div style="position: relative; top: 250px; left: 1000px; z-index: 999">
+    <input  type="range" max="50" min="-50" id="cube-morphing" value="-50">
+</div>
+
 <h3 style="color: white; position: relative; top: 10px; left: 10px; z-index: 9999">Cultural Heritage Education Centre
     Concentration Over Time</h3>
+
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.transform(0)">
     JuxtPos
 </button>
-<br>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();">
-    Reload
-</button>
+<!--<br>-->
+<!--<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();">-->
+    <!--Reload-->
+<!--</button>-->
 <br>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.default(0)">
     Default (STC)
@@ -83,9 +115,17 @@
 <script src="js/pcmodule.js"></script>
 
 <script>
-    var datasets = [0, 45, 2, 8, 89, 5, 9];
+    var datasets = [0, 45, 2, 8,0, 45, 2, 8];
     polyCube.drawElements(datasets);
     polyCube.animate();
+
+    //Controls
+
+    //cube morphing control
+    d3.select('#cube-morphing').on('input', function() {
+//        d3.select('#slider-amount').text(+this.value);
+        polyCube.morphing({axis: +this.value})
+    })
 </script>
 
 </body>
