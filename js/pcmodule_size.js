@@ -22,11 +22,6 @@
     //data
     var defaultData = [];
 
-    //d3
-    var width = 500,
-        height = 500,
-        widthHalf = width / 2;
-
     pCube.drawElements = function (datasets) {
 
         defaultData = datasets;
@@ -87,12 +82,14 @@
         // segments
         var segments = datasets.length;
         //D3
+        var width = 500,
+            height = 500;
 
         var projection = d3.geoAlbers()
             .center([0, 45.5])
             .rotate([-13.5, -2])
             .parallels([10, 50])
-            .scale(5000)
+            .scale(1200)
             .translate([width / 2, height / 2]);
 
         var path = d3.geoPath()
@@ -124,6 +121,7 @@
                 .data(topojson.feature(aut, aut.objects.subunits).features)
                 .enter().append("path")
                 .attr("class", function (d, i) {
+                    //return "subunit " + d.id;
                     return "subunit "; //remove id
                 })
                 .classed("hide", function (d, i) {
@@ -176,13 +174,13 @@
         // });
 
         function objectify(d, i) {
-            var interval = 500 / segments; //height/segments
+            var interval = 100 / segments; //height/segments
 
             var objSeg = new THREE.CSS3DObject(this);
 
             //position
             objSeg.position.x = 0;
-            objSeg.position.y = (i * interval) - height / 2;
+            objSeg.position.y = (i * interval) - 50;
             objSeg.position.z = 0;
 
             //rotation
@@ -246,91 +244,6 @@
         render()
     };
 
-    pCube.default = function (side) {
-
-        var segments = defaultData.length;
-        var interval = height / segments; //height/segments
-
-        var duration = 2500;
-        TWEEN.removeAll();
-
-        //display all the maps for the segments
-        d3.selectAll("svg").select(".subunit")
-        // .classed("hide", true);
-            .classed("hide", function (d, i) {
-                // console.log(i);
-                if (i !== 0) {
-                    return true
-                }
-            });
-
-        d3.selectAll("svg") //remove opacity for
-            .style("opacity", 0.2);
-
-        var segCounter = 0; //keep list of the segment counters
-
-        scene.children[0].children.forEach(function (object, i) {
-
-            //remove box shapes
-            if (object.name == "side") {
-                object.element.hidden = false;
-            }
-
-            //show only segments
-            if (object.name == "seg") {
-                segCounter++;
-                var posTween = new TWEEN.Tween(object.position)
-                    .to({
-                        x: 0,
-                        y: (segCounter * interval) - (height/2 + interval),
-                        z: 0
-                    }, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
-
-                var rotate = new TWEEN.Tween(object.rotation)
-                    .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
-
-                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                    .to({
-                        opacity: 0.2,
-                        backgroundColor: "#2f2f2f"
-
-                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start()
-            }
-
-        });
-
-
-        //camera movement
-
-        var tween = new TWEEN.Tween({
-            x: camera.position.x,
-            y: camera.position.y,
-            z: camera.position.z
-        }).to({
-            x: 600,
-            y: 400,
-            z: 800
-        }, 1600)
-            .easing(TWEEN.Easing.Linear.None)
-            .onUpdate(function () {
-                camera.position.set(this.x, this.y, this.z);
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
-            })
-            .onComplete(function () {
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
-            })
-            .start();
-
-        //modify controls
-        controls.noZoom = false;
-        controls.noRotate = false;
-    };
-
     pCube.transform = function (side) {
         var duration = 2500;
         TWEEN.removeAll();
@@ -372,13 +285,13 @@
                 // console.log(segCounter);
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
-                        // x: (( segCounter % 5 ) * 150) - 300,
-                        x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                        y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) + height/2 ), //just another way of getting 550
+                        x: (( segCounter % 5 ) * 150) - 300,
+                        y: ( -( Math.floor(segCounter / 5) % 5 ) * 150  ),
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
+
 
                 var rotate = new TWEEN.Tween(object.rotation)
                     .to({x: 0, y: 0, z: 0}, duration)
@@ -403,9 +316,9 @@
             z: camera.position.z
         })
             .to({
-                x: 0,
-                y: 0,
-                z: 2050
+                x: 100,
+                y: 50,
+                z: 1050
             }, 1600)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate(function () {
@@ -421,6 +334,95 @@
         // controls.enableZoom = false;
         // controls.enableRotate = false;
         // controls.enablePan = false;
+    };
+
+    pCube.default = function (side) {
+
+        //display canvas
+        d3.select("canvas")
+            .classed("hide", false);
+
+        var segments = defaultData.length;
+        var interval = 100 / segments; //height/segments
+
+        var duration = 2500;
+        TWEEN.removeAll();
+
+        //display all the maps for the segments
+        d3.selectAll("svg").select(".subunit")
+        // .classed("hide", true);
+            .classed("hide", function (d, i) {
+                // console.log(i);
+                if (i !== 0) {
+                    return true
+                }
+            });
+
+        d3.selectAll("svg") //remove opacity for
+            .style("opacity", 0.2);
+
+        var segCounter = 0; //keep list of the segment counters
+
+        scene.children[0].children.forEach(function (object, i) {
+
+            //remove box shapes
+            if (object.name == "side") {
+                object.element.hidden = false;
+            }
+
+            //show only segments
+            if (object.name == "seg") {
+                segCounter++;
+                var posTween = new TWEEN.Tween(object.position)
+                    .to({
+                        x: 0,
+                        y: (segCounter * interval) - 60,
+                        z: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var rotate = new TWEEN.Tween(object.rotation)
+                    .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        opacity: 0.2,
+                        backgroundColor: "#2f2f2f"
+
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
+            }
+
+        });
+
+
+        //camera movement
+
+        var tween = new TWEEN.Tween({
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        }).to({
+            x: 200,
+            y: 100,
+            z: 250
+        }, 1600)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
+
+        //modify controls
+        controls.noZoom = true;
+        controls.noRotate = false;
     };
 
     function onWindowResize() {
@@ -479,7 +481,7 @@
         })
             .to({
                 x: 0, //todo: fix rotation of camera axis
-                y: 800,
+                y: 200,
                 z: -6
             }, duration)
             //.easing(TWEEN.Easing.Linear.None)
@@ -623,12 +625,12 @@
         image.style.height = "20px";
 
         image.addEventListener('load', function (event) {
-            for (var i = 0; i < datasets.length; i++) {
+            for (var i = 0; i < 4; i++) {
 
                 var object = new THREE.CSS3DSprite(image.cloneNode());
-                object.position.x = Math.random() * 200 - 200;
-                object.position.y = Math.random() * 200 - 200;
-                object.position.z = Math.random() * 200 - 200;
+                object.position.x = Math.random() * 100 - 100;
+                object.position.y = Math.random() * 100 - 100;
+                object.position.z = Math.random() * 100 - 100;
 
                 scene.add(object);
                 // objects.push(object);

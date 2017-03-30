@@ -82,7 +82,7 @@
 <body>
 
 <div style="position: relative; top: 250px; left: 1000px; z-index: 999">
-    <input  type="range" max="50" min="-50" id="cube-morphing" value="-50">
+    <input  type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
 <!--<h3 style="color: white; position: relative; top: 10px; left: 10px; z-index: 9999">Cultural Heritage Education Centre-->
@@ -109,6 +109,10 @@
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
         onclick="polyCube.morphing()"> Morphing
 </button>
+<br>
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.cameraLog()"> Log
+</button>
 
 <br>
 <script src="lib/d3/d3.js"></script>
@@ -116,7 +120,7 @@
 <script src="js/pcmodule.js"></script>
 
 <script>
-    var datasets = [0, 45, 2, 8,0, 45, 2, 8];
+    var datasets = [0, 45, 2, 8,0, 45, 2];
     polyCube.drawElements(datasets);
     polyCube.animate();
 
