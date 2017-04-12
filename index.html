@@ -111,16 +111,10 @@
     <input  type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<!--<h3 style="color: white; position: relative; top: 10px; left: 10px; z-index: 9999">Cultural Heritage Education Centre-->
-    <!--Concentration Over Time</h3>-->
-
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.transform(0)">
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.juxstaPose(0)">
     JuxtPos
 </button>
-<!--<br>-->
-<!--<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="location.reload();">-->
-    <!--Reload-->
-<!--</button>-->
+
 <br>
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.default(0)">
     Default (STC)
@@ -157,8 +151,6 @@
     polyCube.animate();
     //Controls
 
-    polyCube.timeStart("1940-01");
-    polyCube.timeStop("2000-01");
 
     //cube morphing control
     d3.select('#cube-morphing').on('input', function() {
@@ -166,8 +158,12 @@
         polyCube.morphing({axis: +this.value})
     });
 
+    polyCube.render();
+    polyCube.animate();
+    window.addEventListener('resize', polyCube.onWindowResize, false);
+
     //brush
-    timeBrush.init();
+//    timeBrush.init();
 
 </script>
 

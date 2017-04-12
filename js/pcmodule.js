@@ -19,8 +19,6 @@
         end = "2000-01";
 
     pCube.drawElements = function (datasets) {
-        // remove all cubes
-
         //Data
         //d3 data scale //todo: data scale for x, y, z
         var xExent = d3.extent(datasets, function (d) { //to determine the range of x in the data
@@ -59,6 +57,7 @@
         //Sprite Render;
         spriteRender(xScale, yScale);
 
+
         // CSS renderer
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -75,14 +74,12 @@
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target = new THREE.Vector3(0, 0, 0);
         controls.autoRotateSpeed = 0.3;
-        // controls.noZoom = true;
         controls.noRotate = false;
-        controls.addEventListener('change', render);
+        controls.addEventListener('change', pCube.render);
 
         //Add objects
         scene.add(cube);
         scene.add(mesh);
-
 
         // sides
         for (var i = 0; i < 6; i++) {
@@ -199,16 +196,6 @@
         elements.each(objectify);
         //hide all subunits paths
 
-        drawLabels({ //Todo: fix label with proper svg
-            labelPosition: {
-                x: widthHalf,//offset border
-                y: -(height / 2),
-                z: widthHalf
-            }
-            , startDate: start
-            , endDate: end
-        });
-
         function objectify(d, i) {
             var interval = 500 / segments; //height/segments
 
@@ -226,6 +213,16 @@
             cube.add(objSeg);
         }
 
+        //todo: Redo timeLine
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: widthHalf,//offset border
+                y: -(height / 2),
+                z: widthHalf
+            }
+            , startDate: start
+            , endDate: end
+        });
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || 20; //use label count or specified parameters
@@ -233,7 +230,6 @@
              var endDate = parameters["endDate"] || "2000-01";
             var dateArray = d3.scaleTime()
                  .domain([new Date(startDate), new Date(endDate)])
-              //  .domain([new Date(start), new Date(end)])
                 .ticks(labelCount);
 
             // var separator = height / dateArray.length;
@@ -275,9 +271,7 @@
             }
         }
 
-        //
-        window.addEventListener('resize', onWindowResize, false);
-        render()
+        pCube.render()
     };
 
     pCube.default = function (side) {
@@ -287,6 +281,10 @@
 
         var duration = 2500;
         TWEEN.removeAll();
+
+        //show canvas temporarily //todo: show all pointClouds
+        d3.selectAll(".pointCloud")
+            .classed("hide", false);
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
@@ -365,7 +363,7 @@
         controls.noRotate = false;
     };
 
-    pCube.transform = function (side) {
+    pCube.juxstaPose = function (side) {
         var duration = 2500;
         TWEEN.removeAll();
 
@@ -377,11 +375,12 @@
         d3.selectAll("svg").select(".subunit")
             .classed("hide", false);
 
-        //hide canvas temporarily //todo: remove webgl shape (Web GL proper Integration)
-        d3.select("canvas")
+        //hide canvas temporarily //todo: remove all pointClouds
+        d3.selectAll(".pointCloud")
             .classed("hide", true);
 
         var segCounter = 0; //keep list of the segment counters
+
         var reduceLeft = function (seg) { // todo: fixleftspace
             if (seg == 5) {
                 // console.log((( seg % 5 ) * 150) - 300 -150);
@@ -450,28 +449,21 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
-
-        //modify controls
-        // controls.enableZoom = false;
-        // controls.enableRotate = false;
-        // controls.enablePan = false;
     };
 
-    function onWindowResize() {
-
+    pCube.onWindowResize = function() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
-        // WGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        render();
-    }
+        pCube.render()
+    };
 
     pCube.animate = function () {
         requestAnimationFrame(pCube.animate);
         TWEEN.update();
         controls.update();
-        render();
+        pCube.render()
     };
 
     pCube.superImpose = function () {
@@ -669,20 +661,20 @@
     }
 
     function spriteRender(xScale, yScale, dataSets, zScale) {
+
         var image = document.createElement('img');
         image.style.width = "20px";
         image.style.height = "20px";
+        image.className = "pointCloud";
 
         image.addEventListener('load', function (event) {
             for (var i = 0; i < 200; i++) {
-                // for (var i = 0; i < datasets.length; i++) {
-
                 var object = new THREE.CSS3DSprite(image.cloneNode());
                 object.position.x = xScale(Math.random() * 250); // using xScale to determine the positions
                 object.position.y = yScale(Math.random() * 200 - 100);
                 object.position.z = Math.random() * 200 - 200;
 
-                object.name = "nodes"; //todo: remove later
+                object.name = "pointCloud"; //todo: remove later
 
                 scene.add(object);
                 // objects.push(object);
@@ -690,14 +682,13 @@
         }, false);
         // image.src = '/texture/sprite.png';
         image.src = '/texture/ball.png';
-
     }
 
-    function render() {
+    pCube.render = function() {
         // remember to call both renderers!
         // WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
-    }
+    };
 
     //3D Scene Render
     var renderer, scene, camera, controls;
