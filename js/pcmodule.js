@@ -647,13 +647,14 @@
 
     pCube.spriteRender = function(xScale, yScale, params) {
         if (params === undefined) params = {};
-
-        var size = params["20"] || 20;
-
+        var size = params["size"] || 20;
 
         var image = document.createElement('img');
-        image.style.width = "20px";
-        image.style.height = "20px";
+        // image.style.width = "20px";
+        // image.style.height = "20px";
+
+        image.style.width = size +"px";
+        image.style.height = size +"px";
         image.className = "pointCloud";
 
         image.addEventListener('load', function (event) {

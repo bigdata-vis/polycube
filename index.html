@@ -7,9 +7,15 @@
     <script src="lib/three.js/CSS3DRenderer.js"></script>
     <style>
         body {
-            background-color: #000;
-            margin: 0;
+            /*background-color: #000;*/
+
+            /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
+            /*background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);*/
+            background: linear-gradient(to bottom, #000000 50%, #00155c 100%);
+
             overflow: hidden;
+            background-repeat: no-repeat;
+            background-size: 100% 1000px;
         }
 
         .elements_child {
@@ -181,7 +187,8 @@
     var params = {
         Project: "PolyCube ©",
         Morphing: -250,
-        showData: true
+        showData: true,
+        nodeSize: 15
     };
 
     gui.add(params, 'Project').onFinishChange(function () {
@@ -200,8 +207,15 @@
                     .classed("hide", true)
         }
 
-    }).name("Show PC Data")
+    }).name("Show PC Data");
 
+    gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
+       var value = params.nodeSize;
+        console.log(value);
+        d3.selectAll(".pointCloud")
+                .style("width", value + "px")
+                .style("height", value + "px")
+    })
 </script>
 
 </body>
