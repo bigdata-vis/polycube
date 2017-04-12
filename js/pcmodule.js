@@ -129,7 +129,7 @@
             .style("opacity", 0.2)
             .attr("fill", new THREE.Color("#ececec").getStyle());
 
-        d3.json("/data/austria.json", function (error, aut) {
+        d3.json("data/austria.json", function (error, aut) {
             if (error) {
                 console.error(error)
             }
@@ -670,7 +670,7 @@
             }
         }, false);
         // image.src = '/texture/sprite.png';
-        image.src = '/texture/ball.png';
+        image.src = 'texture/ball.png';
     };
 
     pCube.render = function () {
