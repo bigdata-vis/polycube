@@ -226,10 +226,10 @@
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || 20; //use label count or specified parameters
-             var startDate = parameters["startDate"] || "1980-01";
-             var endDate = parameters["endDate"] || "2000-01";
+            var startDate = parameters["startDate"] || "1980-01";
+            var endDate = parameters["endDate"] || "2000-01";
             var dateArray = d3.scaleTime()
-                 .domain([new Date(startDate), new Date(endDate)])
+                .domain([new Date(startDate), new Date(endDate)])
                 .ticks(labelCount);
 
             // var separator = height / dateArray.length;
@@ -381,35 +381,28 @@
 
         var segCounter = 0; //keep list of the segment counters
 
-        var reduceLeft = function (seg) { // todo: fixleftspace
-            if (seg == 5) {
-                // console.log((( seg % 5 ) * 150) - 300 -150);
-                console.log(( -( Math.floor(seg / 5) % 5 ) * 150  ));
-                return (( seg % 5 ) * 150) - 300 - 150
-            }
-            return (( seg % 5 ) * 150) - 300 - 150
-        };
+        scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
-        scene.children[0].children.forEach(function (object, i) {
+            var reduceLeft = {
+                x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ), //just another way of getting 550
+                z: 0
+            };
+
 
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
             }
 
-            //show only segments
+            //tween the segments to grid shape
             if (object.name == "seg") {
                 segCounter++;
+                
+                // console.log(object.element.__data__);
 
-                // console.log(object);
-                // console.log(segCounter);
                 var posTween = new TWEEN.Tween(object.position)
-                    .to({
-                        // x: (( segCounter % 5 ) * 150) - 300,
-                        x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                        y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) + height / 2 ), //just another way of getting 550
-                        z: 0
-                    }, duration)
+                    .to(reduceLeft, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
@@ -451,7 +444,7 @@
             .start();
     };
 
-    pCube.onWindowResize = function() {
+    pCube.onWindowResize = function () {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
@@ -684,7 +677,7 @@
         image.src = '/texture/ball.png';
     }
 
-    pCube.render = function() {
+    pCube.render = function () {
         // remember to call both renderers!
         // WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
