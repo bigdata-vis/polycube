@@ -77,6 +77,32 @@
         input:focus {
             outline: none;
         }
+
+        /*time slider*/
+        .axis--grid .domain {
+            /*fill: #ddd;*/
+            stroke: none;
+        }
+
+        .axis--x .domain,
+        .axis--grid .tick line {
+            stroke: #353636;
+        }
+
+        .axis--y .domain,
+        .tick text {
+            fill: #353636;
+        }
+
+        .axis--grid .tick--minor line {
+            stroke-opacity: .5;
+        }
+
+        .axis2,
+        .axis--y2 line {
+            stroke: white;
+            stroke-opacity: .5;
+        }
     </style>
 </head>
 <body>
@@ -110,27 +136,39 @@
         onclick="polyCube.morphing()"> Morphing
 </button>
 <br>
+
+
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
-        onclick="polyCube.cameraLog()"> Log
+        onclick="testTime()"> test time
 </button>
+
+<div id="timeLine"></div>
 
 <br>
 <script src="lib/d3/d3.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
 <script src="js/pcmodule.js"></script>
+<script src="js/vis/brushTime.js"></script>
 
 <script>
-    var datasets = [0, 45, 2, 8,0, 45, 2];
+
+    var datasets = [0, 45, 2, 8,0, 45, 2, 100, 400, 8, 7, 100, 400, 8, 7];
     polyCube.drawElements(datasets);
     polyCube.animate();
-
     //Controls
+
+    polyCube.timeStart("1940-01");
+    polyCube.timeStop("2000-01");
 
     //cube morphing control
     d3.select('#cube-morphing').on('input', function() {
 //        d3.select('#slider-amount').text(+this.value);
         polyCube.morphing({axis: +this.value})
-    })
+    });
+
+    //brush
+    timeBrush.init();
+
 </script>
 
 </body>

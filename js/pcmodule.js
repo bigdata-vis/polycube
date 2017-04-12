@@ -3,21 +3,6 @@
  */
 (function () {
     var pCube = {};
-    var renderer, scene, camera, controls;
-    var cube = new THREE.Object3D();
-    var mesh = new THREE.Object3D();
-    var lineList = [];
-
-    //WebGl Stuff
-    var WGLScene,
-        WGLRenderer;
-
-
-    // params
-    var r = Math.PI / 2;
-    var d = 250;
-    var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
-    var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
     //data
     var defaultData = [];
@@ -26,17 +11,53 @@
     var width = 500,
         height = 500,
         widthHalf = width / 2;
+    var svg;
+
+    var formatTime = d3.timeFormat("%b %Y");
+
+    var start = "1920-01",
+        end = "2000-01";
 
     pCube.drawElements = function (datasets) {
+        // remove all cubes
 
-        defaultData = datasets;
+        //Data
+        //d3 data scale //todo: data scale for x, y, z
+        var xExent = d3.extent(datasets, function (d) { //to determine the range of x in the data
+                return d;
+            }),
+            yExent = d3.extent(datasets, function (d) { // to determine the range of y in the data
+                return d;
+            }),
+            zExent = d3.extent(datasets, function (d) {
+                return d.z;
+            });
+
+        var xScale = d3.scaleLinear()
+                .domain(xExent)
+                .range([-widthHalf, width]),
+            yScale = d3.scaleLinear()
+                .domain(yExent)
+                .range([0, height]);
+
+        //todo:Data Cleaning function
+        datasets.forEach(function (d, i) {
+            defaultData[i] = d;
+
+            // console.log(yScale(d));
+            // unfiltered[i] = {
+            //     x: +d.x,
+            //     y: +d.y,//convert date to y axis
+            //     z: +d.z
+            // };
+        });
 
         // scene
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
 
-        // webGLRender();
-        spriteRender();
+        //Sprite Render;
+        spriteRender(xScale, yScale);
 
         // CSS renderer
         renderer = new THREE.CSS3DRenderer();
@@ -46,8 +67,6 @@
         document.body.appendChild(renderer.domElement);
 
         // camera
-        // camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100);
-        // camera.position.set(200, 100, 250);
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(600, 400, 800);
 
@@ -59,7 +78,6 @@
         // controls.noZoom = true;
         controls.noRotate = false;
         controls.addEventListener('change', render);
-
 
         //Add objects
         scene.add(cube);
@@ -107,7 +125,7 @@
             .attr('class', 'elements');
 
         //Div SVG
-        var svg = elements.append("svg")
+        svg = elements.append("svg")
             .attr("class", "elements_child")
             .attr("width", width)
             .attr("height", height)
@@ -120,6 +138,8 @@
             }
 
             var counter = 0; //counter to monitor the amount of data rounds
+
+            //map paths
             svg.selectAll(".subunit")
                 .data(topojson.feature(aut, aut.objects.subunits).features)
                 .enter().append("path")
@@ -127,31 +147,43 @@
                     return "subunit "; //remove id
                 })
                 .classed("hide", function (d, i) {
-
                     counter += 1;
                     if (counter !== 1) { //only display map path for first map
                         return true
                     }
                 })
-                .attr("d", path);
+                .attr("d", path)
+                .classed("dataPane", function () {
+                    counter += 1;
+                    if (counter == 1) { //only display class for first map
+                        return true
+                    }
+                });
+
+            // labels
+            // svg.selectAll(".elements").select(".elements_child").select("dataPane").selectAll(".place-label")
 
             svg.append("circle") //todo: change xyz position of info based on space-time
                 .datum(topojson.feature(aut, aut.objects.places).features[0])
                 .attr("class", "screen_dots")
                 .attr("r", function (d, i) { //generated data to highlight circle radius
-                    var x = 5.4;
-                    //console.log(i);
-                    return x + i
+                    var x = 20.4,
+                        x2 = x * (datasets.length / 2) + x;
+
+                    if (i < (datasets.length / 2)) {
+                        return x + (i * x )
+                    } else {
+                        return x2 - (i * (x / 2));
+                    }
                 })
                 .attr("cx", function (d) {
-                    return d.geometry.coordinates[0] += 10;
-                    //return projection([d.geometry.coordinates[0], d.geometry.coordinates[1]])
+                    // return d.geometry.coordinates[0] += 40;
+                    return d.geometry.coordinates[0] + 250;
                 })
                 .attr("cy", function (d) {
-                    var cy = d.geometry.coordinates[1] + 10;
-                    var cx = d.geometry.coordinates[0] += 10;
-
-                    lineList.push([cx, cy]);
+                    var cy = d.geometry.coordinates[1] + 250;
+                    // var cx = d.geometry.coordinates[0] += 10;
+                    // lineList.push([cx, cy]);
                     //console.log(lineList)
                     return cy;
                 })
@@ -167,13 +199,15 @@
         elements.each(objectify);
         //hide all subunits paths
 
-        // drawLabels({ //Todo: fix label with proper svg
-        //     labelCount: 10, starting: {
-        //         x: 70,//offset border
-        //         y: -50,
-        //         z: 50
-        //     }
-        // });
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: widthHalf,//offset border
+                y: -(height / 2),
+                z: widthHalf
+            }
+            , startDate: start
+            , endDate: end
+        });
 
         function objectify(d, i) {
             var interval = 500 / segments; //height/segments
@@ -194,27 +228,27 @@
 
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
-
-            var labelCount = parameters["labelCount"] || 8; //use label count or specified parameters
-            var startDate = parameters["startDate"] || "1980-01";
-            var endDate = parameters["endDate"] || "2000-01";
+            var labelCount = parameters["labelCount"] || 20; //use label count or specified parameters
+             var startDate = parameters["startDate"] || "1980-01";
+             var endDate = parameters["endDate"] || "2000-01";
             var dateArray = d3.scaleTime()
-                .domain([new Date(startDate), new Date(endDate)])
+                 .domain([new Date(startDate), new Date(endDate)])
+              //  .domain([new Date(start), new Date(end)])
                 .ticks(labelCount);
 
             // var separator = height / dateArray.length;
             var separator = height / segments;
-
-            var p = parameters["starting"] || {
+            var p = parameters["labelPosition"] || {
                     x: -80,//offset border
                     y: -10,
                     z: 100
                 };
 
             for (var i = 0; i < segments; i++) {
-                // var label = makeTextSprite(dateArray[i], {fontsize: 10});
-                var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
+                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+                // var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
                 label.position.set(p.x, p.y, p.z);
+                label.rotation.y = 20;
                 // dobj.add(label);//add labels to labels 3d object holder
                 p.y += separator;
             }
@@ -264,7 +298,7 @@
                 }
             });
 
-        d3.selectAll("svg") //remove opacity for
+        d3.selectAll(".elements_child") //remove opacity for all elements_child
             .style("opacity", 0.2);
 
         var segCounter = 0; //keep list of the segment counters
@@ -282,7 +316,7 @@
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: 0,
-                        y: (segCounter * interval) - (height/2 + interval),
+                        y: (segCounter * interval) - (height / 2 + interval),
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -374,7 +408,7 @@
                     .to({
                         // x: (( segCounter % 5 ) * 150) - 300,
                         x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                        y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) + height/2 ), //just another way of getting 550
+                        y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) + height / 2 ), //just another way of getting 550
                         z: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -441,6 +475,10 @@
     };
 
     pCube.superImpose = function () {
+
+        //controls
+        // controls.noZoom = false;
+        controls.noRotate = true;
 
         //hide canvas temporarily //todo: remove webgl shape (Web GL proper Integration)
         d3.select("canvas")
@@ -541,6 +579,19 @@
 
     };
 
+    pCube.timeStart = function (_x) {
+        if (!arguments.length)  return start;
+        start = _x;
+        console.log(_x);
+        return this;
+    };
+
+    pCube.timeStop = function (_x) {
+        if (!arguments.length) return end;
+        end = _x;
+        return this;
+    };
+
     pCube.drawGraphs = function () {
 
         console.log(lineList);
@@ -617,18 +668,21 @@
         }
     }
 
-    function spriteRender() {
+    function spriteRender(xScale, yScale, dataSets, zScale) {
         var image = document.createElement('img');
         image.style.width = "20px";
         image.style.height = "20px";
 
         image.addEventListener('load', function (event) {
-            for (var i = 0; i < datasets.length; i++) {
+            for (var i = 0; i < 200; i++) {
+                // for (var i = 0; i < datasets.length; i++) {
 
                 var object = new THREE.CSS3DSprite(image.cloneNode());
-                object.position.x = Math.random() * 200 - 200;
-                object.position.y = Math.random() * 200 - 200;
+                object.position.x = xScale(Math.random() * 250); // using xScale to determine the positions
+                object.position.y = yScale(Math.random() * 200 - 100);
                 object.position.z = Math.random() * 200 - 200;
+
+                object.name = "nodes"; //todo: remove later
 
                 scene.add(object);
                 // objects.push(object);
@@ -644,6 +698,22 @@
         // WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
     }
+
+    //3D Scene Render
+    var renderer, scene, camera, controls;
+    var cube = new THREE.Object3D();
+    var mesh = new THREE.Object3D();
+    var lineList = [];
+
+    //WebGl Stuff
+    var WGLScene,
+        WGLRenderer;
+
+    // params
+    var r = Math.PI / 2;
+    var d = 250;
+    var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
+    var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
     window.polyCube = pCube;
 }());
