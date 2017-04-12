@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="http://threejs.org/build/three.min.js"></script>
+    <script src="lib/three.js/three.min.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
-    <!--<script src="lib/three.js/TrackBallControl.js"></script>-->
     <script src="lib/three.js/tween.js"></script>
-    <script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+    <script src="lib/three.js/CSS3DRenderer.js"></script>
     <style>
         body {
             background-color: #000;
@@ -53,27 +52,29 @@
 
         /*input*/
         input[type="range"] {
-            -webkit-appearance:none;
+            -webkit-appearance: none;
             width: 200px;
-            height:2px;
+            height: 2px;
             background: #FFF;
-            background-position:center;
-            background-repeat:no-repeat;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: auto;
             -webkit-transform: rotate(-90deg);
             -moz-transform: rotate(-90deg);
         }
+
         input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance:none;
+            -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 100%;
             background: #130C0E;
-            position:relative;
+            position: relative;
             border: 3px solid #FFF;
             z-index: 2;
             cursor: pointer;
         }
+
         input:focus {
             outline: none;
         }
@@ -107,11 +108,12 @@
 </head>
 <body>
 
-<div style="position: relative; top: 250px; left: 1000px; z-index: 999">
-    <input  type="range" max="250" min="-250" id="cube-morphing" value="-50">
+<div hidden style="position: relative; top: 250px; left: 1000px; z-index: 999">
+    <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.juxstaPose(0)">
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.juxstaPose(0)">
     JuxtPos
 </button>
 
@@ -126,44 +128,79 @@
 </button>
 <br>
 
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
-        onclick="polyCube.morphing()"> Morphing
-</button>
-<br>
+<!--<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
+        <!--onclick="polyCube.morphing()"> Morphing-->
+<!--</button>-->
+<!--<br>-->
 
-
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
-        onclick="testTime()"> test time
-</button>
 
 <div id="timeLine"></div>
 
 <br>
 <script src="lib/d3/d3.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
+<script src="lib/d3/topojson.min.js"></script>
+<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/pcmodule.js"></script>
 <script src="js/vis/brushTime.js"></script>
 
 <script>
 
-    var datasets = [0, 45, 2, 8,0, 45, 2, 100, 400, 8, 7, 100, 400, 8, 7];
+    var datasets = [0, 45, 2, 8, 0, 45, 2, 100, 400, 8, 7, 100, 400, 8, 7];
+
+
     polyCube.drawElements(datasets);
     polyCube.animate();
-    //Controls
-
-
-    //cube morphing control
-    d3.select('#cube-morphing').on('input', function() {
-//        d3.select('#slider-amount').text(+this.value);
-        polyCube.morphing({axis: +this.value})
-    });
-
     polyCube.render();
     polyCube.animate();
     window.addEventListener('resize', polyCube.onWindowResize, false);
 
-    //brush
+    /**
+     * Cube Morphing Control
+     */
+    d3.select('#cube-morphing').on('input', function () {
+        polyCube.morphing({axis: +this.value})
+    });
+
+    /**
+     * Toggle PointCloud Data UI
+     */
+    polyCube.showPointCloud();
+
+    /**
+     * Show pCube Time Brush
+     */
 //    timeBrush.init();
+
+
+    /**
+     * Data UI Controls
+     * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
+     */
+    var gui = new dat.GUI({});
+
+    var params = {
+        Project: "PolyCube ©",
+        Morphing: -250,
+        showData: true
+    };
+
+    gui.add(params, 'Project').onFinishChange(function () {
+    }).name("Project");
+    gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+        var value = params.Morphing;
+        polyCube.morphing({axis: +value})
+    });
+    gui.add(params, "showData").onChange(function () {
+        var value = params.showData;
+        if (value) {
+            d3.selectAll(".pointCloud")
+                    .classed("hide", false)
+        } else {
+            d3.selectAll(".pointCloud")
+                    .classed("hide", true)
+        }
+
+    }).name("Show PC Data")
 
 </script>
 

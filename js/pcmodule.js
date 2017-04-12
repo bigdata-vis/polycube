@@ -13,7 +13,7 @@
         widthHalf = width / 2;
     var svg;
 
-    var formatTime = d3.timeFormat("%b %Y");
+    var formatTime = d3.timeFormat("%Y");
 
     var start = "1920-01",
         end = "2000-01";
@@ -55,8 +55,9 @@
         scene = new THREE.Scene();
 
         //Sprite Render;
-        spriteRender(xScale, yScale);
-
+        pCube.showPointCloud = function () {
+            pCube.spriteRender(xScale, yScale);
+        };
 
         // CSS renderer
         renderer = new THREE.CSS3DRenderer();
@@ -98,7 +99,6 @@
             object.name = "side";
             cube.add(object);
         }
-
         // segments
         var segments = datasets.length;
         //D3
@@ -220,18 +220,15 @@
                 y: -(height / 2),
                 z: widthHalf
             }
-            , startDate: start
-            , endDate: end
         });
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
-            var labelCount = parameters["labelCount"] || 20; //use label count or specified parameters
+            var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
             var startDate = parameters["startDate"] || "1980-01";
-            var endDate = parameters["endDate"] || "2000-01";
+            var endDate = parameters["endDate"] || "2010-01";
             var dateArray = d3.scaleTime()
                 .domain([new Date(startDate), new Date(endDate)])
                 .ticks(labelCount);
-
             // var separator = height / dateArray.length;
             var separator = height / segments;
             var p = parameters["labelPosition"] || {
@@ -240,13 +237,15 @@
                     z: 100
                 };
 
-            for (var i = 0; i < segments; i++) {
+                // console.log(separator);
+
+            for (var i = 0; i < (segments); i++) {
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
                 // var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = 20;
-                // dobj.add(label);//add labels to labels 3d object holder
-                p.y += separator;
+
+                p.y += separator; //increment y position of individual label to increase over time
             }
 
             function makeTextSprite(message, parameters) {
@@ -270,7 +269,6 @@
                 return object;
             }
         }
-
         pCube.render()
     };
 
@@ -282,9 +280,7 @@
         var duration = 2500;
         TWEEN.removeAll();
 
-        //show canvas temporarily //todo: show all pointClouds
-        d3.selectAll(".pointCloud")
-            .classed("hide", false);
+        //show canvas temporarily //already controled in Data UI
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
@@ -385,11 +381,9 @@
 
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ), //just another way of getting 550
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 400, //just another way of getting 550
                 z: 0
             };
-
-
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
@@ -398,7 +392,7 @@
             //tween the segments to grid shape
             if (object.name == "seg") {
                 segCounter++;
-                
+
                 // console.log(object.element.__data__);
 
                 var posTween = new TWEEN.Tween(object.position)
@@ -419,7 +413,6 @@
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start()
             }
-
         });
 
         //camera movement
@@ -531,7 +524,6 @@
         var segCounter = 0; //keep list of the segment counters
         var duration = 5500;
         var yMorph = parameters["axis"] || 50; // todo: create
-
         scene.children[0].children.forEach(function (object, i) {
 
             //show only segments
@@ -653,7 +645,11 @@
         }
     }
 
-    function spriteRender(xScale, yScale, dataSets, zScale) {
+    pCube.spriteRender = function(xScale, yScale, params) {
+        if (params === undefined) params = {};
+
+        var size = params["20"] || 20;
+
 
         var image = document.createElement('img');
         image.style.width = "20px";
@@ -675,7 +671,7 @@
         }, false);
         // image.src = '/texture/sprite.png';
         image.src = '/texture/ball.png';
-    }
+    };
 
     pCube.render = function () {
         // remember to call both renderers!
