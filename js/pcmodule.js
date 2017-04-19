@@ -141,7 +141,7 @@
                 .data(topojson.feature(aut, aut.objects.subunits).features)
                 .enter().append("path")
                 .attr("class", function (d, i) {
-                    return "subunit "; //remove id
+                    return "subunit"; //remove id
                 })
                 .classed("hide", function (d, i) {
                     counter += 1;
@@ -149,13 +149,13 @@
                         return true
                     }
                 })
-                .attr("d", path)
-                .classed("dataPane", function () {
-                    counter += 1;
-                    if (counter == 1) { //only display class for first map
-                        return true
-                    }
-                });
+                // .style("display", function () {
+                //     counter += 1;
+                //     if (counter !== 1) { //only display map path for first map
+                //         return "none"
+                //     }
+                // })
+                .attr("d", path);
 
             // labels
             // svg.selectAll(".elements").select(".elements_child").select("dataPane").selectAll(".place-label")
@@ -482,7 +482,7 @@
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         // x:0
-                        y:0
+                        y: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
@@ -534,11 +534,11 @@
             .easing(TWEEN.Easing.Elastic.InOut)
             .onUpdate(function () {
                 camera.rotation.set(this.x, this.y, this.z);
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
+                // camera.lookAt(new THREE.Vector3(0, 0, 0));
                 //camera.fov = 8; todo: add a new fov to change perspective
             })
             .onComplete(function () {
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
+                // camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
     };

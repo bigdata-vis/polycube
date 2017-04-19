@@ -143,7 +143,8 @@
 </button>
 <br>
 
-<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.test()">test
+<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.test()">test
 </button>
 
 <br>
@@ -197,7 +198,7 @@
         Morphing: -250,
         showData: true,
         nodeSize: 15,
-        jux1: "JuxstaPosition"
+        light: false
     };
 
     gui.add(params, 'Project').onFinishChange(function () {
@@ -227,24 +228,52 @@
                 .style("height", value + "px");
     });
 
-    var f1 = gui.addFolder('Point Cloud');
+    var f1 = gui.addFolder('Theme');
+    f1.add(params, "light").onChange(function () {
+        var value = params.light;
+        if (value) {
+            d3.select("body")
+                    .style("background-color", "aliceblue");
+
+            d3.selectAll(".pointCloud")
+                    .attr("src","texture/ball2.png");
+
+            d3.selectAll(".side")
+                    .style("border", "0.5px dotted rgb(10, 10, 10)")
+                    .style("background", "white");
+
+            d3.selectAll(".elements_child")
+                    .style("background-color", "#8fa7b9");
+
+            d3.selectAll(".elements_child").selectAll(".subunit")
+                    .style("fill", "#0050af")
+
+            d3.selectAll(".screen_dots")
+                    .style("fill", "rgb(16, 49, 21)")
+
+        } else {
+//            d3.selectAll(".pointCloud")
+//                    .classed("hide", true)
+        }
+    })
 
 </script>
+
 <!--<script>-->
 <!--//    code perfomance-->
-    <!--(function () {-->
-        <!--var script = document.createElement('script');-->
-        <!--script.onload = function () {-->
-            <!--var stats = new Stats();-->
-            <!--document.body.appendChild(stats.dom);-->
-            <!--requestAnimationFrame(function loop() {-->
-                <!--stats.update();-->
-                <!--requestAnimationFrame(loop)-->
-            <!--});-->
-        <!--};-->
-        <!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
-        <!--document.head.appendChild(script);-->
-    <!--})()-->
+<!--(function () {-->
+<!--var script = document.createElement('script');-->
+<!--script.onload = function () {-->
+<!--var stats = new Stats();-->
+<!--document.body.appendChild(stats.dom);-->
+<!--requestAnimationFrame(function loop() {-->
+<!--stats.update();-->
+<!--requestAnimationFrame(loop)-->
+<!--});-->
+<!--};-->
+<!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
+<!--document.head.appendChild(script);-->
+<!--})()-->
 <!--</script>-->
 </body>
 </html>
