@@ -467,7 +467,7 @@
         d3.select("canvas")
             .classed("hide", true);
 
-        var duration = 100;
+        var duration = 700;
         //merge all x axis to remive dept
         scene.children[0].children.forEach(function (object, i) {
 
@@ -714,7 +714,7 @@
 
                 object.element.onmouseover = function (d) {
                     this.y = 0;
-                    console.log(d);
+                    // console.log(d);
                 };
 
 
