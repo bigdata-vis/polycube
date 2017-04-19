@@ -178,7 +178,7 @@
                     return d.geometry.coordinates[0] + 250;
                 })
                 .attr("cy", function (d) {
-                    var cy = d.geometry.coordinates[1] + 250;
+                    var cy = d.geometry.coordinates[1] + 220;
                     // var cx = d.geometry.coordinates[0] += 10;
                     // lineList.push([cx, cy]);
                     //console.log(lineList)
@@ -193,6 +193,7 @@
             //console.log(place);
         });
 
+        //obejctify and draw segments
         elements.each(objectify);
         //hide all subunits paths
 
@@ -212,6 +213,9 @@
 
             cube.add(objSeg);
         }
+
+        //test segments
+
 
         //todo: Redo timeLine
         drawLabels({ //Todo: fix label with proper svg
@@ -237,7 +241,7 @@
                     z: 100
                 };
 
-                // console.log(separator);
+            // console.log(separator);
 
             for (var i = 0; i < (segments); i++) {
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
@@ -269,6 +273,7 @@
                 return object;
             }
         }
+
         pCube.render()
     };
 
@@ -462,7 +467,7 @@
         d3.select("canvas")
             .classed("hide", true);
 
-        var duration = 1000;
+        var duration = 100;
         //merge all x axis to remive dept
         scene.children[0].children.forEach(function (object, i) {
 
@@ -476,32 +481,59 @@
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
-                        y: 0
+                        // x:0
+                        y:0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        opacity: 0.1
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
             }
 
         });
 
-
         //change camera view
-        //camera super imposition
+        //camera position
         var tween = new TWEEN.Tween({
             x: camera.position.x,
             y: camera.position.y,
             z: camera.position.z
-        })
-            .to({
-                x: 0, //todo: fix rotation of camera axis
-                y: 800,
-                z: -6
-            }, duration)
-            //.easing(TWEEN.Easing.Linear.None)
+        }).to({
+            // x: 0, //todo: fix rotation of camera axis
+            // y: 800,
+            // z: -6
+            x: 0, //todo: fix rotation of camera axis
+            y: 1077.0329614263626,
+            z: 0
+        }, duration)
             .easing(TWEEN.Easing.Sinusoidal.Out)
             .onUpdate(function () {
                 camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+                //camera.fov = 8; todo: add a new fov to change perspective
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
+
+        //camera rotation
+        var rotate = new TWEEN.Tween({
+            x: camera.rotation.x,
+            y: camera.rotation.y,
+            z: camera.rotation.z
+        }).to({
+            x: -1.5707953161924646,
+            y: -5.53118884027981,
+            z: -0.005531219681680428
+        }, duration)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(function () {
+                camera.rotation.set(this.x, this.y, this.z);
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
                 //camera.fov = 8; todo: add a new fov to change perspective
             })
@@ -645,7 +677,7 @@
         }
     }
 
-    pCube.spriteRender = function(xScale, yScale, params) {
+    pCube.spriteRender = function (xScale, yScale, params) {
         if (params === undefined) params = {};
         var size = params["size"] || 20;
 
@@ -653,18 +685,38 @@
         // image.style.width = "20px";
         // image.style.height = "20px";
 
-        image.style.width = size +"px";
-        image.style.height = size +"px";
+        image.style.width = size + "px";
+        image.style.height = size + "px";
         image.className = "pointCloud";
 
         image.addEventListener('load', function (event) {
-            for (var i = 0; i < 200; i++) {
+            for (var i = 0; i < 100; i++) {
                 var object = new THREE.CSS3DSprite(image.cloneNode());
-                object.position.x = xScale(Math.random() * 250); // using xScale to determine the positions
-                object.position.y = yScale(Math.random() * 200 - 100);
-                object.position.z = Math.random() * 200 - 200;
+
+                var min = -200,
+                    max = 200;
+                //
+                // object.position.x = xScale(Math.random() * 250); // using xScale to determine the positions
+                // object.position.y = yScale(Math.random() * 200 - 100);
+                // object.position.z = Math.random() * 200 - 200;
+
+                // object.position.x = Math.random() * (max - min) + min; // using xScale to determine the positions
+                object.position.y = Math.random() * (max - min) + min;
+                object.position.z = Math.random() * ((50) - (-60)) + (-60);
+                object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
+
+                // object.position.z = 20;
+                // object.position.y = 20;
 
                 object.name = "pointCloud"; //todo: remove later
+
+                // console.log(object.element);
+
+                object.element.onmouseover = function (d) {
+                    this.y = 0;
+                    console.log(d);
+                };
+
 
                 scene.add(object);
                 // objects.push(object);
@@ -695,6 +747,13 @@
     var d = 250;
     var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
     var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+
+    //camera test
+    pCube.test = function () {
+        console.log(camera)
+
+    };
 
     window.polyCube = pCube;
 }());
