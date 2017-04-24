@@ -242,14 +242,15 @@
                     .style("border", "0.5px dotted rgb(10, 10, 10)")
                     .style("background", "white");
 
+            d3.selectAll(".screen_dots")
+                    .style("fill", "rgb(16, 49, 21)");
+
             d3.selectAll(".elements_child")
                     .style("background-color", "#8fa7b9");
 
             d3.selectAll(".elements_child").selectAll(".subunit")
-                    .style("fill", "#0050af")
-
-            d3.selectAll(".screen_dots")
-                    .style("fill", "rgb(16, 49, 21)")
+//                    .style("fill", "#0050af");
+                    .style("fill", "black");
 
         } else {
 //            d3.selectAll(".pointCloud")

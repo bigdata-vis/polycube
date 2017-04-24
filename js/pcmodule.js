@@ -492,7 +492,6 @@
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
-                        // x:0
                         y: 0
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -514,9 +513,6 @@
             y: camera.position.y,
             z: camera.position.z
         }).to({
-            // x: 0, //todo: fix rotation of camera axis
-            // y: 800,
-            // z: -6
             x: 0, //todo: fix rotation of camera axis
             y: 1077.0329614263626,
             z: 0
