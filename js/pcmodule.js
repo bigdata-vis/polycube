@@ -289,6 +289,11 @@
         d3.selectAll(".textTitle")
             .classed("hide", false);
 
+        //show all point clouds
+        d3.selectAll(".pointCloud")
+            .classed("hide", false);
+
+
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
         // .classed("hide", true);
@@ -298,6 +303,7 @@
                     return true
                 }
             });
+
 
         d3.selectAll(".elements_child") //remove opacity for all elements_child
             .style("opacity", 0.2);
@@ -338,7 +344,6 @@
             }
 
         });
-
 
         //camera movement
 
