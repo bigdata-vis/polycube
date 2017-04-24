@@ -184,7 +184,7 @@
                     //console.log(lineList)
                     return cy;
                 })
-                .attr("fill", "red")
+                .attr("fill", "orange")
                 .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
                     //return d.uncert
                 });
@@ -285,7 +285,9 @@
         var duration = 2500;
         TWEEN.removeAll();
 
-        //show canvas temporarily //already controled in Data UI
+        //show all time panels
+        d3.selectAll(".textTitle")
+            .classed("hide", false);
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
@@ -380,6 +382,10 @@
         d3.selectAll(".pointCloud")
             .classed("hide", true);
 
+        //hide all time panels
+        d3.selectAll(".textTitle")
+            .classed("hide", true);
+
         var segCounter = 0; //keep list of the segment counters
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
@@ -463,8 +469,8 @@
         // controls.noZoom = false;
         controls.noRotate = true;
 
-        //hide canvas temporarily //todo: remove webgl shape (Web GL proper Integration)
-        d3.select("canvas")
+        //hide all time panels
+        d3.selectAll(".textTitle")
             .classed("hide", true);
 
         var duration = 700;
