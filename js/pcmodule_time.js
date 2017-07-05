@@ -48,11 +48,14 @@
         var format2 = d3.timeFormat("%Y");
 
         datasets.forEach(function (d, i) {
+
             var coord = d.Geocoordinates.split(",");
+
             d.long = +coord[0];
             d.lat = +coord[1];
+
             // d.long = d
-            defaultData[i] = d;
+            // defaultData[i] = d;
             // console.log(yScale(d));
             // unfiltered[i] = {
             //     x: +d.x,
@@ -60,7 +63,6 @@
             //     z: +d.z
             // };
         });
-
         datasets2.forEach(function (d, i) {
             d.start_date = parse2(d.start_date); //parse date first and then format
             d.start_date = +format2(d.start_date)
@@ -114,8 +116,7 @@
             var element = document.createElement('div');
             element.style.width = '500px';
             element.style.height = '500px';
-            // element.style.background = new THREE.Color("#ececec").getStyle();
-
+            element.style.background = new THREE.Color("#ececec").getStyle();
             element.style.opacity = '0.1';
             element.style.border = "0.5px dotted #FFF";
             element.className = "side";
@@ -126,24 +127,19 @@
             object.name = "side";
             cube.add(object);
         }
-
         // segments
-        // var segments = datasets.length; //todo: specify config value for the segments numbers
-        // var segments = datasets2.length; //todo: specify config value for the segments numbers
-        // var segments = (datasets2.length < 20 ? datasets.length : 10);
 
-
-        var segments = defaultData.length;
+        var segments = datasets.length; //todo: specify config value for the segments numbers
+        // var segments = (datasets.length < 20 ? datasets.length : 20);
 
         //D3
         var projection = d3.geoAlbers()
             .center([0, 45.5])
             .rotate([-13.5, -2])
             // .parallels([10, 50])
-            // .scale(-500)
-            .scale(5000)
+            .scale(-500)
+            // .scale(5000)
             .translate([width / 2, height / 2]);
-            // .translate([width - 380, height - 200]);
 
         var path = d3.geoPath()
             .projection(projection)
@@ -169,7 +165,7 @@
             }
 
             var counter = 0; //counter to monitor the amount of data rounds
-            // console.log(aut);
+            console.log(aut);
 
             //map paths
             svg.selectAll(".subunit")
@@ -201,15 +197,19 @@
                     }
                 })
                 .attr("cx", function (d) {
+                    // return d.geometry.coordinates[0] += 40;
                     return d.geometry.coordinates[0] + 250;
                 })
                 .attr("cy", function (d) {
-                    return d.geometry.coordinates[1] + 220;
+                    var cy = d.geometry.coordinates[1] + 220;
+                    // var cx = d.geometry.coordinates[0] += 10;
+                    // lineList.push([cx, cy]);
+                    //console.log(lineList)
+                    return cy;
                 })
-                .attr("fill", "transparent")//todo: removed dots for presentation
+                .attr("fill", "orange")
                 .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
-                    // return d.uncert
-                    return 0.2;
+                    //return d.uncert
                 });
         });
 
@@ -218,11 +218,21 @@
         elements.each(addtoScene);
 
         //Test Elements
+        // var testData = [{elem: "A", title: "a"}, {elem: "B", title: "b"},{elem: "C", title: "c"},{elem: "D", title: "d"},{elem: "E", title: "e"}];
         var testElem = d3.selectAll('.map-div')
+            // .data(datasets).enter()
             .data(datasets2).enter()
             .append("div")
                 .attr("class", "map-div")
                 .each(function (d, i) {
+                    // projection(code);
+
+                    // d3.select(this).append("div")
+                    // .attr("class", "map-title")
+                    // .html(function (d) {
+                    //     var text = " - 2010";
+                    //     return d.elem + text;
+                    // });
                     var image = document.createElement('img');
                     var interval = 500 / segments; //height/segments
 
@@ -235,16 +245,23 @@
                     image.addEventListener('load', function (event) {
                         for (var z = 0; z < 1; z++) {
                             var object = new THREE.CSS3DSprite(image.cloneNode());
+                            var min = -200,
+                                max = 200;
 
+                            // object.position.y = Math.random() * (max - min) + min;
+                            // object.position.y = ((i * interval) - height / 2);
+                            // object.position.z = Math.random() * ((50) - (-60)) + (-60);
                             // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
                             object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
 
-                            object.position.z = projection([d.longitude, d.latitude])[0] - 500;
-                            object.position.x = projection([d.longitude, d.latitude])[1] ;
+                            // console.log(d);
+                            // console.log(projection([d.lng,d.lat]));
 
-                            //
-                            // object.position.z = projection([16.363449, 48.210033])[0] - 500;
-                            // object.position.x = projection([16.363449, 48.210033])[1] ;
+                            // object.position.z = projection([13.649262, 47.562233])[0] - (widthHalf);
+                            // object.position.x = projection([13.649262, 47.562233])[1] - (heightHalf);
+
+                            object.position.z = projection([d.latitude, d.longitude])[0] ;
+                            object.position.x = projection([d.latitude, d.longitude])[1] ;
 
                             object.name = "pointCloud"; //todo: remove later
 
@@ -267,8 +284,8 @@
 
                 });
 
-        // testElem.each(setViewData);
-        // testElem.each(addtoScene2);
+        testElem.each(setViewData);
+        testElem.each(addtoScene2);
 
         // console.log(testData);
         function setViewData(d, i) {
@@ -295,7 +312,6 @@
             d['SI'] = si;
         }
         function addtoScene(d, i) {
-
             var interval = 500 / segments; //height/segments
             var objSeg = new THREE.CSS3DObject(this);
             //position
@@ -383,26 +399,12 @@
             }
         }
 
-
-        d3.selectAll(".elements_child")
-            .style("background-color", "transparent");
-        // .style("stroke", "white")
-        // .style("stroke-width", "5px")
-        // .style("stroke-dasharray", "2,2")
-        // .style("stroke-linejoin", "round");
-
-        d3.selectAll(".elements")
-            .style("border", "1px solid #585858");
-
         pCube.render()
     };
 
     pCube.default = function (side) {
 
-        // console.log(defaultData.length);
-
         var segments = defaultData.length;
-
         var interval = height / segments; //height/segments
 
         var duration = 2500;
@@ -415,6 +417,7 @@
         //show all point clouds
         d3.selectAll(".pointCloud")
             .classed("hide", false);
+
 
         //display all the maps for the segments
         d3.selectAll("svg").select(".subunit")
@@ -432,22 +435,16 @@
 
         var segCounter = 0; //keep list of the segment counters
 
-
         scene.children[0].children.forEach(function (object, i) {
 
-            //show box shapes
+            //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = false;
             }
 
-
-            //show segments
+            //show only segments
             if (object.name == "seg") {
-
                 segCounter++;
-
-                console.log(interval);
-
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: 0,
@@ -457,12 +454,10 @@
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-
                 var rotate = new TWEEN.Tween(object.rotation)
                     .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
-
 
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
@@ -564,7 +559,7 @@
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-                // console.log(object)
+                console.log(object)
             }
         });
 
@@ -593,6 +588,7 @@
     pCube.onWindowResize = function () {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
+
         renderer.setSize(window.innerWidth, window.innerHeight);
         pCube.render()
     };
@@ -613,18 +609,6 @@
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
-
-        // console.log(d3.selectAll(".elements_child")._groups[0][0].style.opacity);
-
-        d3.selectAll(".elements_child")
-            .style("background-color", "transparent");
-            // .style("stroke", "white")
-            // .style("stroke-width", "5px")
-            // .style("stroke-dasharray", "2,2")
-            // .style("stroke-linejoin", "round");
-
-        d3.selectAll(".elements")
-            .style("border", "1px solid #585858");
 
         var duration = 700;
         //merge all x axis to remive dept
@@ -647,7 +631,7 @@
 
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
-                        opacity: 0.9
+                        opacity: 0.1
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start()
             }

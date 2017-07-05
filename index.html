@@ -142,9 +142,10 @@
         onclick="polyCube.superImpose()"> SuperImposition
 </button>
 <br>
+<p style=" width: 200px; color: white; position: relative; top: 250px; left: 150px; z-index: 999" id="textTitle">i</p>
 
 <!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
-        <!--onclick="polyCube.test()">test-->
+<!--onclick="polyCube.test()">test-->
 <!--</button>-->
 
 <br>
@@ -161,103 +162,130 @@
 
 <script>
 
-    var datasets = [0, 45, 2, 8, 0, 45, 2, 100, 400, 100];
+    d3.queue()
+            .defer(d3.csv, "data/Cushman-Collection.csv")
+            .defer(d3.csv, "data/Szabo2.csv")
+            .await(init);
 
-    polyCube.drawElements(datasets);
-    polyCube.animate();
-    polyCube.render();
-    polyCube.animate();
-    window.addEventListener('resize', polyCube.onWindowResize, false);
+    function init(error, data, szabo) {
+        if (error) console.log(error);
+        var datasets = [0, 45, 2, 8, 0, 45, 2, 100, 400, 100];
 
-    /**
-     * Cube Morphing Control
-     */
-    d3.select('#cube-morphing').on('input', function () {
-        polyCube.morphing({axis: +this.value})
-    });
+//        console.log(szabo);
 
-    /**
-     * Toggle PointCloud Data UI
-     */
-    polyCube.showPointCloud();
+        function tempRange(data) {
 
-    /**
-     * Show pCube Time Brush
-     */
-    //    timeBrush.init();
+            var newData = data.slice(40,55); //todo: slice arrray according to date range
 
-    /**
-     * Data UI Controls
-     * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
-     */
-    var gui = new dat.GUI({});
+//            console.log(newData);
 
-    var params = {
-        Project: "KHM Data",
-        Morphing: -250,
-        showData: true,
-        nodeSize: 15,
-        light: false
-    };
-
-    gui.add(params, 'Project').onFinishChange(function () {
-    }).name("PolyCube ©");
-    gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-        var value = params.Morphing;
-        polyCube.morphing({axis: +value})
-    });
-
-    gui.add(params, "showData").onChange(function () {
-        var value = params.showData;
-        if (value) {
-            d3.selectAll(".pointCloud")
-                    .classed("hide", false)
-        } else {
-            d3.selectAll(".pointCloud")
-                    .classed("hide", true)
+            polyCube.drawElements(newData,szabo);
+            polyCube.render();
+            polyCube.animate();
+            window.addEventListener('resize', polyCube.onWindowResize, false);
         }
 
-    }).name("Show PC Data");
+        tempRange(data);
 
-    gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
-        var value = params.nodeSize;
+        /**
+         * Toggle PointCloud Data UI
+         */
+
+        polyCube.showPointCloud();
+
+
+        /**
+         * Cube Morphing Control
+         */
+        d3.select('#cube-morphing').on('input', function () {
+            polyCube.morphing({axis: +this.value})
+        });
+
+        /**
+         * Show pCube Time Brush
+         */
+        //        timeBrush.init();
+
+        /**
+         * Data UI Controls
+         * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
+         */
+        var gui = new dat.GUI({});
+
+        var params = {
+            Project: "KHM Data",
+            Morphing: -250,
+            showData: true,
+            nodeSize: 15,
+            light: false
+        };
+
+        gui.add(params, 'Project').onFinishChange(function () {
+        }).name("PolyCube ©");
+        gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+            var value = params.Morphing;
+            polyCube.morphing({axis: +value})
+        });
+
+        gui.add(params, "showData").onChange(function () {
+            var value = params.showData;
+            if (value) {
+                d3.selectAll(".pointCloud")
+                        .classed("hide", false)
+            } else {
+                d3.selectAll(".pointCloud")
+                        .classed("hide", true)
+            }
+
+        }).name("Show PC Data");
+
+        gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
+            var value = params.nodeSize;
 //        console.log(value);
-        d3.selectAll(".pointCloud")
-                .style("width", value + "px")
-                .style("height", value + "px");
-    });
-
-    var f1 = gui.addFolder('Theme');
-    f1.add(params, "light").onChange(function () {
-        var value = params.light;
-        if (value) {
-            d3.select("body")
-                    .style("background-color", "aliceblue");
-
             d3.selectAll(".pointCloud")
-                    .attr("src","texture/ball2.png");
+                    .style("width", value + "px")
+                    .style("height", value + "px");
+        });
 
-            d3.selectAll(".side")
-                    .style("border", "0.5px dotted rgb(10, 10, 10)")
-                    .style("background", "white");
+        var f1 = gui.addFolder('Theme');
+        f1.add(params, "light").onChange(function () {
+            var value = params.light;
+            if (value) {
+                d3.select("body")
+                        .style("background-color", "aliceblue");
 
-            d3.selectAll(".screen_dots")
-                    .style("fill", "rgb(16, 49, 21)");
+                d3.selectAll(".pointCloud")
+                        .attr("src", "texture/ball2.png");
 
-            d3.selectAll(".elements_child")
-                    .style("background-color", "#8fa7b9");
+                d3.selectAll(".side")
+                        .style("border", "0.5px dotted rgb(10, 10, 10)")
+                        .style("background", "white");
 
-            d3.selectAll(".elements_child").selectAll(".subunit")
-//                    .style("fill", "#0050af");
-                    .style("fill", "black");
+                d3.selectAll(".screen_dots")
+                        .style("fill", "rgb(16, 49, 21)");
 
-        } else {
+                d3.selectAll(".elements_child")
+                        .style("background-color", "#8fa7b9");
+
+                d3.selectAll(".elements_child").selectAll(".subunit")
+                //                    .style("fill", "#0050af");
+                        .style("fill", "black");
+
+            } else {
 //            d3.selectAll(".pointCloud")
 //                    .classed("hide", true)
-        }
-    })
+            }
+        });
+
+    }
 
 </script>
+
+<!--edmPlaceLatitude-->
+<!--edmPlaceLongitude-->
+<!--score-->
+<!--dcCreator-->
+<!--country-->
 
 <!--<script>-->
 <!--//    code perfomance-->
