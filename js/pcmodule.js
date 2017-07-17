@@ -4,10 +4,22 @@
 (function () {
     var pCube = {};
 
-    //data
+    /**default data
+     *
+     * @type {Array}
+     */
     var defaultData = [];
 
-    //d3
+    /**
+     * Container to hold line geometry coordinates
+     * @type {Array}
+     */
+    var lineList = [];
+
+    /**d3 variables and declarations
+     *
+     * @type {number}
+     */
     var width = 500,
         height = 500,
         widthHalf = width / 2,
@@ -19,9 +31,26 @@
     var start = "1920-01",
         end = "2000-01";
 
+    var projectionScale = 5000;
+
+    /** Threejs Material decl to be used later for lines implementation
+     *
+     * @type {any}
+     */
+    var material = new THREE.LineBasicMaterial({color: 0x0000ff});
+    material.blending = THREE.NoBlending;
+
+    /**
+     * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
+     * @param datasets
+     * @param datasets2
+     */
+
     pCube.drawElements = function (datasets, datasets2) {
-        //Data
-        //d3 data scale //todo: data scale for x, y, z
+        /**d3 data scale
+         * to be implemented with datasets with time and location
+         * todo: data scale for x, y, z
+         */
         var xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
                 return d;
             }),
@@ -33,25 +62,39 @@
                 return d;
             });
 
-
-        // console.log(yExent);
-
+        /**
+         * calculate the largest and smallest value for Xscale and Y scale
+         */
         var xScale = d3.scaleLinear()
                 .domain(xExent)
                 .range([-widthHalf, width]),
             yScale = d3.scaleLinear()
                 .domain(yExent)
                 .range([0, height]);
-
-        //todo:Data Cleaning function
+        /**
+         * Parse and Format Time
+         */
         var parse2 = d3.timeParse("%Y-%m-%d");
         var format2 = d3.timeFormat("%Y");
 
+
+        /**
+         * Cleaning Function for Datasets
+         */
+
+        /**
+         * Clean func for Datasets1
+         *Datasets to draw the segments
+         */
         datasets.forEach(function (d, i) {
             var coord = d.Geocoordinates.split(",");
             d.long = +coord[0];
             d.lat = +coord[1];
             // d.long = d
+            /**
+             * Data to draw segements from
+             * @type {T}
+             */
             defaultData[i] = d;
             // console.log(yScale(d));
             // unfiltered[i] = {
@@ -61,65 +104,122 @@
             // };
         });
 
+        /**
+         * Clean func for Data sets 2
+         *Data sets to draw point clouds
+         */
         datasets2.forEach(function (d, i) {
             d.start_date = parse2(d.start_date); //parse date first and then format
             d.start_date = +format2(d.start_date)
         });
 
-        // console.log(datasets2);
 
-        //test scaling
+        /**
+         * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
+         *
+         */
         var dateTestEx = d3.extent(datasets2, function (d) {
             return d.start_date;
         });
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
 
-
-        // scene
+        /**
+         * scenes
+         * Introduction CSS3D and WebGL scenes
+         */
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
 
-        //Sprite Render;
+
+        /**
+         * Render point cloud from the automated data and points;
+         */
         pCube.showPointCloud = function () {
             // pCube.spriteRender(xScale, yScale);
         };
 
-        // CSS renderer
+        /**WebGL renderer implementation
+         *
+         * @type {THREE.WebGLRenderer}
+         */
+        WGLRenderer = new THREE.WebGLRenderer({alpha: true});
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setClearColor(0x00ff00, 0.0);
+        WGLRenderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(WGLRenderer.domElement);
+
+
+        /**CSS renderer
+         *
+         * @type {THREE.CSS3DRenderer}
+         */
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.domElement.style.position = 'absolute';
         renderer.domElement.style.top = 0;
         document.body.appendChild(renderer.domElement);
 
-        // camera
+        /**camera
+         * Threejs camera implementation
+         * @type {any}
+         */
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(600, 400, 800);
 
-        // controls
-        // Orbit Controls
+        /** Mouse Controls for zooming, panning etc
+         *
+         * @type {THREE.OrbitControls}
+         */
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target = new THREE.Vector3(0, 0, 0);
         controls.autoRotateSpeed = 0.3;
         controls.noRotate = false;
         controls.addEventListener('change', pCube.render);
 
-        //Add objects
+        /**
+         * Add Object Group to Scene (Cube and Mesh?)
+         *Mesh is for the timeline title
+         */
         scene.add(cube);
         scene.add(mesh);
 
-        // sides
+
+        /**
+         * WebGl Scene
+         * Temporary Web Gl Scene implementation for line testing
+         * @type {any}
+         */
+        var geometry = new THREE.Geometry();
+
+
+        /**CSS3D Scene
+         * Cube Sides
+         *6 sided cube creation with CSS3D, div and then added to cube group object
+         */
         for (var i = 0; i < 6; i++) {
-
             var element = document.createElement('div');
-            element.style.width = '500px';
-            element.style.height = '500px';
-            // element.style.background = new THREE.Color("#ececec").getStyle();
 
+            /**
+             * Cube Width and height
+             * @type {string}
+             */
+            element.style.width = width + 'px';
+            element.style.height = height + 'px';
+
+            /**
+             *
+             * @type {string}
+             */
             element.style.opacity = '0.1';
             element.style.border = "0.5px dotted #FFF";
             element.className = "side";
 
+            /**
+             * Create new CSS3D object side and add it to the cube group
+             * get position from array of predefined cube rotation and position css3d matrix
+             * @type {THREE.CSS3DObject}
+             */
             var object = new THREE.CSS3DObject(element);
             object.position.fromArray(pos[i]);
             object.rotation.fromArray(rot[i]);
@@ -127,35 +227,46 @@
             cube.add(object);
         }
 
-        // segments
-        // var segments = datasets.length; //todo: specify config value for the segments numbers
-        // var segments = datasets2.length; //todo: specify config value for the segments numbers
-        // var segments = (datasets2.length < 20 ? datasets.length : 10);
-
-
+        /**
+         * Segments
+         * var segments = datasets.length; //todo: specify config value for the segments numbers
+         * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
+         * segements from the length of defaultData or datasets1
+         */
         var segments = defaultData.length;
 
-        //D3
+
+        /**D3
+         *Map Projection
+         *Mercator or geoAlbers
+         *Dynamic Scale with editing and update function
+         */
         var projection = d3.geoAlbers()
+        // var projection = d3.geoMercator()
+            .translate([width / 2, height / 2])
             .center([0, 45.5])
+            // .rotate([-13.5, -2])
             .rotate([-13.5, -2])
-            // .parallels([10, 50])
-            // .scale(-500)
-            .scale(5000)
-            .translate([width / 2, height / 2]);
-            // .translate([width - 380, height - 200]);
+            .scale(width * 9);
+        // .scale(1000);
 
         var path = d3.geoPath()
             .projection(projection)
             .pointRadius(2);
 
-        // main Element Div (Create new segments holders from here)
+        /**
+         *Create Div holders for the segments
+         * main Element Div (Create new segments holders from here)
+         *Currently using todo: datasets1 should be changed to datasets2
+         */
         var elements = d3.select("body").selectAll('.element')
             .data(datasets).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements');
 
-        //Div SVG
+        /**
+         * Div SVG
+         */
         svg = elements.append("svg")
             .attr("class", "elements_child")
             .attr("width", width)
@@ -163,11 +274,12 @@
             .style("opacity", 0.2)
             .attr("fill", new THREE.Color("#ececec").getStyle());
 
-        d3.json("data/austria.json", function (error, aut) {
-            if (error) {
-                console.error(error)
-            }
-
+        /**
+         * MAP entry point
+         * Austrian Map Implementation with topojson
+         * @param aut
+         */
+        pCube.drawMap = function (aut) {
             var counter = 0; //counter to monitor the amount of data rounds
             // console.log(aut);
 
@@ -175,7 +287,10 @@
             svg.selectAll(".subunit")
                 .data(topojson.feature(aut, aut.objects.subunits).features)
                 // .data(aut.features)
-                .enter().append("path")
+                .enter()
+                .append('g')
+                .attr('transform', 'translate(460,0)rotate(80)')
+                .append("path")
                 .attr("class", function (d, i) {
                     return "subunit"; //remove id
                 })
@@ -211,64 +326,78 @@
                     // return d.uncert
                     return 0.2;
                 });
-        });
+        };
 
-        //Objectify and draw segments
-        // elements.each(setViewData);
+        /**
+         * Objectify and draw segments elements
+         */
+        elements.each(setViewData);
         elements.each(addtoScene);
 
-        //Test Elements
+        /**
+         * Test biographical data
+         */
         var testElem = d3.selectAll('.map-div')
             .data(datasets2).enter()
             .append("div")
-                .attr("class", "map-div")
-                .each(function (d, i) {
-                    var image = document.createElement('img');
-                    var interval = 500 / segments; //height/segments
+            .attr("class", "map-div")
+            .each(function (d, i) {
+                var image = document.createElement('img');
+                var interval = 500 / segments; //height/segments
 
-                    image.style.width = 10 + "px";
-                    image.style.height = 10 + "px";
-                    image.className = "pointCloud";
+                image.style.width = 10 + "px";
+                image.style.height = 10 + "px";
+                image.className = "pointCloud";
 
-                    // console.log(this.style);
+                // console.log(this.style);
 
-                    image.addEventListener('load', function (event) {
-                        for (var z = 0; z < 1; z++) {
-                            var object = new THREE.CSS3DSprite(image.cloneNode());
+                image.addEventListener('load', function (event) {
+                    for (var z = 0; z < 1; z++) {
+                        var object = new THREE.CSS3DSprite(image.cloneNode()),
+                            long = d.longitude,
+                            lat = d.latitude,
+                            coord = translate(projection([long, lat]));
 
-                            // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
-                            object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
 
-                            object.position.z = projection([d.longitude, d.latitude])[0] - 500;
-                            object.position.x = projection([d.longitude, d.latitude])[1] ;
+                        // console.log(coord);
+                        // console.log(projection([long, lat]))
 
-                            //
-                            // object.position.z = projection([16.363449, 48.210033])[0] - 500;
-                            // object.position.x = projection([16.363449, 48.210033])[1] ;
+                        // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
+                        object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
+                        // object.position.z = projection([d.longitude, d.latitude])[0];
+                        // object.position.x = projection([d.longitude, d.latitude])[1];
 
-                            object.name = "pointCloud"; //todo: remove later
+                        object.position.z = coord[0];
+                        object.position.x = coord[1];
 
-                            object.element.onmouseover = function () {
-                                console.log(d);
-                                d3.select("#textTitle")
-                                    // .html("Simba")
-                                    .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                                        "<span>Date:</span>" + d.start_date + "<br>" +
-                                        "<span>Place Name:</span>" + d.place_name + "<br>"
-                                    )
-                            };
+                        object.name = "pointCloud"; //todo: remove later
 
-                            // console.log(object)
+                        object.element.onmouseover = function () {
+                            console.log(d);
+                            d3.select("#textTitle")
+                            // .html("Simba")
+                                .html("<span>First Name:</span>" + d.first_name + "<br>" +
+                                    "<span>Date:</span>" + d.start_date + "<br>" +
+                                    "<span>Place Name:</span>" + d.place_name + "<br>"
+                                )
+                        };
 
-                            scene.add(object);
-                        }
-                    }, false);
-                    image.src = 'texture/ball.png';
+                        // console.log(object)
+                        //Draw Line from A to B
+                        geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
+                        geometry.vertices.push(new THREE.Vector3(0, 40, 0));
+                        geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+                        // console.log(object.position);
 
-                });
+                        var line = new THREE.Line(geometry, material);
+                        WGLScene.add(line);
 
-        // testElem.each(setViewData);
-        // testElem.each(addtoScene2);
+                        scene.add(object);
+                    }
+                }, false);
+                image.src = 'texture/ball.png';
+
+            });
 
         // console.log(testData);
         function setViewData(d, i) {
@@ -290,7 +419,7 @@
 
             si = new THREE.Object3D();
             si.position.x = (( i % 5 ) * 1050) - 2000;
-            si.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 650 ) + 800;
+            si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
             si.position.z = 0;
             d['SI'] = si;
         }
@@ -310,22 +439,11 @@
             //add new object test
         }
 
-        function addtoScene2(d, i) {
-            var interval = 500 / segments; //height/segments
-            var objSeg = new THREE.CSS3DObject(this);
-            //position
-            objSeg.position.x = 0;
-            objSeg.position.y = (i * interval) - height / 2;
-            objSeg.position.z = 0;
-            //rotation
-            objSeg.rotation.fromArray(rot[2]);
-            objSeg.name = "seg2";
-
-            cube.add(objSeg);
-            //add new object test
-        }
-
-        //todo: Redo timeLine
+        /**
+         * Draw Timeline and Labels
+         * todo: Redo timeLine
+         *
+         */
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
@@ -383,13 +501,11 @@
             }
         }
 
-
+        /**
+         * BioVis Styling
+         */
         d3.selectAll(".elements_child")
             .style("background-color", "transparent");
-        // .style("stroke", "white")
-        // .style("stroke-width", "5px")
-        // .style("stroke-dasharray", "2,2")
-        // .style("stroke-linejoin", "round");
 
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
@@ -397,7 +513,11 @@
         pCube.render()
     };
 
-    pCube.default = function (side) {
+    /**
+     * Default STC Layout Fallback function
+     *
+     */
+    pCube.default = function () {
 
         // console.log(defaultData.length);
 
@@ -501,7 +621,11 @@
         controls.noRotate = false;
     };
 
-    pCube.juxstaPose = function (side) {
+    /**
+     * Juxtaposition function
+     *
+     */
+    pCube.juxstaPose = function () {
         var duration = 2500;
         TWEEN.removeAll();
 
@@ -604,6 +728,10 @@
         pCube.render()
     };
 
+    /**
+     * Super imposition function
+     * todo: fix rotation of the cube with map
+     */
     pCube.superImpose = function () {
 
         //controls
@@ -618,10 +746,10 @@
 
         d3.selectAll(".elements_child")
             .style("background-color", "transparent");
-            // .style("stroke", "white")
-            // .style("stroke-width", "5px")
-            // .style("stroke-dasharray", "2,2")
-            // .style("stroke-linejoin", "round");
+        // .style("stroke", "white")
+        // .style("stroke-width", "5px")
+        // .style("stroke-dasharray", "2,2")
+        // .style("stroke-linejoin", "round");
 
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
@@ -698,13 +826,10 @@
             .start();
     };
 
-    function geoVis() {
-
-    }
-
-    function setVis() {
-    }
-
+    /**
+     * Morphing controls accross data layers
+     * @param parameters
+     */
     pCube.morphing = function (parameters) {
         if (parameters === undefined) parameters = {};
 
@@ -712,7 +837,6 @@
         var duration = 5500;
         var yMorph = parameters["axis"] || 50; // todo: create
         scene.children[0].children.forEach(function (object, i) {
-
             //show only segments
             if (object.name == "seg") {
 
@@ -738,25 +862,27 @@
                     //todo: animate the data spots on the map as it moves along time
                 }
             }
-
         });
-
     };
 
-    pCube.timeStart = function (_x) {
-        if (!arguments.length)  return start;
-        start = _x;
-        console.log(_x);
+    /**
+     * Map zooming function to clean
+     * @param _x
+     * @returns {*}
+     */
+    pCube.mapZoom = function (_x) {
+        if (!arguments.length) return projectionScale;
+        projectionScale = _x;
+        // console.log(projectionScale);
+        // pCube.render();
         return this;
     };
 
-    pCube.timeStop = function (_x) {
-        if (!arguments.length) return end;
-        end = _x;
-        return this;
-    };
-
-    pCube.drawGraphs = function () {
+    /**
+     * Line function implementation
+     * create line using only CSS3D
+     */
+    pCube.drawLines = function () {
 
         console.log(lineList);
         lineList.forEach(function (d) {
@@ -782,6 +908,12 @@
         }
     };
 
+    /**
+     * CSS3D sprite for point cloud implementation
+     * @param xScale
+     * @param yScale
+     * @param params
+     */
     pCube.spriteRender = function (xScale, yScale, params) {
         if (params === undefined) params = {};
         var size = params["size"] || 10;
@@ -823,31 +955,44 @@
 
     pCube.render = function () {
         // remember to call both renderers!
-        // WGLRenderer.render(WGLScene, camera);
+        WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
     };
 
-    //3D Scene Render
+    /**
+     * Translate function for the long and lat coordinates
+     * @param point
+     * @returns {*[]}
+     * http://blog.mastermaps.com/2013/11/showing-gps-tracks-in-3d-with-threejs.html
+     */
+    function translate(point) {
+        return [point[0] - (width / 2), (height / 2) - point[1]];
+    }
+
+
+    /**
+     * 3D Scene Renderer
+     *
+     */
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
-    var lineList = [];
 
-    //WebGl Stuff
+    /**
+     * WebGl Scene and renderer
+     *
+     */
     var WGLScene,
         WGLRenderer;
 
-    // params
+    /**
+     * Array cube rotation and position css3d matrix
+     * @type {*[]}
+     */
     var r = Math.PI / 2;
     var d = 250;
     var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
     var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
-
-    //camera test
-    pCube.test = function () {
-        console.log(camera)
-
-    };
 
     window.polyCube = pCube;
 }());

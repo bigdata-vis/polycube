@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<script src="lib/three.js/three.min.js"></script>-->
-    <script src="http://threejs.org/build/three.min.js"></script>
+    <script src="lib/three.js/three.min.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
     <script src="lib/three.js/tween.js"></script>
-    <script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
-    <!--<script src="lib/three.js/CSS3DRenderer.js"></script>-->
+    <script src="lib/three.js/CSS3DRenderer.js"></script>
     <style>
         body {
             /*background-color: #000;*/
@@ -27,14 +25,6 @@
             /*overflow: hidden;*/
             /*background-repeat: no-repeat;*/
             /*background-size: 100% 1000px;*/
-
-            overflow: hidden;
-            margin: 0;
-
-        }
-
-        canvas {
-            background: black;
         }
 
         .elements_child {
@@ -138,12 +128,12 @@
 </div>
 
 <button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"
-        onclick="polyCube.juxstaPose()">
+        onclick="polyCube.juxstaPose(0)">
     JuxtPos
 </button>
 
 <br>
-<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.default()">
+<button style="position: relative; top: 250px; left: 150px; z-index: 999" type="button" onclick="polyCube.default(0)">
     Default (STC)
 </button>
 
@@ -167,7 +157,7 @@
 <script src="lib/d3/d3.js"></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
-<script src="js/pcmodule.js"></script>
+<script src="js/pcmodule_old.js"></script>
 <script src="js/vis/brushTime.js"></script>
 
 <script>
@@ -175,22 +165,26 @@
     d3.queue()
             .defer(d3.csv, "data/Cushman-Collection.csv")
             .defer(d3.csv, "data/Szabo2.csv")
-            .defer(d3.json, "data/austria.json")
             .await(init);
 
-    function init(error, data, szabo, map) {
+    function init(error, data, szabo) {
         if (error) console.log(error);
-        function tempRange(data) {
-            var newData = data.slice(40, 55); //todo: slice arrray according to date range
-            //Draw
-            polyCube.drawElements(newData, szabo);
-            polyCube.drawMap(map);
+        var datasets = [0, 45, 2, 8, 0, 45, 2, 100, 400, 100];
 
-            //Render
+//        console.log(szabo);
+
+        function tempRange(data) {
+
+            var newData = data.slice(40,55); //todo: slice arrray according to date range
+
+//            console.log(newData);
+
+            polyCube.drawElements(newData,szabo);
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
+
         tempRange(data);
 
         /**
@@ -199,6 +193,13 @@
 
         polyCube.showPointCloud();
 
+
+        /**
+         * Cube Morphing Control
+         */
+        d3.select('#cube-morphing').on('input', function () {
+            polyCube.morphing({axis: +this.value})
+        });
 
         /**
          * Show pCube Time Brush
@@ -216,13 +217,11 @@
             Morphing: -250,
             showData: true,
             nodeSize: 15,
-            light: false,
-            projection: 5000
+            light: false
         };
 
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
-
         gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
             var value = params.Morphing;
             polyCube.morphing({axis: +value})
@@ -247,13 +246,6 @@
                     .style("width", value + "px")
                     .style("height", value + "px");
         });
-
-        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
-            var value = params.projection;
-//            polyCube.projectionScale({scale: +value});
-//            console.log(value);
-        });
-
 
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {

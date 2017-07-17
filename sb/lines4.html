@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+        }
+        #info {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            color: #000000;
+            padding: 5px;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        a {
+            color: #000000;
+        }
+
+    </style>
+</head>
+<body>
+<div id="info"><a href="http://threejs.org" target="_blank">three.js</a> - css3d sandbox</div>
+
+<script src="http://threejs.org/build/three.min.js"></script>
+<script src="http://threejs.org/examples/js/controls/TrackballControls.js"></script>
+<script src="http://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+
+<script type="text/javascript">
+
+    var camera, renderer, scene;
+    var controls;
+    var objects= [];
+    var thetas = [];
+    var phis = [];
+    var r = 450;
+    var elements = [1,2,3,4,5,6,7];
+    int();
+    animate();
+
+    function int() {
+        camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 2000000);
+        camera.position.set(0,0,720);
+        scene = new THREE.Scene;
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            var phi = Math.acos(-1 + (2 * i) / elements.length);
+            phis.push(phi);
+            var theta = Math.sqrt(elements.length * Math.PI) * phi;
+            thetas.push(theta);
+            var object = new THREE.CSS3DObject(element);
+            object.position.x = r * Math.cos(theta) * Math.sin(phi);
+            object.position.z = r * Math.sin(theta) * Math.sin(phi);
+            object.position.y = r * Math.cos(phi);
+            scene.add(object);
+            objects.push(object);
+        }
+        renderer = new THREE.CSS3DRenderer;
+        //設置大小
+        renderer.setSize(400, 400);
+        render();
+
+        document.getElementById('canvas').appendChild(renderer.domElement);
+
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 0, 0);
+        controls.update();
+
+        window.addEventListener('resize', onWindowResize, false);
+        controls.addEventListener('change', render);
+    }
+
+    function render() {
+
+        renderer.render(scene, camera);
+
+    }
+
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+
+        var phi = Math.acos(-1 + (2 * i) / elements.length);
+        var theta = Math.sqrt(elements.length * Math.PI) * phi;
+        for (var i = 0; i < objects.length; i++)
+        {
+            thetas[i] += 0.001;//phis[i] -= 0.001;
+            objects[i].position.x = r * Math.cos(thetas[i]) * Math.sin(phis[i]);
+            objects[i].position.z = r * Math.sin(thetas[i]) * Math.sin(phis[i]);
+            objects[i].position.y = r * Math.cos(phis[i]);
+            //啟用下面的代碼，標籤朝向不變，但因此不可拖拽。
+            //var vector = camera.position;
+            //vector.copy(objects[i].position - vector).multiplyScalar(1);
+            //objects[i].lookAt(vector);
+        }
+
+        render();
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(400, 400);
+        render();
+    }
+
+</script>
+</body>
+</html>

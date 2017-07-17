@@ -326,12 +326,10 @@
     //
 
     function loadMolecule( url ) {
-        console.log(objects);
         for ( var i = 0; i < objects.length; i ++ ) {
 
             var object = objects[ i ];
             object.parent.remove( object );
-
         }
 
         objects = [];
