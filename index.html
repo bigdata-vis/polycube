@@ -34,7 +34,7 @@
         }
 
         canvas {
-            background: black;
+            background: transparent;
         }
 
         .elements_child {
@@ -185,12 +185,14 @@
             //Draw
             polyCube.drawElements(newData, szabo);
             polyCube.drawMap(map);
+//            polyCube.drawLines();
 
             //Render
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
+
         tempRange(data);
 
         /**
@@ -215,6 +217,7 @@
             Project: "KHM Data",
             Morphing: -250,
             showData: true,
+            showNodes: false,
             nodeSize: 15,
             light: false,
             projection: 5000
@@ -240,6 +243,16 @@
 
         }).name("Show PC Data");
 
+        gui.add(params, "showNodes").onChange(function () {
+            var value = params.showData;
+            if (value) {
+                polyCube.showNodes()
+            } else {
+
+            }
+
+        }).name("Show Nodes");
+
         gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
             var value = params.nodeSize;
 //        console.log(value);
@@ -261,7 +274,8 @@
             if (value) {
                 d3.select("body")
                         .style("background-color", "aliceblue");
-
+                d3.select("canvas")
+                        .style("background", "transparent");
                 d3.selectAll(".pointCloud")
                         .attr("src", "texture/ball2.png");
 
@@ -278,6 +292,7 @@
                 d3.selectAll(".elements_child").selectAll(".subunit")
                 //                    .style("fill", "#0050af");
                         .style("fill", "black");
+
 
             } else {
 //            d3.selectAll(".pointCloud")

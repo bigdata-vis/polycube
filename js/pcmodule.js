@@ -37,7 +37,13 @@
      *
      * @type {any}
      */
-    var material = new THREE.LineBasicMaterial({color: 0x0000ff});
+    var material = new THREE.LineBasicMaterial( {
+        color: "#FF4500",
+        linewidth: 2,
+        linecap: 'round', //ignored by WebGLRenderer
+        linejoin:  'round' //ignored by WebGLRenderer
+    } );
+
     material.blending = THREE.NoBlending;
 
     /**
@@ -139,6 +145,10 @@
             // pCube.spriteRender(xScale, yScale);
         };
 
+        pCube.showNodes = function () {
+            pCube.drawLines()
+        };
+
         /**WebGL renderer implementation
          *
          * @type {THREE.WebGLRenderer}
@@ -183,14 +193,6 @@
          */
         scene.add(cube);
         scene.add(mesh);
-
-
-        /**
-         * WebGl Scene
-         * Temporary Web Gl Scene implementation for line testing
-         * @type {any}
-         */
-        var geometry = new THREE.Geometry();
 
 
         /**CSS3D Scene
@@ -337,6 +339,9 @@
         /**
          * Test biographical data
          */
+
+        var newList = [];
+
         var testElem = d3.selectAll('.map-div')
             .data(datasets2).enter()
             .append("div")
@@ -352,52 +357,49 @@
                 // console.log(this.style);
 
                 image.addEventListener('load', function (event) {
-                    for (var z = 0; z < 1; z++) {
-                        var object = new THREE.CSS3DSprite(image.cloneNode()),
-                            long = d.longitude,
-                            lat = d.latitude,
-                            coord = translate(projection([long, lat]));
+                    // for (var z = 0; z < 1; z++) {
+                    var object = new THREE.CSS3DSprite(image.cloneNode()),
+                        long = d.longitude,
+                        lat = d.latitude,
+                        coord = translate(projection([long, lat]));
+
+                    // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
+                    object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
+                    // object.position.z = projection([d.longitude, d.latitude])[0];
+                    // object.position.x = projection([d.longitude, d.latitude])[1];
+
+                    object.position.z = coord[0];
+                    object.position.x = coord[1];
+
+                    object.name = "pointCloud"; //todo: remove later
+
+                    object.element.onmouseover = function () {
+                        console.log(d);
+                        d3.select("#textTitle")
+                        // .html("Simba")
+                            .html("<span>First Name:</span>" + d.first_name + "<br>" +
+                                "<span>Date:</span>" + d.start_date + "<br>" +
+                                "<span>Place Name:</span>" + d.place_name + "<br>"
+                            )
+                    };
 
 
-                        // console.log(coord);
-                        // console.log(projection([long, lat]))
+                    /**
+                     * populate line list
+                     */
 
-                        // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
-                        object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
-                        // object.position.z = projection([d.longitude, d.latitude])[0];
-                        // object.position.x = projection([d.longitude, d.latitude])[1];
+                    // newList.push(object.position);
 
-                        object.position.z = coord[0];
-                        object.position.x = coord[1];
+                    lineList.push(object.position);
 
-                        object.name = "pointCloud"; //todo: remove later
-
-                        object.element.onmouseover = function () {
-                            console.log(d);
-                            d3.select("#textTitle")
-                            // .html("Simba")
-                                .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                                    "<span>Date:</span>" + d.start_date + "<br>" +
-                                    "<span>Place Name:</span>" + d.place_name + "<br>"
-                                )
-                        };
-
-                        // console.log(object)
-                        //Draw Line from A to B
-                        geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
-                        geometry.vertices.push(new THREE.Vector3(0, 40, 0));
-                        geometry.vertices.push(new THREE.Vector3(10, 0, 0));
-                        // console.log(object.position);
-
-                        var line = new THREE.Line(geometry, material);
-                        WGLScene.add(line);
-
-                        scene.add(object);
-                    }
+                    // console.log(object);
+                    scene.add(object);
+                    // }
                 }, false);
                 image.src = 'texture/ball.png';
 
             });
+
 
         // console.log(testData);
         function setViewData(d, i) {
@@ -423,6 +425,7 @@
             si.position.z = 0;
             d['SI'] = si;
         }
+
         function addtoScene(d, i) {
 
             var interval = 500 / segments; //height/segments
@@ -510,8 +513,9 @@
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
 
-        pCube.render()
+        pCube.render();
     };
+
 
     /**
      * Default STC Layout Fallback function
@@ -882,13 +886,48 @@
      * Line function implementation
      * create line using only CSS3D
      */
+
     pCube.drawLines = function () {
 
-        console.log(lineList);
-        lineList.forEach(function (d) {
-            var x = d[0];
-            var y = d[1];
-        });
+        /**
+         * WebGl Scene
+         * Temporary Web Gl Scene implementation for line testing
+         * @type {any}
+         */
+        var geometry = new THREE.Geometry();
+
+        /**
+         * Draw lines from the coordinates inside lineList
+         * interates through linelist
+         * select position one, draw from 1 to 2, 2 to 3, 3 to 4
+         */
+
+        // console.log(lineList);
+
+        for (var i = 0; i < lineList.length; i++) {
+            if (lineList[i].x !== undefined) {
+                // console.log("A " + lineList[i].x);
+                geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y + 50, lineList[i].z));
+            }
+
+            for (var z = 0; z < lineList.length - 1; z++) {
+                if (lineList[i + 1] !== undefined) {
+                    // console.log("B " + lineList[i + 1].x)
+                    geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y + 50, lineList[i + 1].z));
+
+                }
+
+            }
+        }
+
+        // geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
+        // geometry.vertices.push(new THREE.Vector3(0, 40, 0));
+        // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+
+        var line = new THREE.Line(geometry, material);
+        WGLScene.add(line);
+
+
         function cylinderMesh(pointX, pointY, material) {
             var direction = new THREE.Vector3().subVectors(pointY, pointX);
             var orientation = new THREE.Matrix4();
@@ -907,6 +946,7 @@
             return edge;
         }
     };
+
 
     /**
      * CSS3D sprite for point cloud implementation
@@ -969,7 +1009,6 @@
         return [point[0] - (width / 2), (height / 2) - point[1]];
     }
 
-
     /**
      * 3D Scene Renderer
      *
@@ -980,7 +1019,7 @@
 
     /**
      * WebGl Scene and renderer
-     *
+     * Example od a perfect webglcube https://threejs.org/examples/webgl_lines_dashed.html
      */
     var WGLScene,
         WGLRenderer;
