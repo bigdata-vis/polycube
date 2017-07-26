@@ -168,8 +168,8 @@
          * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
          * Copy position of the cube box and attach it to glbox to callibrate both objects
          */
-        glbox.position.copy( cube.position );
-        glbox.rotation.copy( cube.rotation );
+        glbox.position.copy(cube.position);
+        glbox.rotation.copy(cube.rotation);
 
         /**camera
          * Threejs camera implementation
@@ -205,14 +205,15 @@
          * Callibrating css cubebox and glcube box positions
          *
          */
-        var Tgeometry = new THREE.TorusBufferGeometry( 10, 3, 16, 100 );
+        var Tgeometry = new THREE.TorusBufferGeometry(10, 3, 16, 100);
         var Tmaterial = new THREE.MeshBasicMaterial();
         Tmaterial.color.set('white');
-        Tmaterial.opacity   = 0;
-        Tmaterial.blending  = THREE.NoBlending;
-        var torus = new THREE.Mesh( Tgeometry, Tmaterial );
+        Tmaterial.opacity = 0;
+        Tmaterial.blending = THREE.NoBlending;
+        var torus = new THREE.Mesh(Tgeometry, Tmaterial);
+//        torus.position.z = 100;
+        // glbox.add( torus );
 
-        glbox.add( torus );
 
         // var planeGeometry = new THREE.PlaneGeometry( 100, 100 );
         // var mesh = new THREE.Mesh( geometry, material );
