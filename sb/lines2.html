@@ -39,7 +39,7 @@
 
         .lines {
             width: 2px;
-            height: 200px;
+            /*height: 200px;*/
             background: #444444;
             display: block;
         }
@@ -118,7 +118,7 @@
 
 //        var x1 = 0, y1 = 0, x2 = Math.random() * 200 - 100, y2 = Math.random() * 200 - 100;
         var x1 = 0, y1 = 0, x2 = 50, y2 = 60;
-        drawline(x1, y1, x2, y2);
+        drawline(x1, y1, x2, y2, 200);
 
         renderer = new THREE.WebGLRenderer();
         renderer.setClearColor(0xf0f0f0);
@@ -144,7 +144,7 @@
         renderer2.render(scene2, camera);
     }
 
-    function drawline(ax, ay, bx, by) {
+    function drawline(ax, ay, bx, by, height) {
 
         if (ax > bx) {
             bx = ax + bx;
@@ -170,6 +170,7 @@
         bond.style.left = ax;
         bond.style.top = ay;
         bond.style.width = length;
+        bond.style.height = height + "px";
 
         bond.style.transform = 'rotate(' + angle + 'deg)';
         bond.style.webkitTransform = 'rotate(' + angle + 'deg)';
@@ -179,6 +180,11 @@
         bond.style.transform = 'rotate(' + angle + 'deg)';
 
         var object = new THREE.CSS3DObject(bond);
+
+        object.rotation.x = 100;
+        object.rotation.y = 20;
+        object.rotation.z = 50;
+
         scene2.add(object);
     }
 

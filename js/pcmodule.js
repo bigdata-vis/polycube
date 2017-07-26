@@ -33,19 +33,6 @@
 
     var projectionScale = 5000;
 
-    /** Threejs Material decl to be used later for lines implementation
-     *
-     * @type {any}
-     */
-    var material = new THREE.LineBasicMaterial( {
-        color: "#FF4500",
-        linewidth: 2,
-        linecap: 'round', //ignored by WebGLRenderer
-        linejoin:  'round' //ignored by WebGLRenderer
-    } );
-
-    material.blending = THREE.NoBlending;
-
     /**
      * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
      * @param datasets
@@ -152,13 +139,17 @@
         /**WebGL renderer implementation
          *
          * @type {THREE.WebGLRenderer}
+         * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
+         * http://learningthreejs.com/blog/2013/04/30/closing-the-gap-between-html-and-webgl/
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
         WGLRenderer.setSize(window.innerWidth, window.innerHeight);
         WGLRenderer.setClearColor(0x00ff00, 0.0);
-        WGLRenderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(WGLRenderer.domElement);
 
+        WGLRenderer.domElement.style.position = 'absolute';
+        // WGLRenderer.domElement.style.zIndex = 1;
+        WGLRenderer.domElement.style.top = 0;
+        document.body.appendChild(WGLRenderer.domElement);
 
         /**CSS renderer
          *
@@ -167,8 +158,16 @@
         renderer = new THREE.CSS3DRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.domElement.style.position = 'absolute';
+        // renderer.domElement.style.zIndex = 5;
         renderer.domElement.style.top = 0;
         document.body.appendChild(renderer.domElement);
+
+        /**
+         * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
+         * Copy position of the cube box and attach it to glbox to callibrate both objects
+         */
+        glbox.position.copy( cube.position );
+        glbox.rotation.copy( cube.rotation );
 
         /**camera
          * Threejs camera implementation
@@ -193,7 +192,32 @@
          */
         scene.add(cube);
         scene.add(mesh);
+        WGLScene.add(glbox);
 
+        /**
+         * Callibrating css cubebox and glcube box positions
+         * WebGl Play Ground
+         */
+        // console.log(cube.position);
+        console.log(glbox.position);
+
+
+        var Tgeometry = new THREE.TorusBufferGeometry( 10, 3, 16, 100 );
+        var Tmaterial = new THREE.MeshBasicMaterial();
+        Tmaterial.color.set('white');
+        Tmaterial.opacity   = 0;
+        Tmaterial.blending  = THREE.NoBlending;
+        var torus = new THREE.Mesh( Tgeometry, Tmaterial );
+//        torus.position.z = 100;
+
+        glbox.add( torus );
+
+        // var planeGeometry = new THREE.PlaneGeometry( 100, 100 );
+        // var mesh = new THREE.Mesh( geometry, material );
+        // mesh.position.copy( object.position );
+        // mesh.rotation.copy( object.rotation );
+        // mesh.scale.copy( object.scale );
+        // sceneGl.add( mesh );
 
         /**CSS3D Scene
          * Cube Sides
@@ -889,6 +913,18 @@
 
     pCube.drawLines = function () {
 
+        /** Threejs Material decl to be used later for lines implementation
+         *
+         * @type {any}
+         */
+        var material = new THREE.LineBasicMaterial({
+            color: "#FF4500",
+            linewidth: 2,
+            linecap: 'round', //ignored by WebGLRenderer
+            linejoin: 'round' //ignored by WebGLRenderer
+        });
+        material.blending = THREE.NoBlending;
+
         /**
          * WebGl Scene
          * Temporary Web Gl Scene implementation for line testing
@@ -907,13 +943,13 @@
         for (var i = 0; i < lineList.length; i++) {
             if (lineList[i].x !== undefined) {
                 // console.log("A " + lineList[i].x);
-                geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y + 50, lineList[i].z));
+                geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
             }
 
             for (var z = 0; z < lineList.length - 1; z++) {
                 if (lineList[i + 1] !== undefined) {
                     // console.log("B " + lineList[i + 1].x)
-                    geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y + 50, lineList[i + 1].z));
+                    geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y, lineList[i + 1].z));
 
                 }
 
@@ -925,26 +961,10 @@
         // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
 
         var line = new THREE.Line(geometry, material);
-        WGLScene.add(line);
+        glbox.add(line);
 
+        // WGLScene.add(line);
 
-        function cylinderMesh(pointX, pointY, material) {
-            var direction = new THREE.Vector3().subVectors(pointY, pointX);
-            var orientation = new THREE.Matrix4();
-            orientation.lookAt(pointX, pointY, new THREE.Object3D().up);
-            orientation.multiply(new THREE.Matrix4().set(1, 0, 0, 0,
-                0, 0, 1, 0,
-                0, -1, 0, 0,
-                0, 0, 0, 1));
-            var edgeGeometry = new THREE.CylinderGeometry(2, 2, direction.length(), 8, 1);
-            var edge = new THREE.Mesh(edgeGeometry, material);
-            edge.applyMatrix(orientation);
-            // position based on midpoints - there may be a better solution than this
-            edge.position.x = (pointY.x + pointX.x) / 2;
-            edge.position.y = (pointY.y + pointX.y) / 2;
-            edge.position.z = (pointY.z + pointX.z) / 2;
-            return edge;
-        }
     };
 
 
@@ -1016,6 +1036,7 @@
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
+    var glbox = new THREE.Object3D();
 
     /**
      * WebGl Scene and renderer

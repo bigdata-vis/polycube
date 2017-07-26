@@ -176,6 +176,7 @@
             .defer(d3.csv, "data/Cushman-Collection.csv")
             .defer(d3.csv, "data/Szabo2.csv")
             .defer(d3.json, "data/austria.json")
+//            .defer(d3.xml, "data/export.xml")
             .await(init);
 
     function init(error, data, szabo, map) {
@@ -192,7 +193,6 @@
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
-
         tempRange(data);
 
         /**
