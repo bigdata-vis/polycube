@@ -127,6 +127,7 @@
 
         /**
          * Render point cloud from the automated data and points;
+         * TrackballControls makes object disspear when zooming out ?
          */
         pCube.showPointCloud = function () {
             // pCube.spriteRender(xScale, yScale);
@@ -141,11 +142,11 @@
          * @type {THREE.WebGLRenderer}
          * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
          * http://learningthreejs.com/blog/2013/04/30/closing-the-gap-between-html-and-webgl/
+         * setting both wgl dom and css dom styles to thesame absolute position to align xyz positions
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
         WGLRenderer.setSize(window.innerWidth, window.innerHeight);
         WGLRenderer.setClearColor(0x00ff00, 0.0);
-
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
@@ -163,6 +164,7 @@
         document.body.appendChild(renderer.domElement);
 
         /**
+         * Callibrating css cubebox and glcube box positions
          * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
          * Copy position of the cube box and attach it to glbox to callibrate both objects
          */
@@ -172,13 +174,17 @@
         /**camera
          * Threejs camera implementation
          * @type {any}
+         * Prob: Object disapear from screen when zooming out
+         * Ans: camera's far plane is at 3000 which means everything that is 3000 units away will be clipped and not drawn
+         * https://stackoverflow.com/questions/29185783/three-js-things-disappear-when-zooming-out
          */
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
+        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(600, 400, 800);
 
         /** Mouse Controls for zooming, panning etc
          *
          * @type {THREE.OrbitControls}
+         *
          */
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.target = new THREE.Vector3(0, 0, 0);
@@ -195,20 +201,16 @@
         WGLScene.add(glbox);
 
         /**
+         * WEBGL PLAYGROUND
          * Callibrating css cubebox and glcube box positions
-         * WebGl Play Ground
+         *
          */
-        // console.log(cube.position);
-        console.log(glbox.position);
-
-
         var Tgeometry = new THREE.TorusBufferGeometry( 10, 3, 16, 100 );
         var Tmaterial = new THREE.MeshBasicMaterial();
         Tmaterial.color.set('white');
         Tmaterial.opacity   = 0;
         Tmaterial.blending  = THREE.NoBlending;
         var torus = new THREE.Mesh( Tgeometry, Tmaterial );
-//        torus.position.z = 100;
 
         glbox.add( torus );
 
