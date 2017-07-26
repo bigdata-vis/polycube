@@ -124,7 +124,6 @@
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
 
-
         /**
          * Render point cloud from the automated data and points;
          * TrackballControls makes object disspear when zooming out ?
@@ -174,10 +173,11 @@
         /**camera
          * Threejs camera implementation
          * @type {any}
-         * Prob: Object disapear from screen when zooming out
+         * Prob: Object disappear from screen when zooming out
          * Ans: camera's far plane is at 3000 which means everything that is 3000 units away will be clipped and not drawn
          * https://stackoverflow.com/questions/29185783/three-js-things-disappear-when-zooming-out
          */
+
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(600, 400, 800);
 
@@ -310,7 +310,6 @@
          */
         pCube.drawMap = function (aut) {
             var counter = 0; //counter to monitor the amount of data rounds
-            // console.log(aut);
 
             //map paths
             svg.selectAll(".subunit")
