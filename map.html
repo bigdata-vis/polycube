@@ -8,33 +8,16 @@
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
 
     <!--mapbox-->
-    <script src='//api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
-    <link href='//api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+    <script>L_DISABLE_3D = true;</script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
 
     <style>
         body {
-            /*background-color: #000;*/
-
-            /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
-            /*background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);*/
-            /*background: linear-gradient(to bottom, #000000 50%, #00155c 100%);*/
-
             background-color: black;
-            /*background-image:*/
-            /*radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),*/
-            /*radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),*/
-            /*radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),*/
-            /*radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);*/
-            /*background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;*/
-            /*background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;*/
-
-            /*overflow: hidden;*/
-            /*background-repeat: no-repeat;*/
-            /*background-size: 100% 1000px;*/
 
             overflow: hidden;
             margin: 0;
-
         }
 
         canvas {
@@ -171,7 +154,7 @@
 <script src="lib/d3/d3.js"></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
-<script src="js/pcmodule.js"></script>
+<script src="js/map.js"></script>
 <script src="js/vis/brushTime.js"></script>
 
 <script>
@@ -189,7 +172,7 @@
             var newData = data.slice(40, 55); //todo: slice arrray according to date range
             //Draw
             polyCube.drawElements(newData, szabo);
-            polyCube.drawMap(map);
+//            polyCube.drawMap(map);
 //            polyCube.drawLines();
 
             //Render

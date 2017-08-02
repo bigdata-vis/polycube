@@ -292,73 +292,35 @@
             .data(datasets).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
-            .attr('id', 'mapbox');
+            .attr('id', 'mapbox')
+            .each(function (d) {
+                /**
+                 * Div SVG
+                 */
+                var div = d3.select(this).append("div")
+                    .attr("class", "elements_child")
+                    .style("width", width + "px")
+                    .style("height", height + "px")
+                    // .style("opacity", 0.2)
+                    .attr("id", function (d) {
+                        return d["IU Archives Number"];
+                        // console.log(d["IU Archives Number"])
+                    });
 
-        /**
-         * Div SVG
-         */
-        svg = elements.append("svg")
-            .attr("class", "elements_child")
-            .attr("width", width)
-            .attr("height", height)
-            .style("opacity", 0.2)
-            .attr("fill", new THREE.Color("#ececec").getStyle());
+                // var div = d3.select(this).append("div")
+                //     .attr("class", "map-container")
+                //     // .style("width", width + "px")
+                //     // .style("height", height + "px")
+                //     .attr("id", function (d) {
+                //         // return d.elem;
+                //         return "elements_child";
+                //     });
 
-        /**
-         * MAP entry point
-         * Austrian Map Implementation with topojson
-         * @param aut
-         * Implement MabBox component
-         * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
-         */
-        pCube.drawMap = function (aut) {
-            var counter = 0; //counter to monitor the amount of data rounds
+                // console.log(div.attr("id"))
 
-            // map paths
-            svg.selectAll(".subunit")
-                .data(topojson.feature(aut, aut.objects.subunits).features)
-                // .data(aut.features)
-                .enter()
-                .append('g')
-                .attr('transform', 'translate(460,0)rotate(80)')
-                .append("path")
-                .attr("class", function (d, i) {
-                    return "subunit"; //remove id
-                })
-                .classed("hide", function (d, i) {
-                    counter += 1;
-                    if (counter !== 1) { //only display map path for first map
-                        return true
-                    }
-                })
-                .attr("d", path);
+                pCube.drawMap(d["IU Archives Number"])
 
-
-            svg.append("circle") //todo: change xyz position of info based on space-time
-                .datum(topojson.feature(aut, aut.objects.places).features[0])
-                .attr("class", "screen_dots")
-                .attr("r", function (d, i) { //generated data to highlight circle radius
-                    var x = 20.4,
-                        x2 = x * (datasets.length / 2) + x;
-
-                    if (i < (datasets.length / 2)) {
-                        return x + (i * x )
-                    } else {
-                        return x2 - (i * (x / 2));
-                    }
-                })
-                .attr("cx", function (d) {
-                    return d.geometry.coordinates[0] + 250;
-                })
-                .attr("cy", function (d) {
-                    return d.geometry.coordinates[1] + 220;
-                })
-                .attr("fill", "transparent")//todo: removed dots for presentation
-                .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
-                    // return d.uncert
-                    return 0.2;
-                });
-        };
+            });
 
         /**
          * Objectify and draw segments elements
@@ -1023,6 +985,46 @@
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
+    };
+
+    /**
+     * MAP entry point
+     * Austrian Map Implementation with topojson
+     * @param aut
+     * Implement MabBox component
+     * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
+     *
+     */
+    pCube.drawMap = function (elemID) {
+
+        // var scale = d3.scale.quantile()
+        // .range(["#e4baa2","#d79873","#c97645","#bc5316","#8d3f11"]);
+
+        // var values = data.features.map(function (d) {
+        //     return d.properties.data[elemID].inc;
+        // });
+
+        // scale.domain(d3.extent(values.filter(function (d) {
+        //     return d >= 0;
+        // })));
+
+        var map = L.mapbox.map(elemID)
+            // .setView([37.8, -96], 4);
+            .setView([48.2, 16.3], 4);
+
+        var tileLayer = L.mapbox.tileLayer('delimited.ge9h4ffl', {noWrap: false})
+            .addTo(map);
+
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+
+        // var geoLayer = L.geoJson(data, {
+        //     style: getStyleFun(scale, elemID),
+        //     onEachFeature: onEachFeature
+        // }).addTo(map);
+
+        // map.legendControl.addLegend(getLegendHTML(scale));
     };
 
     /**
