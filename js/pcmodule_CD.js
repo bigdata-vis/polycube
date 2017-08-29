@@ -68,8 +68,9 @@
          * Parse and Format Time
          */
         var parse2 = d3.timeParse("%Y-%m-%d");
-        var format2 = d3.timeFormat("%Y");
+        var parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
 
+        var format2 = d3.timeFormat("%Y");
 
         /**
          * Cleaning Function for Datasets
@@ -89,12 +90,9 @@
              * @type {T}
              */
             defaultData[i] = d;
-            // console.log(yScale(d));
-            // unfiltered[i] = {
-            //     x: +d.x,
-            //     y: +d.y,//convert date to y axis
-            //     z: +d.z
-            // };
+
+            d.time = parse3(d.Archive_Date);
+            d.time = +format2(d.time)
         });
 
         /**
@@ -111,9 +109,11 @@
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
          *
          */
-        var dateTestEx = d3.extent(datasets2, function (d) {
-            return d.start_date;
+        var dateTestEx = d3.extent(datasets, function (d) {
+            console.log(d)
+            return d.time;
         });
+
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
 
@@ -143,7 +143,6 @@
          * http://learningthreejs.com/blog/2013/04/30/closing-the-gap-between-html-and-webgl/
          * setting both wgl dom and css dom styles to thesame absolute position to align xyz positions
          */
-
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
         WGLRenderer.setSize(window.innerWidth, window.innerHeight);
         WGLRenderer.setClearColor(0x00ff00, 0.0);
@@ -263,7 +262,9 @@
          * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
          * segements from the length of defaultData or datasets1
          */
-        var segments = defaultData.length;
+        // var segments = defaultData.length;
+        var segments = (datasets2.length < 20 ? datasets.length : 10);
+        // var segments = 10;
 
 
         /**D3
@@ -277,7 +278,7 @@
             .center([0, 45.5])
             // .rotate([-13.5, -2])
             .rotate([-13.5, -2])
-            .scale(width * 9);
+            .scale(100);
         // .scale(1000);
 
         var path = d3.geoPath()
@@ -290,38 +291,80 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
         var elements = d3.select("body").selectAll('.element')
-            .data(datasets).enter() //todo: limit datasets to sepcific time for y axis
+            .data(datasets.slice(0, 10)).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
-            .attr('id', 'mapbox')
-            .each(function (d) {
-                /**
-                 * Div SVG
-                 */
-                var div = d3.select(this).append("div")
-                    .attr("class", "elements_child")
-                    .style("width", width + "px")
-                    .style("height", height + "px")
-                    // .style("opacity", 0.2)
-                    .attr("id", function (d) {
-                        return d["IU Archives Number"];
-                        // console.log(d["IU Archives Number"])
-                    });
+            .attr('id', 'mapbox');
 
-                // var div = d3.select(this).append("div")
-                //     .attr("class", "map-container")
-                //     // .style("width", width + "px")
-                //     // .style("height", height + "px")
-                //     .attr("id", function (d) {
-                //         // return d.elem;
-                //         return "elements_child";
-                //     });
+        // for (var q = 0; q < segments; q++){
+        //
+        // }
 
-                // console.log(div.attr("id"))
+        /**
+         * Div SVG
+         */
+        svg = elements.append("svg")
+            .attr("class", "elements_child")
+            .attr("width", width)
+            .attr("height", height)
+            .style("opacity", 0.2)
+            .attr("fill", new THREE.Color("#ececec").getStyle());
 
-                pCube.drawMap(d["IU Archives Number"])
+        /**
+         * MAP entry point
+         * Austrian Map Implementation with topojson
+         * @param aut
+         * Implement MabBox component
+         * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
+         */
+        pCube.drawMap = function (aut) {
+            var counter = 0; //counter to monitor the amount of data rounds
 
-            });
+            // map paths
+            svg.selectAll(".subunit")
+                .data(topojson.feature(aut, aut.objects.subunits).features)
+                // .data(aut.features)
+                .enter()
+                .append('g')
+                .attr('transform', 'translate(460,0)rotate(80)')
+                .append("path")
+                .attr("class", function (d, i) {
+                    return "subunit"; //remove id
+                })
+                .classed("hide", function (d, i) {
+                    counter += 1;
+                    if (counter !== 1) { //only display map path for first map
+                        return true
+                    }
+                })
+                .attr("d", path);
+
+
+            svg.append("circle") //todo: change xyz position of info based on space-time
+                .datum(topojson.feature(aut, aut.objects.places).features[0])
+                .attr("class", "screen_dots")
+                .attr("r", function (d, i) { //generated data to highlight circle radius
+                    var x = 20.4,
+                        x2 = x * (datasets.length / 2) + x;
+
+                    if (i < (datasets.length / 2)) {
+                        return x + (i * x )
+                    } else {
+                        return x2 - (i * (x / 2));
+                    }
+                })
+                .attr("cx", function (d) {
+                    return d.geometry.coordinates[0] + 250;
+                })
+                .attr("cy", function (d) {
+                    return d.geometry.coordinates[1] + 220;
+                })
+                .attr("fill", "transparent")//todo: removed dots for presentation
+                .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
+                    // return d.uncert
+                    return 0.2;
+                });
+        };
 
         /**
          * Objectify and draw segments elements
@@ -335,8 +378,12 @@
 
         var newList = [];
 
+        // console.log(datasets);
+        // console.log(datasets2);
+
+
         var testElem = d3.selectAll('.map-div')
-            .data(datasets2).enter()
+            .data(datasets).enter()
             .append("div")
             .attr("class", "map-div")
             .each(function (d, i) {
@@ -352,12 +399,14 @@
                 image.addEventListener('load', function (event) {
                     // for (var z = 0; z < 1; z++) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = d.longitude,
-                        lat = d.latitude,
+                        long = d.long,
+                        lat = d.lat,
                         coord = translate(projection([long, lat]));
 
+                    console.log(timeLinear(d.time));
+
                     // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
-                    object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
+                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                     // object.position.z = projection([d.longitude, d.latitude])[0];
                     // object.position.x = projection([d.longitude, d.latitude])[1];
 
@@ -370,10 +419,13 @@
                         console.log(d);
                         d3.select("#textTitle")
                         // .html("Simba")
-                            .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                                "<span>Date:</span>" + d.start_date + "<br>" +
-                                "<span>Place Name:</span>" + d.place_name + "<br>"
-                            )
+                            .html("<span>Description: </span>" + d.Description_from_Notebook + "<br>" +
+                                "<span>archive_Date: </span>" + d.Archive_Date + "<br>" +
+                                "<span>Location: </span>" + d.City_and_State + "<br>"
+                            );
+
+                        d3.select("#dataImage")
+                            .attr("src", d.Image_URL)
                     };
 
 
@@ -451,8 +503,9 @@
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
-            var startDate = parameters["startDate"] || "1800-01";
-            var endDate = parameters["endDate"] || "1870-01";
+            var startDate = parameters["startDate"] || "1938-01";
+            var endDate = parameters["endDate"] || "1952-01";
+
             var dateArray = d3.scaleTime()
                 .domain([new Date(startDate), new Date(endDate)])
                 .ticks(labelCount);
@@ -622,7 +675,6 @@
      * Juxtaposition function
      *
      */
-
     pCube.juxstaPose = function () {
         var duration = 2500;
         TWEEN.removeAll();
@@ -987,46 +1039,6 @@
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
-    };
-
-    /**
-     * MAP entry point
-     * Austrian Map Implementation with topojson
-     * @param aut
-     * Implement MabBox component
-     * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
-     *
-     */
-    pCube.drawMap = function (elemID) {
-
-        // var scale = d3.scale.quantile()
-        // .range(["#e4baa2","#d79873","#c97645","#bc5316","#8d3f11"]);
-
-        // var values = data.features.map(function (d) {
-        //     return d.properties.data[elemID].inc;
-        // });
-
-        // scale.domain(d3.extent(values.filter(function (d) {
-        //     return d >= 0;
-        // })));
-
-        var map = L.mapbox.map(elemID)
-            // .setView([37.8, -96], 4);
-            .setView([48.2, 16.3], 4);
-
-        var tileLayer = L.mapbox.tileLayer('delimited.ge9h4ffl', {noWrap: false})
-            .addTo(map);
-
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-
-        // var geoLayer = L.geoJson(data, {
-        //     style: getStyleFun(scale, elemID),
-        //     onEachFeature: onEachFeature
-        // }).addTo(map);
-
-        // map.legendControl.addLegend(getLegendHTML(scale));
     };
 
     /**
