@@ -187,7 +187,20 @@
     function init(error, data, szabo, map) {
         if (error) console.log(error);
         function tempRange(data) {
-            var newData = data.slice(0, 200); //todo: slice arrray according to date range
+
+            var newData = data.slice(50, 250); //todo: slice arrray according to date range
+
+            /**
+             * Sort the data according to ascending dates to help with line drawing
+             * */
+
+             newData.sort(function (x, y) {
+                 return d3.ascending(x.Archive_Date, y.Archive_Date);
+             });
+
+//            console.log(newData);
+
+
             //Draw
             polyCube.drawElements(newData, szabo);
             polyCube.drawMap(map);
@@ -271,7 +284,6 @@
 //            polyCube.projectionScale({scale: +value});
 //            console.log(value);
         });
-
 
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {

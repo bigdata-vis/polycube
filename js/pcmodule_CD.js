@@ -40,30 +40,7 @@
      */
 
     pCube.drawElements = function (datasets, datasets2) {
-        /**d3 data scale
-         * to be implemented with datasets with time and location
-         * todo: data scale for x, y, z
-         */
-        var xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
-                return d;
-            }),
-            yExent = d3.extent(datasets, function (d) { // to determine the range of y in the data
-                // console.log(d["Archive Date"]);
-                return d["Archive Date"];
-            }),
-            zExent = d3.extent(datasets, function (d) {
-                return d;
-            });
 
-        /**
-         * calculate the largest and smallest value for Xscale and Y scale
-         */
-        var xScale = d3.scaleLinear()
-                .domain(xExent)
-                .range([-widthHalf, width]),
-            yScale = d3.scaleLinear()
-                .domain(yExent)
-                .range([0, height]);
         /**
          * Parse and Format Time
          */
@@ -71,6 +48,8 @@
         var parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
 
         var format2 = d3.timeFormat("%Y");
+
+
 
         /**
          * Cleaning Function for Datasets
@@ -110,11 +89,38 @@
          *
          */
         var dateTestEx = d3.extent(datasets, function (d) {
-            console.log(d)
+            // console.log(d)
             return d.time;
         });
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
+
+
+
+        /**d3 data scale
+         * to be implemented with datasets with time and location
+         * todo: data scale for x, y, z
+         */
+        var xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
+                return d.Archive_Date;
+            }),
+            yExent = d3.extent(datasets, function (d) { // to determine the range of y in the data
+                // console.log(d["Archive Date"]);
+                return d.Archive_Date;
+            }),
+            zExent = d3.extent(datasets, function (d) {
+                return d;
+            });
+
+        /**
+         * calculate the largest and smallest value for Xscale and Y scale
+         */
+        var xScale = d3.scaleLinear()
+                .domain(xExent)
+                .range([-widthHalf, width]),
+            yScale = d3.scaleLinear()
+                .domain(yExent)
+                .range([0, height]);
 
 
         /**
@@ -403,7 +409,7 @@
                         lat = d.lat,
                         coord = translate(projection([long, lat]));
 
-                    console.log(timeLinear(d.time));
+                    // console.log(timeLinear(d.time));
 
                     // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
@@ -503,8 +509,11 @@
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
+
             var startDate = parameters["startDate"] || "1938-01";
             var endDate = parameters["endDate"] || "1952-01";
+
+
 
             var dateArray = d3.scaleTime()
                 .domain([new Date(startDate), new Date(endDate)])
@@ -935,6 +944,8 @@
 
     pCube.drawLines = function () {
 
+        console.log(lineList);
+
         /** Threejs Material decl to be used later for lines implementation
          *
          * @type {any}
@@ -960,7 +971,6 @@
          * select position one, draw from 1 to 2, 2 to 3, 3 to 4
          */
 
-        // console.log(lineList);
 
         for (var i = 0; i < lineList.length; i++) {
             if (lineList[i].x !== undefined) {
