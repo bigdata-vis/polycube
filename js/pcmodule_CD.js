@@ -327,49 +327,67 @@
             var counter = 0; //counter to monitor the amount of data rounds
 
             // map paths
-            svg.selectAll(".subunit")
-                .data(topojson.feature(aut, aut.objects.subunits).features)
-                // .data(aut.features)
-                .enter()
-                .append('g')
-                .attr('transform', 'translate(460,0)rotate(80)')
-                .append("path")
-                .attr("class", function (d, i) {
-                    return "subunit"; //remove id
-                })
-                .classed("hide", function (d, i) {
-                    counter += 1;
-                    if (counter !== 1) { //only display map path for first map
-                        return true
-                    }
-                })
-                .attr("d", path);
+            // svg.selectAll(".subunit")
+            //     .data(topojson.feature(aut, aut.objects.subunits).features)
+            //     // .data(aut.features)
+            //     .enter()
+            //     .append('g')
+            //     .attr('transform', 'translate(460,0)rotate(80)')
+            //     .append("path")
+            //     .attr("class", function (d, i) {
+            //         return "subunit"; //remove id
+            //     })
+            //     .classed("hide", function (d, i) {
+            //         counter += 1;
+            //         if (counter !== 1) { //only display map path for first map
+            //             return true
+            //         }
+            //     });
+            //     // .attr("d", path);
 
 
-            svg.append("circle") //todo: change xyz position of info based on space-time
-                .datum(topojson.feature(aut, aut.objects.places).features[0])
-                .attr("class", "screen_dots")
-                .attr("r", function (d, i) { //generated data to highlight circle radius
-                    var x = 20.4,
-                        x2 = x * (datasets.length / 2) + x;
+            // svg.append("circle") //todo: change xyz position of info based on space-time
+            //     .datum(topojson.feature(aut, aut.objects.places).features[0])
+            //     .attr("class", "screen_dots")
+            //     .attr("r", function (d, i) { //generated data to highlight circle radius
+            //         var x = 20.4,
+            //             x2 = x * (datasets.length / 2) + x;
+            //
+            //         if (i < (datasets.length / 2)) {
+            //             return x + (i * x )
+            //         } else {
+            //             return x2 - (i * (x / 2));
+            //         }
+            //     })
+            //     .attr("cx", function (d) {
+            //         return d.geometry.coordinates[0] + 250;
+            //     })
+            //     .attr("cy", function (d) {
+            //         return d.geometry.coordinates[1] + 220;
+            //     })
+            //     .attr("fill", "transparent")//todo: removed dots for presentation
+            //     .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
+            //         // return d.uncert
+            //         return 0.2;
+            //     });
 
-                    if (i < (datasets.length / 2)) {
-                        return x + (i * x )
-                    } else {
-                        return x2 - (i * (x / 2));
-                    }
-                })
-                .attr("cx", function (d) {
-                    return d.geometry.coordinates[0] + 250;
-                })
-                .attr("cy", function (d) {
-                    return d.geometry.coordinates[1] + 220;
-                })
-                .attr("fill", "transparent")//todo: removed dots for presentation
-                .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
-                    // return d.uncert
-                    return 0.2;
-                });
+            /**
+             * google maps implementation
+             **/
+
+            svg.append("foreignObject")
+                .attr("width", "100%")
+                .attr("height", "100%")
+                    // .append('<iframe width="500" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?zoom=10&maptype=satellite&center=10,2&key=AIzaSyAVUZTKZz1e6hbEwZOT8CmWfoMhegHL7bs"></iframe>')
+                    .append("iframe")
+                    .attr("height", height + "px")
+                    .attr("width", width + "px")
+                    .attr("frameborder", "0")
+                    .style("border", 0)
+                    .style("top", 0)
+                    .style("left", 0)
+                    .style("position", "absolute")
+                    .attr("src","https://www.google.com/maps/embed/v1/view?zoom=10&maptype=satellite&center=10,2&key=AIzaSyAVUZTKZz1e6hbEwZOT8CmWfoMhegHL7bs")
         };
 
         /**

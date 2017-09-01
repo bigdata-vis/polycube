@@ -317,9 +317,9 @@
                 //         return "elements_child";
                 //     });
 
-                // console.log(div.attr("id"))
+                // console.log(d.IU_Archives_Number)
 
-                pCube.drawMap(d["IU Archives Number"])
+                // pCube.drawMap(d["IU_Archives_Number"])
 
             });
 
