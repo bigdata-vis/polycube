@@ -304,7 +304,7 @@
                     .style("height", height + "px")
                     // .style("opacity", 0.2)
                     .attr("id", function (d) {
-                        return d["IU Archives Number"];
+                        return d["IU_Archives_Number"];
                         // console.log(d["IU Archives Number"])
                     });
 
@@ -319,7 +319,7 @@
 
                 // console.log(d.IU_Archives_Number)
 
-                // pCube.drawMap(d["IU_Archives_Number"])
+                pCube.drawMap(d["IU_Archives_Number"])
 
             });
 

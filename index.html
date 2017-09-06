@@ -304,8 +304,6 @@
             }
         });
 
-        console.log(lido);
-
         var placeNames = [];
 
         lido.forEach(function (d) {
@@ -316,14 +314,21 @@
             if(placename !== undefined){
 
                 if(placename.eventPlace){
-                    if(placename.eventPlace["0"].displayPlace){
 
-                        if(typeof placename.eventPlace["0"].displayPlace["0"] === 'object'){
-                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //place
-                            placeNames.push(d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._); //collections
+                    if(placename.eventPlace["0"].displayPlace){
+                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
+
+                        if(typeof placename.eventPlace["0"].displayPlace["0"] === 'object'){ //check for object in music collection
+                            placeNames.push("Collections" + collections); //collections
+                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
+                            //for items in the collection places
+
+                            console.log(collections)
                         }else {
+                            placeNames.push("Collections " +collections); //collections
                             placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
-                            placeNames.push(d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._); //collections
+
+//                            console.log(collections)
                         }
                     }
                 }
@@ -332,7 +337,16 @@
             }
         });
 
-//        download(placeNames, "placeNames.txt", "text/plain")
+//        console.log(placeNames);
+
+        var uniq = placeNames.reduce(function(a,b){
+            if (a.indexOf(b) < 0 ) a.push(b);
+            return a;
+        },[]);
+
+        console.log(uniq);
+
+//        download(uniq, "placeNames.txt", "text/plain")
     }
 
     function download(text, name, type) {

@@ -39,6 +39,8 @@
      * @param datasets2
      */
 
+    var dataSlices = 10;
+
     pCube.drawElements = function (datasets, datasets2) {
 
         /**
@@ -48,7 +50,6 @@
         var parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
 
         var format2 = d3.timeFormat("%Y");
-
 
 
         /**
@@ -94,7 +95,6 @@
         });
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
-
 
 
         /**d3 data scale
@@ -268,7 +268,7 @@
          * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
          * segements from the length of defaultData or datasets1
          */
-        // var segments = defaultData.length;
+            // var segments = defaultData.length;
         var segments = (datasets2.length < 20 ? datasets.length : 10);
         // var segments = 10;
 
@@ -297,24 +297,36 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
         var elements = d3.select("body").selectAll('.element')
-            .data(datasets.slice(0, 10)).enter() //todo: limit datasets to sepcific time for y axis
+            .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
-            .attr('id', 'mapbox');
+            .attr('id', 'mapbox')
+            .each(function (d, i) {
 
-        // for (var q = 0; q < segments; q++){
-        //
-        // }
+                var div = d3.select(this).append("div")
+                    .attr("class", "elements_child")
+                    .attr("id", "elements_child")
+                    .style("width", width + "px")
+                    .style("height", height + "px");
+                    // .attr("id", function (d) {
+                    //     return d.IU_Archives_Number;
+                    // });
+
+                pCube.drawMap("#elements_child", datasets)
+
+            });
 
         /**
          * Div SVG
          */
-        svg = elements.append("svg")
-            .attr("class", "elements_child")
-            .attr("width", width)
-            .attr("height", height)
-            .style("opacity", 0.2)
-            .attr("fill", new THREE.Color("#ececec").getStyle());
+
+        // // svg = elements.append("svg")
+        // svg = elements.append("svg")
+        //     .attr("class", "elements_child")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .style("opacity", 0.2)
+        //     .attr("fill", new THREE.Color("#ececec").getStyle());
 
         /**
          * MAP entry point
@@ -323,7 +335,8 @@
          * Implement MabBox component
          * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
          */
-        pCube.drawMap = function (aut) {
+
+        pCube.drawMap_old = function (aut) {
             var counter = 0; //counter to monitor the amount of data rounds
 
             // map paths
@@ -342,52 +355,67 @@
             //         if (counter !== 1) { //only display map path for first map
             //             return true
             //         }
-            //     });
-            //     // .attr("d", path);
-
-
-            // svg.append("circle") //todo: change xyz position of info based on space-time
-            //     .datum(topojson.feature(aut, aut.objects.places).features[0])
-            //     .attr("class", "screen_dots")
-            //     .attr("r", function (d, i) { //generated data to highlight circle radius
-            //         var x = 20.4,
-            //             x2 = x * (datasets.length / 2) + x;
-            //
-            //         if (i < (datasets.length / 2)) {
-            //             return x + (i * x )
-            //         } else {
-            //             return x2 - (i * (x / 2));
-            //         }
             //     })
-            //     .attr("cx", function (d) {
-            //         return d.geometry.coordinates[0] + 250;
-            //     })
-            //     .attr("cy", function (d) {
-            //         return d.geometry.coordinates[1] + 220;
-            //     })
-            //     .attr("fill", "transparent")//todo: removed dots for presentation
-            //     .attr("fill-opacity", function (d) { //todo: replace with tootip information about compoenets
-            //         // return d.uncert
-            //         return 0.2;
-            //     });
+            //     .attr("d", path);
 
             /**
              * google maps implementation
              **/
 
-            svg.append("foreignObject")
-                .attr("width", "100%")
-                .attr("height", "100%")
-                    // .append('<iframe width="500" height="500" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?zoom=10&maptype=satellite&center=10,2&key=AIzaSyAVUZTKZz1e6hbEwZOT8CmWfoMhegHL7bs"></iframe>')
-                    .append("iframe")
-                    .attr("height", height + "px")
-                    .attr("width", width + "px")
-                    .attr("frameborder", "0")
-                    .style("border", 0)
-                    .style("top", 0)
-                    .style("left", 0)
-                    .style("position", "absolute")
-                    .attr("src","https://www.google.com/maps/embed/v1/view?zoom=10&maptype=satellite&center=10,2&key=AIzaSyAVUZTKZz1e6hbEwZOT8CmWfoMhegHL7bs")
+            var map = new google.maps.Map(d3.select("#mapbox").node(), {
+                zoom: 8,
+                center: new google.maps.LatLng(37.76487, -122.41948),
+                mapTypeId: google.maps.MapTypeId.TERRAIN
+            });
+
+            var overlay = new google.maps.OverlayView();
+
+            overlay.onAdd = function () {
+                var layer = d3.select(this.getPanes().overlayLayer).append("div")
+                    .attr("class", "stations");
+                // Draw each marker as a separate SVG element.
+                // We could use a single SVG, but what size would it have?
+                overlay.draw = function () {
+                    var projection = this.getProjection(),
+                        padding = 10;
+
+                    var marker = layer.selectAll("svg")
+                        .data(d3.entries(datasets))
+                        .each(transform) // update existing markers
+                        .enter().append("svg:svg")
+                        .each(transform)
+                        .attr("class", "marker");
+
+                    // Add a circle.
+                    marker.append("svg:circle")
+                        .attr("r", 4.5)
+                        .attr("cx", padding)
+                        .attr("cy", padding);
+
+                    // Add a label.
+                    marker.append("svg:text")
+                        .attr("x", padding + 7)
+                        .attr("y", padding)
+                        .attr("dy", ".31em")
+                        .text(function (d) {
+                            return d.key;
+                        });
+
+                    function transform(d) {
+
+                        // console.log(d)
+
+                        d = new google.maps.LatLng(d.value[1], d.value[0]);
+                        d = projection.fromLatLngToDivPixel(d);
+                        return d3.select(this)
+                            .style("left", (d.x - padding) + "px")
+                            .style("top", (d.y - padding) + "px");
+                    }
+                };
+            };
+
+            // console.log(d3.select(".elements_child").node());
+
         };
 
         /**
@@ -440,7 +468,7 @@
                     object.name = "pointCloud"; //todo: remove later
 
                     object.element.onmouseover = function () {
-                        console.log(d);
+                        // console.log(d);
                         d3.select("#textTitle")
                         // .html("Simba")
                             .html("<span>Description: </span>" + d.Description_from_Notebook + "<br>" +
@@ -532,7 +560,6 @@
             var endDate = parameters["endDate"] || "1952-01";
 
 
-
             var dateArray = d3.scaleTime()
                 .domain([new Date(startDate), new Date(endDate)])
                 .ticks(labelCount);
@@ -595,10 +622,10 @@
      *
      */
     pCube.default = function () {
+        // var segments = defaultData.length;
+        var segments = dataSlices;
 
-        // console.log(defaultData.length);
-
-        var segments = defaultData.length;
+        console.log(segments);
 
         var interval = height / segments; //height/segments
 
@@ -643,7 +670,7 @@
 
                 segCounter++;
 
-                console.log(interval);
+                // console.log(interval);
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
@@ -1068,6 +1095,121 @@
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
     };
+
+
+    /**
+     * MAP entry point
+     * Austrian Map Implementation with topojson
+     * @param aut
+     * Implement MabBox component
+     * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
+     * https://hackernoon.com/d3-js-and-google-maps-api-in-10-easy-steps-4f258323525b
+     * https://developers.google.com/maps/documentation/javascript/examples/circle-simple
+     * http://blockbuilder.org/jaegerka/e53294b2f5087e03525ff8d508767a2d
+     *
+     */
+
+    pCube.drawMap = function (elemID, data) {
+
+        var map = new google.maps.Map(d3.select(elemID).node(), {
+            zoom: 8,
+            // center: new google.maps.LatLng(48, 16),
+            center: new google.maps.LatLng(34.0736204, -108.4003563),
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            gestureHandling: 'cooperative',
+            // styles:[{"stylers": [{"saturation": -75},{"lightness": 75}]}]
+        });
+
+
+        var image = '/texture/ball2.png';
+        // var vegetation = new google.maps.Marker({
+        //     position: {lat: 38.434084, lng: -78.864970},
+        //     map: map,
+        //     icon: image,
+        //     scale: 100
+        // });
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker, i;
+
+        for (i = 0; i < data.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(data[i].long, data[i].lat),
+                map: map,
+                icon: image,
+                scale: 100
+            });
+
+            google.maps.event.addListener(marker, 'over', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(data[i].IU_Archives_Number);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        var overlay = new google.maps.OverlayView(),
+            r = 4.5;
+
+        overlay.onAdd = function () {
+
+            var layer = d3.select(this.getPanes().overlayLayer).append("div")
+                .attr("class", "stations");
+
+            // Draw each marker as a separate SVG element.
+            // We could use a single SVG, but what size would it have?
+            overlay.draw = function () {
+
+                var projection = this.getProjection(),
+                    padding = 10;
+
+                var marker = layer.selectAll("svg")
+                    .data(data)
+                    .each(transform) // update existing markers
+                    .enter().append("svg")
+                    .each(transform)
+                    .attr("class", "marker")
+                    .each(function (d) {
+                        // console.log(d)
+                    });
+
+                // Add a circle.
+                marker.append("circle")
+                    .attr("r", 4.5)
+                    .attr("cx", padding)
+                    .attr("cy", padding)
+                    .attr("fill", "red")
+                    .each(function (d) {
+
+                        // console.log(d)
+
+                    });
+
+                // Add a label.
+                marker.append("text")
+                    .attr("x", padding + 7)
+                    .attr("y", padding)
+                    .attr("dy", ".31em")
+                    .text(function (d) {
+                        return d.IU_Archives_Number;
+                    });
+
+                function transform(d) {
+                    d = new google.maps.LatLng(+d.lat, +d.long);
+                    d = projection.fromLatLngToDivPixel(d);
+
+                    return d3.select(this)
+                        .style("left", (d.x - padding) + "px")
+                        .style("top", (d.y - padding) + "px");
+
+                }
+            };
+        };
+
+        // Bind our overlay to the map…
+        // overlay.setMap(map);
+    };
+
 
     /**
      * Translate function for the long and lat coordinates
