@@ -42,6 +42,8 @@
 
     var dataSlices = 10;
 
+    var timeLinearG;
+
     pCube.drawElements = function (datasets, datasets2) {
 
         /**
@@ -97,6 +99,7 @@
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
+        timeLinearG = timeLinear;
 
         /**d3 data scale
          * to be implemented with datasets with time and location
@@ -212,22 +215,7 @@
          * Callibrating css cubebox and glcube box positions
          *
          */
-        var Tgeometry = new THREE.TorusBufferGeometry(10, 3, 16, 100);
-        var Tmaterial = new THREE.MeshBasicMaterial();
-        Tmaterial.color.set('white');
-        Tmaterial.opacity = 0;
-        Tmaterial.blending = THREE.NoBlending;
-        var torus = new THREE.Mesh(Tgeometry, Tmaterial);
-//        torus.position.z = 100;
-        // glbox.add( torus );
 
-
-        // var planeGeometry = new THREE.PlaneGeometry( 100, 100 );
-        // var mesh = new THREE.Mesh( geometry, material );
-        // mesh.position.copy( object.position );
-        // mesh.rotation.copy( object.rotation );
-        // mesh.scale.copy( object.scale );
-        // sceneGl.add( mesh );
 
         /**CSS3D Scene
          * Cube Sides
@@ -292,6 +280,7 @@
             .projection(projection)
             .pointRadius(2);
 
+
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
@@ -301,21 +290,30 @@
             .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
+            .style("width", width + "px")
+            .style("height", height + "px")
             .attr('id', 'mapbox')
             .each(function (d, i) {
-
+                // console.log(this);
                 var div = d3.select(this).append("div")
                     .attr("class", "elements_child")
-                    .attr("id", "elements_child")
                     .style("width", width + "px")
-                    .style("height", height + "px");
-                    // .attr("id", function (d) {
-                    //     return d.IU_Archives_Number;
-                    // });
+                    .style("height", height + "px")
+                    .attr("id", function (d) {
+                        return d.IU_Archives_Number; //todo: show different data on map layers
+                        // return "55117";
+                    })
+                    .filter(function () {  //todo: point of hiding other map items
+                        return i !== 0;
+                    })
+                    .classed("hide", true)
+                    .classed("dataPane", true);
 
-                pCube.drawMap("#elements_child", datasets)
-
+                pCube.drawMap(d.IU_Archives_Number, datasets) //todo: show map on each layer
             });
+
+
+        // pCube.drawMap("55117", datasets);
 
         /**
          * Div SVG
@@ -431,14 +429,9 @@
 
         var newList = [];
 
-        // console.log(datasets);
-        // console.log(datasets2);
 
-
-        var testElem = d3.selectAll('.map-div')
+        var testElem = d3.selectAll('.pointCloud')
             .data(datasets).enter()
-            .append("div")
-            .attr("class", "map-div")
             .each(function (d, i) {
                 var image = document.createElement('img');
                 var interval = 500 / segments; //height/segments
@@ -447,21 +440,22 @@
                 image.style.height = 10 + "px";
                 image.className = "pointCloud";
 
-                // console.log(this.style);
-
                 image.addEventListener('load', function (event) {
                     // for (var z = 0; z < 1; z++) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = d.long,
-                        lat = d.lat,
+                        // long = d.long,
+                        long = pCube.projection(d.long,d.lat).x,
+                        // lat = d.lat,
+                        lat = pCube.projection(d.long,d.lat).y,
                         coord = translate(projection([long, lat]));
 
-                    // console.log(timeLinear(d.time));
+                    console.log(d);
 
-                    // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
+
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                    // object.position.z = projection([d.longitude, d.latitude])[0];
-                    // object.position.x = projection([d.longitude, d.latitude])[1];
+
+                    // object.position.z = coord[0];
+                    // object.position.x = coord[1];
 
                     object.position.z = coord[0];
                     object.position.x = coord[1];
@@ -497,48 +491,6 @@
                 image.src = 'texture/ball.png';
 
             });
-
-
-        // console.log(testData);
-        function setViewData(d, i) {
-            var vector, phi, theta;
-            var stc, jp, si;
-
-            stc = new THREE.Object3D();
-            stc.position.x = Math.random() * 4000 - 2000;
-            stc.position.y = Math.random() * 4000 - 2000;
-            stc.position.z = Math.random() * 4000 - 2000;
-            d['STC'] = stc;
-
-            jp = new THREE.Object3D();
-            jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
-            jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
-            jp.position.z = 0;
-            jp.time = ["1920", "1930"];
-            d['JP'] = jp;
-
-            si = new THREE.Object3D();
-            si.position.x = (( i % 5 ) * 1050) - 2000;
-            si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
-            si.position.z = 0;
-            d['SI'] = si;
-        }
-
-        function addtoScene(d, i) {
-
-            var interval = 500 / segments; //height/segments
-            var objSeg = new THREE.CSS3DObject(this);
-            //position
-            objSeg.position.x = 0;
-            objSeg.position.y = (i * interval) - height / 2;
-            objSeg.position.z = 0;
-            //rotation
-            objSeg.rotation.fromArray(rot[2]);
-            objSeg.name = "seg";
-
-            cube.add(objSeg);
-            //add new object test
-        }
 
         /**
          * Draw Timeline and Labels
@@ -618,6 +570,47 @@
     };
 
 
+    function addtoScene(d, i) {
+
+        var interval = 500 / dataSlices; //height/segments
+        var objSeg = new THREE.CSS3DObject(this);
+        //position
+        objSeg.position.x = 0;
+        objSeg.position.y = (i * interval) - height / 2;
+        objSeg.position.z = 0;
+        //rotation
+        objSeg.rotation.fromArray(rot[2]);
+        objSeg.name = "seg";
+        cube.add(objSeg);
+        //add new object test
+    }
+
+    // console.log(testData);
+    function setViewData(d, i) {
+        var vector, phi, theta;
+        var stc, jp, si;
+
+        stc = new THREE.Object3D();
+        stc.position.x = Math.random() * 4000 - 2000;
+        stc.position.y = Math.random() * 4000 - 2000;
+        stc.position.z = Math.random() * 4000 - 2000;
+        d['STC'] = stc;
+
+        jp = new THREE.Object3D();
+        jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
+        jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
+        jp.position.z = 0;
+        jp.time = ["1920", "1930"];
+        d['JP'] = jp;
+
+        si = new THREE.Object3D();
+        si.position.x = (( i % 5 ) * 1050) - 2000;
+        si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
+        si.position.z = 0;
+        d['SI'] = si;
+    }
+
+
     /**
      * Default STC Layout Fallback function
      *
@@ -633,6 +626,9 @@
         var duration = 2500;
         TWEEN.removeAll();
 
+        d3.selectAll(".elements_child")
+            .classed("hide", true);
+
         //show all time panels
         d3.selectAll(".textTitle")
             .classed("hide", false);
@@ -642,18 +638,13 @@
             .classed("hide", false);
 
         //display all the maps for the segments
-        d3.selectAll("svg").select(".subunit")
-        // .classed("hide", true);
-            .classed("hide", function (d, i) {
-                // console.log(i);
-                if (i !== 0) {
-                    return true
-                }
-            });
-
-
-        d3.selectAll(".elements_child") //remove opacity for all elements_child
-            .style("opacity", 0.2);
+        // d3.selectAll(".elements_child")
+        //     .classed("hide", function (d, i) {
+        //         // console.log(i);
+        //         if (i !== 0) {
+        //             return true
+        //         }
+        //     });
 
         var segCounter = 0; //keep list of the segment counters
 
@@ -691,9 +682,8 @@
 
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
-                        opacity: 0.2,
+                        // opacity: 0.2,
                         backgroundColor: "#2f2f2f"
-
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start()
             }
@@ -739,7 +729,7 @@
         controls.noRotate = true;
 
         //display all the maps for the segments
-        d3.selectAll("svg").select(".subunit")
+        d3.selectAll(".elements_child")
             .classed("hide", false);
 
         //hide canvas temporarily //todo: remove all pointClouds
@@ -1097,7 +1087,6 @@
         renderer.render(scene, camera);
     };
 
-
     /**
      * MAP entry point
      * Austrian Map Implementation with topojson
@@ -1111,6 +1100,120 @@
      */
 
     pCube.drawMap = function (elemID, data) {
+
+        var mymap = L.map(elemID).setView([30.4507462 ,-91.154552], 3);
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            attributionControl: false,
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg'
+        }).addTo(mymap);
+
+        pCube.projection = function projectPoint(x, y) {
+            return mymap.latLngToLayerPoint(new L.LatLng(y, x));
+        };
+
+        mymap.touchZoom.disable();
+        mymap.doubleClickZoom.enable();
+        mymap.scrollWheelZoom.disable();
+        mymap.boxZoom.disable();
+        mymap.keyboard.disable();
+
+        var getPxBounds = mymap.getPixelBounds;
+
+        mymap.getPixelBounds = function () {
+            var bounds = getPxBounds.call(this);
+            // ... extend the bounds
+            bounds.min.x=bounds.min.x-1000;
+            bounds.min.y=bounds.min.y-1000;
+            bounds.max.x=bounds.max.x+1000;
+            bounds.max.y=bounds.max.y+1000;
+            return bounds;
+        };
+
+        var color = '#1C75BC';
+        var circle_options = {
+            color:'#1C75BC',
+            fillColor:'#1C75BC'
+        };
+
+        data.forEach(function (d) {
+            var coord = L.latLng(d.long, d.lat);
+
+            var radius = 500;
+            var circle = L.circle(coord, radius , circle_options).addTo(mymap);
+            // var marker = L.marker(coord).addTo(mymap);
+
+            // var image = document.createElement('img');
+            // var interval = 500 / dataSlices; //height/segments
+            //
+            // image.style.width = 10 + "px";
+            // image.style.height = 10 + "px";
+            // image.className = "pointCloud";
+            //
+            // // console.log(coord);
+            //
+            // image.addEventListener('load', function (event) {
+            //     // for (var z = 0; z < 1; z++) {
+            //     var object = new THREE.CSS3DSprite(image.cloneNode());
+            //
+            //     object.position.y = timeLinearG(d.time); //todo: height + scale + time to determine y axis
+            //
+            //     object.position.z = coord.lng;
+            //     object.position.x = coord.lat;
+            //
+            //     object.name = "pointCloud"; //todo: remove later
+            //
+            //     object.element.onmouseover = function () {
+            //         // console.log(d);
+            //         d3.select("#textTitle")
+            //         // .html("Simba")
+            //             .html("<span>Description: </span>" + d.Description_from_Notebook + "<br>" +
+            //                 "<span>archive_Date: </span>" + d.Archive_Date + "<br>" +
+            //                 "<span>Location: </span>" + d.City_and_State + "<br>"
+            //             );
+            //
+            //         d3.select("#dataImage")
+            //             .attr("src", d.Image_URL)
+            //     };
+            //
+            //     /**
+            //      * populate line list
+            //      */
+            //
+            //     // newList.push(object.position);
+            //
+            //     lineList.push(object.position);
+            //
+            //     // console.log(object);
+            //     scene.add(object);
+            //     // }
+            // }, false);
+            // image.src = 'texture/ball.png';
+
+
+        });
+
+        // var marker = L.marker([51.5, -0.09]).addTo(mymap);
+        //
+        // var circle = L.circle([51.508, -0.11], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 500
+        // }).addTo(mymap);
+        //
+        // var polygon = L.polygon([
+        //     [51.509, -0.08],
+        //     [51.503, -0.06],
+        //     [51.51, -0.047]
+        // ]).addTo(mymap);
+
+    };
+
+    pCube.drawMap__old = function (elemID, data) {
 
         var map = new google.maps.Map(d3.select(elemID).node(), {
             zoom: 8,
@@ -1141,8 +1244,8 @@
                 scale: 100
             });
 
-            google.maps.event.addListener(marker, 'over', (function(marker, i) {
-                return function() {
+            google.maps.event.addListener(marker, 'over', (function (marker, i) {
+                return function () {
                     infowindow.setContent(data[i].IU_Archives_Number);
                     infowindow.open(map, marker);
                 }
@@ -1210,7 +1313,6 @@
         // Bind our overlay to the map…
         // overlay.setMap(map);
     };
-
 
     /**
      * Translate function for the long and lat coordinates

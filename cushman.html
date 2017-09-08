@@ -7,10 +7,16 @@
     <script src="lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
 
-    <script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyD1jPnwQcKRnfYFKhH_iRV7oSt8xYpmw40"></script>
+    <!--<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyD1jPnwQcKRnfYFKhH_iRV7oSt8xYpmw40"></script>-->
 
-    <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1jPnwQcKRnfYFKhH_iRV7oSt8xYpmw40&callback=initMap"-->
-            <!--type="text/javascript"></script>-->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+
     <style>
         body {
             /*background-color: #000;*/
@@ -76,7 +82,7 @@
         }
 
         .hide {
-            display: none;
+            opacity: 0;
         }
 
         /*input*/
