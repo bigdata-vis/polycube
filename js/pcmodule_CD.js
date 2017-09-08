@@ -451,7 +451,6 @@
 
                     console.log(d);
 
-
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
 
                     // object.position.z = coord[0];
@@ -1135,8 +1134,8 @@
 
         var color = '#1C75BC';
         var circle_options = {
-            color:'#1C75BC',
-            fillColor:'#1C75BC'
+            color:'#ff9600',
+            fillColor:'#ff9600'
         };
 
         data.forEach(function (d) {
@@ -1205,11 +1204,12 @@
         //     radius: 500
         // }).addTo(mymap);
         //
-        // var polygon = L.polygon([
-        //     [51.509, -0.08],
-        //     [51.503, -0.06],
-        //     [51.51, -0.047]
-        // ]).addTo(mymap);
+
+        var polygon = L.polygon([
+            [30.4507462, -0.8],
+            [30.4307462, -0.6],
+            [30.4107462, -0.47]
+        ]).addTo(mymap);
 
     };
 
