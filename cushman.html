@@ -230,15 +230,10 @@
                  return d3.ascending(x.Archive_Date, y.Archive_Date);
              });
 
-//            console.log(newData);
-
-
             //Draw
             polyCube.drawElements(newData, szabo);
 //            polyCube.drawMap(map);
 //            polyCube.drawLines();
-
-            //Render
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);

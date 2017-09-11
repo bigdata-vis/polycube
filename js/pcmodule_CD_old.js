@@ -142,7 +142,6 @@
             // pCube.spriteRender(xScale, yScale);
         };
 
-
         pCube.showNodes = function () {
             pCube.drawLines()
         };
@@ -162,7 +161,6 @@
         WGLRenderer.domElement.style.top = 0;
         document.body.appendChild(WGLRenderer.domElement);
 
-
         /**CSS renderer
          *
          * @type {THREE.CSS3DRenderer}
@@ -181,7 +179,6 @@
          */
         glbox.position.copy(cube.position);
         glbox.rotation.copy(cube.rotation);
-
 
         /**camera
          * Threejs camera implementation
@@ -211,14 +208,7 @@
          */
         scene.add(cube);
         scene.add(mesh);
-        scene.add(pointCloud);
         WGLScene.add(glbox);
-
-
-        console.log(pointCloud);
-        pointCloud.rotation.y = 10;
-        pointCloud.position.z = -60;
-
 
         /**
          * WEBGL PLAYGROUND
@@ -278,10 +268,13 @@
          *Dynamic Scale with editing and update function
          */
         var projection = d3.geoAlbers()
+        // var projection = d3.geoMercator()
             .translate([width / 2, height / 2])
             .center([0, 45.5])
+            // .rotate([-13.5, -2])
             .rotate([-13.5, -2])
             .scale(100);
+        // .scale(1000);
 
         var path = d3.geoPath()
             .projection(projection)
@@ -436,6 +429,7 @@
 
         var newList = [];
 
+
         var testElem = d3.selectAll('.pointCloud')
             .data(datasets).enter()
             .each(function (d, i) {
@@ -447,18 +441,26 @@
                 image.className = "pointCloud";
 
                 image.addEventListener('load', function (event) {
+                    // for (var z = 0; z < 1; z++) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
+                        // long = d.long,
                         long = pCube.projection(d.long,d.lat).x,
-                        lat = pCube.projection(d.long,d.lat).y;
+                        // long = pCube.projection(d.long,d.lat).lng,
+                        // lat = d.lat,
+                        lat = pCube.projection(d.long,d.lat).y,
+                        // lat = pCube.projection(d.long,d.lat).lat,
 
-                    var coord = translate([lat,long]);
+                        coord = translate(projection([long, lat]));
 
-                    // console.log(coord);
-
+                    // console.log(pCube.projection(d.lat, d.long));
 
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                    object.position.z = coord[0] -500;
-                    object.position.x = coord[1] + 250;
+
+                    // object.position.z = coord[0];
+                    // object.position.x = coord[1];
+
+                    object.position.z = coord[0];
+                    object.position.x = coord[1];
 
                     object.name = "pointCloud"; //todo: remove later
 
@@ -475,6 +477,7 @@
                             .attr("src", d.Image_URL)
                     };
 
+
                     /**
                      * populate line list
                      */
@@ -483,19 +486,15 @@
 
                     lineList.push(object.position);
 
-                    /**
-                     * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
-                     */
                     // console.log(object);
-                    // scene.add(object);
-                    pointCloud.add(object);
+                    scene.add(object);
                     // }
                 }, false);
                 image.src = 'texture/ball.png';
 
             });
 
-
+        
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
@@ -724,7 +723,6 @@
      * Juxtaposition function
      *
      */
-
     pCube.juxstaPose = function () {
         var duration = 2500;
         TWEEN.removeAll();
@@ -966,6 +964,19 @@
     };
 
     /**
+     * Map zooming function to clean
+     * @param _x
+     * @returns {*}
+     */
+    pCube.mapZoom = function (_x) {
+        if (!arguments.length) return projectionScale;
+        projectionScale = _x;
+        // console.log(projectionScale);
+        // pCube.render();
+        return this;
+    };
+
+    /**
      * Line function implementation
      * create line using only CSS3D
      */
@@ -1027,6 +1038,7 @@
 
     };
 
+
     /**
      * CSS3D sprite for point cloud implementation
      * @param xScale
@@ -1069,15 +1081,13 @@
             }
         }, false);
         image.src = 'texture/ball.png';
+
     };
 
     pCube.render = function () {
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
-
-        // pointCloud.rotation.y -= 0.1;
-
     };
 
     /**
@@ -1104,12 +1114,16 @@
             accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg'
         }).addTo(mymap);
 
+        pCube.projection = function projectPoint(x, y) {
+            return mymap.latLngToLayerPoint(new L.LatLng(y, x));
+            // return L.latLng(x, y);
+        };
+
         mymap.touchZoom.disable();
         mymap.doubleClickZoom.enable();
         mymap.scrollWheelZoom.disable();
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
-
 
         var getPxBounds = mymap.getPixelBounds;
 
@@ -1129,44 +1143,59 @@
             fillColor:'#ff9600'
         };
 
-        var crs = mymap.options.crs;
-        var pixelOrigin = mymap.getPixelOrigin();
-        var mapZoom = mymap.getZoom();
-
-        pCube.projection = function projectPoint(x, y) {
-            // return mymap.latLngToLayerPoint(new L.LatLng(y, x));
-            var latlong = new L.LatLng(x, y);
-            var projectedPoint = mymap.project(latlong, mapZoom);
-            // return crs.latLngToPoint(latlong, mapZoom);
-            // console.log(projectedPoint);
-            return projectedPoint;
-        };
-
-
-        /**LATLONG to POINT
-         * convert latlong to point and use it to porject xy coordinates of the sprite
-         * https://stackoverflow.com/questions/40986573/project-leaflet-latlng-to-tile-pixel-coordinates
-         */
-
-
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
-            var layerPoint = crs.latLngToPoint(coord, mapZoom);
-            // console.log(translate([layerPoint.x, layerPoint.y]));
 
             var radius = 500;
             var circle = L.circle(coord, radius , circle_options).addTo(mymap);
-        });
+            // var marker = L.marker(coord).addTo(mymap);
 
-        /**
-         * On zoom map, remove, update and draw pointClouds
-         *
-         */
-        mymap.on('zoomend', function(e) {
-            // console.log(mapZoom)
-            console.log(e.target);
-
-            //update and redraw point clouds
+            // var image = document.createElement('img');
+            // var interval = 500 / dataSlices; //height/segments
+            //
+            // image.style.width = 10 + "px";
+            // image.style.height = 10 + "px";
+            // image.className = "pointCloud";
+            //
+            // // console.log(coord);
+            //
+            // image.addEventListener('load', function (event) {
+            //     // for (var z = 0; z < 1; z++) {
+            //     var object = new THREE.CSS3DSprite(image.cloneNode());
+            //
+            //     object.position.y = timeLinearG(d.time); //todo: height + scale + time to determine y axis
+            //
+            //     object.position.z = coord.lng;
+            //     object.position.x = coord.lat;
+            //
+            //     object.name = "pointCloud"; //todo: remove later
+            //
+            //     object.element.onmouseover = function () {
+            //         // console.log(d);
+            //         d3.select("#textTitle")
+            //         // .html("Simba")
+            //             .html("<span>Description: </span>" + d.Description_from_Notebook + "<br>" +
+            //                 "<span>archive_Date: </span>" + d.Archive_Date + "<br>" +
+            //                 "<span>Location: </span>" + d.City_and_State + "<br>"
+            //             );
+            //
+            //         d3.select("#dataImage")
+            //             .attr("src", d.Image_URL)
+            //     };
+            //
+            //     /**
+            //      * populate line list
+            //      */
+            //
+            //     // newList.push(object.position);
+            //
+            //     lineList.push(object.position);
+            //
+            //     // console.log(object);
+            //     scene.add(object);
+            //     // }
+            // }, false);
+            // image.src = 'texture/ball.png';
 
 
         });
@@ -1296,10 +1325,8 @@
      * @returns {*[]}
      * http://blog.mastermaps.com/2013/11/showing-gps-tracks-in-3d-with-threejs.html
      */
-
     function translate(point) {
         return [point[0] - (width / 2), (height / 2) - point[1]];
-        // return [point[0] - (width), (height) - point[1]];
     }
 
     /**
@@ -1310,7 +1337,6 @@
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
-    var pointCloud = new THREE.Object3D();
 
     /**
      * WebGl Scene and renderer
