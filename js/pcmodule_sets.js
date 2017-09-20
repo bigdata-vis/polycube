@@ -8,8 +8,7 @@
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([500, 500]);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
   let _nodes;
-
-
+  let _root = null;
 
   pCube.drawSets = (dataset) => {
 
@@ -19,7 +18,7 @@
     let minDate = d3.min(dataset.parsedData.map(x => x.time));
     let maxDate = d3.max(dataset.parsedData.map(x => x.time));
     let range = d3.scaleLinear().domain([minDate, maxDate]).range([0, 10]);
-    console.info(minDate, maxDate, range, range(minDate), range(maxDate), Math.floor(range(1000)));
+    console.debug(minDate, maxDate, range, range(minDate), range(maxDate), Math.floor(range(1000)));
 
     // classifications
     const emptySets = emptySetStructure(dataset.parsedData);
@@ -33,12 +32,22 @@
       });
     });
 
-    // doTreemapLayout(pCube.sets_data[1]);
+    // sum up all the layers form 1-10 so sets grow over time and are not split by the time-slots.
+    // https://lodash.com/docs/4.17.4#mergeWith
+    const customizer = (objValue, srcValue) => {
+      if (_.isArray(objValue)) {
+        return objValue.concat(srcValue);
+      }
+    };
+    for (var k = 1; k < 10; k++) {
+      pCube.sets_data[k] =  _.mergeWith(pCube.sets_data[k], pCube.sets_data[k - 1], customizer);
+    }
+    console.log(pCube.sets_data[8]["Blasinstrument"].length, pCube.sets_data[9]["Blasinstrument"].length);
 
     const dy = 50; // size between the layers
     pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
       let p = layer.position;
-      let nodes = doTreemapLayout(pCube.sets_data[idx]);
+      let nodes = doTreemapLayout(pCube.sets_data, idx);
       if (idx < NUMBER_OF_LAYERS) {
         // drawBox("test", 50, 50, 100, 200, 300, p);
         _nodes.forEach((n, idx) => {
@@ -64,16 +73,18 @@
     return emptySets;
   }
 
-  const doTreemapLayout = (dataset) => {
+  const doTreemapLayout = (dataset, layerNumber) => {
     let data = {
       name: 'tree',
-      children: Object.keys(dataset).map(key => {
-        return { name: key, count: dataset[key].length };
+      children: Object.keys(dataset[layerNumber]).map(key => {
+        return { name: key };
       })
     };
-    _root = d3.hierarchy(data);
-    _root = _root.sum(function (d) { return d.count; })
-      .sort(function (a, b) { return b.data.count - a.data.count; });
+    if (!_root) {
+      _root = d3.hierarchy(data);
+    }
+    _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[layerNumber][d.name].length : null; })
+      .sort(function (a, b) { return dataset[layerNumber][b.data.name].length - dataset[layerNumber][a.data.name].length; });
     _nodes = _tmap(_root).leaves();
 
     return _nodes;
