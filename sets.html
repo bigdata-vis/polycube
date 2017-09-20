@@ -225,34 +225,30 @@
           return d3.ascending(x.Archive_Date, y.Archive_Date);
         });
 
-        let classifiedData = lido.map(d => {
+        let parsedLidoData = lido.map(d => {
           let lidoRecID = _.get(d, 'lidoRecID[0]._');
           let classes = _.get(d, 'descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification');
           let conceptID = _.map(classes.filter(x => x.conceptID), 'conceptID[0]._');
           let term = _.map(classes.filter(x => x.term), x => {
             return x.term[0]._ ? x.term[0]._ : x.term[0];
           });
+          let time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].date[0].earliestDate[0]');
+          if (time === "") {
+            time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].displayDate[0]');
+            time = time.replace(/um /, ''); // cut the "um" if earlistDate not available.
+          }
+          time = parseInt(time, 10) || null;
           return {
             lidoRecID,
             conceptID,
+            time,
             term
           }
         });
 
-        let classificationSets = {};
-        classifiedData.forEach((val, idx) => {
-          val.term.forEach(v => {
-            if (classificationSets[v]) {
-              classificationSets[v].push(val);
-            } else {
-              classificationSets[v] = [val];
-            }
-          });
-        });
-
         //Draw
         polyCube.drawElements(newData, szabo);
-        polyCube.drawSets({ sets: classificationSets });
+        polyCube.drawSets({ parsedData: parsedLidoData });
         //            polyCube.drawMap(map);
         //            polyCube.drawLines();
         polyCube.render();

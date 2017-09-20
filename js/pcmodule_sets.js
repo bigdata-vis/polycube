@@ -3,37 +3,72 @@
  */
 (function (pCube) {
 
+  const NUMBER_OF_LAYERS = 10;
+
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([500, 500]);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
   let _nodes;
 
+
+
   pCube.drawSets = (dataset) => {
 
-    doTreemapLayout(dataset);
+    pCube.sets_data = {};
+
+    // time
+    let minDate = d3.min(dataset.parsedData.map(x => x.time));
+    let maxDate = d3.max(dataset.parsedData.map(x => x.time));
+    let range = d3.scaleLinear().domain([minDate, maxDate]).range([0, 10]);
+    console.info(minDate, maxDate, range, range(minDate), range(maxDate), Math.floor(range(1000)));
+
+    // classifications
+    const emptySets = emptySetStructure(dataset.parsedData);
+    dataset.parsedData.forEach((val, idx) => {
+      let layerNumber = val.time === null ? -1 : Math.floor(range(val.time));
+      if (!pCube.sets_data[layerNumber]) {
+        pCube.sets_data[layerNumber] = _.cloneDeep(emptySets);
+      }
+      val.term.forEach(v => {
+        pCube.sets_data[layerNumber][v].push(val);
+      });
+    });
+
+    // doTreemapLayout(pCube.sets_data[1]);
 
     const dy = 50; // size between the layers
     pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
       let p = layer.position;
-      if (idx === 0) {
+      let nodes = doTreemapLayout(pCube.sets_data[idx]);
+      if (idx < NUMBER_OF_LAYERS) {
         // drawBox("test", 50, 50, 100, 200, 300, p);
-        _nodes.forEach( (n,idx) => {
+        _nodes.forEach((n, idx) => {
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (idx < 1000) {
-            console.log(p,n)
             drawBox(n.data.name, n.x0, n.y0, w, 50, d, p);
           }
         });
-
       }
     });
   };
 
+  const emptySetStructure = (data) => {
+    let emptySets = {};
+    data.forEach((val, idx) => {
+      val.term.forEach(v => {
+        if (!emptySets[v]) {
+          emptySets[v] = [];
+        }
+      });
+    });
+    return emptySets;
+  }
+
   const doTreemapLayout = (dataset) => {
     let data = {
       name: 'tree',
-      children: Object.keys(dataset.sets).map(key => {
-        return { name: key, count: dataset.sets[key].length };
+      children: Object.keys(dataset).map(key => {
+        return { name: key, count: dataset[key].length };
       })
     };
     _root = d3.hierarchy(data);
@@ -53,8 +88,8 @@
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
     const h = height / 2,
-          w = width / 2,
-          d = depth / 2;
+      w = width / 2,
+      d = depth / 2;
 
     const pos = [[w, 0, 0], [-w, 0, 0], [0, h, 0], [0, -h, 0], [0, 0, d], [0, 0, -d]];
     const rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -70,7 +105,7 @@
       if (i < 2) {
         element.style.width = depth + 'px';
         element.style.height = height + 'px';
-      } else if ( i < 4) {
+      } else if (i < 4) {
         element.style.width = width + 'px';
         element.style.height = depth + 'px';
       } else {
