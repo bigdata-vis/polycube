@@ -3,12 +3,14 @@
  */
 (function (pCube) {
 
-  const NUMBER_OF_LAYERS = 10;
+  const NUMBER_OF_LAYERS = 5;
+  const DOMAIN_RANGE = [0, NUMBER_OF_LAYERS];
 
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([500, 500]);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
   let _nodes;
   let _root = null;
+
 
   pCube.drawSets = (dataset) => {
 
@@ -17,7 +19,7 @@
     // time
     let minDate = d3.min(dataset.parsedData.map(x => x.time));
     let maxDate = d3.max(dataset.parsedData.map(x => x.time));
-    let range = d3.scaleLinear().domain([minDate, maxDate]).range([0, 10]);
+    let range = d3.scaleLinear().domain([minDate, maxDate]).range(DOMAIN_RANGE);
     console.debug(minDate, maxDate, range, range(minDate), range(maxDate), Math.floor(range(1000)));
 
     // classifications
@@ -39,10 +41,10 @@
         return objValue.concat(srcValue);
       }
     };
-    for (var k = 1; k < 10; k++) {
-      pCube.sets_data[k] =  _.mergeWith(pCube.sets_data[k], pCube.sets_data[k - 1], customizer);
+    for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
+      pCube.sets_data[k] =  _.mergeWith({}, pCube.sets_data[k], pCube.sets_data[k - 1], customizer);
     }
-    console.log(pCube.sets_data[8]["Blasinstrument"].length, pCube.sets_data[9]["Blasinstrument"].length);
+    console.log(pCube.sets_data[NUMBER_OF_LAYERS - 1]["Blasinstrument"].length, pCube.sets_data[NUMBER_OF_LAYERS]["Blasinstrument"].length);
 
     const dy = 50; // size between the layers
     pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
@@ -54,7 +56,8 @@
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (idx < 1000) {
-            drawBox(n.data.name, n.x0, n.y0, w, 50, d, p);
+            //drawBox(n.data.name, n.x0, n.y0, w, 50, d, p);
+            drawBoxGL(n.data.name, n.x0, n.y0, w, 50, d, p);
           }
         });
       }
@@ -74,19 +77,26 @@
   }
 
   const doTreemapLayout = (dataset, layerNumber) => {
+    if (!dataset[layerNumber]) {
+      return;
+    }
+
     let data = {
       name: 'tree',
-      children: Object.keys(dataset[layerNumber]).map(key => {
+      children: Object.keys(dataset[NUMBER_OF_LAYERS]).map(key => {
         return { name: key };
       })
     };
-    if (!_root) {
+    if (!_root) { // init calculation with the biggest collection items 
       _root = d3.hierarchy(data);
+      _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[NUMBER_OF_LAYERS][d.name].length : null; })
+      .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
+      console.debug(_root);
     }
     _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[layerNumber][d.name].length : null; })
-      .sort(function (a, b) { return dataset[layerNumber][b.data.name].length - dataset[layerNumber][a.data.name].length; });
+      .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
     _nodes = _tmap(_root).leaves();
-
+    console.debug(layerNumber, _root);
     return _nodes;
   };
 
@@ -149,8 +159,24 @@
     box.position.x = x - 250 + w;
     box.position.z = z - 250 + d;
     pCube.getCube().add(box);
-  }
+  };
 
+
+  const drawBoxGL = (setName, x, z, width, height, depth, layerPosition) => {
+    const h = height / 2,
+      w = width / 2,
+      d = depth / 2;
+
+    let geometry = new THREE.BoxGeometry(width, height, depth);
+    let material = new THREE.MeshBasicMaterial({ color: _colorScale(setName) });
+    let set = new THREE.Mesh(geometry, material);
+    set.name = setName;
+    set.userData = setName;
+    set.position.x = x - 250 + w; // -150 + node.x0 + (w / 2);
+    set.position.z = z - 250 + d; // -150 + node.y0 + (d / 2);
+    set.position.y = layerPosition.y + h; // y + height / 2;
+    pCube.getGLBox().add(set);
+  };
 
 
 })(window.polyCube);

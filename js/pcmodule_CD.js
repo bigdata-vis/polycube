@@ -147,6 +147,10 @@
             pCube.drawLines()
         };
 
+        pCube.toggleMap = function () {
+          pCube.drawMap()
+        };
+
         /**WebGL renderer implementation
          *
          * @type {THREE.WebGLRenderer}
@@ -1330,6 +1334,9 @@
 
     pCube.getCube = () => {
         return cube;
+    };
+    pCube.getGLBox = () => {
+      return glbox;
     };
 
     window.polyCube = pCube;
