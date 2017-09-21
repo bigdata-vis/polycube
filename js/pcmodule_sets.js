@@ -6,8 +6,8 @@
   const TREEMAP = 'treemap';
   const MATRIX = 'matrix';
 
-  const SWITCH_SETS_DISPLAY = TREEMAP;
-  const SWITCH_SCALE_CUBE = true;
+  const SWITCH_SETS_DISPLAY = MATRIX;
+  const SWITCH_SCALE_CUBE = false;
 
   const NUMBER_OF_LAYERS = 10;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
@@ -86,7 +86,7 @@
     if (SWITCH_SETS_DISPLAY === TREEMAP) {
       drawTreemap();
     } else if (SWITCH_SETS_DISPLAY === MATRIX) {
-      drawMatrix();
+      drawMatrix(matrixStruct);
     }
   };
 
@@ -112,8 +112,24 @@
     });
   };
 
-  const drawMatrix = () => {
-    
+  const drawMatrix = (matrixStruct) => {
+    let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
+    let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
+
+    pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
+      let p = layer.position;
+      if (idx < NUMBER_OF_LAYERS) {
+        matrixStruct.setNames.forEach((s, setIdx) => {
+          matrixStruct.repoNames.forEach((r, repoIdx) => {
+            if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
+              // drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
+              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p);
+            }
+          });
+        });
+      }
+    });
+
   };
 
   const getTreemapLayerItemCount = (data) => {
