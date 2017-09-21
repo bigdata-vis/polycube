@@ -79,6 +79,7 @@
     };
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
       pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
+      pCube.matrix_sets[k] = _.mergeWith([], pCube.matrix_sets[k], pCube.matrix_sets[k - 1], customizer);
     }
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
