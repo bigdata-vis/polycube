@@ -77,9 +77,14 @@
         return objValue.concat(srcValue);
       }
     };
+    const arraySumUp = (objValue, srcValue) => {
+      if (_.isArray(objValue)) {
+        return _.zipWith(objValue, srcValue, (a, b) => a + b);
+      }
+    }
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
       pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
-      pCube.matrix_sets[k] = _.mergeWith([], pCube.matrix_sets[k], pCube.matrix_sets[k - 1], customizer);
+      pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
     }
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
@@ -126,7 +131,10 @@
           matrixStruct.repoNames.forEach((r, repoIdx) => {
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
               // drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
-              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, p, _totalItemsCount);
+              const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
+              const c = pCube.matrix_sets[idx][setIdx][repoIdx];
+              const opacity = c / tc;
+              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, p, _totalItemsCount, opacity);
             }
           });
         });
@@ -145,9 +153,13 @@
 
   const getMatrixLayerItemCount = (data) => {
     return data.reduce((o, cur) => {
-      return o + cur.reduce((o1, cur1) => {
-        return o1 + cur1;
-      }, 0);
+      return o + getMatrixLayerItemSetCount(cur);
+    }, 0);
+  };
+
+  const getMatrixLayerItemSetCount = (data) => {
+    return data.reduce((o1, cur1) => {
+      return o1 + cur1;
     }, 0);
   };
 
@@ -279,14 +291,18 @@
   };
 
 
-  const drawBoxGL = (setName, x, z, width, height, depth, layerPosition, layerItemCount) => {
+  const drawBoxGL = (setName, x, z, width, height, depth, layerPosition, layerItemCount, opacity) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
     const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     let geometry = new THREE.BoxGeometry(width, height, depth);
-    let material = new THREE.MeshBasicMaterial({ color: _colorScale(setName) });
+    let material = new THREE.MeshBasicMaterial({
+      color: _colorScale(setName),
+      transparent: opacity ? true : false,
+      opacity: opacity || 1
+    });
     let set = new THREE.Mesh(geometry, material);
     set.name = setName;
     set.userData = setName;
