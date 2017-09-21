@@ -7,7 +7,7 @@
   const MATRIX = 'matrix';
 
   const SWITCH_SETS_DISPLAY = MATRIX;
-  const SWITCH_SCALE_CUBE = false;
+  const SWITCH_SCALE_CUBE = true;
 
   const NUMBER_OF_LAYERS = 10;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
@@ -21,6 +21,7 @@
   let _cubeScale = null;
   let _nodes;
   let _root = null;
+  let _totalItemsCount = 0;
 
   pCube.drawSets = (options) => {
 
@@ -36,6 +37,7 @@
 
     // cube scale
     const itemsCount = options.parsedData.length;
+    _totalItemsCount = itemsCount;
     _cubeScale = d3.scaleLinear().domain([0, itemsCount]).range([0, CUBE_SIZE]);
 
 
@@ -123,7 +125,7 @@
           matrixStruct.repoNames.forEach((r, repoIdx) => {
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
               // drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
-              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p);
+              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, p, _totalItemsCount);
             }
           });
         });

@@ -822,6 +822,7 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
         pCube.render()
     };
 
