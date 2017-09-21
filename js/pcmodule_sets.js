@@ -3,10 +3,15 @@
  */
 (function (pCube) {
 
+  const TREEMAP = 'treemap';
+  const MATRIX = 'matrix';
+
+  const SWITCH_SETS_DISPLAY = TREEMAP;
   const SWITCH_SCALE_CUBE = true;
 
   const NUMBER_OF_LAYERS = 10;
-  const DOMAIN_RANGE = [0, NUMBER_OF_LAYERS];
+  const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
+  const DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
   const CUBE_SIZE = 500;
   const CUBE_SIZE_HALF = CUBE_SIZE / 2;
   const LAYER_SIZE = 50;
@@ -17,31 +22,51 @@
   let _nodes;
   let _root = null;
 
-  pCube.drawSets = (dataset) => {
+  pCube.drawSets = (options) => {
 
-    pCube.sets_data = {};
+    pCube.sets_data = options;
+    pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
+    pCube.matrix_sets = {};
 
     // time
-    let minDate = d3.min(dataset.parsedData.map(x => x.time));
-    let maxDate = d3.max(dataset.parsedData.map(x => x.time));
-    let range = d3.scaleLinear().domain([minDate, maxDate]).range(DOMAIN_RANGE);
-    console.debug(minDate, maxDate, range, range(minDate), range(maxDate), Math.floor(range(1000)));
+    let minDate = d3.min(options.parsedData.map(x => x.time));
+    let maxDate = d3.max(options.parsedData.map(x => x.time));
+    let yearScale = d3.scaleLinear().domain([minDate, maxDate]).range(DOMAIN_RANGE);
+    console.info(minDate, maxDate, yearScale(minDate), yearScale(maxDate), Math.floor(yearScale(1000)));
 
     // cube scale
-    const itemsCount = dataset.parsedData.length;
+    const itemsCount = options.parsedData.length;
     _cubeScale = d3.scaleLinear().domain([0, itemsCount]).range([0, CUBE_SIZE]);
 
+
+    // do matrix and classification 
+    const matrixStruct = emptyMatrixSetStructure(options.parsedData);
+    const setsStruct = emptyTreemapSetStructure(options.parsedData);
+
     // classifications
-    const emptySets = emptySetStructure(dataset.parsedData);
-    dataset.parsedData.forEach((val, idx) => {
-      let layerNumber = val.time === null ? -1 : Math.floor(range(val.time));
-      if (!pCube.sets_data[layerNumber]) {
-        pCube.sets_data[layerNumber] = _.cloneDeep(emptySets);
+    options.parsedData.forEach((val, idx) => {
+      let layerNumber = val.time === null ? -1 : Math.floor(yearScale(val.time));
+      if (!pCube.treemap_sets[layerNumber]) {
+        pCube.treemap_sets[layerNumber] = _.cloneDeep(setsStruct);
+      }
+      if (!pCube.matrix_sets[layerNumber]) {
+        pCube.matrix_sets[layerNumber] = _.cloneDeep(matrixStruct.matrix);
       }
       val.term.forEach(v => {
-        pCube.sets_data[layerNumber][v].push(val);
+        pCube.treemap_sets[layerNumber][v].push(val);
+
+        let setIdx = matrixStruct.setNames.indexOf(v);
+        let repoIdx = matrixStruct.repoNames.indexOf(val.legalBodyID);
+        pCube.matrix_sets[layerNumber][setIdx][repoIdx] += 1;
       });
     });
+
+    for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
+      console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
+      console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
+    }
+
+    // console.log("matrix_sets", pCube.matrix_sets);
 
     // sum up all the layers form 1-10 so sets grow over time and are not split by the time-slots.
     // https://lodash.com/docs/4.17.4#mergeWith
@@ -51,18 +76,29 @@
       }
     };
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
-      pCube.sets_data[k] = _.mergeWith({}, pCube.sets_data[k], pCube.sets_data[k - 1], customizer);
+      pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
     }
-    console.log(pCube.sets_data[NUMBER_OF_LAYERS - 1]["Blasinstrument"].length, pCube.sets_data[NUMBER_OF_LAYERS]["Blasinstrument"].length);
+    for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
+      console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
+      console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
+    }
 
+    if (SWITCH_SETS_DISPLAY === TREEMAP) {
+      drawTreemap();
+    } else if (SWITCH_SETS_DISPLAY === MATRIX) {
+      drawMatrix();
+    }
+  };
+
+  const drawTreemap = () => {
     const dy = LAYER_SIZE; // size between the layers
     pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let count = Object.keys(pCube.sets_data[idx]).reduce((o, x) => { return o + pCube.sets_data[idx][x].length || 0 }, 0);
+        let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
         let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
-        let nodes = doTreemapLayout(pCube.sets_data, idx);
+        let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox("test", 50, 50, 100, 200, 300, p);
         _nodes.forEach((n, idx) => {
           let w = n.x1 - n.x0;
@@ -76,7 +112,27 @@
     });
   };
 
-  const emptySetStructure = (data) => {
+  const drawMatrix = () => {
+    
+  };
+
+  const getTreemapLayerItemCount = (data) => {
+    let count = 0;
+    Object.keys(data).forEach(s => {
+      count += data[s].length;
+    });
+    return count;
+  };
+
+  const getMatrixLayerItemCount = (data) => {
+    return data.reduce((o, cur) => {
+      return o + cur.reduce((o1, cur1) => {
+        return o1 + cur1;
+      }, 0);
+    }, 0);
+  };
+
+  const emptyTreemapSetStructure = (data) => {
     let emptySets = {};
     data.forEach((val, idx) => {
       val.term.forEach(v => {
@@ -86,7 +142,35 @@
       });
     });
     return emptySets;
-  }
+  };
+
+  const emptyMatrixSetStructure = (data) => {
+    let setNames = []; // new Set();
+    let repoNames = []; // new Set();
+    let matrix = [];
+    data.forEach((val, idx) => {
+      if (repoNames.indexOf(val.legalBodyID) === -1) {
+        repoNames.push(val.legalBodyID);
+      }
+      val.term.forEach(v => {
+        if (setNames.indexOf(v) === -1) {
+          setNames.push(v);
+        }
+      });
+    });
+    for (var i = 0; i < setNames.length; i++) {
+      matrix[i] = [];
+      for (var k = 0; k < repoNames.length; k++) {
+        matrix[i][k] = 0;
+      }
+    }
+
+    return {
+      setNames,
+      repoNames,
+      matrix
+    }
+  };
 
   const doTreemapLayout = (dataset, layerNumber) => {
     if (!dataset[layerNumber]) {
@@ -95,13 +179,13 @@
 
     let data = {
       name: 'tree',
-      children: Object.keys(dataset[NUMBER_OF_LAYERS]).map(key => {
+      children: Object.keys(dataset[0]).map(key => {
         return { name: key };
       })
     };
     if (!_root) { // init calculation with the biggest collection items 
       _root = d3.hierarchy(data);
-      _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[NUMBER_OF_LAYERS][d.name].length : null; })
+      _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[DOMAIN_RANGE_MAX][d.name].length : null; })
         .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
       console.debug(_root);
     }
@@ -123,7 +207,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; 
+    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     const pos = [[w, 0, 0], [-w, 0, 0], [0, h, 0], [0, -h, 0], [0, 0, d], [0, 0, -d]];
     const rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -180,7 +264,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; 
+    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     let geometry = new THREE.BoxGeometry(width, height, depth);
     let material = new THREE.MeshBasicMaterial({ color: _colorScale(setName) });

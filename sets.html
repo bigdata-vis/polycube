@@ -225,8 +225,11 @@
           return d3.ascending(x.Archive_Date, y.Archive_Date);
         });
 
+
+        window.lidoData = lido;
         let parsedLidoData = lido.map(d => {
           let lidoRecID = _.get(d, 'lidoRecID[0]._');
+          let legalBodyID = _.get(d, 'administrativeMetadata[0].recordWrap[0].recordSource[0].legalBodyID[0]._');
           let classes = _.get(d, 'descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification');
           let conceptID = _.map(classes.filter(x => x.conceptID), 'conceptID[0]._');
           let term = _.map(classes.filter(x => x.term), x => {
@@ -242,7 +245,8 @@
             lidoRecID,
             conceptID,
             time,
-            term
+            term,
+            legalBodyID
           }
         });
 
