@@ -617,7 +617,6 @@
                 .ticks(dataSlices);
 
             var dateARR = d3.scaleTime().domain([new Date(startDate), new Date(endDate)]);
-
             // console.log(dateARR);
 
             // var separator = height / dateArray.length;
