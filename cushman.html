@@ -41,6 +41,7 @@
             overflow: hidden;
             margin: 0;
 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         canvas {
@@ -83,6 +84,15 @@
 
         .hide {
             opacity: 0;
+            /*display: none;*/
+        }
+
+        /*.hide, .leaflet-pane .leaflet-tile-pane{*/
+            /*color: #18b23d;*/
+        /*}*/
+
+        .side{
+            display: none;
         }
 
         /*input*/
@@ -165,6 +175,14 @@
             font: 10px sans-serif;
         }
 
+        #textTitle{
+            font-size: smaller;
+        }
+
+        #textTitle, .date, .location{
+            color: #7b7b7b;
+        }
+
     </style>
 </head>
 <body>
@@ -188,6 +206,9 @@
         onclick="polyCube.superImpose()"> SuperImposition
 </button>
 <br>
+<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.clearScene()"> Clear Scene
+</button>
 <p style=" width: 200px; color: white; position: relative; top: 200px; left: 150px; z-index: 999" id="textTitle">i</p>
 <img id="dataImage" style=" width: 200px; position: relative; top: 200px; left: 150px; z-index: 999"  src="#">
 
@@ -204,8 +225,8 @@
 <script src="lib/d3/d3.js"></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+<script src="js/core.js"></script>
 <script src="js/pcmodule_CD.js"></script>
-<script src="js/vis/brushTime.js"></script>
 
 <script>
 
@@ -220,7 +241,9 @@
         if (error) console.log(error);
         function tempRange(data) {
 
-            var newData = data.slice(50, 250); //todo: slice arrray according to date range
+            //check to remove lat and long data
+
+            var newData = data.slice(0, 500); //todo: slice arrray according to date range
 
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -259,7 +282,7 @@
         var gui = new dat.GUI({});
 
         var params = {
-            Project: "KHM Data",
+            Project: "Cushman Data",
             Morphing: -250,
             showData: true,
             showNodes: false,
