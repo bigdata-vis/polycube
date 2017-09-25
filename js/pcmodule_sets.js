@@ -35,6 +35,22 @@
     let yearScale = d3.scaleLinear().domain([minDate, maxDate]).range(DOMAIN_RANGE);
     console.info(minDate, maxDate, yearScale(minDate), yearScale(maxDate), Math.floor(yearScale(1000)));
 
+    // TODO: update labels 
+    let mi = new Date();
+    mi.setFullYear(minDate);
+    let ma = new Date();
+    ma.setFullYear(maxDate);
+    pCube.drawLabels({ //Todo: fix label with proper svg
+      labelPosition: {
+        x: CUBE_SIZE_HALF,//offset border
+        y: -(CUBE_SIZE / 2),
+        z: CUBE_SIZE_HALF
+      },
+      labelCount : 10,
+      startDate: mi,
+      endDate: ma
+    });
+
     // cube scale
     const itemsCount = options.parsedData.length;
     _totalItemsCount = itemsCount;
@@ -135,6 +151,7 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = c / tc;
               drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, p, _totalItemsCount, opacity);
+              //drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
             }
           });
         });

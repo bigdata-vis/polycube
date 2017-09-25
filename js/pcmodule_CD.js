@@ -504,15 +504,16 @@
          * Draw Timeline and Labels
          * todo: Redo timeLine
          *
-         */
-        drawLabels({ //Todo: fix label with proper svg
-            labelPosition: {
-                x: widthHalf,//offset border
-                y: -(height / 2),
-                z: widthHalf
-            }
+        */
+         drawLabels({ //Todo: fix label with proper svg
+          labelPosition: {
+            x: widthHalf,//offset border
+            y: -(height / 2),
+            z: widthHalf
+          }
         });
 
+        pCube.drawLabels = drawLabels;
         function drawLabels(parameters) {
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
@@ -532,8 +533,11 @@
                     z: 100
                 };
 
-            // console.log(separator);
+            // TODO: remove old data and time
+            d3.selectAll("p.textTile").remove();
+            mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
 
+            // console.log(separator);
             for (var i = 0; i < (segments); i++) {
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
                 // var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
