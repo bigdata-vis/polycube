@@ -39,7 +39,7 @@
      * @param datasets2
      */
 
-    var dataSlices = 4;
+    var dataSlices = 8;
 
     var timeLinearG;
 
@@ -104,22 +104,38 @@
              * pass grouped data to elements d3 function and draw them on maps individually
              */
 
-            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+            var jp = [1940, 1942, 1944, 1946, 1948, 1950, 1952, 1956];
 
-            if (d.time < jp1) {
+            if (d.time <= jp[0]) {
                 d.ts = "jp1";
             }
 
-            if (d.time > jp1 && d.time <= jp2) {
+            if (d.time > jp[0] && d.time <= jp[1]) {
                 d.ts = "jp2";
             }
 
-            if (d.time > jp2 && d.time <= jp3) {
+            if (d.time > jp[1] && d.time <= jp[2]) {
                 d.ts = "jp3";
             }
 
-            if (d.time > jp3 && d.time <= jp4) {
+            if (d.time > jp[2] && d.time <= jp[3]) {
                 d.ts = "jp4";
+            }
+
+            if (d.time > jp[3] && d.time <= jp[4]) {
+                d.ts = "jp5";
+            }
+
+            if (d.time > jp[4] && d.time <= jp[5]) {
+                d.ts = "jp6";
+            }
+
+            if (d.time > jp[5] && d.time <= jp[6]) {
+                d.ts = "jp7";
+            }
+
+            if (d.time > jp[6] && d.time <= jp[7]) {
+                d.ts = "jp8";
             }
 
         });
@@ -337,7 +353,7 @@
          * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
          * segements from the length of defaultData or datasets1
          */
-            // var segments = defaultData.length;
+        // var segments = defaultData.length;
         // var segments = (datasets2.length < 20 ? datasets.length : 10);
         // var segments = 10;
 
@@ -365,11 +381,11 @@
             .key(function (d) {
                 return d.ts;
             })
-            .entries(datasets).sort(function(a, b){
+            .entries(datasets).sort(function (a, b) {
                 return a.key < b.key;
             });
 
-        // console.log(dataBySeg);
+        console.log(dataBySeg);
 
         /**
          *Create Div holders for the segments
@@ -715,6 +731,7 @@
         d['SI'] = si;
     }
 
+
     /**
      * Default STC Layout Fallback function
      *
@@ -751,10 +768,10 @@
         var segCounter = 0; //keep list of the segment counters
 
         /**
-         * Reverse array to show last segment first
+         * reverse array before animating
          */
-
         scene.children[0].children.reverse();
+
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) {
@@ -829,7 +846,6 @@
      *
      */
 
-
     pCube.juxstaPose = function () {
         var duration = 2500;
         TWEEN.removeAll();
@@ -860,6 +876,7 @@
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
+
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
                 y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 400, //just another way of getting 550
@@ -943,6 +960,7 @@
      * Super imposition function
      * todo: fix rotation of the cube with map
      */
+
     pCube.superImpose = function () {
 
         //controls
@@ -952,6 +970,7 @@
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
+
 
         d3.selectAll(".elements_child")
             .style("background-color", "transparent");
@@ -972,7 +991,6 @@
 
         scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
-
 
         scene.children[0].children.forEach(function (object, i) {
 
@@ -1021,18 +1039,6 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
-
-
-        /**
-         * Use Orthographic Camera
-         * https://threejs.org/docs/#api/cameras/OrthographicCamera
-         * https://threejs.org/docs/#examples/cameras/CombinedCamera
-         */
-
-        // camera = new THREE.OrthographicCamera(window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 1, 10000);
-        // camera.position.set(600, 400, 800);
-        // console.log(camera);
-
 
         //camera rotation
         var rotate = new TWEEN.Tween({
@@ -1293,8 +1299,8 @@
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
             // var layerPoint = crs.latLngToPoint(coord, mapZoom);
+            // console.log(translate([layerPoint.x, layerPoint.y]));
             // var radius = 1000;
-
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
             L.marker(coord, {icon: icon}).addTo(mymap)
         });
@@ -1332,107 +1338,6 @@
 
     };
 
-
-    pCube.drawMap__old = function (elemID, data) {
-
-        var map = new google.maps.Map(d3.select(elemID).node(), {
-            zoom: 8,
-            // center: new google.maps.LatLng(48, 16),
-            center: new google.maps.LatLng(34.0736204, -108.4003563),
-            mapTypeId: google.maps.MapTypeId.TERRAIN,
-            gestureHandling: 'cooperative',
-            // styles:[{"stylers": [{"saturation": -75},{"lightness": 75}]}]
-        });
-
-
-        var image = '/texture/ball2.png';
-        // var vegetation = new google.maps.Marker({
-        //     position: {lat: 38.434084, lng: -78.864970},
-        //     map: map,
-        //     icon: image,
-        //     scale: 100
-        // });
-
-        var infowindow = new google.maps.InfoWindow();
-        var marker, i;
-
-        for (i = 0; i < data.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(data[i].long, data[i].lat),
-                map: map,
-                icon: image,
-                scale: 100
-            });
-
-            google.maps.event.addListener(marker, 'over', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(data[i].IU_Archives_Number);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
-        }
-
-        var overlay = new google.maps.OverlayView(),
-            r = 4.5;
-
-        overlay.onAdd = function () {
-
-            var layer = d3.select(this.getPanes().overlayLayer).append("div")
-                .attr("class", "stations");
-
-            // Draw each marker as a separate SVG element.
-            // We could use a single SVG, but what size would it have?
-            overlay.draw = function () {
-
-                var projection = this.getProjection(),
-                    padding = 10;
-
-                var marker = layer.selectAll("svg")
-                    .data(data)
-                    .each(transform) // update existing markers
-                    .enter().append("svg")
-                    .each(transform)
-                    .attr("class", "marker")
-                    .each(function (d) {
-                        // console.log(d)
-                    });
-
-                // Add a circle.
-                marker.append("circle")
-                    .attr("r", 4.5)
-                    .attr("cx", padding)
-                    .attr("cy", padding)
-                    .attr("fill", "red")
-                    .each(function (d) {
-
-                        // console.log(d)
-
-                    });
-
-                // Add a label.
-                marker.append("text")
-                    .attr("x", padding + 7)
-                    .attr("y", padding)
-                    .attr("dy", ".31em")
-                    .text(function (d) {
-                        return d.IU_Archives_Number;
-                    });
-
-                function transform(d) {
-                    d = new google.maps.LatLng(+d.lat, +d.long);
-                    d = projection.fromLatLngToDivPixel(d);
-
-                    return d3.select(this)
-                        .style("left", (d.x - padding) + "px")
-                        .style("top", (d.y - padding) + "px");
-
-                }
-            };
-        };
-
-        // Bind our overlay to the map…
-        // overlay.setMap(map);
-    };
 
     pCube.clearScene = function () {
         // scene.clear();
