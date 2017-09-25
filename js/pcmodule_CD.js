@@ -39,10 +39,23 @@
      * @param datasets2
      */
 
-
-    var dataSlices = 10;
+    var dataSlices = 4;
 
     var timeLinearG;
+
+
+    /**
+     * Flip mirro and horizontal
+     * https://threejs.org/docs/#manual/introduction/Matrix-transformations
+     * https://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js
+     */
+
+    var mS = (new THREE.Matrix4()).identity();
+    // var mS = (new THREE.Matrix4()).getInverse();
+    //set -1 to the corresponding axis
+    // mS.elements[0] = -1;
+    //mS.elements[5] = -1;
+    // mS.elements[10] = -1;
 
     pCube.drawElements = function (datasets, datasets2) {
 
@@ -51,6 +64,8 @@
          */
         var parse2 = d3.timeParse("%Y-%m-%d");
         var parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
+        var parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
+
 
         var format2 = d3.timeFormat("%Y");
 
@@ -74,8 +89,39 @@
              */
             defaultData[i] = d;
 
-            d.time = parse3(d.Archive_Date);
-            d.time = +format2(d.time)
+            // console.log(+format2(parse4(d.Date)));
+
+            d.time = parse4(d.Date);
+            d.time = +format2(d.time);
+
+
+            //data segmentation
+            /**
+             * Group dataSets by intervals and sum of the intervals date range,
+             * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
+             * use d3.nest() to group all elements in dataSet by jp suing example from the link below
+             * https://proquestionasker.github.io/blog/d3Nest/
+             * pass grouped data to elements d3 function and draw them on maps individually
+             */
+
+            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+
+            if (d.time < jp1) {
+                d.ts = "jp1";
+            }
+
+            if (d.time > jp1 && d.time <= jp2) {
+                d.ts = "jp2";
+            }
+
+            if (d.time > jp2 && d.time <= jp3) {
+                d.ts = "jp3";
+            }
+
+            if (d.time > jp3 && d.time <= jp4) {
+                d.ts = "jp4";
+            }
+
         });
 
         /**
@@ -93,9 +139,9 @@
          *
          */
         var dateTestEx = d3.extent(datasets, function (d) {
-            // console.log(d)
             return d.time;
         });
+
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
@@ -116,6 +162,7 @@
                 return d;
             });
 
+
         /**
          * calculate the largest and smallest value for Xscale and Y scale
          */
@@ -125,7 +172,6 @@
             yScale = d3.scaleLinear()
                 .domain(yExent)
                 .range([0, height]);
-
 
         /**
          * scenes
@@ -213,15 +259,37 @@
          * Add Object Group to Scene (Cube and Mesh?)
          *Mesh is for the timeline title
          */
+
         scene.add(cube);
         scene.add(mesh);
+
+
         scene.add(pointCloud);
         WGLScene.add(glbox);
 
+        /**
+         * Time axis inverted
+         * @type {number}
+         */
 
-        console.log(pointCloud);
-        pointCloud.rotation.y = 10;
-        pointCloud.position.z = -60;
+        // pointCloud.rotation.z = 3;
+        // pointCloud.position.z = -60;
+        // pointCloud.position.y -= 10;
+        // pointCloud.position.x += 10;
+
+        // console.log(pointCloud);
+
+        // glbox.rotation.y = 10;
+        // glbox.position.z = -60;
+
+        //rotate cube
+        // pointCloud.position.copy(cube.position);
+        // pointCloud.rotation.copy(cube.rotation);
+
+
+        //flip pointcloud
+        // cube.applyMatrix(mS);
+        // pointCloud.applyMatrix(mS);
 
 
         /**
@@ -272,9 +340,8 @@
          * segements from the length of defaultData or datasets1
          */
             // var segments = defaultData.length;
-        var segments = (datasets2.length < 20 ? datasets.length : 10);
+        // var segments = (datasets2.length < 20 ? datasets.length : 10);
         // var segments = 10;
-
 
         /**D3
          *Map Projection
@@ -291,27 +358,45 @@
             .projection(projection)
             .pointRadius(2);
 
+        /**
+         * D3.nest to segment each data by ts property
+         * sort data by jp1
+         */
+
+        var dataBySeg = d3.nest()
+            .key(function (d) {
+                return d.ts;
+            })
+            .entries(datasets).sort(function(a, b){
+                return a.key > b.key;
+            });
+
+        // console.log(dataBySeg);
 
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
+
         var elements = d3.select("body").selectAll('.element')
-            .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
+        //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
+        //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
+            .data(dataBySeg).enter()
             .append('div')
             .attr('class', 'elements')
             .style("width", width + "px")
             .style("height", height + "px")
             .attr('id', 'mapbox')
             .each(function (d, i) {
-                // console.log(this);
+                // console.log(d);
                 var div = d3.select(this).append("div")
                     .attr("class", "elements_child")
                     .style("width", width + "px")
                     .style("height", height + "px")
                     .attr("id", function (d) {
-                        return d.IU_Archives_Number; //todo: show different data on map layers
+                        // return d.IU_Archives_Number; //todo: show different data on map layers
+                        return d.key;
                         // return "55117";
                     })
                     .filter(function () {  //todo: point of hiding other map items
@@ -320,31 +405,20 @@
                     .classed("hide", true)
                     .classed("dataPane", true);
 
-                pCube.drawMap(d.IU_Archives_Number, datasets) //todo: show map on each layer
+                /**
+                 * MAP entry point
+                 * world mao implementation with leaflet
+                 * @param d.IU is the elem ID of each mao
+                 * Implement MabBox component
+                 * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
+                 *
+                 */
+                // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
+                pCube.drawMap(d.key, d.values);
             });
-
 
         // pCube.drawMap("55117", datasets);
 
-        /**
-         * Div SVG
-         */
-
-        // // svg = elements.append("svg")
-        // svg = elements.append("svg")
-        //     .attr("class", "elements_child")
-        //     .attr("width", width)
-        //     .attr("height", height)
-        //     .style("opacity", 0.2)
-        //     .attr("fill", new THREE.Color("#ececec").getStyle());
-
-        /**
-         * MAP entry point
-         * Austrian Map Implementation with topojson
-         * @param aut
-         * Implement MabBox component
-         * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
-         */
 
         pCube.drawMap_old = function (aut) {
             var counter = 0; //counter to monitor the amount of data rounds
@@ -431,8 +505,17 @@
         /**
          * Objectify and draw segments elements
          */
-        elements.each(setViewData);
+        // elements.each(setViewData);
         elements.each(addtoScene);
+
+
+        // var newDiv = d3.select("body").append('div')
+        //     .attr("class", "newElement")
+        //     .style("width",200 + "px")
+        //     .style("height",200 + "px");
+        //
+        // newDiv.each(addtoScene);
+
 
         /**
          * Test biographical data
@@ -444,7 +527,7 @@
             .data(datasets).enter()
             .each(function (d, i) {
                 var image = document.createElement('img');
-                var interval = 500 / segments; //height/segments
+                var interval = 500 / dataSlices; //height/segments
 
                 image.style.width = 10 + "px";
                 image.style.height = 10 + "px";
@@ -452,32 +535,34 @@
 
                 image.addEventListener('load', function (event) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = pCube.projection(d.long,d.lat).x,
-                        lat = pCube.projection(d.long,d.lat).y;
+                        long = pCube.projection(d.long, d.lat).x,
+                        lat = pCube.projection(d.long, d.lat).y;
 
-                    var coord = translate([lat,long]);
+                    var coord = translate([lat, long]);
 
                     // console.log(coord);
 
 
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                    object.position.z = coord[0] -500;
+                    object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
 
-                    object.name = "pointCloud"; //todo: remove later
+                    // add object rotation
+                    // object.rotation.fromArray(rot[2]);
 
+                    object.name = "pointCloud"; //todo: remove later
                     object.element.onmouseover = function () {
                         // console.log(d);
                         d3.select("#textTitle")
-                        // .html("Simba")
-                            .html("<span>Description: </span>" + d.Description_from_Notebook + "<br>" +
-                                "<span>archive_Date: </span>" + d.Archive_Date + "<br>" +
-                                "<span>Location: </span>" + d.City_and_State + "<br>"
+                            .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
+                                "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                             );
 
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL)
                     };
+
 
                     /**
                      * populate line list
@@ -490,8 +575,7 @@
                     /**
                      * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
                      */
-                    // console.log(object);
-                    // scene.add(object);
+
                     pointCloud.add(object);
                     // }
                 }, false);
@@ -499,51 +583,62 @@
 
             });
 
-
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
          *
-        */
-         drawLabels({ //Todo: fix label with proper svg
-          labelPosition: {
-            x: widthHalf,//offset border
-            y: -(height / 2),
-            z: widthHalf
-          }
+         */
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: widthHalf,//offset border
+                y: -(height / 2) + 80,
+                z: widthHalf
+            }
         });
 
         pCube.drawLabels = drawLabels;
         function drawLabels(parameters) {
+
+            // console.log(dateTestEx[0]);
+            // console.log(new Date(dateTestEx[1]));
+
+            // console.log(d3.scaleTime().domain([new Date(dateTestEx[0])]))
+
+
             if (parameters === undefined) parameters = {};
-            var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
+            var labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
 
-            var startDate = parameters["startDate"] || "1938-01";
-            var endDate = parameters["endDate"] || "1952-01";
+            var startDate = parameters["startDate"] || dateTestEx[0].toString();
+            var endDate = parameters["endDate"] || dateTestEx[1].toString();
 
+            // console.log(startDate);
+            // console.log(endDate);
 
             var dateArray = d3.scaleTime()
                 .domain([new Date(startDate), new Date(endDate)])
-                .ticks(labelCount);
+                .ticks(dataSlices);
+
+            var dateARR = d3.scaleTime().domain([new Date(startDate), new Date(endDate)]);
+
+            // console.log(dateARR);
+
             // var separator = height / dateArray.length;
-            var separator = height / segments;
+            var separator = height / dataSlices;
             var p = parameters["labelPosition"] || {
                     x: -80,//offset border
-                    y: -10,
+                    y: 0,
                     z: 100
                 };
 
             // TODO: remove old data and time
             d3.selectAll("p.textTile").remove();
             mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
+            for (var i = 0; i < (dataSlices); i++) {
 
-            // console.log(separator);
-            for (var i = 0; i < (segments); i++) {
+                // console.log(dateArray[i]);
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
-                // var label = makeTextSprite(i + " yr(s)", {fontsize: 8});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = 20;
-
                 p.y += separator; //increment y position of individual label to increase over time
             }
 
@@ -581,9 +676,7 @@
         pCube.render();
     };
 
-
     function addtoScene(d, i) {
-
         var interval = 500 / dataSlices; //height/segments
         var objSeg = new THREE.CSS3DObject(this);
         //position
@@ -595,6 +688,11 @@
         objSeg.name = "seg";
         cube.add(objSeg);
         //add new object test
+
+        // console.log(objSeg.rotation);
+        // objSeg.rotation.x = 1;
+
+        // console.log(rot[2])
     }
 
     // console.log(testData);
@@ -630,8 +728,6 @@
     pCube.default = function () {
         // var segments = defaultData.length;
         var segments = dataSlices;
-
-        console.log(segments);
 
         var interval = height / segments; //height/segments
 
@@ -981,7 +1077,7 @@
 
     pCube.drawLines = function () {
 
-        console.log(lineList);
+        // console.log(lineList);
 
         /** Threejs Material decl to be used later for lines implementation
          *
@@ -1084,8 +1180,7 @@
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
-
-        // pointCloud.rotation.y -= 0.1;
+        // pointCloud.rotation.y -= 0.05;
 
     };
 
@@ -1103,21 +1198,25 @@
 
     pCube.drawMap = function (elemID, data) {
 
-        var mymap = L.map(elemID).setView([30.4507462 ,-91.154552], 3);
+        var mymap = L.map(elemID).setView([30.4507462, -91.154552], 3);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             attributionControl: false,
             maxZoom: 18,
             id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg'
+            accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg',
+            zoomControl: false
         }).addTo(mymap);
 
         mymap.touchZoom.disable();
-        mymap.doubleClickZoom.enable();
+        // mymap.doubleClickZoom.enable();
+        mymap.doubleClickZoom.disable();
         mymap.scrollWheelZoom.disable();
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
+        mymap.dragging.disable();
+        mymap.zoomControl.disable();
 
 
         var getPxBounds = mymap.getPixelBounds;
@@ -1125,17 +1224,17 @@
         mymap.getPixelBounds = function () {
             var bounds = getPxBounds.call(this);
             // ... extend the bounds
-            bounds.min.x=bounds.min.x-1000;
-            bounds.min.y=bounds.min.y-1000;
-            bounds.max.x=bounds.max.x+1000;
-            bounds.max.y=bounds.max.y+1000;
+            bounds.min.x = bounds.min.x - 1000;
+            bounds.min.y = bounds.min.y - 1000;
+            bounds.max.x = bounds.max.x + 1000;
+            bounds.max.y = bounds.max.y + 1000;
             return bounds;
         };
 
         var color = '#1C75BC';
         var circle_options = {
-            color:'#ff9600',
-            fillColor:'#ff9600'
+            color: '#ff9600',
+            fillColor: '#ff9600'
         };
 
         var crs = mymap.options.crs;
@@ -1151,7 +1250,6 @@
             return projectedPoint;
         };
 
-
         /**LATLONG to POINT
          * convert latlong to point and use it to porject xy coordinates of the sprite
          * https://stackoverflow.com/questions/40986573/project-leaflet-latlng-to-tile-pixel-coordinates
@@ -1163,22 +1261,24 @@
             var layerPoint = crs.latLngToPoint(coord, mapZoom);
             // console.log(translate([layerPoint.x, layerPoint.y]));
 
-            var radius = 500;
-            var circle = L.circle(coord, radius , circle_options).addTo(mymap);
+            var radius = 1000;
+            var circle = L.circle(coord, radius, circle_options).addTo(mymap);
         });
 
         /**
          * On zoom map, remove, update and draw pointClouds
          *
          */
-        mymap.on('zoomend', function(e) {
+
+        mymap.on('zoomend', function (e) {
             // console.log(mapZoom)
             console.log(e.target);
 
-            //update and redraw point clouds
-
-
+            // remove point cloud
+            delete3DOBJ("pointCloud");
+            // add new point cloud with project points
         });
+
 
         // var marker = L.marker([51.5, -0.09]).addTo(mymap);
         //
@@ -1190,13 +1290,14 @@
         // }).addTo(mymap);
         //
 
-        // var polygon = L.polygon([
-        //     [30.4507462, -0.8],
-        //     [30.4307462, -0.6],
-        //     [30.4107462, -0.47]
-        // ]).addTo(mymap);
+        var polygon = L.polygon([
+            [51.509, -0.08],
+            [51.503, -0.06],
+            [51.51, -0.047]
+        ]).addTo(mymap);
 
     };
+
 
     pCube.drawMap__old = function (elemID, data) {
 
@@ -1299,6 +1400,11 @@
         // overlay.setMap(map);
     };
 
+    pCube.clearScene = function () {
+        // scene.clear();
+        console.log(scene)
+    };
+
     /**
      * Translate function for the long and lat coordinates
      * @param point
@@ -1312,6 +1418,26 @@
     }
 
     /**
+     * Remove object from scene
+     */
+
+    function delete3DOBJ(objName) {
+        var selectedObject = scene.getObjectByName(objName);
+        console.log(selectedObject);
+
+        // var elem = document.getElementsByClassName("pointCloud");
+        var elem = d3.selectAll("." + objName);
+        elem.remove();
+        // elem.remove();
+        // elem.parentNode.removeChild(elem);
+
+        scene.remove(selectedObject);
+        pCube.animate();
+
+        console.log(elem);
+    }
+
+    /**
      * 3D Scene Renderer
      *
      */
@@ -1319,7 +1445,10 @@
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
+    glbox.name = "glbox";
+
     var pointCloud = new THREE.Object3D();
+    pointCloud.name = "pointCloud";
 
     /**
      * WebGl Scene and renderer
