@@ -9,12 +9,12 @@
   const SWITCH_SETS_DISPLAY = MATRIX;
   const SWITCH_SCALE_CUBE = true;
 
-  const NUMBER_OF_LAYERS = 10;
+  const NUMBER_OF_LAYERS = pCube.dataSlices;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
   const DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
   const CUBE_SIZE = 500;
   const CUBE_SIZE_HALF = CUBE_SIZE / 2;
-  const LAYER_SIZE = 50;
+  const LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
 
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);

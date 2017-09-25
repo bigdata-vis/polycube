@@ -39,10 +39,9 @@
      * @param datasets2
      */
 
-    var dataSlices = 4;
+    var dataSlices = pCube.dataSlices = 4;
 
     var timeLinearG;
-
 
     /**
      * Flip mirro and horizontal
