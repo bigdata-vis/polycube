@@ -41,6 +41,8 @@
 
     var dataSlices = pCube.dataSlices = 4;
 
+    var gl_elements = null;
+
     var timeLinearG;
 
     /**
@@ -504,6 +506,7 @@
         /**
          * Objectify and draw segments elements
          */
+        gl_elements = [];
         // elements.each(setViewData);
         elements.each(addtoScene);
 
@@ -686,6 +689,7 @@
         objSeg.rotation.fromArray(rot[2]);
         objSeg.name = "seg";
         cube.add(objSeg);
+        gl_elements.push(objSeg);
         //add new object test
 
         // console.log(objSeg.rotation);
@@ -1470,6 +1474,9 @@
     };
     pCube.getGLBox = () => {
       return glbox;
+    };
+    pCube.getGLSegments = () => {
+      return gl_elements;
     };
 
     window.polyCube = pCube;

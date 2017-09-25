@@ -4,6 +4,7 @@
 (function (pCube) {
 
   const TREEMAP = 'treemap';
+  const TREEMAP_FLAT = 'treemap_flat';
   const MATRIX = 'matrix';
 
   const SWITCH_SETS_DISPLAY = MATRIX;
@@ -116,7 +117,7 @@
 
   const drawTreemap = () => {
     const dy = LAYER_SIZE; // size between the layers
-    pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
+    pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
@@ -140,7 +141,7 @@
     let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
     let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
 
-    pCube.getCube().children.filter(x => x.name === 'seg').forEach((layer, idx) => {
+    pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
         matrixStruct.setNames.forEach((s, setIdx) => {
