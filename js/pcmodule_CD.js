@@ -1281,7 +1281,7 @@
          */
 
         var icon = L.icon({
-            iconUrl: '/texture/ball.png',
+            iconUrl: 'texture/ball.png',
             iconSize:     [10, 10] // size of the icon
             // shadowSize:   [50, 64], // size of the shadow
             // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
