@@ -4,12 +4,20 @@
 (function (pCube) {
 
   const TREEMAP = 'treemap';
-  const TREEMAP_FLAT = 'treemap_flat';
+  const TREEMAP_FLAT = 'treemap_flat'; // TODO: treemap flat with lines between layers
   const MATRIX = 'matrix';
 
-  const SWITCH_SETS_DISPLAY = MATRIX;
-  const SWITCH_SCALE_CUBE = true;
+  const LINE_STYLE_CENTER = 'center';
+  const LINE_STYLE_CORNER = 'corner';
 
+  const SWITCH_SETS_DISPLAY = TREEMAP_FLAT;
+  const SWITCH_SCALE_CUBE = true;
+  const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
+
+
+  const SELECTION_CLASS = ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]; // ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"];
+
+  const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
   const DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
@@ -17,7 +25,7 @@
   const CUBE_SIZE_HALF = CUBE_SIZE / 2;
   const LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
 
-  const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]);
+  const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
   let _cubeScale = null;
   let _nodes;
@@ -27,50 +35,58 @@
   pCube.drawSets = (options) => {
 
     pCube.sets_data = options;
+    pCube.sets_filtered_by_selection = SELECTION_CLASS && SELECTION_CLASS.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, SELECTION_CLASS).length > 0)
+      .map(d => {
+        d.term = _.intersection(d.term, SELECTION_CLASS);
+        return d;
+      }) : options.parsedData;
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
     pCube.matrix_sets = {};
 
     // time
-    let minDate = d3.min(options.parsedData.map(x => x.time));
-    let maxDate = d3.max(options.parsedData.map(x => x.time));
-    let yearScale = d3.scaleLinear().domain([minDate, maxDate]).range(DOMAIN_RANGE);
-    console.info(minDate, maxDate, yearScale(minDate), yearScale(maxDate), Math.floor(yearScale(1000)));
+    let dateExt = d3.extent(pCube.sets_filtered_by_selection, d => d.time);
+    let yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
+    console.info(dateExt, yearScale(dateExt[0]), yearScale(dateExt[1]), Math.floor(yearScale(1000)));
+    pCube.dateTestEx(dateExt);
 
-    // TODO: update labels 
+    // update labels 
     let mi = new Date();
-    mi.setFullYear(minDate);
+    mi.setFullYear(dateExt[0]);
     let ma = new Date();
-    ma.setFullYear(maxDate);
+    ma.setFullYear(dateExt[1]);
     pCube.drawLabels({ //Todo: fix label with proper svg
       labelPosition: {
         x: CUBE_SIZE_HALF,//offset border
         y: -(CUBE_SIZE / 2),
         z: CUBE_SIZE_HALF
       },
-      labelCount : 10,
       startDate: mi,
       endDate: ma
     });
 
     // cube scale
-    const itemsCount = options.parsedData.length;
+    const itemsCount = pCube.sets_filtered_by_selection.length;
     _totalItemsCount = itemsCount;
     _cubeScale = d3.scaleLinear().domain([0, itemsCount]).range([0, CUBE_SIZE]);
 
 
     // do matrix and classification 
-    const matrixStruct = emptyMatrixSetStructure(options.parsedData);
-    const setsStruct = emptyTreemapSetStructure(options.parsedData);
+    const matrixStruct = emptyMatrixSetStructure(pCube.sets_filtered_by_selection);
+    const setsStruct = emptyTreemapSetStructure(pCube.sets_filtered_by_selection);
+
+    for (var index = -1; index < NUMBER_OF_LAYERS; index++) {
+      if (!pCube.treemap_sets[index]) {
+        pCube.treemap_sets[index] = _.cloneDeep(setsStruct);
+      }
+      if (!pCube.matrix_sets[index]) {
+        pCube.matrix_sets[index] = _.cloneDeep(matrixStruct.matrix);
+      }
+    }
 
     // classifications
-    options.parsedData.forEach((val, idx) => {
+    pCube.sets_filtered_by_selection.forEach((val, idx) => {
       let layerNumber = val.time === null ? -1 : Math.floor(yearScale(val.time));
-      if (!pCube.treemap_sets[layerNumber]) {
-        pCube.treemap_sets[layerNumber] = _.cloneDeep(setsStruct);
-      }
-      if (!pCube.matrix_sets[layerNumber]) {
-        pCube.matrix_sets[layerNumber] = _.cloneDeep(matrixStruct.matrix);
-      }
       val.term.forEach(v => {
         pCube.treemap_sets[layerNumber][v].push(val);
 
@@ -110,13 +126,14 @@
 
     if (SWITCH_SETS_DISPLAY === TREEMAP) {
       drawTreemap();
+    } else if (SWITCH_SETS_DISPLAY === TREEMAP_FLAT) {
+      drawTreemapFlat();
     } else if (SWITCH_SETS_DISPLAY === MATRIX) {
       drawMatrix(matrixStruct);
     }
   };
 
   const drawTreemap = () => {
-    const dy = LAYER_SIZE; // size between the layers
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
@@ -135,6 +152,71 @@
         });
       }
     });
+  };
+
+
+  const drawTreemapFlat = () => {
+    let linesContainer = new THREE.Object3D();
+    let linesMemory = [];
+    pCube.getGLSegments().forEach((layer, idx) => {
+      let p = layer.position;
+      if (idx < NUMBER_OF_LAYERS) {
+        let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
+        let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
+        _tmap.size([cubeSize, cubeSize]);
+        let nodes = doTreemapLayout(pCube.treemap_sets, idx);
+        // drawBox("test", 50, 50, 100, 200, 300, p);
+        _nodes.forEach(n => {
+          let w = n.x1 - n.x0;
+          let d = n.y1 - n.y0;
+          let rect = drawRect(n.data.name, n.x0, n.y0, w, LAYER_SIZE, d, p, count);
+          if (!linesMemory[idx]) {
+            linesMemory[idx] = {};
+          }
+          linesMemory[idx][n.data.name] = { rect, w, d };
+          if (idx > 0) {
+            let prevRect = linesMemory[idx - 1][n.data.name];
+            if (prevRect) {
+              if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CENTER) {
+                drawLine(n.data.name, linesContainer,
+                  new THREE.Vector3(rect.position.x, rect.position.y - (LAYER_SIZE / 2), rect.position.z),
+                  new THREE.Vector3(prevRect.rect.position.x, prevRect.rect.position.y - (LAYER_SIZE / 2), prevRect.rect.position.z)
+                );
+              } else if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CORNER) {
+                for (let k = 0; k < 4; k++) {
+                  let tx = (w / 2), ty = (d / 2), ptx = (prevRect.w / 2), pty = (prevRect.d / 2);
+                  if (k === 1) {
+                    tx *= -1;
+                    ptx *= -1;
+                  } else if (k === 2) {
+                    ty *= -1;
+                    pty *= -1;
+                  } else if (k === 3) {
+                    tx *= -1;
+                    ptx *= -1;
+                    ty *= -1;
+                    pty *= -1;
+                  }
+                  drawLine(n.data.name, linesContainer,
+                    new THREE.Vector3(
+                      rect.position.x + tx,
+                      rect.position.y - (LAYER_SIZE / 2),
+                      rect.position.z + ty
+                    ),
+                    new THREE.Vector3(
+                      prevRect.rect.position.x + ptx,
+                      prevRect.rect.position.y - (LAYER_SIZE / 2),
+                      prevRect.rect.position.z + pty
+                    )
+                  );
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+    pCube.getGLBox().add(linesContainer);
   };
 
   const drawMatrix = (matrixStruct) => {
@@ -308,6 +390,62 @@
     pCube.getCube().add(box);
   };
 
+  const drawRect = (setName, x, z, width, height, depth, layerPosition, layerItemCount) => {
+
+    const box = new THREE.Object3D();
+    const r = Math.PI / 2;
+    const h = height / 2,
+      w = width / 2,
+      d = depth / 2;
+    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+
+    const pos = [0, -h, 0];
+    const rot = [r, 0, 0];
+
+    var element = document.createElement('div');
+    element.classList = ['set-side', 'set', 'set-' + setName].join(' ')
+
+    element.style.width = width + 'px';
+    element.style.height = depth + 'px';
+
+    element.style.border = "1px solid red";
+    element.style.backgroundColor = _colorScale(setName);
+    element.style.opacity = 0.3;
+
+    var object = new THREE.CSS3DObject(element);
+    object.position.fromArray(pos);
+    object.rotation.fromArray(rot);
+    object.name = setName;
+
+    box.add(object);
+
+    box.position.y = layerPosition.y + h;
+    box.position.x = x - cubesize_per_items + w;
+    box.position.z = z - cubesize_per_items + d;
+    pCube.getCube().add(box);
+
+    return box;
+  };
+
+
+  const drawLine = (setName, container, v1, v2) => {
+
+    let color = _colorScale(setName);
+
+    var material = new THREE.LineBasicMaterial({
+      color: color,
+      linewidth: 2,
+      linecap: 'round', //ignored by WebGLRenderer
+      linejoin: 'round' //ignored by WebGLRenderer
+    });
+    material.blending = THREE.NoBlending;
+    var geometry = new THREE.Geometry();
+
+    geometry.vertices.push(v1, v2);
+    //geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
+    var line = new THREE.Line(geometry, material);
+    container.add(line);
+  };
 
   const drawBoxGL = (setName, x, z, width, height, depth, layerPosition, layerItemCount, opacity) => {
     const h = height / 2,
