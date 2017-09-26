@@ -385,7 +385,7 @@
                 return a.key < b.key;
             });
 
-        console.log(dataBySeg);
+        // console.log(dataBySeg);
 
         /**
          *Create Div holders for the segments
