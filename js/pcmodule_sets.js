@@ -16,6 +16,7 @@
 
 
   const SELECTION_CLASS = ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]; // ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"];
+  const SELECTION_YEAR = [1800, 2000];
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -37,6 +38,7 @@
     pCube.sets_data = options;
     pCube.sets_filtered_by_selection = SELECTION_CLASS && SELECTION_CLASS.length > 0 ? options.parsedData
       .filter(d => _.intersection(d.term, SELECTION_CLASS).length > 0)
+      .filter(d => d.time >= SELECTION_YEAR[0] && d.time <= SELECTION_YEAR[1])
       .map(d => {
         d.term = _.intersection(d.term, SELECTION_CLASS);
         return d;
