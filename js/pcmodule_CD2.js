@@ -745,8 +745,6 @@
         var duration = 2500;
         TWEEN.removeAll();
 
-        d3.selectAll(".elements_child")
-            .classed("hide", true);
 
         //show all time panels
         d3.selectAll(".textTitle")
@@ -798,7 +796,6 @@
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-
                 var rotate = new TWEEN.Tween(object.rotation)
                     .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -839,6 +836,17 @@
         //modify controls
         controls.noZoom = false;
         controls.noRotate = false;
+
+        /**
+         * Remove transparency on first layer only and hide the rest
+         */
+        d3.selectAll(".elements_child")
+            .filter(function (d, i) {  //todo: point of hiding other map items
+                return i !== 0;
+            })
+            .classed("hide", true)
+            .classed("dataPane", false)
+
     };
 
     /**
@@ -910,7 +918,7 @@
                 //
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
-                        opacity: 0.8,
+                        // opacity: 0.8,
                         backgroundColor: "black"
 
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)

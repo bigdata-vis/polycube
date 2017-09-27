@@ -236,8 +236,10 @@
          * Prob: Object disappear from screen when zooming out
          * Ans: camera's far plane is at 3000 which means everything that is 3000 units away will be clipped and not drawn
          * https://stackoverflow.com/questions/29185783/three-js-things-disappear-when-zooming-out
+         * try a combined camera
          */
 
+        // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(600, 400, 800);
 
@@ -337,7 +339,7 @@
          * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
          * segements from the length of defaultData or datasets1
          */
-            // var segments = defaultData.length;
+        // var segments = defaultData.length;
         // var segments = (datasets2.length < 20 ? datasets.length : 10);
         // var segments = 10;
 
@@ -365,7 +367,7 @@
             .key(function (d) {
                 return d.ts;
             })
-            .entries(datasets).sort(function(a, b){
+            .entries(datasets).sort(function (a, b) {
                 return a.key < b.key;
             });
 
@@ -728,9 +730,6 @@
         var duration = 2500;
         TWEEN.removeAll();
 
-        d3.selectAll(".elements_child")
-            .classed("hide", true);
-
         //show all time panels
         d3.selectAll(".textTitle")
             .classed("hide", false);
@@ -822,6 +821,17 @@
         //modify controls
         controls.noZoom = false;
         controls.noRotate = false;
+
+        /**
+         * Remove transparency on first layer only and hide the rest
+         */
+        d3.selectAll(".elements_child")
+            .filter(function (d, i) {  //todo: point of hiding other map items
+                return i !== 0;
+            })
+            .classed("hide", true)
+            .classed("dataPane", false)
+
     };
 
     /**
@@ -840,7 +850,7 @@
 
         //display all the maps for the segments
         d3.selectAll(".elements_child")
-            .classed("hide", false);
+            .classed("hide", false)
 
         //hide canvas temporarily //todo: remove all pointClouds
         d3.selectAll(".pointCloud")
@@ -849,6 +859,8 @@
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
+
+
 
         var segCounter = 0; //keep list of the segment counters
 
@@ -893,9 +905,8 @@
                 //
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
-                        opacity: 0.8,
+                        // opacity: 0.8,
                         backgroundColor: "black"
-
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
@@ -1000,6 +1011,7 @@
 
         });
 
+
         //change camera view
         //camera position
         var tween = new TWEEN.Tween({
@@ -1023,17 +1035,6 @@
             .start();
 
 
-        /**
-         * Use Orthographic Camera
-         * https://threejs.org/docs/#api/cameras/OrthographicCamera
-         * https://threejs.org/docs/#examples/cameras/CombinedCamera
-         */
-
-        // camera = new THREE.OrthographicCamera(window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 1, 10000);
-        // camera.position.set(600, 400, 800);
-        // console.log(camera);
-
-
         //camera rotation
         var rotate = new TWEEN.Tween({
             x: camera.rotation.x,
@@ -1054,7 +1055,18 @@
                 // camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
+
+
+        /**
+         * Use Orthographic Camera
+         * https://threejs.org/docs/#api/cameras/OrthographicCamera
+         * https://threejs.org/docs/#examples/cameras/CombinedCamera
+         */
+
+        // camera.toOrthographic();
+        // console.log(camera);
     };
+
 
     /**
      * Morphing controls accross data layers
@@ -1282,7 +1294,7 @@
 
         var icon = L.icon({
             iconUrl: 'texture/ball.png',
-            iconSize:     [10, 10] // size of the icon
+            iconSize: [10, 10] // size of the icon
             // shadowSize:   [50, 64], // size of the shadow
             // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
             // shadowAnchor: [4, 62],  // the same for the shadow
