@@ -28,9 +28,6 @@
 
     var formatTime = d3.timeFormat("%Y");
 
-    var start = "1920-01",
-        end = "2000-01";
-
     var projectionScale = 5000;
 
     /**
@@ -40,9 +37,12 @@
      */
 
     var dataSlices = 4;
+    var interval = 500 / dataSlices; //height/segments
+
 
     var timeLinearG;
 
+    var segmentedData;
 
     /**
      * Flip mirro and horizontal
@@ -371,6 +371,11 @@
                 return a.key < b.key;
             });
 
+        /**
+         * push segmented data to global variable
+         * @type {any}
+         */
+        segmentedData = dataBySeg;
         // console.log(dataBySeg);
 
         /**
@@ -378,6 +383,8 @@
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
+
+
 
         var elements = d3.select("body").selectAll('.element')
         //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
@@ -416,6 +423,7 @@
                 // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
                 pCube.drawMap(d.key, d.values);
             });
+
 
         // pCube.drawMap("55117", datasets);
 
@@ -507,7 +515,6 @@
         // elements.each(setViewData);
         elements.each(addtoScene);
 
-
         // var newDiv = d3.select("body").append('div')
         //     .attr("class", "newElement")
         //     .style("width",200 + "px")
@@ -539,12 +546,15 @@
 
                     var coord = translate([lat, long]);
 
-                    // console.log(coord);
-
 
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                     object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
+
+                    /**
+                     * add each proerties of the pointcloud to new data
+                     */
+                    object["newData"] = d;
 
                     // add object rotation
                     // object.rotation.fromArray(rot[2]);
@@ -674,7 +684,6 @@
     };
 
     function addtoScene(d, i) {
-        var interval = 500 / dataSlices; //height/segments
         var objSeg = new THREE.CSS3DObject(this);
         //position
         objSeg.position.x = 0;
@@ -834,6 +843,7 @@
 
     };
 
+
     /**
      * Juxtaposition function
      *
@@ -859,7 +869,6 @@
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
-
 
 
         var segCounter = 0; //keep list of the segment counters
@@ -1449,6 +1458,52 @@
     pCube.clearScene = function () {
         // scene.clear();
         console.log(scene)
+    };
+
+    pCube.setsDraw = function () {
+        var duration = 2500;
+        //rearrange point clouds
+        //hide maps
+        //draw a
+
+        // console.log(interval * dataSlices);
+
+        var nestedPointCloud = d3.nest()
+            .key(function (d) {
+                return d.newData.ts;
+            }).entries(scene.getObjectByName("pointCloud").children)
+            .sort(function (a, b) {
+                return a.key > b.key;
+            });
+
+        // console.log(nestedPointCloud);
+
+
+        nestedPointCloud.forEach(function (data, i) {
+            var segs = data.values;
+            // console.log(interval);
+
+            segs.forEach(function (d) {
+                // d.position.y = interval + interval;
+                // d.position.y = interval * i - 125;
+
+                var rotate = new TWEEN.Tween(d.position)
+                    .to({
+                            y: interval * i - 125
+                        }
+                        , duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+            })
+        });
+
+        // scene.getObjectByName("pointCloud").children.forEach(function (d) {
+        //
+        //     // console.log(d);
+        // });
+
+
+        d3.selectAll(".elements")
     };
 
     /**
