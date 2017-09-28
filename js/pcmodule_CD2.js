@@ -43,6 +43,7 @@
 
     var timeLinearG;
 
+    var interval = 500 / dataSlices; //height/segments
 
     /**
      * Flip mirro and horizontal
@@ -560,6 +561,11 @@
                     object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
 
+                    /**
+                     * add each proerties of the pointcloud to new data
+                     */
+                    object["newData"] = d;
+
                     // add object rotation
                     // object.rotation.fromArray(rot[2]);
 
@@ -688,7 +694,6 @@
     };
 
     function addtoScene(d, i) {
-        var interval = 500 / dataSlices; //height/segments
         var objSeg = new THREE.CSS3DObject(this);
         //position
         objSeg.position.x = 0;
@@ -1351,6 +1356,53 @@
         // scene.clear();
         console.log(scene)
     };
+
+    pCube.setsDraw = function () {
+        var duration = 2500;
+        //rearrange point clouds
+        //hide maps
+        //draw a
+
+        // console.log(interval * dataSlices);
+
+        var nestedPointCloud = d3.nest()
+            .key(function (d) {
+                return d.newData.ts;
+            }).entries(scene.getObjectByName("pointCloud").children)
+            .sort(function (a, b) {
+                return a.key > b.key;
+            });
+
+        // console.log(nestedPointCloud);
+
+
+        nestedPointCloud.forEach(function (data, i) {
+            var segs = data.values;
+            console.log(i);
+
+            segs.forEach(function (d) {
+                // d.position.y = interval + interval;
+                // d.position.y = interval * i - 125;
+
+                var rotate = new TWEEN.Tween(d.position)
+                    .to({
+                            y: interval * i - (62.5 * 3)
+                        }
+                        , duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+            })
+        });
+
+        // scene.getObjectByName("pointCloud").children.forEach(function (d) {
+        //
+        //     // console.log(d);
+        // });
+
+
+        // d3.selectAll(".elements")
+    };
+
 
     /**
      * Translate function for the long and lat coordinates

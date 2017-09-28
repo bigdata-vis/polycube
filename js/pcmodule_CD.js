@@ -1503,7 +1503,7 @@
         // });
 
 
-        d3.selectAll(".elements")
+        // d3.selectAll(".elements")
     };
 
     /**
