@@ -193,6 +193,8 @@
 
   <div id="timeLine"></div>
 
+  <div id="cube" style="height: 500px; width: 500px;"></div>
+
   <br>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
   <script src="lib/d3/d3.js"></script>
@@ -251,6 +253,7 @@
         });
 
         //Draw
+        polyCube.root = document.getElementById('cube');
         polyCube.drawElements(newData, szabo);
         polyCube.drawSets({ parsedData: parsedLidoData });
         //            polyCube.drawMap(map);
@@ -319,7 +322,7 @@
         }
 
       }).name("Show Nodes");
-      
+
       gui.add(params, "toggleMaps").onChange(function () {
         var value = params.toggleMaps;
         if (value) {
@@ -377,7 +380,6 @@
       });
 
     }
-
   </script>
 
   <!--edmPlaceLatitude-->

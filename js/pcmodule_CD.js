@@ -58,6 +58,13 @@
     //mS.elements[5] = -1;
     // mS.elements[10] = -1;
 
+
+    /**
+     * Container in which the cube elements are rendered.
+     * @type {DOMElement}
+     */
+    pCube.root = document.body;
+
     pCube.drawElements = function (datasets, datasets2) {
 
         /**
@@ -206,12 +213,12 @@
          * setting both wgl dom and css dom styles to thesame absolute position to align xyz positions
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
-        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(getInnerWidth(), getInnerHeight());
         WGLRenderer.setClearColor(0x00ff00, 0.0);
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
-        document.body.appendChild(WGLRenderer.domElement);
+        pCube.root.appendChild(WGLRenderer.domElement);
 
 
         /**CSS renderer
@@ -219,11 +226,11 @@
          * @type {THREE.CSS3DRenderer}
          */
         renderer = new THREE.CSS3DRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(getInnerWidth(), getInnerHeight());
         renderer.domElement.style.position = 'absolute';
         // renderer.domElement.style.zIndex = 5;
         renderer.domElement.style.top = 0;
-        document.body.appendChild(renderer.domElement);
+        pCube.root.appendChild(renderer.domElement);
 
         /**
          * Callibrating css cubebox and glcube box positions
@@ -242,7 +249,7 @@
          * https://stackoverflow.com/questions/29185783/three-js-things-disappear-when-zooming-out
          */
 
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+        camera = new THREE.PerspectiveCamera(40, getInnerWidth() / getInnerHeight(), 1, 10000);
         camera.position.set(600, 400, 800);
 
         /** Mouse Controls for zooming, panning etc
@@ -380,7 +387,7 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
 
-        var elements = d3.select("body").selectAll('.element')
+        var elements = d3.select(pCube.root).selectAll('.element')
         //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
         //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
             .data(dataBySeg).enter()
@@ -921,10 +928,10 @@
     };
 
     pCube.onWindowResize = function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = getInnerWidth() / getInnerHeight();
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(getInnerWidth(), getInnerHeight());
+        WGLRenderer.setSize(getInnerWidth(), getInnerHeight());
         pCube.render()
     };
 
@@ -1417,6 +1424,28 @@
     function translate(point) {
         return [point[0] - (width / 2), (height / 2) - point[1]];
         // return [point[0] - (width), (height) - point[1]];
+    }
+
+    /**
+     * Return width from the root element or window (if root == body)
+     * @returns {number}
+     */
+    function getInnerWidth() {
+      if (pCube.root === document.body) {
+        return window.innerWidth;
+      }
+      return pCube.root.clientWidth;
+    }
+
+    /**
+     * Return height from the root element or window (if root == body)
+     * @returns {number}
+     */
+    function getInnerHeight() {
+      if (pCube.root === document.body) {
+        return window.innerHeight;
+      }
+      return pCube.root.clientHeight;
     }
 
     /**
