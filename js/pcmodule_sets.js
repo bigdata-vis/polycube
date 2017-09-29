@@ -18,9 +18,6 @@
   // Turn segments/planes into 3d layers to be selectable form all sides.
   const CUBE_LAYERS = true;
 
-  const SELECTION_CLASS = ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]; // ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"];
-  const SELECTION_YEAR = [1000, 2000];
-
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
@@ -39,23 +36,33 @@
 
   const linesContainer = new THREE.Object3D();
 
+  const default_options = {
+    selection_year: [1800, 2000],
+    selection_class: ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+  };
+
+  let sets_style = document.createElement('style');
+  sets_style.setAttribute('type', 'text/css');
+  sets_style.innerHTML = '.box-layer:hover { background-color: orange !important; opacity: 0.2 !important; }';
+  document.head.appendChild(sets_style);
+
   pCube.drawSets = (options) => {
 
     // hide sides of the cube to interact better with the layers
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
 
-    pCube.sets_options = options;
-    pCube.sets_filtered_by_selection = SELECTION_CLASS && SELECTION_CLASS.length > 0 ? options.parsedData
-      .filter(d => _.intersection(d.term, SELECTION_CLASS).length > 0)
+    pCube.sets_options = { default_options, ...options };
+    pCube.sets_filtered_by_selection = pCube.sets_options && pCube.sets_options.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, pCube.sets_options.selection_class).length > 0)
       .filter(d => {
-        if (SELECTION_YEAR && SELECTION_YEAR.length === 2) {
-          return d.time >= SELECTION_YEAR[0] && d.time <= SELECTION_YEAR[1];
+        if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length === 2) {
+          return d.time >= pCube.sets_options.selection_year[0] && d.time <= pCube.sets_options.selection_year[1];
         }
         return true;
 
       })
       .map(d => {
-        d.term = _.intersection(d.term, SELECTION_CLASS);
+        d.term = _.intersection(d.term, pCube.sets_options.selection_class);
         return d;
       }) : options.parsedData;
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
@@ -201,7 +208,24 @@
 
   });
 
-  pCube.onLayerClick = (layerData) => {
+  pCube.onLayerClick = (layerNumber, layerData) => {
+
+    TWEEN.removeAll();
+    pCube.getCube().children.forEach(l => {
+      let x;
+      if (l.name === 'set-layer') {
+        if (l.userData.layerNumber === layerNumber) {
+          x = CUBE_SIZE + 100;
+        } else {
+          x = 0;
+        }
+        var posTween = new TWEEN.Tween(l.position)
+          .to({ ...l.position, x}, 500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+      }
+    });
+
     console.info(layerData);
   };
 
@@ -211,15 +235,16 @@
       if (idx < NUMBER_OF_LAYERS) {
         let layerBox = drawBox("layer-box", layer.position.x, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, p);
         layerBox.children.forEach(x => {
-          x.element.style.opacity = 0.0
+          x.element.style.opacity = 0.0;
+          x.element.classList.add('box-layer');
           x.element.onclick = function () {
             switch (SWITCH_SETS_DISPLAY) {
               case TREEMAP:
               case TREEMAP_FLAT:
-                pCube.onLayerClick(pCube.treemap_sets[idx]);    
+                pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
                 break;
               case MATRIX:
-                pCube.onLayerClick(pCube.matrix_sets[idx]);
+                pCube.onLayerClick(idx, pCube.matrix_sets[idx]);
                 break;
             }
           };
