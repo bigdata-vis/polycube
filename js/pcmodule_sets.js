@@ -13,8 +13,10 @@
   const SWITCH_SETS_DISPLAY = TREEMAP_FLAT;
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
-  const SWITCH_TREEMAP_RENDER_IN_WEBGL = false;
+  const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
 
+  // Turn segments/planes into 3d layers to be selectable form all sides.
+  const CUBE_LAYERS = true;
 
   const SELECTION_CLASS = ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]; // ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"];
   const SELECTION_YEAR = [1000, 2000];
@@ -29,14 +31,20 @@
 
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
+
   let _cubeScale = null;
-  let _nodes;
-  let _root = null;
+  let _treemap_nodes;
+  let _hierarchy_root = null;
   let _totalItemsCount = 0;
+
+  const linesContainer = new THREE.Object3D();
 
   pCube.drawSets = (options) => {
 
-    pCube.sets_data = options;
+    // hide sides of the cube to interact better with the layers
+    document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
+
+    pCube.sets_options = options;
     pCube.sets_filtered_by_selection = SELECTION_CLASS && SELECTION_CLASS.length > 0 ? options.parsedData
       .filter(d => _.intersection(d.term, SELECTION_CLASS).length > 0)
       .filter(d => {
@@ -133,6 +141,10 @@
       console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
     }
 
+    if (CUBE_LAYERS) {
+      drawLayers();
+    }
+
     if (SWITCH_SETS_DISPLAY === TREEMAP) {
       drawTreemap();
     } else if (SWITCH_SETS_DISPLAY === TREEMAP_FLAT) {
@@ -143,6 +155,7 @@
   };
 
   pCube.default_functions.push((duration) => {
+    linesContainer.visible = true;
     pCube.getCube().children.forEach(function (object, i) {
       if (object.name == 'set-layer') {
         var posTween = new TWEEN.Tween(object.position)
@@ -164,6 +177,7 @@
   });
 
   pCube.juxstaPose_functions.push((duration, width, height) => {
+    linesContainer.visible = false;
     pCube.getCube().children.forEach(function (object, i) {
       if (object.name == 'set-layer') {
 
@@ -187,6 +201,32 @@
 
   });
 
+  pCube.onLayerClick = (layerData) => {
+    console.info(layerData);
+  };
+
+  const drawLayers = () => {
+    pCube.getGLSegments().forEach((layer, idx) => {
+      let p = layer.position;
+      if (idx < NUMBER_OF_LAYERS) {
+        let layerBox = drawBox("layer-box", layer.position.x, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, p);
+        layerBox.children.forEach(x => {
+          x.element.style.opacity = 0.0
+          x.element.onclick = function () {
+            switch (SWITCH_SETS_DISPLAY) {
+              case TREEMAP:
+              case TREEMAP_FLAT:
+                pCube.onLayerClick(pCube.treemap_sets[idx]);    
+                break;
+              case MATRIX:
+                pCube.onLayerClick(pCube.matrix_sets[idx]);
+                break;
+            }
+          };
+        });
+      }
+    });
+  };
 
   const drawTreemap = () => {
     pCube.getGLSegments().forEach((layer, idx) => {
@@ -197,7 +237,7 @@
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox("test", 50, 50, 100, 200, 300, p);
-        _nodes.forEach((n, idx) => {
+        _treemap_nodes.forEach((n, idx) => {
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
@@ -212,7 +252,6 @@
 
 
   const drawTreemapFlat = () => {
-    let linesContainer = new THREE.Object3D();
     let linesMemory = [];
     pCube.getGLSegments().forEach((layer, idx) => {
 
@@ -228,7 +267,7 @@
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox("test", 50, 50, 100, 200, 300, p);
-        _nodes.forEach(n => {
+        _treemap_nodes.forEach(n => {
 
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
@@ -378,17 +417,17 @@
         return { name: key };
       })
     };
-    if (!_root) { // init calculation with the biggest collection items 
-      _root = d3.hierarchy(data);
-      _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[DOMAIN_RANGE_MAX][d.name].length : null; })
+    if (!_hierarchy_root) { // init calculation with the biggest collection items 
+      _hierarchy_root = d3.hierarchy(data);
+      _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' ? dataset[DOMAIN_RANGE_MAX][d.name].length : null; })
         .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
-      console.debug(_root);
+      console.debug(_hierarchy_root);
     }
-    _root = _root.sum(function (d) { return d.name !== 'tree' ? dataset[layerNumber][d.name].length : null; })
+    _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' ? dataset[layerNumber][d.name].length : null; })
       .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
-    _nodes = _tmap(_root).leaves();
-    console.debug(layerNumber, _root);
-    return _nodes;
+    _treemap_nodes = _tmap(_hierarchy_root).leaves();
+    console.debug(layerNumber, _hierarchy_root);
+    return _treemap_nodes;
   };
 
   /**CSS3D Scene
@@ -402,7 +441,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = SWITCH_SCALE_CUBE && layerItemCount ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     const pos = [[w, 0, 0], [-w, 0, 0], [0, h, 0], [0, -h, 0], [0, 0, d], [0, 0, -d]];
     const rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -452,6 +491,8 @@
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
     pCube.getCube().add(box);
+
+    return box;
   };
 
   const drawRect = (setName, x, z, width, height, depth, layerPosition, layerItemCount) => {
