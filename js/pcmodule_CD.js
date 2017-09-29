@@ -729,6 +729,10 @@
         d['SI'] = si;
     }
 
+    /**
+     * Additional functions that will execute after the default function.
+     */
+    pCube.default_functions = [];
 
     /**
      * Default STC Layout Fallback function
@@ -831,13 +835,19 @@
         //modify controls
         controls.noZoom = false;
         controls.noRotate = false;
+
+        pCube.default_functions.forEach(f => f.call(pCube, duration));
     };
+
+    /**
+     * Additional functions that will be executed after the juxstaPose function.
+     */
+    pCube.juxstaPose_functions = [];
 
     /**
      * Juxtaposition function
      *
      */
-
     pCube.juxstaPose = function () {
         var duration = 2500;
         TWEEN.removeAll();
@@ -925,6 +935,8 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
+
+      pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
     };
 
     pCube.onWindowResize = function () {

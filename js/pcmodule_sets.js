@@ -13,10 +13,11 @@
   const SWITCH_SETS_DISPLAY = TREEMAP_FLAT;
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
+  const SWITCH_TREEMAP_RENDER_IN_WEBGL = false;
 
 
   const SELECTION_CLASS = ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]; // ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"];
-  const SELECTION_YEAR = [1800, 2000];
+  const SELECTION_YEAR = [1000, 2000];
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -38,7 +39,13 @@
     pCube.sets_data = options;
     pCube.sets_filtered_by_selection = SELECTION_CLASS && SELECTION_CLASS.length > 0 ? options.parsedData
       .filter(d => _.intersection(d.term, SELECTION_CLASS).length > 0)
-      .filter(d => d.time >= SELECTION_YEAR[0] && d.time <= SELECTION_YEAR[1])
+      .filter(d => {
+        if (SELECTION_YEAR && SELECTION_YEAR.length === 2) {
+          return d.time >= SELECTION_YEAR[0] && d.time <= SELECTION_YEAR[1];
+        }
+        return true;
+
+      })
       .map(d => {
         d.term = _.intersection(d.term, SELECTION_CLASS);
         return d;
@@ -135,6 +142,52 @@
     }
   };
 
+  pCube.default_functions.push((duration) => {
+    pCube.getCube().children.forEach(function (object, i) {
+      if (object.name == 'set-layer') {
+        var posTween = new TWEEN.Tween(object.position)
+          .to({
+            x: 0,
+            y: 0,
+            z: 0
+          }, duration)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+
+
+        var rotate = new TWEEN.Tween(object.rotation)
+          .to({ x: 0, y: 0, z: 0 }, duration)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+      }
+    });
+  });
+
+  pCube.juxstaPose_functions.push((duration, width, height) => {
+    pCube.getCube().children.forEach(function (object, i) {
+      if (object.name == 'set-layer') {
+
+        var reduceLeft2 = {
+          x: ((object.userData.layerNumber % 5) * (width + 50)) - (width * 2),
+          y: (-(Math.floor(object.userData.layerNumber / 5) % 5) * (width + 50)) + 400, //just another way of getting 550
+          z: 0
+        };
+
+        var posTween = new TWEEN.Tween(object.position)
+          .to(reduceLeft2, duration)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+
+        var rotate = new TWEEN.Tween(object.rotation)
+          .to({ x: Math.PI / 2, y: 0, z: 0 }, duration)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+      }
+    });
+
+  });
+
+
   const drawTreemap = () => {
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
@@ -147,9 +200,10 @@
         _nodes.forEach((n, idx) => {
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
-          if (idx < 1000) {
-            //drawBox(n.data.name, n.x0, n.y0, w, 50, d, p, count);
+          if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
             drawBoxGL(n.data.name, n.x0, n.y0, w, LAYER_SIZE, d, p, count);
+          } else {
+            drawBox(n.data.name, n.x0, n.y0, w, 50, d, p, count);
           }
         });
       }
@@ -161,17 +215,25 @@
     let linesContainer = new THREE.Object3D();
     let linesMemory = [];
     pCube.getGLSegments().forEach((layer, idx) => {
+
       let p = layer.position;
+      let layerContainer = new THREE.Object3D();
+      layerContainer.name = 'set-layer';
+      layerContainer.userData = { layerNumber: idx };
+      pCube.getCube().add(layerContainer);
       if (idx < NUMBER_OF_LAYERS) {
+
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
         let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox("test", 50, 50, 100, 200, 300, p);
         _nodes.forEach(n => {
+
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           let rect = drawRect(n.data.name, n.x0, n.y0, w, LAYER_SIZE, d, p, count);
+          layerContainer.add(rect);
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
           }
@@ -181,8 +243,8 @@
             if (prevRect) {
               if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CENTER) {
                 drawLine(n.data.name, linesContainer,
-                  new THREE.Vector3(rect.position.x, rect.position.y - (LAYER_SIZE / 2), rect.position.z),
-                  new THREE.Vector3(prevRect.rect.position.x, prevRect.rect.position.y - (LAYER_SIZE / 2), prevRect.rect.position.z)
+                  new THREE.Vector3(rect.position.x, rect.position.y, rect.position.z),
+                  new THREE.Vector3(prevRect.rect.position.x, prevRect.rect.position.y, prevRect.rect.position.z)
                 );
               } else if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CORNER) {
                 for (let k = 0; k < 4; k++) {
@@ -202,12 +264,12 @@
                   drawLine(n.data.name, linesContainer,
                     new THREE.Vector3(
                       rect.position.x + tx,
-                      rect.position.y - (LAYER_SIZE / 2),
+                      rect.position.y,
                       rect.position.z + ty
                     ),
                     new THREE.Vector3(
                       prevRect.rect.position.x + ptx,
-                      prevRect.rect.position.y - (LAYER_SIZE / 2),
+                      prevRect.rect.position.y,
                       prevRect.rect.position.z + pty
                     )
                   );
@@ -415,16 +477,16 @@
     element.style.opacity = 0.3;
 
     var object = new THREE.CSS3DObject(element);
-    object.position.fromArray(pos);
+    // object.position.fromArray(pos);
     object.rotation.fromArray(rot);
     object.name = setName;
 
     box.add(object);
+    box.name = 'set-rect';
 
-    box.position.y = layerPosition.y + h;
+    box.position.y = layerPosition.y;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
-    pCube.getCube().add(box);
 
     return box;
   };
