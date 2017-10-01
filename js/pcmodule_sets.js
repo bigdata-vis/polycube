@@ -231,6 +231,9 @@
         var posTween = new TWEEN.Tween(l.position)
           .to({ ...l.position, x}, 500)
           .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .onComplete(() => {
+            // TODO: make layers rects clickable
+          })
           .start();
       }
     });
@@ -242,7 +245,7 @@
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let layerBox = drawBox("layer-box", layer.position.x, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, p);
+        let layerBox = drawBox(pCube.getCube(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE);
         layerBox.children.forEach(x => {
           x.element.style.opacity = 0.0;
           x.element.classList.add('box-layer');
@@ -274,14 +277,14 @@
         let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
-        // drawBox("test", 50, 50, 100, 200, 300, p);
+        // drawBox(pCube.getCube(), "test", 50, 50, 100, 200, 300, p);
         _treemap_nodes.forEach((n, idx) => {
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
-            drawBoxGL(n.data.name, n.x0, n.y0, w, LAYER_SIZE, d, p, count);
+            drawBoxGL(pCube.getGLBox(), n.data.name, n.x0, p.y, n.y0, w, LAYER_SIZE, d, count);
           } else {
-            drawBox(n.data.name, n.x0, n.y0, w, 50, d, p, count);
+            drawBox(pCube.getCube(), n.data.name, n.x0, p.y, n.y0, w, 50, d, count);
           }
         });
       }
@@ -304,13 +307,12 @@
         let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
-        // drawBox("test", 50, 50, 100, 200, 300, p);
         _treemap_nodes.forEach(n => {
 
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
-          let rect = drawRect(n.data.name, n.x0, n.y0, w, LAYER_SIZE, d, p, count);
-          layerContainer.add(rect);
+          let rect = drawRect(layerContainer, n.data.name, n.x0, p.y, n.y0, w, LAYER_SIZE, d, count);
+
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
           }
@@ -370,12 +372,12 @@
         matrixStruct.setNames.forEach((s, setIdx) => {
           matrixStruct.repoNames.forEach((r, repoIdx) => {
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
-              // drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
+              // drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
               const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = c / tc;
-              drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, p, _totalItemsCount, opacity);
-              //drawBoxGL(matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
+              drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, p.y, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity);
+              //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
             }
           });
         });
@@ -472,7 +474,7 @@
    * Cube Sides
    *6 sided cube creation with CSS3D, div and then added to cube group object
    */
-  const drawBox = (setName, x, z, width, height, depth, layerPosition, layerItemCount) => {
+  const drawBox = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -525,15 +527,15 @@
       box.add(object);
     }
 
-    box.position.y = layerPosition.y + h;
+    box.position.y = y + h;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
-    pCube.getCube().add(box);
+    container.add(box);
 
     return box;
   };
 
-  const drawRect = (setName, x, z, width, height, depth, layerPosition, layerItemCount) => {
+  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -563,9 +565,11 @@
     box.add(object);
     box.name = 'set-rect';
 
-    box.position.y = layerPosition.y;
+    box.position.y = y;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
+
+    container.add(box);
 
     return box;
   };
@@ -590,7 +594,7 @@
     container.add(line);
   };
 
-  const drawBoxGL = (setName, x, z, width, height, depth, layerPosition, layerItemCount, opacity) => {
+  const drawBoxGL = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
@@ -609,8 +613,8 @@
 
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
-    set.position.y = layerPosition.y + h; // y + height / 2;
-    pCube.getGLBox().add(set);
+    set.position.y = y + h; // y + height / 2;
+    container.add(set);
   };
 
 
