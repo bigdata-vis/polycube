@@ -43,7 +43,15 @@
 
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
-  sets_style.innerHTML = '.box-layer:hover { background-color: orange !important; opacity: 0.2 !important; }';
+  sets_style.innerHTML = `
+    .layer.highlight {
+      background-color: orange !important; 
+      opacity: 0.2 !important;
+    } 
+    .box-layer:hover {
+      background-color: orange !important;
+      opacity: 0.2 !important;
+    }`;
   document.head.appendChild(sets_style);
 
   pCube.drawSets = (options) => {
@@ -51,8 +59,9 @@
     // hide sides of the cube to interact better with the layers
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
 
-    pCube.sets_options = { default_options, ...options };
-    pCube.sets_filtered_by_selection = pCube.sets_options && pCube.sets_options.length > 0 ? options.parsedData
+    pCube.sets_options = { ...default_options, ...options };
+    
+    pCube.sets_filtered_by_selection = pCube.sets_options && (pCube.sets_options.selection_class.length > 0 || pCube.sets_options.selection_year.length > 0) ? options.parsedData
       .filter(d => _.intersection(d.term, pCube.sets_options.selection_class).length > 0)
       .filter(d => {
         if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length === 2) {
@@ -237,6 +246,10 @@
         layerBox.children.forEach(x => {
           x.element.style.opacity = 0.0;
           x.element.classList.add('box-layer');
+          x.element.classList.add('layer');
+          x.element.classList.add('layer-' + idx);
+          x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
+          x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
           x.element.onclick = function () {
             switch (SWITCH_SETS_DISPLAY) {
               case TREEMAP:
