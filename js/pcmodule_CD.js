@@ -1347,7 +1347,20 @@
             // var radius = 1000;
 
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
-            L.marker(coord, {icon: icon}).addTo(mymap)
+
+            var marker = L.marker(coord, {icon: icon}).addTo(mymap)
+            marker.on('mouseover', function(e){
+                // console.log(d);
+                d3.select("#textTitle")
+                    .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
+                        "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                    );
+
+                d3.select("#dataImage")
+                    .attr("src", d.Image_URL)
+
+            });
         });
 
         /**
@@ -1355,14 +1368,14 @@
          *
          */
 
-        mymap.on('zoomend', function (e) {
-            // console.log(mapZoom)
-            console.log(e.target);
-
-            // remove point cloud
-            delete3DOBJ("pointCloud");
-            // add new point cloud with project points
-        });
+        // mymap.on('zoomend', function (e) {
+        //     // console.log(mapZoom)
+        //     console.log(e.target);
+        //
+        //     // remove point cloud
+        //     delete3DOBJ("pointCloud");
+        //     // add new point cloud with project points
+        // });
 
 
         // var marker = L.marker([51.5, -0.09]).addTo(mymap);

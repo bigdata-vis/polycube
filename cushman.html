@@ -206,10 +206,10 @@
 <button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
         onclick="polyCube.superImpose()"> SuperImposition
 </button>
-<br>
-<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
-        onclick="polyCube.setsDraw()"> Show Sets
-</button>
+<!--<br>-->
+<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
+        <!--onclick="polyCube.setsDraw()"> Show Sets-->
+<!--</button>-->
 <br>
 <p style=" width: 200px; color: white; position: relative; top: 200px; left: 150px; z-index: 999" id="textTitle">i</p>
 <img id="dataImage" style=" width: 200px; position: relative; top: 200px; left: 150px; z-index: 999"  src="#">
@@ -305,10 +305,14 @@
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", false)
+                        .classed("hide", false);
+                d3.selectAll(".leaflet-marker-icon")
+                        .classed("hide", false);
             } else {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", true)
+                        .classed("hide", true);
+                d3.selectAll(".leaflet-marker-icon")
+                        .classed("hide", true);
             }
 
         }).name("Show PC Data");

@@ -398,34 +398,34 @@
             .style("width", width + "px")
             .style("height", height + "px")
             .attr('id', 'mapbox');
-            // .each(function (d, i) {
-            //     // console.log(d);
-            //     var div = d3.select(this).append("div")
-            //         .attr("class", "elements_child")
-            //         .style("width", width + "px")
-            //         .style("height", height + "px")
-            //         .attr("id", function (d) {
-            //             // return d.IU_Archives_Number; //todo: show different data on map layers
-            //             return d.key;
-            //             // return "55117";
-            //         });
-            //         // .filter(function () {  //todo: point of hiding other map items
-            //         //     return i !== 0;
-            //         // })
-            //         // .classed("hide", true)
-            //         // .classed("dataPane", true);
-            //
-            //     /**
-            //      * MAP entry point
-            //      * world mao implementation with leaflet
-            //      * @param d.IU is the elem ID of each mao
-            //      * Implement MabBox component
-            //      * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
-            //      *
-            //      */
-            //     // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
-            //     // pCube.drawMap(d.key, d.values);
-            // });
+        // .each(function (d, i) {
+        //     // console.log(d);
+        //     var div = d3.select(this).append("div")
+        //         .attr("class", "elements_child")
+        //         .style("width", width + "px")
+        //         .style("height", height + "px")
+        //         .attr("id", function (d) {
+        //             // return d.IU_Archives_Number; //todo: show different data on map layers
+        //             return d.key;
+        //             // return "55117";
+        //         });
+        //         // .filter(function () {  //todo: point of hiding other map items
+        //         //     return i !== 0;
+        //         // })
+        //         // .classed("hide", true)
+        //         // .classed("dataPane", true);
+        //
+        //     /**
+        //      * MAP entry point
+        //      * world mao implementation with leaflet
+        //      * @param d.IU is the elem ID of each mao
+        //      * Implement MabBox component
+        //      * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
+        //      *
+        //      */
+        //     // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
+        //     // pCube.drawMap(d.key, d.values);
+        // });
 
         //Div SVG
         svg = elements.append("svg")
@@ -436,8 +436,8 @@
             .append("circle")
             .attr("r", function (d, i) { //generated data to highlight circle radius
 
-                var x = d.values.length/2;
-                    // x2 = x * (datasets.length / 2) + x;
+                var x = d.values.length / 2;
+                // x2 = x * (datasets.length / 2) + x;
 
                 // if (i < (datasets.length / 2)) {
                 //     return x + (i * x )
@@ -488,11 +488,22 @@
 
                 console.log(data);
 
+
+                var pack = d3.pack()
+                    .size([width, height])
+                    .padding(0);
+                // .value(function (d) { return 10; });
+
+                // console.log(nodes)
+
+
                 data.values.forEach(function (d) {
+
+
                     var image = document.createElement('img');
                     var interval = 500 / dataSlices; //height/segments
                     var min = -50,
-                        max = data.values.length/2;
+                        max = data.values.length / 2;
 
                     console.log(max);
 
@@ -502,18 +513,18 @@
 
                     image.addEventListener('load', function (event) {
                         var object = new THREE.CSS3DSprite(image.cloneNode());
-                            // long = pCube.projection(d.long, d.lat).x,
-                            // lat = pCube.projection(d.long, d.lat).y;
+                        // long = pCube.projection(d.long, d.lat).x,
+                        // lat = pCube.projection(d.long, d.lat).y;
 
                         // var coord = translate([lat, long]);
 
-                        object.position.y =  interval * i - 125; //todo: height + scale + time to determine y axis
+                        object.position.y = interval * i - 125; //todo: height + scale + time to determine y axis
                         // object.position.z =  Math.random() * ((data.values.length/2) - (-20)) + (-20);
                         // object.position.x =  Math.random() * (data.values.length/2);
                         // object.position.y = Math.random() * (max - min) + min;
 
-                        object.position.z = Math.random() * (data.values.length/3 - (-90)) + (-90);
-                        object.position.x = Math.random() * (data.values.length/3 - (min)) + (min);
+                        object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
+                        object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
 
 
                         /**
