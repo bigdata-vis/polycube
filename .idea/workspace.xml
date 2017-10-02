@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cushmansets.html" afterPath="$PROJECT_DIR$/cushmansets.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cushmansets2.html" afterPath="$PROJECT_DIR$/cushmansets2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule_Sets1.js" afterPath="$PROJECT_DIR$/js/pcmodule_Sets1.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule_Sets2.js" afterPath="$PROJECT_DIR$/js/pcmodule_Sets2.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,8 +74,8 @@
       <file leaf-file-name="cushmansets2.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cushmansets2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="305" column="24" selection-start-line="305" selection-start-column="24" selection-end-line="305" selection-end-column="24" />
+            <state relative-caret-position="151">
+              <caret line="306" column="31" selection-start-line="306" selection-start-column="31" selection-end-line="306" selection-end-column="31" />
               <folding>
                 <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
               </folding>
@@ -990,12 +986,12 @@
       <workItem from="1506325038193" duration="7599000" />
       <workItem from="1506342476747" duration="8619000" />
       <workItem from="1506509728499" duration="11398000" />
-      <workItem from="1506580882477" duration="21143000" />
+      <workItem from="1506580882477" duration="21196000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="592999000" />
+    <option name="totallyTimeSpent" value="593052000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1406,8 +1402,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cushmansets2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="305" column="24" selection-start-line="305" selection-start-column="24" selection-end-line="305" selection-end-column="24" />
+        <state relative-caret-position="151">
+          <caret line="306" column="31" selection-start-line="306" selection-start-column="31" selection-end-line="306" selection-end-column="31" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
           </folding>
