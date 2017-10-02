@@ -564,11 +564,16 @@
 
                     /**
                      * add each proerties of the pointcloud to new data
+                     * add STC as an object to use letter for reference
                      */
                     object["newData"] = d;
 
-                    // add object rotation
-                    // object.rotation.fromArray(rot[2]);
+                    var stc = new THREE.Object3D();
+                    stc.position.x = object.position.x;
+                    stc.position.y = object.position.y;
+                    stc.position.z = object.position.z;
+                    object['STC'] = stc;
+
 
                     object.name = "pointCloud"; //todo: remove later
                     object.element.onmouseover = function () {
@@ -743,6 +748,8 @@
      *
      */
     pCube.default = function () {
+
+
         // var segments = defaultData.length;
         var segments = dataSlices;
 
@@ -750,6 +757,12 @@
 
         var duration = 2500;
         TWEEN.removeAll();
+
+        /**
+         * Hide leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+            .classed("hide", true);
 
 
         //show all time panels
@@ -770,6 +783,22 @@
         //     });
 
         var segCounter = 0; //keep list of the segment counters
+
+
+        /**
+         * Point Cloud reverse flattening
+         */
+
+        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+
+            var unFlattenPoints = new TWEEN.Tween(d.position)
+                .to({
+                    y: d.STC.position.y
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+        });
+
 
         /**
          * reverse array before animating
@@ -864,9 +893,17 @@
         var duration = 2500;
         TWEEN.removeAll();
 
+
         // conntrols
         controls.noZoom = false;
         controls.noRotate = true;
+
+        /**
+         * show leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+            .classed("hide", false);
+
 
         //display all the maps for the segments
         d3.selectAll(".elements_child")
@@ -1006,6 +1043,19 @@
         scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
 
+
+        /**
+         * Point Cloud Flattening
+         * Flatten object perspectives to 0
+         */
+
+        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+            d.position.y = 0;
+
+        });
+
+
+
         scene.children[0].children.forEach(function (object, i) {
 
             //remove box shapes
@@ -1022,12 +1072,6 @@
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
-
-                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                    .to({
-                        opacity: 0.9
-                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start()
             }
 
         });

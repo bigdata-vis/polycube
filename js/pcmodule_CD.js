@@ -583,8 +583,15 @@
 
                     /**
                      * add each proerties of the pointcloud to new data
+                     *
                      */
                     object["newData"] = d;
+
+                    var stc = new THREE.Object3D();
+                    stc.position.x = object.position.x;
+                    stc.position.y = object.position.y;
+                    stc.position.z = object.position.z;
+                    object['STC'] = stc;
 
                     // add object rotation
                     // object.rotation.fromArray(rot[2]);
@@ -621,7 +628,6 @@
                 image.src = 'texture/ball.png';
 
             });
-
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
@@ -736,24 +742,31 @@
         var vector, phi, theta;
         var stc, jp, si;
 
+        // stc = new THREE.Object3D();
+        // stc.position.x = Math.random() * 4000 - 2000;
+        // stc.position.y = Math.random() * 4000 - 2000;
+        // stc.position.z = Math.random() * 4000 - 2000;
+        // d['STC'] = stc;
+
         stc = new THREE.Object3D();
-        stc.position.x = Math.random() * 4000 - 2000;
-        stc.position.y = Math.random() * 4000 - 2000;
-        stc.position.z = Math.random() * 4000 - 2000;
+        stc.position.x = d.position.x;
+        stc.position.y = d.position.y;
+        stc.position.z = d.position.z;
         d['STC'] = stc;
 
-        jp = new THREE.Object3D();
-        jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
-        jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
-        jp.position.z = 0;
-        jp.time = ["1920", "1930"];
-        d['JP'] = jp;
 
-        si = new THREE.Object3D();
-        si.position.x = (( i % 5 ) * 1050) - 2000;
-        si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
-        si.position.z = 0;
-        d['SI'] = si;
+        // jp = new THREE.Object3D();
+        // jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
+        // jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
+        // jp.position.z = 0;
+        // jp.time = ["1920", "1930"];
+        // d['JP'] = jp;
+        //
+        // si = new THREE.Object3D();
+        // si.position.x = (( i % 5 ) * 1050) - 2000;
+        // si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
+        // si.position.z = 0;
+        // d['SI'] = si;
     }
 
     /**
@@ -768,6 +781,13 @@
 
         var duration = 2500;
         TWEEN.removeAll();
+
+        /**
+         * Hide leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+            .classed("hide", true);
+
 
         //show all time panels
         d3.selectAll(".textTitle")
@@ -787,6 +807,24 @@
         //     });
 
         var segCounter = 0; //keep list of the segment counters
+
+
+        /**
+         * Point Cloud reverse flattening
+         */
+
+        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+
+            var unFlattenPoints = new TWEEN.Tween(d.position)
+                .to({
+                    y: d.STC.position.y
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+
+            console.log(d)
+        });
+
 
         /**
          * Reverse array to show last segment first
@@ -873,7 +911,6 @@
 
     };
 
-
     /**
      * Juxtaposition function
      *
@@ -884,13 +921,19 @@
         var duration = 2500;
         TWEEN.removeAll();
 
+        /**
+         * show leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+            .classed("hide", false);
+
         // conntrols
         controls.noZoom = false;
         controls.noRotate = true;
 
         //display all the maps for the segments
         d3.selectAll(".elements_child")
-            .classed("hide", false)
+            .classed("hide", false);
 
         //hide canvas temporarily //todo: remove all pointClouds
         d3.selectAll(".pointCloud")
@@ -899,7 +942,6 @@
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
-
 
         var segCounter = 0; //keep list of the segment counters
 
@@ -1003,15 +1045,20 @@
         d3.selectAll(".textTitle")
             .classed("hide", true);
 
+        //display all the maps for the segments
         d3.selectAll(".elements_child")
-            .style("background-color", "transparent");
+            .classed("hide", false);
+
+
+        // d3.selectAll(".elements_child")
+        //     .style("background-color", "transparent");
         // .style("stroke", "white")
         // .style("stroke-width", "5px")
         // .style("stroke-dasharray", "2,2")
         // .style("stroke-linejoin", "round");
 
-        d3.selectAll(".elements")
-            .style("border", "1px solid #585858");
+        // d3.selectAll(".elements")
+        //     .style("border", "1px solid #585858");
 
         var duration = 700;
         //merge all x axis to remive dept
@@ -1019,11 +1066,34 @@
         /**
          * Reverse array to show last segment first
          */
-
         scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
 
 
+        /**
+         * Point Cloud Flattening
+         * create a new object STC, save positions of STC inside object
+         */
+
+        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+
+            d.position.y = 0;
+
+            // console.log(d);
+
+            // var flattenPoints = new TWEEN.Tween(d.position)
+            //     .to({
+            //         y: 0
+            //     }, duration)
+            //     .easing(TWEEN.Easing.Sinusoidal.InOut)
+            //     .start();
+
+            // console.log(d)
+        });
+
+        /**
+         * Layers flattening
+         */
         scene.children[0].children.forEach(function (object, i) {
 
             //remove box shapes
@@ -1041,11 +1111,11 @@
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                    .to({
-                        opacity: 0.9
-                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start()
+                // var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                //     .to({
+                //         opacity: 0.9
+                //     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                //     .start()
             }
 
         });
@@ -1105,7 +1175,6 @@
         // camera.toOrthographic();
         // console.log(camera);
     };
-
 
     /**
      * Morphing controls accross data layers

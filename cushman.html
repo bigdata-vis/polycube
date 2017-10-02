@@ -245,7 +245,11 @@
 
             //check to remove lat and long data
 
+//            console.log(data);
+
             var newData = data.slice(0, 500); //todo: slice arrray according to date range
+
+//            console.log(newData);
 
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -271,6 +275,12 @@
 
         polyCube.showPointCloud();
 
+
+        /**
+         * Hide leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+                .classed("hide", true);
 
         /**
          * Show pCube Time Brush
@@ -345,6 +355,10 @@
         f1.add(params, "light").onChange(function () {
             var value = params.light;
             if (value) {
+
+                d3.select("#textTitle")
+                        .style("color", "black");
+
                 d3.select("body")
                         .style("background-color", "aliceblue");
                 d3.select("canvas")
