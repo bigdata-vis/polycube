@@ -17,199 +17,27 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
-
-    <style>
-
-        .elements{
-            pointer-events:none;
-        }
-
-        body {
-            /*background-color: #000;*/
-
-            /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
-            /*background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);*/
-            /*background: linear-gradient(to bottom, #000000 50%, #00155c 100%);*/
-
-            background-color: black;
-            /*background-image:*/
-            /*radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),*/
-            /*radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),*/
-            /*radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),*/
-            /*radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);*/
-            /*background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;*/
-            /*background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;*/
-
-            /*overflow: hidden;*/
-            /*background-repeat: no-repeat;*/
-            /*background-size: 100% 1000px;*/
-
-            overflow: hidden;
-            margin: 0;
-
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-
-        canvas {
-            background: transparent;
-        }
-
-        .elements_child {
-            background-color: #2f2f2f;
-        }
-
-        .subunit {
-            fill: #dcdcdc;
-        }
-
-        .place,
-        .place-label {
-            fill: #18b23d;
-        }
-
-        text {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 10px;
-            pointer-events: none;
-        }
-
-        .subunit-boundary {
-            fill: none;
-            stroke: #777;
-            stroke-dasharray: 2, 2;
-            stroke-linejoin: round;
-        }
-
-        .subunit-label {
-            fill: #777;
-            fill-opacity: .5;
-            font-size: 20px;
-            font-weight: 300;
-            text-anchor: middle;
-        }
-
-        .hide {
-            opacity: 0;
-            /*display: none;*/
-        }
-
-        /*.hide, .leaflet-pane .leaflet-tile-pane{*/
-            /*color: #18b23d;*/
-        /*}*/
-
-        .side{
-            display: none;
-        }
-
-        /*input*/
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 200px;
-            height: 2px;
-            background: #FFF;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: auto;
-            -webkit-transform: rotate(-90deg);
-            -moz-transform: rotate(-90deg);
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 100%;
-            background: #130C0E;
-            position: relative;
-            border: 3px solid #FFF;
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        input:focus {
-            outline: none;
-        }
-
-        /*time slider*/
-        .axis--grid .domain {
-            /*fill: #ddd;*/
-            stroke: none;
-        }
-
-        .axis--x .domain,
-        .axis--grid .tick line {
-            stroke: #353636;
-        }
-
-        .axis--y .domain,
-        .tick text {
-            fill: #353636;
-        }
-
-        .axis--grid .tick--minor line {
-            stroke-opacity: .5;
-        }
-
-        .axis2,
-        .axis--y2 line {
-            stroke: white;
-            stroke-opacity: .5;
-        }
-
-        /*.stations, .stations svg {*/
-            /*position: absolute;*/
-        /*}*/
-
-        /*.stations svg {*/
-            /*width: 60px;*/
-            /*height: 20px;*/
-            /*padding-right: 100px;*/
-            /*font: 10px sans-serif;*/
-        /*}*/
-
-        /*.stations circle {*/
-            /*fill: brown;*/
-            /*stroke: black;*/
-            /*stroke-width: 1.5px;*/
-        /*}*/
-
-        .layer, .layer svg {position: absolute;}
-        .layer svg {
-            width: 60px;
-            height: 60px;
-            padding-right: 100px;
-            font: 10px sans-serif;
-        }
-
-        #textTitle{
-            font-size: smaller;
-        }
-
-        #textTitle, .date, .location{
-            color: #7b7b7b;
-        }
-
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
 <div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
-    <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
+    <input style="" type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
+<button class="button" style="position: relative; top: 200px; left: 150px; z-index: 999" type="button" onclick="polyCube.default()">
+    space-time cube
+</button>
+<br>
+
+<button class="button" style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
         onclick="polyCube.juxstaPose()">
-    JuxtPos
+    juxtaposition
 </button>
 
 <br>
-<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button" onclick="polyCube.default()">
-    Default (STC)
-</button>
-
-<br>
-<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
-        onclick="polyCube.superImpose()"> SuperImposition
+<button class="button" style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"
+        onclick="polyCube.superImpose()"> superimposition
 </button>
 <!--<br>-->
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
