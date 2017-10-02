@@ -303,11 +303,26 @@
 
         gui.add(params, "showData").onChange(function () {
             var value = params.showData;
-            if (value) {
+            if (value) {gitsta
                 d3.selectAll(".pointCloud")
                         .classed("hide", false)
+                        .style("pointer-events", "visible");
+
+                d3.selectAll("#textTitle")
+                        .classed("hide", false);
+
+                d3.selectAll("#dataImage")
+                        .classed("hide", false)
+
             } else {
                 d3.selectAll(".pointCloud")
+                        .classed("hide", true)
+                        .style("pointer-events", "none");
+
+                d3.selectAll("#textTitle")
+                        .classed("hide", true)
+
+                d3.selectAll("#dataImage")
                         .classed("hide", true)
             }
 

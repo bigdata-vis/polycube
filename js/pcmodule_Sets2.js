@@ -297,6 +297,8 @@
         // pointCloud.position.y += 5;
         // pointCloud.position.x += 4;
 
+
+
         // console.log(pointCloud);
 
         // glbox.rotation.y = 10;
@@ -474,8 +476,8 @@
                 // var cy = d.geometry.coordinates[1] + 220;
                 return 250;
             })
-            .attr("fill", "orange")
-            .attr("opacity", 0.3);
+            .attr("fill", "#f00")
+            .attr("opacity", 0.4);
 
         // pCube.drawMap("55117", datasets);
 
@@ -543,7 +545,6 @@
 
                         object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
                         object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
-
 
                         /**
                          * add each proerties of the pointcloud to new data

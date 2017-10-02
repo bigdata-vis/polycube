@@ -36,8 +36,9 @@
      * @param datasets2
      */
 
-    var dataSlices = 8;
+    var dataSlices = 4;
     var interval = 500 / dataSlices; //height/segments
+
 
     var timeLinearG;
 
@@ -455,8 +456,8 @@
                 // var cy = d.geometry.coordinates[1] + 220;
                 return 250;
             })
-            .attr("fill", "orange")
-            .attr("opacity", 0.3);
+            .attr("fill", "#f00")
+            .attr("opacity", 0.4);
 
         // pCube.drawMap("55117", datasets);
 
