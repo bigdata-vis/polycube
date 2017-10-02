@@ -857,7 +857,7 @@
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
-            console.log(object)
+            // console.log(object)
 
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
