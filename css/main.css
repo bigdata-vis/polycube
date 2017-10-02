@@ -1,6 +1,6 @@
 
-.elements{
-    pointer-events:none;
+.elements {
+    pointer-events: none;
 }
 
 body {
@@ -76,7 +76,7 @@ text {
 /*color: #18b23d;*/
 /*}*/
 
-.side{
+.side {
     display: none;
 }
 
@@ -152,7 +152,10 @@ input:focus {
 /*stroke-width: 1.5px;*/
 /*}*/
 
-.layer, .layer svg {position: absolute;}
+.layer, .layer svg {
+    position: absolute;
+}
+
 .layer svg {
     width: 60px;
     height: 60px;
@@ -160,11 +163,11 @@ input:focus {
     font: 10px sans-serif;
 }
 
-#textTitle{
+#textTitle {
     font-size: smaller;
 }
 
-#textTitle, .date, .location{
+#textTitle, .date, .location {
     color: #7b7b7b;
 }
 
@@ -178,4 +181,28 @@ input:focus {
     /*text-decoration: none;*/
     /*display: inline-block;*/
     font-size: 12px;
+
+    position: relative;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+    display: inline-block;
+}
+
+#textTitle {
+    width: 200px;
+    color: white;
+    position: relative;
+    top: 80px;
+    left: 60px;
+    z-index: 999;
+    margin-bottom: 40px;
+}
+
+#dataImage {
+    width: 350px;
+    position: relative;
+    top: 80px;
+    left: 60px;
+    z-index: 999
 }
