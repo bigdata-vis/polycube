@@ -1354,14 +1354,15 @@
             zoomControl: false
         }).addTo(mymap);
 
+
         mymap.touchZoom.disable();
-        // mymap.doubleClickZoom.enable();
-        mymap.doubleClickZoom.disable();
+        mymap.doubleClickZoom.enable();
+        // mymap.doubleClickZoom.disable();
         mymap.scrollWheelZoom.disable();
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
         mymap.dragging.disable();
-        mymap.zoomControl.disable();
+        // mymap.zoomControl.disable();
 
 
         var getPxBounds = mymap.getPixelBounds;

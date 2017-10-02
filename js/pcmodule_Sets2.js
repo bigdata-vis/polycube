@@ -39,6 +39,7 @@
     var dataSlices = 8;
     var interval = 500 / dataSlices; //height/segments
 
+
     var timeLinearG;
 
     var segmentedData;
@@ -103,22 +104,38 @@
              * pass grouped data to elements d3 function and draw them on maps individually
              */
 
-            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+            var jp = [1940, 1942, 1944, 1946, 1948, 1950, 1952, 1956];
 
-            if (d.time < jp1) {
+            if (d.time <= jp[0]) {
                 d.ts = "jp1";
             }
 
-            if (d.time > jp1 && d.time <= jp2) {
+            if (d.time > jp[0] && d.time <= jp[1]) {
                 d.ts = "jp2";
             }
 
-            if (d.time > jp2 && d.time <= jp3) {
+            if (d.time > jp[1] && d.time <= jp[2]) {
                 d.ts = "jp3";
             }
 
-            if (d.time > jp3 && d.time <= jp4) {
+            if (d.time > jp[2] && d.time <= jp[3]) {
                 d.ts = "jp4";
+            }
+
+            if (d.time > jp[3] && d.time <= jp[4]) {
+                d.ts = "jp5";
+            }
+
+            if (d.time > jp[4] && d.time <= jp[5]) {
+                d.ts = "jp6";
+            }
+
+            if (d.time > jp[5] && d.time <= jp[6]) {
+                d.ts = "jp7";
+            }
+
+            if (d.time > jp[6] && d.time <= jp[7]) {
+                d.ts = "jp8";
             }
 
         });
@@ -271,9 +288,11 @@
          */
 
         pointCloud.rotation.z = 3.15;
+        pointCloud.position.y = pointCloud.position.y + interval;
         cube.rotation.z = 3.15;
         glbox.rotation.z = 3.15;
         cube.position.y = cube.position.y - interval;
+
         // pointCloud.position.z = -90;
         // pointCloud.position.y += 5;
         // pointCloud.position.x += 4;
@@ -485,7 +504,7 @@
             .data(dataBySeg).enter()
             .each(function (data, i) {
 
-                console.log(data);
+                // console.log(data);
 
 
                 var pack = d3.pack()
@@ -504,7 +523,7 @@
                     var min = -50,
                         max = data.values.length / 2;
 
-                    console.log(max);
+                    // console.log(max);
 
                     image.style.width = 10 + "px";
                     image.style.height = 10 + "px";
@@ -661,7 +680,11 @@
     function addtoScene(d, i) {
         var objSeg = new THREE.CSS3DObject(this);
         //position
+
+        // console.log((i * interval) - height / 2);
+
         objSeg.position.x = 0;
+        // objSeg.position.y = (i * interval) - height / 2;
         objSeg.position.y = (i * interval) - height / 2;
         objSeg.position.z = 0;
         //rotation
