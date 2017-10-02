@@ -1362,7 +1362,7 @@
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
         mymap.dragging.disable();
-        // mymap.zoomControl.disable();
+        mymap.zoomControl.disable();
 
 
         var getPxBounds = mymap.getPixelBounds;
