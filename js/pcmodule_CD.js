@@ -954,8 +954,8 @@
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
             var reduceLeft = {
-                x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 400, //just another way of getting 550
+                x: (( segCounter % 5 ) * (width + 50)) - (width),
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
                 z: 0
             };
             //remove box shapes

@@ -926,11 +926,18 @@
 
         // console.log(scene.children[0].children);
 
+        // scene.getObjectByName("seg").children
+
+        // console.log(scene.getObjectByName("seg")) //todo: fix layout to select only segments to balance layout in JP
+
+
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
+            // console.log(object)
+
             var reduceLeft = {
-                x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 400, //just another way of getting 550
+                x: (( segCounter % 5 ) * (width + 50)) - (width),
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
                 z: 0
             };
             //remove box shapes

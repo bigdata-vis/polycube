@@ -39,7 +39,6 @@
     var dataSlices = 4;
     var interval = 500 / dataSlices; //height/segments
 
-
     var timeLinearG;
 
     var segmentedData;
@@ -486,12 +485,12 @@
             .data(dataBySeg).enter()
             .each(function (data, i) {
 
-                console.log(data);
+                // console.log(data);
 
 
-                var pack = d3.pack()
-                    .size([width, height])
-                    .padding(0);
+                // var pack = d3.pack()
+                //     .size([width, height])
+                //     .padding(0);
                 // .value(function (d) { return 10; });
 
                 // console.log(nodes)
@@ -505,7 +504,7 @@
                     var min = -50,
                         max = data.values.length / 2;
 
-                    console.log(max);
+                    // console.log(max);
 
                     image.style.width = 10 + "px";
                     image.style.height = 10 + "px";
@@ -857,9 +856,12 @@
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
+
+            console.log(object)
+
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width * 2),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 400, //just another way of getting 550
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
                 z: 0
             };
             //remove box shapes
