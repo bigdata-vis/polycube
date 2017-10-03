@@ -1509,6 +1509,12 @@
     var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
     var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
+    pCube.getScene = () => {
+      return scene;
+    };
+    pCube.getGLScene = () => {
+      return WGLScene;
+    };
     pCube.getCube = () => {
         return cube;
     };

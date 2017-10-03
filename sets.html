@@ -256,11 +256,18 @@
         // polyCube.root = document.getElementById('cube');
         polyCube.drawElements(newData, szabo);
         polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000] });
+        
         //            polyCube.drawMap(map);
         //            polyCube.drawLines();
         polyCube.render();
         polyCube.animate();
         window.addEventListener('resize', polyCube.onWindowResize, false);
+
+        window.setTimeout(() => {
+          // TODO: remove pointCloud
+          d3.selectAll(".pointCloud").classed("hide", true);
+          document.querySelectorAll(".leaflet-container").forEach(x => x.style.display = "none");
+        }, 1000)
       }
       tempRange(data);
 

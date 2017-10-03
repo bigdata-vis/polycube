@@ -14,6 +14,8 @@
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
+  const SWITCH_DATA_THRESHOLD = 0.01; // remove data category that is less then 1% of the total number of items
+
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -25,6 +27,8 @@
   const LAYER_SIZE_HALF = LAYER_SIZE / 2;
 
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
+  const _baseColor = '#EAECEE';
+  const _highlightColor = '#1B4F72';
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
 
   let _cubeScale = null;
@@ -38,42 +42,66 @@
 
   const default_options = {
     selection_year: [1800, 2000],
-    selection_class: ["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    selection_class: [] //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
   };
 
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
     .layer.highlight {
-      background-color: orange !important; 
+      background-color: ${_highlightColor} !important; 
       opacity: 0.2 !important;
     } 
     .box-layer:hover {
-      background-color: orange !important;
+      background-color: ${_highlightColor} !important;
       opacity: 0.2 !important;
     }`;
   document.head.appendChild(sets_style);
 
   pCube.drawSets = (options) => {
 
+    // add subtle ambient lighting
+    var ambientLight = new THREE.AmbientLight(0xFFFFFF);
+    pCube.getGLScene().add(ambientLight);
+
     // hide sides of the cube to interact better with the layers
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
 
     pCube.sets_options = { ...default_options, ...options };
 
-    pCube.sets_filtered_by_selection = pCube.sets_options && (pCube.sets_options.selection_class.length > 0 || pCube.sets_options.selection_year.length > 0) ? options.parsedData
-      .filter(d => _.intersection(d.term, pCube.sets_options.selection_class).length > 0)
-      .filter(d => {
-        if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length === 2) {
-          return d.time >= pCube.sets_options.selection_year[0] && d.time <= pCube.sets_options.selection_year[1];
-        }
-        return true;
 
-      })
+    const groupByTerm = {};
+    options.parsedData.forEach((val, idx) => {
+      val.term.forEach(v => {
+        if (!groupByTerm[v]) {
+          groupByTerm[v] = 1;
+        } else {
+          groupByTerm[v] += 1;
+        }
+      });
+    });
+
+    pCube.sets_filtered_by_selection = pCube.sets_options.selection_class && pCube.sets_options.selection_class.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, pCube.sets_options.selection_class).length > 0)
       .map(d => {
         d.term = _.intersection(d.term, pCube.sets_options.selection_class);
         return d;
       }) : options.parsedData;
+
+    if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length > 0) {
+      pCube.sets_filtered_by_selection =
+        pCube.sets_filtered_by_selection.filter(d => {
+          if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length === 2) {
+            return d.time >= pCube.sets_options.selection_year[0] && d.time <= pCube.sets_options.selection_year[1];
+          }
+          return true;
+        });
+    }
+
+    if (SWITCH_DATA_THRESHOLD) {
+      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => groupByTerm[d.term] / options.parsedData.length >= SWITCH_DATA_THRESHOLD);
+    }
+
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
     pCube.matrix_sets = {};
 
@@ -252,7 +280,7 @@
         layerBox.name = 'set-layer';
         layerBox.userData = { layerNumber: idx };
         _layers.push(layerBox);
-        
+
         let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0);
         layerBoxGL.renderOrder = 100;
         layerBoxGL.name = 'set-layer';
@@ -626,7 +654,7 @@
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
     set.position.y = y + h; // y + height / 2;
     container.add(set);
-    
+
     return set;
   };
 
