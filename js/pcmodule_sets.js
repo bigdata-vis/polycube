@@ -10,7 +10,7 @@
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
-  const SWITCH_SETS_DISPLAY = TREEMAP;
+  const SWITCH_SETS_DISPLAY = MATRIX;
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
@@ -254,6 +254,7 @@
         _layers.push(layerBox);
         
         let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0);
+        layerBoxGL.renderOrder = 100;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
         _layersGL.push(layerBoxGL);
@@ -375,7 +376,7 @@
     let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
     let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
 
-    pCube.getGLSegments().forEach((layer, idx) => {
+    _layers.forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
         matrixStruct.setNames.forEach((s, setIdx) => {
@@ -385,7 +386,8 @@
               const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = c / tc;
-              drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, p.y, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity);
+              const l = _layersGL[idx];
+              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
             }
           });
