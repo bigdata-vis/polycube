@@ -194,8 +194,19 @@
                         .style("background-color", "aliceblue");
                 d3.select("canvas")
                         .style("background", "transparent");
+
                 d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png");
+                        .attr("src", "texture/ball2.png")
+                        //change selected pointcloud color
+                        .on("mouseover", function () {
+//                            console.log(this)
+                        })
+                        //                        .on("mouseout", function () {
+                        //                            this.src = "texture/ball2.png"
+                        //                        })
+                        .on("click", function () {
+                            this.src = "texture/ball2_dark.png"
+                        });
 
                 d3.selectAll(".side")
                         .style("border", "0.5px dotted rgb(10, 10, 10)")

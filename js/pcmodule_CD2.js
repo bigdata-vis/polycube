@@ -1294,26 +1294,40 @@
 
     pCube.drawMap = function (elemID, data) {
 
-        var mymap = L.map(elemID).setView([30.4507462, -91.154552], 3);
+        var accesToken = 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg';
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        var street = L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-rep59d6x/{z}/{x}/{y}.png'),
+            street2 = L.tileLayer('http://{s}.sm.mapstack.stamen.com/(toner-lite,$fff[difference],$fff[@23],$fff[hsl-saturation@20])/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attributionControl: false,
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: accesToken,
+                zoomControl: false
+            }),
+            street3 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attributionControl: false,
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: accesToken,
+                zoomControl: false
+            });
+
+        var mymap = L.map(elemID, {
+            layers: [street2],
             attributionControl: false,
             maxZoom: 18,
             id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg',
+            accessToken: accesToken,
             zoomControl: false
-        }).addTo(mymap);
+        }).setView([30.4507462, -91.154552], 3);
 
         mymap.touchZoom.disable();
-        // mymap.doubleClickZoom.enable();
-        mymap.doubleClickZoom.disable();
+        mymap.doubleClickZoom.enable();
+        // mymap.doubleClickZoom.disable();
         mymap.scrollWheelZoom.disable();
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
         mymap.dragging.disable();
-        mymap.zoomControl.disable();
-
 
         var getPxBounds = mymap.getPixelBounds;
 

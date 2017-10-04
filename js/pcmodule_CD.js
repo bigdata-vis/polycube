@@ -616,7 +616,6 @@
                             .attr("src", d.Image_URL)
                     };
 
-
                     /**
                      * populate line list
                      */
