@@ -25,11 +25,11 @@
     <input style="" type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button class="button"  type="button" onclick="polyCube.default()">
+<button class="button" type="button" onclick="polyCube.default()">
     space-time cube
 </button>
 
-<button class="button"  type="button"
+<button class="button" type="button"
         onclick="polyCube.juxstaPose()">
     juxtaposition
 </button>
@@ -38,10 +38,10 @@
         onclick="polyCube.superImpose()"> superimposition
 </button>
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-        <!--onclick="polyCube.setsDraw()"> Show Sets-->
+<!--onclick="polyCube.setsDraw()"> Show Sets-->
 <!--</button>-->
 <!--<br>-->
-<p  id="textTitle">i</p>
+<p id="textTitle">i</p>
 <img id="dataImage" src="#">
 
 
@@ -68,7 +68,7 @@
             .defer(d3.csv, "data/Cushman-Collection.csv")
             .defer(d3.csv, "data/Szabo2.csv")
             .defer(d3.json, "data/austria.json")
-//            .defer(d3.xml, "data/export.xml")
+            //            .defer(d3.xml, "data/export.xml")
             .await(init);
 
     function init(error, data, szabo, map) {
@@ -87,9 +87,9 @@
              * Sort the data according to ascending dates to help with line drawing
              * */
 
-             newData.sort(function (x, y) {
-                 return d3.ascending(x.Archive_Date, y.Archive_Date);
-             });
+            newData.sort(function (x, y) {
+                return d3.ascending(x.Archive_Date, y.Archive_Date);
+            });
 
             //Draw
             polyCube.drawElements(newData, szabo);
@@ -114,6 +114,7 @@
          */
         d3.selectAll(".leaflet-marker-icon")
                 .classed("hide", true);
+
 
         /**
          * Show pCube Time Brush
@@ -185,7 +186,7 @@
 //            console.log(value);
         });
 
-        gui.add(params, 'map', [ 'street', 'street2', 'street3' ] ).onChange(function () {
+        gui.add(params, 'map', ['street', 'street2', 'street3']).onChange(function () {
             var value = params.map;
 
             if (value) {
@@ -211,7 +212,17 @@
                 d3.select("canvas")
                         .style("background", "transparent");
                 d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png");
+                        .attr("src", "texture/ball2.png")
+                        //change selected pointcloud color
+                        .on("mouseover", function () {
+//                            console.log(this)
+                        })
+//                        .on("mouseout", function () {
+//                            this.src = "texture/ball2.png"
+//                        })
+                        .on("click", function () {
+                            this.src = "texture/ball2_dark.png"
+                        });
 
                 d3.selectAll(".side")
                         .style("border", "0.5px dotted rgb(10, 10, 10)")
@@ -234,10 +245,7 @@
 //                    .classed("hide", true)
             }
         });
-
     }
-
-    console.log(polyCube);
 
 </script>
 

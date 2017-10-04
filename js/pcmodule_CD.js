@@ -598,8 +598,14 @@
                     // object.rotation.fromArray(rot[2]);
 
                     object.name = "pointCloud"; //todo: remove later
-                    object.element.onmouseover = function () {
-                        // console.log(d);
+
+                    object.element.onclick = function () {
+                    // object.element.onmouseover = function () {
+
+                        //Change image src
+                        // console.log(image);
+                        // image.src = 'texture/ball3.png';
+
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
                                 "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
