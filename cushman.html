@@ -63,6 +63,7 @@
 
 <script>
 
+
     d3.queue()
             .defer(d3.csv, "data/Cushman-Collection.csv")
             .defer(d3.csv, "data/Szabo2.csv")
@@ -98,6 +99,7 @@
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
+
         tempRange(data);
 
         /**
@@ -131,7 +133,8 @@
             showNodes: false,
             nodeSize: 15,
             light: false,
-            projection: 5000
+            projection: 5000,
+            map: "street"
         };
 
         gui.add(params, 'Project').onFinishChange(function () {
@@ -182,6 +185,19 @@
 //            console.log(value);
         });
 
+        gui.add(params, 'map', [ 'street', 'street2', 'street3' ] ).onChange(function () {
+            var value = params.map;
+
+            if (value) {
+                polyCube.switchMap(value);
+//                console.log(value)
+
+            } else {
+
+            }
+
+        }).name("Change Map");
+
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {
             var value = params.light;
@@ -208,9 +224,10 @@
                         .style("background-color", "#8fa7b9");
 
                 d3.selectAll(".elements_child").selectAll(".subunit")
-                //                    .style("fill", "#0050af");
                         .style("fill", "black");
 
+                d3.selectAll(".leaflet-marker-icon")
+                        .attr("src", "texture/ball2.png");
 
             } else {
 //            d3.selectAll(".pointCloud")
@@ -219,6 +236,8 @@
         });
 
     }
+
+    console.log(polyCube);
 
 </script>
 

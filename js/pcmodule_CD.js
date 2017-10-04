@@ -422,8 +422,9 @@
                  *
                  */
                 // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
-                pCube.drawMap(d.key, d.values);
+                var maps = pCube.drawMap(d.key, d.values);
             });
+
 
         //Div SVG
         // svg = elements.append("svg")
@@ -713,9 +714,6 @@
         d3.selectAll(".elements_child")
             .style("background-color", "transparent");
 
-        d3.selectAll(".elements")
-            .style("border", "1px solid #585858");
-
         pCube.render();
     };
 
@@ -813,7 +811,7 @@
          * Point Cloud reverse flattening
          */
 
-        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             var unFlattenPoints = new TWEEN.Tween(d.position)
                 .to({
@@ -1075,7 +1073,7 @@
          * create a new object STC, save positions of STC inside object
          */
 
-        scene.getObjectByName("pointCloud").children. forEach(function (d) {
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             d.position.y = 0;
 
@@ -1341,19 +1339,35 @@
      *
      */
 
+
     pCube.drawMap = function (elemID, data) {
 
-        var mymap = L.map(elemID).setView([30.4507462, -91.154552], 3);
+        var accesToken = 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg';
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        var street = L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-rep59d6x/{z}/{x}/{y}.png'),
+            street2 = L.tileLayer('http://{s}.sm.mapstack.stamen.com/(toner-lite,$fff[difference],$fff[@23],$fff[hsl-saturation@20])/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attributionControl: false,
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: accesToken,
+                zoomControl: false
+            }),
+            street3 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attributionControl: false,
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: accesToken,
+                zoomControl: false
+            });
+
+        var mymap = L.map(elemID, {
+            layers: [street2],
             attributionControl: false,
             maxZoom: 18,
             id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg',
+            accessToken: accesToken,
             zoomControl: false
-        }).addTo(mymap);
-
+        }).setView([30.4507462, -91.154552], 3);
 
         mymap.touchZoom.disable();
         mymap.doubleClickZoom.enable();
@@ -1362,8 +1376,6 @@
         mymap.boxZoom.disable();
         mymap.keyboard.disable();
         mymap.dragging.disable();
-        mymap.zoomControl.disable();
-
 
         var getPxBounds = mymap.getPixelBounds;
 
@@ -1387,6 +1399,10 @@
         var pixelOrigin = mymap.getPixelOrigin();
         var mapZoom = mymap.getZoom();
 
+        /**LATLONG to POINT
+         * convert latlong to point and use it to porject xy coordinates of the sprite
+         * https://stackoverflow.com/questions/40986573/project-leaflet-latlng-to-tile-pixel-coordinates
+         */
         pCube.projection = function projectPoint(x, y) {
             // return mymap.latLngToLayerPoint(new L.LatLng(y, x));
             var latlong = new L.LatLng(x, y);
@@ -1395,11 +1411,6 @@
             // console.log(projectedPoint);
             return projectedPoint;
         };
-
-        /**LATLONG to POINT
-         * convert latlong to point and use it to porject xy coordinates of the sprite
-         * https://stackoverflow.com/questions/40986573/project-leaflet-latlng-to-tile-pixel-coordinates
-         */
 
         var icon = L.icon({
             iconUrl: 'texture/ball.png',
@@ -1410,7 +1421,6 @@
             // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
 
-
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
             // var layerPoint = crs.latLngToPoint(coord, mapZoom);
@@ -1419,7 +1429,7 @@
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
 
             var marker = L.marker(coord, {icon: icon}).addTo(mymap)
-            marker.on('mouseover', function(e){
+            marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
@@ -1447,131 +1457,38 @@
         //     // add new point cloud with project points
         // });
 
+        // var polygon = L.polygon([
+        //     [51.509, -0.08],
+        //     [51.503, -0.06],
+        //     [51.51, -0.047]
+        // ]).addTo(mymap);
 
-        // var marker = L.marker([51.5, -0.09]).addTo(mymap);
-        //
-        // var circle = L.circle([51.508, -0.11], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 500
-        // }).addTo(mymap);
-        //
+        // mymap.addLayer(layers.street3);
 
-        var polygon = L.polygon([
-            [51.509, -0.08],
-            [51.503, -0.06],
-            [51.51, -0.047]
-        ]).addTo(mymap);
+        /**
+         * Switch leaflet map layers
+         * @param map
+         */
 
-    };
-
-
-    pCube.drawMap__old = function (elemID, data) {
-
-        var map = new google.maps.Map(d3.select(elemID).node(), {
-            zoom: 8,
-            // center: new google.maps.LatLng(48, 16),
-            center: new google.maps.LatLng(34.0736204, -108.4003563),
-            mapTypeId: google.maps.MapTypeId.TERRAIN,
-            gestureHandling: 'cooperative',
-            // styles:[{"stylers": [{"saturation": -75},{"lightness": 75}]}]
-        });
-
-
-        var image = '/texture/ball2.png';
-        // var vegetation = new google.maps.Marker({
-        //     position: {lat: 38.434084, lng: -78.864970},
-        //     map: map,
-        //     icon: image,
-        //     scale: 100
-        // });
-
-        var infowindow = new google.maps.InfoWindow();
-        var marker, i;
-
-        for (i = 0; i < data.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(data[i].long, data[i].lat),
-                map: map,
-                icon: image,
-                scale: 100
-            });
-
-            google.maps.event.addListener(marker, 'over', (function (marker, i) {
-                return function () {
-                    infowindow.setContent(data[i].IU_Archives_Number);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
-        }
-
-        var overlay = new google.maps.OverlayView(),
-            r = 4.5;
-
-        overlay.onAdd = function () {
-
-            var layer = d3.select(this.getPanes().overlayLayer).append("div")
-                .attr("class", "stations");
-
-            // Draw each marker as a separate SVG element.
-            // We could use a single SVG, but what size would it have?
-            overlay.draw = function () {
-
-                var projection = this.getProjection(),
-                    padding = 10;
-
-                var marker = layer.selectAll("svg")
-                    .data(data)
-                    .each(transform) // update existing markers
-                    .enter().append("svg")
-                    .each(transform)
-                    .attr("class", "marker")
-                    .each(function (d) {
-                        // console.log(d)
-                    });
-
-                // Add a circle.
-                marker.append("circle")
-                    .attr("r", 4.5)
-                    .attr("cx", padding)
-                    .attr("cy", padding)
-                    .attr("fill", "red")
-                    .each(function (d) {
-
-                        // console.log(d)
-
-                    });
-
-                // Add a label.
-                marker.append("text")
-                    .attr("x", padding + 7)
-                    .attr("y", padding)
-                    .attr("dy", ".31em")
-                    .text(function (d) {
-                        return d.IU_Archives_Number;
-                    });
-
-                function transform(d) {
-                    d = new google.maps.LatLng(+d.lat, +d.long);
-                    d = projection.fromLatLngToDivPixel(d);
-
-                    return d3.select(this)
-                        .style("left", (d.x - padding) + "px")
-                        .style("top", (d.y - padding) + "px");
-
-                }
-            };
+        var baseMaps = {
+            "Street1": street,
+            "Street2": street2,
+            "Street3": street3
         };
 
-        // Bind our overlay to the map…
-        // overlay.setMap(map);
+        var overlays = {};
+
+        L.control.layers(baseMaps, overlays).addTo(mymap);
+
+        pCube.switchMap = function (map) {
+            if(mymap.hasLayer(street)){
+                mymap.removeLayer(street)
+            }else {
+                mymap.addLayer(street2)
+            }
+        };
     };
 
-    pCube.clearScene = function () {
-        // scene.clear();
-        console.log(scene)
-    };
 
     pCube.setsDraw = function () {
         var duration = 2500;

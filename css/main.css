@@ -1,6 +1,7 @@
 
 .elements {
     pointer-events: none;
+    border: 3px double rgb(115, 115, 115);
 }
 
 body {
