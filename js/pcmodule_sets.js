@@ -35,6 +35,7 @@
   let _hierarchy_root = null;
   let _totalItemsCount = 0;
 
+  const _htmlElements = [];
   const _linesContainer = new THREE.Object3D();
   const _layers = [];
   const _layersGL = [];
@@ -65,6 +66,7 @@
     _layersGL.forEach(l => pCube.getGLBox().remove(l));
     _layers.splice(0, _layers.length);
     _layersGL.splice(0, _layersGL.length);
+    _htmlElements.forEach(e => e.remove());
   };
 
   pCube.drawSets = (options) => {
@@ -77,7 +79,6 @@
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
 
     pCube.sets_options = { ...default_options, ...options };
-
 
     const groupByTerm = {};
     options.parsedData.forEach((val, idx) => {
@@ -259,6 +260,10 @@
   });
 
   pCube.onLayerClick = (layerNumber, layerData) => {
+    console.info(layerData);
+  };
+
+  const moveLayer = (layerNumber, layerData) => {
 
     TWEEN.removeAll();
 
@@ -275,6 +280,9 @@
           .easing(TWEEN.Easing.Sinusoidal.InOut)
           .onComplete(() => {
             // TODO: make layers rects clickable
+            if (moveValue > 0) {
+              makeLayerElementsClickable(layerNumber, layerData);
+            }
           })
           .start();
       }
@@ -282,9 +290,10 @@
 
     pCube.getCube().children.forEach(move);
     pCube.getGLBox().children.forEach(move);
+  };
 
-
-    console.info(layerData);
+  const makeLayerElementsClickable = (layerNumber, layerData) => {
+    console.info('make layer elements clickable');
   };
 
   const drawLayers = () => {
@@ -313,9 +322,11 @@
             switch (pCube.sets_options.sets_display) {
               case TREEMAP:
               case TREEMAP_FLAT:
+                moveLayer(idx, pCube.treemap_sets[idx]);
                 pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
                 break;
               case MATRIX:
+                moveLayer(idx, pCube.matrix_sets[idx]);
                 pCube.onLayerClick(idx, pCube.matrix_sets[idx]);
                 break;
             }
@@ -416,6 +427,10 @@
   };
 
   const drawMatrix = (matrixStruct) => {
+    // draw x and y axis labels
+    drawText(_layers[_layers.length - 1], "x-axis", 0, LAYER_SIZE_HALF, -CUBE_SIZE_HALF, "Category");
+    drawText(_layers[_layers.length - 1], "y-axis", -CUBE_SIZE_HALF, LAYER_SIZE_HALF, 0, "Collections", 0, Math.PI / 2);
+
     let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
     let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
 
@@ -542,6 +557,7 @@
 
     for (var i = 0; i < 6; i++) {
       var element = document.createElement('div');
+      _htmlElements.push(element);
       element.classList = ['set-side', 'side-' + i, 'set', 'set-' + setName].join(' ')
 
       /**
@@ -602,6 +618,7 @@
     const rot = [r, 0, 0];
 
     var element = document.createElement('div');
+    _htmlElements.push(element);
     element.classList = ['set-side', 'set', 'set-' + setName].join(' ')
 
     element.style.width = width + 'px';
@@ -673,5 +690,29 @@
     return set;
   };
 
+  const drawText = (container, name, x, y, z, text, rx, ry, rz) => {
+
+    var labelName = `${name}-label`;
+    var element = document.createElement('p');
+    _htmlElements.push(element);
+    element.className = labelName;
+    element.style.color = 'grey';
+    element.style.fontSize = "50px";
+    var elText = document.createTextNode(text);
+    element.appendChild(elText);
+
+    var object = new THREE.CSS3DObject(element);
+    object.name = labelName;
+    object.position.x = x;
+    object.position.y = y;
+    object.position.z = z;
+    object.rotation.x = rx || 0;
+    object.rotation.y = ry || 0;
+    object.rotation.z = rz || 0;
+
+    container.add(object);
+
+    return object;
+  };
 
 })(window.polyCube);
