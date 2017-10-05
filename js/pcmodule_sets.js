@@ -60,6 +60,11 @@
     }`;
   document.head.appendChild(sets_style);
 
+  pCube.sets_options = {};
+  pCube.sets_filtered_by_selection = [];
+  pCube.treemap_sets = {};
+  pCube.matrix_sets = {};
+
   pCube.clearSets = () => {
     pCube.getGLBox().remove(_linesContainer);
     _layers.forEach(l => pCube.getCube().remove(l));
