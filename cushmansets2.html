@@ -18,18 +18,20 @@
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 <body>
 
 <div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
-    <input style="" type="range" max="250" min="-250" id="cube-morphing" value="-50">
+    <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button class="button" type="button" onclick="polyCube.default()">
+
+<button class="button"  type="button" onclick="polyCube.default()">
     space-time cube
 </button>
 
-<button class="button" type="button"
+<button class="button"  type="button"
         onclick="polyCube.juxstaPose()">
     juxtaposition
 </button>
@@ -37,19 +39,19 @@
 <button class="button" type="button"
         onclick="polyCube.superImpose()"> superimposition
 </button>
-<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.setsDraw()"> Show Sets-->
-<!--</button>-->
 <!--<br>-->
-<p id="textTitle">i</p>
+<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
+        <!--onclick="polyCube.setsDraw()"> Show Sets-->
+<!--</button>-->
+<br>
+<p  id="textTitle">i</p>
 <img id="dataImage" src="#">
-
 
 <!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
 <!--onclick="polyCube.test()">test-->
 <!--</button>-->
 
-<!--<br>-->
+<br>
 
 
 <div id="timeLine"></div>
@@ -59,16 +61,15 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/pcmodule_CD.js"></script>
+<script src="js/pcmodule_Sets2.js"></script>
 
 <script>
-
 
     d3.queue()
             .defer(d3.csv, "data/Cushman-Collection.csv")
             .defer(d3.csv, "data/Szabo2.csv")
             .defer(d3.json, "data/austria.json")
-            //            .defer(d3.xml, "data/export.xml")
+//            .defer(d3.xml, "data/export.xml")
             .await(init);
 
     function init(error, data, szabo, map) {
@@ -77,19 +78,15 @@
 
             //check to remove lat and long data
 
-//            console.log(data);
-
-            var newData = data.slice(0, 550); //todo: slice arrray according to date range
-
-//            console.log(newData);
+            var newData = data.slice(0, 500); //todo: slice arrray according to date range
 
             /**
              * Sort the data according to ascending dates to help with line drawing
              * */
 
-            newData.sort(function (x, y) {
-                return d3.ascending(x.Archive_Date, y.Archive_Date);
-            });
+             newData.sort(function (x, y) {
+                 return d3.ascending(x.Archive_Date, y.Archive_Date);
+             });
 
             //Draw
             polyCube.drawElements(newData, szabo);
@@ -99,7 +96,6 @@
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
-
         tempRange(data);
 
         /**
@@ -107,13 +103,6 @@
          */
 
         polyCube.showPointCloud();
-
-
-        /**
-         * Hide leaflet markers
-         */
-        d3.selectAll(".leaflet-marker-icon")
-                .classed("hide", true);
 
 
         /**
@@ -134,8 +123,7 @@
             showNodes: false,
             nodeSize: 15,
             light: false,
-            projection: 5000,
-            map: "street"
+            projection: 5000
         };
 
         gui.add(params, 'Project').onFinishChange(function () {
@@ -150,14 +138,25 @@
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
+                        .classed("hide", false)
+                        .style("pointer-events", "visible");
+
+                d3.selectAll("#textTitle")
                         .classed("hide", false);
-                d3.selectAll(".leaflet-marker-icon")
-                        .classed("hide", false);
+
+                d3.selectAll("#dataImage")
+                        .classed("hide", false)
+
             } else {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", true);
-                d3.selectAll(".leaflet-marker-icon")
-                        .classed("hide", true);
+                        .classed("hide", true)
+                        .style("pointer-events", "none");
+
+                d3.selectAll("#textTitle")
+                        .classed("hide", true)
+
+                d3.selectAll("#dataImage")
+                        .classed("hide", true)
             }
 
         }).name("Show PC Data");
@@ -186,43 +185,16 @@
 //            console.log(value);
         });
 
-        gui.add(params, 'map', ['street', 'street2', 'street3']).onChange(function () {
-            var value = params.map;
-
-            if (value) {
-                polyCube.switchMap(value);
-//                console.log(value)
-
-            } else {
-
-            }
-
-        }).name("Change Map");
-
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {
             var value = params.light;
             if (value) {
-
-                d3.select("#textTitle")
-                        .style("color", "black");
-
                 d3.select("body")
                         .style("background-color", "aliceblue");
                 d3.select("canvas")
                         .style("background", "transparent");
                 d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png")
-                        //change selected pointcloud color
-                        .on("mouseover", function () {
-//                            console.log(this)
-                        })
-//                        .on("mouseout", function () {
-//                            this.src = "texture/ball2.png"
-//                        })
-                        .on("click", function () {
-                            this.src = "texture/ball2_dark.png"
-                        });
+                        .attr("src", "texture/ball2.png");
 
                 d3.selectAll(".side")
                         .style("border", "0.5px dotted rgb(10, 10, 10)")
@@ -235,16 +207,16 @@
                         .style("background-color", "#8fa7b9");
 
                 d3.selectAll(".elements_child").selectAll(".subunit")
+                //                    .style("fill", "#0050af");
                         .style("fill", "black");
 
-                d3.selectAll(".leaflet-marker-icon")
-                        .attr("src", "texture/ball2.png");
 
             } else {
 //            d3.selectAll(".pointCloud")
 //                    .classed("hide", true)
             }
         });
+
     }
 
 </script>
