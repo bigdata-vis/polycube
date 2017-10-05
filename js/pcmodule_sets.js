@@ -4,13 +4,12 @@
 (function (pCube) {
 
   const TREEMAP = 'treemap';
-  const TREEMAP_FLAT = 'treemap_flat'; // TODO: treemap flat with lines between layers
+  const TREEMAP_FLAT = 'treemap_flat';
   const MATRIX = 'matrix';
 
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
-  const SWITCH_SETS_DISPLAY = MATRIX;
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
@@ -41,6 +40,7 @@
   const _layersGL = [];
 
   const default_options = {
+    sets_display: TREEMAP_FLAT,
     selection_year: [1800, 2000],
     selection_class: [] //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
   };
@@ -50,6 +50,7 @@
   sets_style.innerHTML = `
     .layer.highlight {
       background-color: ${_highlightColor} !important; 
+      border: 2px solid black !important;
       opacity: 0.2 !important;
     } 
     .box-layer:hover {
@@ -187,11 +188,11 @@
 
     drawLayers();
 
-    if (SWITCH_SETS_DISPLAY === TREEMAP) {
+    if (pCube.sets_options.sets_display === TREEMAP) {
       drawTreemap();
-    } else if (SWITCH_SETS_DISPLAY === TREEMAP_FLAT) {
+    } else if (pCube.sets_options.sets_display === TREEMAP_FLAT) {
       drawTreemapFlat();
-    } else if (SWITCH_SETS_DISPLAY === MATRIX) {
+    } else if (pCube.sets_options.sets_display === MATRIX) {
       drawMatrix(matrixStruct);
     }
   };
@@ -248,15 +249,15 @@
     TWEEN.removeAll();
 
     const move = l => {
-      let x;
+      let moveValue;
       if (l.name === 'set-layer') {
         if (l.userData.layerNumber === layerNumber) {
-          x = CUBE_SIZE + 100;
+          moveValue = CUBE_SIZE + 20;
         } else {
-          x = 0;
+          moveValue = 0;
         }
         var posTween = new TWEEN.Tween(l.position)
-          .to({ ...l.position, x }, 500)
+          .to({ ...l.position, x: moveValue }, 500)
           .easing(TWEEN.Easing.Sinusoidal.InOut)
           .onComplete(() => {
             // TODO: make layers rects clickable
@@ -295,7 +296,7 @@
           x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
           x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
           x.element.onclick = function () {
-            switch (SWITCH_SETS_DISPLAY) {
+            switch (pCube.sets_options.sets_display) {
               case TREEMAP:
               case TREEMAP_FLAT:
                 pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
@@ -549,7 +550,7 @@
        * @type {string}
        */
       // element.style.opacity = '0.3';
-      element.style.border = "1px solid red";
+      //element.style.border = "1px solid red";
       element.style.backgroundColor = _colorScale(setName);
       element.style.opacity = 0.4;
 
@@ -592,7 +593,7 @@
     element.style.width = width + 'px';
     element.style.height = depth + 'px';
 
-    element.style.border = "1px solid red";
+    //element.style.border = "1px solid red";
     element.style.backgroundColor = _colorScale(setName);
     element.style.opacity = 0.3;
 
