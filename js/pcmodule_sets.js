@@ -64,6 +64,7 @@
   pCube.sets_filtered_by_selection = [];
   pCube.treemap_sets = {};
   pCube.matrix_sets = {};
+  pCube.sets_matrix_Ids = {};
 
   pCube.clearSets = () => {
     pCube.getGLBox().remove(_linesContainer);
@@ -125,6 +126,7 @@
 
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
     pCube.matrix_sets = {};
+    pCube.sets_matrix_Ids = {};
 
     // time
     let dateExt = d3.extent(pCube.sets_filtered_by_selection, d => d.time);
@@ -165,6 +167,7 @@
       }
       if (!pCube.matrix_sets[index]) {
         pCube.matrix_sets[index] = _.cloneDeep(matrixStruct.matrix);
+        pCube.sets_matrix_Ids[index] = _.cloneDeep(matrixStruct.matrixIds);
       }
     }
 
@@ -177,6 +180,7 @@
         let setIdx = matrixStruct.setNames.indexOf(v);
         let repoIdx = matrixStruct.repoNames.indexOf(val.legalBodyID);
         pCube.matrix_sets[layerNumber][setIdx][repoIdx] += 1;
+        pCube.sets_matrix_Ids[layerNumber][setIdx][repoIdx].push(val.lidoRecID);
       });
     });
 
@@ -202,10 +206,16 @@
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
       pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
       pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
+      pCube.sets_matrix_Ids[k] = pCube.sets_matrix_Ids[k].map( (a, ai) => {
+        return a.map( (b, bi) => {
+          return b.concat(pCube.sets_matrix_Ids[k - 1][ai][bi]);
+        });
+      });
     }
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
       console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
+      console.log(`sets_matrix_Ids: layer ${index} with ${getMatrixLayerItemCountWithIdArray(pCube.sets_matrix_Ids[index])} items`);
     }
 
     drawLayers();
@@ -267,7 +277,7 @@
   });
 
   pCube.onLayerClick = (layerNumber, layerData) => {
-    console.info(layerData);
+    console.info(layerNumber, layerData);
   };
 
   const moveLayer = (layerNumber, layerData) => {
@@ -333,8 +343,8 @@
                 pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
                 break;
               case MATRIX:
-                moveLayer(idx, pCube.matrix_sets[idx]);
-                pCube.onLayerClick(idx, pCube.matrix_sets[idx]);
+                moveLayer(idx, pCube.sets_matrix_Ids[idx]);
+                pCube.onLayerClick(idx, pCube.sets_matrix_Ids[idx], pCube.matrix_sets[idx]);
                 break;
             }
           };
@@ -476,6 +486,14 @@
     }, 0);
   };
 
+  const getMatrixLayerItemCountWithIdArray = (data) => {
+    return data.reduce((o, cur) => {
+      return o + cur.reduce( (o1, cur1) => {
+        return o1 + cur1.length;
+      }, 0);
+    }, 0);
+  };
+
   const getMatrixLayerItemSetCount = (data) => {
     return data.reduce((o1, cur1) => {
       return o1 + cur1;
@@ -498,6 +516,7 @@
     let setNames = []; // new Set();
     let repoNames = []; // new Set();
     let matrix = [];
+    let matrixIds = [];
     data.forEach((val, idx) => {
       if (repoNames.indexOf(val.legalBodyID) === -1) {
         repoNames.push(val.legalBodyID);
@@ -510,15 +529,18 @@
     });
     for (var i = 0; i < setNames.length; i++) {
       matrix[i] = [];
+      matrixIds[i] = [];
       for (var k = 0; k < repoNames.length; k++) {
         matrix[i][k] = 0;
+        matrixIds[i][k] = [];
       }
     }
 
     return {
       setNames,
       repoNames,
-      matrix
+      matrix,
+      matrixIds
     }
   };
 
