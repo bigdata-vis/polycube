@@ -143,8 +143,10 @@
         y: -(CUBE_SIZE / 2),
         z: CUBE_SIZE_HALF
       },
-      startDate: mi,
-      endDate: ma
+      startDate: ma, // switched because of drawLabels logic
+      endDate: mi // switched because of drawLabels logic
+      // startDate: mi,
+      // endDate: ma
     });
 
     // cube scale
