@@ -229,7 +229,7 @@
 
 
         window.lidoData = lido;
-        let parsedLidoData = lido.map(d => {
+        let parsedLidoData = window.parsedLidoData = lido.map(d => {
           let lidoRecID = _.get(d, 'lidoRecID[0]._');
           let legalBodyID = _.get(d, 'administrativeMetadata[0].recordWrap[0].recordSource[0].legalBodyID[0]._');
           let classes = _.get(d, 'descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification');
@@ -297,7 +297,8 @@
         toggleMaps: true,
         nodeSize: 15,
         light: false,
-        projection: 5000
+        projection: 5000,
+        setVisType: 'treemap_flat'
       };
 
       gui.add(params, 'Project').onFinishChange(function () {
@@ -353,6 +354,14 @@
         //            polyCube.projectionScale({scale: +value});
         //            console.log(value);
       });
+
+      gui.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] )
+      .onChange(function () {
+        var value = params.setVisType;
+
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: value });
+      })
+      .name("Set Visualization");
 
       var f1 = gui.addFolder('Theme');
       f1.add(params, "light").onChange(function () {
