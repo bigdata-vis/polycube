@@ -99,7 +99,13 @@
     }
 
     if (SWITCH_DATA_THRESHOLD) {
-      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => groupByTerm[d.term] / options.parsedData.length >= SWITCH_DATA_THRESHOLD);
+      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
+        let percentAmount = 1;
+        d.term.forEach(t => {
+          percentAmount *= groupByTerm[d.term] / options.parsedData.length;
+        });
+        return percentAmount >= SWITCH_DATA_THRESHOLD;
+      });
     }
 
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
