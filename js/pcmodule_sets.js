@@ -59,6 +59,14 @@
     }`;
   document.head.appendChild(sets_style);
 
+  pCube.clearSets = () => {
+    pCube.getGLBox().remove(_linesContainer);
+    _layers.forEach(l => pCube.getCube().remove(l));
+    _layersGL.forEach(l => pCube.getGLBox().remove(l));
+    _layers.splice(0, _layers.length);
+    _layersGL.splice(0, _layersGL.length);
+  };
+
   pCube.drawSets = (options) => {
 
     // add subtle ambient lighting

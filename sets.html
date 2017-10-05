@@ -359,6 +359,7 @@
       .onChange(function () {
         var value = params.setVisType;
 
+        polyCube.clearSets();
         polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: value });
       })
       .name("Set Visualization");
