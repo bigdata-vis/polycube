@@ -13,7 +13,6 @@
   const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
-  const SWITCH_DATA_THRESHOLD = 0.01; // remove data category that is less then 1% of the total number of items
 
 
   const TREEMAP_PADDING = 0;
@@ -43,7 +42,8 @@
   const default_options = {
     sets_display: TREEMAP_FLAT,
     selection_year: [1800, 2000],
-    selection_class: [] //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    data_threshold: 0.01 // remove data category that is less then 1% of the total number of items
   };
 
   let sets_style = document.createElement('style');
@@ -114,13 +114,13 @@
         });
     }
 
-    if (SWITCH_DATA_THRESHOLD) {
+    if (pCube.sets_options.data_threshold) {
       pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
         let percentAmount = 1;
         d.term.forEach(t => {
           percentAmount *= groupByTerm[d.term] / options.parsedData.length;
         });
-        return percentAmount >= SWITCH_DATA_THRESHOLD;
+        return percentAmount >= pCube.sets_options.data_threshold;
       });
     }
 
@@ -322,7 +322,7 @@
         layerBox.userData = { layerNumber: idx };
         _layers.push(layerBox);
 
-        let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0);
+        let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false);
         layerBoxGL.renderOrder = 100;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
@@ -367,7 +367,7 @@
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
             const l = _layersGL[idx];
-            drawBoxGL(l, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
+            drawBoxGL(l, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true);
           } else {
             drawBox(layer, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
           }
@@ -462,7 +462,7 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = c / tc;
               const l = _layersGL[idx];
-              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity);
+              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
             }
           });
@@ -694,7 +694,7 @@
     container.add(line);
   };
 
-  const drawBoxGL = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity) => {
+  const drawBoxGL = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
@@ -704,16 +704,28 @@
     let material = new THREE.MeshBasicMaterial({
       color: _colorScale(setName),
       transparent: opacity || opacity >= 0 ? true : false,
-      opacity: opacity || opacity >= 0 ? opacity : 1
+      opacity: opacity || opacity >= 0 ? opacity : 1,
+      flatShading: THREE.FlatShading,
+      polygonOffset: true,
+      polygonOffsetFactor: 1, // positive value pushes polygon further away
+      polygonOffsetUnits: 1
     });
     let set = new THREE.Mesh(geometry, material);
     set.name = setName;
     set.userData = setName;
 
-
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
     set.position.y = y + h; // y + height / 2;
+
+    // add border edges
+    if (withBorder) {
+      var geo = new THREE.EdgesGeometry( set.geometry ); // or WireframeGeometry
+      var mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2 } );
+      var border = new THREE.LineSegments( geo, mat );
+      set.add( border );
+    }
+
     container.add(set);
 
     return set;

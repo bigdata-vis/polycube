@@ -298,7 +298,8 @@
         nodeSize: 15,
         light: false,
         projection: 5000,
-        setVisType: 'treemap_flat'
+        setVisType: 'treemap_flat',
+        dataThreshold: 0.01
       };
 
       gui.add(params, 'Project').onFinishChange(function () {
@@ -360,9 +361,17 @@
         var value = params.setVisType;
 
         polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: value });
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: value, data_threshold: params.dataThreshold });
       })
       .name("Set Visualization");
+
+      gui.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(function () {
+        var value = params.dataThreshold;
+  
+        polyCube.clearSets();
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: value});
+      });
+
 
       var f1 = gui.addFolder('Theme');
       f1.add(params, "light").onChange(function () {
