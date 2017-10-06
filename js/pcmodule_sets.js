@@ -10,7 +10,6 @@
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
-  const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
 
   const TREEMAP_PADDING = 0;
@@ -39,10 +38,11 @@
 
   const default_options = {
     sets_display: TREEMAP_FLAT,
+    sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
     selection_year_range: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: true,
-    data_threshold: 0.01 // remove data category that is less then 1% of the total number of items
+    data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
   };
 
   let sets_style = document.createElement('style');
@@ -391,6 +391,9 @@
 
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
+          if (isNaN(d)) {
+            console.error("weird NaN form treemap", d, n, _treemap_nodes);
+          }
           let rect = drawRect(layer, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
 
           if (!linesMemory[idx]) {
@@ -400,12 +403,12 @@
           if (idx > 0) {
             let prevRect = linesMemory[idx - 1][n.data.name];
             if (prevRect) {
-              if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CENTER) {
+              if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CENTER) {
                 drawLine(n.data.name, _linesContainer,
-                  new THREE.Vector3(rect.position.x, rect.position.y, rect.position.z),
-                  new THREE.Vector3(prevRect.rect.position.x, prevRect.rect.position.y, prevRect.rect.position.z)
+                  new THREE.Vector3(rect.position.x, layer.position.y - LAYER_SIZE_HALF, rect.position.z),
+                  new THREE.Vector3(prevRect.rect.position.x, prevRect.layerPos.y - LAYER_SIZE_HALF, prevRect.rect.position.z)
                 );
-              } else if (SWITCH_TREEMAP_FLAT_LINE_STYLE === LINE_STYLE_CORNER) {
+              } else if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CORNER) {
                 for (let k = 0; k < 4; k++) {
                   let tx = (w / 2), ty = (d / 2), ptx = (prevRect.w / 2), pty = (prevRect.d / 2);
                   if (k === 1) {
