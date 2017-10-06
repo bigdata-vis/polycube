@@ -10,10 +10,8 @@
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
-  const SWITCH_SCALE_CUBE = true;
   const SWITCH_TREEMAP_FLAT_LINE_STYLE = LINE_STYLE_CORNER;
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
-
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -43,6 +41,7 @@
     sets_display: TREEMAP_FLAT,
     selection_year: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    data_scale_cube: true,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items
   };
 
@@ -51,7 +50,6 @@
   sets_style.innerHTML = `
     .layer.highlight {
       background-color: ${_highlightColor} !important; 
-      border: 2px solid black !important;
       opacity: 0.2 !important;
     } 
     .box-layer:hover {
@@ -68,6 +66,7 @@
 
   pCube.clearSets = () => {
     pCube.getGLBox().remove(_linesContainer);
+    _linesContainer.children = [];
     _layers.forEach(l => pCube.getCube().remove(l));
     _layersGL.forEach(l => pCube.getGLBox().remove(l));
     _layers.splice(0, _layers.length);
@@ -358,7 +357,7 @@
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
-        let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
+        let cubeSize = pCube.sets_options.data_scale_cube ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox(pCube.getCube(), "test", 50, 50, 100, 200, 300, p);
@@ -385,7 +384,7 @@
       if (idx < NUMBER_OF_LAYERS) {
 
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
-        let cubeSize = SWITCH_SCALE_CUBE ? _cubeScale(count) : CUBE_SIZE;
+        let cubeSize = pCube.sets_options.data_scale_cube ? _cubeScale(count) : CUBE_SIZE;
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         _treemap_nodes.forEach(n => {
@@ -557,11 +556,11 @@
     };
     if (!_hierarchy_root) { // init calculation with the biggest collection items 
       _hierarchy_root = d3.hierarchy(data);
-      _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' ? dataset[DOMAIN_RANGE_MAX][d.name].length : null; })
+      _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[DOMAIN_RANGE_MAX][d.name].length : null; })
         .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
       console.debug(_hierarchy_root);
     }
-    _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' ? dataset[layerNumber][d.name].length : null; })
+    _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
       .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
     _treemap_nodes = _tmap(_hierarchy_root).leaves();
     console.debug(layerNumber, _hierarchy_root);
@@ -579,7 +578,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE && layerItemCount ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube && layerItemCount ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     const pos = [[w, 0, 0], [-w, 0, 0], [0, h, 0], [0, -h, 0], [0, 0, d], [0, 0, -d]];
     const rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -641,7 +640,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     const pos = [0, -h, 0];
     const rot = [r, 0, 0];
@@ -653,9 +652,9 @@
     element.style.width = width + 'px';
     element.style.height = depth + 'px';
 
-    //element.style.border = "1px solid red";
+    element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
-    element.style.opacity = 0.3;
+    // element.style.opacity = 0.5;
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
@@ -698,7 +697,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = SWITCH_SCALE_CUBE && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
 
     let geometry = new THREE.BoxGeometry(width, height, depth);
     let material = new THREE.MeshBasicMaterial({

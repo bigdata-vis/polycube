@@ -299,7 +299,8 @@
         light: false,
         projection: 5000,
         setVisType: 'treemap_flat',
-        dataThreshold: 0.01
+        dataThreshold: 0.01,
+        scaleCube: true
       };
 
       gui.add(params, 'Project').onFinishChange(function () {
@@ -356,20 +357,23 @@
         //            console.log(value);
       });
 
-      gui.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] )
+      var fsets = gui.addFolder('Sets');
+      
+      fsets.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] )
       .onChange(function () {
-        var value = params.setVisType;
-
         polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: value, data_threshold: params.dataThreshold });
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube });
       })
       .name("Set Visualization");
 
-      gui.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(function () {
-        var value = params.dataThreshold;
-  
+      fsets.add(params, "scaleCube").onChange(function () {
         polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: value});
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube});
+      });
+
+      fsets.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(function () {
+        polyCube.clearSets();
+        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube});
       });
 
 
