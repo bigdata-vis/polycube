@@ -213,6 +213,38 @@
       //            .defer(d3.xml, "data/export.xml")
       .await(init);
 
+
+    window.guiParams = {
+      Project: "KHM Data",
+      Morphing: -250,
+      showData: true,
+      showNodes: false,
+      toggleMaps: true,
+      nodeSize: 15,
+      light: false,
+      projection: 5000,
+      // sets options
+      setVisType: 'matrix',
+      dataThreshold: 0.01,
+      scaleCube: true,
+      selectionYearStart: 1000,
+      selectionYearEnd: 2000
+    };
+
+    function fnClearAndDrawSets() {
+      polyCube.clearSets();
+      
+      let options = { 
+        parsedData: parsedLidoData, 
+        selection_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd], 
+        sets_display: window.guiParams.setVisType, 
+        data_threshold: window.guiParams.dataThreshold, 
+        data_scale_cube: window.guiParams.scaleCube
+      };
+      console.info(options);
+      polyCube.drawSets(options);
+    }
+
     function init(error, data, szabo, mapm, lido) {
       if (error) console.log(error);
       function tempRange(data) {
@@ -257,7 +289,9 @@
         //Draw
         // polyCube.root = document.getElementById('cube');
         polyCube.drawElements(newData, szabo);
-        polyCube.drawSets({ parsedData: parsedLidoData });
+        
+        fnClearAndDrawSets();
+        // polyCube.drawSets({ parsedData: parsedLidoData });
         
         //            polyCube.drawMap(map);
         //            polyCube.drawLines();
@@ -291,33 +325,16 @@
        */
       var gui = new dat.GUI({});
 
-      var params = {
-        Project: "KHM Data",
-        Morphing: -250,
-        showData: true,
-        showNodes: false,
-        toggleMaps: true,
-        nodeSize: 15,
-        light: false,
-        projection: 5000,
-        // sets options
-        setVisType: 'treemap_flat',
-        dataThreshold: 0.01,
-        scaleCube: true,
-        selectionYearStart: 1000,
-        selectionYearEnd: 2000
-      };
-
-      gui.add(params, 'Project').onFinishChange(function () {
+      gui.add(window.guiParams, 'Project').onFinishChange(function () {
       }).name("PolyCube ©");
 
-      gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-        var value = params.Morphing;
+      gui.add(window.guiParams, 'Morphing').min(-250).max(250).onChange(function () {
+        var value = window.guiParams.Morphing;
         polyCube.morphing({ axis: +value })
       });
 
-      gui.add(params, "showData").onChange(function () {
-        var value = params.showData;
+      gui.add(window.guiParams, "showData").onChange(function () {
+        var value = window.guiParams.showData;
         if (value) {
           d3.selectAll(".pointCloud")
             .classed("hide", false)
@@ -328,8 +345,8 @@
 
       }).name("Show PC Data");
 
-      gui.add(params, "showNodes").onChange(function () {
-        var value = params.showData;
+      gui.add(window.guiParams, "showNodes").onChange(function () {
+        var value = window.guiParams.showData;
         if (value) {
           polyCube.showNodes()
         } else {
@@ -338,8 +355,8 @@
 
       }).name("Show Nodes");
 
-      gui.add(params, "toggleMaps").onChange(function () {
-        var value = params.toggleMaps;
+      gui.add(window.guiParams, "toggleMaps").onChange(function () {
+        var value = window.guiParams.toggleMaps;
         if (value) {
           document.querySelectorAll(".leaflet-container").forEach(x => x.style.display = "block");
         } else {
@@ -348,47 +365,35 @@
 
       }).name("Toggle Maps");
 
-      gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
-        var value = params.nodeSize;
+      gui.add(window.guiParams, "nodeSize").min(5).max(80).onChange(function () {
+        var value = window.guiParams.nodeSize;
         //        console.log(value);
         d3.selectAll(".pointCloud")
           .style("width", value + "px")
           .style("height", value + "px");
       });
 
-      gui.add(params, "projection").min(1000).max(5000).onChange(function () {
-        var value = params.projection;
+      gui.add(window.guiParams, "projection").min(1000).max(5000).onChange(function () {
+        var value = window.guiParams.projection;
         //            polyCube.projectionScale({scale: +value});
         //            console.log(value);
       });
 
       var fsets = gui.addFolder('Sets');
-      var fnClearAndDrawSets = () => {
-        let options = { 
-          parsedData: parsedLidoData, 
-          selection_year_range: [params.selectionYearStart, params.selectionYearEnd], 
-          sets_display: params.setVisType, 
-          data_threshold: params.dataThreshold, 
-          data_scale_cube: params.scaleCube
-        };
-        console.info(options);
-        polyCube.clearSets();
-        polyCube.drawSets(options);
-      };
       
-      fsets.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] ).onChange(fnClearAndDrawSets).name("Set Visualization");
+      fsets.add(window.guiParams, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] ).onChange(fnClearAndDrawSets).name("Set Visualization");
 
-      fsets.add(params, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(1).onChange(fnClearAndDrawSets);
-      fsets.add(params, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(1).onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
 
-      fsets.add(params, "scaleCube").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "scaleCube").onChange(fnClearAndDrawSets);
 
-      fsets.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).onChange(fnClearAndDrawSets);
 
 
       var f1 = gui.addFolder('Theme');
-      f1.add(params, "light").onChange(function () {
-        var value = params.light;
+      f1.add(window.guiParams, "light").onChange(function () {
+        var value = window.guiParams.light;
         if (value) {
           d3.select("body")
             .style("background-color", "aliceblue");
