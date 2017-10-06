@@ -669,6 +669,8 @@
 
             var startDate = parameters["startDate"] || dateTestEx[0].toString();
             var endDate = parameters["endDate"] || dateTestEx[1].toString();
+            
+            var fontsize = parameters["fontSize"] || 10;
 
             // console.log(startDate);
             // console.log(endDate);
@@ -694,7 +696,7 @@
             for (var i = 0; i < (dataSlices); i++) {
 
                 // console.log(dateArray[i]);
-                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: fontsize});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time

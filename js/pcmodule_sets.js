@@ -11,6 +11,7 @@
   const LINE_STYLE_CORNER = 'corner';
 
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
+  const SWITCH_GRIDHELPER = true;
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -74,7 +75,14 @@
     _htmlElements.forEach(e => e.remove());
   };
 
+
+  
   pCube.drawSets = (options) => {
+    
+    if (SWITCH_GRIDHELPER) {
+      var gridhelper = new THREE.GridHelper(1000, 10);
+      pCube.getGLScene().add(gridhelper);
+    }
 
     // add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0xFFFFFF);
@@ -144,6 +152,7 @@
         y: -(CUBE_SIZE / 2),
         z: CUBE_SIZE_HALF
       },
+      fontSize: 30,
       startDate: ma, // switched because of drawLabels logic
       endDate: mi // switched because of drawLabels logic
       // startDate: mi,
@@ -205,8 +214,8 @@
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
       pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
       pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
-      pCube.sets_matrix_Ids[k] = pCube.sets_matrix_Ids[k].map( (a, ai) => {
-        return a.map( (b, bi) => {
+      pCube.sets_matrix_Ids[k] = pCube.sets_matrix_Ids[k].map((a, ai) => {
+        return a.map((b, bi) => {
           return b.concat(pCube.sets_matrix_Ids[k - 1][ai][bi]);
         });
       });
@@ -230,12 +239,12 @@
 
   pCube.default_functions.push((duration) => {
     _linesContainer.visible = true;
-    pCube.getCube().children.forEach(function (object, i) {
+    let move = function (object, i) {
       if (object.name == 'set-layer') {
         var posTween = new TWEEN.Tween(object.position)
           .to({
             x: 0,
-            y: 0,
+            y: (LAYER_SIZE * object.userData.layerNumber + LAYER_SIZE_HALF) - CUBE_SIZE_HALF,
             z: 0
           }, duration)
           .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -247,12 +256,14 @@
           .easing(TWEEN.Easing.Sinusoidal.InOut)
           .start();
       }
-    });
+    };
+    pCube.getCube().children.forEach(move);
+    pCube.getGLBox().children.forEach(move);
   });
 
   pCube.juxstaPose_functions.push((duration, width, height) => {
     _linesContainer.visible = false;
-    pCube.getCube().children.forEach(function (object, i) {
+    const move = function (object, i) {
       if (object.name == 'set-layer') {
 
         var reduceLeft2 = {
@@ -271,12 +282,17 @@
           .easing(TWEEN.Easing.Sinusoidal.InOut)
           .start();
       }
-    });
-
+    };
+    pCube.getCube().children.forEach(move);
+    pCube.getGLBox().children.forEach(move);
   });
 
   pCube.onLayerClick = (layerNumber, layerData) => {
     console.info(layerNumber, layerData);
+  };
+
+  pCube.selectSet = (setName, layerNumber) => {
+    // TODO: select and deselect elements
   };
 
   const moveLayer = (layerNumber, layerData) => {
@@ -490,7 +506,7 @@
 
   const getMatrixLayerItemCountWithIdArray = (data) => {
     return data.reduce((o, cur) => {
-      return o + cur.reduce( (o1, cur1) => {
+      return o + cur.reduce((o1, cur1) => {
         return o1 + cur1.length;
       }, 0);
     }, 0);
@@ -722,10 +738,10 @@
 
     // add border edges
     if (withBorder) {
-      var geo = new THREE.EdgesGeometry( set.geometry ); // or WireframeGeometry
-      var mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2 } );
-      var border = new THREE.LineSegments( geo, mat );
-      set.add( border );
+      var geo = new THREE.EdgesGeometry(set.geometry); // or WireframeGeometry
+      var mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+      var border = new THREE.LineSegments(geo, mat);
+      set.add(border);
     }
 
     container.add(set);
