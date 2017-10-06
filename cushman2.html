@@ -35,7 +35,12 @@
 </button>
 
 <button class="button" type="button"
-        onclick="polyCube.superImpose()"> superimposition
+        onclick="
+        polyCube.default();
+        setTimeout(function() {
+          polyCube.superImpose()
+        },2500);
+"> superimposition
 </button>
 
 

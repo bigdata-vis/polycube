@@ -776,7 +776,7 @@
      * Default STC Layout Fallback function
      *
      */
-    pCube.default = function () {
+    pCube.default = function (callbackFuntion) {
         // var segments = defaultData.length;
         var segments = dataSlices;
 
@@ -910,8 +910,12 @@
                 return i !== 0;
             })
             .classed("hide", true)
-            .classed("dataPane", false)
+            .classed("dataPane", false);
 
+        //callback function to run at the end of every default redraw
+        if(callbackFuntion){
+            callbackFuntion()
+        }
     };
 
     /**

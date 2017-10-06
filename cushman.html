@@ -35,8 +35,14 @@
 </button>
 
 <button class="button" type="button"
-        onclick="polyCube.superImpose()"> superimposition
+        onclick="
+        polyCube.default();
+        setTimeout(function() {
+          polyCube.superImpose()
+        },2500);
+"> superimposition
 </button>
+
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
 <!--onclick="polyCube.setsDraw()"> Show Sets-->
 <!--</button>-->
@@ -217,9 +223,9 @@
                         .on("mouseover", function () {
 //                            console.log(this)
                         })
-//                        .on("mouseout", function () {
-//                            this.src = "texture/ball2.png"
-//                        })
+                        //                        .on("mouseout", function () {
+                        //                            this.src = "texture/ball2.png"
+                        //                        })
                         .on("click", function () {
                             this.src = "texture/ball2_dark.png"
                         });
