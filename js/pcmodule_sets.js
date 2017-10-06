@@ -39,7 +39,7 @@
 
   const default_options = {
     sets_display: TREEMAP_FLAT,
-    selection_year: [1800, 2000],
+    selection_year_range: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: true,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items
@@ -103,11 +103,11 @@
         return d;
       }) : options.parsedData;
 
-    if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length > 0) {
+    if (pCube.sets_options.selection_year_range && pCube.sets_options.selection_year_range.length > 0) {
       pCube.sets_filtered_by_selection =
         pCube.sets_filtered_by_selection.filter(d => {
-          if (pCube.sets_options.selection_year && pCube.sets_options.selection_year.length === 2) {
-            return d.time >= pCube.sets_options.selection_year[0] && d.time <= pCube.sets_options.selection_year[1];
+          if (pCube.sets_options.selection_year_range && pCube.sets_options.selection_year_range.length === 2) {
+            return d.time >= pCube.sets_options.selection_year_range[0] && d.time <= pCube.sets_options.selection_year_range[1];
           }
           return true;
         });

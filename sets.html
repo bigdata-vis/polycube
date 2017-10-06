@@ -251,11 +251,13 @@
             legalBodyID
           }
         });
+        
+        window.yearRange = d3.extent(parsedLidoData, d => d.time);
 
         //Draw
         // polyCube.root = document.getElementById('cube');
         polyCube.drawElements(newData, szabo);
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000] });
+        polyCube.drawSets({ parsedData: parsedLidoData });
         
         //            polyCube.drawMap(map);
         //            polyCube.drawLines();
@@ -298,9 +300,12 @@
         nodeSize: 15,
         light: false,
         projection: 5000,
+        // sets options
         setVisType: 'treemap_flat',
         dataThreshold: 0.01,
-        scaleCube: true
+        scaleCube: true,
+        selectionYearStart: 1000,
+        selectionYearEnd: 2000
       };
 
       gui.add(params, 'Project').onFinishChange(function () {
@@ -358,23 +363,27 @@
       });
 
       var fsets = gui.addFolder('Sets');
+      var fnClearAndDrawSets = () => {
+        let options = { 
+          parsedData: parsedLidoData, 
+          selection_year_range: [params.selectionYearStart, params.selectionYearEnd], 
+          sets_display: params.setVisType, 
+          data_threshold: params.dataThreshold, 
+          data_scale_cube: params.scaleCube
+        };
+        console.info(options);
+        polyCube.clearSets();
+        polyCube.drawSets(options);
+      };
       
-      fsets.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] )
-      .onChange(function () {
-        polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube });
-      })
-      .name("Set Visualization");
+      fsets.add(params, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] ).onChange(fnClearAndDrawSets).name("Set Visualization");
 
-      fsets.add(params, "scaleCube").onChange(function () {
-        polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube});
-      });
+      fsets.add(params, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(1).onChange(fnClearAndDrawSets);
+      fsets.add(params, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(1).onChange(fnClearAndDrawSets);
 
-      fsets.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(function () {
-        polyCube.clearSets();
-        polyCube.drawSets({ parsedData: parsedLidoData, selection_year: [1000, 2000], sets_display: params.setVisType, data_threshold: params.dataThreshold, data_scale_cube: params.scaleCube});
-      });
+      fsets.add(params, "scaleCube").onChange(fnClearAndDrawSets);
+
+      fsets.add(params, "dataThreshold").min(0).max(0.10).step(0.01).onChange(fnClearAndDrawSets);
 
 
       var f1 = gui.addFolder('Theme');
