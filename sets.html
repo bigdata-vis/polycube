@@ -226,19 +226,20 @@
       // sets options
       setVisType: 'square_area',
       dataThreshold: 0.01,
-      scaleCube: true,
+      scaleCube: polyCube.SACLE_TYPES[0],
       matrixOpacityByCount: true,
-      matrixShowGrid: true,
+      matrixShowGrid: false,
       selectionYearStart: 1000,
       selectionYearEnd: 2000,
-      treemapFlatLineStyle: 'corner' // 'center
+      treemapFlatLineStyle: 'corner', // 'center
+      selectionSet: ''
     };
 
     function fnClearAndDrawSets() {
       polyCube.clearSets();
       
       let options = { 
-        parsedData: parsedLidoData, 
+        parsedData: window.parsedLidoData, 
         selection_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd], 
         sets_display: window.guiParams.setVisType, 
         sets_display_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
@@ -387,14 +388,22 @@
 
       var fsets = gui.addFolder('Sets');
       
+      let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount());
+      
       fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPESE ).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
-      fsets.add(window.guiParams, "scaleCube").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "scaleCube", polyCube.SACLE_TYPES).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixOpacityByCount").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixShowGrid").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, 'treemapFlatLineStyle', [ 'corner', 'center' ] ).onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "selectionSet", possibleSets).onChange( () => {
+        polyCube.selectSet(window.guiParams.selectionSet);
+      });
+
+
+      fsets.open();
 
 
       var f1 = gui.addFolder('Theme');

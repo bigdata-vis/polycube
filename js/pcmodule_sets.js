@@ -9,6 +9,10 @@
   const SQUARE_AREA = 'square_area';
   pCube.SET_VIS_TYPESE = [TREEMAP, TREEMAP_FLAT, MATRIX, SQUARE_AREA];
 
+  const SCALE_TOTAL_COUNT = 'scale_total_count';
+  const SCALE_CATEGORY_COUNT = 'scale_category_count';
+  pCube.SACLE_TYPES = [null, SCALE_TOTAL_COUNT, SCALE_CATEGORY_COUNT];
+
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
@@ -28,14 +32,18 @@
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
   const _baseColor = '#EAECEE';
   const _highlightColor = '#1B4F72';
+  const _baseColorGL = new THREE.Color(0xEAECEE);
+  const _highlightColorGL = new THREE.Color(0x1B4F72);
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
 
   let _cubeScale = null;
   let _treemap_nodes;
   let _hierarchy_root = null;
   let _totalItemsCount = 0;
+  let _countGroupedByTerm = {};
 
   const _htmlElements = [];
+  const _boxes = [];
   const _linesContainer = new THREE.Object3D();
   const _matrixGridHelpers = [];
   const _layers = [];
@@ -48,7 +56,7 @@
     sets_display_matrix_show_grid: false,
     selection_year_range: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
-    data_scale_cube: true,
+    data_scale_cube: SCALE_TOTAL_COUNT,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
   };
 
@@ -71,7 +79,12 @@
   pCube.matrix_sets = {};
   pCube.sets_matrix_Ids = {};
 
+  pCube.getSetsSortedByTotalCount = () => {
+    return Object.keys(_countGroupedByTerm).sort((a, b) => _countGroupedByTerm[b] - _countGroupedByTerm[a]);
+  };
+
   pCube.clearSets = () => {
+    _hierarchy_root = null;
     pCube.getGLBox().remove(_linesContainer);
     _matrixGridHelpers.forEach(gh => {
       gh.parent.remove(gh);
@@ -83,9 +96,8 @@
     _layers.splice(0, _layers.length);
     _layersGL.splice(0, _layersGL.length);
     _htmlElements.forEach(e => e.remove());
+    _boxes.splice(0, _boxes.length);
   };
-
-
 
   pCube.drawSets = (options) => {
 
@@ -103,13 +115,13 @@
 
     pCube.sets_options = { ...default_options, ...options };
 
-    const groupByTerm = {};
+    _countGroupedByTerm = {};
     options.parsedData.forEach((val, idx) => {
       val.term.forEach(v => {
-        if (!groupByTerm[v]) {
-          groupByTerm[v] = 1;
+        if (!_countGroupedByTerm[v]) {
+          _countGroupedByTerm[v] = 1;
         } else {
-          groupByTerm[v] += 1;
+          _countGroupedByTerm[v] += 1;
         }
       });
     });
@@ -135,7 +147,7 @@
       pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
         let percentAmount = 1;
         d.term.forEach(t => {
-          percentAmount *= groupByTerm[d.term] / options.parsedData.length;
+          percentAmount *= _countGroupedByTerm[d.term] / options.parsedData.length;
         });
         return percentAmount >= pCube.sets_options.data_threshold;
       });
@@ -304,6 +316,32 @@
   };
 
   pCube.selectSet = (setName, layerNumber) => {
+    if (setName === '') {
+      _boxes.forEach(b => {
+        if (b.name === 'set-box' || b.name === 'set-rect') {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
+      });
+      return;
+    }
+    _boxes.forEach(b => {
+      if (b.name === 'set-box' || b.name === 'set-rect') {
+        if (b.userData.setName === setName) {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_highlightColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        } else {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_baseColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
+      }
+    });
     // TODO: select and deselect elements
   };
 
@@ -391,7 +429,7 @@
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
-        let cubeSize = pCube.sets_options.data_scale_cube ? _cubeScale(count) : CUBE_SIZE;
+        let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox(pCube.getCube(), "test", 50, 50, 100, 200, 300, p);
@@ -418,7 +456,7 @@
       if (idx < NUMBER_OF_LAYERS) {
 
         let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
-        let cubeSize = pCube.sets_options.data_scale_cube ? _cubeScale(count) : CUBE_SIZE;
+        let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         _treemap_nodes.forEach(n => {
@@ -494,9 +532,9 @@
           matrixStruct.repoNames.forEach((r, repoIdx) => {
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
               // drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
-              const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
+              const totalCountPerCategory = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
-              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / tc : 1;
+              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
               drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
@@ -539,16 +577,24 @@
     _layers.forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
+        const countRangeInLastLayer = d3.extent(Object.values(_countGroupedByTerm));
+
         matrixStruct.setNames.forEach((s, setIdx) => {
           matrixStruct.repoNames.forEach((r, repoIdx) => {
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
-              const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
+              const totalCountCategory = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
-              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / tc : 1;
+              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountCategory : 1;
               const l = _layersGL[idx];
 
-              const scale = d3.scaleLinear().domain([0, tc]).range([0, split]);
-              const width = pCube.sets_options.data_scale_cube ? scale(c) : split;
+              let width = split;
+              if (pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT) {
+                const scale = d3.scaleLinear().domain([0, countRangeInLastLayer[1]]).range([0, split]);
+                width = scale(c);
+              } else if (pCube.sets_options.data_scale_cube === SCALE_CATEGORY_COUNT) {
+                const scale = d3.scaleLinear().domain([0, totalCountCategory]).range([0, split]);
+                width = scale(c);
+              }
               const yPos = -width / 2;
 
               let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
@@ -675,7 +721,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = pCube.sets_options.data_scale_cube && layerItemCount ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT && layerItemCount ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; // FIXME: rethink this part !!!
 
     const pos = [[w, 0, 0], [-w, 0, 0], [0, h, 0], [0, -h, 0], [0, 0, d], [0, 0, -d]];
     const rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -717,15 +763,20 @@
       var object = new THREE.CSS3DObject(element);
       object.position.fromArray(pos[i]);
       object.rotation.fromArray(rot[i]);
-      object.name = setName;
+      object.name = 'set-side';
+      object.userData = { setName };
 
       box.add(object);
     }
 
+    box.name = 'set-box';
+    box.userData = { setName };
     box.position.y = y + h;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
     container.add(box);
+
+    _boxes.push(box);
 
     return box;
   };
@@ -737,7 +788,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = pCube.sets_options.data_scale_cube ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; // FIXME: rethink this part!!!!
 
     const pos = [0, -h, 0];
     const rot = [r, 0, 0];
@@ -794,7 +845,7 @@
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
-    const cubesize_per_items = pCube.sets_options.data_scale_cube && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF;
+    const cubesize_per_items = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; // FIXME: rethink this part!!!
 
     let geometry = new THREE.BoxGeometry(width, height, depth);
     let material = new THREE.MeshBasicMaterial({
@@ -807,8 +858,8 @@
       polygonOffsetUnits: 1
     });
     let set = new THREE.Mesh(geometry, material);
-    set.name = setName;
-    set.userData = setName;
+    set.name = 'set-box';
+    set.userData = { setName };
 
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
@@ -822,6 +873,7 @@
       set.add(border);
     }
 
+    _boxes.push(set);
     container.add(set);
 
     return set;
