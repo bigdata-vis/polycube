@@ -6,12 +6,14 @@
   const TREEMAP = 'treemap';
   const TREEMAP_FLAT = 'treemap_flat';
   const MATRIX = 'matrix';
+  const SQUARE_AREA = 'square_area';
+  pCube.SET_VIS_TYPESE = [TREEMAP, TREEMAP_FLAT, MATRIX, SQUARE_AREA];
 
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
-  const SWITCH_GRIDHELPER = true;
+  const SWITCH_GRIDHELPER = false;
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -76,9 +78,9 @@
   };
 
 
-  
+
   pCube.drawSets = (options) => {
-    
+
     if (SWITCH_GRIDHELPER) {
       var gridhelper = new THREE.GridHelper(1000, 10);
       pCube.getGLScene().add(gridhelper);
@@ -234,6 +236,8 @@
       drawTreemapFlat();
     } else if (pCube.sets_options.sets_display === MATRIX) {
       drawMatrix(matrixStruct);
+    } else if (pCube.sets_options.sets_display === SQUARE_AREA) {
+      drawSquareArea(matrixStruct);
     }
   };
 
@@ -358,6 +362,7 @@
                 pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
                 break;
               case MATRIX:
+              case SQUARE_AREA:
                 moveLayer(idx, pCube.sets_matrix_Ids[idx]);
                 pCube.onLayerClick(idx, pCube.sets_matrix_Ids[idx], pCube.matrix_sets[idx]);
                 break;
@@ -487,7 +492,41 @@
         });
       }
     });
+  };
 
+  const drawSquareArea = (matrixStruct) => {
+    // draw x and y axis labels
+    drawText(_layers[_layers.length - 1], "x-axis", 0, LAYER_SIZE_HALF, -CUBE_SIZE_HALF, "Category");
+    drawText(_layers[_layers.length - 1], "y-axis", -CUBE_SIZE_HALF, LAYER_SIZE_HALF, 0, "Collections", 0, Math.PI / 2);
+
+    const setSizes = Math.max.apply(null, [matrixStruct.setNames.length, matrixStruct.repoNames.length]);
+
+    let split = CUBE_SIZE / setSizes;
+
+    _layers.forEach((layer, idx) => {
+      let p = layer.position;
+      if (idx < NUMBER_OF_LAYERS) {
+        matrixStruct.setNames.forEach((s, setIdx) => {
+          matrixStruct.repoNames.forEach((r, repoIdx) => {
+            if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
+              const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
+              const c = pCube.matrix_sets[idx][setIdx][repoIdx];
+              const l = _layersGL[idx];
+              let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
+              let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
+              let diffSplit = Math.abs(xSplit - ySplit);
+              if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, 0, (split + diffSplit) * repoIdx, split, split, split, _totalItemsCount, 1, true);
+              } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length){
+                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, 0, split * repoIdx, split, split, split, _totalItemsCount, 1, true);
+              } else {
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, 0, split * repoIdx, split, split, split, _totalItemsCount, 1, true);
+              }
+            }
+          });
+        });
+      }
+    });
   };
 
   const getTreemapLayerItemCount = (data) => {

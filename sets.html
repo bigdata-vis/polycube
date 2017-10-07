@@ -224,7 +224,7 @@
       light: false,
       projection: 5000,
       // sets options
-      setVisType: 'matrix',
+      setVisType: 'square_area',
       dataThreshold: 0.01,
       scaleCube: true,
       selectionYearStart: 1000,
@@ -383,7 +383,7 @@
 
       var fsets = gui.addFolder('Sets');
       
-      fsets.add(window.guiParams, 'setVisType', [ 'treemap', 'treemap_flat', 'matrix' ] ).onChange(fnClearAndDrawSets).name("Set Visualization");
+      fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPESE ).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "scaleCube").onChange(fnClearAndDrawSets);
