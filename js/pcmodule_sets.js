@@ -37,6 +37,7 @@
 
   const _htmlElements = [];
   const _linesContainer = new THREE.Object3D();
+  const _matrixGridHelpers = [];
   const _layers = [];
   const _layersGL = [];
 
@@ -44,6 +45,7 @@
     sets_display: TREEMAP_FLAT,
     sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
     sets_display_matrix_count_opacity: true,
+    sets_display_matrix_show_grid: false,
     selection_year_range: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: true,
@@ -71,6 +73,10 @@
 
   pCube.clearSets = () => {
     pCube.getGLBox().remove(_linesContainer);
+    _matrixGridHelpers.forEach(gh => {
+      gh.parent.remove(gh);
+    });
+    _matrixGridHelpers.splice(0, _matrixGridHelpers.length);
     _linesContainer.children = [];
     _layers.forEach(l => pCube.getCube().remove(l));
     _layersGL.forEach(l => pCube.getGLBox().remove(l));
@@ -507,8 +513,28 @@
     drawText(_layers[_layers.length - 1], "y-axis", -CUBE_SIZE_HALF, LAYER_SIZE_HALF, 0, "Collections", 0, Math.PI / 2);
 
     const setSizes = Math.max.apply(null, [matrixStruct.setNames.length, matrixStruct.repoNames.length]);
-
     let split = CUBE_SIZE / setSizes;
+
+    if (pCube.sets_options.sets_display_matrix_show_grid) {
+      _layersGL.forEach((layer, idx) => {
+        let gridhelper = new THREE.GridHelper(CUBE_SIZE, setSizes);
+        gridhelper.position.y += LAYER_SIZE_HALF;
+        _matrixGridHelpers.push(gridhelper);
+        layer.add(gridhelper);
+
+        gridhelper = new THREE.GridHelper(CUBE_SIZE, setSizes);
+        gridhelper.position.y -= LAYER_SIZE_HALF;
+        _matrixGridHelpers.push(gridhelper);
+        layer.add(gridhelper);
+      });
+      for (var i = 0; i <= setSizes; i++) {
+        let gridhelper = new THREE.GridHelper(CUBE_SIZE, NUMBER_OF_LAYERS);
+        gridhelper.position.z = (split * i) - CUBE_SIZE_HALF;
+        gridhelper.rotation.x = Math.PI / 2;
+        _matrixGridHelpers.push(gridhelper);
+        pCube.getGLScene().add(gridhelper);
+      }
+    }
 
     _layers.forEach((layer, idx) => {
       let p = layer.position;

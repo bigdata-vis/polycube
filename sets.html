@@ -228,6 +228,7 @@
       dataThreshold: 0.01,
       scaleCube: true,
       matrixOpacityByCount: true,
+      matrixShowGrid: true,
       selectionYearStart: 1000,
       selectionYearEnd: 2000,
       treemapFlatLineStyle: 'corner' // 'center
@@ -242,6 +243,7 @@
         sets_display: window.guiParams.setVisType, 
         sets_display_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
         sets_display_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
+        sets_display_matrix_show_grid: window.guiParams.matrixShowGrid,
         data_threshold: window.guiParams.dataThreshold, 
         data_scale_cube: window.guiParams.scaleCube,
       };
@@ -390,6 +392,7 @@
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "scaleCube").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixOpacityByCount").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "matrixShowGrid").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, 'treemapFlatLineStyle', [ 'corner', 'center' ] ).onChange(fnClearAndDrawSets);
 
