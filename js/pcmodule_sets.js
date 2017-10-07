@@ -14,6 +14,7 @@
 
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
   const SWITCH_GRIDHELPER = false;
+  const SWITCH_GRIDHELPER_LAYERS = false;
 
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -42,6 +43,7 @@
   const default_options = {
     sets_display: TREEMAP_FLAT,
     sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
+    sets_display_matrix_count_opacity: true,
     selection_year_range: [1800, 2000],
     selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: true,
@@ -369,6 +371,11 @@
             }
           };
         });
+
+        if (SWITCH_GRIDHELPER_LAYERS) {
+          var gridhelper = new THREE.GridHelper(CUBE_SIZE, 10);
+          layerBoxGL.add(gridhelper);
+        }
       }
     });
   };
@@ -483,7 +490,7 @@
               // drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
               const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
-              const opacity = c / tc;
+              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / tc : 1;
               const l = _layersGL[idx];
               drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
@@ -511,16 +518,22 @@
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
               const tc = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
+              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / tc : 1;
               const l = _layersGL[idx];
+
+              const scale = d3.scaleLinear().domain([0, tc]).range([0, split]);
+              const width = pCube.sets_options.data_scale_cube ? scale(c) : split;
+              const yPos = -width / 2;
+
               let xSplit = CUBE_SIZE / matrixStruct.setNames.length;
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, 0, (split + diffSplit) * repoIdx, split, split, split, _totalItemsCount, 1, true);
-              } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length){
-                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, 0, split * repoIdx, split, split, split, _totalItemsCount, 1, true);
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _totalItemsCount, opacity, true);
+              } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
+                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _totalItemsCount, opacity, true);
               } else {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, 0, split * repoIdx, split, split, split, _totalItemsCount, 1, true);
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _totalItemsCount, opacity, true);
               }
             }
           });
