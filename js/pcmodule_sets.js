@@ -29,18 +29,26 @@
   const LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
   const LAYER_SIZE_HALF = LAYER_SIZE / 2;
 
+  /**
+   * treemap object that is calcuated to visualize treemap structures
+   */
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
   const _baseColor = '#EAECEE';
   const _highlightColor = '#1B4F72';
   const _baseColorGL = new THREE.Color(0xEAECEE);
   const _highlightColorGL = new THREE.Color(0x1B4F72);
+  /**
+   * color-scales that is used for sets
+   */
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
 
   let _cubeScale = null;
-  let _treemap_nodes;
-  let _hierarchy_root = null;
   let _totalItemsCount = 0;
   let _countGroupedByTerm = {};
+  /**
+   * hierarchy root element for the treemap visualization
+   */
+  let _hierarchy_root = null;
 
   const _htmlElements = [];
   const _boxes = [];
@@ -126,6 +134,9 @@
     _boxes.splice(0, _boxes.length);
   };
 
+  /**
+   * draw set visualization on the polyCube layers based on options
+   */
   pCube.drawSets = (options) => {
 
     if (SWITCH_GRIDHELPER) {
@@ -288,6 +299,10 @@
     }
   };
 
+  /**
+   * Add an additional function to the default view on the polycube
+   * moves the layers back to default position
+   */
   pCube.default_functions.push((duration) => {
     _linesContainer.visible = true;
     let move = function (object, i) {
@@ -312,6 +327,10 @@
     pCube.getGLBox().children.forEach(move);
   });
 
+  /**
+   * Add an additional function to the juxsta-pose view on the polycube
+   * moves the layers back to juxsta or side-by-side position
+   */
   pCube.juxstaPose_functions.push((duration, width, height) => {
     _linesContainer.visible = false;
     const move = function (object, i) {
@@ -338,10 +357,16 @@
     pCube.getGLBox().children.forEach(move);
   });
 
+  /**
+   * function that is executes when clicking on an layers 
+   */
   pCube.onLayerClick = (layerNumber, layerData) => {
     console.info(layerNumber, layerData);
   };
 
+  /**
+   * mark sets with the highlight color and give all other elements the base color
+   */
   pCube.selectSet = (setName, layerNumber) => {
     if (setName === '') {
       _boxes.forEach(b => {
@@ -372,6 +397,9 @@
     // TODO: select and deselect elements
   };
 
+  /**
+   * move layer out of the cube to look into part of the timeframe
+   */
   const moveLayer = (layerNumber, layerData) => {
 
     TWEEN.removeAll();
@@ -409,6 +437,9 @@
     console.info('make layer elements clickable');
   };
 
+  /**
+   * draw cliable and movable layers with CSS3D, base structure for other elements and events
+   */
   const drawLayers = () => {
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
@@ -455,6 +486,9 @@
     });
   };
 
+  /**
+   * draw a treemap visualization in 3d based on the layers
+   */
   const drawTreemap = () => {
     _layers.forEach((layer, idx) => {
       let p = layer.position;
@@ -464,7 +498,7 @@
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
         // drawBox(pCube.getCube(), "test", 50, 50, 100, 200, 300, p);
-        _treemap_nodes.forEach((n, i) => {
+        nodes.forEach((n, i) => {
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
@@ -478,7 +512,9 @@
     });
   };
 
-
+  /**
+   * draw a treemap visualation that is flat with connected lines between layers.
+   */
   const drawTreemapFlat = () => {
     let linesMemory = [];
     _layers.forEach((layer, idx) => {
@@ -490,12 +526,12 @@
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
-        _treemap_nodes.forEach(n => {
+        nodes.forEach(n => {
 
           let w = n.x1 - n.x0;
           let d = n.y1 - n.y0;
           if (isNaN(d)) {
-            console.error("weird NaN form treemap", d, n, _treemap_nodes);
+            console.error("weird NaN form treemap", d, n, nodes);
           }
           let rect = drawRect(layer, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
 
@@ -548,6 +584,9 @@
     pCube.getGLBox().add(_linesContainer);
   };
 
+  /**
+   * draw a matrix visualization
+   */
   const drawMatrix = (matrixStruct) => {
     // draw x and y axis labels
     drawText(_layers[_layers.length - 1], "x-axis", 0, LAYER_SIZE_HALF, -CUBE_SIZE_HALF, "Category");
@@ -576,6 +615,9 @@
     });
   };
 
+  /**
+   * draw a square area matrix visualization based on the matrix data
+   */
   const drawSquareArea = (matrixStruct) => {
     // draw x and y axis labels
     drawText(_layers[_layers.length - 1], "x-axis", 0, LAYER_SIZE_HALF, -CUBE_SIZE_HALF, "Category");
@@ -673,6 +715,9 @@
     }, 0);
   };
 
+  /**
+   * create empty structure for a layer for the treemap visualiatzion
+   */
   const emptyTreemapSetStructure = (data) => {
     let emptySets = {};
     data.forEach((val, idx) => {
@@ -685,6 +730,9 @@
     return emptySets;
   };
 
+  /**
+   * create empty matrix structure for a layer for the matrix visualization
+   */
   const emptyMatrixSetStructure = (data) => {
     let setNames = []; // new Set();
     let repoNames = []; // new Set();
@@ -717,6 +765,9 @@
     }
   };
 
+  /**
+   * create or update the treemap hierarchy and treemap_nodes, based on current dataset
+   */
   const doTreemapLayout = (dataset, layerNumber) => {
     if (!dataset[layerNumber]) {
       return;
@@ -736,14 +787,13 @@
     }
     _hierarchy_root = _hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
       .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
-    _treemap_nodes = _tmap(_hierarchy_root).leaves();
+    let nodes = _tmap(_hierarchy_root).leaves();
     console.debug(layerNumber, _hierarchy_root);
-    return _treemap_nodes;
+    return nodes;
   };
 
-  /**CSS3D Scene
-   * Cube Sides
-   *6 sided cube creation with CSS3D, div and then added to cube group object
+  /**
+   * draw box in CSS3D on a specific position in an specific container
    */
   const drawBox = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
 
@@ -812,6 +862,9 @@
     return box;
   };
 
+  /**
+   * draw rect in CSS3D on a specific position in an specific container
+   */
   const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
 
     const box = new THREE.Object3D();
@@ -852,7 +905,9 @@
     return box;
   };
 
-
+  /**
+   * draw a line from vector 1 to vector 2 in a specific container
+   */
   const drawLine = (setName, container, v1, v2) => {
 
     let color = _colorScale(setName);
@@ -872,6 +927,9 @@
     container.add(line);
   };
 
+  /**
+   * draw box in WebGL on a specific position in an specific container
+   */
   const drawBoxGL = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder) => {
     const h = height / 2,
       w = width / 2,
@@ -910,6 +968,9 @@
     return set;
   };
 
+  /**
+   * draw text on a specific position in an specific container
+   */
   const drawText = (container, name, x, y, z, text, rx, ry, rz) => {
 
     var labelName = `${name}-label`;
