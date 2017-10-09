@@ -49,6 +49,9 @@
   const _layers = [];
   const _layersGL = [];
 
+  /**
+   * default options fot set visualization
+   */
   const default_options = {
     sets_display: TREEMAP_FLAT,
     sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
@@ -60,6 +63,9 @@
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
   };
 
+  /**
+   * additional styles added to page for highlighting.
+   */
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
@@ -73,16 +79,37 @@
     }`;
   document.head.appendChild(sets_style);
 
+  /**
+   * Options settings for set visualization
+   */
   pCube.sets_options = {};
+  /**
+   * data filted by selection of terms and years
+   */
   pCube.sets_filtered_by_selection = [];
+  /**
+   * data storage for the treemap data
+   */
   pCube.treemap_sets = {};
+  /**
+   * data storage for the matrix data
+   */
   pCube.matrix_sets = {};
+  /**
+   * data storage for matrix data but instead of numeric count values stores list of Ids
+   */
   pCube.sets_matrix_Ids = {};
 
+  /**
+   * Get the list of categories sorted by total number of items in this category.
+   */
   pCube.getSetsSortedByTotalCount = () => {
     return Object.keys(_countGroupedByTerm).sort((a, b) => _countGroupedByTerm[b] - _countGroupedByTerm[a]);
   };
 
+  /**
+   * Clear all elements that been drawn by drawSets
+   */
   pCube.clearSets = () => {
     _hierarchy_root = null;
     pCube.getGLBox().remove(_linesContainer);
