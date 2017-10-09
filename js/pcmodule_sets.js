@@ -55,7 +55,7 @@
     sets_display_matrix_count_opacity: true,
     sets_display_matrix_show_grid: false,
     selection_year_range: [1800, 2000],
-    selection_class: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    selection_term: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: SCALE_TOTAL_COUNT,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
   };
@@ -126,10 +126,10 @@
       });
     });
 
-    pCube.sets_filtered_by_selection = pCube.sets_options.selection_class && pCube.sets_options.selection_class.length > 0 ? options.parsedData
-      .filter(d => _.intersection(d.term, pCube.sets_options.selection_class).length > 0)
+    pCube.sets_filtered_by_selection = pCube.sets_options.selection_term && pCube.sets_options.selection_term.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, pCube.sets_options.selection_term).length > 0)
       .map(d => {
-        d.term = _.intersection(d.term, pCube.sets_options.selection_class);
+        d.term = _.intersection(d.term, pCube.sets_options.selection_term);
         return d;
       }) : options.parsedData;
 
@@ -353,7 +353,11 @@
       let moveValue;
       if (l.name === 'set-layer') {
         if (l.userData.layerNumber === layerNumber) {
-          moveValue = CUBE_SIZE + 20;
+          if (l.position.x === CUBE_SIZE + 20) {
+            moveValue = 0;
+          } else {
+            moveValue = CUBE_SIZE + 20;
+          }
         } else {
           moveValue = 0;
         }
