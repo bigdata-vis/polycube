@@ -381,19 +381,27 @@
    * mark sets with the highlight color and give all other elements the base color
    */
   pCube.selectSet = (setName, layerNumber) => {
+    TWEEN.removeAll();
+
+    let boxesAndLines = [].concat(_boxes, _lines);
     if (setName === '') {
-      _boxes.forEach(b => {
-        if (b.name === 'set-box' || b.name === 'set-rect') {
+      boxesAndLines.forEach(b => {
+        if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
             .start();
         }
       });
+      _rects.forEach(b => {
+        if (b.name === 'set-rect') {
+          b.children[0].element.style.backgroundColor = _colorScale(b.userData.setName);
+        }
+      });
       return;
     }
-    _boxes.forEach(b => {
-      if (b.name === 'set-box' || b.name === 'set-rect') {
+    boxesAndLines.forEach(b => {
+      if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
         if (b.userData.setName === setName) {
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(_highlightColorGL, 1500)
@@ -407,14 +415,21 @@
         }
       }
     });
-    // TODO: select and deselect elements
+    _rects.forEach(b => {
+      if (b.name === 'set-rect') {
+        if (b.userData.setName === setName) {
+          b.children[0].element.style.backgroundColor = d3.rgb(_highlightColor);
+        } else {
+          b.children[0].element.style.backgroundColor = d3.rgb(_baseColor);
+        }
+      }
+    });
   };
 
   /**
    * move layer out of the cube to look into part of the timeframe
    */
   const moveLayer = (layerNumber, layerData) => {
-
     TWEEN.removeAll();
 
     const move = l => {
