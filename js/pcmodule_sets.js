@@ -50,9 +50,20 @@
    */
   let _hierarchy_root = null;
 
-  const _htmlElements = [];
+  /**
+   * collection containing all boxes drawn
+   */
   const _boxes = [];
+  /**
+   * collection containing all lines drawn
+   */
+  const _lines = [];
+  /**
+   * collection containing all rects drawn
+   */
+  const _rects = [];
   const _linesContainer = new THREE.Object3D();
+  const _htmlElements = [];
   const _matrixGridHelpers = [];
   const _layers = [];
   const _layersGL = [];
@@ -132,6 +143,8 @@
     _layersGL.splice(0, _layersGL.length);
     _htmlElements.forEach(e => e.remove());
     _boxes.splice(0, _boxes.length);
+    _lines.splice(0, _lines.length);
+    _rects.splice(0, _rects.length);
   };
 
   /**
@@ -891,16 +904,24 @@
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
     object.rotation.fromArray(rot);
-    object.name = setName;
+    object.name = 'set-rect-side';
+    object.userData = {
+      setName: setName
+    };
 
     box.add(object);
     box.name = 'set-rect';
+    box.userData = {
+      setName: setName
+    };
 
     box.position.y = y;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
 
     container.add(box);
+
+    _rects.push(box);
 
     return box;
   };
@@ -924,7 +945,16 @@
     geometry.vertices.push(v1, v2);
     //geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
     var line = new THREE.Line(geometry, material);
+    line.name = 'set-line';
+    line.userData = {
+      setName: setName
+    };
+
     container.add(line);
+
+    _lines.push(line);
+
+    return line;
   };
 
   /**
