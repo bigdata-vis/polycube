@@ -90,14 +90,14 @@
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
-    .layer.highlight {
-      background-color: ${_highlightColor} !important; 
-      opacity: 0.2 !important;
-    } 
-    .box-layer:hover {
-      background-color: ${_highlightColor} !important;
-      opacity: 0.2 !important;
-    }`;
+      .layer.highlight {
+        background-color: ${_highlightColor} !important; 
+        opacity: 0.2 !important;
+      } 
+      .box-layer:hover {
+        background-color: ${_highlightColor} !important;
+        opacity: 0.2 !important;
+      }`;
   document.head.appendChild(sets_style);
 
   /**
@@ -375,8 +375,8 @@
   /**
    * function that is executes when clicking on an layers 
    */
-  pCube.onLayerClick = (layerNumber, layerData) => {
-    console.info(layerNumber, layerData);
+  pCube.onLayerClick = (visType, layerNumber, layerData, listOfItems) => {
+    console.info(visType, layerNumber, layerData, listOfItems);
   };
 
   /**
@@ -450,14 +450,14 @@
             .start();
         } else {
           let newColor = d3.color(_baseColor);
-          
+
           var colorTween = new TWEEN.Tween(curColor)
-          .to(newColor, 1500)
-          .easing(TWEEN.Easing.Sinusoidal.InOut)
-          .onUpdate(() => {
-            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-          })
-          .start();
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
         }
       }
     });
@@ -532,12 +532,21 @@
               case TREEMAP:
               case TREEMAP_FLAT:
                 moveLayer(idx, pCube.treemap_sets[idx]);
-                pCube.onLayerClick(idx, pCube.treemap_sets[idx]);
+                var listOfItems = Object.values(pCube.treemap_sets[idx]).reduce((o, cur) => {
+                  return o.concat(cur);
+                }, []);
+                pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.treemap_sets[idx], listOfItems);
                 break;
               case MATRIX:
               case SQUARE_AREA:
                 moveLayer(idx, pCube.sets_matrix_objects[idx]);
-                pCube.onLayerClick(idx, pCube.sets_matrix_objects[idx], pCube.matrix_sets[idx]);
+                var listOfItems = [];
+                pCube.sets_matrix_objects[idx].forEach(arr => {
+                  arr.forEach(itms => {
+                    listOfItems = listOfItems.concat(itms);
+                  });
+                });
+                pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.sets_matrix_objects[idx], listOfItems);// pCube.matrix_sets[idx]);
                 break;
             }
           };
