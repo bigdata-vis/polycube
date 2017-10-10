@@ -20,6 +20,8 @@
   const SWITCH_GRIDHELPER = false;
   const SWITCH_GRIDHELPER_LAYERS = false;
 
+  const RENDER_ORDER_LAYER = 100;
+
   const TREEMAP_PADDING = 0;
   const NUMBER_OF_LAYERS = pCube.dataSlices;
   const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
@@ -387,6 +389,9 @@
     if (setName === '') {
       boxesAndLines.forEach(b => {
         if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
+          if (b.name === 'set-line') {
+            b.visible = true;
+          }
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -395,7 +400,15 @@
       });
       _rects.forEach(b => {
         if (b.name === 'set-rect') {
-          b.children[0].element.style.backgroundColor = _colorScale(b.userData.setName);
+          let curColor = d3.color(b.children[0].element.style.backgroundColor);
+          let newColor = d3.color(_colorScale(b.userData.setName));
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
         }
       });
       return;
@@ -403,11 +416,17 @@
     boxesAndLines.forEach(b => {
       if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
         if (b.userData.setName === setName) {
+          if (b.name === 'set-line') {
+            b.visible = true;
+          }
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(_highlightColorGL, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
             .start();
         } else {
+          if (b.name === 'set-line') {
+            b.visible = false;
+          }
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(_baseColorGL, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -417,10 +436,27 @@
     });
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
+        let curColor = d3.color(b.children[0].element.style.backgroundColor);
         if (b.userData.setName === setName) {
-          b.children[0].element.style.backgroundColor = d3.rgb(_highlightColor);
+          let newColor = d3.color(_highlightColor);
+
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
         } else {
-          b.children[0].element.style.backgroundColor = d3.rgb(_baseColor);
+          let newColor = d3.color(_baseColor);
+          
+          var colorTween = new TWEEN.Tween(curColor)
+          .to(newColor, 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .onUpdate(() => {
+            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+          })
+          .start();
         }
       }
     });
@@ -478,7 +514,7 @@
         _layers.push(layerBox);
 
         let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false);
-        layerBoxGL.renderOrder = 100;
+        layerBoxGL.renderOrder = RENDER_ORDER_LAYER;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
         _layersGL.push(layerBoxGL);
