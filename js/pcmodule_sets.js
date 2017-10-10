@@ -117,9 +117,9 @@
    */
   pCube.matrix_sets = {};
   /**
-   * data storage for matrix data but instead of numeric count values stores list of Ids
+   * data storage for matrix data but instead of numeric count values stores list of objects
    */
-  pCube.sets_matrix_Ids = {};
+  pCube.sets_matrix_objects = {};
 
   /**
    * Get the list of categories sorted by total number of items in this category.
@@ -208,7 +208,7 @@
 
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
     pCube.matrix_sets = {};
-    pCube.sets_matrix_Ids = {};
+    pCube.sets_matrix_objects = {};
 
     // time
     let dateExt = d3.extent(pCube.sets_filtered_by_selection, d => d.time);
@@ -250,7 +250,7 @@
       }
       if (!pCube.matrix_sets[index]) {
         pCube.matrix_sets[index] = _.cloneDeep(matrixStruct.matrix);
-        pCube.sets_matrix_Ids[index] = _.cloneDeep(matrixStruct.matrixIds);
+        pCube.sets_matrix_objects[index] = _.cloneDeep(matrixStruct.matrixIds);
       }
     }
 
@@ -263,7 +263,7 @@
         let setIdx = matrixStruct.setNames.indexOf(v);
         let repoIdx = matrixStruct.repoNames.indexOf(val.legalBodyID);
         pCube.matrix_sets[layerNumber][setIdx][repoIdx] += 1;
-        pCube.sets_matrix_Ids[layerNumber][setIdx][repoIdx].push(val.lidoRecID);
+        pCube.sets_matrix_objects[layerNumber][setIdx][repoIdx].push(val);
       });
     });
 
@@ -289,16 +289,16 @@
     for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
       pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
       pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
-      pCube.sets_matrix_Ids[k] = pCube.sets_matrix_Ids[k].map((a, ai) => {
+      pCube.sets_matrix_objects[k] = pCube.sets_matrix_objects[k].map((a, ai) => {
         return a.map((b, bi) => {
-          return b.concat(pCube.sets_matrix_Ids[k - 1][ai][bi]);
+          return b.concat(pCube.sets_matrix_objects[k - 1][ai][bi]);
         });
       });
     }
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
       console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
-      console.log(`sets_matrix_Ids: layer ${index} with ${getMatrixLayerItemCountWithIdArray(pCube.sets_matrix_Ids[index])} items`);
+      console.log(`sets_matrix_objects: layer ${index} with ${getMatrixLayerItemCountWithIdArray(pCube.sets_matrix_objects[index])} items`);
     }
 
     drawLayers();
@@ -413,6 +413,7 @@
       });
       return;
     }
+
     boxesAndLines.forEach(b => {
       if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
         if (b.userData.setName === setName) {
@@ -535,8 +536,8 @@
                 break;
               case MATRIX:
               case SQUARE_AREA:
-                moveLayer(idx, pCube.sets_matrix_Ids[idx]);
-                pCube.onLayerClick(idx, pCube.sets_matrix_Ids[idx], pCube.matrix_sets[idx]);
+                moveLayer(idx, pCube.sets_matrix_objects[idx]);
+                pCube.onLayerClick(idx, pCube.sets_matrix_objects[idx], pCube.matrix_sets[idx]);
                 break;
             }
           };
