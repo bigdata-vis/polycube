@@ -23,13 +23,14 @@
   const RENDER_ORDER_LAYER = 100;
 
   const TREEMAP_PADDING = 0;
-  const NUMBER_OF_LAYERS = pCube.dataSlices;
-  const DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
-  const DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
-  const CUBE_SIZE = 500;
-  const CUBE_SIZE_HALF = CUBE_SIZE / 2;
-  const LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
-  const LAYER_SIZE_HALF = LAYER_SIZE / 2;
+  
+  let NUMBER_OF_LAYERS = pCube.dataSlices;
+  let DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
+  let DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
+  let CUBE_SIZE = 500;
+  let CUBE_SIZE_HALF = CUBE_SIZE / 2;
+  let LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
+  let LAYER_SIZE_HALF = LAYER_SIZE / 2;
 
   /**
    * treemap object that is calcuated to visualize treemap structures
@@ -153,6 +154,8 @@
    * draw set visualization on the polyCube layers based on options
    */
   pCube.drawSets = (options) => {
+
+    initSizes();
 
     if (SWITCH_GRIDHELPER) {
       var gridhelper = new THREE.GridHelper(1000, 10);
@@ -462,6 +465,22 @@
       }
     });
   };
+
+  /**
+   * ========================================================================
+   *                              INTERNAL FUNCTIONS
+   * ========================================================================
+   */
+
+  const initSizes = () => {
+    NUMBER_OF_LAYERS = pCube.dataSlices;
+    DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
+    DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
+    CUBE_SIZE = 500;
+    CUBE_SIZE_HALF = CUBE_SIZE / 2;
+    LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
+    LAYER_SIZE_HALF = LAYER_SIZE / 2;
+  }
 
   /**
    * move layer out of the cube to look into part of the timeframe

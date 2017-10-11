@@ -64,7 +64,12 @@
      */
     pCube.root = document.body;
 
-    pCube.drawElements = function (datasets, datasets2) {
+    pCube.drawElements = function (datasets, datasets2, argDataSlices) {
+
+        if (argDataSlices && typeof argDataSlices === 'number') {
+          dataSlices = pCube.dataSlices = argDataSlices;
+          interval = 500 / dataSlices;
+        }
 
         /**
          * Parse and Format Time
@@ -373,12 +378,19 @@
          */
 
         var dataBySeg = d3.nest()
-            .key(function (d) {
-                return d.ts;
+            .key(function (d, idx) {
+              return d.ts;
             })
             .entries(datasets).sort(function (a, b) {
                 return a.key < b.key;
             });
+
+        /**
+         * TODO: BL do segmentation by dataSlices instead of timestamps in the dataset
+         */
+        dataBySeg = _.chunk(datasets, Math.ceil(datasets.length / dataSlices)).map( (l, i) => {
+          return { key: 'jp' + i, values: l};
+        });
 
         /**
          * push segmented data to global variable
@@ -387,15 +399,15 @@
         segmentedData = dataBySeg;
         // console.log(dataBySeg);
 
+
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
-
         var elements = d3.select(pCube.root).selectAll('.element')
         //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
-        //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
+            // .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
             .data(dataBySeg)
             .enter()
             .append('div')
