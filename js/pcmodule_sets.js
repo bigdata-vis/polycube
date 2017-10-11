@@ -23,7 +23,7 @@
   const RENDER_ORDER_LAYER = 100;
 
   const TREEMAP_PADDING = 0;
-  
+
   let NUMBER_OF_LAYERS = pCube.dataSlices;
   let DOMAIN_RANGE_MAX = NUMBER_OF_LAYERS - 1;
   let DOMAIN_RANGE = [0, DOMAIN_RANGE_MAX];
@@ -40,6 +40,9 @@
   const _highlightColor = '#1B4F72';
   const _baseColorGL = new THREE.Color(0xEAECEE);
   const _highlightColorGL = new THREE.Color(0x1B4F72);
+
+  let _matrix_struct_info = {}
+
   /**
    * color-scales that is used for sets
    */
@@ -246,6 +249,10 @@
     // do matrix and classification 
     const matrixStruct = emptyMatrixSetStructure(pCube.sets_filtered_by_selection);
     const setsStruct = emptyTreemapSetStructure(pCube.sets_filtered_by_selection);
+    _matrix_struct_info = {
+      setNames: matrixStruct.setNames,
+      repoNames: matrixStruct.repoNames
+    };
 
     for (var index = -1; index < NUMBER_OF_LAYERS; index++) {
       if (!pCube.treemap_sets[index]) {
@@ -253,7 +260,7 @@
       }
       if (!pCube.matrix_sets[index]) {
         pCube.matrix_sets[index] = _.cloneDeep(matrixStruct.matrix);
-        pCube.sets_matrix_objects[index] = _.cloneDeep(matrixStruct.matrixIds);
+        pCube.sets_matrix_objects[index] = _.cloneDeep(matrixStruct.matrixObjects);
       }
     }
 
@@ -378,8 +385,8 @@
   /**
    * function that is executes when clicking on an layers 
    */
-  pCube.onLayerClick = (visType, layerNumber, layerData, listOfItems) => {
-    console.info(visType, layerNumber, layerData, listOfItems);
+  pCube.onLayerClick = (visType, layerNumber, groupedByCategory, listOfItems, layerData) => {
+    console.info(visType, layerNumber, groupedByCategory, listOfItems, layerData);
   };
 
   /**
@@ -547,6 +554,7 @@
           x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
           x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
           x.element.onclick = function () {
+
             switch (pCube.sets_options.sets_display) {
               case TREEMAP:
               case TREEMAP_FLAT:
@@ -554,7 +562,16 @@
                 var listOfItems = Object.values(pCube.treemap_sets[idx]).reduce((o, cur) => {
                   return o.concat(cur);
                 }, []);
-                pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.treemap_sets[idx], listOfItems);
+                
+                var layerData = {
+                  visType: pCube.sets_options.sets_display,
+                  layerNumber: idx,
+                  groupedData: pCube.treemap_sets[idx],
+                  listOfItems: listOfItems,
+                  raw: pCube.treemap_sets[idx]
+                };
+                // pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.treemap_sets[idx], listOfItems);
+                pCube.onLayerClick(layerData);
                 break;
               case MATRIX:
               case SQUARE_AREA:
@@ -565,7 +582,17 @@
                     listOfItems = listOfItems.concat(itms);
                   });
                 });
-                pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.sets_matrix_objects[idx], listOfItems);// pCube.matrix_sets[idx]);
+                let groupedByCategory = getMatrixLayerCategoryGrouped(pCube.sets_matrix_objects[idx]);
+                var layerData = {
+                  visType: pCube.sets_options.sets_display,
+                  layerNumber: idx,
+                  groupedData: groupedByCategory,
+                  listOfItems: listOfItems,
+                  raw: pCube.matrix_sets[idx],
+                  rawMatrixObjects: pCube.sets_matrix_objects[idx]
+                };
+                pCube.onLayerClick(layerData);
+                // pCube.onLayerClick(pCube.sets_options.sets_display, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
                 break;
             }
           };
@@ -809,6 +836,19 @@
   };
 
   /**
+   * get map of elements grouped by term/category
+   */
+  const getMatrixLayerCategoryGrouped = (data) => {
+    let map = {};
+    _matrix_struct_info.setNames.forEach((s, setIdx) => {
+      map[s] = data[setIdx].reduce((o, cur) => {
+        return o.concat(cur);
+      }, []);
+    });
+    return map;
+  }
+
+  /**
    * create empty structure for a layer for the treemap visualiatzion
    */
   const emptyTreemapSetStructure = (data) => {
@@ -830,7 +870,7 @@
     let setNames = []; // new Set();
     let repoNames = []; // new Set();
     let matrix = [];
-    let matrixIds = [];
+    let matrixObjects = [];
     data.forEach((val, idx) => {
       if (repoNames.indexOf(val.legalBodyID) === -1) {
         repoNames.push(val.legalBodyID);
@@ -843,10 +883,10 @@
     });
     for (var i = 0; i < setNames.length; i++) {
       matrix[i] = [];
-      matrixIds[i] = [];
+      matrixObjects[i] = [];
       for (var k = 0; k < repoNames.length; k++) {
         matrix[i][k] = 0;
-        matrixIds[i][k] = [];
+        matrixObjects[i][k] = [];
       }
     }
 
@@ -854,7 +894,7 @@
       setNames,
       repoNames,
       matrix,
-      matrixIds
+      matrixObjects
     }
   };
 
