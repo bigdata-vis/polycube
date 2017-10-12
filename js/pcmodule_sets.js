@@ -83,8 +83,9 @@
     sets_display_matrix_count_opacity: true,
     sets_display_matrix_show_grid: false,
     selection_year_range: [1800, 2000],
-    selection_term: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    selection_categories: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: SCALE_TOTAL_COUNT,
+    data_layer_sumUp: true,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
   };
 
@@ -185,10 +186,10 @@
       });
     });
 
-    pCube.sets_filtered_by_selection = pCube.sets_options.selection_term && pCube.sets_options.selection_term.length > 0 ? options.parsedData
-      .filter(d => _.intersection(d.term, pCube.sets_options.selection_term).length > 0)
+    pCube.sets_filtered_by_selection = pCube.sets_options.selection_categories && pCube.sets_options.selection_categories.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, pCube.sets_options.selection_categories).length > 0)
       .map(d => {
-        d.term = _.intersection(d.term, pCube.sets_options.selection_term);
+        d.term = _.intersection(d.term, pCube.sets_options.selection_categories);
         return d;
       }) : options.parsedData;
 
@@ -284,27 +285,30 @@
 
     // console.log("matrix_sets", pCube.matrix_sets);
 
-    // sum up all the layers form 1-10 so sets grow over time and are not split by the time-slots.
-    // https://lodash.com/docs/4.17.4#mergeWith
-    const customizer = (objValue, srcValue) => {
-      if (_.isArray(objValue)) {
-        return objValue.concat(srcValue);
+    if (pCube.sets_options.data_layer_sumUp) {
+      // sum up all the layers form 1-10 so sets grow over time and are not split by the time-slots.
+      // https://lodash.com/docs/4.17.4#mergeWith
+      const customizer = (objValue, srcValue) => {
+        if (_.isArray(objValue)) {
+          return objValue.concat(srcValue);
+        }
+      };
+      const arraySumUp = (objValue, srcValue) => {
+        if (_.isArray(objValue)) {
+          return _.zipWith(objValue, srcValue, (a, b) => a + b);
+        }
       }
-    };
-    const arraySumUp = (objValue, srcValue) => {
-      if (_.isArray(objValue)) {
-        return _.zipWith(objValue, srcValue, (a, b) => a + b);
-      }
-    }
-    for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
-      pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
-      pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
-      pCube.sets_matrix_objects[k] = pCube.sets_matrix_objects[k].map((a, ai) => {
-        return a.map((b, bi) => {
-          return b.concat(pCube.sets_matrix_objects[k - 1][ai][bi]);
+      for (var k = 1; k < NUMBER_OF_LAYERS; k++) {
+        pCube.treemap_sets[k] = _.mergeWith({}, pCube.treemap_sets[k], pCube.treemap_sets[k - 1], customizer);
+        pCube.matrix_sets[k] = _.mergeWith(pCube.matrix_sets[k], pCube.matrix_sets[k - 1], arraySumUp);
+        pCube.sets_matrix_objects[k] = pCube.sets_matrix_objects[k].map((a, ai) => {
+          return a.map((b, bi) => {
+            return b.concat(pCube.sets_matrix_objects[k - 1][ai][bi]);
+          });
         });
-      });
+      }
     }
+
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
       console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
@@ -350,6 +354,8 @@
     };
     pCube.getCube().children.forEach(move);
     pCube.getGLBox().children.forEach(move);
+
+    d3.selectAll(".pointCloud").classed("hide", true);
   });
 
   /**
@@ -562,7 +568,7 @@
                 var listOfItems = Object.values(pCube.treemap_sets[idx]).reduce((o, cur) => {
                   return o.concat(cur);
                 }, []);
-                
+
                 var layerData = {
                   visType: pCube.sets_options.sets_display,
                   layerNumber: idx,
