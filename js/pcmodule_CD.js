@@ -684,6 +684,8 @@
             
             var fontsize = parameters["fontSize"] || 10;
 
+            var startAtBottom = parameters["startAtBottom"] || false;
+
             // console.log(startDate);
             // console.log(endDate);
 
@@ -705,13 +707,19 @@
             // TODO: remove old data and time
             d3.selectAll("p.textTile").remove();
             mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
-            for (var i = 0; i < (dataSlices); i++) {
+            for (var i = -1; i < (dataSlices); i++) {
 
-                // console.log(dateArray[i]);
-                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: fontsize});
-                label.position.set(p.x, p.y, p.z);
-                label.rotation.y = 20;
-                p.y += separator; //increment y position of individual label to increase over time
+                if (i === -1 && startAtBottom) {
+                  var label = makeTextSprite(formatTime(endDate), {fontsize: fontsize});
+                  label.position.set(p.x, p.y - separator, p.z);
+                  label.rotation.y = 20;
+                } else if (i >= 0){
+                  // console.log(dateArray[i]);
+                  var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: fontsize});
+                  label.position.set(p.x, p.y, p.z);
+                  label.rotation.y = 20;
+                  p.y += separator; //increment y position of individual label to increase over time
+                }
             }
 
             function makeTextSprite(message, parameters) {

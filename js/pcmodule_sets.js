@@ -48,6 +48,7 @@
    */
   const _colorScale = d3.scaleOrdinal(d3.schemeCategory20c);
 
+  let _yearScale = null;
   let _cubeScale = null;
   let _totalItemsCount = 0;
   let _countGroupedByTerm = {};
@@ -220,8 +221,8 @@
     // time
     let years = pCube.sets_options.selection_year_range.concat(pCube.sets_filtered_by_selection.map(d => d.time));
     let dateExt = d3.extent(years);
-    let yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
-    console.info(dateExt, yearScale(dateExt[0]), yearScale(dateExt[1]), Math.floor(yearScale(1000)));
+    _yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
+    console.info(dateExt, _yearScale(dateExt[0]), _yearScale(dateExt[1]), Math.floor(_yearScale(1000)));
     // pCube.dateTestEx(dateExt);
 
     // update labels 
@@ -232,10 +233,11 @@
     pCube.drawLabels({ //Todo: fix label with proper svg
       labelPosition: {
         x: CUBE_SIZE_HALF,//offset border
-        y: -(CUBE_SIZE / 2),
+        y: -(CUBE_SIZE / 2) + 20,
         z: CUBE_SIZE_HALF
       },
-      fontSize: 30,
+      startAtBottom: true, // TODO: NOTE: draw minDate to
+      fontSize: 20,
       startDate: ma, // switched because of drawLabels logic
       endDate: mi // switched because of drawLabels logic
       // startDate: mi,
@@ -268,7 +270,7 @@
 
     // classifications
     pCube.sets_filtered_by_selection.forEach((val, idx) => {
-      let layerNumber = val.time === null ? -1 : Math.floor(yearScale(val.time));
+      let layerNumber = val.time === null ? -1 : Math.floor(_yearScale(val.time));
       val.term.forEach(v => {
         pCube.treemap_sets[layerNumber][v].push(val);
 
@@ -345,7 +347,6 @@
           }, duration)
           .easing(TWEEN.Easing.Sinusoidal.InOut)
           .start();
-
 
         var rotate = new TWEEN.Tween(object.rotation)
           .to({ x: 0, y: 0, z: 0 }, duration)
@@ -558,6 +559,7 @@
           x.element.classList.add('box-layer');
           x.element.classList.add('layer');
           x.element.classList.add('layer-' + idx);
+          x.element.title = `${_yearScale.ticks()[idx]} - ${_yearScale.ticks()[idx + 1]}`;
           x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
           x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
           x.element.onclick = function () {
