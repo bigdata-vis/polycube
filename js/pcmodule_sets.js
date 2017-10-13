@@ -218,7 +218,8 @@
     pCube.sets_matrix_objects = {};
 
     // time
-    let dateExt = d3.extent(pCube.sets_filtered_by_selection, d => d.time);
+    let years = pCube.sets_options.selection_year_range.concat(pCube.sets_filtered_by_selection.map(d => d.time));
+    let dateExt = d3.extent(years);
     let yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
     console.info(dateExt, yearScale(dateExt[0]), yearScale(dateExt[1]), Math.floor(yearScale(1000)));
     // pCube.dateTestEx(dateExt);
