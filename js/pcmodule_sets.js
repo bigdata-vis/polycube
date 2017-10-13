@@ -662,7 +662,7 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
+          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count);
 
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
@@ -673,8 +673,8 @@
             if (prevRect) {
               if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CENTER) {
                 drawLine(n.data.name, _linesContainer,
-                  new THREE.Vector3(rect.position.x, layer.position.y - LAYER_SIZE_HALF, rect.position.z),
-                  new THREE.Vector3(prevRect.rect.position.x, prevRect.layerPos.y - LAYER_SIZE_HALF, prevRect.rect.position.z)
+                  new THREE.Vector3(rect.position.x, layer.position.y, rect.position.z),
+                  new THREE.Vector3(prevRect.rect.position.x, prevRect.layerPos.y, prevRect.rect.position.z)
                 );
               } else if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CORNER) {
                 for (let k = 0; k < 4; k++) {
@@ -694,12 +694,12 @@
                   drawLine(n.data.name, _linesContainer,
                     new THREE.Vector3(
                       rect.position.x + tx,
-                      layer.position.y - LAYER_SIZE_HALF,
+                      layer.position.y,
                       rect.position.z + ty
                     ),
                     new THREE.Vector3(
                       prevRect.rect.position.x + ptx,
-                      prevRect.layerPos.y - LAYER_SIZE_HALF,
+                      prevRect.layerPos.y,
                       prevRect.rect.position.z + pty
                     )
                   );
