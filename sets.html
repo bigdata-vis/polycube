@@ -231,6 +231,7 @@
       scaleCube: polyCube.SACLE_TYPES[0],
       matrixOpacityByCount: true,
       matrixShowGrid: false,
+      layerSelectAnimation: polyCube.LAYER_CLICK_ANIMATION_STYLES[0],
       selectionYearStart: 1000,
       selectionYearEnd: 2000,
       treemapFlatLineStyle: 'corner', // 'center
@@ -248,9 +249,11 @@
         sets_display_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
         sets_display_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
         sets_display_matrix_show_grid: window.guiParams.matrixShowGrid,
+        sets_display_layer_click_animation: window.guiParams.layerSelectAnimation,
         data_threshold: window.guiParams.dataThreshold,
         data_scale_cube: window.guiParams.scaleCube,
-        data_layer_sumUp: window.guiParams.dataLayerSumUp
+        data_layer_sumUp: window.guiParams.dataLayerSumUpm
+        
       };
       console.info(options);
       polyCube.drawSets(options);
@@ -404,6 +407,7 @@
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "scaleCube", polyCube.SACLE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "layerSelectAnimation", polyCube.LAYER_CLICK_ANIMATION_STYLES).name("Layer Select Animation").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixOpacityByCount").name("Opacity by Category").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixShowGrid").name("Show Grid").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).name("Data Threshold Percent").onChange(fnClearAndDrawSets);

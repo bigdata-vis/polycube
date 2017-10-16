@@ -13,6 +13,10 @@
   const SCALE_CATEGORY_COUNT = 'scale_category_count';
   pCube.SACLE_TYPES = [null, SCALE_TOTAL_COUNT, SCALE_CATEGORY_COUNT];
 
+  const LAYER_CLICK_ANIMATION_MOVE = 'move';
+  const LAYER_CLICK_ANIMATION_OPACITY = 'opacity';
+  pCube.LAYER_CLICK_ANIMATION_STYLES = [LAYER_CLICK_ANIMATION_MOVE, LAYER_CLICK_ANIMATION_OPACITY];
+
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
 
@@ -83,6 +87,7 @@
     sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
     sets_display_matrix_count_opacity: true,
     sets_display_matrix_show_grid: false,
+    sets_display_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
     selection_year_range: [1800, 2000],
     selection_categories: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: SCALE_TOTAL_COUNT,
@@ -237,7 +242,7 @@
         z: CUBE_SIZE_HALF
       },
       startAtBottom: true, // TODO: NOTE: draw minDate to
-      fontSize: 20,
+      fontSize: 30,
       startDate: ma, // switched because of drawLabels logic
       endDate: mi // switched because of drawLabels logic
       // startDate: mi,
@@ -507,7 +512,7 @@
       let moveValue;
       if (l.name === 'set-layer') {
         if (l.userData.layerNumber === layerNumber) {
-          if (l.position.x === CUBE_SIZE + 20) {
+          if (pCube.sets_selected_layer === layerNumber) {
             moveValue = 0;
           } else {
             moveValue = CUBE_SIZE + 20;
@@ -530,6 +535,42 @@
 
     pCube.getCube().children.forEach(move);
     pCube.getGLBox().children.forEach(move);
+  };
+
+  const opacityLayer = (layerNumber, layerData) => {
+    TWEEN.removeAll();
+
+    const change = l => {
+      let opaValue;
+      if (l.name === 'set-layer') {
+        if (l.userData.layerNumber === layerNumber) {
+          if (pCube.sets_selected_layer === layerNumber) {
+            opaValue = 0.1;
+          } else {
+            opaValue = Infinity;
+          }
+        } else {
+          opaValue = 0.1;
+        }
+        l.children.filter(c => c.name === 'set-box').forEach(c => {
+          c.material.opacity = opaValue;
+        });
+      }
+    };
+
+    pCube.getCube().children.forEach(change);
+    pCube.getGLBox().children.forEach(change);
+  };
+
+  const animateSelectLayer = (layerNumber, layerData) => {
+    switch (pCube.sets_options.sets_display_layer_click_animation) {
+      case LAYER_CLICK_ANIMATION_MOVE:
+        moveLayer(layerNumber, layerData);
+        break;
+      case LAYER_CLICK_ANIMATION_OPACITY:
+        opacityLayer(layerNumber, layerData);
+        break;
+    }
   };
 
   const makeLayerElementsClickable = (layerNumber, layerData) => {
@@ -567,7 +608,8 @@
             switch (pCube.sets_options.sets_display) {
               case TREEMAP:
               case TREEMAP_FLAT:
-                moveLayer(idx, pCube.treemap_sets[idx]);
+                animateSelectLayer(idx, pCube.treemap_sets[idx]);
+
                 var listOfItems = Object.values(pCube.treemap_sets[idx]).reduce((o, cur) => {
                   return o.concat(cur);
                 }, []);
@@ -584,7 +626,8 @@
                 break;
               case MATRIX:
               case SQUARE_AREA:
-                moveLayer(idx, pCube.sets_matrix_objects[idx]);
+                animateSelectLayer(idx, pCube.sets_matrix_objects[idx]);
+
                 var listOfItems = [];
                 pCube.sets_matrix_objects[idx].forEach(arr => {
                   arr.forEach(itms => {
@@ -604,6 +647,8 @@
                 // pCube.onLayerClick(pCube.sets_options.sets_display, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
                 break;
             }
+
+            pCube.sets_selected_layer = idx;
           };
         });
 
