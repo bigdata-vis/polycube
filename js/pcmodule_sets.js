@@ -131,6 +131,10 @@
    * data storage for matrix data but instead of numeric count values stores list of objects
    */
   pCube.sets_matrix_objects = {};
+  /**
+   * Selected Layer Number 
+   */
+  sets_selected_layer = null;
 
   /**
    * Get the list of categories sorted by total number of items in this category.
@@ -555,6 +559,9 @@
         l.children.filter(c => c.name === 'set-box').forEach(c => {
           c.material.opacity = opaValue;
         });
+        l.children.filter(c => c.name === 'set-rect').forEach(c => {
+          c.children[0].element.style.opacity = opaValue === Infinity ? 1 : opaValue.toString();
+        });
       }
     };
 
@@ -648,7 +655,11 @@
                 break;
             }
 
-            pCube.sets_selected_layer = idx;
+            if (pCube.sets_selected_layer === idx) { // "deselect"
+              pCube.sets_selected_layer = null;
+            } else { // "select"
+              pCube.sets_selected_layer = idx;
+            }
           };
         });
 
