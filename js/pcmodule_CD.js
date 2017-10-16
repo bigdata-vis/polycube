@@ -274,8 +274,13 @@
         pointCloud.rotation.z = 3.15;
         pointCloud.position.z = -90;
         pointCloud.position.y += 5;
-        // pointCloud.position.x += 4;
 
+
+        glbox.rotation.z = 3.15;
+        glbox.position.z = -90;
+        glbox.position.y += 5;
+
+        // pointCloud.position.x += 4;
 
         // console.log(pointCloud);
 
@@ -290,6 +295,7 @@
         //flip pointcloud
         // cube.applyMatrix(mS);
         // pointCloud.applyMatrix(mS);
+
 
 
         /**
@@ -424,7 +430,6 @@
                 // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
                 var maps = pCube.drawMap(d.key, d.values);
             });
-
 
         //Div SVG
         // svg = elements.append("svg")
@@ -615,6 +620,42 @@
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL)
                     };
+
+                    var geometry = new THREE.Geometry();
+                    geometry.name = "guideLines";
+
+                    object.element.onmouseover = function () {
+                        //draw a line to edge of the box
+                        var material = new THREE.LineBasicMaterial({
+                            color: "#feffff",
+                            linewidth: 2,
+                            linecap: 'round', //ignored by WebGLRenderer
+                            linejoin: 'round' //ignored by WebGLRenderer
+                        });
+                        material.blending = THREE.NoBlending;
+
+                        /**
+                         * WebGl Scene
+                         * Temporary Web Gl Scene implementation for line testing
+                         * @type {any}
+                         */
+
+
+                        geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
+                        geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
+
+                        // console.log(object.position.z);
+
+                        var line = new THREE.Line(geometry, material);
+                        glbox.add(line);
+
+                    };
+                    
+                    object.element.onmouseout = function () {
+                        var guidline = scene.getObjectByName("guideLines");
+                        console.log(guidline)
+                    };
+
 
                     /**
                      * populate line list
@@ -824,8 +865,6 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
-
-            console.log(d)
         });
 
 
@@ -974,11 +1013,7 @@
             if (object.name == "seg") {
                 segCounter++;
 
-                // console.log(object);
-                // if(object.element.__data__.elem){
-                //     // console.log(object.element.__data__["JP"]);
-                //     console.log(object.element.__data__["JP"]);
-                // }
+                console.log(object);
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to(reduceLeft, duration)
@@ -999,6 +1034,14 @@
                     .start();
 
                 // console.log(object)
+
+                //store object JP position inside the container
+                var jp = new THREE.Object3D();
+                jp.position.x = object.position.x;
+                jp.position.y = object.position.y;
+                jp.position.z = object.position.z;
+                object['JP'] = jp;
+
             }
         });
 
@@ -1068,7 +1111,6 @@
         //     .style("border", "1px solid #585858");
 
         var duration = 700;
-        //merge all x axis to remive dept
 
         /**
          * Reverse array to show last segment first
@@ -1101,9 +1143,27 @@
         /**
          * Layers flattening
          */
+
+        // scene.getObjectByName("cube").children.forEach(function (d) {
+        //     if(d.getObjectByName("side")){
+        //         d.element.hidden = true;
+        //     }
+        //
+        //     if(d.getObjectByName("seg")){
+        //
+        //
+        //         //make the rotation thesame as jp segments
+        //         //make the point cloud rotation thesame as above
+        //         if(d.JP){
+        //             d.rotation = (d.JP.rotation)
+        //         }
+        //         // console.log(d.position.copy())
+        //     }
+        // });
+
         scene.children[0].children.forEach(function (object, i) {
 
-            //remove box shapes
+            // remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
             }
@@ -1563,8 +1623,6 @@
 
     function delete3DOBJ(objName) {
         var selectedObject = scene.getObjectByName(objName);
-        console.log(selectedObject);
-
         // var elem = document.getElementsByClassName("pointCloud");
         var elem = d3.selectAll("." + objName);
         elem.remove();
@@ -1573,8 +1631,6 @@
 
         scene.remove(selectedObject);
         pCube.animate();
-
-        console.log(elem);
     }
 
     /**
@@ -1583,6 +1639,7 @@
      */
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
+    cube.name  = "cube";
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
     glbox.name = "glbox";
