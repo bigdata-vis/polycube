@@ -624,37 +624,37 @@
                     var geometry = new THREE.Geometry();
                     geometry.name = "guideLines";
 
-                    object.element.onmouseover = function () {
-                        //draw a line to edge of the box
-                        var material = new THREE.LineBasicMaterial({
-                            color: "#feffff",
-                            linewidth: 2,
-                            linecap: 'round', //ignored by WebGLRenderer
-                            linejoin: 'round' //ignored by WebGLRenderer
-                        });
-                        material.blending = THREE.NoBlending;
-
-                        /**
-                         * WebGl Scene
-                         * Temporary Web Gl Scene implementation for line testing
-                         * @type {any}
-                         */
-
-
-                        geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
-                        geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
-
-                        // console.log(object.position.z);
-
-                        var line = new THREE.Line(geometry, material);
-                        glbox.add(line);
-
-                    };
+                    // object.element.onmouseover = function () {
+                    //     //draw a line to edge of the box
+                    //     var material = new THREE.LineBasicMaterial({
+                    //         color: "#feffff",
+                    //         linewidth: 2,
+                    //         linecap: 'round', //ignored by WebGLRenderer
+                    //         linejoin: 'round' //ignored by WebGLRenderer
+                    //     });
+                    //     material.blending = THREE.NoBlending;
+                    //
+                    //     /**
+                    //      * WebGl Scene
+                    //      * Temporary Web Gl Scene implementation for line testing
+                    //      * @type {any}
+                    //      */
+                    //
+                    //
+                    //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
+                    //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
+                    //
+                    //     // console.log(object.position.z);
+                    //
+                    //     var line = new THREE.Line(geometry, material);
+                    //     glbox.add(line);
+                    //
+                    // };
                     
-                    object.element.onmouseout = function () {
-                        var guidline = scene.getObjectByName("guideLines");
-                        console.log(guidline)
-                    };
+                    // object.element.onmouseout = function () {
+                    //     var guidline = scene.getObjectByName("guideLines");
+                    //     console.log(guidline)
+                    // };
 
 
                     /**
@@ -1013,7 +1013,7 @@
             if (object.name == "seg") {
                 segCounter++;
 
-                console.log(object);
+                // console.log(object);
 
                 var posTween = new TWEEN.Tween(object.position)
                     .to(reduceLeft, duration)
@@ -1144,22 +1144,43 @@
          * Layers flattening
          */
 
-        // scene.getObjectByName("cube").children.forEach(function (d) {
-        //     if(d.getObjectByName("side")){
-        //         d.element.hidden = true;
-        //     }
-        //
-        //     if(d.getObjectByName("seg")){
-        //
-        //
-        //         //make the rotation thesame as jp segments
-        //         //make the point cloud rotation thesame as above
-        //         if(d.JP){
-        //             d.rotation = (d.JP.rotation)
-        //         }
-        //         // console.log(d.position.copy())
-        //     }
-        // });
+        // SI to JP
+        scene.getObjectByName("cube").children.forEach(function (d, i) {
+            if(d.getObjectByName("side")){
+                d.element.hidden = true;
+            }
+
+            if(d.getObjectByName("seg")){
+                var reduceLeft = {
+                    x: 0,
+                    y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
+                    z: 0
+                };
+
+                //make the rotation thesame as jp segments
+                // d.rotation._x = 0;
+                // d.rotation._y = 0;
+                // d.rotation._z = 0;
+
+
+                var posTween = new TWEEN.Tween(d.position)
+                    .to(reduceLeft, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var rotate = new TWEEN.Tween(d.rotation)
+                    .to({x: 0, y: 0, z: 0}, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                //make the point cloud rotation thesame as above
+
+                console.log(d);
+
+                d.position.x = 0;
+                d.position.z = 0;
+            }
+        });
 
         scene.children[0].children.forEach(function (object, i) {
 
@@ -1177,6 +1198,7 @@
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
+
 
                 // var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                 //     .to({
@@ -1208,7 +1230,7 @@
             .onComplete(function () {
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
-            .start();
+            // .start();
 
 
         //camera rotation
@@ -1230,7 +1252,7 @@
             .onComplete(function () {
                 // camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
-            .start();
+            // .start();
 
 
         /**
