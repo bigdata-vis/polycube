@@ -1086,7 +1086,6 @@
      * todo: fix rotation of the cube with map
      */
     pCube.superImpose = function () {
-
         //controls
         // controls.noZoom = false;
         controls.noRotate = true;
@@ -1122,11 +1121,13 @@
         /**
          * Point Cloud Flattening
          * create a new object STC, save positions of STC inside object
+         * rotate point cloud to match the positions of the
          */
 
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             d.position.y = 0;
+
 
             // console.log(d);
 
@@ -1208,7 +1209,6 @@
             }
 
         });
-
 
         //change camera view
         //camera position
