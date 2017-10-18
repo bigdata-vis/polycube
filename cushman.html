@@ -116,10 +116,48 @@
 
 
         /**
+         * Light theme Styling
          * Hide leaflet markers
          */
+
         d3.selectAll(".leaflet-marker-icon")
                 .classed("hide", true);
+
+        d3.select("#textTitle")
+            .style("color", "black");
+
+        d3.select("body")
+            .style("background-color", "aliceblue");
+        d3.select("canvas")
+            .style("background", "transparent");
+        d3.selectAll(".pointCloud")
+            .attr("src", "texture/ball2.png")
+            //change selected pointcloud color
+            .on("mouseover", function () {
+//                            console.log(this)
+            })
+            //                        .on("mouseout", function () {
+            //                            this.src = "texture/ball2.png"
+            //                        })
+            .on("click", function () {
+                this.src = "texture/ball2_dark.png"
+            });
+
+        d3.selectAll(".side")
+            .style("border", "0.5px dotted rgb(10, 10, 10)")
+            .style("background", "white");
+
+        d3.selectAll(".screen_dots")
+            .style("fill", "rgb(16, 49, 21)");
+
+//                d3.selectAll(".elements_child")
+//                        .style("background-color", "#8fa7b9");
+
+        d3.selectAll(".elements_child").selectAll(".subunit")
+            .style("fill", "black");
+
+        d3.selectAll(".leaflet-marker-icon")
+            .attr("src", "texture/ball2.png");
 
 
         /**
@@ -139,7 +177,7 @@
             showData: true,
             showNodes: false,
             nodeSize: 15,
-            light: false
+//            light: false
 //            projection: 5000,
 //            map: "street"
         };
@@ -205,52 +243,50 @@
 //
 //        }).name("Change Map");
 
-        var f1 = gui.addFolder('Theme');
-        f1.add(params, "light").onChange(function () {
-            var value = params.light;
-            if (value) {
+        //light theme
 
-                d3.select("#textTitle")
-                        .style("color", "black");
-
-                d3.select("body")
-                        .style("background-color", "aliceblue");
-                d3.select("canvas")
-                        .style("background", "transparent");
-                d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png")
-                        //change selected pointcloud color
-                        .on("mouseover", function () {
-//                            console.log(this)
-                        })
-                        //                        .on("mouseout", function () {
-                        //                            this.src = "texture/ball2.png"
-                        //                        })
-                        .on("click", function () {
-                            this.src = "texture/ball2_dark.png"
-                        });
-
-                d3.selectAll(".side")
-                        .style("border", "0.5px dotted rgb(10, 10, 10)")
-                        .style("background", "white");
-
-                d3.selectAll(".screen_dots")
-                        .style("fill", "rgb(16, 49, 21)");
-
-                d3.selectAll(".elements_child")
-                        .style("background-color", "#8fa7b9");
-
-                d3.selectAll(".elements_child").selectAll(".subunit")
-                        .style("fill", "black");
-
-                d3.selectAll(".leaflet-marker-icon")
-                        .attr("src", "texture/ball2.png");
-
-            } else {
-//            d3.selectAll(".pointCloud")
-//                    .classed("hide", true)
-            }
-        });
+//        var f1 = gui.addFolder('Theme');
+//        f1.add(params, "light").onChange(function () {
+//            var value = params.light;
+//            if (value) {
+//                d3.select("#textTitle")
+//                        .style("color", "black");
+//
+//                d3.select("body")
+//                        .style("background-color", "aliceblue");
+//                d3.select("canvas")
+//                        .style("background", "transparent");
+//                d3.selectAll(".pointCloud")
+//                        .attr("src", "texture/ball2.png")
+//                        //change selected pointcloud color
+//                        .on("mouseover", function () {
+////                            console.log(this)
+//                        })
+//                        //                        .on("mouseout", function () {
+//                        //                            this.src = "texture/ball2.png"
+//                        //                        })
+//                        .on("click", function () {
+//                            this.src = "texture/ball2_dark.png"
+//                        });
+//
+//                d3.selectAll(".side")
+//                        .style("border", "0.5px dotted rgb(10, 10, 10)")
+//                        .style("background", "white");
+//
+//                d3.selectAll(".screen_dots")
+//                        .style("fill", "rgb(16, 49, 21)");
+//
+////                d3.selectAll(".elements_child")
+////                        .style("background-color", "#8fa7b9");
+//
+//                d3.selectAll(".elements_child").selectAll(".subunit")
+//                        .style("fill", "black");
+//
+//                d3.selectAll(".leaflet-marker-icon")
+//                        .attr("src", "texture/ball2.png");
+//
+//            }
+//        });
     }
 
 </script>

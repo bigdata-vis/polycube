@@ -672,7 +672,7 @@
                     pointCloud.add(object);
                     // }
                 }, false);
-                image.src = 'texture/ball.png';
+                image.src = 'texture/ball2.png';
 
             });
         /**
@@ -880,9 +880,9 @@
             scene.children[0].children.reverse();
         }
 
-        if(layout === "SI"){
-            scene.children[0].children.reverse();
-        }
+        // if(layout === "SI"){
+        //     scene.children[0].children.reverse();
+        // }
 
         // console.log(scene.children[0].children);
 
@@ -1471,7 +1471,7 @@
                 scene.add(object);
             }
         }, false);
-        image.src = 'texture/ball.png';
+        image.src = 'texture/ball2.png';
     };
 
     pCube.render = function () {
