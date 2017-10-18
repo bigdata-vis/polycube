@@ -834,14 +834,18 @@
         d3.selectAll(".leaflet-marker-icon")
             .classed("hide", true);
 
-
         //show all time panels
         d3.selectAll(".textTitle")
             .classed("hide", false);
 
         //show all point clouds
-        d3.selectAll(".pointCloud")
-            .classed("hide", false);
+        //delay poitcloud introduction
+        //add transition tween
+
+        setTimeout(function () {
+            d3.selectAll(".pointCloud")
+                .classed("hide", false);
+        }, 2500);
 
         //display all the maps for the segments
         // d3.selectAll(".elements_child")
@@ -854,11 +858,9 @@
 
         var segCounter = 0; //keep list of the segment counters
 
-
         /**
          * Point Cloud reverse flattening
          */
-
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             var unFlattenPoints = new TWEEN.Tween(d.position)
@@ -871,9 +873,14 @@
 
         /**
          * Reverse array to show last segment first
+         * Only show
          */
         // scene.getObjectByName("pointCloud").children.reverse(); reverse point cloud y axis
-        if (layout !== "STC") {
+        if (layout !== "STC" ) {
+            scene.children[0].children.reverse();
+        }
+
+        if(layout === "SI"){
             scene.children[0].children.reverse();
         }
 
@@ -948,6 +955,7 @@
         /**
          * Remove transparency on first layer only and hide the rest
          */
+
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
                 return i !== 0;
@@ -991,8 +999,12 @@
             .classed("hide", false);
 
         //hide canvas temporarily //todo: remove all pointClouds
-        d3.selectAll(".pointCloud")
-            .classed("hide", true);
+
+
+        if (layout === "STC") {
+            //flatten pointCloud time first if layout is STC
+            polyCube.setsDraw()
+        }
 
         //hide all time panels
         d3.selectAll(".textTitle")
@@ -1002,12 +1014,16 @@
 
         /**
          * reverse array before animating
+         * Flatten Time before animating
          */
+
         scene.children[0].children.reverse();
+
 
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
+
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width),
                 y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
@@ -1023,24 +1039,30 @@
                 segCounter++;
 
                 // console.log(object);
+                //delay the transition to flatten time first
+                setTimeout(function () {
 
-                var posTween = new TWEEN.Tween(object.position)
-                    .to(reduceLeft, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
+                    d3.selectAll(".pointCloud")
+                        .classed("hide", true);
 
-                var rotate = new TWEEN.Tween(object.rotation)
-                    .to({x: 0, y: 0, z: 0}, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
+                    var posTween = new TWEEN.Tween(object.position)
+                        .to(reduceLeft, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
 
-                //
-                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                    .to({
-                        // opacity: 0.8,
-                        backgroundColor: "black"
-                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
+                    var rotate = new TWEEN.Tween(object.rotation)
+                        .to({x: 0, y: 0, z: 0}, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    //
+                    var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                        .to({
+                            // opacity: 0.8,
+                            backgroundColor: "black"
+                        }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+                }, 1200);
 
                 // console.log(object)
 
@@ -1050,7 +1072,6 @@
                 jp.position.y = object.position.y;
                 jp.position.z = object.position.z;
                 object['JP'] = jp;
-
             }
         });
 
@@ -1216,6 +1237,9 @@
         //camera position
 
         //if juxtapos = false
+        /**
+         * Smoothing the camera transition
+         */
 
         if (layout === "JP" || layout === "SI") {
             //put the segments together
@@ -1288,9 +1312,6 @@
                     // camera.lookAt(new THREE.Vector3(0, 0, 0));
                     //camera.fov = 8; todo: add a new fov to change perspective
                 })
-                .onComplete(function () {
-                    // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                })
                 .start();
         }
 
@@ -1304,6 +1325,7 @@
 
         // camera.toOrthographic();
         console.log(layout);
+
         layout = "SI";
     };
 
@@ -1632,7 +1654,7 @@
     };
 
     pCube.setsDraw = function () {
-        var duration = 2500;
+        var duration = 1000;
         //rearrange point clouds
         //hide maps
         //draw a
@@ -1648,7 +1670,6 @@
             });
 
         // console.log(nestedPointCloud);
-
 
         nestedPointCloud.forEach(function (data, i) {
             var segs = data.values;

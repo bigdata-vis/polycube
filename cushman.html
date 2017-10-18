@@ -106,7 +106,6 @@
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
-
         tempRange(data);
 
         /**
@@ -140,9 +139,9 @@
             showData: true,
             showNodes: false,
             nodeSize: 15,
-            light: false,
-            projection: 5000,
-            map: "street"
+            light: false
+//            projection: 5000,
+//            map: "street"
         };
 
         gui.add(params, 'Project').onFinishChange(function () {
@@ -187,24 +186,24 @@
                     .style("height", value + "px");
         });
 
-        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
-            var value = params.projection;
-//            polyCube.projectionScale({scale: +value});
-//            console.log(value);
-        });
+//        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
+//            var value = params.projection;
+////            polyCube.projectionScale({scale: +value});
+////            console.log(value);
+//        });
 
-        gui.add(params, 'map', ['street', 'street2', 'street3']).onChange(function () {
-            var value = params.map;
-
-            if (value) {
-                polyCube.switchMap(value);
-//                console.log(value)
-
-            } else {
-
-            }
-
-        }).name("Change Map");
+//        gui.add(params, 'map', ['street', 'street2', 'street3']).onChange(function () {
+//            var value = params.map;
+//
+//            if (value) {
+//                polyCube.switchMap(value);
+////                console.log(value)
+//
+//            } else {
+//
+//            }
+//
+//        }).name("Change Map");
 
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {
