@@ -44,6 +44,8 @@
 
     var segmentedData;
 
+    var layout;
+
     /**
      * Flip mirro and horizontal
      * https://threejs.org/docs/#manual/introduction/Matrix-transformations
@@ -58,7 +60,6 @@
     // mS.elements[10] = -1;
 
     pCube.drawElements = function (datasets, datasets2) {
-
         /**
          * Parse and Format Time
          */
@@ -297,7 +298,6 @@
         // pointCloud.applyMatrix(mS);
 
 
-
         /**
          * WEBGL PLAYGROUND
          * Callibrating css cubebox and glcube box positions
@@ -427,7 +427,7 @@
                  * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
                  *
                  */
-                // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
+                    // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
                 var maps = pCube.drawMap(d.key, d.values);
             });
 
@@ -605,7 +605,7 @@
                     object.name = "pointCloud"; //todo: remove later
 
                     object.element.onclick = function () {
-                    // object.element.onmouseover = function () {
+                        // object.element.onmouseover = function () {
 
                         //Change image src
                         // console.log(image);
@@ -650,7 +650,7 @@
                     //     glbox.add(line);
                     //
                     // };
-                    
+
                     // object.element.onmouseout = function () {
                     //     var guidline = scene.getObjectByName("guideLines");
                     //     console.log(guidline)
@@ -717,10 +717,10 @@
             // var separator = height / dateArray.length;
             var separator = height / dataSlices;
             var p = parameters["labelPosition"] || {
-                    x: -80,//offset border
-                    y: 0,
-                    z: 100
-                };
+                x: -80,//offset border
+                y: 0,
+                z: 100
+            };
 
             for (var i = 0; i < (dataSlices); i++) {
 
@@ -761,6 +761,8 @@
             .style("background-color", "transparent");
 
         pCube.render();
+        layout = "STC";
+
     };
 
     function addtoScene(d, i) {
@@ -867,12 +869,14 @@
                 .start();
         });
 
-
         /**
          * Reverse array to show last segment first
          */
+        // scene.getObjectByName("pointCloud").children.reverse(); reverse point cloud y axis
+        if (layout !== "STC") {
+            scene.children[0].children.reverse();
+        }
 
-        scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) {
@@ -952,9 +956,11 @@
             .classed("dataPane", false);
 
         //callback function to run at the end of every default redraw
-        if(callbackFuntion){
+        if (callbackFuntion) {
             callbackFuntion()
         }
+
+        layout = "STC";
     };
 
     /**
@@ -969,9 +975,12 @@
 
         /**
          * show leaflet markers
+         * show leaflet maps
          */
         d3.selectAll(".leaflet-marker-icon")
             .classed("hide", false);
+
+        polyCube.hideLeafletMap(false);
 
         // conntrols
         controls.noZoom = false;
@@ -1065,6 +1074,9 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
+
+        layout = "JP";
+
     };
 
     pCube.onWindowResize = function () {
@@ -1086,6 +1098,7 @@
      * todo: fix rotation of the cube with map
      */
     pCube.superImpose = function () {
+
         //controls
         // controls.noZoom = false;
         controls.noRotate = true;
@@ -1098,16 +1111,6 @@
         d3.selectAll(".elements_child")
             .classed("hide", false);
 
-
-        // d3.selectAll(".elements_child")
-        //     .style("background-color", "transparent");
-        // .style("stroke", "white")
-        // .style("stroke-width", "5px")
-        // .style("stroke-dasharray", "2,2")
-        // .style("stroke-linejoin", "round");
-
-        // d3.selectAll(".elements")
-        //     .style("border", "1px solid #585858");
 
         var duration = 700;
 
@@ -1146,42 +1149,42 @@
          */
 
         // SI to JP
-        scene.getObjectByName("cube").children.forEach(function (d, i) {
-            if(d.getObjectByName("side")){
-                d.element.hidden = true;
-            }
-
-            if(d.getObjectByName("seg")){
-                var reduceLeft = {
-                    x: 0,
-                    y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
-                    z: 0
-                };
-
-                //make the rotation thesame as jp segments
-                // d.rotation._x = 0;
-                // d.rotation._y = 0;
-                // d.rotation._z = 0;
-
-
-                var posTween = new TWEEN.Tween(d.position)
-                    .to(reduceLeft, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
-
-                var rotate = new TWEEN.Tween(d.rotation)
-                    .to({x: 0, y: 0, z: 0}, duration)
-                    .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    .start();
-
-                //make the point cloud rotation thesame as above
-
-                console.log(d);
-
-                d.position.x = 0;
-                d.position.z = 0;
-            }
-        });
+        // scene.getObjectByName("cube").children.forEach(function (d, i) {
+        //     if(d.getObjectByName("side")){
+        //         d.element.hidden = true;
+        //     }
+        //
+        //     if(d.getObjectByName("seg")){
+        //         var reduceLeft = {
+        //             x: 0,
+        //             y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
+        //             z: 0
+        //         };
+        //
+        //         //make the rotation thesame as jp segments
+        //         // d.rotation._x = 0;
+        //         // d.rotation._y = 0;
+        //         // d.rotation._z = 0;
+        //
+        //
+        //         var posTween = new TWEEN.Tween(d.position)
+        //             .to(reduceLeft, duration)
+        //             .easing(TWEEN.Easing.Sinusoidal.InOut)
+        //             .start();
+        //
+        //         var rotate = new TWEEN.Tween(d.rotation)
+        //             .to({x: 0, y: 0, z: 0}, duration)
+        //             .easing(TWEEN.Easing.Sinusoidal.InOut)
+        //             .start();
+        //
+        //         //make the point cloud rotation thesame as above
+        //
+        //         console.log(d);
+        //
+        //         d.position.x = 0;
+        //         d.position.z = 0;
+        //     }
+        // });
 
         scene.children[0].children.forEach(function (object, i) {
 
@@ -1200,7 +1203,6 @@
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-
                 // var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                 //     .to({
                 //         opacity: 0.9
@@ -1212,49 +1214,88 @@
 
         //change camera view
         //camera position
-        var tween = new TWEEN.Tween({
-            x: camera.position.x,
-            y: camera.position.y,
-            z: camera.position.z
-        }).to({
-            x: 0, //todo: fix rotation of camera axis
-            y: 1077.0329614263626,
-            z: 0
-        }, duration)
-            .easing(TWEEN.Easing.Sinusoidal.Out)
-            .onUpdate(function () {
-                camera.position.set(this.x, this.y, this.z);
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
-                //camera.fov = 8; todo: add a new fov to change perspective
-            })
-            .onComplete(function () {
-                camera.lookAt(new THREE.Vector3(0, 0, 0));
-            })
-            // .start();
 
+        //if juxtapos = false
 
-        //camera rotation
-        var rotate = new TWEEN.Tween({
-            x: camera.rotation.x,
-            y: camera.rotation.y,
-            z: camera.rotation.z
-        }).to({
-            x: -1.5707953161924646,
-            y: -5.53118884027981,
-            z: -0.005531219681680428
-        }, duration)
-            .easing(TWEEN.Easing.Elastic.InOut)
-            .onUpdate(function () {
-                camera.rotation.set(this.x, this.y, this.z);
-                // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                //camera.fov = 8; todo: add a new fov to change perspective
-            })
-            .onComplete(function () {
-                // camera.lookAt(new THREE.Vector3(0, 0, 0));
-            })
-            // .start();
+        if (layout === "JP" || layout === "SI") {
+            //put the segments together
+            scene.getObjectByName("cube").children.forEach(function (d, i) {
+                if (d.getObjectByName("seg")) {
+                    var reduceLeft = {
+                        x: 0,
+                        // y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 200, //just another way of getting 550
+                        z: 0
+                    };
 
+                    var posTween = new TWEEN.Tween(d.position)
+                        .to(reduceLeft, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
 
+                    var rotate = new TWEEN.Tween(d.rotation)
+                        .to({x: 0, y: 0, z: 0}, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    d.position.x = 0;
+                    d.position.z = 0;
+                }
+            });
+            //and rotate the camera with all the points showing as above
+
+            //or show the points only with only one map on the pane
+            // polyCube.hideLeafletMap(true);
+            setTimeout(function () {
+                polyCube.hideLeafletMap(true)
+            }, duration)
+
+            //rotate the pointclouds thesame way and position as the camera
+
+        } else {
+            //camera rotation
+            var tween = new TWEEN.Tween({
+                x: camera.position.x,
+                y: camera.position.y,
+                z: camera.position.z
+            }).to({
+                x: 0, //todo: fix rotation of camera axis
+                y: 1077.0329614263626,
+                z: 0
+            }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.Out)
+                .onUpdate(function () {
+                    camera.position.set(this.x, this.y, this.z);
+                    camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    //camera.fov = 8; todo: add a new fov to change perspective
+                })
+                .onComplete(function () {
+                    camera.lookAt(new THREE.Vector3(0, 0, 0));
+                })
+                .start();
+
+            var rotate = new TWEEN.Tween({
+                x: camera.rotation.x,
+                y: camera.rotation.y,
+                z: camera.rotation.z
+            }).to({
+                x: -1.5707953161924646,
+                y: -5.53118884027981,
+                z: -0.005531219681680428
+            }, duration)
+                .easing(TWEEN.Easing.Elastic.InOut)
+                .onUpdate(function () {
+                    camera.rotation.set(this.x, this.y, this.z);
+                    // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    //camera.fov = 8; todo: add a new fov to change perspective
+                })
+                .onComplete(function () {
+                    // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                })
+                .start();
+        }
+
+        //else
+        // do not rotate camera
         /**
          * Use Orthographic Camera
          * https://threejs.org/docs/#api/cameras/OrthographicCamera
@@ -1262,7 +1303,8 @@
          */
 
         // camera.toOrthographic();
-        // console.log(camera);
+        console.log(layout);
+        layout = "SI";
     };
 
     /**
@@ -1416,6 +1458,7 @@
         renderer.render(scene, camera);
         // pointCloud.rotation.y -= 0.05;
 
+        // console.log(layout)
     };
 
     /**
@@ -1429,7 +1472,6 @@
      * http://blockbuilder.org/jaegerka/e53294b2f5087e03525ff8d508767a2d
      *
      */
-
 
     pCube.drawMap = function (elemID, data) {
 
@@ -1572,14 +1614,22 @@
         L.control.layers(baseMaps, overlays).addTo(mymap);
 
         pCube.switchMap = function (map) {
-            if(mymap.hasLayer(street)){
+            if (mymap.hasLayer(street)) {
                 mymap.removeLayer(street)
-            }else {
+            } else {
                 mymap.addLayer(street2)
             }
         };
     };
 
+    pCube.hideLeafletMap = function (value) {
+
+        d3.selectAll(".leaflet-pane .leaflet-tile-pane")
+            .filter(function (d, i) {  //todo: point of hiding other map items
+                return i !== 0;
+            })
+            .classed("hide", value)
+    };
 
     pCube.setsDraw = function () {
         var duration = 2500;
@@ -1661,7 +1711,7 @@
      */
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
-    cube.name  = "cube";
+    cube.name = "cube";
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
     glbox.name = "glbox";
