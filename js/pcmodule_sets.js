@@ -256,7 +256,7 @@
     // cube scale
     const itemsCount = pCube.sets_filtered_by_selection.length;
     _totalItemsCount = itemsCount;
-    _cubeScale = d3.scaleLinear().domain([0, itemsCount]).range([0, CUBE_SIZE]);
+    _cubeScale = d3.scaleLog().clamp(true).domain([1, itemsCount]).range([0, CUBE_SIZE]); // FIXME: try log scale
 
 
     // do matrix and classification 
@@ -847,10 +847,10 @@
 
               let width = split;
               if (pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT) {
-                const scale = d3.scaleLinear().domain([0, countRangeInLastLayer[1]]).range([0, split]);
+                const scale = d3.scaleLog().clamp(true).domain([1, countRangeInLastLayer[1]]).range([0, split]); // FIXME: try log scale
                 width = scale(c);
               } else if (pCube.sets_options.data_scale_cube === SCALE_CATEGORY_COUNT) {
-                const scale = d3.scaleLinear().domain([0, totalCountCategory]).range([0, split]);
+                const scale = d3.scaleLog().clamp(true).domain([1, totalCountCategory]).range([0, split]); // FIXME: try log scale
                 width = scale(c);
               }
               const yPos = -width / 2;
