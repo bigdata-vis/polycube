@@ -165,7 +165,12 @@
     .sk-cube-grid {
       width: 40px;
       height: 40px;
-      margin: 100px auto;
+      margin: 0 auto;
+      position: fixed;
+      left:50%;
+      top:50%;
+      margin-left:-20px;
+      margin-top:-20px;
     }
 
     .sk-cube-grid .sk-cube {
@@ -329,7 +334,7 @@
         sets_display_layer_click_animation: window.guiParams.layerSelectAnimation,
         data_threshold: window.guiParams.dataThreshold,
         data_scale_cube: window.guiParams.scaleCube,
-        data_layer_sumUp: window.guiParams.dataLayerSumUpm
+        data_layer_sumUp: window.guiParams.dataLayerSumUp
         
       };
       console.info(options);
