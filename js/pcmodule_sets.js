@@ -718,7 +718,7 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count);
+          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, 0.5);
 
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
@@ -1063,7 +1063,7 @@
   /**
    * draw rect in CSS3D on a specific position in an specific container
    */
-  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
+  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1084,7 +1084,7 @@
 
     element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
-    // element.style.opacity = 0.5;
+    element.style.opacity = opacity;
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
