@@ -19,6 +19,7 @@
 
   const LINE_STYLE_CENTER = 'center';
   const LINE_STYLE_CORNER = 'corner';
+  const TREEMAP_FLAT_RECT_OPACITY = 0.5;
 
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
   const SWITCH_GRIDHELPER = false;
@@ -545,22 +546,25 @@
     TWEEN.removeAll();
 
     const change = l => {
+      let isDeselect = pCube.sets_selected_layer === layerNumber;
+
       let opaValue;
       if (l.name === 'set-layer') {
-        if (l.userData.layerNumber === layerNumber) {
-          if (pCube.sets_selected_layer === layerNumber) {
-            opaValue = 0.1;
-          } else {
-            opaValue = Infinity;
-          }
+        if (isDeselect) {
+          opaValue = Infinity;
         } else {
-          opaValue = 0.1;
+          if (l.userData.layerNumber === layerNumber) {
+            opaValue = Infinity;
+          } else {
+            opaValue = 0.1;
+          }
         }
+
         l.children.filter(c => c.name === 'set-box').forEach(c => {
           c.material.opacity = opaValue;
         });
         l.children.filter(c => c.name === 'set-rect').forEach(c => {
-          c.children[0].element.style.opacity = opaValue === Infinity ? 1 : opaValue.toString();
+          c.children[0].element.style.opacity = opaValue === Infinity ? TREEMAP_FLAT_RECT_OPACITY.toString() : opaValue.toString();
         });
       }
     };
@@ -718,7 +722,7 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, 0.5);
+          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY);
 
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
