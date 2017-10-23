@@ -318,7 +318,11 @@
       selectionYearEnd: 2000,
       treemapFlatLineStyle: 'corner', // 'center
       selectionSet: '',
-      dataLayerSumUp: true
+      dataLayerSumUp: true,
+      selectionSets: function() {
+        let setNames = ['Gemälde', 'Schmuck'];
+        alert('will select sets: ' + setNames.join(','));
+      }
     };
 
     function fnClearAndDrawSets() {
@@ -501,6 +505,7 @@
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Category").onChange(() => {
         polyCube.selectSet(window.guiParams.selectionSet);
       });
+      fsets.add(window.guiParams, 'selectionSets');
 
 
       fsets.open();

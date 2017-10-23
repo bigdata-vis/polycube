@@ -24,6 +24,7 @@
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
   const SWITCH_GRIDHELPER = false;
   const SWITCH_GRIDHELPER_LAYERS = false;
+  const SWITCH_OUTPUT_OBJECTS_WITH_MULTIPLE_SETS = true;
 
   const RENDER_ORDER_LAYER = 100;
 
@@ -186,8 +187,17 @@
 
     pCube.sets_options = { ...default_options, ...options };
 
+    let output_multiset_count = {};
     _countGroupedByTerm = {};
     options.parsedData.forEach((val, idx) => {
+      if (val.term.length > 1) {
+        let v = val.term.join(',');
+        if (!output_multiset_count[v]) {
+          output_multiset_count[v] = 1;
+        } else {
+          output_multiset_count[v] += 1;
+        }
+      }
       val.term.forEach(v => {
         if (!_countGroupedByTerm[v]) {
           _countGroupedByTerm[v] = 1;
@@ -199,6 +209,9 @@
 
     pCube.sets_filtered_by_selection = pCube.sets_options.selection_categories && pCube.sets_options.selection_categories.length > 0 ? options.parsedData
       .filter(d => _.intersection(d.term, pCube.sets_options.selection_categories).length > 0)
+    if (SWITCH_OUTPUT_OBJECTS_WITH_MULTIPLE_SETS) {
+      console.info(`out of ${options.parsedData.length} items, ${_.sum(Object.values(output_multiset_count))} have multiple categories`, output_multiset_count);
+    }
       .map(d => {
         d.term = _.intersection(d.term, pCube.sets_options.selection_categories);
         return d;
@@ -489,6 +502,13 @@
         }
       }
     });
+  };
+
+  /**
+   * highlight boxes or rects based on the given array of setnames
+   */
+  pCube.selectSets = (setNames) => {
+
   };
 
   /**
