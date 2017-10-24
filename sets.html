@@ -308,7 +308,7 @@
       projection: 5000,
       layers: parseInt(url.searchParams.get('layers'), 10) || 10,
       // sets options
-      setVisType: 'square_area',
+      setVisType: 'treemap_flat',
       dataThreshold: 0.01,
       scaleCube: polyCube.SACLE_TYPES[0],
       matrixOpacityByCount: true,
@@ -317,12 +317,9 @@
       selectionYearStart: 1000,
       selectionYearEnd: 2000,
       treemapFlatLineStyle: 'corner', // 'center
-      selectionSet: '',
       dataLayerSumUp: true,
-      selectionSets: function() {
-        let setNames = ['Gemälde', 'Schmuck'];
-        alert('will select sets: ' + setNames.join(','));
-      }
+      selectionSet: '',
+      selectionSets: []
     };
 
     function fnClearAndDrawSets() {
@@ -330,12 +327,12 @@
 
       let options = {
         parsedData: window.parsedLidoData,
-        selection_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd],
         sets_display: window.guiParams.setVisType,
         sets_display_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
         sets_display_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
         sets_display_matrix_show_grid: window.guiParams.matrixShowGrid,
         sets_display_layer_click_animation: window.guiParams.layerSelectAnimation,
+        data_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd],
         data_threshold: window.guiParams.dataThreshold,
         data_scale_cube: window.guiParams.scaleCube,
         data_layer_sumUp: window.guiParams.dataLayerSumUp
@@ -427,7 +424,7 @@
        * Data UI Controls
        * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
        */
-      var gui = new dat.GUI({});
+      var gui = new dat.GUI({ width: 400 });
 
       gui.add(window.guiParams, 'Project').onFinishChange(function () {
       }).name("PolyCube ©");
@@ -491,6 +488,7 @@
       var fsets = gui.addFolder('Sets');
 
       let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount());
+      let possibleMultiSets = [].concat([''], polyCube.getMultiSetsSortedByTotalCount());
 
       fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPESE).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
@@ -505,7 +503,9 @@
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Category").onChange(() => {
         polyCube.selectSet(window.guiParams.selectionSet);
       });
-      fsets.add(window.guiParams, 'selectionSets');
+      fsets.add(window.guiParams, "selectionSets", possibleMultiSets).name("Selected Overlapping Categories").onChange(() => {
+        polyCube.selectSets(window.guiParams.selectionSets.split(','), polyCube.OVERLAPPING_OPTIONS[0]);
+      });
 
 
       fsets.open();

@@ -21,10 +21,17 @@
   const LINE_STYLE_CORNER = 'corner';
   const TREEMAP_FLAT_RECT_OPACITY = 0.5;
 
+  const OVERLAPPING_OPTION_UNION = 'union';
+  const OVERLAPPING_OPTION_INTERSECTION = 'intersection';
+  pCube.OVERLAPPING_OPTIONS = [OVERLAPPING_OPTION_UNION, OVERLAPPING_OPTION_INTERSECTION];
+
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
   const SWITCH_GRIDHELPER = false;
   const SWITCH_GRIDHELPER_LAYERS = false;
   const SWITCH_OUTPUT_OBJECTS_WITH_MULTIPLE_SETS = true;
+
+  /* if data_with_categories is filled you can use this switch to remove all other categories from the dataset */
+  const SWITCH_DATA_REMOVE_UNLISTED_CATEGORIES = false;
 
   const RENDER_ORDER_LAYER = 100;
 
@@ -56,8 +63,13 @@
 
   let _yearScale = null;
   let _cubeScale = null;
-  let _totalItemsCount = 0;
-  let _countGroupedByTerm = {};
+  const _stats = {
+    totalItemsCount: 0,
+    countGroupedByTerm: {},
+    selectedCountGroupedByTerm: {},
+    countGroupedByMultiSets: {},
+    selectedCountGroupedByMultiSets: {}
+  };
   /**
    * hierarchy root element for the treemap visualization
    */
@@ -68,6 +80,10 @@
    */
   const _boxes = [];
   /**
+   * collection containing selected boxes drawn to help visualize overlapping sets
+   */
+  const _selectedBoxes = [];
+  /**
    * collection containing all lines drawn
    */
   const _lines = [];
@@ -75,6 +91,10 @@
    * collection containing all rects drawn
    */
   const _rects = [];
+  /**
+   * collection containing selected rects drawn to help visualize overlapping sets
+   */
+  const _selectedRects = [];
   const _linesContainer = new THREE.Object3D();
   const _htmlElements = [];
   const _matrixGridHelpers = [];
@@ -90,8 +110,14 @@
     sets_display_matrix_count_opacity: true,
     sets_display_matrix_show_grid: false,
     sets_display_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
-    selection_year_range: [1800, 2000],
-    selection_categories: [], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
+    /**
+     * data_year_range only allows elements in the cube that are within this time-range.
+     */
+    data_year_range: [1800, 2000],
+    /**
+     * data_with_cateogires only allows elements in the cube that contain those categories.
+     */
+    data_with_categories: [], //['Andachtsbild', 'Relief'], // ['Andachtsbild'], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: SCALE_TOTAL_COUNT,
     data_layer_sumUp: true,
     data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
@@ -103,14 +129,14 @@
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
-      .layer.highlight {
-        background-color: ${_highlightColor} !important; 
-        opacity: 0.2 !important;
-      } 
-      .box-layer:hover {
-        background-color: ${_highlightColor} !important;
-        opacity: 0.2 !important;
-      }`;
+        .layer.highlight {
+          background-color: ${_highlightColor} !important; 
+          opacity: 0.2 !important;
+        } 
+        .box-layer:hover {
+          background-color: ${_highlightColor} !important;
+          opacity: 0.2 !important;
+        }`;
   document.head.appendChild(sets_style);
 
   /**
@@ -139,10 +165,34 @@
   sets_selected_layer = null;
 
   /**
+   * currently selected category/set
+   */
+  sets_selected_category = null;
+  /**
+   * currently selected categories/sets (multi-sets)
+   */
+  sets_selected_categories = [];
+
+  /**
    * Get the list of categories sorted by total number of items in this category.
    */
   pCube.getSetsSortedByTotalCount = () => {
-    return Object.keys(_countGroupedByTerm).sort((a, b) => _countGroupedByTerm[b] - _countGroupedByTerm[a]);
+    return Object.keys(_stats.countGroupedByTerm).sort((a, b) => _stats.countGroupedByTerm[b] - _stats.countGroupedByTerm[a]);
+  };
+
+  /**
+   * Get the list of categories and overlapping categories sorted by total number of items in this category.
+   */
+  pCube.getMultiSetsSortedByTotalCount = () => {
+    return Object.keys(_stats.countGroupedByMultiSets).sort((a, b) => _stats.countGroupedByMultiSets[b] - _stats.countGroupedByMultiSets[a]);
+  };
+
+  /**
+   * Get the list of categories and overlapping categories sorted by total number of items in this category.
+   */
+  pCube.getSetsAndMultiSetsSortedByTotalCount = () => {
+    let merged = Object.assign({}, _stats.countGroupedByTerm, _stats.countGroupedByMultiSets);
+    return Object.keys(merged).sort((a, b) => merged[b] - merged[a]);
   };
 
   /**
@@ -162,8 +212,10 @@
     _layersGL.splice(0, _layersGL.length);
     _htmlElements.forEach(e => e.remove());
     _boxes.splice(0, _boxes.length);
+    _selectedBoxes.splice(0, _selectedBoxes.length);
     _lines.splice(0, _lines.length);
     _rects.splice(0, _rects.length);
+    _selectedRects.splice(0, _selectedRects.length);
   };
 
   /**
@@ -187,51 +239,81 @@
 
     pCube.sets_options = { ...default_options, ...options };
 
-    let output_multiset_count = {};
-    _countGroupedByTerm = {};
+    _stats.countGroupedByTerm = {};
+    _stats.selectedCountGroupedByTerm = {};
+    _stats.countGroupedByMultiSets = {};
+    _stats.selectedCountGroupedByMultiSets = {};
+
+    // create stats for sets and multi-sets before filtering
     options.parsedData.forEach((val, idx) => {
       if (val.term.length > 1) {
         let v = val.term.join(',');
-        if (!output_multiset_count[v]) {
-          output_multiset_count[v] = 1;
+        if (!_stats.countGroupedByMultiSets[v]) {
+          _stats.countGroupedByMultiSets[v] = 1;
         } else {
-          output_multiset_count[v] += 1;
+          _stats.countGroupedByMultiSets[v] += 1;
         }
       }
       val.term.forEach(v => {
-        if (!_countGroupedByTerm[v]) {
-          _countGroupedByTerm[v] = 1;
+        if (!_stats.countGroupedByTerm[v]) {
+          _stats.countGroupedByTerm[v] = 1;
         } else {
-          _countGroupedByTerm[v] += 1;
+          _stats.countGroupedByTerm[v] += 1;
         }
       });
     });
 
-    pCube.sets_filtered_by_selection = pCube.sets_options.selection_categories && pCube.sets_options.selection_categories.length > 0 ? options.parsedData
-      .filter(d => _.intersection(d.term, pCube.sets_options.selection_categories).length > 0)
     if (SWITCH_OUTPUT_OBJECTS_WITH_MULTIPLE_SETS) {
-      console.info(`out of ${options.parsedData.length} items, ${_.sum(Object.values(output_multiset_count))} have multiple categories`, output_multiset_count);
+      console.info(`out of ${options.parsedData.length} items, ${_.sum(Object.values(_stats.countGroupedByMultiSets))} have multiple categories`, _stats.countGroupedByMultiSets);
     }
+
+    pCube.sets_filtered_by_selection = pCube.sets_options.data_with_categories && pCube.sets_options.data_with_categories.length > 0 ? options.parsedData
+      .filter(d => _.intersection(d.term, pCube.sets_options.data_with_categories).length > 0)
       .map(d => {
-        d.term = _.intersection(d.term, pCube.sets_options.selection_categories);
+        if (SWITCH_DATA_REMOVE_UNLISTED_CATEGORIES) {
+          d.term = _.intersection(d.term, pCube.sets_options.data_with_categories);
+        }
         return d;
       }) : options.parsedData;
 
-    if (pCube.sets_options.selection_year_range && pCube.sets_options.selection_year_range.length > 0) {
+    if (pCube.sets_options.data_year_range && pCube.sets_options.data_year_range.length > 0) {
       pCube.sets_filtered_by_selection =
         pCube.sets_filtered_by_selection.filter(d => {
-          if (pCube.sets_options.selection_year_range && pCube.sets_options.selection_year_range.length === 2) {
-            return d.time >= pCube.sets_options.selection_year_range[0] && d.time <= pCube.sets_options.selection_year_range[1];
+          if (pCube.sets_options.data_year_range && pCube.sets_options.data_year_range.length === 2) {
+            return d.time >= pCube.sets_options.data_year_range[0] && d.time <= pCube.sets_options.data_year_range[1];
           }
           return true;
         });
     }
 
+    // create stats for sets and multi-sets after filtering
+    pCube.sets_filtered_by_selection.forEach((val, idx) => {
+      val.term.forEach(v => {
+        if (val.term.length > 1) {
+          let v = val.term.join(',');
+          if (!_stats.selectedCountGroupedByMultiSets[v]) {
+            _stats.selectedCountGroupedByMultiSets[v] = 1;
+          } else {
+            _stats.selectedCountGroupedByMultiSets[v] += 1;
+          }
+        }
+        if (!_stats.selectedCountGroupedByTerm[v]) {
+          _stats.selectedCountGroupedByTerm[v] = 1;
+        } else {
+          _stats.selectedCountGroupedByTerm[v] += 1;
+        }
+      });
+    });
+
+    // filter out data that is below the data threshold - based on the number of already filtered out data.
     if (pCube.sets_options.data_threshold) {
       pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
-        let percentAmount = 1;
+        let percentAmount = 0;
         d.term.forEach(t => {
-          percentAmount *= _countGroupedByTerm[d.term] / options.parsedData.length;
+          let per = _stats.selectedCountGroupedByTerm[t] / pCube.sets_filtered_by_selection.length; // options.parsedData.length;
+          if (percentAmount < per) {
+            percentAmount = per;
+          }
         });
         return percentAmount >= pCube.sets_options.data_threshold;
       });
@@ -242,7 +324,7 @@
     pCube.sets_matrix_objects = {};
 
     // time
-    let years = pCube.sets_options.selection_year_range.concat(pCube.sets_filtered_by_selection.map(d => d.time));
+    let years = pCube.sets_options.data_year_range.concat(pCube.sets_filtered_by_selection.map(d => d.time));
     let dateExt = d3.extent(years);
     _yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
     console.info(dateExt, _yearScale(dateExt[0]), _yearScale(dateExt[1]), Math.floor(_yearScale(1000)));
@@ -269,7 +351,7 @@
 
     // cube scale
     const itemsCount = pCube.sets_filtered_by_selection.length;
-    _totalItemsCount = itemsCount;
+    _stats.totalItemsCount = itemsCount;
     _cubeScale = d3.scaleLog().clamp(true).domain([1, itemsCount]).range([0, CUBE_SIZE]); // FIXME: try log scale
 
 
@@ -425,33 +507,11 @@
    */
   pCube.selectSet = (setName, layerNumber) => {
     TWEEN.removeAll();
+    sets_selected_category = setName || null;
 
     let boxesAndLines = [].concat(_boxes, _lines);
     if (setName === '') {
-      boxesAndLines.forEach(b => {
-        if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
-          if (b.name === 'set-line') {
-            b.visible = true;
-          }
-          var colorTween = new TWEEN.Tween(b.material.color)
-            .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .start();
-        }
-      });
-      _rects.forEach(b => {
-        if (b.name === 'set-rect') {
-          let curColor = d3.color(b.children[0].element.style.backgroundColor);
-          let newColor = d3.color(_colorScale(b.userData.setName));
-          var colorTween = new TWEEN.Tween(curColor)
-            .to(newColor, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .onUpdate(() => {
-              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-            })
-            .start();
-        }
-      });
+      clearSelection();
       return;
     }
 
@@ -507,8 +567,25 @@
   /**
    * highlight boxes or rects based on the given array of setnames
    */
-  pCube.selectSets = (setNames) => {
+  pCube.selectSets = (setNames, overlappingOption = pCube.OVERLAPPING_OPTIONS[0]) => {
+    TWEEN.removeAll();
+    console.info('select of overlapping sets:', setNames);
+    sets_selected_categories = setNames || [];
 
+    switch (overlappingOption) {
+      case OVERLAPPING_OPTION_UNION: {
+        selectSetsUnion(setNames);
+        break;
+      }
+      case OVERLAPPING_OPTION_INTERSECTION: {
+        alert('NOT IMPLEMENTED'); // TODO: IMPL
+        break;
+      }
+    }
+  };
+
+  pCube.showSetsStats = () => {
+    return _stats;
   };
 
   /**
@@ -526,6 +603,91 @@
     LAYER_SIZE = CUBE_SIZE / NUMBER_OF_LAYERS;
     LAYER_SIZE_HALF = LAYER_SIZE / 2;
   }
+
+  const clearSelection = () => {
+    let boxesAndLines = [].concat(_boxes, _lines);
+    boxesAndLines.forEach(b => {
+      if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
+        if (b.name === 'set-line') {
+          b.visible = true;
+        }
+        var colorTween = new TWEEN.Tween(b.material.color)
+          .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+      }
+    });
+    _rects.forEach(b => {
+      if (b.name === 'set-rect') {
+        let curColor = d3.color(b.children[0].element.style.backgroundColor);
+        let newColor = d3.color(_colorScale(b.userData.setName));
+        var colorTween = new TWEEN.Tween(curColor)
+          .to(newColor, 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .onUpdate(() => {
+            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+          })
+          .start();
+      }
+    });
+  };
+
+  const selectSetsUnion = (setNames) => {
+    const selectionCondition = (elmSetName) => setNames.indexOf(elmSetName) > -1;
+    let boxesAndLines = [].concat(_boxes, _lines);
+
+    if (setNames === []) {
+      clearSelection();
+      return;
+    }
+    boxesAndLines.forEach(b => {
+      if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
+        if (selectionCondition(b.userData.setName)) {
+          if (b.name === 'set-line') {
+            b.visible = true;
+          }
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_highlightColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        } else {
+          if (b.name === 'set-line') {
+            b.visible = false;
+          }
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_baseColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
+      }
+    });
+    _rects.forEach(b => {
+      if (b.name === 'set-rect') {
+        let curColor = d3.color(b.children[0].element.style.backgroundColor);
+        if (selectionCondition(b.userData.setName)) {
+          let newColor = d3.color(_highlightColor);
+
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        } else {
+          let newColor = d3.color(_baseColor);
+
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        }
+      }
+    });
+  };
 
   /**
    * move layer out of the cube to look into part of the timeframe
@@ -742,7 +904,7 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY);
+          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY, true);
 
           if (!linesMemory[idx]) {
             linesMemory[idx] = {};
@@ -815,8 +977,8 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
-              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _totalItemsCount, opacity, true);
-              //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _totalItemsCount, opacity);
+              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true);
+              //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.totalItemsCount, opacity);
             }
           });
         });
@@ -859,7 +1021,7 @@
     _layers.forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        const countRangeInLastLayer = d3.extent(Object.values(_countGroupedByTerm));
+        const countRangeInLastLayer = d3.extent(Object.values(_stats.selectedCountGroupedByTerm));
 
         matrixStruct.setNames.forEach((s, setIdx) => {
           matrixStruct.repoNames.forEach((r, repoIdx) => {
@@ -883,11 +1045,11 @@
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _totalItemsCount, opacity, true);
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _totalItemsCount, opacity, true);
+                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               } else {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _totalItemsCount, opacity, true);
+                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               }
             }
           });
@@ -1087,7 +1249,7 @@
   /**
    * draw rect in CSS3D on a specific position in an specific container
    */
-  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1) => {
+  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1, multiSelectPossible = false) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1095,17 +1257,14 @@
       w = width / 2,
       d = depth / 2;
     const cubesize_per_items = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT && layerItemCount > 0 ? _cubeScale(layerItemCount) / 2 : CUBE_SIZE_HALF; // FIXME: rethink this part!!!!
-
     const pos = [0, -h, 0];
     const rot = [r, 0, 0];
 
     var element = document.createElement('div');
     _htmlElements.push(element);
     element.classList = ['set-side', 'set', 'set-' + setName].join(' ')
-
     element.style.width = width + 'px';
     element.style.height = depth + 'px';
-
     element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
     element.style.opacity = opacity;
@@ -1123,10 +1282,31 @@
     box.userData = {
       setName: setName
     };
-
     box.position.y = y;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
+
+    if (multiSelectPossible) {
+      // build selection rect
+      let selElement = document.createElement('div');
+      _htmlElements.push(selElement);
+      selElement.classList = ['set-side', 'set', 'set-select'].join(' ')
+      selElement.style.width = width + 'px';
+      selElement.style.height = '10px';
+      selElement.style.border = "1px solid #000000";
+      selElement.style.backgroundColor = '#000';
+      selElement.style.opacity = 0;
+
+      var selObject = new THREE.CSS3DObject(selElement);
+      // object.position.fromArray(pos);
+      selObject.rotation.fromArray(rot);
+      selObject.name = 'set-rect-side';
+      selObject.userData = {
+        setName: setName
+      };
+      box.add(selObject);
+      _selectedRects.push(selObject);
+    }
 
     container.add(box);
 
