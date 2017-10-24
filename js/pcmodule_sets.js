@@ -68,7 +68,8 @@
     countGroupedByTerm: {},
     selectedCountGroupedByTerm: {},
     countGroupedByMultiSets: {},
-    selectedCountGroupedByMultiSets: {}
+    selectedCountGroupedByMultiSets: {},
+    matrixStructure: {}
   };
   /**
    * hierarchy root element for the treemap visualization
@@ -357,6 +358,7 @@
 
     // do matrix and classification 
     const matrixStruct = emptyMatrixSetStructure(pCube.sets_filtered_by_selection);
+    _stats.matrixStructure = matrixStruct;
     const setsStruct = emptyTreemapSetStructure(pCube.sets_filtered_by_selection);
     _matrix_struct_info = {
       setNames: matrixStruct.setNames,
