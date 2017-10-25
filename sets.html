@@ -319,7 +319,8 @@
       treemapFlatLineStyle: 'corner', // 'center
       dataLayerSumUp: true,
       selectionSet: '',
-      selectionSets: []
+      selectionSets: '',
+      selectionSetsOption: polyCube.OVERLAPPING_OPTIONS[0]
     };
 
     function fnClearAndDrawSets() {
@@ -507,9 +508,15 @@
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Category").onChange(() => {
         polyCube.selectSet(window.guiParams.selectionSet);
       });
-      fsets.add(window.guiParams, "selectionSets", possibleMultiSets).name("Selected Overlapping Categories").onChange(() => {
-        polyCube.selectSets(window.guiParams.selectionSets.split(','), polyCube.OVERLAPPING_OPTIONS[0]);
+      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Selected Overlapping Categories").onChange(() => {
+        let setNames = window.guiParams.selectionSets === '' ? [] : window.guiParams.selectionSets.split(',');
+        polyCube.selectSets(setNames, window.guiParams.selectionSetsOption);
       });
+      fsets.add(window.guiParams, "selectionSets", possibleMultiSets).name("Selected Overlapping Categories").onChange(() => {
+        let setNames = window.guiParams.selectionSets === '' ? [] : window.guiParams.selectionSets.split(',');
+        polyCube.selectSets(setNames, window.guiParams.selectionSetsOption);
+      });
+
 
 
       fsets.open();

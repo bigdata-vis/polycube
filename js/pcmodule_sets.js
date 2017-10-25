@@ -287,31 +287,13 @@
         });
     }
 
-    // create stats for sets and multi-sets after filtering
-    pCube.sets_filtered_by_selection.forEach((val, idx) => {
-      val.term.forEach(v => {
-        if (val.term.length > 1) {
-          let v = val.term.join(',');
-          if (!_stats.selectedCountGroupedByMultiSets[v]) {
-            _stats.selectedCountGroupedByMultiSets[v] = 1;
-          } else {
-            _stats.selectedCountGroupedByMultiSets[v] += 1;
-          }
-        }
-        if (!_stats.selectedCountGroupedByTerm[v]) {
-          _stats.selectedCountGroupedByTerm[v] = 1;
-        } else {
-          _stats.selectedCountGroupedByTerm[v] += 1;
-        }
-      });
-    });
-
     // filter out data that is below the data threshold - based on the number of already filtered out data.
     if (pCube.sets_options.data_threshold) {
       pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
         let percentAmount = 0;
         d.term.forEach(t => {
-          let per = _stats.selectedCountGroupedByTerm[t] / pCube.sets_filtered_by_selection.length; // options.parsedData.length;
+          // let per = _stats.selectedCountGroupedByTerm[t] / pCube.sets_filtered_by_selection.length; // FIXME: maybe threshold only from displayed elements.
+          let per = _stats.countGroupedByTerm[t] / options.parsedData.length; // options.parsedData.length;
           if (percentAmount < per) {
             percentAmount = per;
           }
@@ -319,6 +301,25 @@
         return percentAmount >= pCube.sets_options.data_threshold;
       });
     }
+
+    // create stats for sets and multi-sets after filtering
+    pCube.sets_filtered_by_selection.forEach((val, idx) => {
+      if (val.term.length > 1) {
+        let v = val.term.join(',');
+        if (!_stats.selectedCountGroupedByMultiSets[v]) {
+          _stats.selectedCountGroupedByMultiSets[v] = 1;
+        } else {
+          _stats.selectedCountGroupedByMultiSets[v] += 1;
+        }
+      }
+      val.term.forEach(v => {
+        if (!_stats.selectedCountGroupedByTerm[v]) {
+          _stats.selectedCountGroupedByTerm[v] = 1;
+        } else {
+          _stats.selectedCountGroupedByTerm[v] += 1;
+        }
+      });
+    });
 
     pCube.treemap_sets = {}; // data for treemap grouped by layerNumber.setname
     pCube.matrix_sets = {};
@@ -512,9 +513,9 @@
     sets_selected_category = setName || null;
 
     let boxesAndLines = [].concat(_boxes, _lines);
+    clearSelection();
     if (setName === '') {
-      clearSelection();
-      return;
+      return [];
     }
 
     boxesAndLines.forEach(b => {
@@ -564,6 +565,13 @@
         }
       }
     });
+
+    let items = getListOfItemsInTreemap().filter(itm => {
+      return itm.term.indexOf(setName) > -1;
+    });
+
+    console.info('selected items:', items);
+    return items;
   };
 
   /**
@@ -573,17 +581,31 @@
     TWEEN.removeAll();
     console.info('select of overlapping sets:', setNames);
     sets_selected_categories = setNames || [];
+    if (sets_selected_categories === ['']) {
+      sets_selected_categories = [];
+    }
 
-    switch (overlappingOption) {
-      case OVERLAPPING_OPTION_UNION: {
-        selectSetsUnion(setNames);
-        break;
-      }
-      case OVERLAPPING_OPTION_INTERSECTION: {
-        alert('NOT IMPLEMENTED'); // TODO: IMPL
-        break;
+    clearSelection();
+    if (sets_selected_categories === []) {
+      return [];
+    }
+
+    let items = [];
+    if (sets_selected_categories.length > 0) {
+      switch (overlappingOption) {
+        case OVERLAPPING_OPTION_UNION: {
+          items = selectSetsUnion(sets_selected_categories);
+          break;
+        }
+        case OVERLAPPING_OPTION_INTERSECTION: {
+          items = selectSetsIntersection(sets_selected_categories);
+          break;
+        }
       }
     }
+
+    console.info('selected items:', items);
+    return items;
   };
 
   pCube.showSetsStats = () => {
@@ -632,51 +654,76 @@
           .start();
       }
     });
+
+    _selectedBoxes.forEach(b => {
+      // TODO: clear selection for multi-set
+    });
+    _selectedRects.forEach(b => {
+      b.element.style.opacity = 0;
+    });
+
   };
 
   const selectSetsUnion = (setNames) => {
-    const selectionCondition = (elmSetName) => setNames.indexOf(elmSetName) > -1;
+    const selectionCondition = (userData) => {
+      let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
+      // check if list contains items that needs to be selected (multi-sets)
+      return items.filter(itm => {
+        return _.intersection(itm.term, setNames).length > 0;
+      }).length;
+    };
     let boxesAndLines = [].concat(_boxes, _lines);
 
-    if (setNames === []) {
-      clearSelection();
-      return;
-    }
     boxesAndLines.forEach(b => {
-      if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
-        if (selectionCondition(b.userData.setName)) {
-          if (b.name === 'set-line') {
-            b.visible = true;
-          }
-          var colorTween = new TWEEN.Tween(b.material.color)
-            .to(_highlightColorGL, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .start();
-        } else {
-          if (b.name === 'set-line') {
-            b.visible = false;
-          }
-          var colorTween = new TWEEN.Tween(b.material.color)
-            .to(_baseColorGL, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .start();
-        }
-      }
+      // TODO: for boxes and lines.
+      // if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
+      //   let validItemsCount = selectionCondition(b.userData);
+      //   if (validItemsCount > 0) {
+      //     console.log('valid for selection', b.userData.setName);
+      //     if (b.name === 'set-line') {
+      //       b.visible = true;
+      //     }
+      //     var colorTween = new TWEEN.Tween(b.material.color)
+      //       .to(_highlightColorGL, 1500)
+      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
+      //       .start();
+      //   } else {
+      //     if (b.name === 'set-line') {
+      //       b.visible = false;
+      //     }
+      //     var colorTween = new TWEEN.Tween(b.material.color)
+      //       .to(_baseColorGL, 1500)
+      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
+      //       .start();
+      //   }
+      // }
     });
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
-        let curColor = d3.color(b.children[0].element.style.backgroundColor);
-        if (selectionCondition(b.userData.setName)) {
+
+        let validItemsCount = selectionCondition(b.userData);
+        if (validItemsCount > 0) {
+          console.log('valid for selection', b.userData.setName, b);
+
+          let selElement = b.children.find(c => c.name === 'set-rect-side-selection');
+          let curColor = d3.color(b.children[0].element.style.backgroundColor);
           let newColor = d3.color(_highlightColor);
 
+          let orgHeight = parseFloat(b.children[0].element.style.height);
+          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
+          let newHeight = (orgHeight / items.length) * validItemsCount;
+
+          selElement.element.style.opacity = 1;
+          selElement.element.style.height = newHeight + 'px';
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
             .onUpdate(() => {
-              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+              selElement.element.style.backgroundColor = curColor.rgb().toString();
             })
             .start();
         } else {
+          let curColor = d3.color(b.children[0].element.style.backgroundColor);
           let newColor = d3.color(_baseColor);
 
           var colorTween = new TWEEN.Tween(curColor)
@@ -688,6 +735,90 @@
             .start();
         }
       }
+    });
+
+    return getListOfItemsInTreemap().filter(itm => {
+      return _.intersection(itm.term, setNames).length > 0;
+    });
+
+  };
+
+  selectSetsIntersection = (setNames) => {
+    const selectionCondition = (userData) => {
+      let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
+      // check if list contains items that needs to be selected (multi-sets)
+      return items.filter(itm => {
+        return _.intersection(itm.term, setNames).length === setNames.length;
+      }).length;
+    };
+    let boxesAndLines = [].concat(_boxes, _lines);
+
+    boxesAndLines.forEach(b => {
+      // TODO: for boxes and lines.
+      // if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
+      //   let validItemsCount = selectionCondition(b.userData);
+      //   if (validItemsCount > 0) {
+      //     console.log('valid for selection', b.userData.setName);
+      //     if (b.name === 'set-line') {
+      //       b.visible = true;
+      //     }
+      //     var colorTween = new TWEEN.Tween(b.material.color)
+      //       .to(_highlightColorGL, 1500)
+      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
+      //       .start();
+      //   } else {
+      //     if (b.name === 'set-line') {
+      //       b.visible = false;
+      //     }
+      //     var colorTween = new TWEEN.Tween(b.material.color)
+      //       .to(_baseColorGL, 1500)
+      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
+      //       .start();
+      //   }
+      // }
+    });
+    _rects.forEach(b => {
+      if (b.name === 'set-rect') {
+
+        let validItemsCount = selectionCondition(b.userData);
+        if (validItemsCount > 0) {
+          console.log('valid for selection', b.userData.setName, b);
+
+          let selElement = b.children.find(c => c.name === 'set-rect-side-selection');
+          let curColor = d3.color(b.children[0].element.style.backgroundColor);
+          let newColor = d3.color(_highlightColor);
+
+          let orgHeight = parseFloat(b.children[0].element.style.height);
+          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
+          let newHeight = (orgHeight / items.length) * validItemsCount;
+
+          selElement.element.style.opacity = 1;
+          selElement.element.style.height = newHeight + 'px';
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              selElement.element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        } else {
+          let curColor = d3.color(b.children[0].element.style.backgroundColor);
+          let newColor = d3.color(_baseColor);
+
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        }
+      }
+    });
+
+
+    return getListOfItemsInTreemap().filter(itm => {
+      return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
@@ -748,7 +879,7 @@
           c.material.opacity = opaValue;
         });
         l.children.filter(c => c.name === 'set-rect').forEach(c => {
-          c.children[0].element.style.opacity = opaValue === Infinity ? TREEMAP_FLAT_RECT_OPACITY.toString() : opaValue.toString();
+          c.children[0].element.style.opacity = opaValue === Infinity ? '1' : opaValue.toString();
         });
       }
     };
@@ -779,12 +910,12 @@
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let layerBox = drawBox(pCube.getCube(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE);
+        let layerBox = drawBox(pCube.getCube(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE);
         layerBox.name = 'set-layer';
         layerBox.userData = { layerNumber: idx };
         _layers.push(layerBox);
 
-        let layerBoxGL = drawBoxGL(pCube.getGLBox(), "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false);
+        let layerBoxGL = drawBoxGL(pCube.getGLBox(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false);
         layerBoxGL.renderOrder = RENDER_ORDER_LAYER;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
@@ -805,9 +936,7 @@
               case TREEMAP_FLAT:
                 animateSelectLayer(idx, pCube.treemap_sets[idx]);
 
-                var listOfItems = Object.values(pCube.treemap_sets[idx]).reduce((o, cur) => {
-                  return o.concat(cur);
-                }, []);
+                var listOfItems = getListOfItemsInTreemap(idx);
 
                 var layerData = {
                   visType: pCube.sets_options.sets_display,
@@ -876,9 +1005,9 @@
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
             const l = _layersGL[idx];
-            drawBoxGL(l, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true);
+            drawBoxGL(l, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true);
           } else {
-            drawBox(layer, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
+            drawBox(layer, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
           }
         });
       }
@@ -890,15 +1019,15 @@
    */
   const drawTreemapFlat = () => {
     let linesMemory = [];
-    _layers.forEach((layer, idx) => {
+    _layers.forEach((layer, layerNumber) => {
 
       let p = layer.position;
-      if (idx < NUMBER_OF_LAYERS) {
+      if (layerNumber < NUMBER_OF_LAYERS) {
 
-        let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
+        let count = Object.keys(pCube.treemap_sets[layerNumber]).reduce((o, x) => { return o + pCube.treemap_sets[layerNumber][x].length || 0 }, 0);
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
-        let nodes = doTreemapLayout(pCube.treemap_sets, idx);
+        let nodes = doTreemapLayout(pCube.treemap_sets, layerNumber);
         nodes.forEach(n => {
 
           let w = n.x1 - n.x0;
@@ -906,17 +1035,17 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY, true);
+          let rect = drawRect(layer, layerNumber, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY, true);
 
-          if (!linesMemory[idx]) {
-            linesMemory[idx] = {};
+          if (!linesMemory[layerNumber]) {
+            linesMemory[layerNumber] = {};
           }
-          linesMemory[idx][n.data.name] = { rect, w, d, layerPos: p };
-          if (idx > 0) {
-            let prevRect = linesMemory[idx - 1][n.data.name];
+          linesMemory[layerNumber][n.data.name] = { rect, w, d, layerPos: p };
+          if (layerNumber > 0) {
+            let prevRect = linesMemory[layerNumber - 1][n.data.name];
             if (prevRect) {
               if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CENTER) {
-                drawLine(n.data.name, _linesContainer,
+                drawLine(n.data.name, layerNumber, _linesContainer,
                   new THREE.Vector3(rect.position.x, layer.position.y, rect.position.z),
                   new THREE.Vector3(prevRect.rect.position.x, prevRect.layerPos.y, prevRect.rect.position.z)
                 );
@@ -935,7 +1064,7 @@
                     ty *= -1;
                     pty *= -1;
                   }
-                  drawLine(n.data.name, _linesContainer,
+                  drawLine(n.data.name, layerNumber, _linesContainer,
                     new THREE.Vector3(
                       rect.position.x + tx,
                       layer.position.y,
@@ -979,7 +1108,7 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
-              drawBoxGL(l, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true);
+              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.totalItemsCount, opacity);
             }
           });
@@ -1047,17 +1176,31 @@
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               } else {
-                drawBoxGL(l, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
               }
             }
           });
         });
       }
     });
+  };
+
+
+
+  const getListOfItemsInTreemap = (layerNumber, setName) => {
+    if (setName && layerNumber) {
+      return pCube.treemap_sets[layerNumber][setName];
+    } else if (layerNumber) {
+      return Object.values(pCube.treemap_sets[layerNumber]).reduce((o, cur) => {
+        return o.concat(cur);
+      }, []);
+    } else {
+      return pCube.sets_filtered_by_selection;
+    }
   };
 
   const getTreemapLayerItemCount = (data) => {
@@ -1181,7 +1324,7 @@
   /**
    * draw box in CSS3D on a specific position in an specific container
    */
-  const drawBox = (container, setName, x, y, z, width, height, depth, layerItemCount) => {
+  const drawBox = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1231,13 +1374,13 @@
       object.position.fromArray(pos[i]);
       object.rotation.fromArray(rot[i]);
       object.name = 'set-side';
-      object.userData = { setName };
+      object.userData = { setName: setName, layerNumber: layerNumber };
 
       box.add(object);
     }
 
     box.name = 'set-box';
-    box.userData = { setName };
+    box.userData = { setName: setName, layerNumber: layerNumber };
     box.position.y = y + h;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
@@ -1251,7 +1394,7 @@
   /**
    * draw rect in CSS3D on a specific position in an specific container
    */
-  const drawRect = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1, multiSelectPossible = false) => {
+  const drawRect = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1, multiSelectPossible = false) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1276,13 +1419,15 @@
     object.rotation.fromArray(rot);
     object.name = 'set-rect-side';
     object.userData = {
-      setName: setName
+      setName: setName,
+      layerNumber: layerNumber
     };
 
     box.add(object);
     box.name = 'set-rect';
     box.userData = {
-      setName: setName
+      setName: setName,
+      layerNumber: layerNumber
     };
     box.position.y = y;
     box.position.x = x - cubesize_per_items + w;
@@ -1302,9 +1447,10 @@
       var selObject = new THREE.CSS3DObject(selElement);
       // object.position.fromArray(pos);
       selObject.rotation.fromArray(rot);
-      selObject.name = 'set-rect-side';
+      selObject.name = 'set-rect-side-selection';
       selObject.userData = {
-        setName: setName
+        setName: setName,
+        layerNumber: layerNumber
       };
       box.add(selObject);
       _selectedRects.push(selObject);
@@ -1320,7 +1466,7 @@
   /**
    * draw a line from vector 1 to vector 2 in a specific container
    */
-  const drawLine = (setName, container, v1, v2) => {
+  const drawLine = (setName, layerNumber, container, v1, v2) => {
 
     let color = _colorScale(setName);
 
@@ -1338,7 +1484,8 @@
     var line = new THREE.Line(geometry, material);
     line.name = 'set-line';
     line.userData = {
-      setName: setName
+      setName: setName,
+      layerNumber: layerNumber
     };
 
     container.add(line);
@@ -1351,7 +1498,7 @@
   /**
    * draw box in WebGL on a specific position in an specific container
    */
-  const drawBoxGL = (container, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder) => {
+  const drawBoxGL = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
@@ -1369,7 +1516,7 @@
     });
     let set = new THREE.Mesh(geometry, material);
     set.name = 'set-box';
-    set.userData = { setName };
+    set.userData = { setName: setName, layerNumber: layerNumber };
 
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
