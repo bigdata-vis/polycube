@@ -51,8 +51,11 @@
   const _tmap = d3.treemap().tile(d3.treemapResquarify).size([CUBE_SIZE, CUBE_SIZE]).padding(TREEMAP_PADDING);
   const _baseColor = '#EAECEE';
   const _highlightColor = '#1B4F72';
+  const _setOperationColor = '#7F302B'
   const _baseColorGL = new THREE.Color(0xEAECEE);
   const _highlightColorGL = new THREE.Color(0x1B4F72);
+  const _setOperationColorGL = new THREE.Color(0x7F302B);
+
 
   let _matrix_struct_info = {}
 
@@ -672,70 +675,8 @@
         return _.intersection(itm.term, setNames).length > 0;
       }).length;
     };
-    let boxesAndLines = [].concat(_boxes, _lines);
 
-    boxesAndLines.forEach(b => {
-      // TODO: for boxes and lines.
-      // if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
-      //   let validItemsCount = selectionCondition(b.userData);
-      //   if (validItemsCount > 0) {
-      //     console.log('valid for selection', b.userData.setName);
-      //     if (b.name === 'set-line') {
-      //       b.visible = true;
-      //     }
-      //     var colorTween = new TWEEN.Tween(b.material.color)
-      //       .to(_highlightColorGL, 1500)
-      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
-      //       .start();
-      //   } else {
-      //     if (b.name === 'set-line') {
-      //       b.visible = false;
-      //     }
-      //     var colorTween = new TWEEN.Tween(b.material.color)
-      //       .to(_baseColorGL, 1500)
-      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
-      //       .start();
-      //   }
-      // }
-    });
-    _rects.forEach(b => {
-      if (b.name === 'set-rect') {
-
-        let validItemsCount = selectionCondition(b.userData);
-        if (validItemsCount > 0) {
-          console.log('valid for selection', b.userData.setName, b);
-
-          let selElement = b.children.find(c => c.name === 'set-rect-side-selection');
-          let curColor = d3.color(b.children[0].element.style.backgroundColor);
-          let newColor = d3.color(_highlightColor);
-
-          let orgHeight = parseFloat(b.children[0].element.style.height);
-          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
-          let newHeight = (orgHeight / items.length) * validItemsCount;
-
-          selElement.element.style.opacity = 1;
-          selElement.element.style.height = newHeight + 'px';
-          var colorTween = new TWEEN.Tween(curColor)
-            .to(newColor, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .onUpdate(() => {
-              selElement.element.style.backgroundColor = curColor.rgb().toString();
-            })
-            .start();
-        } else {
-          let curColor = d3.color(b.children[0].element.style.backgroundColor);
-          let newColor = d3.color(_baseColor);
-
-          var colorTween = new TWEEN.Tween(curColor)
-            .to(newColor, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .onUpdate(() => {
-              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-            })
-            .start();
-        }
-      }
-    });
+    selectSetsTweenBasedOnConditionFunction(selectionCondition);
 
     return getListOfItemsInTreemap().filter(itm => {
       return _.intersection(itm.term, setNames).length > 0;
@@ -743,7 +684,7 @@
 
   };
 
-  selectSetsIntersection = (setNames) => {
+  const selectSetsIntersection = (setNames) => {
     const selectionCondition = (userData) => {
       let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
       // check if list contains items that needs to be selected (multi-sets)
@@ -751,42 +692,51 @@
         return _.intersection(itm.term, setNames).length === setNames.length;
       }).length;
     };
+
+    selectSetsTweenBasedOnConditionFunction(selectionCondition);
+
+    return getListOfItemsInTreemap().filter(itm => {
+      return _.intersection(itm.term, setNames).length === setNames.length;
+    });
+  };
+
+  const selectSetsTweenBasedOnConditionFunction = (condition) => {
     let boxesAndLines = [].concat(_boxes, _lines);
 
-    boxesAndLines.forEach(b => {
+    _lines.forEach(b => {
+      if (b.name === 'set-line') {
+        let validItemsCount = condition(b.userData);
+        // b.visible = validItemsCount > 0 ? true : false; // FIXME: draw lines on selected area!
+        b.visible = false;
+      }
+    });
+    _boxes.forEach(b => {
       // TODO: for boxes and lines.
-      // if (b.name === 'set-box' || b.name === 'set-rect' || b.name === 'set-line') {
-      //   let validItemsCount = selectionCondition(b.userData);
-      //   if (validItemsCount > 0) {
-      //     console.log('valid for selection', b.userData.setName);
-      //     if (b.name === 'set-line') {
-      //       b.visible = true;
-      //     }
-      //     var colorTween = new TWEEN.Tween(b.material.color)
-      //       .to(_highlightColorGL, 1500)
-      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
-      //       .start();
-      //   } else {
-      //     if (b.name === 'set-line') {
-      //       b.visible = false;
-      //     }
-      //     var colorTween = new TWEEN.Tween(b.material.color)
-      //       .to(_baseColorGL, 1500)
-      //       .easing(TWEEN.Easing.Sinusoidal.InOut)
-      //       .start();
-      //   }
-      // }
+      if (b.name === 'set-box' || b.name === 'set-rect') {
+        let validItemsCount = condition(b.userData);
+        if (validItemsCount > 0) {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_highlightColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        } else {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_baseColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
+      }
     });
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
 
-        let validItemsCount = selectionCondition(b.userData);
+        let validItemsCount = condition(b.userData);
         if (validItemsCount > 0) {
           console.log('valid for selection', b.userData.setName, b);
 
           let selElement = b.children.find(c => c.name === 'set-rect-side-selection');
           let curColor = d3.color(b.children[0].element.style.backgroundColor);
-          let newColor = d3.color(_highlightColor);
+          let newColor = d3.color(_setOperationColor);
 
           let orgHeight = parseFloat(b.children[0].element.style.height);
           let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
@@ -801,24 +751,19 @@
               selElement.element.style.backgroundColor = curColor.rgb().toString();
             })
             .start();
-        } else {
-          let curColor = d3.color(b.children[0].element.style.backgroundColor);
-          let newColor = d3.color(_baseColor);
-
-          var colorTween = new TWEEN.Tween(curColor)
-            .to(newColor, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .onUpdate(() => {
-              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-            })
-            .start();
         }
+        let curColor = d3.color(b.children[0].element.style.backgroundColor);
+        let newColor = d3.color(_baseColor);
+
+        var colorTween = new TWEEN.Tween(curColor)
+          .to(newColor, 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .onUpdate(() => {
+            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+          })
+          .start();
+
       }
-    });
-
-
-    return getListOfItemsInTreemap().filter(itm => {
-      return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
