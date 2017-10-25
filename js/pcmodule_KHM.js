@@ -63,10 +63,11 @@
         /**
          * Parse and Format Time
          */
+
         var parse2 = d3.timeParse("%Y-%m-%d");
         var parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
         var parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
-
+        var parse5 = d3.timeParse("%Y");
 
         var format2 = d3.timeFormat("%Y");
 
@@ -80,10 +81,12 @@
          *Datasets to draw the segments
          */
         datasets.forEach(function (d, i) {
-            var coord = d.Geocoordinates.split(",");
-            d.long = +coord[0];
-            d.lat = +coord[1];
-            // d.long = d
+            // console.log(d.location_data);
+
+            // var coord = d.Geocoordinates.split(",");
+            d.long = d.location_data.country.lat;
+            d.lat = d.location_data.country.long;
+
             /**
              * Data to draw segements from
              * @type {T}
@@ -92,7 +95,7 @@
 
             // console.log(+format2(parse4(d.Date)));
 
-            d.time = parse4(d.Date);
+            d.time = parse5(d.time);
             d.time = +format2(d.time);
 
 
@@ -105,7 +108,7 @@
              * pass grouped data to elements d3 function and draw them on maps individually
              */
 
-            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+            var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1800;
 
             if (d.time < jp1) {
                 d.ts = "jp1";
@@ -274,10 +277,12 @@
          */
 
         pointCloud.rotation.z = 3.15;
-        pointCloud.position.z = -90;
+        pointCloud.position.z = 100;
         pointCloud.position.y += 5;
+        pointCloud.position.x -= 610;
 
-
+        //
+        //
         glbox.rotation.z = 3.15;
         glbox.position.z = -90;
         glbox.position.y += 5;
@@ -583,7 +588,6 @@
 
                     var coord = translate([lat, long]);
 
-
                     object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                     object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
@@ -609,17 +613,17 @@
                         // object.element.onmouseover = function () {
 
                         //Change image src
-                        // console.log(image);
-                        // image.src = 'texture/ball3.png';
+                        console.log(d);
 
                         d3.select("#textTitle")
-                            .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
-                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                            .html("<strong<p>" + d.conceptID[0] + "</p>" +
+                                "<span class='date'>Date : " + d.time + " </span> <br>" +
+                                "<span class='date'>Collection : " + d.legalBodyID + " </span> <br>" +
+                                "<span class='location'>Location : " + d.location + "</span> <br>"
                             );
 
                         d3.select("#dataImage")
-                            .attr("src", d.Image_URL)
+                            .attr("src", d.preview)
                     };
 
                     var geometry = new THREE.Geometry();
@@ -1540,7 +1544,7 @@
             id: 'mapbox.streets',
             accessToken: accesToken,
             zoomControl: false
-        }).setView([30.4507462, -91.154552], 3);
+        }).setView([54.5260, 15.2551], 3);
 
         mymap.touchZoom.disable();
         mymap.doubleClickZoom.enable();
@@ -1605,13 +1609,15 @@
             marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
-                    .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                        "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
-                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                    .html("<strong<p>" + d.conceptID[0] + "</p>" +
+                        "<span class='date'>Date : " + d.time + " </span> <br>" +
+                        "<span class='date'>Collection : " + d.legalBodyID + " </span> <br>" +
+                        "<span class='location'>Location : " + d.location + "</span> <br>"
                     );
 
+
                 d3.select("#dataImage")
-                    .attr("src", d.Image_URL)
+                    .attr("src", d.preview)
 
             });
         });

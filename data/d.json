@@ -1,0 +1,575 @@
+{
+  "lidoRecID": [
+    {
+      "_": "KHM:17",
+      "_$": {
+        "lido:type": "local"
+      }
+    }
+  ],
+  "descriptiveMetadata": [
+    {
+      "_$": {
+        "xml:lang": "de"
+      },
+      "objectClassificationWrap": [
+        {
+          "objectWorkTypeWrap": [
+            {
+              "objectWorkType": [
+                {
+                  "term": [
+                    "Gemälde"
+                  ]
+                }
+              ]
+            }
+          ],
+          "classificationWrap": [
+            {
+              "classification": [
+                {
+                  "conceptID": [
+                    {
+                      "_": "GG_1098",
+                      "_$": {
+                        "lido:type": "local_classification"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "term": [
+                    "Gemälde"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "objectIdentificationWrap": [
+        {
+          "titleWrap": [
+            {
+              "titleSet": [
+                {
+                  "appellationValue": [
+                    "Bacchus, Ceres und Amor"
+                  ]
+                }
+              ]
+            }
+          ],
+          "inscriptionsWrap": [
+            {
+              "inscriptions": [
+                {
+                  "_$": {
+                    "lido:type": "Signed"
+                  },
+                  "inscriptionTranscription": [
+                    {
+                      "_": "Bez. rechts oben auf dem Pfeiler mit dem Monogramm \"HVA\"",
+                      "_$": {
+                        "xml:lang": "de"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "_$": {
+                    "lido:type": "Dated"
+                  },
+                  "inscriptionTranscription": [
+                    {
+                      "_": "um 1600",
+                      "_$": {
+                        "xml:lang": "de"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "repositoryWrap": [
+            {
+              "repositorySet": [
+                {
+                  "_$": {
+                    "lido:type": "Current"
+                  },
+                  "repositoryName": [
+                    {
+                      "legalBodyName": [
+                        {
+                          "appellationValue": [
+                            {
+                              "_": "KHM-Museumsverband",
+                              "_$": {
+                                "xml:lang": "de",
+                                "lido:pref": "preferred"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "workID": [
+                    {
+                      "_": "GG_1098",
+                      "_$": {
+                        "lido:type": "ObjectNumber"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "objectDescriptionWrap": [
+            {
+              "objectDescriptionSet": [
+                {
+                  "_$": {
+                    "lido:type": "General description"
+                  },
+                  "descriptiveNoteValue": [
+                    {
+                      "_": "Die Verbindung des Weingottes Bacchus mit Ceres, der Göttin der Feldfrüchte, läßt das Thema aus Terenz \"Sine Cerere et Baccho friget Venus\" (Ohne Brot und Wein friert die Liebe) anklingen. Aachen verleiht den mythologischen Gestalten seine eigenen bzw. die Gesichtszüge seiner Frau. Der Knabe ähnelt Aachens Sohn. Das Motiv könnte auf das berühmte Bild des griechischen Malers Zeuxis anspielen. Dieser malte einen Knaben mit Weintrauben so naturgetreu, daß die Vögel nach den gemalten Früchten pickten.",
+                      "_$": {
+                        "xml:lang": "de"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "objectMeasurementsWrap": [
+            {
+              "objectMeasurementsSet": [
+                {
+                  "_$": {
+                    "lido:sortorder": "1"
+                  },
+                  "displayObjectMeasurements": [
+                    "163 x 113 cm"
+                  ],
+                  "objectMeasurements": [
+                    {
+                      "measurementsSet": [
+                        {
+                          "_$": {
+                            "lido:sortorder": "2"
+                          },
+                          "measurementType": [
+                            {
+                              "_": "Breite",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_type"
+                              }
+                            }
+                          ],
+                          "measurementUnit": [
+                            {
+                              "_": "Zentimeter",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit"
+                              }
+                            },
+                            {
+                              "_": "Linear",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit_type"
+                              }
+                            }
+                          ],
+                          "measurementValue": [
+                            "113.0000000000"
+                          ]
+                        },
+                        {
+                          "_$": {
+                            "lido:sortorder": "1"
+                          },
+                          "measurementType": [
+                            {
+                              "_": "Höhe",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_type"
+                              }
+                            }
+                          ],
+                          "measurementUnit": [
+                            {
+                              "_": "Zentimeter",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit"
+                              }
+                            },
+                            {
+                              "_": "Linear",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit_type"
+                              }
+                            }
+                          ],
+                          "measurementValue": [
+                            "163.0000000000"
+                          ]
+                        }
+                      ],
+                      "extentMeasurements": [
+                        ""
+                      ],
+                      "qualifierMeasurements": [
+                        {
+                          "_$": {
+                            "lido:label": "Abmessung"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_$": {
+                    "lido:sortorder": "2"
+                  },
+                  "displayObjectMeasurements": [
+                    "180,4 cm × 131,7 cm × 9 cm"
+                  ],
+                  "objectMeasurements": [
+                    {
+                      "measurementsSet": [
+                        {
+                          "_$": {
+                            "lido:sortorder": "3"
+                          },
+                          "measurementType": [
+                            {
+                              "_": "Tiefe",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_type"
+                              }
+                            }
+                          ],
+                          "measurementUnit": [
+                            {
+                              "_": "Zentimeter",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit"
+                              }
+                            },
+                            {
+                              "_": "Linear",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit_type"
+                              }
+                            }
+                          ],
+                          "measurementValue": [
+                            "9.0000000000"
+                          ]
+                        },
+                        {
+                          "_$": {
+                            "lido:sortorder": "2"
+                          },
+                          "measurementType": [
+                            {
+                              "_": "Breite",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_type"
+                              }
+                            }
+                          ],
+                          "measurementUnit": [
+                            {
+                              "_": "Zentimeter",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit"
+                              }
+                            },
+                            {
+                              "_": "Linear",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit_type"
+                              }
+                            }
+                          ],
+                          "measurementValue": [
+                            "131.7000000000"
+                          ]
+                        },
+                        {
+                          "_$": {
+                            "lido:sortorder": "1"
+                          },
+                          "measurementType": [
+                            {
+                              "_": "Höhe",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_type"
+                              }
+                            }
+                          ],
+                          "measurementUnit": [
+                            {
+                              "_": "Zentimeter",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit"
+                              }
+                            },
+                            {
+                              "_": "Linear",
+                              "_$": {
+                                "lido:encodinganalog": "dimension_unit_type"
+                              }
+                            }
+                          ],
+                          "measurementValue": [
+                            "180.4000000000"
+                          ]
+                        }
+                      ],
+                      "extentMeasurements": [
+                        "Rahmenmaße"
+                      ],
+                      "qualifierMeasurements": [
+                        {
+                          "_$": {
+                            "lido:label": "Abmessung"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "eventWrap": [
+        {
+          "eventSet": [
+            {
+              "event": [
+                {
+                  "eventType": [
+                    {
+                      "term": [
+                        {
+                          "_": "Produktion",
+                          "_$": {
+                            "xml:lang": "de"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "eventActor": [
+                    {
+                      "displayActorInRole": [
+                        "Hans von Aachen, 1552 Köln - 1615 Prag"
+                      ],
+                      "actorInRole": [
+                        {
+                          "actor": [
+                            {
+                              "_$": {
+                                "lido:type": "Künstler"
+                              },
+                              "nameActorSet": [
+                                {
+                                  "appellationValue": [
+                                    {
+                                      "_": "Hans von Aachen",
+                                      "_$": {
+                                        "lido:pref": "preferred"
+                                      }
+                                    },
+                                    {
+                                      "_": "http://d-nb.info/118643525",
+                                      "_$": {
+                                        "lido:pref": "alternate_name_GND"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "roleActor": [
+                            {
+                              "term": [
+                                "Künstler"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "eventDate": [
+                    {
+                      "displayDate": [
+                        "um 1600"
+                      ],
+                      "date": [
+                        {
+                          "earliestDate": [
+                            "1595"
+                          ],
+                          "latestDate": [
+                            "1605"
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "eventPlace": [
+                    {
+                      "displayPlace": [
+                        "Deutsch"
+                      ]
+                    }
+                  ],
+                  "eventMaterialsTech": [
+                    {
+                      "displayMaterialsTech": [
+                        "Leinwand"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "administrativeMetadata": [
+    {
+      "_$": {
+        "xml:lang": "de"
+      },
+      "rightsWorkWrap": [
+        {
+          "rightsWorkSet": [
+            {
+              "rightsType": [
+                {
+                  "term": [
+                    "(CC BY-NC-SA 4.0)"
+                  ]
+                }
+              ],
+              "rightsHolder": [
+                {
+                  "legalBodyName": [
+                    {
+                      "appellationValue": [
+                        "KHM-Museumsverband"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "recordWrap": [
+        {
+          "recordID": [
+            {
+              "_": "17",
+              "_$": {
+                "lido:type": "local"
+              }
+            }
+          ],
+          "recordType": [
+            {
+              "term": [
+                "item"
+              ]
+            }
+          ],
+          "recordSource": [
+            {
+              "legalBodyID": [
+                {
+                  "_": "Kunsthistorisches Museum Wien, Gemäldegalerie",
+                  "_$": {
+                    "lido:type": "local"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "resourceWrap": [
+        {
+          "resourceSet": [
+            {
+              "resourceID": [
+                {
+                  "_": "KHM:17",
+                  "_$": {
+                    "lido:type": "local"
+                  }
+                }
+              ],
+              "resourceRepresentation": [
+                {
+                  "linkResource": [
+                    "http://www.khm.at/de/objektdb/detail/17/"
+                  ]
+                }
+              ],
+              "resourceType": [
+                {
+                  "term": [
+                    "Website"
+                  ]
+                }
+              ]
+            },
+            {
+              "resourceID": [
+                {
+                  "_": "KHM:17",
+                  "_$": {
+                    "lido:type": "local"
+                  }
+                }
+              ],
+              "resourceRepresentation": [
+                {
+                  "linkResource": [
+                    "http://imageapi.khm.at/images/17/GG_1098_HP.jpg"
+                  ]
+                }
+              ],
+              "resourceType": [
+                {
+                  "term": [
+                    "Image"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
