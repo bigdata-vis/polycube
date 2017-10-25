@@ -277,9 +277,9 @@
          */
 
         pointCloud.rotation.z = 3.15;
-        pointCloud.position.z = 100;
+        pointCloud.position.z = 90;
         pointCloud.position.y += 5;
-        pointCloud.position.x -= 610;
+        pointCloud.position.x -= 625;
 
         //
         //
@@ -1605,7 +1605,7 @@
 
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
 
-            var marker = L.marker(coord, {icon: icon}).addTo(mymap)
+            var marker = L.marker(coord, {icon: icon}).addTo(mymap);
             marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
@@ -1614,7 +1614,6 @@
                         "<span class='date'>Collection : " + d.legalBodyID + " </span> <br>" +
                         "<span class='location'>Location : " + d.location + "</span> <br>"
                     );
-
 
                 d3.select("#dataImage")
                     .attr("src", d.preview)
