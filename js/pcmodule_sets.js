@@ -659,7 +659,7 @@
     });
 
     _selectedBoxes.forEach(b => {
-      // TODO: clear selection for multi-set
+      b.visible = false;
     });
     _selectedRects.forEach(b => {
       b.element.style.opacity = 0;
@@ -711,20 +711,25 @@
       }
     });
     _boxes.forEach(b => {
-      // TODO: for boxes and lines.
       if (b.name === 'set-box' || b.name === 'set-rect') {
         let validItemsCount = condition(b.userData);
         if (validItemsCount > 0) {
-          var colorTween = new TWEEN.Tween(b.material.color)
-            .to(_highlightColorGL, 1500)
-            .easing(TWEEN.Easing.Sinusoidal.InOut)
-            .start();
-        } else {
-          var colorTween = new TWEEN.Tween(b.material.color)
-            .to(_baseColorGL, 1500)
+          let selBox = b.children.find(x => x.name === 'set-box-selection');
+          console.log(b, selBox, selBox.scale);
+          selBox.visible = true;
+          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
+          let nscale = validItemsCount / items.length;
+          selBox.scale.set(1, 1, nscale);
+          var colorTween = new TWEEN.Tween(selBox.material.color)
+            .to(_setOperationColorGL, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
             .start();
         }
+        var colorTween = new TWEEN.Tween(b.material.color)
+          .to(_baseColorGL, 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
+
       }
     });
     _rects.forEach(b => {
@@ -861,7 +866,7 @@
         layerBox.userData = { layerNumber: idx };
         _layers.push(layerBox);
 
-        let layerBoxGL = drawBoxGL(pCube.getGLBox(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false);
+        let layerBoxGL = drawBoxGL(pCube.getGLBox(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false, false);
         layerBoxGL.renderOrder = RENDER_ORDER_LAYER;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
@@ -889,7 +894,9 @@
                   layerNumber: idx,
                   groupedData: pCube.treemap_sets[idx],
                   listOfItems: listOfItems,
-                  raw: pCube.treemap_sets[idx]
+                  raw: pCube.treemap_sets[idx],
+                  layer: x,
+                  layerGL: _layersGL[idx]
                 };
                 // pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.treemap_sets[idx], listOfItems);
                 pCube.onLayerClick(layerData);
@@ -911,7 +918,9 @@
                   groupedData: groupedByCategory,
                   listOfItems: listOfItems,
                   raw: pCube.matrix_sets[idx],
-                  rawMatrixObjects: pCube.sets_matrix_objects[idx]
+                  rawMatrixObjects: pCube.sets_matrix_objects[idx],
+                  layer: x,
+                  layerGL: _layersGL[idx]
                 };
                 pCube.onLayerClick(layerData);
                 // pCube.onLayerClick(pCube.sets_options.sets_display, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
@@ -951,7 +960,7 @@
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
             const l = _layersGL[idx];
-            drawBoxGL(l, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true);
+            drawBoxGL(l, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true, true);
           } else {
             drawBox(layer, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
           }
@@ -1054,7 +1063,7 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
-              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true);
+              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.totalItemsCount, opacity);
             }
           });
@@ -1122,11 +1131,11 @@
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               } else {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               }
             }
           });
@@ -1134,8 +1143,6 @@
       }
     });
   };
-
-
 
   const getListOfItemsInTreemap = (layerNumber, setName) => {
     if (setName && layerNumber) {
@@ -1444,7 +1451,7 @@
   /**
    * draw box in WebGL on a specific position in an specific container
    */
-  const drawBoxGL = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder) => {
+  const drawBoxGL = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder, multiSelectPossible = false) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
@@ -1474,6 +1481,22 @@
       var mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
       var border = new THREE.LineSegments(geo, mat);
       set.add(border);
+    }
+
+    if (multiSelectPossible) {
+
+      let selGeometry = new THREE.BoxGeometry(width, height, depth);
+      let selMaterial = new THREE.MeshBasicMaterial({
+        color: _setOperationColorGL,
+        flatShading: THREE.FlatShading
+      });
+      let selBox = new THREE.Mesh(selGeometry, selMaterial);
+      selBox.name = 'set-box-selection';
+      selBox.userData = { setName: setName, layerNumber: layerNumber };
+      selBox.visible = false;
+
+      set.add(selBox);
+      _selectedBoxes.push(selBox);
     }
 
     _boxes.push(set);
