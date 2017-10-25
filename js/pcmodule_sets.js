@@ -879,7 +879,8 @@
           c.material.opacity = opaValue;
         });
         l.children.filter(c => c.name === 'set-rect').forEach(c => {
-          c.children[0].element.style.opacity = opaValue === Infinity ? '1' : opaValue.toString();
+          let val = isDeselect ? TREEMAP_FLAT_RECT_OPACITY : '1';
+          c.children[0].element.style.opacity = opaValue === Infinity ? val : opaValue.toString();
         });
       }
     };
@@ -1194,7 +1195,7 @@
   const getListOfItemsInTreemap = (layerNumber, setName) => {
     if (setName && layerNumber) {
       return pCube.treemap_sets[layerNumber][setName];
-    } else if (layerNumber) {
+    } else if (layerNumber >= 0) {
       return Object.values(pCube.treemap_sets[layerNumber]).reduce((o, cur) => {
         return o.concat(cur);
       }, []);
