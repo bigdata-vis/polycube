@@ -702,7 +702,9 @@
       return getListOfItemsByVisType(userData);
     };
 
-    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems);
+    let selectionName = setNames.join(' ∪ ');
+
+    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems, selectionName);
 
     return getListOfItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length > 0;
@@ -721,14 +723,16 @@
       return getListOfItemsByVisType(userData);
     };
 
-    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems);
+    let selectionName = setNames.join(' ∩ ');
+
+    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems, selectionName);
 
     return getListOfItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
-  const selectItemsBySetsTweenBasedOnSelectionItemsFunction = (fnSelectionItems, fnGetItems) => {
+  const selectItemsBySetsTweenBasedOnSelectionItemsFunction = (fnSelectionItems, fnGetItems, selectionName) => {
     let boxesAndLines = [].concat(_boxes, _lines);
 
     _lines.forEach(b => {
@@ -782,7 +786,8 @@
           selElement.element.style.display = '';
           selElement.element.style.height = newHeight + 'px';
 
-          selElement.element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, selElement.userData.layerNumber, selElement.userData.setName, selElement.userData.repoName, selectionItems);
+          selElement.element.title = selectionName;
+          selElement.element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, selElement.userData.layerNumber, selectionName, selElement.userData.repoName, selectionItems);
 
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
