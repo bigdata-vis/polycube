@@ -70,7 +70,7 @@
 
 <script>
     d3.queue()
-//        .defer(d3.json, "data/painting_gallery_clean.json")
+    //        .defer(d3.json, "data/painting_gallery_clean.json")
         .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.csv, "data/Szabo2.csv")
         .defer(d3.json, "data/austria.json")
@@ -103,8 +103,8 @@
                 data.forEach(function (d, i) {
                     // console.log(d.location_data);
                     // var coord = d.Geocoordinates.split(","); todo: change for cushman
-                d.long = d.location_data.country.lat;
-                d.lat = d.location_data.country.long;
+                    d.long = d.location_data.country.lat;
+                    d.lat = d.location_data.country.long;
 
 
                     /**
@@ -114,7 +114,6 @@
 //                defaultData[i] = d;
 
                     // console.log(+format2(parse4(d.Date)));
-
                     d.time = parse5(d.time);
                     d.time = +format2(d.time);
 
@@ -149,25 +148,36 @@
                 window.data = data;
 
             }
+
 //            KHM();
 
             function Cushman() {
-                data.forEach(function (d, i) {
-//                    console.log(d);
-//                     d.long = d.long;
-//                     d.lat = d.lat;
 
-                    /**
-                     * Data to draw segements from
-                     * @type {T}
-                     */
-
-                    // console.log(+format2(parse4(d.Date)));
-
-                    d.time = parse5(d.year);
+                data.map(d => {
+                    d.time = parse4(d.Date);
                     d.time = +format2(d.time);
 
-
+                    let year = d.year;
+//                    let time = +format2(parse4(d.Date));
+                    let time = d.time;
+                    let long = d.long;
+                    let lat = d.lat;
+                    let description = d.Description_from_Slide_Mount;
+                    let date = d.Date;
+                    let location = d.City_and_State;
+                    let Image_URL = d.Image_URL;
+                    return {
+                        year,
+                        time,
+                        long,
+                        lat,
+                        description,
+                        date,
+                        location,
+                        Image_URL
+                    }
+                });
+                data.map(function (d, i) {
                     //data segmentation
                     /**
                      * Group dataSets by intervals and sum of the intervals date range,
@@ -194,12 +204,13 @@
                     if (d.time > jp3 && d.time <= jp4) {
                         d.ts = "jp4";
                     }
-
                 });
+
                 window.data = data;
             }
-            Cushman();
 
+
+            Cushman();
 //
             let newData = data.slice(0, 550).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
@@ -214,23 +225,6 @@
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
-
-            /**
-             * Show pCube Time Brush
-             */
-            document.getElementById("testBTN").addEventListener("click", function(){
-                //update pointCloud
-
-                let newData3 = data.slice(0, Math.floor((Math.random() * 500) + 1)).sort(function (x, y) {
-                    return d3.ascending(x.time, y.time);
-                });
-
-                polyCube.updatePC(newData3);
-                /**
-                 * Show pCube Time Brush
-                 */
-            });
-
         }
 
         tempRange(data);

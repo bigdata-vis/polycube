@@ -73,7 +73,9 @@
         var dateTestEx = d3.extent(datasets, function (d) {
             return d.time;
         });
+
         window.dateTestEx = dateTestEx;
+
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
@@ -98,6 +100,7 @@
          * D3.nest to segment each data by ts property
          * sort data by jp1
          */
+
          dataBySeg = d3.nest()
             .key(function (d) {
                 return d.ts;
@@ -106,6 +109,7 @@
                 return a.key < b.key;
             });
 
+         console.log(dataBySeg)
         /**
          * calculate the largest and smallest value for Xscale and Y scale
          */
@@ -296,7 +300,6 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
 
-        // console.log(dataBySeg)
 
         var elements = d3.select("body").selectAll('.element')
         //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
@@ -480,7 +483,6 @@
             var startDate = parameters["startDate"] || dateTestEx[0].toString();
             var endDate = parameters["endDate"] || dateTestEx[1].toString();
 
-            // console.log(startDate);
             // console.log(endDate);
 
             var dateArray = d3.scaleTime()
