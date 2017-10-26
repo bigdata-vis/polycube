@@ -70,8 +70,8 @@
 
 <script>
     d3.queue()
-        .defer(d3.json, "data/painting_gallery_clean.json")
-//        .defer(d3.csv, "data/Cushman-Collection.csv")
+//        .defer(d3.json, "data/painting_gallery_clean.json")
+        .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.csv, "data/Szabo2.csv")
         .defer(d3.json, "data/austria.json")
         .await(init);
@@ -84,9 +84,12 @@
             /**
              * Parse and Format Time
              */
+            let parse2 = d3.timeParse("%Y-%m-%d");
+            let parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
+            let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
             let parse5 = d3.timeParse("%Y");
-
             let format2 = d3.timeFormat("%Y");
+
 
 //            let newData = data.slice(0, 550); //todo: slice arrray according to date range
 
@@ -94,54 +97,110 @@
              * Sort and clean the data according to ascending dates to help with line drawing
              * */
 
-            data.forEach(function (d, i) {
-                // console.log(d.location_data);
+//          switch data
+            function KHM() {
 
-                // var coord = d.Geocoordinates.split(","); todo: change for cushman
+                data.forEach(function (d, i) {
+                    // console.log(d.location_data);
+                    // var coord = d.Geocoordinates.split(","); todo: change for cushman
                 d.long = d.location_data.country.lat;
                 d.lat = d.location_data.country.long;
 
-                /**
-                 * Data to draw segements from
-                 * @type {T}
-                 */
+
+                    /**
+                     * Data to draw segements from
+                     * @type {T}
+                     */
 //                defaultData[i] = d;
 
-                // console.log(+format2(parse4(d.Date)));
+                    // console.log(+format2(parse4(d.Date)));
 
-                d.time = parse5(d.time);
-                d.time = +format2(d.time);
+                    d.time = parse5(d.time);
+                    d.time = +format2(d.time);
 
-                //data distribution pattern
-                /**
-                 * Group dataSets by intervals and sum of the intervals date range,
-                 * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
-                 * use d3.nest() to group all elements in dataSet by jp suing example from the link below
-                 * https://proquestionasker.github.io/blog/d3Nest/
-                 * pass grouped data to elements d3 function and draw them on maps individually
-                 */
+                    //data distribution pattern
+                    /**
+                     * Group dataSets by intervals and sum of the intervals date range,
+                     * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
+                     * use d3.nest() to group all elements in dataSet by jp suing example from the link below
+                     * https://proquestionasker.github.io/blog/d3Nest/
+                     * pass grouped data to elements d3 function and draw them on maps individually
+                     */
 
-                var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
+                    var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
 
-                if (d.time <= jp1) {
-                    d.ts = "jp1";
-                }
+                    if (d.time <= jp1) {
+                        d.ts = "jp1";
+                    }
 
-                if (d.time > jp1 && d.time <= jp2) {
-                    d.ts = "jp2";
-                }
+                    if (d.time > jp1 && d.time <= jp2) {
+                        d.ts = "jp2";
+                    }
 
-                if (d.time > jp2 && d.time <= jp3) {
-                    d.ts = "jp3";
-                }
+                    if (d.time > jp2 && d.time <= jp3) {
+                        d.ts = "jp3";
+                    }
 
-                if (d.time > jp3 && d.time <= jp4) {
-                    d.ts = "jp4";
-                }
+                    if (d.time > jp3 && d.time <= jp4) {
+                        d.ts = "jp4";
+                    }
 
-            });
-            window.data = data;
+                });
+                window.data = data;
 
+            }
+//            KHM();
+
+            function Cushman() {
+                data.forEach(function (d, i) {
+//                    console.log(d);
+//                     d.long = d.long;
+//                     d.lat = d.lat;
+
+                    /**
+                     * Data to draw segements from
+                     * @type {T}
+                     */
+
+                    // console.log(+format2(parse4(d.Date)));
+
+                    d.time = parse5(d.year);
+                    d.time = +format2(d.time);
+
+
+                    //data segmentation
+                    /**
+                     * Group dataSets by intervals and sum of the intervals date range,
+                     * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
+                     * use d3.nest() to group all elements in dataSet by jp suing example from the link below
+                     * https://proquestionasker.github.io/blog/d3Nest/
+                     * pass grouped data to elements d3 function and draw them on maps individually
+                     */
+
+                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+
+                    if (d.time <= jp1) {
+                        d.ts = "jp1";
+                    }
+
+                    if (d.time > jp1 && d.time <= jp2) {
+                        d.ts = "jp2";
+                    }
+
+                    if (d.time > jp2 && d.time <= jp3) {
+                        d.ts = "jp3";
+                    }
+
+                    if (d.time > jp3 && d.time <= jp4) {
+                        d.ts = "jp4";
+                    }
+
+                });
+                window.data = data;
+            }
+            Cushman();
+
+//
             let newData = data.slice(0, 550).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
@@ -227,6 +286,7 @@
             showData: true,
             showNodes: false,
             nodeSize: 15,
+            colorScale: false
 //            light: false
 //            projection: 5000,
 //            map: "street"
@@ -256,15 +316,23 @@
 
         }).name("Show PC Data");
 
-        gui.add(params, "showNodes").onChange(function () {
-            var value = params.showData;
-            if (value) {
-                polyCube.showNodes()
-            } else {
+        gui.add(params, "colorScale").onChange(function () {
+            var value = params.colorScale;
 
+            if (value) {
+                //show green on pointCloud
+
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", true)
+
+            } else {
+                //show green on pointCloud
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", false)
             }
 
-        }).name("Show Nodes");
+        }).name("Toggle Colour Scale");
+
 
         gui.add(params, "nodeSize").min(0.1).max(80).onChange(function () {
             var value = params.nodeSize;

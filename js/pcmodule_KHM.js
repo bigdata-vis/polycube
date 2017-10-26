@@ -212,16 +212,24 @@
          * @type {number}
          */
 
-        pointCloud.rotation.z = 3.15;
-        pointCloud.position.z = 90;
-        pointCloud.position.y += 5;
-        pointCloud.position.x -= 625;
+        //KHM
+        // pointCloud.rotation.z = 3.15;
+        // pointCloud.position.z = 90;
+        // pointCloud.position.y += 5;
+        // pointCloud.position.x -= 625;
+        // glbox.rotation.z = 3.15;
+        // glbox.position.z = -90;
+        // glbox.position.y += 5;
 
-        //
-        //
+        //Cushman
+        pointCloud.rotation.z = 3.15;
+        pointCloud.position.z = -90;
+        pointCloud.position.y += 5;
         glbox.rotation.z = 3.15;
         glbox.position.z = -90;
         glbox.position.y += 5;
+
+
 
         /**CSS3D Scene
          * Cube Sides
@@ -339,8 +347,10 @@
          * Colour Scale
          */
         let colour = d3.scaleOrdinal()
-            .domain(["jp1", "jp2", "jp3", "jp4"])
-            .range(["#FF0000", "#009933" , "#0000FF", "#fff780"]);
+        // .domain(["jp1", "jp2", "jp3", "jp4"])
+            .domain([dateTestEx[0], dateTestEx[1]])
+            .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
+        // .range(["#450d54", "#3a8a8c", "#d5dee4"]);
 
         pCube.updatePC = function (datasets) {
 
@@ -368,7 +378,8 @@
                     image.style.width = 10 + "px";
                     image.style.height = 10 + "px";
                     image.className = "pointCloud";
-                    image.style.backgroundColor = colour(d.ts);
+                    // image.style.backgroundColor = colour(d.ts);
+                    image.style.background = colour(d.time);
 
                     // image.addEventListener('load', function (event) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
@@ -409,14 +420,13 @@
                         // console.log(d);
 
                         d3.select("#textTitle")
-                            .html("<strong<p>" + d.conceptID[0] + "</p>" +
-                                "<span class='date'>Date : " + d.time + " </span> <br>" +
-                                "<span class='date'>Collection : " + d.legalBodyID + " </span> <br>" +
-                                "<span class='location'>Location : " + d.location + "</span> <br>"
+                            .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                                "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                             );
 
                         d3.select("#dataImage")
-                            .attr("src", d.preview)
+                            .attr("src", d.Image_URL)
                     };
 
                     var geometry = new THREE.Geometry();
@@ -1302,7 +1312,8 @@
             id: 'mapbox.streets',
             accessToken: accesToken,
             zoomControl: false
-        }).setView([54.5260, 15.2551], 3);
+        }).setView([30.4507462, -91.154552], 3);
+
 
 
         mymap.touchZoom.disable();
@@ -1368,14 +1379,13 @@
             marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
-                    .html("<strong<p>" + d.conceptID[0] + "</p>" +
-                        "<span class='date'>Date : " + d.time + " </span> <br>" +
-                        "<span class='date'>Collection : " + d.legalBodyID + " </span> <br>" +
-                        "<span class='location'>Location : " + d.location + "</span> <br>"
+                    .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
                 d3.select("#dataImage")
-                    .attr("src", d.preview)
+                    .attr("src", d.Image_URL)
 
             });
         });

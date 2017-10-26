@@ -6,7 +6,8 @@
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
 
-    var dateRange = [new Date(1888, 1, 1), new Date(1400, 1, 1) - 1]; //Todo: Manual Change for Cushman
+    // var dateRange = [new Date(1888, 1, 1), new Date(1400, 1, 1) - 1]; //KHM Todo: Manual Change for Cushman
+    var dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
 
     var margin = {top: 10, right: 40, bottom: 40, left: 40},
         width = 120 - margin.left - margin.right,
@@ -27,10 +28,11 @@
     function init() {
 
         var svg = d3.select("#timeLine")
-            .style("position", "relative")
+            .style("position", "absolute")
             .style("z-index", "999")
             .style("width", "150px")
-            .style("top", (-100) + "px")
+            .style("top", (0) + "px")
+            .style("left", (1000) + "px")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -65,7 +67,7 @@
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(brush);
-    };
+    }
     init();
 
     function brushened() {
@@ -73,7 +75,7 @@
         if (!d3.event.selection) return; // Ignore empty selections.
         var d0 = d3.event.selection.map(y.invert),
             // d1 = d0.map(d3.timeDay.round);
-            d1 = d0.map(d3.timeYear);
+            d1 = d0.map(d3.timeYear.round);
         //
         // var d0 = d3.event.selection.map(x.invert),
         //     d1 = d0.map(d3.timeDay.round);
@@ -104,10 +106,11 @@
         let start = +format2(range[0]);
         let end = +format2(range[1]);
 
-
         // let randData = window.data.slice(0, Math.floor((Math.random() * 500) + 1)).sort(function (x, y) {
         //     return d3.ascending(x.time, y.time);
         // });
+
+        // console.log(window.dateTestEx);
 
         let selectedData = window.data.filter(function (d) {
             if (d.time >= start && d.time <= end) {

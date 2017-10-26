@@ -1620,7 +1620,6 @@
         });
 
 
-
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
             // var layerPoint = crs.latLngToPoint(coord, mapZoom);
