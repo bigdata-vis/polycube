@@ -125,7 +125,16 @@
     data_with_categories: [], //['Andachtsbild', 'Relief'], // ['Andachtsbild'], //["Gemälde", "Gefäß", "Glyptik", "Schmuck", "Skulptur", "Zupfinstrument"]
     data_scale_cube: SCALE_TOTAL_COUNT,
     data_layer_sumUp: true,
-    data_threshold: 0.01 // remove data category that is less then 1% of the total number of items    
+    data_threshold: 0.01, // remove data category that is less then 1% of the total number of items    
+    /**
+     * function that is executes when clicking on an layers 
+     */
+    onLayerClick: (visType, layerNumber, groupedByCategory, listOfItems, layerData) => {
+      console.info(visType, layerNumber, groupedByCategory, listOfItems, layerData);
+    },
+    onSetClick: (visType, layerNumber, setName, repoName, listOfItems) => {
+      alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
+    }
   };
 
   /**
@@ -137,6 +146,11 @@
         .layer.highlight {
           background-color: ${_highlightColor} !important; 
           opacity: 0.2 !important;
+        }
+        div.set-rect:hover {
+          background-color: ${_highlightColor} !important; 
+          opacity: 0.7 !important;
+          cursor: pointer;
         }`;
   document.head.appendChild(sets_style);
 
@@ -235,8 +249,10 @@
     var ambientLight = new THREE.AmbientLight(0xFFFFFF);
     pCube.getGLScene().add(ambientLight);
 
-    // hide sides of the cube to interact better with the layers
+    // FIXME: maybe do this with options
+    // hide sides && mapbox of the cube to interact better with the layers
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
+    document.querySelectorAll('#mapbox').forEach(x => x.style.display = "none");
 
     pCube.sets_options = { ...default_options, ...options };
 
@@ -499,13 +515,6 @@
   });
 
   /**
-   * function that is executes when clicking on an layers 
-   */
-  pCube.onLayerClick = (visType, layerNumber, groupedByCategory, listOfItems, layerData) => {
-    console.info(visType, layerNumber, groupedByCategory, listOfItems, layerData);
-  };
-
-  /**
    * mark sets with the highlight color and give all other elements the base color
    */
   pCube.selectSet = (setName, layerNumber) => {
@@ -660,11 +669,12 @@
     });
     _selectedRects.forEach(b => {
       b.element.style.opacity = 0;
+      b.element.style.display = 'none';
     });
 
   };
 
-  const getItemsByVisType = (userData) => {
+  const getListOfItemsByVisType = (userData) => {
     if (pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP || pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP_FLAT) {
       if (userData) {
         return getListOfItemsInTreemap(userData.layerNumber, userData.setName);
@@ -681,51 +691,51 @@
   };
 
   const selectItemsBySetsUnion = (setNames) => {
-    const selectionCondition = (userData) => {
+    const selectionItems = (userData) => {
       // check if list contains items that needs to be selected (multi-sets)
-      return getItemsByVisType(userData).filter(itm => {
+      return getListOfItemsByVisType(userData).filter(itm => {
         return _.intersection(itm.term, setNames).length > 0;
-      }).length;
+      });
     };
 
     const fnGetItems = (userData) => {
-      return getItemsByVisType(userData);
+      return getListOfItemsByVisType(userData);
     };
 
-    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition, fnGetItems);
+    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems);
 
-    return getItemsByVisType().filter(itm => {
+    return getListOfItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length > 0;
     });
   };
 
   const selectItemsBySetsIntersection = (setNames) => {
-    const selectionCondition = (userData) => {
+    const selectionItems = (userData) => {
       // check if list contains items that needs to be selected (multi-sets)
-      return getItemsByVisType(userData).filter(itm => {
+      return getListOfItemsByVisType(userData).filter(itm => {
         return _.intersection(itm.term, setNames).length === setNames.length;
-      }).length;
+      });
     };
 
     const fnGetItems = (userData) => {
-      return getItemsByVisType(userData);
+      return getListOfItemsByVisType(userData);
     };
 
-    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition, fnGetItems);
+    selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems);
 
-    return getItemsByVisType().filter(itm => {
+    return getListOfItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
-  const selectItemsBySetsTweenBasedOnConditionFunction = (fnCondition, fnGetItems) => {
+  const selectItemsBySetsTweenBasedOnSelectionItemsFunction = (fnSelectionItems, fnGetItems) => {
     let boxesAndLines = [].concat(_boxes, _lines);
 
     _lines.forEach(b => {
       if (b.name === 'set-line') {
-        let validItemsCount = fnCondition(b.userData);
-        b.visible = validItemsCount > 0 ? true : false; // TODO: draw lines on selected area!
-        let co = new THREE.Color(validItemsCount > 0 ? _setOperationColorGL : _colorScale(b.userData.setName));
+        let selectionItems = fnSelectionItems(b.userData);
+        b.visible = selectionItems.length > 0 ? true : false; // TODO: draw lines on selected area!
+        let co = new THREE.Color(selectionItems.length > 0 ? _setOperationColorGL : _colorScale(b.userData.setName));
 
         var colorTween = new TWEEN.Tween(b.material.color)
           .to(co, 1500)
@@ -735,13 +745,12 @@
     });
     _boxes.forEach(b => {
       if (b.name === 'set-box' || b.name === 'set-rect') {
-        let validItemsCount = fnCondition(b.userData);
-        if (validItemsCount > 0) {
+        let selectionItems = fnSelectionItems(b.userData);
+        if (selectionItems.length > 0) {
           let selBox = b.children.find(x => x.name === 'set-box-selection');
-          console.log(b, selBox, selBox.scale);
           selBox.visible = true;
           let items = fnGetItems(b.userData);
-          let nscale = validItemsCount / items.length;
+          let nscale = selectionItems.length / items.length;
           selBox.scale.set(1, 1, nscale);
           var colorTween = new TWEEN.Tween(selBox.material.color)
             .to(_setOperationColorGL, 1500)
@@ -758,9 +767,8 @@
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
 
-        let validItemsCount = fnCondition(b.userData);
-        if (validItemsCount > 0) {
-          console.log('valid for selection', b.userData.setName, b);
+        let selectionItems = fnSelectionItems(b.userData);
+        if (selectionItems.length > 0) {
 
           let selElement = b.children.find(c => c.name === 'set-rect-side-selection');
           let curColor = d3.color(b.children[0].element.style.backgroundColor);
@@ -768,10 +776,14 @@
 
           let orgHeight = parseFloat(b.children[0].element.style.height);
           let items = fnGetItems(b.userData);
-          let newHeight = (orgHeight / items.length) * validItemsCount;
+          let newHeight = (orgHeight / items.length) * selectionItems.length;
 
           selElement.element.style.opacity = 1;
+          selElement.element.style.display = '';
           selElement.element.style.height = newHeight + 'px';
+
+          selElement.element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, selElement.userData.layerNumber, selElement.userData.setName, selElement.userData.repoName, selectionItems);
+
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -903,7 +915,7 @@
                 layerGL: _layersGL[idx]
               };
               // pCube.onLayerClick(pCube.sets_options.vis_type, idx, pCube.treemap_sets[idx], listOfItems);
-              pCube.onLayerClick(layerData);
+              pCube.sets_options.onLayerClick(layerData);
               break;
             case SET_VIS_TYPE_MATRIX:
             case SET_VIS_TYPE_SQUARE_AREA:
@@ -922,7 +934,7 @@
                 layer: x,
                 layerGL: _layersGL[idx]
               };
-              pCube.onLayerClick(layerData);
+              pCube.sets_options.onLayerClick(layerData);
               // pCube.onLayerClick(pCube.sets_options.vis_type, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
               break;
           }
@@ -1419,13 +1431,16 @@
 
     var element = document.createElement('div');
     _htmlElements.push(element);
-    element.classList = ['set-side', 'set', 'set-' + setName].join(' ')
+    element.classList = ['set-side', 'set', 'set-rect', 'set-' + setName].join(' ')
     element.style.width = width + 'px';
     element.style.height = depth + 'px';
     element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
     element.style.opacity = opacity;
     element.title = setName;
+
+    let items = getListOfItemsByVisType({ layerNumber, setName });
+    element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, items);
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
@@ -1450,14 +1465,17 @@
       // build selection rect
       let selElement = document.createElement('div');
       _htmlElements.push(selElement);
-      selElement.classList = ['set-side', 'set', 'set-select'].join(' ')
+      selElement.classList = ['set-side', 'set, set-rect', 'set-select'].join(' ')
       selElement.style.width = width + 'px';
       selElement.style.height = '10px';
       selElement.style.border = "1px solid #000000";
       selElement.style.backgroundColor = '#000';
       selElement.style.opacity = 0;
+      selElement.style.display = 'none';
 
       selElement.title = setName;
+
+      selElement.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, []);
 
       var selObject = new THREE.CSS3DObject(selElement);
       // object.position.fromArray(pos);
