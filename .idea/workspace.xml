@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule_KHM.js" afterPath="$PROJECT_DIR$/js/pcmodule_KHM.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/khm.html" afterPath="$PROJECT_DIR$/khm.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushTime.js" afterPath="$PROJECT_DIR$/js/vis/brushTime.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="khm.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="khm.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/khm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="206" column="19" lean-forward="false" selection-start-line="206" selection-start-column="19" selection-end-line="206" selection-end-column="19" />
+            <state relative-caret-position="276">
+              <caret line="153" column="32" lean-forward="true" selection-start-line="153" selection-start-column="32" selection-end-line="153" selection-end-column="32" />
               <folding>
                 <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -97,9 +96,22 @@
       <file leaf-file-name="brushTime.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="908">
-              <caret line="72" column="26" lean-forward="true" selection-start-line="72" selection-start-column="26" selection-end-line="72" selection-end-column="26" />
+            <state relative-caret-position="165">
+              <caret line="11" column="47" lean-forward="false" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/css/main.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="233">
+              <caret line="206" column="20" lean-forward="false" selection-start-line="206" selection-start-column="20" selection-end-line="206" selection-end-column="20" />
+              <folding>
+                <element signature="e#3153#3176#0" expanded="false" />
+                <element signature="e#3186#3526#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,6 +181,7 @@
       <find>segmentedData</find>
       <find>strong</find>
       <find>toStr</find>
+      <find>tick</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -225,14 +238,14 @@
         <option value="$PROJECT_DIR$/data/d.json" />
         <option value="$PROJECT_DIR$/data/painting_gallery.json" />
         <option value="$PROJECT_DIR$/data/painting_gallery_clean.json" />
-        <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/cushman.html" />
         <option value="$PROJECT_DIR$/js/polycube-reusable.js" />
         <option value="$PROJECT_DIR$/js/pcmodule_CD.js" />
         <option value="$PROJECT_DIR$/data/Cushman-Collection.csv" />
-        <option value="$PROJECT_DIR$/js/vis/brushTime.js" />
         <option value="$PROJECT_DIR$/js/pcmodule_KHM.js" />
         <option value="$PROJECT_DIR$/khm.html" />
+        <option value="$PROJECT_DIR$/js/vis/brushTime.js" />
+        <option value="$PROJECT_DIR$/css/main.css" />
       </list>
     </option>
   </component>
@@ -274,7 +287,7 @@
             <path>
               <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
               <item name="polycube" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
@@ -1063,12 +1076,12 @@
       <workItem from="1508832806869" duration="8322000" />
       <workItem from="1508856668378" duration="3658000" />
       <workItem from="1508915617819" duration="24432000" />
-      <workItem from="1508968276058" duration="27508000" />
+      <workItem from="1508968276058" duration="28717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="723415000" />
+    <option name="totallyTimeSpent" value="724624000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1573,19 +1586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="210" column="1" lean-forward="false" selection-start-line="210" selection-start-column="1" selection-end-line="210" selection-end-column="11" />
-          <folding>
-            <element signature="e#3151#3174#0" expanded="false" />
-            <element signature="e#3184#3524#0" expanded="false" />
-            <element signature="e#3537#3674#0" expanded="false" />
-            <element signature="e#3687#3780#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/texture/ball2.svg">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1617,14 +1617,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="23" column="6" lean-forward="true" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="908">
-          <caret line="72" column="26" lean-forward="true" selection-start-line="72" selection-start-column="26" selection-end-line="72" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -1706,8 +1698,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/khm.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="206" column="19" lean-forward="false" selection-start-line="206" selection-start-column="19" selection-end-line="206" selection-end-column="19" />
+        <state relative-caret-position="276">
+          <caret line="153" column="32" lean-forward="true" selection-start-line="153" selection-start-column="32" selection-end-line="153" selection-end-column="32" />
           <folding>
             <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1730,6 +1722,25 @@
             <element signature="e#9684#10169#0" expanded="false" />
             <element signature="e#10253#10640#0" expanded="false" />
             <element signature="e#10747#10933#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="47" lean-forward="false" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="206" column="20" lean-forward="false" selection-start-line="206" selection-start-column="20" selection-end-line="206" selection-end-column="20" />
+          <folding>
+            <element signature="e#3153#3176#0" expanded="false" />
+            <element signature="e#3186#3526#0" expanded="false" />
           </folding>
         </state>
       </provider>

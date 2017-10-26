@@ -132,7 +132,7 @@ input:focus {
 
 .axis2,
 .axis--y2 line {
-    stroke: white;
+    stroke: #8a8a8a;
     stroke-opacity: .5;
 }
 
@@ -191,21 +191,33 @@ input:focus {
 }
 
 #textTitle {
-    width: 200px;
+    /*width: 200px;*/
     color: white;
     position: relative;
-    top: 80px;
-    left: 60px;
+    top: 160px;
+    /*left: 60px;*/
     z-index: 999;
     margin-bottom: 40px;
+
+    float: right;
+    margin-right: 15px;
+    overflow-x: hidden;
+    max-width: 246px;
+    width: 246px;
+    text-align: left;
 }
 
 #dataImage {
     width: 350px;
-    position: relative;
-    top: 80px;
-    left: 60px;
-    z-index: 999
+    position: absolute;
+    top: 280px;
+    right: 15px;
+    z-index: 999;
+
+    float: right;
+    /*margin-right: 15px;*/
+    overflow-x: hidden;
+    max-width: 246px;
 }
 
 .pointCloud {

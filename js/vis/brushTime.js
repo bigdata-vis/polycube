@@ -9,7 +9,7 @@
     // var dateRange = [new Date(1888, 1, 1), new Date(1400, 1, 1) - 1]; //KHM Todo: Manual Change for Cushman
     var dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
 
-    var margin = {top: 10, right: 40, bottom: 40, left: 40},
+    var margin = {top: 40, right: 40, bottom: 140, left: 40},
         width = 120 - margin.left - margin.right,
         height = window.innerHeight - margin.top - margin.bottom;
 
@@ -31,8 +31,8 @@
             .style("position", "absolute")
             .style("z-index", "999")
             .style("width", "150px")
-            .style("top", (0) + "px")
-            .style("left", (1000) + "px")
+            .style("top", (20) + "px")
+            .style("left", (-30) + "px")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
