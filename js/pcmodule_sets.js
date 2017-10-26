@@ -580,7 +580,7 @@
   /**
    * highlight boxes or rects based on the given array of setnames
    */
-  pCube.selectSets = (setNames, overlappingOption = pCube.OVERLAPPING_OPTIONS[0]) => {
+  pCube.selectItemsBySets = (setNames, overlappingOption = pCube.OVERLAPPING_OPTIONS[0]) => {
     TWEEN.removeAll();
     console.info('select of overlapping sets:', setNames);
     sets_selected_categories = setNames || [];
@@ -597,11 +597,11 @@
     if (sets_selected_categories.length > 0) {
       switch (overlappingOption) {
         case OVERLAPPING_OPTION_UNION: {
-          items = selectSetsUnion(sets_selected_categories);
+          items = selectItemsBySetsUnion(sets_selected_categories);
           break;
         }
         case OVERLAPPING_OPTION_INTERSECTION: {
-          items = selectSetsIntersection(sets_selected_categories);
+          items = selectItemsBySetsIntersection(sets_selected_categories);
           break;
         }
       }
@@ -667,7 +667,7 @@
 
   };
 
-  const selectSetsUnion = (setNames) => {
+  const selectItemsBySetsUnion = (setNames) => {
     const selectionCondition = (userData) => {
       let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
       // check if list contains items that needs to be selected (multi-sets)
@@ -676,7 +676,7 @@
       }).length;
     };
 
-    selectSetsTweenBasedOnConditionFunction(selectionCondition);
+    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition);
 
     return getListOfItemsInTreemap().filter(itm => {
       return _.intersection(itm.term, setNames).length > 0;
@@ -684,7 +684,7 @@
 
   };
 
-  const selectSetsIntersection = (setNames) => {
+  const selectItemsBySetsIntersection = (setNames) => {
     const selectionCondition = (userData) => {
       let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
       // check if list contains items that needs to be selected (multi-sets)
@@ -693,14 +693,14 @@
       }).length;
     };
 
-    selectSetsTweenBasedOnConditionFunction(selectionCondition);
+    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition);
 
     return getListOfItemsInTreemap().filter(itm => {
       return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
-  const selectSetsTweenBasedOnConditionFunction = (condition) => {
+  const selectItemsBySetsTweenBasedOnConditionFunction = (condition) => {
     let boxesAndLines = [].concat(_boxes, _lines);
 
     _lines.forEach(b => {
