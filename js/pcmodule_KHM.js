@@ -109,7 +109,7 @@
                 return a.key < b.key;
             });
 
-         console.log(dataBySeg)
+         // console.log(dataBySeg)
         /**
          * calculate the largest and smallest value for Xscale and Y scale
          */
