@@ -724,8 +724,13 @@
     _lines.forEach(b => {
       if (b.name === 'set-line') {
         let validItemsCount = fnCondition(b.userData);
-        // b.visible = validItemsCount > 0 ? true : false; // TODO: draw lines on selected area!
-        b.visible = false;
+        b.visible = validItemsCount > 0 ? true : false; // TODO: draw lines on selected area!
+        let co = new THREE.Color(validItemsCount > 0 ? _setOperationColorGL : _colorScale(b.userData.setName));
+
+        var colorTween = new TWEEN.Tween(b.material.color)
+          .to(co, 1500)
+          .easing(TWEEN.Easing.Sinusoidal.InOut)
+          .start();
       }
     });
     _boxes.forEach(b => {
@@ -875,6 +880,8 @@
   const makeLayersClickable = () => {
     _layers.forEach((layerBox, idx) => {
       layerBox.children.forEach(x => {
+
+        x.element.style.display = '';
         x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
         x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
         x.element.onclick = function () {
@@ -954,6 +961,8 @@
           x.element.classList.add('layer');
           x.element.classList.add('layer-' + idx);
           x.element.title = `${_yearScale.ticks()[idx]} - ${_yearScale.ticks()[idx + 1]}`;
+
+          x.element.style.display = 'none';
         });
 
         if (pCube.sets_options.vis_type_layer_clickable) {
@@ -1416,6 +1425,7 @@
     element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
     element.style.opacity = opacity;
+    element.title = setName;
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
@@ -1446,6 +1456,8 @@
       selElement.style.border = "1px solid #000000";
       selElement.style.backgroundColor = '#000';
       selElement.style.opacity = 0;
+
+      selElement.title = setName;
 
       var selObject = new THREE.CSS3DObject(selElement);
       // object.position.fromArray(pos);
