@@ -64,9 +64,9 @@
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/pcmodule_CD.js"></script>
+<script src="js/vis/brushTime.js"></script>
 
 <script>
-
 
     d3.queue()
         .defer(d3.csv, "data/Cushman-Collection.csv")
@@ -84,7 +84,8 @@
 
 //            console.log(data);
 
-            var newData = data.slice(0, 550); //todo: slice arrray according to date range
+            var newData = data.slice(0, 1050); //todo: slice arrray according to date range
+//            var newData = data.slice(0, 1050); //todo: slice arrray according to date range
 
 //            console.log(newData);
 
@@ -129,18 +130,19 @@
             .style("background-color", "aliceblue");
         d3.select("canvas")
             .style("background", "transparent");
-        d3.selectAll(".pointCloud")
-            .attr("src", "texture/ball2.png")
-            //change selected pointcloud color
-            .on("mouseover", function () {
-//                            console.log(this)
-            })
-            //                        .on("mouseout", function () {
-            //                            this.src = "texture/ball2.png"
-            //                        })
-            .on("click", function () {
-                this.src = "texture/ball2_dark.png"
-            });
+
+//        d3.selectAll(".pointCloud")
+//            .attr("src", "texture/ball2.png")
+        //change selected pointcloud color
+//            .on("mouseover", function () {
+////                            console.log(this)
+//            })
+        //                        .on("mouseout", function () {
+        //                            this.src = "texture/ball2.png"
+        //                        })
+//            .on("click", function () {
+//                this.src = "texture/ball2_dark.png"
+//            });
 
         d3.selectAll(".side")
             .style("border", "0.5px dotted rgb(10, 10, 10)")
@@ -162,7 +164,7 @@
         /**
          * Show pCube Time Brush
          */
-        //        timeBrush.init();
+//                timeBrush.init();
 
         /**
          * Data UI Controls
@@ -176,6 +178,7 @@
             showData: true,
             showNodes: false,
             nodeSize: 15,
+            colorScale: false
 //            light: false
 //            projection: 5000,
 //            map: "street"
@@ -205,15 +208,22 @@
 
         }).name("Show PC Data");
 
-        gui.add(params, "showNodes").onChange(function () {
-            var value = params.showData;
-            if (value) {
-                polyCube.showNodes()
-            } else {
+        gui.add(params, "colorScale").onChange(function () {
+            var value = params.colorScale;
 
+            if (value) {
+                //show green on pointCloud
+
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", true)
+
+            } else {
+                //show green on pointCloud
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", false)
             }
 
-        }).name("Show Nodes");
+        }).name("Toggle Colour Scale");
 
         gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
             var value = params.nodeSize;
@@ -222,6 +232,8 @@
                 .style("width", value + "px")
                 .style("height", value + "px");
         });
+
+
 
 //        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
 //            var value = params.projection;

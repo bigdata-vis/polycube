@@ -46,6 +46,13 @@
 
     var layout;
 
+    let scales = {
+        puOr11: ['#7f3b08', '#b35806', '#e08214', '#fdb863', '#fee0b6', '#f7f7f7', '#d8daeb', '#b2abd2', '#8073ac', '#542788', '#2d004b'],
+        spectral8: ['#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#e6f598', '#abdda4', '#66c2a5', '#3288bd'],
+        redBlackGreen: ['#ff0000', '#AA0000', '#550000', '#005500', '#00AA00', '#00ff00'],
+        viridis: ["#440154","#440256","#450457","#450559","#46075a","#46085c","#460a5d","#460b5e","#470d60","#470e61","#471063","#471164","#471365","#481467","#481668","#481769","#48186a","#481a6c","#481b6d","#481c6e","#481d6f","#481f70","#482071","#482173","#482374","#482475","#482576","#482677","#482878","#482979","#472a7a","#472c7a","#472d7b","#472e7c","#472f7d","#46307e","#46327e","#46337f","#463480","#453581","#453781","#453882","#443983","#443a83","#443b84","#433d84","#433e85","#423f85","#424086","#424186","#414287","#414487","#404588","#404688","#3f4788","#3f4889","#3e4989","#3e4a89","#3e4c8a","#3d4d8a","#3d4e8a","#3c4f8a","#3c508b","#3b518b","#3b528b","#3a538b","#3a548c","#39558c","#39568c","#38588c","#38598c","#375a8c","#375b8d","#365c8d","#365d8d","#355e8d","#355f8d","#34608d","#34618d","#33628d","#33638d","#32648e","#32658e","#31668e","#31678e","#31688e","#30698e","#306a8e","#2f6b8e","#2f6c8e","#2e6d8e","#2e6e8e","#2e6f8e","#2d708e","#2d718e","#2c718e","#2c728e","#2c738e","#2b748e","#2b758e","#2a768e","#2a778e","#2a788e","#29798e","#297a8e","#297b8e","#287c8e","#287d8e","#277e8e","#277f8e","#27808e","#26818e","#26828e","#26828e","#25838e","#25848e","#25858e","#24868e","#24878e","#23888e","#23898e","#238a8d","#228b8d","#228c8d","#228d8d","#218e8d","#218f8d","#21908d","#21918c","#20928c","#20928c","#20938c","#1f948c","#1f958b","#1f968b","#1f978b","#1f988b","#1f998a","#1f9a8a","#1e9b8a","#1e9c89","#1e9d89","#1f9e89","#1f9f88","#1fa088","#1fa188","#1fa187","#1fa287","#20a386","#20a486","#21a585","#21a685","#22a785","#22a884","#23a983","#24aa83","#25ab82","#25ac82","#26ad81","#27ad81","#28ae80","#29af7f","#2ab07f","#2cb17e","#2db27d","#2eb37c","#2fb47c","#31b57b","#32b67a","#34b679","#35b779","#37b878","#38b977","#3aba76","#3bbb75","#3dbc74","#3fbc73","#40bd72","#42be71","#44bf70","#46c06f","#48c16e","#4ac16d","#4cc26c","#4ec36b","#50c46a","#52c569","#54c568","#56c667","#58c765","#5ac864","#5cc863","#5ec962","#60ca60","#63cb5f","#65cb5e","#67cc5c","#69cd5b","#6ccd5a","#6ece58","#70cf57","#73d056","#75d054","#77d153","#7ad151","#7cd250","#7fd34e","#81d34d","#84d44b","#86d549","#89d548","#8bd646","#8ed645","#90d743","#93d741","#95d840","#98d83e","#9bd93c","#9dd93b","#a0da39","#a2da37","#a5db36","#a8db34","#aadc32","#addc30","#b0dd2f","#b2dd2d","#b5de2b","#b8de29","#bade28","#bddf26","#c0df25","#c2df23","#c5e021","#c8e020","#cae11f","#cde11d","#d0e11c","#d2e21b","#d5e21a","#d8e219","#dae319","#dde318","#dfe318","#e2e418","#e5e419","#e7e419","#eae51a","#ece51b","#efe51c","#f1e51d","#f4e61e","#f6e620","#f8e621","#fbe723","#fde725"]
+    };
+
     /**
      * Flip mirro and horizontal
      * https://threejs.org/docs/#manual/introduction/Matrix-transformations
@@ -58,6 +65,7 @@
     // mS.elements[0] = -1;
     //mS.elements[5] = -1;
     // mS.elements[10] = -1;
+
 
     pCube.drawElements = function (datasets, datasets2) {
         /**
@@ -107,7 +115,7 @@
 
             var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
 
-            if (d.time < jp1) {
+            if (d.time <= jp1) {
                 d.ts = "jp1";
             }
 
@@ -134,7 +142,6 @@
             d.start_date = +format2(d.start_date)
         });
 
-
         /**
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
          *
@@ -142,7 +149,6 @@
         var dateTestEx = d3.extent(datasets, function (d) {
             return d.time;
         });
-
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
@@ -391,6 +397,7 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
 
+        // console.log(dataBySeg);
 
 
         var elements = d3.select("body").selectAll('.element')
@@ -566,116 +573,134 @@
 
         var newList = [];
 
+        console.log(dateTestEx);
+
+        /**
+         * Colour Scale
+         */
+        // let colour = d3.scaleLinear()
+        let colour = d3.scaleOrdinal()
+            // .domain(["jp1", "jp2", "jp3", "jp4"])
+            .domain([dateTestEx[0], dateTestEx[1]])
+            .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
+            // .range(["#450d54", "#3a8a8c", "#d5dee4"]);
+            // .range(["#450d54", "#3a8a8c"]);
+
+
         var testElem = d3.selectAll('.pointCloud')
             .data(datasets).enter()
             .each(function (d, i) {
-                var image = document.createElement('img');
+                // var image = document.createElement('img');
+                var image = document.createElement('div');
                 var interval = 500 / dataSlices; //height/segments
 
-                image.style.width = 10 + "px";
-                image.style.height = 10 + "px";
+                image.style.width = 8 + "px";
+                image.style.height = 8 + "px";
                 image.className = "pointCloud";
+                image.style.background = colour(d.time);
+                // image.style.boxShadow = "0 0 5px " + d.ts;
 
-                image.addEventListener('load', function (event) {
-                    var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = pCube.projection(d.long, d.lat).x,
-                        lat = pCube.projection(d.long, d.lat).y;
+                // image.addEventListener('load', function (event) {
+                var object = new THREE.CSS3DSprite(image.cloneNode()),
+                    long = pCube.projection(d.long, d.lat).x,
+                    lat = pCube.projection(d.long, d.lat).y;
 
-                    var coord = translate([lat, long]);
+                var coord = translate([lat, long]);
+
+                object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                object.position.z = coord[0] - 500;
+                object.position.x = coord[1] + 250;
+
+                /**
+                 * add each proerties of the pointcloud to new data
+                 *
+                 */
+                object["newData"] = d;
 
 
-                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                    object.position.z = coord[0] - 500;
-                    object.position.x = coord[1] + 250;
+                var stc = new THREE.Object3D();
+                stc.position.x = object.position.x;
+                stc.position.y = object.position.y;
+                stc.position.z = object.position.z;
+                object['STC'] = stc;
 
-                    /**
-                     * add each proerties of the pointcloud to new data
-                     *
-                     */
-                    object["newData"] = d;
+                // add object rotation
+                // object.rotation.fromArray(rot[2]);
 
-                    var stc = new THREE.Object3D();
-                    stc.position.x = object.position.x;
-                    stc.position.y = object.position.y;
-                    stc.position.z = object.position.z;
-                    object['STC'] = stc;
+                object.name = "pointCloud"; //todo: remove later
 
-                    // add object rotation
-                    // object.rotation.fromArray(rot[2]);
-
-                    object.name = "pointCloud"; //todo: remove later
-
-                    object.element.onclick = function () {
-                        // object.element.onmouseover = function () {
-
-                        //Change image src
-                        // console.log(image);
-                        // image.src = 'texture/ball3.png';
-
-                        d3.select("#textTitle")
-                            .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
-                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
-                            );
-
-                        d3.select("#dataImage")
-                            .attr("src", d.Image_URL)
-                    };
-
-                    var geometry = new THREE.Geometry();
-                    geometry.name = "guideLines";
-
+                object.element.onclick = function () {
                     // object.element.onmouseover = function () {
-                    //     //draw a line to edge of the box
-                    //     var material = new THREE.LineBasicMaterial({
-                    //         color: "#feffff",
-                    //         linewidth: 2,
-                    //         linecap: 'round', //ignored by WebGLRenderer
-                    //         linejoin: 'round' //ignored by WebGLRenderer
-                    //     });
-                    //     material.blending = THREE.NoBlending;
-                    //
-                    //     /**
-                    //      * WebGl Scene
-                    //      * Temporary Web Gl Scene implementation for line testing
-                    //      * @type {any}
-                    //      */
-                    //
-                    //
-                    //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
-                    //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
-                    //
-                    //     // console.log(object.position.z);
-                    //
-                    //     var line = new THREE.Line(geometry, material);
-                    //     glbox.add(line);
-                    //
-                    // };
 
-                    // object.element.onmouseout = function () {
-                    //     var guidline = scene.getObjectByName("guideLines");
-                    //     console.log(guidline)
-                    // };
+                    //Change image src
+                    // console.log(d);
 
+                    d3.select("#textTitle")
+                        .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
+                            "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                            "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                        );
 
-                    /**
-                     * populate line list
-                     */
+                    d3.select("#dataImage")
+                        .attr("src", d.Image_URL)
+                };
 
-                    // newList.push(object.position);
+                var geometry = new THREE.Geometry();
+                geometry.name = "guideLines";
 
-                    lineList.push(object.position);
+                // object.element.onmouseover = function () {
+                //     //draw a line to edge of the box
+                //     var material = new THREE.LineBasicMaterial({
+                //         color: "#feffff",
+                //         linewidth: 2,
+                //         linecap: 'round', //ignored by WebGLRenderer
+                //         linejoin: 'round' //ignored by WebGLRenderer
+                //     });
+                //     material.blending = THREE.NoBlending;
+                //
+                //     /**
+                //      * WebGl Scene
+                //      * Temporary Web Gl Scene implementation for line testing
+                //      * @type {any}
+                //      */
+                //
+                //
+                //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
+                //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
+                //
+                //     // console.log(object.position.z);
+                //
+                //     var line = new THREE.Line(geometry, material);
+                //     glbox.add(line);
+                //
+                // };
 
-                    /**
-                     * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
-                     */
+                // object.element.onmouseout = function () {
+                //     var guidline = scene.getObjectByName("guideLines");
+                //     console.log(guidline)
+                // };
 
-                    pointCloud.add(object);
-                    // }
-                }, false);
-                image.src = 'texture/ball2.png';
+                /**
+                 * populate line list
+                 */
+
+                // newList.push(object.position);
+
+                lineList.push(object.position);
+
+                /**
+                 * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
+                 */
+
+                pointCloud.add(object);
+                // }
+                // }, false);
+                // image.src = 'texture/ball2.png';
 
             });
+
+
+
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
@@ -1585,23 +1610,27 @@
             return projectedPoint;
         };
 
-        var icon = L.icon({
-            iconUrl: 'texture/ball.png',
-            iconSize: [10, 10] // size of the icon
+        let icon = L.icon({
+            iconUrl: 'texture/ball2.svg',
+            iconSize: [8, 8] // size of the icon
             // shadowSize:   [50, 64], // size of the shadow
             // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
             // shadowAnchor: [4, 62],  // the same for the shadow
             // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
 
+
+
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
             // var layerPoint = crs.latLngToPoint(coord, mapZoom);
             // var radius = 1000;
 
+
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
 
             var marker = L.marker(coord, {icon: icon}).addTo(mymap)
+
             marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")

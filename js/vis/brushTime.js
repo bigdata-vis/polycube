@@ -3,7 +3,10 @@
  */
 (function () {
     var timeBrush = {};
-    var dateRange = [new Date(1902, 7, 1), new Date(2017, 7, 15) - 1];
+    let parse5 = d3.timeParse("%Y");
+    let format2 = d3.timeFormat("%Y");
+
+    var dateRange = [new Date(1888, 1, 1), new Date(1400, 1, 1) - 1]; //Todo: Manual Change for Cushman
 
     var margin = {top: 10, right: 40, bottom: 40, left: 40},
         width = 120 - margin.left - margin.right,
@@ -19,9 +22,9 @@
     var brush = d3
         .brushY()
         .extent([[0, 0], [width, height]])
-        .on("end", brushended);
+        .on("end", brushened);
 
-    timeBrush.init = function () {
+    function init() {
 
         var svg = d3.select("#timeLine")
             .style("position", "relative")
@@ -63,14 +66,14 @@
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(brush);
     };
+    init();
 
-    var datasets = [0, 45, 2, 8, 0, 45, 2, 100, 400, 8, 7, 100, 400, 8, 7];
-
-    function brushended() {
+    function brushened() {
         if (!d3.event.sourceEvent) return; // Only transition after input.
         if (!d3.event.selection) return; // Ignore empty selections.
         var d0 = d3.event.selection.map(y.invert),
-            d1 = d0.map(d3.timeDay.round);
+            // d1 = d0.map(d3.timeDay.round);
+            d1 = d0.map(d3.timeYear);
         //
         // var d0 = d3.event.selection.map(x.invert),
         //     d1 = d0.map(d3.timeDay.round);
@@ -87,23 +90,33 @@
         var range = d3.brushSelection(this)
             .map(y.invert);
 
-        // polyCube.drawElements(datasets, range[1], range[0]);
-        // polyCube.animate();
+        // console.log("brushed" + range);
+        // console.log(polyCube.updatePC);
+        //update pointCloud on Brush with new data
+        /**
+         * TODO:Function to determine what data to use from the start and end date
+         * @type {Array.<>}
+         * window.data for each, if (time >= startDate and <= endDate, return)
+         */
 
-        // polyCube.timeStart(range[1]);
-        // polyCube.timeStop(range[0]);
+            // dateRange = [new Date(dateTestEx[0], 1, 1), new Date(dateTestEx[1], 1, 1) - 1];
+            // init();
+        let start = +format2(range[0]);
+        let end = +format2(range[1]);
 
-        console.log(polyCube.timeStart(range[1]))
+
+        // let randData = window.data.slice(0, Math.floor((Math.random() * 500) + 1)).sort(function (x, y) {
+        //     return d3.ascending(x.time, y.time);
+        // });
+
+        let selectedData = window.data.filter(function (d) {
+            if (d.time >= start && d.time <= end) {
+                return d;
+            }
+        });
+
+        polyCube.updatePC(selectedData);
+
     }
 
-    function drawPolycube(parameters) {
-        if (parameters === undefined) parameters = {};
-        var from = parameters["from"] || "Tue Aug 06 2013 19:21:49 GMT+0100 (BST)";
-        var to = parameters["to"] || "Thu Aug 08 2013 21:22:54 GMT+0100 (BST)";
-
-        // console.log(from);
-        // console.log(to);
-    }
-
-    window.timeBrush = timeBrush;
 }());

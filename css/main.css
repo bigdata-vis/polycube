@@ -207,3 +207,42 @@ input:focus {
     left: 60px;
     z-index: 999
 }
+
+.pointCloud {
+    /*height: 2px !important;*/
+    /*width: 2px !important;*/
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 500%;
+    position: relative;
+    /*box-shadow: inset -10px -10px 100px #000, 10px 10px 20px green, inset 0px 0px 10px green;*/
+
+    /*-webkit-box-shadow:0 0 5px blue;*/
+    /*-moz-box-shadow: 0 0 5px blue;*/
+    box-shadow:0 0 5px #1891ff;
+
+    display: inline-block;
+    /*margin: 5%;*/
+    background-color: #00b438;
+}
+
+.pointCloud::after {
+    background-color: rgba(255, 255, 255, 0.3);
+    content: '';
+    height: 45%;
+    width: 12%;
+    position: absolute;
+    top: 4%;
+    left: 15%;
+    border-radius: 50%;
+    transform: rotate(40deg);
+}
+
+.green {
+    background-color: green;
+}
+
+.green_BG{
+    background-color: #00b438 !important;
+}

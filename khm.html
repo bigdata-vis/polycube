@@ -40,6 +40,8 @@
 //        },2550);
 "> superimposition
 </button>
+<button id="testBTN" class="button" type="button"></button>
+
 
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
 <!--onclick="polyCube.setsDraw()"> Show Sets-->
@@ -64,15 +66,14 @@
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/pcmodule_KHM.js"></script>
+<script src="js/vis/brushTime.js"></script>
 
 <script>
-
-
     d3.queue()
         .defer(d3.json, "data/painting_gallery_clean.json")
+//        .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.csv, "data/Szabo2.csv")
         .defer(d3.json, "data/austria.json")
-        //            .defer(d3.xml, "data/export.xml")
         .await(init);
 
     function init(error, data, szabo, map) {
@@ -80,30 +81,97 @@
 
         function tempRange(data) {
 
-            //check to remove lat and long data
+            /**
+             * Parse and Format Time
+             */
+            let parse5 = d3.timeParse("%Y");
 
-//            console.log(data);
+            let format2 = d3.timeFormat("%Y");
 
-//            var newData = data.slice(0, 550); //todo: slice arrray according to date range
-            var newData = data.slice(0, 550); //todo: slice arrray according to date range
-
-//            console.log(newData);
+//            let newData = data.slice(0, 550); //todo: slice arrray according to date range
 
             /**
-             * Sort the data according to ascending dates to help with line drawing
+             * Sort and clean the data according to ascending dates to help with line drawing
              * */
 
-            newData.sort(function (x, y) {
+            data.forEach(function (d, i) {
+                // console.log(d.location_data);
+
+                // var coord = d.Geocoordinates.split(","); todo: change for cushman
+                d.long = d.location_data.country.lat;
+                d.lat = d.location_data.country.long;
+
+                /**
+                 * Data to draw segements from
+                 * @type {T}
+                 */
+//                defaultData[i] = d;
+
+                // console.log(+format2(parse4(d.Date)));
+
+                d.time = parse5(d.time);
+                d.time = +format2(d.time);
+
+                //data distribution pattern
+                /**
+                 * Group dataSets by intervals and sum of the intervals date range,
+                 * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
+                 * use d3.nest() to group all elements in dataSet by jp suing example from the link below
+                 * https://proquestionasker.github.io/blog/d3Nest/
+                 * pass grouped data to elements d3 function and draw them on maps individually
+                 */
+
+                var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
+
+                if (d.time <= jp1) {
+                    d.ts = "jp1";
+                }
+
+                if (d.time > jp1 && d.time <= jp2) {
+                    d.ts = "jp2";
+                }
+
+                if (d.time > jp2 && d.time <= jp3) {
+                    d.ts = "jp3";
+                }
+
+                if (d.time > jp3 && d.time <= jp4) {
+                    d.ts = "jp4";
+                }
+
+            });
+            window.data = data;
+
+            let newData = data.slice(0, 550).sort(function (x, y) {
+                return d3.ascending(x.time, y.time);
+            });
+
+            let newData2 = data.slice(0, 100).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
             //Draw
-            polyCube.drawElements(newData, szabo);
-//            polyCube.drawMap(map);
-//            polyCube.drawLines();
+            polyCube.drawElements(newData);
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
+
+            /**
+             * Show pCube Time Brush
+             */
+            document.getElementById("testBTN").addEventListener("click", function(){
+                //update pointCloud
+
+                let newData3 = data.slice(0, Math.floor((Math.random() * 500) + 1)).sort(function (x, y) {
+                    return d3.ascending(x.time, y.time);
+                });
+
+                polyCube.updatePC(newData3);
+                /**
+                 * Show pCube Time Brush
+                 */
+            });
+
         }
 
         tempRange(data);
@@ -113,7 +181,6 @@
          */
 
         polyCube.showPointCloud();
-
 
         /**
          * Light theme Styling
@@ -130,18 +197,6 @@
             .style("background-color", "aliceblue");
         d3.select("canvas")
             .style("background", "transparent");
-        d3.selectAll(".pointCloud")
-            .attr("src", "texture/ball2.png")
-            //change selected pointcloud color
-            .on("mouseover", function () {
-//                            console.log(this)
-            })
-            //                        .on("mouseout", function () {
-            //                            this.src = "texture/ball2.png"
-            //                        })
-            .on("click", function () {
-                this.src = "texture/ball2_dark.png"
-            });
 
         d3.selectAll(".side")
             .style("border", "0.5px dotted rgb(10, 10, 10)")
@@ -159,11 +214,6 @@
         d3.selectAll(".leaflet-marker-icon")
             .attr("src", "texture/ball2.png");
 
-
-        /**
-         * Show pCube Time Brush
-         */
-        //        timeBrush.init();
 
         /**
          * Data UI Controls
@@ -216,102 +266,15 @@
 
         }).name("Show Nodes");
 
-        gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
+        gui.add(params, "nodeSize").min(0.1).max(80).onChange(function () {
             var value = params.nodeSize;
-//        console.log(value);
             d3.selectAll(".pointCloud")
                 .style("width", value + "px")
                 .style("height", value + "px");
         });
-
-//        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
-//            var value = params.projection;
-////            polyCube.projectionScale({scale: +value});
-////            console.log(value);
-//        });
-
-//        gui.add(params, 'map', ['street', 'street2', 'street3']).onChange(function () {
-//            var value = params.map;
-//
-//            if (value) {
-//                polyCube.switchMap(value);
-////                console.log(value)
-//
-//            } else {
-//
-//            }
-//
-//        }).name("Change Map");
-
-        //light theme
-
-//        var f1 = gui.addFolder('Theme');
-//        f1.add(params, "light").onChange(function () {
-//            var value = params.light;
-//            if (value) {
-//                d3.select("#textTitle")
-//                        .style("color", "black");
-//
-//                d3.select("body")
-//                        .style("background-color", "aliceblue");
-//                d3.select("canvas")
-//                        .style("background", "transparent");
-//                d3.selectAll(".pointCloud")
-//                        .attr("src", "texture/ball2.png")
-//                        //change selected pointcloud color
-//                        .on("mouseover", function () {
-////                            console.log(this)
-//                        })
-//                        //                        .on("mouseout", function () {
-//                        //                            this.src = "texture/ball2.png"
-//                        //                        })
-//                        .on("click", function () {
-//                            this.src = "texture/ball2_dark.png"
-//                        });
-//
-//                d3.selectAll(".side")
-//                        .style("border", "0.5px dotted rgb(10, 10, 10)")
-//                        .style("background", "white");
-//
-//                d3.selectAll(".screen_dots")
-//                        .style("fill", "rgb(16, 49, 21)");
-//
-////                d3.selectAll(".elements_child")
-////                        .style("background-color", "#8fa7b9");
-//
-//                d3.selectAll(".elements_child").selectAll(".subunit")
-//                        .style("fill", "black");
-//
-//                d3.selectAll(".leaflet-marker-icon")
-//                        .attr("src", "texture/ball2.png");
-//
-//            }
-//        });
     }
 
 </script>
 
-<!--edmPlaceLatitude-->
-<!--edmPlaceLongitude-->
-<!--score-->
-<!--dcCreator-->
-<!--country-->
-
-<!--<script>-->
-<!--//    code perfomance-->
-<!--(function () {-->
-<!--var script = document.createElement('script');-->
-<!--script.onload = function () {-->
-<!--var stats = new Stats();-->
-<!--document.body.appendChild(stats.dom);-->
-<!--requestAnimationFrame(function loop() {-->
-<!--stats.update();-->
-<!--requestAnimationFrame(loop)-->
-<!--});-->
-<!--};-->
-<!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
-<!--document.head.appendChild(script);-->
-<!--})()-->
-<!--</script>-->
 </body>
 </html>
