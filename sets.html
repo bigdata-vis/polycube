@@ -328,11 +328,11 @@
 
       let options = {
         parsedData: window.parsedLidoData,
-        sets_display: window.guiParams.setVisType,
-        sets_display_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
-        sets_display_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
-        sets_display_matrix_show_grid: window.guiParams.matrixShowGrid,
-        sets_display_layer_click_animation: window.guiParams.layerSelectAnimation,
+        vis_type: window.guiParams.setVisType,
+        vis_type_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
+        vis_type_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
+        vis_type_matrix_show_grid: window.guiParams.matrixShowGrid,
+        vis_type_layer_click_animation: window.guiParams.layerSelectAnimation,
         data_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd],
         data_threshold: window.guiParams.dataThreshold,
         data_scale_cube: window.guiParams.scaleCube,
@@ -495,7 +495,7 @@
       let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount());
       let possibleMultiSets = [].concat([''], polyCube.getMultiSetsSortedByTotalCount());
 
-      fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPESE).onChange(fnClearAndDrawSets).name("Set Visualization");
+      fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "scaleCube", polyCube.SACLE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
@@ -518,10 +518,7 @@
         polyCube.selectItemsBySets(setNames, window.guiParams.selectionSetsOption);
       });
 
-
-
       fsets.open();
-
 
       var f1 = gui.addFolder('Theme');
       f1.add(window.guiParams, "light").onChange(function () {

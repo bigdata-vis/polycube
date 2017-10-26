@@ -3,11 +3,11 @@
  */
 (function (pCube) {
 
-  const TREEMAP = 'treemap';
-  const TREEMAP_FLAT = 'treemap_flat';
-  const MATRIX = 'matrix';
-  const SQUARE_AREA = 'square_area';
-  pCube.SET_VIS_TYPESE = [TREEMAP, TREEMAP_FLAT, MATRIX, SQUARE_AREA];
+  const SET_VIS_TYPE_TREEMAP = 'treemap';
+  const SET_VIS_TYPE_TREEMAP_FLAT = 'treemap_flat';
+  const SET_VIS_TYPE_MATRIX = 'matrix';
+  const SET_VIS_TYPE_SQUARE_AREA = 'square_area';
+  pCube.SET_VIS_TYPES = [SET_VIS_TYPE_TREEMAP, SET_VIS_TYPE_TREEMAP_FLAT, SET_VIS_TYPE_MATRIX, SET_VIS_TYPE_SQUARE_AREA];
 
   const SCALE_TOTAL_COUNT = 'scale_total_count';
   const SCALE_CATEGORY_COUNT = 'scale_category_count';
@@ -109,11 +109,11 @@
    * default options fot set visualization
    */
   const default_options = {
-    sets_display: TREEMAP_FLAT,
-    sets_display_treemap_flat_line_style: LINE_STYLE_CORNER,
-    sets_display_matrix_count_opacity: true,
-    sets_display_matrix_show_grid: false,
-    sets_display_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
+    vis_type: SET_VIS_TYPE_TREEMAP_FLAT,
+    vis_type_treemap_flat_line_style: LINE_STYLE_CORNER,
+    vis_type_matrix_count_opacity: true,
+    vis_type_matrix_show_grid: false,
+    vis_type_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
     /**
      * data_year_range only allows elements in the cube that are within this time-range.
      */
@@ -431,13 +431,13 @@
 
     drawLayers();
 
-    if (pCube.sets_options.sets_display === TREEMAP) {
+    if (pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP) {
       drawTreemap();
-    } else if (pCube.sets_options.sets_display === TREEMAP_FLAT) {
+    } else if (pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP_FLAT) {
       drawTreemapFlat();
-    } else if (pCube.sets_options.sets_display === MATRIX) {
+    } else if (pCube.sets_options.vis_type === SET_VIS_TYPE_MATRIX) {
       drawMatrix(matrixStruct);
-    } else if (pCube.sets_options.sets_display === SQUARE_AREA) {
+    } else if (pCube.sets_options.vis_type === SET_VIS_TYPE_SQUARE_AREA) {
       drawSquareArea(matrixStruct);
     }
   };
@@ -667,57 +667,78 @@
 
   };
 
+  const getItemsByVisType = (userData) => {
+    if (pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP || pCube.sets_options.vis_type === SET_VIS_TYPE_TREEMAP_FLAT) {
+      if (userData) {
+        return getListOfItemsInTreemap(userData.layerNumber, userData.setName);
+      } else {
+        return getListOfItemsInTreemap();
+      }
+    } else if (pCube.sets_options.vis_type === SET_VIS_TYPE_MATRIX || pCube.sets_options.vis_type === SET_VIS_TYPE_SQUARE_AREA) {
+      if (userData) {
+        return getListOfItemsInMatrix(userData.layerNumber, userData.setName, userData.repoName);
+      } else {
+        return getListOfItemsInMatrix();
+      }
+    }
+  };
+
   const selectItemsBySetsUnion = (setNames) => {
     const selectionCondition = (userData) => {
-      let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
       // check if list contains items that needs to be selected (multi-sets)
-      return items.filter(itm => {
+      return getItemsByVisType(userData).filter(itm => {
         return _.intersection(itm.term, setNames).length > 0;
       }).length;
     };
 
-    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition);
+    const fnGetItems = (userData) => {
+      return getItemsByVisType(userData);
+    };
 
-    return getListOfItemsInTreemap().filter(itm => {
+    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition, fnGetItems);
+
+    return getItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length > 0;
     });
-
   };
 
   const selectItemsBySetsIntersection = (setNames) => {
     const selectionCondition = (userData) => {
-      let items = getListOfItemsInTreemap(userData.layerNumber, userData.setName);
       // check if list contains items that needs to be selected (multi-sets)
-      return items.filter(itm => {
+      return getItemsByVisType(userData).filter(itm => {
         return _.intersection(itm.term, setNames).length === setNames.length;
       }).length;
     };
 
-    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition);
+    const fnGetItems = (userData) => {
+      return getItemsByVisType(userData);
+    };
 
-    return getListOfItemsInTreemap().filter(itm => {
+    selectItemsBySetsTweenBasedOnConditionFunction(selectionCondition, fnGetItems);
+
+    return getItemsByVisType().filter(itm => {
       return _.intersection(itm.term, setNames).length === setNames.length;
     });
   };
 
-  const selectItemsBySetsTweenBasedOnConditionFunction = (condition) => {
+  const selectItemsBySetsTweenBasedOnConditionFunction = (fnCondition, fnGetItems) => {
     let boxesAndLines = [].concat(_boxes, _lines);
 
     _lines.forEach(b => {
       if (b.name === 'set-line') {
-        let validItemsCount = condition(b.userData);
-        // b.visible = validItemsCount > 0 ? true : false; // FIXME: draw lines on selected area!
+        let validItemsCount = fnCondition(b.userData);
+        // b.visible = validItemsCount > 0 ? true : false; // TODO: draw lines on selected area!
         b.visible = false;
       }
     });
     _boxes.forEach(b => {
       if (b.name === 'set-box' || b.name === 'set-rect') {
-        let validItemsCount = condition(b.userData);
+        let validItemsCount = fnCondition(b.userData);
         if (validItemsCount > 0) {
           let selBox = b.children.find(x => x.name === 'set-box-selection');
           console.log(b, selBox, selBox.scale);
           selBox.visible = true;
-          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
+          let items = fnGetItems(b.userData);
           let nscale = validItemsCount / items.length;
           selBox.scale.set(1, 1, nscale);
           var colorTween = new TWEEN.Tween(selBox.material.color)
@@ -735,7 +756,7 @@
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
 
-        let validItemsCount = condition(b.userData);
+        let validItemsCount = fnCondition(b.userData);
         if (validItemsCount > 0) {
           console.log('valid for selection', b.userData.setName, b);
 
@@ -744,7 +765,7 @@
           let newColor = d3.color(_setOperationColor);
 
           let orgHeight = parseFloat(b.children[0].element.style.height);
-          let items = getListOfItemsInTreemap(b.userData.layerNumber, b.userData.setName);
+          let items = fnGetItems(b.userData);
           let newHeight = (orgHeight / items.length) * validItemsCount;
 
           selElement.element.style.opacity = 1;
@@ -840,7 +861,7 @@
   };
 
   const animateSelectLayer = (layerNumber, layerData) => {
-    switch (pCube.sets_options.sets_display_layer_click_animation) {
+    switch (pCube.sets_options.vis_type_layer_click_animation) {
       case LAYER_CLICK_ANIMATION_MOVE:
         moveLayer(layerNumber, layerData);
         break;
@@ -861,12 +882,12 @@
     pCube.getGLSegments().forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let layerBox = drawBox(pCube.getCube(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE);
+        let layerBox = drawBox(pCube.getCube(), idx, "layer-box", null, layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE);
         layerBox.name = 'set-layer';
         layerBox.userData = { layerNumber: idx };
         _layers.push(layerBox);
 
-        let layerBoxGL = drawBoxGL(pCube.getGLBox(), idx, "layer-box", layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false, false);
+        let layerBoxGL = drawBoxGL(pCube.getGLBox(), idx, "layer-box", null, layer.position.x, layer.position.y, layer.position.z, CUBE_SIZE, LAYER_SIZE, CUBE_SIZE, null, 0, false, false);
         layerBoxGL.renderOrder = RENDER_ORDER_LAYER;
         layerBoxGL.name = 'set-layer';
         layerBoxGL.userData = { layerNumber: idx };
@@ -882,15 +903,15 @@
           x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
           x.element.onclick = function () {
 
-            switch (pCube.sets_options.sets_display) {
-              case TREEMAP:
-              case TREEMAP_FLAT:
+            switch (pCube.sets_options.vis_type) {
+              case SET_VIS_TYPE_TREEMAP:
+              case SET_VIS_TYPE_TREEMAP_FLAT:
                 animateSelectLayer(idx, pCube.treemap_sets[idx]);
 
                 var listOfItems = getListOfItemsInTreemap(idx);
 
                 var layerData = {
-                  visType: pCube.sets_options.sets_display,
+                  visType: pCube.sets_options.vis_type,
                   layerNumber: idx,
                   groupedData: pCube.treemap_sets[idx],
                   listOfItems: listOfItems,
@@ -898,22 +919,18 @@
                   layer: x,
                   layerGL: _layersGL[idx]
                 };
-                // pCube.onLayerClick(pCube.sets_options.sets_display, idx, pCube.treemap_sets[idx], listOfItems);
+                // pCube.onLayerClick(pCube.sets_options.vis_type, idx, pCube.treemap_sets[idx], listOfItems);
                 pCube.onLayerClick(layerData);
                 break;
-              case MATRIX:
-              case SQUARE_AREA:
+              case SET_VIS_TYPE_MATRIX:
+              case SET_VIS_TYPE_SQUARE_AREA:
                 animateSelectLayer(idx, pCube.sets_matrix_objects[idx]);
 
-                var listOfItems = [];
-                pCube.sets_matrix_objects[idx].forEach(arr => {
-                  arr.forEach(itms => {
-                    listOfItems = listOfItems.concat(itms);
-                  });
-                });
+                var listOfItems = getListOfItemsInMatrix(idx);
+
                 let groupedByCategory = getMatrixLayerCategoryGrouped(pCube.sets_matrix_objects[idx]);
                 var layerData = {
-                  visType: pCube.sets_options.sets_display,
+                  visType: pCube.sets_options.vis_type,
                   layerNumber: idx,
                   groupedData: groupedByCategory,
                   listOfItems: listOfItems,
@@ -923,7 +940,7 @@
                   layerGL: _layersGL[idx]
                 };
                 pCube.onLayerClick(layerData);
-                // pCube.onLayerClick(pCube.sets_options.sets_display, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
+                // pCube.onLayerClick(pCube.sets_options.vis_type, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
                 break;
             }
 
@@ -960,9 +977,9 @@
           let d = n.y1 - n.y0;
           if (SWITCH_TREEMAP_RENDER_IN_WEBGL) {
             const l = _layersGL[idx];
-            drawBoxGL(l, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true, true);
+            drawBoxGL(l, idx, n.data.name, null, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count, 1, true, true);
           } else {
-            drawBox(layer, idx, n.data.name, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
+            drawBox(layer, idx, n.data.name, null, n.x0, -LAYER_SIZE_HALF, n.y0, w, LAYER_SIZE, d, count);
           }
         });
       }
@@ -999,12 +1016,12 @@
           if (layerNumber > 0) {
             let prevRect = linesMemory[layerNumber - 1][n.data.name];
             if (prevRect) {
-              if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CENTER) {
+              if (pCube.sets_options.vis_type_treemap_flat_line_style === LINE_STYLE_CENTER) {
                 drawLine(n.data.name, layerNumber, _linesContainer,
                   new THREE.Vector3(rect.position.x, layer.position.y, rect.position.z),
                   new THREE.Vector3(prevRect.rect.position.x, prevRect.layerPos.y, prevRect.rect.position.z)
                 );
-              } else if (pCube.sets_options.sets_display_treemap_flat_line_style === LINE_STYLE_CORNER) {
+              } else if (pCube.sets_options.vis_type_treemap_flat_line_style === LINE_STYLE_CORNER) {
                 for (let k = 0; k < 4; k++) {
                   let tx = (w / 2), ty = (d / 2), ptx = (prevRect.w / 2), pty = (prevRect.d / 2);
                   if (k === 1) {
@@ -1061,9 +1078,9 @@
               // drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, LAYER_SIZE, 20, p);
               const totalCountPerCategory = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
-              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountPerCategory : 1;
+              const opacity = pCube.sets_options.vis_type_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
-              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true, true);
+              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.totalItemsCount, opacity);
             }
           });
@@ -1083,7 +1100,7 @@
     const setSizes = Math.max.apply(null, [matrixStruct.setNames.length, matrixStruct.repoNames.length]);
     let split = CUBE_SIZE / setSizes;
 
-    if (pCube.sets_options.sets_display_matrix_show_grid) {
+    if (pCube.sets_options.vis_type_matrix_show_grid) {
       _layersGL.forEach((layer, idx) => {
         let gridhelper = new THREE.GridHelper(CUBE_SIZE, setSizes);
         gridhelper.position.y += LAYER_SIZE_HALF;
@@ -1114,7 +1131,7 @@
             if (pCube.matrix_sets[idx][setIdx][repoIdx] > 0) {
               const totalCountCategory = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
-              const opacity = pCube.sets_options.sets_display_matrix_count_opacity ? c / totalCountCategory : 1;
+              const opacity = pCube.sets_options.vis_type_matrix_count_opacity ? c / totalCountCategory : 1;
               const l = _layersGL[idx];
 
               let width = split;
@@ -1131,11 +1148,11 @@
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               } else {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
               }
             }
           });
@@ -1151,6 +1168,31 @@
       return Object.values(pCube.treemap_sets[layerNumber]).reduce((o, cur) => {
         return o.concat(cur);
       }, []);
+    } else {
+      return pCube.sets_filtered_by_selection;
+    }
+  };
+
+  const getListOfItemsInMatrix = (layerNumber, setName, repoName) => {
+    if (repoName && setName && layerNumber) {
+      let setIdx = _stats.matrixStructure.setNames.indexOf(setName);
+      let repoIdx = _stats.matrixStructure.repoNames.indexOf(repoName);
+      return pCube.sets_matrix_objects[layerNumber][setIdx][repoIdx];
+    } else if (layerNumber && setName) {
+      let setIdx = _stats.matrixStructure.setNames.indexOf(setName);
+      let listOfItems = [];
+      pCube.sets_matrix_objects[layerNumber][setIdx].forEach(items => {
+        listOfItems = listOfItems.concat(items);
+      });
+      return listOfItems;
+    } else if (layerNumber >= 0) {
+      let listOfItems = [];
+      pCube.sets_matrix_objects[layerNumber].forEach(arr => {
+        arr.forEach(items => {
+          listOfItems = listOfItems.concat(items);
+        });
+      });
+      return listOfItems;
     } else {
       return pCube.sets_filtered_by_selection;
     }
@@ -1277,7 +1319,7 @@
   /**
    * draw box in CSS3D on a specific position in an specific container
    */
-  const drawBox = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount) => {
+  const drawBox = (container, layerNumber, setName, repoName, x, y, z, width, height, depth, layerItemCount) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1327,13 +1369,13 @@
       object.position.fromArray(pos[i]);
       object.rotation.fromArray(rot[i]);
       object.name = 'set-side';
-      object.userData = { setName: setName, layerNumber: layerNumber };
+      object.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName };
 
       box.add(object);
     }
 
     box.name = 'set-box';
-    box.userData = { setName: setName, layerNumber: layerNumber };
+    box.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName };
     box.position.y = y + h;
     box.position.x = x - cubesize_per_items + w;
     box.position.z = z - cubesize_per_items + d;
@@ -1451,7 +1493,7 @@
   /**
    * draw box in WebGL on a specific position in an specific container
    */
-  const drawBoxGL = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder, multiSelectPossible = false) => {
+  const drawBoxGL = (container, layerNumber, setName, repoName, x, y, z, width, height, depth, layerItemCount, opacity, withBorder, multiSelectPossible = false) => {
     const h = height / 2,
       w = width / 2,
       d = depth / 2;
@@ -1469,7 +1511,7 @@
     });
     let set = new THREE.Mesh(geometry, material);
     set.name = 'set-box';
-    set.userData = { setName: setName, layerNumber: layerNumber };
+    set.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName };
 
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
@@ -1492,7 +1534,7 @@
       });
       let selBox = new THREE.Mesh(selGeometry, selMaterial);
       selBox.name = 'set-box-selection';
-      selBox.userData = { setName: setName, layerNumber: layerNumber };
+      selBox.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName };
       selBox.visible = false;
 
       set.add(selBox);
