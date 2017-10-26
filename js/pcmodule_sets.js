@@ -113,6 +113,7 @@
     vis_type_treemap_flat_line_style: LINE_STYLE_CORNER,
     vis_type_matrix_count_opacity: true,
     vis_type_matrix_show_grid: false,
+    vis_type_layer_clickable: true,
     vis_type_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
     /**
      * data_year_range only allows elements in the cube that are within this time-range.
@@ -135,10 +136,6 @@
   sets_style.innerHTML = `
         .layer.highlight {
           background-color: ${_highlightColor} !important; 
-          opacity: 0.2 !important;
-        } 
-        .box-layer:hover {
-          background-color: ${_highlightColor} !important;
           opacity: 0.2 !important;
         }`;
   document.head.appendChild(sets_style);
@@ -875,6 +872,64 @@
     console.info('make layer elements clickable');
   };
 
+  const makeLayersClickable = () => {
+    _layers.forEach((layerBox, idx) => {
+      layerBox.children.forEach(x => {
+        x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
+        x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
+        x.element.onclick = function () {
+
+          switch (pCube.sets_options.vis_type) {
+            case SET_VIS_TYPE_TREEMAP:
+            case SET_VIS_TYPE_TREEMAP_FLAT:
+              animateSelectLayer(idx, pCube.treemap_sets[idx]);
+
+              var listOfItems = getListOfItemsInTreemap(idx);
+
+              var layerData = {
+                visType: pCube.sets_options.vis_type,
+                layerNumber: idx,
+                groupedData: pCube.treemap_sets[idx],
+                listOfItems: listOfItems,
+                raw: pCube.treemap_sets[idx],
+                layer: x,
+                layerGL: _layersGL[idx]
+              };
+              // pCube.onLayerClick(pCube.sets_options.vis_type, idx, pCube.treemap_sets[idx], listOfItems);
+              pCube.onLayerClick(layerData);
+              break;
+            case SET_VIS_TYPE_MATRIX:
+            case SET_VIS_TYPE_SQUARE_AREA:
+              animateSelectLayer(idx, pCube.sets_matrix_objects[idx]);
+
+              var listOfItems = getListOfItemsInMatrix(idx);
+
+              let groupedByCategory = getMatrixLayerCategoryGrouped(pCube.sets_matrix_objects[idx]);
+              var layerData = {
+                visType: pCube.sets_options.vis_type,
+                layerNumber: idx,
+                groupedData: groupedByCategory,
+                listOfItems: listOfItems,
+                raw: pCube.matrix_sets[idx],
+                rawMatrixObjects: pCube.sets_matrix_objects[idx],
+                layer: x,
+                layerGL: _layersGL[idx]
+              };
+              pCube.onLayerClick(layerData);
+              // pCube.onLayerClick(pCube.sets_options.vis_type, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
+              break;
+          }
+
+          if (pCube.sets_selected_layer === idx) { // "deselect"
+            pCube.sets_selected_layer = null;
+          } else { // "select"
+            pCube.sets_selected_layer = idx;
+          }
+        };
+      });
+    });
+  };
+
   /**
    * draw cliable and movable layers with CSS3D, base structure for other elements and events
    */
@@ -899,58 +954,11 @@
           x.element.classList.add('layer');
           x.element.classList.add('layer-' + idx);
           x.element.title = `${_yearScale.ticks()[idx]} - ${_yearScale.ticks()[idx + 1]}`;
-          x.element.onmouseover = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.add('highlight'));
-          x.element.onmouseout = () => document.querySelectorAll('.layer-' + idx).forEach(x => x.classList.remove('highlight'));
-          x.element.onclick = function () {
-
-            switch (pCube.sets_options.vis_type) {
-              case SET_VIS_TYPE_TREEMAP:
-              case SET_VIS_TYPE_TREEMAP_FLAT:
-                animateSelectLayer(idx, pCube.treemap_sets[idx]);
-
-                var listOfItems = getListOfItemsInTreemap(idx);
-
-                var layerData = {
-                  visType: pCube.sets_options.vis_type,
-                  layerNumber: idx,
-                  groupedData: pCube.treemap_sets[idx],
-                  listOfItems: listOfItems,
-                  raw: pCube.treemap_sets[idx],
-                  layer: x,
-                  layerGL: _layersGL[idx]
-                };
-                // pCube.onLayerClick(pCube.sets_options.vis_type, idx, pCube.treemap_sets[idx], listOfItems);
-                pCube.onLayerClick(layerData);
-                break;
-              case SET_VIS_TYPE_MATRIX:
-              case SET_VIS_TYPE_SQUARE_AREA:
-                animateSelectLayer(idx, pCube.sets_matrix_objects[idx]);
-
-                var listOfItems = getListOfItemsInMatrix(idx);
-
-                let groupedByCategory = getMatrixLayerCategoryGrouped(pCube.sets_matrix_objects[idx]);
-                var layerData = {
-                  visType: pCube.sets_options.vis_type,
-                  layerNumber: idx,
-                  groupedData: groupedByCategory,
-                  listOfItems: listOfItems,
-                  raw: pCube.matrix_sets[idx],
-                  rawMatrixObjects: pCube.sets_matrix_objects[idx],
-                  layer: x,
-                  layerGL: _layersGL[idx]
-                };
-                pCube.onLayerClick(layerData);
-                // pCube.onLayerClick(pCube.sets_options.vis_type, idx, groupedByCategory, listOfItems, pCube.sets_matrix_objects[idx]);// pCube.matrix_sets[idx]);
-                break;
-            }
-
-            if (pCube.sets_selected_layer === idx) { // "deselect"
-              pCube.sets_selected_layer = null;
-            } else { // "select"
-              pCube.sets_selected_layer = idx;
-            }
-          };
         });
+
+        if (pCube.sets_options.vis_type_layer_clickable) {
+          makeLayersClickable();
+        }
 
         if (SWITCH_GRIDHELPER_LAYERS) {
           var gridhelper = new THREE.GridHelper(CUBE_SIZE, 10);
