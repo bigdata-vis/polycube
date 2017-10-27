@@ -1273,7 +1273,7 @@
         // console.log(layout)
 
         //make mesh always face camera
-        mesh.lookAt( camera.position );
+        // mesh.lookAt( camera.position );
     };
 
     /**

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule_KHM.js" afterPath="$PROJECT_DIR$/js/pcmodule_KHM.js" />
-    </list>
+    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="" />
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -95,11 +92,11 @@
                 <element signature="e#36132#37424#0" expanded="false" />
                 <element signature="e#37550#39285#0" expanded="false" />
                 <element signature="e#39477#40876#0" expanded="false" />
-                <element signature="e#41725#46960#0" expanded="false" />
-                <element signature="e#47007#47234#0" expanded="false" />
-                <element signature="e#47270#48507#0" expanded="false" />
-                <element signature="e#48743#48877#0" expanded="false" />
-                <element signature="e#48962#49306#0" expanded="false" />
+                <element signature="e#41728#46963#0" expanded="false" />
+                <element signature="e#47010#47237#0" expanded="false" />
+                <element signature="e#47273#48510#0" expanded="false" />
+                <element signature="e#48746#48880#0" expanded="false" />
+                <element signature="e#48965#49309#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1033,12 +1030,12 @@
       <workItem from="1508856668378" duration="3658000" />
       <workItem from="1508915617819" duration="24432000" />
       <workItem from="1508968276058" duration="33209000" />
-      <workItem from="1509098560041" duration="9482000" />
+      <workItem from="1509098560041" duration="9807000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="738598000" />
+    <option name="totallyTimeSpent" value="738923000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1657,11 +1654,11 @@
             <element signature="e#36132#37424#0" expanded="false" />
             <element signature="e#37550#39285#0" expanded="false" />
             <element signature="e#39477#40876#0" expanded="false" />
-            <element signature="e#41725#46960#0" expanded="false" />
-            <element signature="e#47007#47234#0" expanded="false" />
-            <element signature="e#47270#48507#0" expanded="false" />
-            <element signature="e#48743#48877#0" expanded="false" />
-            <element signature="e#48962#49306#0" expanded="false" />
+            <element signature="e#41728#46963#0" expanded="false" />
+            <element signature="e#47010#47237#0" expanded="false" />
+            <element signature="e#47273#48510#0" expanded="false" />
+            <element signature="e#48746#48880#0" expanded="false" />
+            <element signature="e#48965#49309#0" expanded="false" />
           </folding>
         </state>
       </provider>
