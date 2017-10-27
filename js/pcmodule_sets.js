@@ -58,6 +58,7 @@
 
 
   let _matrix_struct_info = {}
+  let _infoBox = null;
 
   /**
    * color-scales that is used for sets
@@ -151,6 +152,14 @@
           background-color: ${_highlightColor} !important; 
           opacity: 0.7 !important;
           cursor: pointer;
+        }
+        #infoBox {
+          position: absolute;
+          height: 100px;
+          width: 200px;
+          top: 0;
+          left: 0;
+          color: white;
         }`;
   document.head.appendChild(sets_style);
 
@@ -253,6 +262,14 @@
     // hide sides && mapbox of the cube to interact better with the layers
     document.querySelectorAll("div.side").forEach(x => x.style.display = "none");
     document.querySelectorAll('#mapbox').forEach(x => x.style.display = "none");
+
+
+    // add info box for hover and click information 
+    if (!_infoBox) {
+      _infoBox = document.createElement('div');
+      _infoBox.id = 'infoBox';
+      pCube.root.appendChild(_infoBox);
+    }
 
     pCube.sets_options = { ...default_options, ...options };
 
@@ -513,6 +530,73 @@
     pCube.getCube().children.forEach(move);
     pCube.getGLBox().children.forEach(move);
   });
+
+
+  var _raycaster = new THREE.Raycaster();
+  var _mouse = new THREE.Vector2();
+  var _intersected = null;
+
+  const getIntersectingBox = () => {
+
+    // calculate objects intersecting the picking ray
+    let intersects = _raycaster.intersectObjects(_boxes);
+    intersects = intersects.filter(x => x.object.visible && (x.object.name === 'set-box' || x.object.name === 'set-box-selection'));
+
+    if (intersects.length > 0) {
+      let elm = intersects[0];
+
+      if (elm.object.name === 'set-box' || elm.object.name === 'set-box-selection') {
+        return elm.object;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  pCube.render_functions.push((camera) => {
+    // update the picking ray with the camera and mouse position
+    _raycaster.setFromCamera(_mouse, camera);
+
+    let box = getIntersectingBox();
+
+    if (box) {
+      if (_intersected) {
+        _intersected.material.color = new THREE.Color(_colorScale(_intersected.userData.setName));
+      }
+      box.material.color = _highlightColorGL;
+      document.body.style.cursor = 'pointer';
+      
+      _intersected = box;
+    } else {
+      document.body.style.cursor = 'default';
+      if (_intersected) {
+        _intersected.material.color = new THREE.Color(_colorScale(_intersected.userData.setName));
+        _intersected = null;
+      }
+    }
+  });
+
+  window.addEventListener('mousemove', (event) => {
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+    _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  }, false);
+
+  window.addEventListener('mousedown', (event) => {
+    console.log('Click.');
+    _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    let box = getIntersectingBox();
+    if (box) {
+      _infoBox.innerText = JSON.stringify(box.userData);
+    } else {
+      _infoBox.innerText = '';
+    }
+
+  }, false);
 
   /**
    * mark sets with the highlight color and give all other elements the base color

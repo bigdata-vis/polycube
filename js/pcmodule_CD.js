@@ -1355,9 +1355,17 @@
         image.src = 'texture/ball.png';
     };
 
+    /**
+     * Additional functions that will execute after the render function.
+     */
+    pCube.render_functions = [];
+
     pCube.render = function () {
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
+        
+        pCube.render_functions.forEach(f => f.call(pCube, camera));
+
         renderer.render(scene, camera);
         // pointCloud.rotation.y -= 0.05;
 
