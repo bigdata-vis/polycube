@@ -60,6 +60,7 @@
         //update cube.children
         //update glbox.children
         //update pointCloud.children
+        //update mesh.children
 
         //Wipe pointcloud, glbox and cube containers
         pointCloud.children = [];
@@ -518,13 +519,10 @@
                 element.className = "textTitle";
                 element.style.color = 'grey';
                 element.style.fontSize = fontsize + "px";
-                // element.style.fontFaceName = parameters["fontface"] || "Helvetica";
                 var elMessage = document.createTextNode(message);
                 element.appendChild(elMessage);
 
                 var object = new THREE.CSS3DObject(element);
-                // object.position.fromArray(pos[i]);
-                // object.rotation.fromArray(rot[i]);
                 object.name = "titles";
                 mesh.add(object);
 
@@ -1273,6 +1271,9 @@
         // pointCloud.rotation.y -= 0.05;
 
         // console.log(layout)
+
+        //make mesh always face camera
+        mesh.lookAt( camera.position );
     };
 
     /**
@@ -1529,6 +1530,7 @@
     var cube = new THREE.Object3D();
     cube.name = "cube";
     var mesh = new THREE.Object3D();
+
     var glbox = new THREE.Object3D();
     glbox.name = "glbox";
 
