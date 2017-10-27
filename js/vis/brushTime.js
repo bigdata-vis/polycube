@@ -1,5 +1,7 @@
 /**
  * Created by simba on 06/04/2017.
+ *  * addint data to time brush
+ * http://blockbuilder.org/mbostock/4349545
  */
 (function () {
     var timeBrush = {};
@@ -13,14 +15,20 @@
         width = 120 - margin.left - margin.right,
         height = window.innerHeight - margin.top - margin.bottom;
 
-    var y = d3.scaleTime() //todo: pass the date range from datasets for polycube
+    let y = d3.scaleTime() //todo: pass the date range from datasets for polycube
     //            .domain([new Date(2002, 7, 1), new Date(2013, 7, 15) - 1])
         .domain(dateRange)
         .rangeRound([height, 0]);
+    let x = d3.scaleLinear().range([height, 0]);
+    let y2 = d3.randomNormal(height / 2, height / 8);
 
-    x = d3.scaleLinear().range([height, 0]);
 
-    var brush = d3
+    // setTimeout(function () {
+    //     console.log(window.data);
+    // }, 2000);
+
+
+    let brush = d3
         .brushY()
         .extent([[0, 0], [width, height]])
         .on("end", brushened);
@@ -44,15 +52,29 @@
             .attr("class", "axis2 axis--y2")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                .ticks(d3.timeMonth, 12)
+                .ticks(d3.timeYear)
                 .tickSize(-width)
                 .tickFormat(function () {
                     return null;
                 }))
             .selectAll(".tick")
             .classed("tick--minor", function (d) {
-                return d.getHours();
+                // return d.getHours();
+                return d.getYear();
             });
+
+        // svg.append("g")
+        //     .attr("class", "axis circle")
+        //     .selectAll(".axis .circles")
+        // svg.append("g")
+        //    .attr("class", "circle")
+        //    .selectAll("circle")
+        //    .data(window.data)
+        //    .enter().append("circle")
+        //    .attr("transform", function (d) {
+        //        return "translate(" + y(d.time) + "," + y2() + ")";
+        //    })
+        //    .attr("r", 3.5);
 
         svg.append("g")
             .attr("class", "axis axis--y")
@@ -62,20 +84,25 @@
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 6);
+        // .attr("y", 0);
+
+        svg.select(".domain")
+            .attr("d",)
 
         svg.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(brush);
     }
+
     init();
 
     function brushened() {
         if (!d3.event.sourceEvent) return; // Only transition after input.
         if (!d3.event.selection) return; // Ignore empty selections.
         var d0 = d3.event.selection.map(y.invert),
-            // d1 = d0.map(d3.timeDay.round);
-            d1 = d0.map(d3.timeYear.round);
+            d1 = d0.map(d3.timeMonth.round);
+        // d1 = d0.map(d3.timeYear.round);
         //
         // var d0 = d3.event.selection.map(x.invert),
         //     d1 = d0.map(d3.timeDay.round);

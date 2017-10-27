@@ -69,6 +69,12 @@
 <script src="js/vis/brushTime.js"></script>
 
 <script>
+    /**Merge the cut section into a mega structure
+     * https://stackoverflow.com/questions/16105565/how-to-create-multiple-polygon-into-single-geometry-with-three-js
+     * http://learningthreejs.com/blog/2011/10/05/performance-merging-geometry/
+     * https://stackoverflow.com/questions/30245990/how-to-merge-two-geometries-or-meshes-using-three-js-r71
+     **/
+
     d3.queue()
     //        .defer(d3.json, "data/painting_gallery_clean.json")
         .defer(d3.csv, "data/Cushman-Collection.csv")
