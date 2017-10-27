@@ -27,11 +27,6 @@
 </button>
 
 <button class="button" type="button"
-        onclick="polyCube.juxstaPose()">
-    juxtaposition
-</button>
-
-<button class="button" type="button"
         onclick="
         polyCube.superImpose();
 //        polyCube.default();
@@ -40,6 +35,12 @@
 //        },2550);
 "> superimposition
 </button>
+
+<button class="button" type="button"
+        onclick="polyCube.juxstaPose()">
+    juxtaposition
+</button>
+
 
 <!--<button id="testBTN" class="button" type="button"></button>-->
 
@@ -242,18 +243,32 @@
         polyCube.showPointCloud();
 
         /**
-         * Light theme Styling
+         * Default theme Styling
          * Hide leaflet markers
          */
+        var params = {
+            Project: "KHM: Gemäldegalerie Data",
+            Morphing: -250,
+            showData: true,
+            showNodes: false,
+            overlapNodes: 0,
+            nodeSize: 3,
+            colorScale: false,
+            BG: "#d5dde4",
+            invert: false,
+//            projection: 5000,
+//            map: "street"
+        };
+
 
         d3.selectAll(".leaflet-marker-icon")
             .classed("hide", true);
-
-        d3.select("#textTitle")
-            .style("color", "black");
+//
+//        d3.select("#textTitle")
+//            .style("color", "black");
 
         d3.select("body")
-            .style("background-color", "aliceblue");
+            .style("background-color", params.BG);
         d3.select("canvas")
             .style("background", "transparent");
 
@@ -278,27 +293,72 @@
          * Data UI Controls
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
-        var gui = new dat.GUI({});
+        let gui = new dat.GUI({});
 
-        var params = {
-            Project: "KHM: Gemäldegalerie Data",
-            Morphing: -250,
-            showData: true,
-            showNodes: false,
-            nodeSize: 15,
-            colorScale: false
-//            light: false
-//            projection: 5000,
-//            map: "street"
-        };
 
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
 
-        gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+        let theme = gui.addFolder('Theme');
+        theme.addColor(params, 'BG').onChange(d => {
+            d3.select("body")
+                .style("background-color", d)
+            ;
+        });
+        theme.add(params, "invert").onChange(d =>{
+            if(d){
+                d3.select("body")
+                    .style("filter", "invert(100%)")
+            }else {
+                d3.select("body")
+                    .style("filter", "invert(0%)")
+            }
+        });
+
+        let Time = gui.addFolder("Time");
+        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
             var value = params.Morphing;
             polyCube.morphing({axis: +value})
         });
+        Time.add(params, "colorScale").onChange(function () {
+            var value = params.colorScale;
+
+            if (value) {
+                //show green on pointCloud
+
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", true)
+
+            } else {
+                //show green on pointCloud
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", false)
+            }
+
+        }).name("Time Colour");
+
+        let Space = gui.addFolder("Space");
+        Space.add(params, "nodeSize").min(0.01).max(80).onChange(function () {
+            var value = params.nodeSize;
+            d3.selectAll(".pointCloud")
+                .style("width", value + "px")
+                .style("height", value + "px")
+                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+        });
+
+        Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {
+            let value = params.overlapNodes;
+
+            /**increase or decrease the node x and y axis position to show overlaping content
+             * ref: http://networkcube.net/ vid:3:25
+            **/
+
+//            d3.selectAll(".pointCloud")
+//                .style("width", value + "px")
+//                .style("height", value + "px")
+//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+        });
+
 
         gui.add(params, "showData").onChange(function () {
             var value = params.showData;
@@ -316,30 +376,6 @@
 
         }).name("Show PC Data");
 
-        gui.add(params, "colorScale").onChange(function () {
-            var value = params.colorScale;
-
-            if (value) {
-                //show green on pointCloud
-
-                d3.selectAll(".pointCloud")
-                    .classed("green_BG", true)
-
-            } else {
-                //show green on pointCloud
-                d3.selectAll(".pointCloud")
-                    .classed("green_BG", false)
-            }
-
-        }).name("Toggle Colour Scale");
-
-
-        gui.add(params, "nodeSize").min(0.1).max(80).onChange(function () {
-            var value = params.nodeSize;
-            d3.selectAll(".pointCloud")
-                .style("width", value + "px")
-                .style("height", value + "px");
-        });
     }
 
 </script>

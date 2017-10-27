@@ -378,8 +378,8 @@
                     var image = document.createElement('div');
                     var interval = 500 / dataSlices; //height/segments
 
-                    image.style.width = 10 + "px";
-                    image.style.height = 10 + "px";
+                    image.style.width = 3 + "px";
+                    image.style.height = 3 + "px";
                     image.className = "pointCloud";
                     // image.style.backgroundColor = colour(d.ts);
                     image.style.background = colour(d.time);
@@ -1378,7 +1378,8 @@
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
 
             var marker = L.marker(coord, {icon: icon}).addTo(mymap);
-            marker.on('mouseover', function (e) {
+            // marker.on('mouseover', function (e) {
+            marker.on('click', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +

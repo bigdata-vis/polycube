@@ -39,7 +39,7 @@
             .style("position", "absolute")
             .style("z-index", "999")
             .style("width", "150px")
-            .style("top", (20) + "px")
+            .style("top", (30) + "px")
             .style("left", (-30) + "px")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -87,12 +87,24 @@
         // .attr("y", 0);
 
         svg.select(".domain")
-            .attr("d",)
+            .attr("d",);
 
         svg.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
-            .call(brush);
+            .call(brush)
+
+            .append("text")
+            .attr("class", "brush_count")
+            .attr("x", function () {
+                return 5;
+            })
+            .attr("y", -20)
+            .attr("dy", ".35em")
+            .attr("stroke", "#8a8a8a")
+            .text(function (d) {
+                return 550;
+            });
     }
 
     init();
@@ -146,6 +158,13 @@
         });
 
         polyCube.updatePC(selectedData);
+
+        //update text count
+        d3.select(".brush_count")
+            .text(selectedData.length);
+
+        console.log(selectedData.length)
+
 
     }
 

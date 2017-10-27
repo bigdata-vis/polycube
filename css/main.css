@@ -164,13 +164,6 @@ input:focus {
     font: 10px sans-serif;
 }
 
-#textTitle {
-    font-size: smaller;
-}
-
-#textTitle, .date, .location {
-    color: #7b7b7b;
-}
 
 .button {
     background-color: #999a9a; /* Green */
@@ -190,15 +183,23 @@ input:focus {
     display: inline-block;
 }
 
+
+#textTitle {
+    color: #7b7b7b;
+}
+
+#textTitle, .date, .location {
+    font-size: smaller;
+}
+
 #textTitle {
     /*width: 200px;*/
-    color: white;
+    /*color: white;*/
     position: relative;
-    top: 160px;
+    top: 180px;
     /*left: 60px;*/
-    z-index: 999;
+    z-index: 99;
     margin-bottom: 40px;
-
     float: right;
     margin-right: 15px;
     overflow-x: hidden;
@@ -232,7 +233,7 @@ input:focus {
 
     /*-webkit-box-shadow:0 0 5px blue;*/
     /*-moz-box-shadow: 0 0 5px blue;*/
-    box-shadow:0 0 5px #1891ff;
+    box-shadow:0 0 2px #1891ff;
 
     display: inline-block;
     /*margin: 5%;*/
