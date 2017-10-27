@@ -196,6 +196,10 @@
    * currently selected categories/sets (multi-sets)
    */
   sets_selected_categories = [];
+  /**
+   * currently selected set operation for sets_selected_categories
+   */
+  sets_selected_operations = null;
 
   /**
    * Get the list of categories sorted by total number of items in this category.
@@ -539,7 +543,8 @@
   const getIntersectingBox = () => {
 
     // calculate objects intersecting the picking ray
-    let intersects = _raycaster.intersectObjects(_boxes);
+    let objects = [].concat(_selectedBoxes, _boxes);
+    let intersects = _raycaster.intersectObjects(objects);
     intersects = intersects.filter(x => x.object.visible && (x.object.name === 'set-box' || x.object.name === 'set-box-selection'));
 
     if (intersects.length > 0) {
@@ -562,16 +567,17 @@
 
     if (box) {
       if (_intersected) {
-        _intersected.material.color = new THREE.Color(_colorScale(_intersected.userData.setName));
+        _intersected.material.color = _intersected.oldColor;
       }
+      box.oldColor = box.material.color;
       box.material.color = _highlightColorGL;
       document.body.style.cursor = 'pointer';
-      
+
       _intersected = box;
     } else {
       document.body.style.cursor = 'default';
       if (_intersected) {
-        _intersected.material.color = new THREE.Color(_colorScale(_intersected.userData.setName));
+        _intersected.material.color = _intersected.oldColor;
         _intersected = null;
       }
     }
@@ -592,6 +598,14 @@
     let box = getIntersectingBox();
     if (box) {
       _infoBox.innerText = JSON.stringify(box.userData);
+      if (box.name === 'set-box') {
+        let items = getListOfItemsByVisType(box.userData);
+        pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, box.userData.setName, box.userData.repoName, items);
+      } else if (box.name === 'set-box-selection') {
+        let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
+        let items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, selectionName, box.userData.repoName, items);
+      }
     } else {
       _infoBox.innerText = '';
     }
@@ -674,6 +688,7 @@
     TWEEN.removeAll();
     console.info('select of overlapping sets:', setNames);
     sets_selected_categories = setNames || [];
+    sets_selected_operations = overlappingOption || null;
     if (sets_selected_categories === ['']) {
       sets_selected_categories = [];
     }
@@ -774,46 +789,58 @@
     }
   };
 
+  const buildSelectionName = (operation, setNames) => {
+    if (operation === OVERLAPPING_OPTION_UNION) {
+      return setNames.join(' ∪ ');
+    } else if (operation === OVERLAPPING_OPTION_INTERSECTION) {
+      return setNames.join(' ∩ ');
+    }
+  };
+
+  const buildSetOperationFunction = (operation, setNames) => {
+    if (operation === OVERLAPPING_OPTION_UNION) {
+      return itm => {
+        return _.intersection(itm.term, setNames).length > 0;
+      };
+    } else if (operation === OVERLAPPING_OPTION_INTERSECTION) {
+      return itm => {
+        return _.intersection(itm.term, setNames).length === setNames.length;
+      };
+    }
+  }
+
   const selectItemsBySetsUnion = (setNames) => {
     const selectionItems = (userData) => {
       // check if list contains items that needs to be selected (multi-sets)
-      return getListOfItemsByVisType(userData).filter(itm => {
-        return _.intersection(itm.term, setNames).length > 0;
-      });
+      return getListOfItemsByVisType(userData).filter(buildSetOperationFunction(OVERLAPPING_OPTION_UNION, setNames));
     };
 
     const fnGetItems = (userData) => {
       return getListOfItemsByVisType(userData);
     };
 
-    let selectionName = setNames.join(' ∪ ');
+    let selectionName = buildSelectionName(OVERLAPPING_OPTION_UNION, setNames);
 
     selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems, selectionName);
 
-    return getListOfItemsByVisType().filter(itm => {
-      return _.intersection(itm.term, setNames).length > 0;
-    });
+    return getListOfItemsByVisType().filter(buildSetOperationFunction(OVERLAPPING_OPTION_UNION, setNames));
   };
 
   const selectItemsBySetsIntersection = (setNames) => {
     const selectionItems = (userData) => {
       // check if list contains items that needs to be selected (multi-sets)
-      return getListOfItemsByVisType(userData).filter(itm => {
-        return _.intersection(itm.term, setNames).length === setNames.length;
-      });
+      return getListOfItemsByVisType(userData).filter(buildSetOperationFunction(OVERLAPPING_OPTION_INTERSECTION, setNames));
     };
 
     const fnGetItems = (userData) => {
       return getListOfItemsByVisType(userData);
     };
 
-    let selectionName = setNames.join(' ∩ ');
+    let selectionName = buildSelectionName(OVERLAPPING_OPTION_INTERSECTION, setNames);
 
     selectItemsBySetsTweenBasedOnSelectionItemsFunction(selectionItems, fnGetItems, selectionName);
 
-    return getListOfItemsByVisType().filter(itm => {
-      return _.intersection(itm.term, setNames).length === setNames.length;
-    });
+    return getListOfItemsByVisType().filter(buildSetOperationFunction(OVERLAPPING_OPTION_INTERSECTION, setNames));
   };
 
   const selectItemsBySetsTweenBasedOnSelectionItemsFunction = (fnSelectionItems, fnGetItems, selectionName) => {
