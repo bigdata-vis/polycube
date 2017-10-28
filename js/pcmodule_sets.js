@@ -25,6 +25,16 @@
   const OVERLAPPING_OPTION_INTERSECTION = 'intersection';
   pCube.OVERLAPPING_OPTIONS = [OVERLAPPING_OPTION_UNION, OVERLAPPING_OPTION_INTERSECTION];
 
+  /**
+   * display only the data within the time-range but keep the overall proportions and scale
+   */
+  const TIME_CUTTING = 'time_cutting';
+  /**
+   * display only the data within the time-range and ignore that data outside of this time-range exists.
+   */
+  const ONLY_TIME_RANGE = 'only_time_range';
+  pCube.SET_CALCULATION_OPTIONS = [TIME_CUTTING, ONLY_TIME_RANGE];
+
   const SWITCH_TREEMAP_RENDER_IN_WEBGL = true;
   const SWITCH_GRIDHELPER = false;
   const SWITCH_GRIDHELPER_LAYERS = false;
@@ -68,7 +78,8 @@
   let _yearScale = null;
   let _cubeScale = null;
   const _stats = {
-    totalItemsCount: 0,
+    itemsCount: 0,
+    selectedItemsCount: 0,
     countGroupedByTerm: {},
     selectedCountGroupedByTerm: {},
     countGroupedByMultiSets: {},
@@ -116,6 +127,7 @@
     vis_type_matrix_show_grid: false,
     vis_type_layer_clickable: true,
     vis_type_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
+    vis_type_set_calculation_option: pCube.SET_CALCULATION_OPTIONS[0],
     /**
      * data_year_range only allows elements in the cube that are within this time-range.
      */
@@ -134,7 +146,8 @@
       console.info(visType, layerNumber, groupedByCategory, listOfItems, layerData);
     },
     onSetClick: (visType, layerNumber, setName, repoName, listOfItems) => {
-      alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
+      // alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
+      console.info(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`, listOfItems);
     }
   };
 
@@ -171,6 +184,7 @@
    * data filted by selection of terms and years
    */
   pCube.sets_filtered_by_selection = [];
+  _sets_data_before_time_range = [];
   /**
    * data storage for the treemap data
    */
@@ -315,6 +329,14 @@
       }) : options.parsedData;
 
     if (pCube.sets_options.data_year_range && pCube.sets_options.data_year_range.length > 0) {
+
+      _sets_data_before_time_range = pCube.sets_filtered_by_selection.filter(d => {
+        if (pCube.sets_options.data_year_range && pCube.sets_options.data_year_range.length === 2) {
+          return d.time < pCube.sets_options.data_year_range[0];
+        }
+        return true;
+      });
+
       pCube.sets_filtered_by_selection =
         pCube.sets_filtered_by_selection.filter(d => {
           if (pCube.sets_options.data_year_range && pCube.sets_options.data_year_range.length === 2) {
@@ -365,7 +387,7 @@
     // time
     let years = pCube.sets_options.data_year_range.concat(pCube.sets_filtered_by_selection.map(d => d.time));
     let dateExt = d3.extent(years);
-    _yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE);
+    _yearScale = d3.scaleLinear().domain([dateExt[0], dateExt[1]]).range(DOMAIN_RANGE).clamp(true);
     console.info(dateExt, _yearScale(dateExt[0]), _yearScale(dateExt[1]), Math.floor(_yearScale(1000)));
     // pCube.dateTestEx(dateExt);
 
@@ -388,10 +410,18 @@
       // endDate: ma
     });
 
+    // reinsert the previous data to be analysed, if cube should start with data instead of nothing.
+    if (pCube.sets_options.vis_type_set_calculation_option === TIME_CUTTING) {
+      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.concat(_sets_data_before_time_range);
+    }
+
     // cube scale
-    const itemsCount = pCube.sets_filtered_by_selection.length;
-    _stats.totalItemsCount = itemsCount;
-    _cubeScale = d3.scaleLog().clamp(true).domain([1, itemsCount]).range([0, CUBE_SIZE]); // FIXME: try log scale
+    _stats.totalItemsCount = pCube.sets_options.parsedData.length;
+    _stats.selectedItemsCount = pCube.sets_filtered_by_selection.length;
+    // if use TIME_CUTTING use all items in cube scaling, if ONLY_TIME_RANGE use only filtered time data
+    _stats.itemsCount = pCube.sets_options.vis_type_set_calculation_option === TIME_CUTTING ? _stats.totalItemsCount : _stats.selectedItemsCount;
+    _cubeScale = d3.scaleLog().clamp(true).domain([1, _stats.itemsCount]).range([0, CUBE_SIZE]);
+    // _cubeScale = d3.scaleLinear().clamp(true).domain([1, _stats.itemsCount]).range([0, CUBE_SIZE]); // TODO: LOG-SCALE of the Cube?
 
 
     // do matrix and classification 
@@ -430,8 +460,6 @@
       console.log(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
       console.log(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
     }
-
-    // console.log("matrix_sets", pCube.matrix_sets);
 
     if (pCube.sets_options.data_layer_sumUp) {
       // sum up all the layers form 1-10 so sets grow over time and are not split by the time-slots.
@@ -1112,7 +1140,7 @@
     _layers.forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let count = Object.keys(pCube.treemap_sets[idx]).reduce((o, x) => { return o + pCube.treemap_sets[idx][x].length || 0 }, 0);
+        let count = getListOfItemsByVisType({layerNumber: idx}).length;
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
@@ -1141,7 +1169,7 @@
       let p = layer.position;
       if (layerNumber < NUMBER_OF_LAYERS) {
 
-        let count = Object.keys(pCube.treemap_sets[layerNumber]).reduce((o, x) => { return o + pCube.treemap_sets[layerNumber][x].length || 0 }, 0);
+        let count = getListOfItemsByVisType({layerNumber: idx}).length;
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, layerNumber);
@@ -1225,8 +1253,8 @@
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = pCube.sets_options.vis_type_matrix_count_opacity ? c / totalCountPerCategory : 1;
               const l = _layersGL[idx];
-              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.totalItemsCount, opacity, true, true);
-              //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.totalItemsCount, opacity);
+              drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.itemsCount, opacity, true, true);
+              //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.itemsCount, opacity);
             }
           });
         });
@@ -1293,11 +1321,11 @@
               let ySplit = CUBE_SIZE / matrixStruct.repoNames.length;
               let diffSplit = Math.abs(xSplit - ySplit);
               if (matrixStruct.setNames.length > matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, (split + diffSplit) * repoIdx, width, width, width, _stats.itemsCount, opacity, true, true);
               } else if (matrixStruct.setNames.length < matrixStruct.repoNames.length) {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], (split + diffSplit) * setIdx, yPos, split * repoIdx, width, width, width, _stats.itemsCount, opacity, true, true);
               } else {
-                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.totalItemsCount, opacity, true, true);
+                drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], split * setIdx, yPos, split * repoIdx, width, width, width, _stats.itemsCount, opacity, true, true);
               }
             }
           });

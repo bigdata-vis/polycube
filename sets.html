@@ -309,6 +309,7 @@
       layers: parseInt(url.searchParams.get('layers'), 10) || 10,
       // sets options
       setVisType: 'treemap',
+      setCalculationOption: polyCube.SET_CALCULATION_OPTIONS[0],
       dataThreshold: 0.01,
       scaleCube: polyCube.SACLE_TYPES[1],
       matrixOpacityByCount: true,
@@ -330,6 +331,7 @@
       let options = {
         parsedData: window.parsedLidoData,
         vis_type: window.guiParams.setVisType,
+        vis_type_set_calculation_option: window.guiParams.setCalculationOption,
         vis_type_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
         vis_type_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
         vis_type_matrix_show_grid: window.guiParams.matrixShowGrid,
@@ -498,6 +500,7 @@
       let possibleMultiSets = [].concat([''], polyCube.getMultiSetsSortedByTotalCount());
 
       fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
+      fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "scaleCube", polyCube.SACLE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
