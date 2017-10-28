@@ -219,14 +219,19 @@
    * Get the list of categories sorted by total number of items in this category.
    */
   pCube.getSetsSortedByTotalCount = () => {
-    return Object.keys(_stats.countGroupedByTerm).sort((a, b) => _stats.countGroupedByTerm[b] - _stats.countGroupedByTerm[a]);
+    return Object.keys(_stats.countGroupedByTerm)
+      .sort((a, b) => _stats.countGroupedByTerm[b] - _stats.countGroupedByTerm[a])
+      .map(x => {
+        return { setName: x, count: _stats.countGroupedByTerm[x] };
+      });
   };
 
   /**
    * Get the list of categories and overlapping categories sorted by total number of items in this category.
    */
   pCube.getMultiSetsSortedByTotalCount = () => {
-    return Object.keys(_stats.countGroupedByMultiSets).sort((a, b) => _stats.countGroupedByMultiSets[b] - _stats.countGroupedByMultiSets[a]);
+    return Object.keys(_stats.countGroupedByMultiSets)
+      .sort((a, b) => _stats.countGroupedByMultiSets[b] - _stats.countGroupedByMultiSets[a]);
   };
 
   /**
@@ -1140,7 +1145,7 @@
     _layers.forEach((layer, idx) => {
       let p = layer.position;
       if (idx < NUMBER_OF_LAYERS) {
-        let count = getListOfItemsByVisType({layerNumber: idx}).length;
+        let count = getListOfItemsByVisType({ layerNumber: idx }).length;
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, idx);
@@ -1169,7 +1174,7 @@
       let p = layer.position;
       if (layerNumber < NUMBER_OF_LAYERS) {
 
-        let count = getListOfItemsByVisType({layerNumber: idx}).length;
+        let count = getListOfItemsByVisType({ layerNumber: idx }).length;
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, layerNumber);

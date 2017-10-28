@@ -321,7 +321,7 @@
       treemapFlatLineStyle: 'corner', // 'center
       dataLayerSumUp: true,
       selectionSet: '',
-      selectionSets: '',
+      selectionSet2: '',
       selectionSetsOption: polyCube.OVERLAPPING_OPTIONS[0]
     };
 
@@ -496,8 +496,8 @@
 
       var fsets = gui.addFolder('Sets');
 
-      let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount());
-      let possibleMultiSets = [].concat([''], polyCube.getMultiSetsSortedByTotalCount());
+      let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+      const repReg = /\ \[\d+\]/g;
 
       fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
@@ -512,16 +512,16 @@
       fsets.add(window.guiParams, "dataLayerSumUp").name("SumUp Layers").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, 'treemapFlatLineStyle', ['corner', 'center']).name("Flat Line Style").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Items By Category").onChange(() => {
-        // polyCube.selectSet(window.guiParams.selectionSet);
-        polyCube.selectItemsBySets([ window.guiParams.selectionSet ], 'union');
+        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
+        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
       });
-      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Selected Overlapping Action").onChange(() => {
-        let setNames = window.guiParams.selectionSets === '' ? [] : window.guiParams.selectionSets.split(',');
-        polyCube.selectItemsBySets(setNames, window.guiParams.selectionSetsOption);
+      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(() => {
+        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
+        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
       });
-      fsets.add(window.guiParams, "selectionSets", possibleMultiSets).name("Selected Items By Categories").onChange(() => {
-        let setNames = window.guiParams.selectionSets === '' ? [] : window.guiParams.selectionSets.split(',');
-        polyCube.selectItemsBySets(setNames, window.guiParams.selectionSetsOption);
+      fsets.add(window.guiParams, "selectionSet2", possibleSets).name("Second Category").onChange(() => {
+        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
+        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
       });
 
       fsets.open();
