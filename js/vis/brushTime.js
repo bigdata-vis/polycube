@@ -28,9 +28,11 @@
         let y2 = d3.randomNormal(0, width);
 
         let area = d3.area()
-            .x()
-            .y0(height)
-            .y1(d=> {return height - d});
+            .x0(0)
+            .x1(function (d, i) {
+                return 25 + i
+            }) //the value to draw the chart with
+            .y1(d=> { return y(d.time)});
 
         let brush = d3
             .brushY()
@@ -61,22 +63,8 @@
                 }))
             .selectAll(".tick")
             .classed("tick--minor", function (d) {
-                // return d.getHours();
                 return d.getYear();
             });
-
-        // svg.append("g")
-        //     .attr("class", "axis circle")
-        //     .selectAll(".axis .circles")
-        // svg.append("g")
-        //    .attr("class", "circle")
-        //    .selectAll("circle")
-        //    .data(window.data)
-        //    .enter().append("circle")
-        //    .attr("transform", function (d) {
-        //        return "translate(" + y(d.time) + "," + y2() + ")";
-        //    })
-        //    .attr("r", 3.5);
 
         svg.append("g")
             .attr("class", "axis axis--y")
@@ -90,14 +78,21 @@
             .attr("x", 6);
         // .attr("y", 0);
 
-        svg.select(".domain")
-            .attr("d",);
+        //area chart
+        // svg.append("g")
+        //     .attr("class", "axis axis--chart")
+        //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        //     .append("path")
+        //     .attr("d", area(window.data))
+        //     .attr("fill", "black")
+        //     .attr("stroke", "black");
+        //     // .each(d=>{ console.log(d)});
+
 
         svg.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(brush)
-
             .append("text")
             .attr("class", "brush_count")
             .attr("x", function () {
