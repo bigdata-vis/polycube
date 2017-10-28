@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="" />
+    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushTime.js" afterPath="$PROJECT_DIR$/js/vis/brushTime.js" />
+    </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -20,12 +22,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="brushTime.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="brushTime.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="103" column="38" lean-forward="true" selection-start-line="103" selection-start-column="38" selection-end-line="103" selection-end-column="38" />
-              <folding />
+            <state relative-caret-position="268">
+              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <folding>
+                <element signature="e#3477#3518#0" expanded="false" />
+                <element signature="e#3651#3694#0" expanded="false" />
+                <element signature="e#3727#5673#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pcmodule_KHM.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pcmodule_KHM.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/pcmodule_KHM.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="1276" column="6" lean-forward="true" selection-start-line="1276" selection-start-column="6" selection-end-line="1276" selection-end-column="6" />
+            <state relative-caret-position="395">
+              <caret line="1288" column="7" lean-forward="true" selection-start-line="1288" selection-start-column="7" selection-end-line="1288" selection-end-column="7" />
               <folding>
                 <element signature="e#1929#2063#0" expanded="false" />
                 <element signature="e#2118#2213#0" expanded="false" />
@@ -201,9 +207,9 @@
         <option value="$PROJECT_DIR$/data/Cushman-Collection.csv" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/main.css" />
-        <option value="$PROJECT_DIR$/js/vis/brushTime.js" />
         <option value="$PROJECT_DIR$/khm.html" />
         <option value="$PROJECT_DIR$/js/pcmodule_KHM.js" />
+        <option value="$PROJECT_DIR$/js/vis/brushTime.js" />
       </list>
     </option>
   </component>
@@ -1030,12 +1036,12 @@
       <workItem from="1508856668378" duration="3658000" />
       <workItem from="1508915617819" duration="24432000" />
       <workItem from="1508968276058" duration="33209000" />
-      <workItem from="1509098560041" duration="9807000" />
+      <workItem from="1509098560041" duration="14248000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="738923000" />
+    <option name="totallyTimeSpent" value="743364000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1587,14 +1593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="103" column="38" lean-forward="true" selection-start-line="103" selection-start-column="38" selection-end-line="103" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/khm.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
@@ -1628,8 +1626,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/pcmodule_KHM.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="1276" column="6" lean-forward="true" selection-start-line="1276" selection-start-column="6" selection-end-line="1276" selection-end-column="6" />
+        <state relative-caret-position="395">
+          <caret line="1288" column="7" lean-forward="true" selection-start-line="1288" selection-start-column="7" selection-end-line="1288" selection-end-column="7" />
           <folding>
             <element signature="e#1929#2063#0" expanded="false" />
             <element signature="e#2118#2213#0" expanded="false" />
@@ -1659,6 +1657,18 @@
             <element signature="e#47273#48510#0" expanded="false" />
             <element signature="e#48746#48880#0" expanded="false" />
             <element signature="e#48965#49309#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/vis/brushTime.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="e#3477#3518#0" expanded="false" />
+            <element signature="e#3651#3694#0" expanded="false" />
+            <element signature="e#3727#5673#0" expanded="false" />
           </folding>
         </state>
       </provider>
