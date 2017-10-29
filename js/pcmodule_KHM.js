@@ -30,6 +30,8 @@
 
     var projectionScale = 5000;
 
+    let flat_time = false; //used to store flatten or timelinear info on pointCloud
+
     /**
      * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
      * @param datasets
@@ -386,18 +388,23 @@
                     image.style.background = colour(d.time);
 
                     // image.addEventListener('load', function (event) {
-                    var object = new THREE.CSS3DSprite(image.cloneNode()),
+                    const object = new THREE.CSS3DSprite(image.cloneNode()),
                         long = pCube.projection(d.long, d.lat).x,
                         lat = pCube.projection(d.long, d.lat).y;
-                    var coord = translate([lat, long]);
+                    const coord = translate([lat, long]);
+                    const stc = new THREE.Object3D();
+
 
                     // use tween instead
 
-
-                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                    //donot use timelinear when updating
+                    if(flat_time){
+                        object.position.y = 0;
+                    }else {
+                        object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                    }
                     object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
-
 
                     /**
                      * add each proerties of the pointcloud to new data
@@ -405,10 +412,8 @@
                      */
                     object["newData"] = d;
 
-
-                    var stc = new THREE.Object3D();
                     stc.position.x = object.position.x;
-                    stc.position.y = object.position.y;
+                    stc.position.y = timeLinear(d.time);
                     stc.position.z = object.position.z;
                     object['STC'] = stc;
 
@@ -600,6 +605,8 @@
         var segments = dataSlices;
 
         var interval = height / segments; //height/segments
+
+        flat_time = false;
 
         var duration = 2500;
         TWEEN.removeAll();
@@ -803,6 +810,7 @@
                 y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
                 z: 0
             };
+
             //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
@@ -840,6 +848,7 @@
                         }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                         .start();
                 }, 1200);
+
 
                 // console.log(object)
 
@@ -895,7 +904,10 @@
      * Super imposition function
      * todo: fix rotation of the cube with map
      */
+
     pCube.superImpose = function () {
+
+        flat_time = true;
 
         //make control center thesame as cube xyz position
         // controls.center = cube.position;
@@ -932,17 +944,17 @@
 
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
-            d.position.y = 0;
+            // d.position.y = -249;
 
 
             // console.log(d);
 
-            // var flattenPoints = new TWEEN.Tween(d.position)
-            //     .to({
-            //         y: 0
-            //     }, duration)
-            //     .easing(TWEEN.Easing.Sinusoidal.InOut)
-            //     .start();
+            var flattenPoints = new TWEEN.Tween(d.position)
+                .to({
+                    y: 0
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
 
             // console.log(d)
         });
