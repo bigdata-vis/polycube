@@ -136,6 +136,12 @@ input:focus {
     stroke-opacity: .5;
 }
 
+.axis,
+.axis--chart{
+    fill: #0022de;
+    stroke-width: 0;
+}
+
 /*.stations, .stations svg {*/
 /*position: absolute;*/
 /*}*/
@@ -259,3 +265,5 @@ input:focus {
 .green_BG{
     background-color: #00b438 !important;
 }
+
+.bar { fill: steelblue; }

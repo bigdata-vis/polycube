@@ -11,10 +11,9 @@
     function init() {
         // console.log(window.dateTestEx);
 
+
         // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateTestEx[1], 1, 1), new Date(window.dateTestEx[0], 1, 1) - 1]; //Cushman Todo: Manual Change
-
-        // console.log(dateRange);
 
         let margin = {top: 40, right: 40, bottom: 140, left: 40},
             width = 120 - margin.left - margin.right,
@@ -24,15 +23,40 @@
             .domain(dateRange)
             .rangeRound([height, 0]);
 
-        let x = d3.scaleLinear().range([height, 0]);
-        let y2 = d3.randomNormal(0, width);
+        let x = d3.scaleLinear()
+            .range([0, width - 10]);
+
+        let y2 = d3.scaleBand().range([0, height]).padding(0.1);
+        let x2 = d3.scaleBand().range([0, width]);
+
+
+        // let y2 = d3.randomNormal(0, width);
+
+        let data = window.data;
+        x.domain([0, d3.max(count(), function(d) { return d.val; })]);
 
         let area = d3.area()
             .x0(0)
-            .x1(function (d, i) {
-                return 25 + i
+            .x1(d => {
+                return x2(d.val)
             }) //the value to draw the chart with
-            .y1(d=> { return y(d.time)});
+            // .y1(d=> { return y(d.time)});
+            .y1(d => {
+                return y(new Date(d.date, 1, 1))
+            });
+
+        let line = d3.line()
+            .y(d => {
+                return y(new Date(d.date, 1, 1))
+                // return d.val
+            })
+            .x(d => {
+                return x(d.val);
+                // return y(new Date(d.date, 1, 1))
+            })
+            .curve(d3.curveCardinal);
+
+        // console.log(x(30));
 
         let brush = d3
             .brushY()
@@ -66,11 +90,12 @@
                 return d.getYear();
             });
 
+
         svg.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                .ticks(d3.timeYear)
+                    .ticks(d3.timeYear)
                 // .tickPadding(6)
             )
             .attr("text-anchor", null)
@@ -78,16 +103,23 @@
             .attr("x", 6);
         // .attr("y", 0);
 
-        //area chart
+
+        svg.select(".domain")
+            .attr("fill", "none")
+            .attr("stroke", "blue")
+            .attr("stroke-width", "2")
+            .attr("d", line(count()));
+
+        // //area chart
         // svg.append("g")
         //     .attr("class", "axis axis--chart")
         //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         //     .append("path")
-        //     .attr("d", area(window.data))
-        //     .attr("fill", "black")
-        //     .attr("stroke", "black");
-        //     // .each(d=>{ console.log(d)});
-
+        //     .attr("class", "area")
+        //     .attr("d", area(count()));
+        // .attr("fill", "black")
+        // .attr("stroke", "black");
+        // .each(d=>{ console.log(d)});
 
         svg.append("g")
             .attr("class", "brush")
@@ -101,6 +133,7 @@
             .attr("y", -20)
             .attr("dy", ".35em")
             .attr("stroke", "#8a8a8a")
+            // .attr("stroke", "blue")
             .text(function (d) {
                 return 550;
             });
@@ -155,10 +188,28 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            console.log(selectedData.length)
-
-
         }
+
+        function count() {
+            let counts = {};
+            let container = [];
+
+            for (let i = 0; i < data.length; i++) {
+                counts[data[i].time] = 1 + (counts[data[i].time] || 0);
+            }
+
+            let obj;
+            let value;
+
+            d3.keys(counts).forEach(function eachKey(key) {
+                obj = +key;
+                value = counts[key];
+                container.push({date: obj, val: counts[key]});
+            });
+
+            return container;
+        }
+
     }
 
     setTimeout(function () {
