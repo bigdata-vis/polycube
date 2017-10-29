@@ -219,22 +219,22 @@
          * @type {number}
          */
 
-        // KHM
-        pointCloud.rotation.z = 3.15;
-        pointCloud.position.z = 90;
-        pointCloud.position.y += 5;
-        pointCloud.position.x -= 625;
-        glbox.rotation.z = 3.15;
-        glbox.position.z = -90;
-        glbox.position.y += 5;
-
-        //Cushman
+        //KHM
         // pointCloud.rotation.z = 3.15;
-        // pointCloud.position.z = -90;
+        // pointCloud.position.z = 90;
         // pointCloud.position.y += 5;
+        // pointCloud.position.x -= 625;
         // glbox.rotation.z = 3.15;
         // glbox.position.z = -90;
         // glbox.position.y += 5;
+
+        //Cushman
+        pointCloud.rotation.z = 3.15;
+        pointCloud.position.z = -90;
+        pointCloud.position.y += 5;
+        glbox.rotation.z = 3.15;
+        glbox.position.z = -90;
+        glbox.position.y += 5;
 
 
 
@@ -429,9 +429,9 @@
                         // console.log(d);
 
                         d3.select("#textTitle")
-                            .html("<strong<p>" + d.description + "</p>" +
-                                "<span class='date'>Date : " + d.time + " </span> <br>" +
-                                "<span class='location'>Location : " + d.location + "</span> <br>"
+                            .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                                "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                             );
 
                         d3.select("#dataImage")
@@ -1327,8 +1327,8 @@
             id: 'mapbox.streets',
             accessToken: accesToken,
             zoomControl: false
-        // }).setView([30.4507462, -91.154552], 3); // cushman
-        }).setView([54.5260, 15.2551], 3); // KHM
+        }).setView([30.4507462, -91.154552], 3);
+
 
 
         mymap.touchZoom.disable();
@@ -1395,9 +1395,9 @@
             marker.on('click', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
-                    .html("<strong<p>" + d.description + "</p>" +
-                        "<span class='date'>Date : " + d.time + " </span> <br>" +
-                        "<span class='location'>Location : " + d.location + "</span> <br>"
+                    .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
                 d3.select("#dataImage")

@@ -63,8 +63,8 @@
             .attr("class", "axis2 axis--y2")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                // .ticks(d3.timeMonth)
-                .ticks(d3.timeYear) //khm
+                .ticks(d3.timeMonth)
+                // .ticks(d3.timeYear) //khm
                 .tickSize(-width)
                 .tickFormat(function () {
                     return null;
@@ -78,7 +78,7 @@
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                    // .ticks(d3.timeYear) //cushman
+                    .ticks(d3.timeYear) //cushman
                 .tickPadding(6)
             )
             .attr("text-anchor", null)

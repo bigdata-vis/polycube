@@ -66,8 +66,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/pcmodule_KHM.js"></script>
-<script src="js/vis/brushTime.js"></script>
+<script src="js/pcmodule_CM.js"></script>
+<script src="js/vis/brushTimeCM.js"></script>
 
 <script>
     /**Merge the cut section into a mega structure
@@ -77,8 +77,8 @@
      **/
 
     d3.queue()
-        .defer(d3.json, "data/painting_gallery_clean.json")
-        //        .defer(d3.csv, "data/Cushman-Collection.csv")
+//            .defer(d3.json, "data/painting_gallery_clean.json")
+        .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.csv, "data/Szabo2.csv")
         .defer(d3.json, "data/austria.json")
         .await(init);
@@ -111,13 +111,14 @@
                     d.long = d.location_data.country.lat;
                     d.lat = d.location_data.country.long;
 
-
                     // console.log(+format2(parse4(d.Date)));
                     d.time = parse5(d.time);
                     d.time = +format2(d.time);
-                    d.description = d.lidoRecID;
+                    d.description = d.Description_from_Slide_Mount;
                     d.Image_URL = d.preview;
 
+//                    console.log(d.location_data.country)
+                    d.location = d.location_data.country.name;
 
                     var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
 
@@ -142,7 +143,7 @@
 
             }
 
-            KHM();
+//            KHM();
 
             function Cushman() {
 
@@ -202,7 +203,7 @@
                 window.data = data;
             }
 
-//            Cushman();
+            Cushman();
 //
             let newData = data.slice(0, 550).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
@@ -289,11 +290,11 @@
                 .style("background-color", d)
             ;
         });
-        theme.add(params, "invert").onChange(d => {
-            if (d) {
+        theme.add(params, "invert").onChange(d =>{
+            if(d){
                 d3.select("body")
                     .style("filter", "invert(100%)")
-            } else {
+            }else {
                 d3.select("body")
                     .style("filter", "invert(0%)")
             }
@@ -335,7 +336,7 @@
 
             /**increase or decrease the node x and y axis position to show overlaping content
              * ref: http://networkcube.net/ vid:3:25
-             **/
+            **/
 
 //            d3.selectAll(".pointCloud")
 //                .style("width", value + "px")
