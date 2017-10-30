@@ -1174,7 +1174,7 @@
       let p = layer.position;
       if (layerNumber < NUMBER_OF_LAYERS) {
 
-        let count = getListOfItemsByVisType({ layerNumber: idx }).length;
+        let count = getListOfItemsByVisType({ layerNumber: layerNumber }).length;
         let cubeSize = pCube.sets_options.data_scale_cube === SCALE_TOTAL_COUNT ? _cubeScale(count) : CUBE_SIZE; // TODO: scale only works for total-count
         _tmap.size([cubeSize, cubeSize]);
         let nodes = doTreemapLayout(pCube.treemap_sets, layerNumber);
