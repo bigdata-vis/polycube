@@ -1376,7 +1376,7 @@
   };
 
   const getListOfItemsInTreemap = (layerNumber, setName) => {
-    if (setName && layerNumber) {
+    if (setName && layerNumber >= 0) {
       return pCube.treemap_sets[layerNumber][setName];
     } else if (layerNumber >= 0) {
       return Object.values(pCube.treemap_sets[layerNumber]).reduce((o, cur) => {
@@ -1388,11 +1388,11 @@
   };
 
   const getListOfItemsInMatrix = (layerNumber, setName, repoName) => {
-    if (repoName && setName && layerNumber) {
+    if (repoName && setName && layerNumber  >= 0) {
       let setIdx = _stats.matrixStructure.setNames.indexOf(setName);
       let repoIdx = _stats.matrixStructure.repoNames.indexOf(repoName);
       return pCube.sets_matrix_objects[layerNumber][setIdx][repoIdx];
-    } else if (layerNumber && setName) {
+    } else if (setName && layerNumber >= 0) {
       let setIdx = _stats.matrixStructure.setNames.indexOf(setName);
       let listOfItems = [];
       pCube.sets_matrix_objects[layerNumber][setIdx].forEach(items => {
