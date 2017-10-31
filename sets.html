@@ -497,7 +497,16 @@
       var fsets = gui.addFolder('Sets');
 
       let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+      let possibleSets2 = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+      let setNames = Object.keys(polyCube.getMultiSetsSortedByTotalCount());
       const repReg = /\ \[\d+\]/g;
+
+      const setOperationAction = () => {
+        let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+        let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+        const list = [].concat(setName1 || '', setName2  || '').filter(itm => itm);
+        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
+      };
 
       fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
       fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
@@ -512,17 +521,24 @@
       fsets.add(window.guiParams, "dataLayerSumUp").name("SumUp Layers").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, 'treemapFlatLineStyle', ['corner', 'center']).name("Flat Line Style").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Items By Category").onChange(() => {
-        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
-        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
+        setOperationAction();
+
+        let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+        let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+        let ctrl = fsets.__controllers.find(x => x.property === 'selectionSet2');
+        ctrl.remove();
+        fsets.__controllers.splice(fsets.__controllers.indexOf(ctrl), 1);
+        if (setName1) {
+          let newItems = polyCube.getPossibleSetsToIntersectSortedByTotalCount(setName1);
+          newItems = [].concat([''], newItems.map(x => `${x.setName} [${x.count}]`));
+          fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+        } else {
+          let newItems = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+          fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+        }
       });
-      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(() => {
-        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
-        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
-      });
-      fsets.add(window.guiParams, "selectionSet2", possibleSets).name("Second Category").onChange(() => {
-        const list = [].concat(window.guiParams.selectionSet.replace(repReg, '') || '', window.guiParams.selectionSet2.replace(repReg, '') || '').filter(itm => itm);
-        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
-      });
+      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(setOperationAction);
+      fsets.add(window.guiParams, "selectionSet2", possibleSets2).name("Second Category").onChange(setOperationAction);
 
       fsets.open();
 

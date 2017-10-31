@@ -227,6 +227,25 @@
   };
 
   /**
+   * Get a list setNames of possible intersect candidates.
+   */
+  pCube.getPossibleSetsToIntersectSortedByTotalCount = (setName) => {
+    let list = [];
+    Object.keys(_stats.countGroupedByMultiSets)
+      .filter(k => k.indexOf(setName) > -1)
+      .map(k => k.split(','))
+      .forEach(k => {
+        list = _.union(list, k);
+      });
+
+    return list
+      .sort((a, b) => _stats.countGroupedByTerm[b] - _stats.countGroupedByTerm[a])
+      .map(x => {
+        return { setName: x, count: _stats.countGroupedByTerm[x] };
+      });
+  }
+
+  /**
    * Get the list of categories and overlapping categories sorted by total number of items in this category.
    */
   pCube.getMultiSetsSortedByTotalCount = () => {
