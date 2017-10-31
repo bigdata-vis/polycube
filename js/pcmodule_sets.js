@@ -25,6 +25,10 @@
   const OVERLAPPING_OPTION_INTERSECTION = 'intersection';
   pCube.OVERLAPPING_OPTIONS = [OVERLAPPING_OPTION_UNION, OVERLAPPING_OPTION_INTERSECTION];
 
+  const SELECT_TYPE_COLOR = 'color';
+  const SELECT_TYPE_VISIBILITY = 'visibility';
+  pCube.SELECT_TYPES = [SELECT_TYPE_VISIBILITY, SELECT_TYPE_COLOR];
+
   /**
    * display only the data within the time-range but keep the overall proportions and scale
    */
@@ -127,6 +131,7 @@
     vis_type_matrix_show_grid: false,
     vis_type_layer_clickable: true,
     vis_type_layer_click_animation: LAYER_CLICK_ANIMATION_MOVE,
+    vis_type_select_type: pCube.SELECT_TYPES[0],
     vis_type_set_calculation_option: pCube.SET_CALCULATION_OPTIONS[0],
     /**
      * data_year_range only allows elements in the cube that are within this time-range.
@@ -148,6 +153,8 @@
     onSetClick: (visType, layerNumber, setName, repoName, listOfItems) => {
       // alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
       console.info(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`, listOfItems);
+
+      pCube.selectItemsBySets([setName], 'union');
     }
   };
 
@@ -812,28 +819,43 @@
         if (b.name === 'set-line') {
           b.visible = true;
         }
-        var colorTween = new TWEEN.Tween(b.material.color)
-          .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
-          .easing(TWEEN.Easing.Sinusoidal.InOut)
-          .start();
+
+        if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
+          b.material.opacity = 1;
+          if (b.children.length > 0) {
+            b.children[0].material.opacity = 1;
+          }
+        } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
       }
     });
     _rects.forEach(b => {
       if (b.name === 'set-rect') {
         let curColor = d3.color(b.children[0].element.style.backgroundColor);
         let newColor = d3.color(_colorScale(b.userData.setName));
-        var colorTween = new TWEEN.Tween(curColor)
-          .to(newColor, 1500)
-          .easing(TWEEN.Easing.Sinusoidal.InOut)
-          .onUpdate(() => {
-            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-          })
-          .start();
+
+
+        if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
+          b.children[0].element.style.opacity = TREEMAP_FLAT_RECT_OPACITY;
+        } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        }
       }
     });
 
     _selectedBoxes.forEach(b => {
       b.visible = false;
+      b.children[0].material.opacity = 0;
     });
     _selectedRects.forEach(b => {
       b.element.style.opacity = 0;
@@ -940,11 +962,19 @@
             .to(_setOperationColorGL, 1500)
             .easing(TWEEN.Easing.Sinusoidal.InOut)
             .start();
+
+          selBox.children[0].material.opacity = 1;
         }
-        var colorTween = new TWEEN.Tween(b.material.color)
-          .to(_baseColorGL, 1500)
-          .easing(TWEEN.Easing.Sinusoidal.InOut)
-          .start();
+
+        if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
+          b.material.opacity = 0;
+          b.children[0].material.opacity = 0;
+        } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
+          var colorTween = new TWEEN.Tween(b.material.color)
+            .to(_baseColorGL, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .start();
+        }
 
       }
     });
@@ -980,13 +1010,17 @@
         let curColor = d3.color(b.children[0].element.style.backgroundColor);
         let newColor = d3.color(_baseColor);
 
-        var colorTween = new TWEEN.Tween(curColor)
-          .to(newColor, 1500)
-          .easing(TWEEN.Easing.Sinusoidal.InOut)
-          .onUpdate(() => {
-            b.children[0].element.style.backgroundColor = curColor.rgb().toString();
-          })
-          .start();
+        if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
+          b.children[0].element.style.opacity = 0;
+        } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
+          var colorTween = new TWEEN.Tween(curColor)
+            .to(newColor, 1500)
+            .easing(TWEEN.Easing.Sinusoidal.InOut)
+            .onUpdate(() => {
+              b.children[0].element.style.backgroundColor = curColor.rgb().toString();
+            })
+            .start();
+        }
 
       }
     });
@@ -1388,7 +1422,7 @@
   };
 
   const getListOfItemsInMatrix = (layerNumber, setName, repoName) => {
-    if (repoName && setName && layerNumber  >= 0) {
+    if (repoName && setName && layerNumber >= 0) {
       let setIdx = _stats.matrixStructure.setNames.indexOf(setName);
       let repoIdx = _stats.matrixStructure.repoNames.indexOf(repoName);
       return pCube.sets_matrix_objects[layerNumber][setIdx][repoIdx];
@@ -1725,7 +1759,7 @@
     let geometry = new THREE.BoxGeometry(width, height, depth);
     let material = new THREE.MeshBasicMaterial({
       color: _colorScale(setName),
-      transparent: opacity || opacity >= 0 ? true : false,
+      transparent: true,
       opacity: opacity || opacity >= 0 ? opacity : 1,
       flatShading: THREE.FlatShading,
       polygonOffset: true,
@@ -1743,7 +1777,7 @@
     // add border edges
     if (withBorder) {
       var geo = new THREE.EdgesGeometry(set.geometry); // or WireframeGeometry
-      var mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+      var mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2, transparent: true, opacity: 1 });
       var border = new THREE.LineSegments(geo, mat);
       set.add(border);
     }
@@ -1759,6 +1793,13 @@
       selBox.name = 'set-box-selection';
       selBox.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName };
       selBox.visible = false;
+
+      if (withBorder) {
+        var geo = new THREE.EdgesGeometry(selBox.geometry); // or WireframeGeometry
+        var mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2, transparent: true, opacity: 0 });
+        var border = new THREE.LineSegments(geo, mat);
+        selBox.add(border);
+      }
 
       set.add(selBox);
       _selectedBoxes.push(selBox);

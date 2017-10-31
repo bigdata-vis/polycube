@@ -322,6 +322,7 @@
       dataLayerSumUp: true,
       selectionSet: '',
       selectionSet2: '',
+      clearSelection: () => polyCube.selectItemsBySets([], 'union'),
       selectionSetsOption: polyCube.OVERLAPPING_OPTIONS[0]
     };
 
@@ -539,6 +540,7 @@
       });
       fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(setOperationAction);
       fsets.add(window.guiParams, "selectionSet2", possibleSets2).name("Second Category").onChange(setOperationAction);
+      fsets.add(window.guiParams, "clearSelection").name("Clear Selection");
 
       fsets.open();
 
