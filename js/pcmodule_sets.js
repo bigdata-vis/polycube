@@ -592,6 +592,9 @@
     return null;
   };
 
+  /**
+   * ADD RENDER_FUNCTION for mouse events (e.g. hover)
+   */
   pCube.render_functions.push((camera) => {
     // update the picking ray with the camera and mouse position
     _raycaster.setFromCamera(_mouse, camera);
@@ -606,9 +609,23 @@
       box.material.color = _highlightColorGL;
       document.body.style.cursor = 'pointer';
 
+      let items = [];
+      if (box.name === 'set-box') {
+        items = getListOfItemsByVisType(box.userData);
+      } else if (box.name === 'set-box-selection') {
+        let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
+        items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+      }
+      if (_infoBox) {
+        _infoBox.innerText = `layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`;
+      }
+
       _intersected = box;
     } else {
       document.body.style.cursor = 'default';
+      if (_infoBox) {
+        _infoBox.innerText = '';
+      }
       if (_intersected) {
         _intersected.material.color = _intersected.oldColor;
         _intersected = null;
@@ -630,7 +647,7 @@
 
     let box = getIntersectingBox();
     if (box) {
-      _infoBox.innerText = JSON.stringify(box.userData);
+      // _infoBox.innerText = JSON.stringify(box.userData);
       if (box.name === 'set-box') {
         let items = getListOfItemsByVisType(box.userData);
         pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, box.userData.setName, box.userData.repoName, items);
