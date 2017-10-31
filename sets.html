@@ -311,7 +311,7 @@
       setVisType: 'treemap',
       setCalculationOption: polyCube.SET_CALCULATION_OPTIONS[0],
       dataThreshold: 0.01,
-      scaleCube: polyCube.SACLE_TYPES[1],
+      scaleCube: polyCube.SCALE_TYPES[1],
       matrixOpacityByCount: true,
       matrixShowGrid: false,
       layerClickable: false,
@@ -512,7 +512,7 @@
       fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
       fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
-      fsets.add(window.guiParams, "scaleCube", polyCube.SACLE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "scaleCube", polyCube.SCALE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "layerClickable").name("Layer Clickable").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "layerSelectAnimation", polyCube.LAYER_CLICK_ANIMATION_STYLES).name("Layer Select Animation").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "matrixOpacityByCount").name("Opacity by Category").onChange(fnClearAndDrawSets);

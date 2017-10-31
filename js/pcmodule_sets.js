@@ -11,7 +11,7 @@
 
   const SCALE_TOTAL_COUNT = 'scale_total_count';
   const SCALE_CATEGORY_COUNT = 'scale_category_count';
-  pCube.SACLE_TYPES = [null, SCALE_TOTAL_COUNT, SCALE_CATEGORY_COUNT];
+  pCube.SCALE_TYPES = [null, SCALE_TOTAL_COUNT, SCALE_CATEGORY_COUNT];
 
   const LAYER_CLICK_ANIMATION_MOVE = 'move';
   const LAYER_CLICK_ANIMATION_OPACITY = 'opacity';
