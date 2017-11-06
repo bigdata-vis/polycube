@@ -172,7 +172,7 @@
           background-color: ${_highlightColor} !important; 
           opacity: 0.2 !important;
         }
-        div.set-rect:hover {
+        div.set-rect-hover:hover {
           background-color: ${_highlightColor} !important; 
           opacity: 0.7 !important;
           cursor: pointer;
@@ -608,7 +608,9 @@
     // calculate objects intersecting the picking ray
     let objects = [].concat(_selectedBoxes, _boxes);
     let intersects = _raycaster.intersectObjects(objects);
-    intersects = intersects.filter(x => x.object.visible && (x.object.name === 'set-box' || x.object.name === 'set-box-selection'));
+    intersects = intersects.filter(x =>  {
+      return x.object.visible && x.object.material.opacity > 0 && (x.object.name === 'set-box' || x.object.name === 'set-box-selection');
+    });
 
     if (intersects.length > 0) {
       let elm = intersects[0];
@@ -622,10 +624,7 @@
     return null;
   };
 
-  /**
-   * ADD RENDER_FUNCTION for mouse events (e.g. hover)
-   */
-  pCube.render_functions.push((camera) => {
+  const onMouseHover = (camera) => {
     // update the picking ray with the camera and mouse position
     _raycaster.setFromCamera(_mouse, camera);
 
@@ -646,6 +645,7 @@
         let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
         items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
       }
+
       if (_infoBox) {
         _infoBox.innerText = `layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`;
       }
@@ -661,16 +661,16 @@
         _intersected = null;
       }
     }
-  });
+  };
 
-  window.addEventListener('mousemove', (event) => {
+  const onMouseMove = (event) => {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
     _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-  }, false);
+  };
 
-  window.addEventListener('mousedown', (event) => {
+  const onMouseDown = (event) => {
     console.log('Click.');
     _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -690,7 +690,14 @@
       _infoBox.innerText = '';
     }
 
-  }, false);
+  };
+
+  /**
+   * ADD RENDER_FUNCTION for mouse events (e.g. hover)
+   */
+  pCube.render_functions.push(onMouseHover);
+  window.addEventListener('mousemove', onMouseMove, false);
+  window.addEventListener('mousedown', onMouseDown, false);
 
   /**
    * mark sets with the highlight color and give all other elements the base color
@@ -1003,8 +1010,9 @@
           selElement.element.style.display = '';
           selElement.element.style.height = newHeight + 'px';
 
-          selElement.element.title = selectionName;
+          // selElement.element.title = selectionName;
           selElement.element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, selElement.userData.layerNumber, selectionName, selElement.userData.repoName, selectionItems);
+          // selElement.element.onmouseover = () => selElement.element.classList console.log(selectionName);
 
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
@@ -1663,10 +1671,13 @@
     element.style.border = "1px solid #000000";
     element.style.backgroundColor = _colorScale(setName);
     element.style.opacity = opacity;
-    element.title = setName;
+    // element.title = setName;
 
     let items = getListOfItemsByVisType({ layerNumber, setName });
     element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, items);
+    element.onmouseover = () => element.style.opacity > 0 && element.classList.add('set-rect-hover');
+    element.onmouseout = () =>  element.style.opacity > 0 && element.classList.remove('set-rect-hover');
+    
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
@@ -1699,9 +1710,11 @@
       selElement.style.opacity = 0;
       selElement.style.display = 'none';
 
-      selElement.title = setName;
+      // selElement.title = setName;
 
       selElement.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, []);
+      selElement.onmouseover = () =>  selElement.style.opacity > 0 && selElement.classList.add('set-rect-hover');
+      selElement.onmouseout = () =>  selElement.style.opacity > 0 && selElement.classList.remove('set-rect-hover');
 
       var selObject = new THREE.CSS3DObject(selElement);
       // object.position.fromArray(pos);
