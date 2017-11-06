@@ -608,7 +608,7 @@
     // calculate objects intersecting the picking ray
     let objects = [].concat(_selectedBoxes, _boxes);
     let intersects = _raycaster.intersectObjects(objects);
-    intersects = intersects.filter(x =>  {
+    intersects = intersects.filter(x => {
       return x.object.visible && x.object.material.opacity > 0 && (x.object.name === 'set-box' || x.object.name === 'set-box-selection');
     });
 
@@ -646,17 +646,14 @@
         items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
       }
 
-      if (_infoBox) {
-        _infoBox.innerText = `layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`;
-      }
+      updateInfoBox(`layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`);
 
       _intersected = box;
     } else {
       document.body.style.cursor = 'default';
-      if (_infoBox) {
-        _infoBox.innerText = '';
-      }
+
       if (_intersected) {
+        updateInfoBox('');
         _intersected.material.color = _intersected.oldColor;
         _intersected = null;
       }
@@ -687,7 +684,7 @@
         pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, selectionName, box.userData.repoName, items);
       }
     } else {
-      _infoBox.innerText = '';
+      updateInfoBox('')
     }
 
   };
@@ -823,6 +820,12 @@
     LAYER_SIZE_HALF = LAYER_SIZE / 2;
   }
 
+  const updateInfoBox = (text = '') => {
+    if (_infoBox) {
+      _infoBox.innerText = text;
+    }
+  };
+
   const toggleBoxOpacity = (b, opacity) => {
     b.material.opacity = opacity;
     if (b.children.length > 0) {
@@ -856,6 +859,7 @@
 
         if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
           b.children[0].element.style.opacity = TREEMAP_FLAT_RECT_OPACITY;
+          b.children[0].element.style.display = '';
         } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
@@ -1027,6 +1031,7 @@
 
         if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
           b.children[0].element.style.opacity = 0;
+          b.children[0].element.style.display = 'none';
         } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
@@ -1270,7 +1275,7 @@
           if (isNaN(d)) {
             console.error("weird NaN form treemap", d, n, nodes);
           }
-          let rect = drawRect(layer, layerNumber, n.data.name, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY, true);
+          let rect = drawRect(layer, layerNumber, n.data.name, null, n.x0, 0, n.y0, w, LAYER_SIZE, d, count, TREEMAP_FLAT_RECT_OPACITY, true);
 
           if (!linesMemory[layerNumber]) {
             linesMemory[layerNumber] = {};
@@ -1652,7 +1657,7 @@
   /**
    * draw rect in CSS3D on a specific position in an specific container
    */
-  const drawRect = (container, layerNumber, setName, x, y, z, width, height, depth, layerItemCount, opacity = 1, multiSelectPossible = false) => {
+  const drawRect = (container, layerNumber, setName, repoName, x, y, z, width, height, depth, layerItemCount, opacity = 1, multiSelectPossible = false) => {
 
     const box = new THREE.Object3D();
     const r = Math.PI / 2;
@@ -1675,9 +1680,19 @@
 
     let items = getListOfItemsByVisType({ layerNumber, setName });
     element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, items);
-    element.onmouseover = () => element.style.opacity > 0 && element.classList.add('set-rect-hover');
-    element.onmouseout = () =>  element.style.opacity > 0 && element.classList.remove('set-rect-hover');
-    
+    element.onmouseover = () => {
+      if (element.style.opacity > 0) {
+        element.classList.add('set-rect-hover');
+        updateInfoBox(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${items.length}`);
+      }
+    };
+    element.onmouseout = () => {
+      if (element.style.opacity > 0) {
+        element.classList.remove('set-rect-hover');
+        updateInfoBox('');
+      }
+    };
+
 
     var object = new THREE.CSS3DObject(element);
     // object.position.fromArray(pos);
@@ -1713,8 +1728,18 @@
       // selElement.title = setName;
 
       selElement.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, []);
-      selElement.onmouseover = () =>  selElement.style.opacity > 0 && selElement.classList.add('set-rect-hover');
-      selElement.onmouseout = () =>  selElement.style.opacity > 0 && selElement.classList.remove('set-rect-hover');
+      selElement.onmouseover = () => {
+        if (selElement.style.opacity > 0) {
+          selElement.classList.add('set-rect-hover');
+          updateInfoBox(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${items.length}`);
+        }
+      };
+      selElement.onmouseout = () => {
+        if (selElement.style.opacity > 0) {
+          selElement.classList.remove('set-rect-hover');
+          updateInfoBox('');
+        }
+      };
 
       var selObject = new THREE.CSS3DObject(selElement);
       // object.position.fromArray(pos);

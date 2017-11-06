@@ -521,6 +521,7 @@
       fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).name("Data Threshold Percent").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, "dataLayerSumUp").name("SumUp Layers").onChange(fnClearAndDrawSets);
       fsets.add(window.guiParams, 'treemapFlatLineStyle', ['corner', 'center']).name("Flat Line Style").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "clearSelection").name("Clear Selection");
       fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Items By Category").onChange(() => {
         setOperationAction();
 
@@ -540,7 +541,7 @@
       });
       fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(setOperationAction);
       fsets.add(window.guiParams, "selectionSet2", possibleSets2).name("Second Category").onChange(setOperationAction);
-      fsets.add(window.guiParams, "clearSelection").name("Clear Selection");
+      
 
       fsets.open();
 
