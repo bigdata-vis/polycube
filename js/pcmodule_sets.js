@@ -154,7 +154,11 @@
       // alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
       console.info(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`, listOfItems);
 
-      pCube.selectItemsBySets([setName], 'union');
+      if (_.isEqual(sets_selected_categories, [setName])) {
+        pCube.selectItemsBySets([], 'union');
+      } else {
+        pCube.selectItemsBySets([setName], 'union');
+      }
     }
   };
 
@@ -812,6 +816,13 @@
     LAYER_SIZE_HALF = LAYER_SIZE / 2;
   }
 
+  const toggleBoxOpacity = (b, opacity) => {
+    b.material.opacity = opacity;
+    if (b.children.length > 0) {
+      b.children[0].material.opacity = opacity;
+    }
+  };
+
   const clearSelection = () => {
     let boxesAndLines = [].concat(_boxes, _lines);
     boxesAndLines.forEach(b => {
@@ -821,10 +832,7 @@
         }
 
         if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
-          b.material.opacity = 1;
-          if (b.children.length > 0) {
-            b.children[0].material.opacity = 1;
-          }
+          toggleBoxOpacity(b, 1);
         } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(new THREE.Color(_colorScale(b.userData.setName)), 1500)
@@ -967,8 +975,7 @@
         }
 
         if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
-          b.material.opacity = 0;
-          b.children[0].material.opacity = 0;
+          toggleBoxOpacity(b, 0);
         } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
           var colorTween = new TWEEN.Tween(b.material.color)
             .to(_baseColorGL, 1500)
