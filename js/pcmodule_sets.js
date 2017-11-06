@@ -147,17 +147,18 @@
     /**
      * function that is executes when clicking on an layers 
      */
-    onLayerClick: (visType, layerNumber, groupedByCategory, listOfItems, layerData) => {
-      console.info(visType, layerNumber, groupedByCategory, listOfItems, layerData);
+    onLayerClick: (data) => {
+      // visType, layerNumber, groupedByCategory, listOfItems, layerData
+      console.info(data);
     },
-    onSetClick: (visType, layerNumber, setName, repoName, listOfItems) => {
+    onSetClick: (data) => {
       // alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
-      console.info(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`, listOfItems);
+      console.info(`layerNumber: ${data.layerNumber}, setName: ${data.setName}, repoName: ${data.repoName}, count of items: ${data.items.length}`, data.items);
 
-      if (_.isEqual(sets_selected_categories, [setName])) {
+      if (_.isEqual(sets_selected_categories, [data.setName])) {
         pCube.selectItemsBySets([], 'union');
       } else {
-        pCube.selectItemsBySets([setName], 'union');
+        pCube.selectItemsBySets([data.setName], 'union');
       }
     }
   };
@@ -168,23 +169,23 @@
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
-        .layer.highlight {
-          background-color: ${_highlightColor} !important; 
-          opacity: 0.2 !important;
-        }
-        div.set-rect-hover:hover {
-          background-color: ${_highlightColor} !important; 
-          opacity: 0.7 !important;
-          cursor: pointer;
-        }
-        #infoBox {
-          position: absolute;
-          height: 100px;
-          width: 200px;
-          top: 0;
-          left: 0;
-          color: white;
-        }`;
+          .layer.highlight {
+            background-color: ${_highlightColor} !important; 
+            opacity: 0.2 !important;
+          }
+          div.set-rect-hover:hover {
+            background-color: ${_highlightColor} !important; 
+            opacity: 0.7 !important;
+            cursor: pointer;
+          }
+          #infoBox {
+            position: absolute;
+            height: 100px;
+            width: 200px;
+            top: 0;
+            left: 0;
+            color: white;
+          }`;
   document.head.appendChild(sets_style);
 
   /**
@@ -301,6 +302,13 @@
   pCube.drawSets = (options) => {
 
     initSizes();
+
+    /**
+     * ADD RENDER_FUNCTION for mouse events (e.g. hover)
+     */
+    pCube.render_functions.push(onMouseHover);
+    pCube.root.addEventListener('mousemove', onMouseMove, false);
+    pCube.root.addEventListener('mousedown', onMouseDown, false);
 
     if (SWITCH_GRIDHELPER) {
       var gridhelper = new THREE.GridHelper(1000, 10);
@@ -629,6 +637,7 @@
     _raycaster.setFromCamera(_mouse, camera);
 
     let box = getIntersectingBox();
+    // console.log(box);
 
     if (box) {
       if (_intersected) {
@@ -663,38 +672,47 @@
   const onMouseMove = (event) => {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
-    _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    let rect = pCube.getGLRenderer().domElement.getBoundingClientRect();
+    _mouse.x = ((event.clientX - rect.left) / pCube.getInnerWidth()) * 2 - 1;
+    _mouse.y = - ((event.clientY - rect.top) / pCube.getInnerHeight()) * 2 + 1;
   };
 
   const onMouseDown = (event) => {
     console.log('Click.');
-    _mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    _mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    let rect = pCube.getGLRenderer().domElement.getBoundingClientRect();
+    _mouse.x = ((event.clientX - rect.left) / pCube.getInnerWidth()) * 2 - 1;
+    _mouse.y = - ((event.clientY - rect.top) / pCube.getInnerHeight()) * 2 + 1;
 
     let box = getIntersectingBox();
     if (box) {
       // _infoBox.innerText = JSON.stringify(box.userData);
       if (box.name === 'set-box') {
         let items = getListOfItemsByVisType(box.userData);
-        pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, box.userData.setName, box.userData.repoName, items);
+        let data = {
+          visType: pCube.sets_options.vis_type,
+          layerNumber: box.userData.layerNumber,
+          setName: box.userData.setName,
+          repoName: box.userData.repoName,
+          items: items
+        };
+        pCube.sets_options.onSetClick(data);
       } else if (box.name === 'set-box-selection') {
         let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
         let items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
-        pCube.sets_options.onSetClick(pCube.sets_options.vis_type, box.userData.layerNumber, selectionName, box.userData.repoName, items);
+        let data = {
+          visType: pCube.sets_options.vis_type,
+          layerNumber: box.userData.layerNumber,
+          setName: selectionName,
+          repoName: box.userData.repoName,
+          items: items
+        };
+        pCube.sets_options.onSetClick(data);
       }
     } else {
       updateInfoBox('')
     }
 
   };
-
-  /**
-   * ADD RENDER_FUNCTION for mouse events (e.g. hover)
-   */
-  pCube.render_functions.push(onMouseHover);
-  window.addEventListener('mousemove', onMouseMove, false);
-  window.addEventListener('mousedown', onMouseDown, false);
 
   /**
    * mark sets with the highlight color and give all other elements the base color
@@ -1015,7 +1033,14 @@
           selElement.element.style.height = newHeight + 'px';
 
           // selElement.element.title = selectionName;
-          selElement.element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, selElement.userData.layerNumber, selectionName, selElement.userData.repoName, selectionItems);
+          let data = {
+            visType: pCube.sets_options.vis_type,
+            layerNumber: selElement.userData.layerNumber,
+            setName: selectionName,
+            repoName: selElement.userData.repoName,
+            items: selectionItems
+          };
+          selElement.element.onclick = () => pCube.sets_options.onSetClick(data);
           // selElement.element.onmouseover = () => selElement.element.classList console.log(selectionName);
 
           var colorTween = new TWEEN.Tween(curColor)
@@ -1148,7 +1173,7 @@
                 visType: pCube.sets_options.vis_type,
                 layerNumber: idx,
                 groupedData: pCube.treemap_sets[idx],
-                listOfItems: listOfItems,
+                items: listOfItems,
                 raw: pCube.treemap_sets[idx],
                 layer: x,
                 layerGL: _layersGL[idx]
@@ -1167,7 +1192,7 @@
                 visType: pCube.sets_options.vis_type,
                 layerNumber: idx,
                 groupedData: groupedByCategory,
-                listOfItems: listOfItems,
+                items: listOfItems,
                 raw: pCube.matrix_sets[idx],
                 rawMatrixObjects: pCube.sets_matrix_objects[idx],
                 layer: x,
@@ -1679,7 +1704,14 @@
     // element.title = setName;
 
     let items = getListOfItemsByVisType({ layerNumber, setName });
-    element.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, items);
+    let data = {
+      visType: pCube.sets_options.vis_type,
+      layerNumber: layerNumber,
+      setName: setName,
+      repoName: null,
+      items: items
+    };
+    element.onclick = () => pCube.sets_options.onSetClick(data);
     element.onmouseover = () => {
       if (element.style.opacity > 0) {
         element.classList.add('set-rect-hover');
@@ -1726,8 +1758,14 @@
       selElement.style.display = 'none';
 
       // selElement.title = setName;
-
-      selElement.onclick = () => pCube.sets_options.onSetClick(pCube.sets_options.vis_type, layerNumber, setName, null, []);
+      let data = {
+        visType: pCube.sets_options.vis_type,
+        layerNumber: layerNumber,
+        setName: setName,
+        repoName: null,
+        items: []
+      };
+      selElement.onclick = () => pCube.sets_options.onSetClick(data);
       selElement.onmouseover = () => {
         if (selElement.style.opacity > 0) {
           selElement.classList.add('set-rect-hover');
