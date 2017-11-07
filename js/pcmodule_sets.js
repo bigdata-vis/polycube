@@ -155,11 +155,13 @@
       // alert(`layerNumber: ${layerNumber}, setName: ${setName}, repoName: ${repoName}, count of items: ${listOfItems.length}`);
       console.info(`layerNumber: ${data.layerNumber}, setName: ${data.setName}, repoName: ${data.repoName}, count of items: ${data.items.length}`, data.items);
 
+      let items = [];
       if (_.isEqual(sets_selected_categories, [data.setName])) {
-        pCube.selectItemsBySets([], 'union');
+        items = pCube.selectItemsBySets([], 'union');
       } else {
-        pCube.selectItemsBySets([data.setName], 'union');
+        items = pCube.selectItemsBySets([data.setName], 'union');
       }
+
     }
   };
 
@@ -169,23 +171,23 @@
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
-          .layer.highlight {
-            background-color: ${_highlightColor} !important; 
-            opacity: 0.2 !important;
-          }
-          div.set-rect-hover:hover {
-            background-color: ${_highlightColor} !important; 
-            opacity: 0.7 !important;
-            cursor: pointer;
-          }
-          #infoBox {
-            position: absolute;
-            height: 100px;
-            width: 200px;
-            top: 0;
-            left: 0;
-            color: white;
-          }`;
+            .layer.highlight {
+              background-color: ${_highlightColor} !important; 
+              opacity: 0.2 !important;
+            }
+            div.set-rect-hover:hover {
+              background-color: ${_highlightColor} !important; 
+              opacity: 0.7 !important;
+              cursor: pointer;
+            }
+            #infoBox {
+              position: absolute;
+              height: 100px;
+              width: 200px;
+              top: 0;
+              left: 0;
+              color: white;
+            }`;
   document.head.appendChild(sets_style);
 
   /**
@@ -274,32 +276,11 @@
   };
 
   /**
-   * Clear all elements that been drawn by drawSets
-   */
-  pCube.clearSets = () => {
-    _hierarchy_root = null;
-    pCube.getGLBox().remove(_linesContainer);
-    _matrixGridHelpers.forEach(gh => {
-      gh.parent.remove(gh);
-    });
-    _matrixGridHelpers.splice(0, _matrixGridHelpers.length);
-    _linesContainer.children = [];
-    _layers.forEach(l => pCube.getCube().remove(l));
-    _layersGL.forEach(l => pCube.getGLBox().remove(l));
-    _layers.splice(0, _layers.length);
-    _layersGL.splice(0, _layersGL.length);
-    _htmlElements.forEach(e => e.remove());
-    _boxes.splice(0, _boxes.length);
-    _selectedBoxes.splice(0, _selectedBoxes.length);
-    _lines.splice(0, _lines.length);
-    _rects.splice(0, _rects.length);
-    _selectedRects.splice(0, _selectedRects.length);
-  };
-
-  /**
    * draw set visualization on the polyCube layers based on options
    */
   pCube.drawSets = (options) => {
+
+    clearSets();
 
     initSizes();
 
@@ -624,7 +605,7 @@
       let elm = intersects[0];
 
       if (elm.object.name === 'set-box' || elm.object.name === 'set-box-selection') {
-        return elm.object;
+        return elm;
       } else {
         return null;
       }
@@ -636,10 +617,11 @@
     // update the picking ray with the camera and mouse position
     _raycaster.setFromCamera(_mouse, camera);
 
-    let box = getIntersectingBox();
-    // console.log(box);
+    let intBox = getIntersectingBox();
 
-    if (box) {
+    if (intBox) {
+      let box = intBox.object;
+      let boxSide = getIntersectedBoxSide(intBox);
       if (_intersected) {
         _intersected.material.color = _intersected.oldColor;
       }
@@ -651,8 +633,9 @@
       if (box.name === 'set-box') {
         items = getListOfItemsByVisType(box.userData);
       } else if (box.name === 'set-box-selection') {
-        let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
-        items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        // let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
+        // items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, [box.userData.setName]));
       }
 
       updateInfoBox(`layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`);
@@ -669,6 +652,16 @@
     }
   };
 
+  /**
+   * top: 2
+   * bottom: 3
+   * 4-sides: 0,1,4,5
+   */
+  const getIntersectedBoxSide = (intersectedObject) => {
+    var index = Math.floor(intersectedObject.faceIndex / 2);
+    return index;
+  }
+
   const onMouseMove = (event) => {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
@@ -678,14 +671,15 @@
   };
 
   const onMouseDown = (event) => {
-    console.log('Click.');
     let rect = pCube.getGLRenderer().domElement.getBoundingClientRect();
     _mouse.x = ((event.clientX - rect.left) / pCube.getInnerWidth()) * 2 - 1;
     _mouse.y = - ((event.clientY - rect.top) / pCube.getInnerHeight()) * 2 + 1;
 
-    let box = getIntersectingBox();
-    if (box) {
-      // _infoBox.innerText = JSON.stringify(box.userData);
+    let intBox = getIntersectingBox();
+    if (intBox) {
+      let box = intBox.object
+      let boxSide = getIntersectedBoxSide(intBox);
+
       if (box.name === 'set-box') {
         let items = getListOfItemsByVisType(box.userData);
         let data = {
@@ -697,12 +691,13 @@
         };
         pCube.sets_options.onSetClick(data);
       } else if (box.name === 'set-box-selection') {
-        let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
-        let items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        // let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
+        // let items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        let items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, [box.userData.setName]));
         let data = {
           visType: pCube.sets_options.vis_type,
           layerNumber: box.userData.layerNumber,
-          setName: selectionName,
+          setName: box.userData.setName,
           repoName: box.userData.repoName,
           items: items
         };
@@ -822,11 +817,39 @@
     return _stats;
   };
 
+  pCube.getCurrentSelectionName = () => {
+    return buildSelectionName(sets_selected_operations, sets_selected_categories);
+  };
+
   /**
    * ========================================================================
    *                              INTERNAL FUNCTIONS
    * ========================================================================
    */
+
+
+  /**
+   * Clear all elements that been drawn by drawSets
+   */
+  const clearSets = () => {
+    _hierarchy_root = null;
+    pCube.getGLBox().remove(_linesContainer);
+    _matrixGridHelpers.forEach(gh => {
+      gh.parent.remove(gh);
+    });
+    _matrixGridHelpers.splice(0, _matrixGridHelpers.length);
+    _linesContainer.children = [];
+    _layers.forEach(l => pCube.getCube().remove(l));
+    _layersGL.forEach(l => pCube.getGLBox().remove(l));
+    _layers.splice(0, _layers.length);
+    _layersGL.splice(0, _layersGL.length);
+    _htmlElements.forEach(e => e.remove());
+    _boxes.splice(0, _boxes.length);
+    _selectedBoxes.splice(0, _selectedBoxes.length);
+    _lines.splice(0, _lines.length);
+    _rects.splice(0, _rects.length);
+    _selectedRects.splice(0, _selectedRects.length);
+  };
 
   const initSizes = () => {
     NUMBER_OF_LAYERS = pCube.dataSlices;
@@ -1036,7 +1059,7 @@
           let data = {
             visType: pCube.sets_options.vis_type,
             layerNumber: selElement.userData.layerNumber,
-            setName: selectionName,
+            setName: selElement.userData.setName,
             repoName: selElement.userData.repoName,
             items: selectionItems
           };
