@@ -783,6 +783,8 @@
    */
   pCube.selectItemsBySets = (setNames, overlappingOption = pCube.OVERLAPPING_OPTIONS[0]) => {
     TWEEN.removeAll();
+
+    setNames = _.uniq(setNames);
     console.info('select of overlapping sets:', setNames);
     sets_selected_categories = setNames || [];
     sets_selected_operations = overlappingOption || null;
