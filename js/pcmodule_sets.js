@@ -275,6 +275,18 @@
     return Object.keys(merged).sort((a, b) => merged[b] - merged[a]);
   };
 
+  const isAboveThreshold = d => {
+    let percentAmount = 0;
+    d.term.forEach(t => {
+      // let per = _stats.selectedCountGroupedByTerm[t] / pCube.sets_filtered_by_selection.length; // FIXME: maybe threshold only from displayed elements.
+      let per = _stats.countGroupedByTerm[t] / pCube.sets_options.parsedData.length; // options.parsedData.length;
+      if (percentAmount < per) {
+        percentAmount = per;
+      }
+    });
+    return percentAmount >= pCube.sets_options.data_threshold;
+  };
+
   /**
    * draw set visualization on the polyCube layers based on options
    */
@@ -372,17 +384,7 @@
 
     // filter out data that is below the data threshold - based on the number of already filtered out data.
     if (pCube.sets_options.data_threshold) {
-      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(d => {
-        let percentAmount = 0;
-        d.term.forEach(t => {
-          // let per = _stats.selectedCountGroupedByTerm[t] / pCube.sets_filtered_by_selection.length; // FIXME: maybe threshold only from displayed elements.
-          let per = _stats.countGroupedByTerm[t] / options.parsedData.length; // options.parsedData.length;
-          if (percentAmount < per) {
-            percentAmount = per;
-          }
-        });
-        return percentAmount >= pCube.sets_options.data_threshold;
-      });
+      pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(isAboveThreshold);
     }
 
     // create stats for sets and multi-sets after filtering
@@ -630,15 +632,16 @@
       document.body.style.cursor = 'pointer';
 
       let items = [];
+      let selectionName = box.userData.setName;
       if (box.name === 'set-box') {
         items = getListOfItemsByVisType(box.userData);
       } else if (box.name === 'set-box-selection') {
-        // let selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
-        // items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
-        items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, [box.userData.setName]));
+        selectionName = buildSelectionName(sets_selected_operations, sets_selected_categories);
+        items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, sets_selected_categories));
+        // items = getListOfItemsByVisType(box.userData).filter(buildSetOperationFunction(sets_selected_operations, [box.userData.setName]));
       }
 
-      updateInfoBox(`layerNumber: ${box.userData.layerNumber}, setName: ${box.userData.setName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`);
+      updateInfoBox(`layerNumber: ${box.userData.layerNumber}, setName: ${selectionName}, repoName: ${box.userData.repoName}, count of items: ${items.length}`);
 
       _intersected = box;
     } else {
@@ -1071,6 +1074,12 @@
           };
           selElement.element.onclick = () => pCube.sets_options.onSetClick(data);
           // selElement.element.onmouseover = () => selElement.element.classList console.log(selectionName);
+          selElement.element.onmouseover = () => {
+            if (selElement.element.style.opacity > 0) {
+              selElement.element.classList.add('set-rect-hover');
+              updateInfoBox(`layerNumber: ${selElement.userData.layerNumber}, setName: ${selectionName}, repoName: ${selElement.userData.repoName}, count of items: ${selectionItems.length}`);
+            }
+          };
 
           var colorTween = new TWEEN.Tween(curColor)
             .to(newColor, 1500)
