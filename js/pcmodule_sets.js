@@ -171,23 +171,23 @@
   let sets_style = document.createElement('style');
   sets_style.setAttribute('type', 'text/css');
   sets_style.innerHTML = `
-            .layer.highlight {
-              background-color: ${_highlightColor} !important; 
-              opacity: 0.2 !important;
-            }
-            div.set-rect-hover:hover {
-              background-color: ${_highlightColor} !important; 
-              opacity: 0.7 !important;
-              cursor: pointer;
-            }
-            #infoBox {
-              position: absolute;
-              height: 100px;
-              width: 200px;
-              top: 0;
-              left: 0;
-              color: white;
-            }`;
+                .layer.highlight {
+                  background-color: ${_highlightColor} !important; 
+                  opacity: 0.2 !important;
+                }
+                div.set-rect-hover:hover {
+                  background-color: ${_highlightColor} !important; 
+                  opacity: 0.7 !important;
+                  cursor: pointer;
+                }
+                #infoBox {
+                  position: absolute;
+                  height: 100px;
+                  width: 200px;
+                  top: 0;
+                  left: 0;
+                  color: white;
+                }`;
   document.head.appendChild(sets_style);
 
   /**
@@ -817,8 +817,12 @@
     return _stats;
   };
 
-  pCube.getCurrentSelectionName = () => {
-    return buildSelectionName(sets_selected_operations, sets_selected_categories);
+  pCube.getCurrentSelectionInfo = () => {
+    return {
+      selectionName: buildSelectionName(sets_selected_operations, sets_selected_categories),
+      categories: sets_selected_categories,
+      operation: sets_selected_operations
+    };
   };
 
   /**
