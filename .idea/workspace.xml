@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cm.html" afterPath="$PROJECT_DIR$/cm.html" />
     </list>
     <ignored path="polycube.iws" />
@@ -23,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pcmodule_CM.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pcmodule_CM.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/pcmodule_CM.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="739" column="37" lean-forward="true" selection-start-line="739" selection-start-column="37" selection-end-line="739" selection-end-column="37" />
+            <state relative-caret-position="1033">
+              <caret line="735" column="11" lean-forward="true" selection-start-line="735" selection-start-column="11" selection-end-line="735" selection-end-column="11" />
               <folding>
                 <element signature="e#3009#3053#0" expanded="false" />
                 <element signature="e#3107#3160#0" expanded="false" />
@@ -54,16 +53,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cm.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cm.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="189" column="19" lean-forward="true" selection-start-line="189" selection-start-column="19" selection-end-line="189" selection-end-column="19" />
+            <state relative-caret-position="212">
+              <caret line="168" column="42" lean-forward="true" selection-start-line="168" selection-start-column="42" selection-end-line="168" selection-end-column="42" />
               <folding>
                 <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="e#3797#4954#0" expanded="false" />
-                <element signature="e#5944#6222#0" expanded="false" />
-                <element signature="e#6284#7450#0" expanded="false" />
+                <element signature="e#5946#6224#0" expanded="false" />
+                <element signature="e#6286#7452#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -175,8 +174,8 @@
         <option value="$PROJECT_DIR$/proj.html" />
         <option value="$PROJECT_DIR$/js/pcmodule_proj.js" />
         <option value="$PROJECT_DIR$/data/cm.json" />
-        <option value="$PROJECT_DIR$/cm.html" />
         <option value="$PROJECT_DIR$/js/pcmodule_CM.js" />
+        <option value="$PROJECT_DIR$/cm.html" />
       </list>
     </option>
   </component>
@@ -1030,12 +1029,12 @@
       <workItem from="1510579300081" duration="13147000" />
       <workItem from="1510760992154" duration="3000000" />
       <workItem from="1510822442540" duration="239000" />
-      <workItem from="1510921448161" duration="4114000" />
+      <workItem from="1510921448161" duration="4189000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="796532000" />
+    <option name="totallyTimeSpent" value="796607000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1462,23 +1461,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="189" column="19" lean-forward="true" selection-start-line="189" selection-start-column="19" selection-end-line="189" selection-end-column="19" />
-          <folding>
-            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#3797#4954#0" expanded="false" />
-            <element signature="e#5944#6222#0" expanded="false" />
-            <element signature="e#6284#7450#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/pcmodule_CM.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="739" column="37" lean-forward="true" selection-start-line="739" selection-start-column="37" selection-end-line="739" selection-end-column="37" />
+        <state relative-caret-position="1033">
+          <caret line="735" column="11" lean-forward="true" selection-start-line="735" selection-start-column="11" selection-end-line="735" selection-end-column="11" />
           <folding>
             <element signature="e#3009#3053#0" expanded="false" />
             <element signature="e#3107#3160#0" expanded="false" />
@@ -1500,6 +1486,19 @@
             <element signature="e#48116#48343#0" expanded="false" />
             <element signature="e#48379#49616#0" expanded="false" />
             <element signature="e#49852#49986#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cm.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="168" column="42" lean-forward="true" selection-start-line="168" selection-start-column="42" selection-end-line="168" selection-end-column="42" />
+          <folding>
+            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#3797#4954#0" expanded="false" />
+            <element signature="e#5946#6224#0" expanded="false" />
+            <element signature="e#6286#7452#0" expanded="false" />
           </folding>
         </state>
       </provider>
