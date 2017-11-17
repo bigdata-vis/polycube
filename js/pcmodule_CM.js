@@ -77,10 +77,17 @@
             return d.time;
         });
 
+        let dateUnixEx = d3.extent(datasets, function (d) {
+            return d.unix;
+        });
+
+        // console.log(dateUnixEx);
+
+
         window.dateTestEx = dateTestEx;
 
-
-        var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
+        // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
+        var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
 
         timeLinearG = timeLinear;
 
@@ -352,11 +359,16 @@
         /**
          * Colour Scale
          */
-        let colour = d3.scaleOrdinal()
-        // .domain(["jp1", "jp2", "jp3", "jp4"])
-            .domain([dateTestEx[0], dateTestEx[1]])
-            .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
-        // .range(["#450d54", "#3a8a8c", "#d5dee4"]);
+
+        // console.log(dateTestEx);
+
+        // let colour = d3.scaleOrdinal()
+        let colour = d3.scaleSequential(d3.interpolateBlues)
+            .domain([dateTestEx[1], dateTestEx[0]]);
+            // .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
+
+        // let colour2 = d3.scaleSequential(d3.interpolatePiYG())
+
 
         pCube.updatePC = function (datasets) {
 
@@ -401,7 +413,8 @@
                     if(flat_time){
                         object.position.y = 0;
                     }else {
-                        object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                        // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                        object.position.y = timeLinear(d.unix); //for unix date
                     }
                     object.position.z = coord[0] - 500;
                     object.position.x = coord[1] + 250;
@@ -413,7 +426,8 @@
                     object["newData"] = d;
 
                     stc.position.x = object.position.x;
-                    stc.position.y = timeLinear(d.time);
+                    // stc.position.y = timeLinear(d.time);
+                    stc.position.y = timeLinear(d.unix); // for unix
                     stc.position.z = object.position.z;
                     object['STC'] = stc;
 
@@ -475,6 +489,16 @@
             }
         });
 
+
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: -widthHalf,//offset border
+                y: -(height / 2),
+                z: -widthHalf
+            },
+            rotation: 10
+        });
+
         function drawLabels(parameters) {
 
             // console.log(dateTestEx[0]);
@@ -489,6 +513,7 @@
             var startDate = parameters["startDate"] || dateTestEx[0].toString();
             var endDate = parameters["endDate"] || dateTestEx[1].toString();
 
+            let rotation = parameters["rotation"] || 20 ;
             // console.log(endDate);
 
             var dateArray = d3.scaleTime()
@@ -512,7 +537,7 @@
 
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
-                label.rotation.y = 20;
+                label.rotation.y = rotation;
                 p.y += separator; //increment y position of individual label to increase over time
             }
 
@@ -912,7 +937,7 @@
         //make control center thesame as cube xyz position
         // controls.center = cube.position;
         controls.center.add(cube.position);
-        console.log(controls);
+        // console.log(controls);
 
 
         //controls
@@ -1231,6 +1256,7 @@
         // WGLScene.add(line);
 
     };
+
 
     /**
      * CSS3D sprite for point cloud implementation
