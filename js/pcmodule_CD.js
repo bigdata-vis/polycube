@@ -686,38 +686,44 @@
 
       var startAtBottom = parameters["startAtBottom"] || false;
 
+      var dateArray = parameters["dateArray"] || d3.scaleTime().domain([new Date(endDate), new Date(startDate)]).ticks(dataSlices);
+
+      var deleteLabels = parameters["deleteLabels"] === true ? true : false;
+
       // console.log(startDate);
       // console.log(endDate);
 
-      var dateArray = d3.scaleTime()
-        .domain([new Date(endDate), new Date(startDate)])
-        .ticks(dataSlices);
+      // console.log(dateArray);
 
       // var dateARR = d3.scaleTime().domain([new Date(startDate), new Date(endDate)]);
       // console.log(dateARR);
 
       // var separator = height / dateArray.length;
-      var separator = height / dataSlices;
+      var separator = height / labelCount;
       var p = parameters["labelPosition"] || {
         x: -80,//offset border
         y: 0,
         z: 100
       };
+      var r = parameters["rotation"] || {
+        y: 20
+      };
 
-      // TODO: remove old data and time
-      d3.selectAll("p.textTile").remove();
-      mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
-      for (var i = -1; i < (dataSlices); i++) {
+      if (deleteLabels) {
+        d3.selectAll("p.textTile").remove();
+        mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
+      }
+      for (var i = -1; i < (labelCount); i++) {
 
         if (i === -1 && startAtBottom) {
           var label = makeTextSprite(formatTime(endDate), { fontsize: fontsize });
           label.position.set(p.x, p.y - separator, p.z);
-          label.rotation.y = 20;
+          label.rotation.y = r.y;
         } else if (i >= 0) {
           // console.log(dateArray[i]);
           var label = makeTextSprite(formatTime(dateArray[i]), { fontsize: fontsize });
           label.position.set(p.x, p.y, p.z);
-          label.rotation.y = 20;
+          label.rotation.y = r.y;
           p.y += separator; //increment y position of individual label to increase over time
         }
       }
@@ -1663,6 +1669,9 @@
   var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
   var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
+  pCube.getCamera = () => {
+    return camera;
+  }
   pCube.getScene = () => {
     return scene;
   };
