@@ -31,6 +31,9 @@
   const SELECT_TYPE_VISIBILITY = 'visibility';
   pCube.SELECT_TYPES = [SELECT_TYPE_VISIBILITY, SELECT_TYPE_COLOR];
 
+  const TREEMAP_SORT_BY_VALUE = 'value';
+  const TREEMAP_SORT_BY_NAME = 'name';
+
   /**
    * display only the data within the time-range but keep the overall proportions and scale
    */
@@ -140,6 +143,7 @@
   const default_options = {
     vis_type: SET_VIS_TYPE_TREEMAP_FLAT,
     vis_type_treemap_flat_line_style: LINE_STYLE_CORNER,
+    vis_type_treemap_sort_by: TREEMAP_SORT_BY_VALUE,
     vis_type_matrix_count_opacity: true,
     vis_type_matrix_show_grid: false,
     vis_type_layer_clickable: true,
@@ -2162,6 +2166,18 @@
     }
   };
 
+  const treemapSortFunction = (a, b) => {
+    switch (pCube.sets_options.vis_type_treemap_sort_by) {
+      case TREEMAP_SORT_BY_NAME: {
+        return b.height - a.height || a.data.name.localeCompare(b.data.name);
+      }
+      case TREEMAP_SORT_BY_VALUE:
+      default: {
+        return b.height - a.height || b.value - a.value;
+      }
+    }
+  };
+
   /**
    * create or update the treemap hierarchy and treemap_nodes, based on current dataset
    */
@@ -2180,11 +2196,11 @@
       let maxLayer = dataset.length - 1;
       _simple_hierarchy_root = d3.hierarchy(data);
       _simple_hierarchy_root = _simple_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[maxLayer][d.name].length : null; })
-        .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
+        .sort(treemapSortFunction);
       console.debug(_simple_hierarchy_root);
     }
     _simple_hierarchy_root = _simple_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
-      .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
+      .sort(treemapSortFunction);
     let nodes = _tmap(_simple_hierarchy_root).leaves();
     console.debug(layerNumber, _simple_hierarchy_root);
     return nodes;
@@ -2211,11 +2227,11 @@
       let maxLayer = dataset.length - 1;
       _complex_hierarchy_root = stratify(list);
       _complex_hierarchy_root = _complex_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[maxLayer][d.name].length : null; })
-        .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
+        .sort(treemapSortFunction);
       console.debug(_complex_hierarchy_root);
     }
     _complex_hierarchy_root = _complex_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
-      .sort(function (a, b) { return b.height - a.height || a.data.name.localeCompare(b.data.name); });
+      .sort(treemapSortFunction);
     let nodes = _tmap(_complex_hierarchy_root).descendants();
     console.debug(layerNumber, _complex_hierarchy_root);
     return nodes;
