@@ -48,6 +48,10 @@
 
     var layout;
 
+
+    // let colour2 = d3.scaleSequential(d3.interpolatePiYG())
+
+
     /**
      * Flip mirro and horizontal
      * https://threejs.org/docs/#manual/introduction/Matrix-transformations
@@ -88,6 +92,12 @@
 
         // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
         var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
+
+        // let colour = d3.scaleOrdinal()
+        let colour = d3.scaleSequential(d3.interpolateBlues)
+            .domain([dateTestEx[1], dateTestEx[0]]);
+        // .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
+
 
         timeLinearG = timeLinear;
 
@@ -361,14 +371,6 @@
          */
 
         // console.log(dateTestEx);
-
-        // let colour = d3.scaleOrdinal()
-        let colour = d3.scaleSequential(d3.interpolateBlues)
-            .domain([dateTestEx[1], dateTestEx[0]]);
-            // .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
-
-        // let colour2 = d3.scaleSequential(d3.interpolatePiYG())
-
 
         pCube.updatePC = function (datasets) {
 
@@ -1391,6 +1393,7 @@
          * convert latlong to point and use it to porject xy coordinates of the sprite
          * https://stackoverflow.com/questions/40986573/project-leaflet-latlng-to-tile-pixel-coordinates
          */
+
         pCube.projection = function projectPoint(x, y) {
             // return mymap.latLngToLayerPoint(new L.LatLng(y, x));
             var latlong = new L.LatLng(x, y);
@@ -1476,6 +1479,34 @@
                 mymap.addLayer(street2)
             }
         };
+    };
+
+    pCube.drawMap2 = function (elemID, data) {
+
+        var counter = 0; //counter to monitor the amount of data rounds
+
+        // Convert the TopoJSON features to GeoJSON
+        var features = topojson.feature(data, data.objects.land);
+
+        svg.selectAll(".subunit")
+            .data([features])
+            // .data(aut.features)
+            .enter()
+            .append('g')
+            // .attr('transform', 'translate(460,0)rotate(80)')
+            // .attr('transform', 'translate(460,0)rotate(80)')
+            .append("path")
+            .attr("class", function (d, i) {
+                return "subunit"; //remove id
+            })
+            .classed("hide", function (d, i) {
+                counter += 1;
+                if (counter !== 1) { //only display map path for first map
+                    return true
+                }
+            })
+            .attr("d", path);
+
     };
 
     pCube.hideLeafletMap = function (value) {

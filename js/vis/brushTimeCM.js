@@ -13,7 +13,7 @@
 
 
         // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
-        let dateRange = [new Date(window.dateTestEx[1], 1, 1), new Date(window.dateTestEx[0], 1, 1) - 1]; //Cushman Todo: Manual Change
+        let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
 
         let margin = {top: 40, right: 40, bottom: 140, left: 40},
             width = 120 - margin.left - margin.right,
@@ -139,8 +139,8 @@
              */
                 // dateRange = [new Date(dateTestEx[0], 1, 1), new Date(dateTestEx[1], 1, 1) - 1];
                 // init();
-            let start = +format2(range[0]);
-            let end = +format2(range[1]);
+            let start = +format2(range[1]);
+            let end = +format2(range[0]);
 
             // console.log(window.dateTestEx);
 

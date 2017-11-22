@@ -198,6 +198,10 @@ input:focus {
     font-size: smaller;
 }
 
+#searchLink{
+ font-size: small;
+}
+
 #textTitle {
     /*width: 200px;*/
     /*color: white;*/

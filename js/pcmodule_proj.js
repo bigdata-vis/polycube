@@ -106,7 +106,6 @@
             d.start_date = +format2(d.start_date)
         });
 
-
         /**
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
          *
@@ -135,8 +134,6 @@
         pCube.showNodes = function () {
             pCube.drawLines()
         };
-
-
 
         /**WebGL renderer implementation
          *
@@ -327,7 +324,6 @@
 
             console.log(d3.select("body"));
 
-
             /**
              * Div SVG
              */
@@ -391,7 +387,6 @@
                     .attr("d", path);
 
             };
-
             pCube.drawMap2(map2);
 
             /**
@@ -430,7 +425,6 @@
 
                         // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
                         object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
-
                         object.position.z = coord[1];
                         object.position.x = coord[0];
 
@@ -454,9 +448,6 @@
                         // newList.push(object.position);
 
                         lineList.push(object.position);
-
-                        // console.log(object);
-                        // scene.add(object);
                         pointCloud.add(object);
                         // }
                     }, false);
@@ -1057,6 +1048,9 @@
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
+
+        // pointCloud.rotation.y -= 0.05;
+
     };
 
     /**
@@ -1102,6 +1096,8 @@
     pointCloud.rotation.y += -1.2;
     pointCloud.position.z += -30;
     pointCloud.position.x += -20;
+
+    console.log(pointCloud);
 
     window.polyCube = pCube;
 }());
