@@ -556,7 +556,7 @@
                 // .ticks(d3.timeYear)
                 .ticks(d3.timeYear.every(2));
 
-            console.log(dateArray);
+            // console.log(dateArray);
 
             // var separator = height / dateArray.length;
             var separator = height / labelCount;
