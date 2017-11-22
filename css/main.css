@@ -245,9 +245,10 @@ input:focus {
     /*-moz-box-shadow: 0 0 5px blue;*/
     box-shadow:0 0 2px #1891ff;
 
-    display: inline-block;
+    /*display: inline-block;*/
     /*margin: 5%;*/
     background-color: #00b438;
+    cursor: pointer;
 }
 
 .pointCloud::after {

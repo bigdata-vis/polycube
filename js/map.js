@@ -857,7 +857,7 @@
 
         if (layout === "STC") {
             //flatten pointCloud time first if layout is STC
-            polyCube.setsDraw()
+            polyCube.setsDraw();
         }
 
         //hide all time panels
@@ -873,14 +873,13 @@
 
         scene.children[0].children.reverse();
 
-
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
             var reduceLeft = {
                 x: (( segCounter % 5 ) * (width + 50)) - (width),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) - 100, //just another way of getting 550
                 z: 0
             };
 
@@ -1607,9 +1606,12 @@
                 // d.position.y = interval + interval;
                 // d.position.y = interval * i - 125;
 
+                d.matrixAutoUpdate = true;
+                d.updateMatrix();
+
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            y: interval * i - 125
+                            y: interval * i - (interval+interval)
                         }
                         , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
