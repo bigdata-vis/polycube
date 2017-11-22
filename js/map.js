@@ -15,6 +15,7 @@
      * @type {Array}
      */
     var lineList = [];
+    var pcObjects = [];
 
     /**d3 variables and declarations
      *
@@ -50,11 +51,12 @@
 
 
     var projection;
-     var  path;
-
+    var path;
     var elements;
 
     // let colour2 = d3.scaleSequential(d3.interpolatePiYG())
+
+    var position = new THREE.Vector3();
 
 
     /**
@@ -256,7 +258,6 @@
         // glbox.position.y += 5;
 
 
-
         //Cushman
         // pointCloud.rotation.z = 3.15;
         // pointCloud.position.z = -90;
@@ -265,7 +266,6 @@
         // glbox.rotation.z = 3.15;
         // glbox.position.z = -90;
         // glbox.position.y += 5;
-
 
 
         /**CSS3D Scene
@@ -316,7 +316,7 @@
          *Map Projection
          *Mercator or geoAlbers
          *Dynamic Scale with editing and update function
-        //  */
+         //  */
 
         pCube.updateMap = function (scale = 800, mapData) {
 
@@ -334,7 +334,7 @@
              *Currently using todo: datasets1 should be changed to datasets2
              */
 
-           elements = d3.select("body").selectAll('.element')
+            elements = d3.select("body").selectAll('.element')
             //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
             //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
                 .data(dataBySeg)
@@ -371,9 +371,9 @@
                      */
 
                         // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
-                    // var maps = pCube.drawMap(d.key, d.values);
+                        // var maps = pCube.drawMap(d.key, d.values);
 
-                    // var geoMap = pCube.drawMap2(d.key,d.values,path)
+                        // var geoMap = pCube.drawMap2(d.key,d.values,path)
 
                     var geoMap = pCube.drawMap2(d.key, mapData, d.values)
                 });
@@ -383,7 +383,7 @@
              */
             // elements.each(setViewData);
         };
-        pCube.updateMap(400,geoMap);
+        pCube.updateMap(400, geoMap);
 
         /**
          * Colour Scale
@@ -392,6 +392,8 @@
         // console.log(dateTestEx);
 
         pCube.updatePC = function (datasets) {
+
+            var image, interval, stc, object;
 
             /**
              * Remove all elements from the scene
@@ -409,29 +411,42 @@
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 .each(function (d, i) {
-                    var image = document.createElement('div');
-                    var interval = 500 / dataSlices; //height/segments
-                    const stc = new THREE.Object3D();
+                    image = document.createElement('div');
+                    interval = 500 / dataSlices; //height/segments
+                    stc = new THREE.Object3D();
+                    // var object = new THREE.CSS3DObject(image),
+                    object = new THREE.CSS3DSprite(image);
+                    // update matrix true on entry
+                    object.matrixAutoUpdate = true;
+                    // object.updateMatrix();
+
 
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
                     image.style.background = colour(d.time);
 
+                    object.position.copy(position);
+                    object.position.multiplyScalar( 75 );
 
-                    // var object = new THREE.CSS3DObject(image),
-                    var object = new THREE.CSS3DSprite(image),
-                        long = d.lat,
+
+                    var long = d.lat,
                         lat = d.long,
                         coord = translate(projection([long, lat]));
 
-                    if(flat_time){
+                    if (flat_time) {
                         object.position.y = 0;
-                    }else {
+                    } else {
                         object.position.y = timeLinear(d.unix); //for unix date
                     }
                     object.position.z = coord[1];
                     object.position.x = coord[0];
+
+
+                    // update matrix off on exit
+                    object.matrixAutoUpdate = false;
+                    object.matrixWorldNeedsUpdate = false;
+                    object.updateMatrix();
 
                     /**
                      * add each proerties of the pointcloud to new data
@@ -442,7 +457,6 @@
                     stc.position.y = timeLinear(d.unix); // for unix
                     stc.position.z = object.position.z;
                     object['STC'] = stc;
-
 
                     // add object rotation
                     // object.rotation.fromArray(rot[2]);
@@ -462,17 +476,22 @@
                             );
 
                         d3.select("#searchLink")
-                            .attr("href", "https://www.google.co.uk/search?tbm=isch&q="+ d.City_and_State +"+"+d.Description_from_Slide_Mount);
+                            .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
 
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL)
+
+
                     };
 
                     // lineList.push(object.position);
                     /**
                      * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
                      */
+
                     pointCloud.add(object);
+                    // pointCloud.push(object);
+
                     // }
                     // }, false);
                     // image.src = 'texture/ball2.png';
@@ -497,10 +516,10 @@
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
-                y: -(height / 2)- 10,
+                y: -(height / 2) - 10,
                 z: widthHalf
             },
-            labelCount:17
+            labelCount: 17
         });
 
 
@@ -527,7 +546,7 @@
             var startDate = parameters["startDate"] || dateTestEx[1].toString();
             var endDate = parameters["endDate"] || dateTestEx[0].toString();
 
-            let rotation = parameters["rotation"] || 20 ;
+            let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
 
             var dateArray = d3.scaleTime()
@@ -556,7 +575,7 @@
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = rotation;
                 // p.y += separator; //increment y position of individual label to increase over time
-                p.y += height/dateArray.length; //increment y position of individual label to increase over time
+                p.y += height / dateArray.length; //increment y position of individual label to increase over time
             }
 
             function makeTextSprite(message, parameters) {
@@ -698,6 +717,12 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
+
+            // update matrix false on exit
+            // d.matrixAutoUpdate = false;
+            // d.updateMatrix();
+
+            // console.log(d)
         });
 
         /**
@@ -705,7 +730,7 @@
          * Only show
          */
         // scene.getObjectByName("pointCloud").children.reverse(); reverse point cloud y axis
-        if (layout !== "STC" ) {
+        if (layout !== "STC") {
             scene.children[0].children.reverse();
         }
 
@@ -994,8 +1019,9 @@
 
             // d.position.y = -249;
 
-
-            // console.log(d);
+            // update matrix true on entry
+            d.matrixAutoUpdate = true;
+            d.updateMatrix();
 
             var flattenPoints = new TWEEN.Tween(d.position)
                 .to({
@@ -1005,6 +1031,10 @@
                 .start();
 
             // console.log(d)
+
+            // // update matrix false on exit
+            // d.matrixAutoUpdate = false;
+            // d.updateMatrix();
         });
 
         /**
@@ -1379,7 +1409,6 @@
         }).setView([30.4507462, -91.154552], 3);
 
 
-
         mymap.touchZoom.disable();
         mymap.doubleClickZoom.enable();
         // mymap.doubleClickZoom.disable();
@@ -1514,8 +1543,8 @@
 
         // console.log(features);
 
-       var mapSVG =  d3.selectAll("#"+elemID).append("svg")
-            // .attr("class", "elements_child")
+        var mapSVG = d3.selectAll("#" + elemID).append("svg")
+        // .attr("class", "elements_child")
             .attr("width", width)
             .attr("height", height)
             .style("opacity", 0.2);
@@ -1597,7 +1626,6 @@
         // d3.selectAll(".elements")
     };
 
-
     /**
      * Translate function for the long and lat coordinates
      * @param point
@@ -1608,6 +1636,17 @@
     function translate(point) {
         // return [point[0] - (width / 2), (height / 2) - point[1]];
         return [point[1] - (width / 2), (height / 2) - point[0]];
+    }
+
+    function imageToCanvas(image) {
+        const width = image.width;
+        const height = image.height;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, width, height);
+        return canvas;
     }
 
     /**
