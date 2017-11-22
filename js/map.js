@@ -497,20 +497,22 @@
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
-                y: -(height / 2),
+                y: -(height / 2)- 10,
                 z: widthHalf
-            }
-        });
-
-
-        drawLabels({ //Todo: fix label with proper svg
-            labelPosition: {
-                x: -widthHalf,//offset border
-                y: -(height / 2),
-                z: -widthHalf
             },
-            rotation: 10
+            labelCount:17
         });
+
+
+        // drawLabels({ //Todo: fix label with proper svg
+        //     labelPosition: {
+        //         x: -widthHalf,//offset border
+        //         y: -(height / 2) - 10,
+        //         z: -widthHalf
+        //     },
+        //     rotation: 10,
+        //     labelCount:17
+        // });
 
         function drawLabels(parameters) {
 
@@ -518,7 +520,6 @@
             // console.log(new Date(dateTestEx[1]));
 
             // console.log(d3.scaleTime().domain([new Date(dateTestEx[0])]))
-
 
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
@@ -531,27 +532,31 @@
 
             var dateArray = d3.scaleTime()
                 .domain([new Date(endDate), new Date(startDate)])
-                .ticks(dataSlices);
+                // .ticks(dataSlices);
+                // .ticks(labelCount);
+                // .ticks(d3.timeYear)
+                .ticks(d3.timeYear.every(2));
 
-            // var dateARR = d3.scaleTime().domain([new Date(startDate), new Date(endDate)]);
-            // console.log(dateARR);
+            console.log(dateArray);
 
             // var separator = height / dateArray.length;
-            var separator = height / dataSlices;
+            var separator = height / labelCount;
             var p = parameters["labelPosition"] || {
                 x: -80,//offset border
                 y: 0,
                 z: 100
             };
 
-            for (var i = 0; i < (dataSlices); i++) {
+            // for (var i = 0; i < (dataSlices); i++) {
+            for (var i = 0; i < (dateArray.length); i++) {
 
                 // console.log(dateArray[i]);
 
                 var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = rotation;
-                p.y += separator; //increment y position of individual label to increase over time
+                // p.y += separator; //increment y position of individual label to increase over time
+                p.y += height/dateArray.length; //increment y position of individual label to increase over time
             }
 
             function makeTextSprite(message, parameters) {
@@ -779,6 +784,8 @@
         /**
          * Remove transparency on first layer only and hide the rest
          */
+        // console.log(d3.selectAll(".elements_child"));
+
 
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
@@ -1508,7 +1515,7 @@
         // console.log(features);
 
        var mapSVG =  d3.selectAll("#"+elemID).append("svg")
-            .attr("class", "elements_child")
+            // .attr("class", "elements_child")
             .attr("width", width)
             .attr("height", height)
             .style("opacity", 0.2);

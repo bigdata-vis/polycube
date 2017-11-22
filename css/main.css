@@ -69,8 +69,8 @@ text {
 }
 
 .hide {
-    opacity: 0;
-    /*display: none;*/
+    /*opacity: 0;*/
+    display: none;
 }
 
 /*.hide, .leaflet-pane .leaflet-tile-pane{*/
