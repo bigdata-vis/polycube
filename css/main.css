@@ -44,12 +44,12 @@ canvas {
 
 .place,
 .place-label {
-    fill: #18b23d;
+    fill: #353636;
 }
 
 text {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 10px;
+    /*font-size: 10px;*/
     pointer-events: none;
 }
 
@@ -61,12 +61,21 @@ text {
 }
 
 .subunit-label {
-    fill: #777;
-    fill-opacity: .5;
-    font-size: 20px;
-    font-weight: 300;
+    fill: black;
+    fill-opacity: 1;
+    font-size: 8px;
+    /*font-weight: 300;*/
     text-anchor: middle;
 }
+
+.boundary {
+    /*fill: #DEB887;*/
+    fill: #cccccc;
+    /*stroke: black;*/
+    stroke: #353636;
+    stroke-width: 1px;
+}
+
 
 .hide {
     /*opacity: 0;*/
@@ -235,15 +244,16 @@ input:focus {
     /*height: 2px !important;*/
     /*width: 2px !important;*/
     border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 500%;
+    /*border: solid black 0.5px;*/
+    /*text-align: center;*/
+    /*vertical-align: middle;*/
+    /*font-size: 500%;*/
     position: relative;
     /*box-shadow: inset -10px -10px 100px #000, 10px 10px 20px green, inset 0px 0px 10px green;*/
 
     /*-webkit-box-shadow:0 0 5px blue;*/
     /*-moz-box-shadow: 0 0 5px blue;*/
-    box-shadow:0 0 2px #1891ff;
+    /*box-shadow:0 0 2px #1891ff;*/
 
     /*display: inline-block;*/
     /*margin: 5%;*/
@@ -251,17 +261,17 @@ input:focus {
     cursor: pointer;
 }
 
-.pointCloud::after {
-    background-color: rgba(255, 255, 255, 0.3);
-    content: '';
-    height: 45%;
-    width: 12%;
-    position: absolute;
-    top: 4%;
-    left: 15%;
-    border-radius: 50%;
-    transform: rotate(40deg);
-}
+/*.pointCloud::after {*/
+    /*background-color: rgba(255, 255, 255, 0.3);*/
+    /*content: '';*/
+    /*height: 45%;*/
+    /*width: 12%;*/
+    /*position: absolute;*/
+    /*top: 4%;*/
+    /*left: 15%;*/
+    /*border-radius: 50%;*/
+    /*transform: rotate(40deg);*/
+/*}*/
 
 .green {
     background-color: green;

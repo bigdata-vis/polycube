@@ -81,7 +81,8 @@
     //            .defer(d3.json, "data/painting_gallery_clean.json")
     //        .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.json, "data/cm.json")
-        .defer(d3.json, "data/land.topojson")
+//        .defer(d3.json, "data/land.topojson")
+        .defer(d3.json, "data/worldUS.json")
         .await(init);
 
     function init(error, data, geoMap) {
@@ -258,14 +259,15 @@
             overlapNodes: 0,
             nodeSize: 3,
             colorScale: false,
-            BG: "#d5dde4",
+//            BG: "#d5dde4",
+            BG: "#d4d4d4",
             invert: false,
 //            projection: 5000,
 //            map: "street"
         };
 
-        d3.selectAll(".leaflet-marker-icon")
-            .classed("hide", true);
+//        d3.selectAll(".leaflet-marker-icon")
+//            .classed("hide", true);
 //
 //        d3.select("#textTitle")
 //            .style("color", "black");
@@ -282,14 +284,11 @@
         d3.selectAll(".screen_dots")
             .style("fill", "rgb(16, 49, 21)");
 
-//                d3.selectAll(".elements_child")
-//                        .style("background-color", "#8fa7b9");
-
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-        d3.selectAll(".leaflet-marker-icon")
-            .attr("src", "texture/ball2.png");
+//        d3.selectAll(".leaflet-marker-icon")
+//            .attr("src", "texture/ball2.png");
 
 
         /**
@@ -346,7 +345,7 @@
             d3.selectAll(".pointCloud")
                 .style("width", value + "px")
                 .style("height", value + "px")
-                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
 
         Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {

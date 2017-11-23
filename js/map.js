@@ -203,9 +203,10 @@
 
         // console.log(pointCloud);
 
-        pointCloud.rotation.y = -1.4;
-        pointCloud.position.z += -30;
-        pointCloud.position.x += 30;
+        pointCloud.rotation.y = -1.54;
+        pointCloud.position.z += -3;
+        pointCloud.position.x += 5;
+
 
         /**camera
          * Threejs camera implementation
@@ -427,7 +428,7 @@
                     image.style.background = colour(d.time);
 
                     object.position.copy(position);
-                    object.position.multiplyScalar( 75 );
+                    object.position.multiplyScalar(75);
 
 
                     var long = d.lat,
@@ -1530,7 +1531,7 @@
         };
     };
 
-    pCube.drawMap2 = function (elemID, data, points) {
+    pCube.drawMap3 = function (elemID, data, points) {
 
         // console.log(elemID);
         // console.log(points);
@@ -1568,7 +1569,68 @@
             //     }
             // })
             .attr("d", path);
+    };
 
+    pCube.drawMap2 = function (elemID, data, points) {
+        let mapSVG = d3.selectAll("#" + elemID).append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .style("opacity", 0.5);
+
+        // let features = topojson.feature(data, data.objects.land);
+
+        //countries
+        mapSVG.append("g")
+            .attr("class", "boundary")
+            .selectAll("boundary")
+            .data(topojson.feature(data, data.objects.countries).features)
+            .enter().append("path")
+            .attr("name", function (d) {
+                return d.properties.name;
+            })
+            .attr("id", function (d) {
+                return d.id;
+            })
+            .attr("d", path);
+
+
+        //states
+        mapSVG.append("g")
+            .attr("class", "boundary state hidden")
+            .selectAll("boundary")
+            .data(topojson.feature(data, data.objects.states).features)
+            .enter().append("path")
+            .attr("name", function (d) {
+                return d.properties.name;
+            })
+            .attr("id", function (d) {
+                return d.id;
+            })
+            .attr("d", path);
+
+        //labels
+        mapSVG.selectAll(".subunit-label")
+            .data(topojson.feature(data, data.objects.states).features)
+            .enter().append("text")
+            .attr("class", function (d) {
+                return "subunit-label " + d.id;
+            })
+            .attr("transform", function (d) {
+                return "translate(" + path.centroid(d) + ")";
+            })
+            .attr("dy", ".35em")
+            .text(function (d) {
+                return d.properties.name;
+            });
+
+        // console.log(features);
+        //
+        // mapSVG.selectAll(".subunit")
+        //     .data([features])
+        //     .enter()
+        //     .append('g')
+        //     .append("path")
+        //     .attr("d", path);
     };
 
     pCube.hideLeafletMap = function (value) {
@@ -1611,7 +1673,7 @@
 
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            y: interval * i - (interval+interval)
+                            y: interval * i - (interval + interval)
                         }
                         , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -1623,7 +1685,6 @@
         //
         //     // console.log(d);
         // });
-
 
         // d3.selectAll(".elements")
     };
