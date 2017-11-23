@@ -8,6 +8,9 @@
     <script src="lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
 
+    <script src="lib/three.js/projector.js"></script>
+    <script src="lib/three.js/SVGRenderer.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
           crossorigin=""/>
@@ -17,10 +20,6 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
-<div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
-    <input style="" type="range" max="250" min="-250" id="cube-morphing" value="-50">
-</div>
 
 <button class="button" type="button" onclick="polyCube.default()">
     space-time cube
@@ -40,7 +39,6 @@
         onclick="polyCube.juxstaPose()">
     juxtaposition
 </button>
-
 
 <!--<button id="testBTN" class="button" type="button"></button>-->
 

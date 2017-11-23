@@ -151,14 +151,15 @@
          */
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
+        svgScene = new THREE.Scene();
 
         /**
          * Render point cloud from the automated data and points;
          * TrackballControls makes object disspear when zooming out ?
          */
         pCube.showPointCloud = function () {
-
         };
+
         pCube.showNodes = function () {
             pCube.drawLines()
         };
@@ -178,17 +179,30 @@
         WGLRenderer.domElement.style.top = 0;
         // document.body.appendChild(WGLRenderer.domElement);
 
+        /**
+         * SVG Renderer
+         */
+        svgRenderer = new THREE.SVGRenderer();
+        svgRenderer.setSize(window.innerWidth, window.innerHeight);
+        svgRenderer.domElement.style.top = 0;
+        // svgRenderer.setQuality('low');
+        svgRenderer.domElement.style.position = 'absolute';
+        svgRenderer.domElement.style.backgroundColor = 'black';
+
+
+        document.body.appendChild(svgRenderer.domElement);
 
         /**CSS renderer
          *
          * @type {THREE.CSS3DRenderer}
          */
         renderer = new THREE.CSS3DRenderer();
+        renderer.domElement.id = "CSSLayoutBox";
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.domElement.style.position = 'absolute';
-        // renderer.domElement.style.zIndex = 5;
         renderer.domElement.style.top = 0;
         document.body.appendChild(renderer.domElement);
+
 
         /**
          * Callibrating css cubebox and glcube box positions
@@ -240,7 +254,6 @@
 
         scene.add(cube);
         scene.add(mesh);
-
         scene.add(pointCloud);
         // WGLScene.add(glbox);
 
@@ -267,6 +280,11 @@
         // glbox.rotation.z = 3.15;
         // glbox.position.z = -90;
         // glbox.position.y += 5;
+
+
+        /**
+         * SandBox
+         */
 
 
         /**CSS3D Scene
@@ -512,7 +530,6 @@
          * todo: Redo timeLine
          *
          */
-
 
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
@@ -963,6 +980,8 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        svgRenderer.setSize(window.innerWidth, window.innerHeight);
         pCube.render()
     };
 
@@ -1355,9 +1374,16 @@
     };
 
     pCube.render = function () {
+
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
+        svgRenderer.render(svgScene, camera);
+
         // cube.rotation.y -= 0.05;
         // pointCloud.rotation.y -= 0.05;
 
@@ -1730,7 +1756,9 @@
      * Example od a perfect webglcube https://threejs.org/examples/webgl_lines_dashed.html
      */
     var WGLScene,
-        WGLRenderer;
+        WGLRenderer,
+        svgScene,
+        svgRenderer;
 
     /**
      * Array cube rotation and position css3d matrix
