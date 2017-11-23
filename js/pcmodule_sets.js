@@ -1166,14 +1166,16 @@
         }
 
         if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_VISIBILITY) {
+          const targetOpacity = pCube.sets_options.vis_type_matrix_count_opacity ? b.userData.defaultOpacity : 1;
+
           if (isTreemapHierarchy()) {
             if (b.userData.setName.split('.').length === 2) {
-              toggleBoxOpacity(b, 1, 1);
+              toggleBoxOpacity(b, targetOpacity, 1);
             } else {
               b.visible = false;
             }
           } else {
-            toggleBoxOpacity(b, 1, 1);
+            toggleBoxOpacity(b, targetOpacity, 1);
           }
         } else if (pCube.sets_options.vis_type_select_type === SELECT_TYPE_COLOR) {
           var colorTween = new TWEEN.Tween(b.material.color)
@@ -1925,6 +1927,7 @@
               const totalCountPerCategory = pCube.matrix_sets[NUMBER_OF_LAYERS - 1][setIdx][repoIdx];
               const c = pCube.matrix_sets[idx][setIdx][repoIdx];
               const opacity = pCube.sets_options.vis_type_matrix_count_opacity ? c / totalCountPerCategory : 1;
+
               const l = _layersGL[idx];
               drawBoxGL(l, idx, matrixStruct.setNames[setIdx], matrixStruct.repoNames[repoIdx], xSplit * setIdx, -LAYER_SIZE_HALF, ySplit * repoIdx, xSplit, LAYER_SIZE, ySplit, _stats.itemsCount, opacity, true, true);
               //drawBoxGL(pCube.getGLBox(), matrixStruct.setNames[setIdx], xSplit * setIdx, ySplit * repoIdx, xSplit, xSplit, xSplit, p, _stats.itemsCount, opacity);
@@ -2487,7 +2490,7 @@
     let set = new THREE.Mesh(geometry, material);
     set.name = 'set-box';
     const parentSetName = isTreemapHierarchy() ? setName.substring(0, setName.lastIndexOf('.')) : null;
-    set.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName, parentSetName };
+    set.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName, parentSetName, defaultOpacity: opacity };
 
     set.position.x = x - cubesize_per_items + w; // -150 + node.x0 + (w / 2);
     set.position.z = z - cubesize_per_items + d; // -150 + node.y0 + (d / 2);
@@ -2513,7 +2516,7 @@
       });
       let selBox = new THREE.Mesh(selGeometry, selMaterial);
       selBox.name = 'set-box-selection';
-      selBox.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName, parentSetName };
+      selBox.userData = { setName: setName, layerNumber: layerNumber, repoName: repoName, parentSetName, defaultOpacity: opacity };
       selBox.visible = false;
 
       if (withBorder) {
