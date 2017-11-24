@@ -503,7 +503,6 @@
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL)
 
-                        
                         drawPointSelectedLines(object, object.position);
                     };
 
