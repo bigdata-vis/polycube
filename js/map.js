@@ -226,7 +226,6 @@
         glbox.position.copy(pointCloud.position);
 
 
-
         /**camera
          * Threejs camera implementation
          * @type {any}
