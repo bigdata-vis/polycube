@@ -222,6 +222,10 @@
         pointCloud.position.z += -3;
         pointCloud.position.x += 5;
 
+        //calibration glbox lines with CSS scene
+        glbox.position.copy(pointCloud.position);
+
+
 
         /**camera
          * Threejs camera implementation
@@ -256,7 +260,7 @@
         scene.add(cube);
         scene.add(mesh);
         scene.add(pointCloud);
-        // WGLScene.add(glbox);
+        WGLScene.add(glbox);
 
         /**
          * Time axis inverted
@@ -634,7 +638,8 @@
 
     function drawPointSelectedLines(element, elementPosition) {
       // cleanup 
-      pointSelectedLines.forEach(x => WGLScene.remove(x));
+      // pointSelectedLines.forEach(x => WGLScene.remove(x));
+      pointSelectedLines.forEach(x => glbox.remove(x));
       pointSelectedLines = [];
 
       const drawLine = (vec1, vec2) => {
@@ -651,7 +656,9 @@
         line.rotation.copy(pointCloud.rotation);
 
         pointSelectedLines.push(line);
-        WGLScene.add(line);
+        // WGLScene.add(line);
+        glbox.add(line);
+
       };
 
       drawLine(
