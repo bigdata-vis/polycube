@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--<script src="lib/three.js/three.min.js"></script>-->
+  <script src="//threejs.org/build/three.min.js"></script>
+  <script src="lib/three.js/OrbitControls.js"></script>
+  <script src="lib/three.js/tween.js"></script>
+  <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+
+  <!--<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyD1jPnwQcKRnfYFKhH_iRV7oSt8xYpmw40"></script>-->
+
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+    crossorigin=""></script>
+
+  <style>
+    body {
+      /*background-color: #000;*/
+      /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
+      /*background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);*/
+      /*background: linear-gradient(to bottom, #000000 50%, #00155c 100%);*/
+      background-color: black;
+      /*background-image:*/
+      /*radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),*/
+      /*radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),*/
+      /*radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),*/
+      /*radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);*/
+      /*background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;*/
+      /*background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;*/
+      /*overflow: hidden;*/
+      /*background-repeat: no-repeat;*/
+      /*background-size: 100% 1000px;*/
+      overflow: hidden;
+      margin: 0;
+    }
+
+    canvas {
+      background: transparent;
+    }
+
+    .elements_child {
+      background-color: #2f2f2f;
+    }
+
+    .subunit {
+      fill: #dcdcdc;
+    }
+
+    .place,
+    .place-label {
+      fill: #18b23d;
+    }
+
+    text {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      pointer-events: none;
+    }
+
+    .subunit-boundary {
+      fill: none;
+      stroke: #777;
+      stroke-dasharray: 2, 2;
+      stroke-linejoin: round;
+    }
+
+    .subunit-label {
+      fill: #777;
+      fill-opacity: .5;
+      font-size: 20px;
+      font-weight: 300;
+      text-anchor: middle;
+    }
+
+    .hide {
+      opacity: 0;
+    }
+    /*input*/
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 200px;
+      height: 2px;
+      background: #FFF;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: auto;
+      -webkit-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background: #130C0E;
+      position: relative;
+      border: 3px solid #FFF;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    input:focus {
+      outline: none;
+    }
+    /*time slider*/
+
+    .axis--grid .domain {
+      /*fill: #ddd;*/
+      stroke: none;
+    }
+
+    .axis--x .domain,
+    .axis--grid .tick line {
+      stroke: #353636;
+    }
+
+    .axis--y .domain,
+    .tick text {
+      fill: #353636;
+    }
+
+    .axis--grid .tick--minor line {
+      stroke-opacity: .5;
+    }
+
+    .axis2,
+    .axis--y2 line {
+      stroke: white;
+      stroke-opacity: .5;
+    }
+    /*.stations, .stations svg {*/
+    /*position: absolute;*/
+    /*}*/
+    /*.stations svg {*/
+    /*width: 60px;*/
+    /*height: 20px;*/
+    /*padding-right: 100px;*/
+    /*font: 10px sans-serif;*/
+    /*}*/
+    /*.stations circle {*/
+    /*fill: brown;*/
+    /*stroke: black;*/
+    /*stroke-width: 1.5px;*/
+    /*}*/
+
+    .layer,
+    .layer svg {
+      position: absolute;
+    }
+
+    .layer svg {
+      width: 60px;
+      height: 60px;
+      padding-right: 100px;
+      font: 10px sans-serif;
+    }
+
+    /* CSS LOADING SPINNER */
+
+    .sk-cube-grid {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      position: fixed;
+      left:50%;
+      top:50%;
+      margin-left:-20px;
+      margin-top:-20px;
+    }
+
+    .sk-cube-grid .sk-cube {
+      width: 33%;
+      height: 33%;
+      background-color: white; /* #333; */
+      float: left;
+      -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+              animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+    }
+    .sk-cube-grid .sk-cube1 {
+      -webkit-animation-delay: 0.2s;
+              animation-delay: 0.2s; }
+    .sk-cube-grid .sk-cube2 {
+      -webkit-animation-delay: 0.3s;
+              animation-delay: 0.3s; }
+    .sk-cube-grid .sk-cube3 {
+      -webkit-animation-delay: 0.4s;
+              animation-delay: 0.4s; }
+    .sk-cube-grid .sk-cube4 {
+      -webkit-animation-delay: 0.1s;
+              animation-delay: 0.1s; }
+    .sk-cube-grid .sk-cube5 {
+      -webkit-animation-delay: 0.2s;
+              animation-delay: 0.2s; }
+    .sk-cube-grid .sk-cube6 {
+      -webkit-animation-delay: 0.3s;
+              animation-delay: 0.3s; }
+    .sk-cube-grid .sk-cube7 {
+      -webkit-animation-delay: 0s;
+              animation-delay: 0s; }
+    .sk-cube-grid .sk-cube8 {
+      -webkit-animation-delay: 0.1s;
+              animation-delay: 0.1s; }
+    .sk-cube-grid .sk-cube9 {
+      -webkit-animation-delay: 0.2s;
+              animation-delay: 0.2s; }
+
+    @-webkit-keyframes sk-cubeGridScaleDelay {
+      0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+                transform: scale3D(1, 1, 1);
+      } 35% {
+        -webkit-transform: scale3D(0, 0, 1);
+                transform: scale3D(0, 0, 1); 
+      }
+    }
+
+    @keyframes sk-cubeGridScaleDelay {
+      0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+                transform: scale3D(1, 1, 1);
+      } 35% {
+        -webkit-transform: scale3D(0, 0, 1);
+                transform: scale3D(0, 0, 1);
+      } 
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+  </div>
+
+  <div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
+    <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
+  </div>
+
+  <button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button" onclick="polyCube.juxstaPose()">
+    JuxtPos
+</button>
+
+  <br>
+  <button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button" onclick="polyCube.default()">
+    Default (STC)
+</button>
+
+  <br>
+  <button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button" onclick="polyCube.superImpose()"> SuperImposition
+</button>
+  <br>
+  <p style=" width: 200px; color: white; position: relative; top: 200px; left: 150px; z-index: 999" id="textTitle">i</p>
+  <img id="dataImage" style=" width: 200px; position: relative; top: 200px; left: 150px; z-index: 999" src="#">
+
+  <!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
+  <!--onclick="polyCube.test()">test-->
+  <!--</button>-->
+
+  <br>
+
+
+  <div id="timeLine"></div>
+
+  <div id="cube" style="height: 500px; width: 500px;"></div>
+
+  <br>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+  <script src="lib/d3/d3.js"></script>
+  <script src="lib/d3/topojson.min.js"></script>
+  <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+  <script src="js/pcmodule_CD.js"></script>
+  <script src="js/pcmodule_sets.js"></script>
+  <script src="js/vis/brushTime.js"></script>
+
+  <script>
+    d3.queue()
+      .defer(d3.csv, "data/Cushman-Collection.csv")
+      .defer(d3.csv, "data/Szabo2.csv")
+      .defer(d3.json, "data/austria.json")
+      .defer(d3.json, "data/lido-output.json")
+      //            .defer(d3.xml, "data/export.xml")
+      .await(init);
+
+    const url = new URL(window.location);
+
+    window.guiParams = {
+      Project: "KHM Data",
+      Morphing: -250,
+      showData: true,
+      showNodes: false,
+      toggleMaps: true,
+      nodeSize: 15,
+      light: false,
+      projection: 5000,
+      layers: parseInt(url.searchParams.get('layers'), 10) || 10,
+      // sets options
+      setVisType: 'treemap',
+      setCalculationOption: polyCube.SET_CALCULATION_OPTIONS[0],
+      dataThreshold: 0.01,
+      scaleCube: polyCube.SCALE_TYPES[1],
+      matrixOpacityByCount: true,
+      matrixShowGrid: false,
+      layerClickable: false,
+      layerSelectAnimation: polyCube.LAYER_CLICK_ANIMATION_STYLES[1],
+      selectionYearStart: 1000,
+      selectionYearEnd: 2000,
+      treemapFlatLineStyle: 'corner', // 'center
+      dataLayerSumUp: true,
+      selectionSet: '',
+      selectionSet2: '',
+      clearSelection: () => polyCube.selectItemsBySets([], 'union'),
+      selectionSetsOption: polyCube.OVERLAPPING_OPTIONS[0]
+    };
+
+    function fnClearAndDrawSets() {
+
+      let options = {
+        parsedData: window.parsedLidoData,
+        vis_type: window.guiParams.setVisType,
+        vis_type_set_calculation_option: window.guiParams.setCalculationOption,
+        vis_type_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
+        vis_type_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
+        vis_type_matrix_show_grid: window.guiParams.matrixShowGrid,
+        vis_type_layer_clickable: window.guiParams.layerClickable,
+        vis_type_layer_click_animation: window.guiParams.layerSelectAnimation,
+        data_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd],
+        data_threshold: window.guiParams.dataThreshold,
+        data_scale_cube: window.guiParams.scaleCube,
+        data_layer_sumUp: window.guiParams.dataLayerSumUp
+        
+      };
+      console.info(options);
+      polyCube.drawSets(options);
+    }
+
+    function init(error, data, szabo, mapm, lido) {
+      if (error) console.log(error);
+      function tempRange(data) {
+
+        // hide loader
+        document.querySelector('.sk-cube-grid').style.display = 'none';
+
+        var newData = window.newData = data.slice(50, 250); //todo: slice arrray according to date range
+        window.szabo = szabo;
+
+        /**
+         * Sort the data according to ascending dates to help with line drawing
+         * */
+
+        newData.sort(function (x, y) {
+          return d3.ascending(x.Archive_Date, y.Archive_Date);
+        });
+
+
+        window.lidoData = lido;
+        let parsedLidoData = window.parsedLidoData = lido.map(d => {
+          let lidoRecID = _.get(d, 'lidoRecID[0]._');
+          let repoName = _.get(d, 'administrativeMetadata[0].recordWrap[0].recordSource[0].legalBodyID[0]._');
+          let classes = _.get(d, 'descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification');
+          let conceptID = _.map(classes.filter(x => x.conceptID), 'conceptID[0]._');
+          let term = _.map(classes.filter(x => x.term), x => {
+            return x.term[0]._ ? x.term[0]._ : x.term[0];
+          });
+          let location = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventPlace[0].displayPlace[0]');
+          let preview = _.get(d, 'administrativeMetadata[0].resourceWrap[0].resourceSet[1].resourceRepresentation[0].linkResource[0]');
+          let time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].date[0].earliestDate[0]');
+          if (time === "") {
+            time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].displayDate[0]');
+            time = time.replace(/(um|Um) /, ''); // cut the "um" if earlistDate not available.
+          }
+          time = parseInt(time, 10) || null;
+          return {
+            lidoRecID,
+            conceptID,
+            time,
+            term,
+            repoName,
+            location,
+            preview
+          }
+        });
+
+        window.yearRange = d3.extent(parsedLidoData, d => d.time);
+
+        //Draw
+        // polyCube.root = document.getElementById('cube');
+        polyCube.drawElements(newData, szabo, window.guiParams.layers);
+
+        fnClearAndDrawSets();
+        // polyCube.drawSets({ parsedData: parsedLidoData });
+
+        //            polyCube.drawMap(map);
+        //            polyCube.drawLines();
+        polyCube.render();
+        polyCube.animate();
+        window.addEventListener('resize', polyCube.onWindowResize, false);
+
+        window.setTimeout(() => {
+          // TODO: remove pointCloud
+          d3.selectAll(".pointCloud").classed("hide", true);
+          document.querySelectorAll(".leaflet-container").forEach(x => x.style.display = "none");
+        }, 1000)
+      }
+      tempRange(data);
+
+      /**
+       * Toggle PointCloud Data UI
+       */
+
+      polyCube.showPointCloud();
+
+
+      /**
+       * Show pCube Time Brush
+       */
+      //        timeBrush.init();
+
+      /**
+       * Data UI Controls
+       * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
+       */
+      var gui = new dat.GUI({ width: 400 });
+
+      gui.add(window.guiParams, 'Project').onFinishChange(function () {
+      }).name("PolyCube ©");
+
+      gui.add(window.guiParams, 'Morphing').min(-250).max(250).onChange(function () {
+        var value = window.guiParams.Morphing;
+        polyCube.morphing({ axis: +value })
+      });
+
+      gui.add(window.guiParams, "showData").onChange(function () {
+        var value = window.guiParams.showData;
+        if (value) {
+          d3.selectAll(".pointCloud")
+            .classed("hide", false)
+        } else {
+          d3.selectAll(".pointCloud")
+            .classed("hide", true)
+        }
+
+      }).name("Show PC Data");
+
+      gui.add(window.guiParams, "showNodes").onChange(function () {
+        var value = window.guiParams.showData;
+        if (value) {
+          polyCube.showNodes();
+        } else {
+
+        }
+
+      }).name("Show Nodes");
+
+      gui.add(window.guiParams, "toggleMaps").onChange(function () {
+        var value = window.guiParams.toggleMaps;
+        if (value) {
+          document.querySelectorAll(".leaflet-container").forEach(x => x.style.display = "block");
+        } else {
+          document.querySelectorAll(".leaflet-container").forEach(x => x.style.display = "none");
+        }
+
+      }).name("Toggle Maps");
+
+      gui.add(window.guiParams, "nodeSize").name("Node Size").min(5).max(80).onChange(function () {
+        var value = window.guiParams.nodeSize;
+        //        console.log(value);
+        d3.selectAll(".pointCloud")
+          .style("width", value + "px")
+          .style("height", value + "px");
+      });
+
+      gui.add(window.guiParams, "projection").min(1000).max(5000).onChange(function () {
+        var value = window.guiParams.projection;
+        //            polyCube.projectionScale({scale: +value});
+        //            console.log(value);
+      });
+
+      gui.add(window.guiParams, "layers").min(1).max(10).step(1).onChange(() => {
+        location.search = '?layers=' + window.guiParams.layers;
+        // location.reload();
+      });
+
+      var fsets = gui.addFolder('Sets');
+
+      let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+      let possibleSets2 = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+      let setNames = Object.keys(polyCube.getMultiSetsSortedByTotalCount());
+      const repReg = /\ \[\d+\]/g;
+
+      const setOperationAction = () => {
+        let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+        let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+        const list = [].concat(setName1 || '', setName2  || '').filter(itm => itm);
+        polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
+      };
+
+      fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
+      fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
+      fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "scaleCube", polyCube.SCALE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "layerClickable").name("Layer Clickable").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "layerSelectAnimation", polyCube.LAYER_CLICK_ANIMATION_STYLES).name("Layer Select Animation").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "matrixOpacityByCount").name("Opacity by Category").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "matrixShowGrid").name("Show Grid").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).name("Data Threshold Percent").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "dataLayerSumUp").name("SumUp Layers").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, 'treemapFlatLineStyle', ['corner', 'center']).name("Flat Line Style").onChange(fnClearAndDrawSets);
+      fsets.add(window.guiParams, "clearSelection").name("Clear Selection");
+      fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Items By Category").onChange(() => {
+        setOperationAction();
+
+        let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+        let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+        let ctrl = fsets.__controllers.find(x => x.property === 'selectionSet2');
+        ctrl.remove();
+        fsets.__controllers.splice(fsets.__controllers.indexOf(ctrl), 1);
+        if (setName1) {
+          let newItems = polyCube.getPossibleSetsToIntersectSortedByTotalCount(setName1);
+          newItems = [].concat([''], newItems.map(x => `${x.setName} [${x.count}]`));
+          fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+        } else {
+          let newItems = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+          fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+        }
+      });
+      fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(setOperationAction);
+      fsets.add(window.guiParams, "selectionSet2", possibleSets2).name("Second Category").onChange(setOperationAction);
+      
+
+      fsets.open();
+
+      var f1 = gui.addFolder('Theme');
+      f1.add(window.guiParams, "light").onChange(function () {
+        var value = window.guiParams.light;
+        if (value) {
+          d3.select("body")
+            .style("background-color", "aliceblue");
+          d3.select("canvas")
+            .style("background", "transparent");
+          d3.selectAll(".pointCloud")
+            .attr("src", "texture/ball2.png");
+
+          d3.selectAll(".side")
+            .style("border", "0.5px dotted rgb(10, 10, 10)")
+            .style("background", "white");
+
+          d3.selectAll(".screen_dots")
+            .style("fill", "rgb(16, 49, 21)");
+
+          d3.selectAll(".elements_child")
+            .style("background-color", "#8fa7b9");
+
+          d3.selectAll(".elements_child").selectAll(".subunit")
+            //                    .style("fill", "#0050af");
+            .style("fill", "black");
+
+
+        } else {
+          //            d3.selectAll(".pointCloud")
+          //                    .classed("hide", true)
+        }
+      });
+
+    }
+
+  </script>
+
+  <!--edmPlaceLatitude-->
+  <!--edmPlaceLongitude-->
+  <!--score-->
+  <!--dcCreator-->
+  <!--country-->
+
+  <!--<script>-->
+  <!--//    code perfomance-->
+  <!--(function () {-->
+  <!--var script = document.createElement('script');-->
+  <!--script.onload = function () {-->
+  <!--var stats = new Stats();-->
+  <!--document.body.appendChild(stats.dom);-->
+  <!--requestAnimationFrame(function loop() {-->
+  <!--stats.update();-->
+  <!--requestAnimationFrame(loop)-->
+  <!--});-->
+  <!--};-->
+  <!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
+  <!--document.head.appendChild(script);-->
+  <!--})()-->
+  <!--</script>-->
+</body>
+
+</html>

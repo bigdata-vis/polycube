@@ -36,22 +36,13 @@
      * @param datasets2
      */
 
-    var dataSlices = 4;
+    var dataSlices = pCube.dataSlices = 4;
     var interval = 500 / dataSlices; //height/segments
 
+    var gl_elements = null;
 
     var timeLinearG;
-
     var segmentedData;
-
-    var layout;
-
-    let scales = {
-        puOr11: ['#7f3b08', '#b35806', '#e08214', '#fdb863', '#fee0b6', '#f7f7f7', '#d8daeb', '#b2abd2', '#8073ac', '#542788', '#2d004b'],
-        spectral8: ['#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#e6f598', '#abdda4', '#66c2a5', '#3288bd'],
-        redBlackGreen: ['#ff0000', '#AA0000', '#550000', '#005500', '#00AA00', '#00ff00'],
-        viridis: ["#440154","#440256","#450457","#450559","#46075a","#46085c","#460a5d","#460b5e","#470d60","#470e61","#471063","#471164","#471365","#481467","#481668","#481769","#48186a","#481a6c","#481b6d","#481c6e","#481d6f","#481f70","#482071","#482173","#482374","#482475","#482576","#482677","#482878","#482979","#472a7a","#472c7a","#472d7b","#472e7c","#472f7d","#46307e","#46327e","#46337f","#463480","#453581","#453781","#453882","#443983","#443a83","#443b84","#433d84","#433e85","#423f85","#424086","#424186","#414287","#414487","#404588","#404688","#3f4788","#3f4889","#3e4989","#3e4a89","#3e4c8a","#3d4d8a","#3d4e8a","#3c4f8a","#3c508b","#3b518b","#3b528b","#3a538b","#3a548c","#39558c","#39568c","#38588c","#38598c","#375a8c","#375b8d","#365c8d","#365d8d","#355e8d","#355f8d","#34608d","#34618d","#33628d","#33638d","#32648e","#32658e","#31668e","#31678e","#31688e","#30698e","#306a8e","#2f6b8e","#2f6c8e","#2e6d8e","#2e6e8e","#2e6f8e","#2d708e","#2d718e","#2c718e","#2c728e","#2c738e","#2b748e","#2b758e","#2a768e","#2a778e","#2a788e","#29798e","#297a8e","#297b8e","#287c8e","#287d8e","#277e8e","#277f8e","#27808e","#26818e","#26828e","#26828e","#25838e","#25848e","#25858e","#24868e","#24878e","#23888e","#23898e","#238a8d","#228b8d","#228c8d","#228d8d","#218e8d","#218f8d","#21908d","#21918c","#20928c","#20928c","#20938c","#1f948c","#1f958b","#1f968b","#1f978b","#1f988b","#1f998a","#1f9a8a","#1e9b8a","#1e9c89","#1e9d89","#1f9e89","#1f9f88","#1fa088","#1fa188","#1fa187","#1fa287","#20a386","#20a486","#21a585","#21a685","#22a785","#22a884","#23a983","#24aa83","#25ab82","#25ac82","#26ad81","#27ad81","#28ae80","#29af7f","#2ab07f","#2cb17e","#2db27d","#2eb37c","#2fb47c","#31b57b","#32b67a","#34b679","#35b779","#37b878","#38b977","#3aba76","#3bbb75","#3dbc74","#3fbc73","#40bd72","#42be71","#44bf70","#46c06f","#48c16e","#4ac16d","#4cc26c","#4ec36b","#50c46a","#52c569","#54c568","#56c667","#58c765","#5ac864","#5cc863","#5ec962","#60ca60","#63cb5f","#65cb5e","#67cc5c","#69cd5b","#6ccd5a","#6ece58","#70cf57","#73d056","#75d054","#77d153","#7ad151","#7cd250","#7fd34e","#81d34d","#84d44b","#86d549","#89d548","#8bd646","#8ed645","#90d743","#93d741","#95d840","#98d83e","#9bd93c","#9dd93b","#a0da39","#a2da37","#a5db36","#a8db34","#aadc32","#addc30","#b0dd2f","#b2dd2d","#b5de2b","#b8de29","#bade28","#bddf26","#c0df25","#c2df23","#c5e021","#c8e020","#cae11f","#cde11d","#d0e11c","#d2e21b","#d5e21a","#d8e219","#dae319","#dde318","#dfe318","#e2e418","#e5e419","#e7e419","#eae51a","#ece51b","#efe51c","#f1e51d","#f4e61e","#f6e620","#f8e621","#fbe723","#fde725"]
-    };
 
     /**
      * Flip mirro and horizontal
@@ -67,7 +58,19 @@
     // mS.elements[10] = -1;
 
 
-    pCube.drawElements = function (datasets, datasets2) {
+    /**
+     * Container in which the cube elements are rendered.
+     * @type {DOMElement}
+     */
+    pCube.root = document.body;
+
+    pCube.drawElements = function (datasets, datasets2, argDataSlices) {
+
+        if (argDataSlices && typeof argDataSlices === 'number') {
+            dataSlices = pCube.dataSlices = argDataSlices;
+            interval = 500 / dataSlices;
+        }
+
         /**
          * Parse and Format Time
          */
@@ -115,7 +118,7 @@
 
             var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
 
-            if (d.time <= jp1) {
+            if (d.time < jp1) {
                 d.ts = "jp1";
             }
 
@@ -142,6 +145,7 @@
             d.start_date = +format2(d.start_date)
         });
 
+
         /**
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
          *
@@ -149,6 +153,7 @@
         var dateTestEx = d3.extent(datasets, function (d) {
             return d.time;
         });
+
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
@@ -159,8 +164,8 @@
          * todo: data scale for x, y, z
          */
         var xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
-                return d.Archive_Date;
-            }),
+            return d.Archive_Date;
+        }),
             yExent = d3.extent(datasets, function (d) { // to determine the range of y in the data
                 // console.log(d["Archive Date"]);
                 return d.Archive_Date;
@@ -174,8 +179,8 @@
          * calculate the largest and smallest value for Xscale and Y scale
          */
         var xScale = d3.scaleLinear()
-                .domain(xExent)
-                .range([-widthHalf, width]),
+            .domain(xExent)
+            .range([-widthHalf, width]),
             yScale = d3.scaleLinear()
                 .domain(yExent)
                 .range([0, height]);
@@ -200,6 +205,9 @@
             pCube.drawLines()
         };
 
+        pCube.toggleMap = function () {
+            pCube.drawMap()
+        };
 
         /**WebGL renderer implementation
          *
@@ -208,13 +216,13 @@
          * http://learningthreejs.com/blog/2013/04/30/closing-the-gap-between-html-and-webgl/
          * setting both wgl dom and css dom styles to thesame absolute position to align xyz positions
          */
-        WGLRenderer = new THREE.WebGLRenderer({alpha: true});
-        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer = new THREE.WebGLRenderer({ alpha: true });
+        WGLRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         WGLRenderer.setClearColor(0x00ff00, 0.0);
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
-        document.body.appendChild(WGLRenderer.domElement);
+        pCube.root.appendChild(WGLRenderer.domElement);
 
 
         /**CSS renderer
@@ -222,11 +230,11 @@
          * @type {THREE.CSS3DRenderer}
          */
         renderer = new THREE.CSS3DRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         renderer.domElement.style.position = 'absolute';
         // renderer.domElement.style.zIndex = 5;
         renderer.domElement.style.top = 0;
-        document.body.appendChild(renderer.domElement);
+        pCube.root.appendChild(renderer.domElement);
 
         /**
          * Callibrating css cubebox and glcube box positions
@@ -246,8 +254,7 @@
          * try a combined camera
          */
 
-        // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+        camera = new THREE.PerspectiveCamera(40, pCube.getInnerWidth() / pCube.getInnerHeight(), 1, 10000);
         camera.position.set(600, 400, 800);
 
         /** Mouse Controls for zooming, panning etc
@@ -259,7 +266,6 @@
         controls.target = new THREE.Vector3(0, 0, 0);
         controls.autoRotateSpeed = 0.3;
         controls.noRotate = false;
-        // controls.pan = false;
         controls.addEventListener('change', pCube.render);
 
         /**
@@ -282,13 +288,8 @@
         pointCloud.rotation.z = 3.15;
         pointCloud.position.z = -90;
         pointCloud.position.y += 5;
-
-
-        glbox.rotation.z = 3.15;
-        glbox.position.z = -90;
-        glbox.position.y += 5;
-
         // pointCloud.position.x += 4;
+
 
         // console.log(pointCloud);
 
@@ -377,12 +378,21 @@
          */
 
         var dataBySeg = d3.nest()
-            .key(function (d) {
+            .key(function (d, idx) {
                 return d.ts;
             })
             .entries(datasets).sort(function (a, b) {
                 return a.key < b.key;
             });
+
+        /**
+         * TODO: BL do segmentation by dataSlices instead of timestamps in the dataset
+         */
+        if (window._) {
+            dataBySeg = _.chunk(datasets, Math.ceil(datasets.length / dataSlices)).map((l, i) => {
+                return { key: 'jp' + i, values: l };
+            });
+        }
 
         /**
          * push segmented data to global variable
@@ -391,18 +401,16 @@
         segmentedData = dataBySeg;
         // console.log(dataBySeg);
 
+
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
 
-        // console.log(dataBySeg);
-
-
-        var elements = d3.select("body").selectAll('.element')
-        //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
-        //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
+        var elements = d3.select(pCube.root).selectAll('.element')
+            //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
+            // .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
             .data(dataBySeg)
             .enter()
             .append('div')
@@ -435,9 +443,10 @@
                  * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
                  *
                  */
-                    // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
+                // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
                 var maps = pCube.drawMap(d.key, d.values);
             });
+
 
         //Div SVG
         // svg = elements.append("svg")
@@ -556,6 +565,7 @@
         /**
          * Objectify and draw segments elements
          */
+        gl_elements = [];
         // elements.each(setViewData);
         elements.each(addtoScene);
 
@@ -573,141 +583,85 @@
 
         var newList = [];
 
-        console.log(dateTestEx);
-
-        /**
-         * Colour Scale
-         */
-        // let colour = d3.scaleLinear()
-        let colour = d3.scaleOrdinal()
-            // .domain(["jp1", "jp2", "jp3", "jp4"])
-            .domain([dateTestEx[0], dateTestEx[1]])
-            .range(["#450d54", "#481568" , "#482778", "#463782", "#3f4788", "#3a558c", "#32648e", "#32718e", "#367d8d", "#3a8a8c", "#3e968a", "#42a286", "#46af7e", "#4abc75", "#56c567", "#75d056", "#93d841", "#b8de2a", "#dce415", "#dce415"]);
-            // .range(["#450d54", "#3a8a8c", "#d5dee4"]);
-            // .range(["#450d54", "#3a8a8c"]);
-
-
         var testElem = d3.selectAll('.pointCloud')
             .data(datasets).enter()
             .each(function (d, i) {
-                // var image = document.createElement('img');
-                var image = document.createElement('div');
+                var image = document.createElement('img');
                 var interval = 500 / dataSlices; //height/segments
 
-                image.style.width = 8 + "px";
-                image.style.height = 8 + "px";
+                image.style.width = 10 + "px";
+                image.style.height = 10 + "px";
                 image.className = "pointCloud";
-                image.style.background = colour(d.time);
-                // image.style.boxShadow = "0 0 5px " + d.ts;
 
-                // image.addEventListener('load', function (event) {
-                var object = new THREE.CSS3DSprite(image.cloneNode()),
-                    long = pCube.projection(d.long, d.lat).x,
-                    lat = pCube.projection(d.long, d.lat).y;
+                image.addEventListener('load', function (event) {
+                    var object = new THREE.CSS3DSprite(image.cloneNode()),
+                        long = pCube.projection(d.long, d.lat).x,
+                        lat = pCube.projection(d.long, d.lat).y;
 
-                var coord = translate([lat, long]);
-
-                object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                object.position.z = coord[0] - 500;
-                object.position.x = coord[1] + 250;
-
-                /**
-                 * add each proerties of the pointcloud to new data
-                 *
-                 */
-                object["newData"] = d;
+                    var coord = translate([lat, long]);
 
 
-                var stc = new THREE.Object3D();
-                stc.position.x = object.position.x;
-                stc.position.y = object.position.y;
-                stc.position.z = object.position.z;
-                object['STC'] = stc;
+                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                    object.position.z = coord[0] - 500;
+                    object.position.x = coord[1] + 250;
 
-                // add object rotation
-                // object.rotation.fromArray(rot[2]);
+                    /**
+                     * add each proerties of the pointcloud to new data
+                     *
+                     */
+                    object["newData"] = d;
 
-                object.name = "pointCloud"; //todo: remove later
+                    var stc = new THREE.Object3D();
+                    stc.position.x = object.position.x;
+                    stc.position.y = object.position.y;
+                    stc.position.z = object.position.z;
+                    object['STC'] = stc;
 
-                object.element.onclick = function () {
-                    // object.element.onmouseover = function () {
+                    // add object rotation
+                    // object.rotation.fromArray(rot[2]);
 
-                    //Change image src
-                    // console.log(d);
+                    object.name = "pointCloud"; //todo: remove later
 
-                    d3.select("#textTitle")
-                        .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
+                    object.element.onclick = function () {
+                        // object.element.onmouseover = function () {
+
+                        //Change image src
+                        // console.log(image);
+                        // image.src = 'texture/ball3.png';
+
+                        d3.select("#textTitle")
+                            .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
                             "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
                             "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
-                        );
+                            );
 
-                    d3.select("#dataImage")
-                        .attr("src", d.Image_URL)
-                };
+                        d3.select("#dataImage")
+                            .attr("src", d.Image_URL)
+                    };
 
-                var geometry = new THREE.Geometry();
-                geometry.name = "guideLines";
+                    /**
+                     * populate line list
+                     */
 
-                // object.element.onmouseover = function () {
-                //     //draw a line to edge of the box
-                //     var material = new THREE.LineBasicMaterial({
-                //         color: "#feffff",
-                //         linewidth: 2,
-                //         linecap: 'round', //ignored by WebGLRenderer
-                //         linejoin: 'round' //ignored by WebGLRenderer
-                //     });
-                //     material.blending = THREE.NoBlending;
-                //
-                //     /**
-                //      * WebGl Scene
-                //      * Temporary Web Gl Scene implementation for line testing
-                //      * @type {any}
-                //      */
-                //
-                //
-                //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z));
-                //     geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, 500));
-                //
-                //     // console.log(object.position.z);
-                //
-                //     var line = new THREE.Line(geometry, material);
-                //     glbox.add(line);
-                //
-                // };
+                    // newList.push(object.position);
 
-                // object.element.onmouseout = function () {
-                //     var guidline = scene.getObjectByName("guideLines");
-                //     console.log(guidline)
-                // };
+                    lineList.push(object.position);
 
-                /**
-                 * populate line list
-                 */
+                    /**
+                     * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
+                     */
 
-                // newList.push(object.position);
-
-                lineList.push(object.position);
-
-                /**
-                 * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
-                 */
-
-                pointCloud.add(object);
-                // }
-                // }, false);
-                // image.src = 'texture/ball2.png';
+                    pointCloud.add(object);
+                    // }
+                }, false);
+                image.src = 'texture/ball.png';
 
             });
-
-
-
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
          *
          */
-
-
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
@@ -716,6 +670,7 @@
             }
         });
 
+        pCube.drawLabels = drawLabels;
         function drawLabels(parameters) {
 
             // console.log(dateTestEx[0]);
@@ -730,32 +685,50 @@
             var startDate = parameters["startDate"] || dateTestEx[0].toString();
             var endDate = parameters["endDate"] || dateTestEx[1].toString();
 
+            var fontsize = parameters["fontSize"] || 10;
+
+            var startAtBottom = parameters["startAtBottom"] || false;
+
+            var dateArray = parameters["dateArray"] || d3.scaleTime().domain([new Date(endDate), new Date(startDate)]).ticks(dataSlices);
+
+            var deleteLabels = parameters["deleteLabels"] === true ? true : false;
+
             // console.log(startDate);
             // console.log(endDate);
 
-            var dateArray = d3.scaleTime()
-                .domain([new Date(endDate), new Date(startDate)])
-                .ticks(dataSlices);
+            // console.log(dateArray);
 
             // var dateARR = d3.scaleTime().domain([new Date(startDate), new Date(endDate)]);
             // console.log(dateARR);
 
             // var separator = height / dateArray.length;
-            var separator = height / dataSlices;
+            var separator = height / labelCount;
             var p = parameters["labelPosition"] || {
                 x: -80,//offset border
                 y: 0,
                 z: 100
             };
+            var r = parameters["rotation"] || {
+                y: 20
+            };
 
-            for (var i = 0; i < (dataSlices); i++) {
+            if (deleteLabels) {
+                d3.selectAll("p.textTile").remove();
+                mesh.children.filter(x => x.name === 'titles').forEach(x => mesh.remove(x));
+            }
+            for (var i = -1; i < (labelCount); i++) {
 
-                // console.log(dateArray[i]);
-
-                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
-                label.position.set(p.x, p.y, p.z);
-                label.rotation.y = 20;
-                p.y += separator; //increment y position of individual label to increase over time
+                if (i === -1 && startAtBottom) {
+                    var label = makeTextSprite(formatTime(endDate), { fontsize: fontsize });
+                    label.position.set(p.x, p.y - separator, p.z);
+                    label.rotation.y = r.y;
+                } else if (i >= 0) {
+                    // console.log(dateArray[i]);
+                    var label = makeTextSprite(formatTime(dateArray[i]), { fontsize: fontsize });
+                    label.position.set(p.x, p.y, p.z);
+                    label.rotation.y = r.y;
+                    p.y += separator; //increment y position of individual label to increase over time
+                }
             }
 
             function makeTextSprite(message, parameters) {
@@ -787,8 +760,6 @@
             .style("background-color", "transparent");
 
         pCube.render();
-        layout = "STC";
-
     };
 
     function addtoScene(d, i) {
@@ -801,6 +772,7 @@
         objSeg.rotation.fromArray(rot[2]);
         objSeg.name = "seg";
         cube.add(objSeg);
+        gl_elements.push(objSeg);
         //add new object test
 
         // console.log(objSeg.rotation);
@@ -825,27 +797,18 @@
         stc.position.y = d.position.y;
         stc.position.z = d.position.z;
         d['STC'] = stc;
-
-
-        // jp = new THREE.Object3D();
-        // jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
-        // jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
-        // jp.position.z = 0;
-        // jp.time = ["1920", "1930"];
-        // d['JP'] = jp;
-        //
-        // si = new THREE.Object3D();
-        // si.position.x = (( i % 5 ) * 1050) - 2000;
-        // si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
-        // si.position.z = 0;
-        // d['SI'] = si;
     }
+
+    /**
+     * Additional functions that will execute after the default function.
+     */
+    pCube.default_functions = [];
 
     /**
      * Default STC Layout Fallback function
      *
      */
-    pCube.default = function (callbackFuntion) {
+    pCube.default = function () {
         // var segments = defaultData.length;
         var segments = dataSlices;
 
@@ -860,18 +823,14 @@
         d3.selectAll(".leaflet-marker-icon")
             .classed("hide", true);
 
+
         //show all time panels
         d3.selectAll(".textTitle")
             .classed("hide", false);
 
         //show all point clouds
-        //delay poitcloud introduction
-        //add transition tween
-
-        setTimeout(function () {
-            d3.selectAll(".pointCloud")
-                .classed("hide", false);
-        }, 2500);
+        d3.selectAll(".pointCloud")
+            .classed("hide", false);
 
         //display all the maps for the segments
         // d3.selectAll(".elements_child")
@@ -884,9 +843,11 @@
 
         var segCounter = 0; //keep list of the segment counters
 
+
         /**
          * Point Cloud reverse flattening
          */
+
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             var unFlattenPoints = new TWEEN.Tween(d.position)
@@ -895,21 +856,16 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
+
+            console.log(d)
         });
+
 
         /**
          * Reverse array to show last segment first
-         * Only show
          */
-        // scene.getObjectByName("pointCloud").children.reverse(); reverse point cloud y axis
-        if (layout !== "STC" ) {
-            scene.children[0].children.reverse();
-        }
 
-        // if(layout === "SI"){
-        //     scene.children[0].children.reverse();
-        // }
-
+        scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) {
@@ -938,7 +894,7 @@
 
 
                 var rotate = new TWEEN.Tween(object.rotation)
-                    .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
+                    .to({ x: rot[2][0], y: rot[2][1], z: rot[2][2] }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
@@ -981,28 +937,25 @@
         /**
          * Remove transparency on first layer only and hide the rest
          */
-
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
                 return i !== 0;
             })
             .classed("hide", true)
-            .classed("dataPane", false);
+            .classed("dataPane", false)
 
-        //callback function to run at the end of every default redraw
-        if (callbackFuntion) {
-            callbackFuntion()
-        }
-
-        layout = "STC";
+        pCube.default_functions.forEach(f => f.call(pCube, duration));
     };
 
+    /**
+     * Additional functions that will be executed after the juxstaPose function.
+     */
+    pCube.juxstaPose_functions = [];
 
     /**
      * Juxtaposition function
      *
      */
-
 
     pCube.juxstaPose = function () {
         var duration = 2500;
@@ -1010,12 +963,9 @@
 
         /**
          * show leaflet markers
-         * show leaflet maps
          */
         d3.selectAll(".leaflet-marker-icon")
             .classed("hide", false);
-
-        polyCube.hideLeafletMap(false);
 
         // conntrols
         controls.noZoom = false;
@@ -1026,12 +976,8 @@
             .classed("hide", false);
 
         //hide canvas temporarily //todo: remove all pointClouds
-
-
-        if (layout === "STC") {
-            //flatten pointCloud time first if layout is STC
-            polyCube.setsDraw()
-        }
+        d3.selectAll(".pointCloud")
+            .classed("hide", true);
 
         //hide all time panels
         d3.selectAll(".textTitle")
@@ -1041,19 +987,15 @@
 
         /**
          * reverse array before animating
-         * Flatten Time before animating
          */
-
         scene.children[0].children.reverse();
-
 
         // console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
-
             var reduceLeft = {
-                x: (( segCounter % 5 ) * (width + 50)) - (width),
-                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
+                x: ((segCounter % 5) * (width + 50)) - (width),
+                y: (-(Math.floor(segCounter / 5) % 5) * (width + 50)) + 100, //just another way of getting 550
                 z: 0
             };
             //remove box shapes
@@ -1066,42 +1008,30 @@
                 segCounter++;
 
                 // console.log(object);
-                //delay the transition to flatten time first
-                // if (layout === "STC") {
-                //
+                // if(object.element.__data__.elem){
+                //     // console.log(object.element.__data__["JP"]);
+                //     console.log(object.element.__data__["JP"]);
                 // }
 
-                setTimeout(function () {
-                    d3.selectAll(".pointCloud")
-                        .classed("hide", true);
+                var posTween = new TWEEN.Tween(object.position)
+                    .to(reduceLeft, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
 
-                    var posTween = new TWEEN.Tween(object.position)
-                        .to(reduceLeft, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
+                var rotate = new TWEEN.Tween(object.rotation)
+                    .to({ x: 0, y: 0, z: 0 }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
 
-                    var rotate = new TWEEN.Tween(object.rotation)
-                        .to({x: 0, y: 0, z: 0}, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
-
-                    //
-                    var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                        .to({
-                            // opacity: 0.8,
-                            backgroundColor: "black"
-                        }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
-                }, 1200);
+                //
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        // opacity: 0.8,
+                        backgroundColor: "black"
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
 
                 // console.log(object)
-
-                //store object JP position inside the container
-                var jp = new THREE.Object3D();
-                jp.position.x = object.position.x;
-                jp.position.y = object.position.y;
-                jp.position.z = object.position.z;
-                object['JP'] = jp;
             }
         });
 
@@ -1126,14 +1056,14 @@
             })
             .start();
 
-        layout = "JP";
-
+        pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
     };
 
     pCube.onWindowResize = function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = pCube.getInnerWidth() / pCube.getInnerHeight();
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
+        WGLRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         pCube.render()
     };
 
@@ -1150,12 +1080,6 @@
      */
     pCube.superImpose = function () {
 
-        //make control center thesame as cube xyz position
-        // controls.center = cube.position;
-        controls.center.add(cube.position);
-        console.log(controls);
-
-
         //controls
         // controls.noZoom = false;
         controls.noRotate = true;
@@ -1168,7 +1092,19 @@
         d3.selectAll(".elements_child")
             .classed("hide", false);
 
+
+        // d3.selectAll(".elements_child")
+        //     .style("background-color", "transparent");
+        // .style("stroke", "white")
+        // .style("stroke-width", "5px")
+        // .style("stroke-dasharray", "2,2")
+        // .style("stroke-linejoin", "round");
+
+        // d3.selectAll(".elements")
+        //     .style("border", "1px solid #585858");
+
         var duration = 700;
+        //merge all x axis to remive dept
 
         /**
          * Reverse array to show last segment first
@@ -1180,13 +1116,11 @@
         /**
          * Point Cloud Flattening
          * create a new object STC, save positions of STC inside object
-         * rotate point cloud to match the positions of the
          */
 
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             d.position.y = 0;
-
 
             // console.log(d);
 
@@ -1203,48 +1137,9 @@
         /**
          * Layers flattening
          */
-
-        // SI to JP
-        // scene.getObjectByName("cube").children.forEach(function (d, i) {
-        //     if(d.getObjectByName("side")){
-        //         d.element.hidden = true;
-        //     }
-        //
-        //     if(d.getObjectByName("seg")){
-        //         var reduceLeft = {
-        //             x: 0,
-        //             y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 100, //just another way of getting 550
-        //             z: 0
-        //         };
-        //
-        //         //make the rotation thesame as jp segments
-        //         // d.rotation._x = 0;
-        //         // d.rotation._y = 0;
-        //         // d.rotation._z = 0;
-        //
-        //
-        //         var posTween = new TWEEN.Tween(d.position)
-        //             .to(reduceLeft, duration)
-        //             .easing(TWEEN.Easing.Sinusoidal.InOut)
-        //             .start();
-        //
-        //         var rotate = new TWEEN.Tween(d.rotation)
-        //             .to({x: 0, y: 0, z: 0}, duration)
-        //             .easing(TWEEN.Easing.Sinusoidal.InOut)
-        //             .start();
-        //
-        //         //make the point cloud rotation thesame as above
-        //
-        //         console.log(d);
-        //
-        //         d.position.x = 0;
-        //         d.position.z = 0;
-        //     }
-        // });
-
         scene.children[0].children.forEach(function (object, i) {
 
-            // remove box shapes
+            //remove box shapes
             if (object.name == "side") {
                 object.element.hidden = true;
             }
@@ -1268,99 +1163,52 @@
 
         });
 
+
         //change camera view
         //camera position
+        var tween = new TWEEN.Tween({
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        }).to({
+            x: 0, //todo: fix rotation of camera axis
+            y: 1077.0329614263626,
+            z: 0
+        }, duration)
+            .easing(TWEEN.Easing.Sinusoidal.Out)
+            .onUpdate(function () {
+                camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+                //camera.fov = 8; todo: add a new fov to change perspective
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
 
-        //if juxtapos = false
-        /**
-         * Smoothing the camera transition
-         */
 
-        if (layout === "JP" || layout === "SI") {
+        //camera rotation
+        var rotate = new TWEEN.Tween({
+            x: camera.rotation.x,
+            y: camera.rotation.y,
+            z: camera.rotation.z
+        }).to({
+            x: -1.5707953161924646,
+            y: -5.53118884027981,
+            z: -0.005531219681680428
+        }, duration)
+            .easing(TWEEN.Easing.Elastic.InOut)
+            .onUpdate(function () {
+                camera.rotation.set(this.x, this.y, this.z);
+                // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                //camera.fov = 8; todo: add a new fov to change perspective
+            })
+            .onComplete(function () {
+                // camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
 
-            //transparent leaflet maps
-            // setTimeout(function () {
-            polyCube.hideLeafletMap(true);
-            // }, duration)
 
-            //put the segments together
-            scene.getObjectByName("cube").children.forEach(function (d, i) {
-                if (d.getObjectByName("seg")) {
-                    var reduceLeft = {
-                        x: 0,
-                        // y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 200, //just another way of getting 550
-                        z: 0
-                    };
-
-                    var posTween = new TWEEN.Tween(d.position)
-                        .to(reduceLeft, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
-
-                    var rotate = new TWEEN.Tween(d.rotation)
-                        .to({x: 0, y: 0, z: 0}, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
-
-                    d.position.x = 0;
-                    d.position.z = 0;
-                }
-            });
-            //and rotate the camera with all the points showing as above
-
-            //or show the points only with only one map on the pane
-
-            //rotate the pointclouds thesame way and position as the camera
-
-        } else {
-            //camera rotation
-            var tween = new TWEEN.Tween({
-                x: camera.position.x,
-                y: camera.position.y,
-                z: camera.position.z
-            }).to({
-                x: 0, //todo: fix rotation of camera axis
-                y: 1077.0329614263626,
-                z: 0
-            }, duration)
-                .easing(TWEEN.Easing.Sinusoidal.Out)
-                .onUpdate(function () {
-                    camera.position.set(this.x, this.y, this.z);
-                    camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    //camera.fov = 8; todo: add a new fov to change perspective
-                })
-                .onComplete(function () {
-                    camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    // camera.lookAt(scene.position);
-                })
-                .start();
-
-            var rotate = new TWEEN.Tween({
-                x: camera.rotation.x,
-                y: camera.rotation.y,
-                z: camera.rotation.z
-            }).to({
-                x: -1.5707953161924646,
-                y: -5.53118884027981,
-                z: -0.005531219681680428
-            }, duration)
-                .easing(TWEEN.Easing.Elastic.InOut)
-                // .onUpdate(function () {
-                //     camera.rotation.set(this.x, this.y, this.z);
-                //     // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                //     //camera.fov = 8; todo: add a new fov to change perspective
-                // })
-                .onComplete(function () {
-                    // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    // camera.position.x = 0;
-                    // camera.position.y = 1077.0329614258226;
-                    // camera.position.z = 0.0010770329614261862;
-                })
-                .start();
-        }
-
-        //else
-        // do not rotate camera
         /**
          * Use Orthographic Camera
          * https://threejs.org/docs/#api/cameras/OrthographicCamera
@@ -1368,8 +1216,7 @@
          */
 
         // camera.toOrthographic();
-
-        layout = "SI";
+        // console.log(camera);
     };
 
     /**
@@ -1514,16 +1361,23 @@
                 scene.add(object);
             }
         }, false);
-        image.src = 'texture/ball2.png';
+        image.src = 'texture/ball.png';
     };
+
+    /**
+     * Additional functions that will execute after the render function.
+     */
+    pCube.render_functions = [];
 
     pCube.render = function () {
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
+
+        pCube.render_functions.forEach(f => f.call(pCube, camera));
+
         renderer.render(scene, camera);
         // pointCloud.rotation.y -= 0.05;
 
-        // console.log(layout)
     };
 
     /**
@@ -1537,6 +1391,7 @@
      * http://blockbuilder.org/jaegerka/e53294b2f5087e03525ff8d508767a2d
      *
      */
+
 
     pCube.drawMap = function (elemID, data) {
 
@@ -1610,32 +1465,29 @@
             return projectedPoint;
         };
 
-        let icon = L.icon({
-            iconUrl: 'texture/ball2.svg',
-            iconSize: [8, 8] // size of the icon
+        var icon = L.icon({
+            iconUrl: 'texture/ball.png',
+            iconSize: [10, 10] // size of the icon
             // shadowSize:   [50, 64], // size of the shadow
             // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
             // shadowAnchor: [4, 62],  // the same for the shadow
             // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
 
-
         data.forEach(function (d) {
             var coord = L.latLng(d.long, d.lat);
             // var layerPoint = crs.latLngToPoint(coord, mapZoom);
             // var radius = 1000;
 
-
             // var circle = L.circle(coord, radius, circle_options).addTo(mymap);
 
-            var marker = L.marker(coord, {icon: icon}).addTo(mymap)
-
+            var marker = L.marker(coord, { icon: icon }).addTo(mymap)
             marker.on('mouseover', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                        "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
-                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                    "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                    "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
                 d3.select("#dataImage")
@@ -1690,17 +1542,9 @@
         };
     };
 
-    pCube.hideLeafletMap = function (value) {
-
-        d3.selectAll(".leaflet-pane .leaflet-tile-pane")
-            .filter(function (d, i) {  //todo: point of hiding other map items
-                return i !== 0;
-            })
-            .classed("hide", value)
-    };
 
     pCube.setsDraw = function () {
-        var duration = 1000;
+        var duration = 2500;
         //rearrange point clouds
         //hide maps
         //draw a
@@ -1717,6 +1561,7 @@
 
         // console.log(nestedPointCloud);
 
+
         nestedPointCloud.forEach(function (data, i) {
             var segs = data.values;
             // console.log(interval);
@@ -1727,9 +1572,9 @@
 
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            y: interval * i - 125
-                        }
-                        , duration)
+                        y: interval * i - 125
+                    }
+                    , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
             })
@@ -1757,11 +1602,35 @@
     }
 
     /**
+     * Return width from the root element or window (if root == body)
+     * @returns {number}
+     */
+    pCube.getInnerWidth = function () {
+        if (pCube.root === document.body) {
+            return window.innerWidth;
+        }
+        return pCube.root.clientWidth;
+    }
+
+    /**
+     * Return height from the root element or window (if root == body)
+     * @returns {number}
+     */
+    pCube.getInnerHeight = function () {
+        if (pCube.root === document.body) {
+            return window.innerHeight;
+        }
+        return pCube.root.clientHeight;
+    }
+
+    /**
      * Remove object from scene
      */
 
     function delete3DOBJ(objName) {
         var selectedObject = scene.getObjectByName(objName);
+        console.log(selectedObject);
+
         // var elem = document.getElementsByClassName("pointCloud");
         var elem = d3.selectAll("." + objName);
         elem.remove();
@@ -1770,6 +1639,8 @@
 
         scene.remove(selectedObject);
         pCube.animate();
+
+        console.log(elem);
     }
 
     /**
@@ -1778,7 +1649,6 @@
      */
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
-    cube.name = "cube";
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
     glbox.name = "glbox";
@@ -1801,6 +1671,28 @@
     var d = 250;
     var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
     var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+    pCube.getCamera = () => {
+        return camera;
+    }
+    pCube.getScene = () => {
+        return scene;
+    };
+    pCube.getGLScene = () => {
+        return WGLScene;
+    };
+    pCube.getGLRenderer = () => {
+        return WGLRenderer;
+    };
+    pCube.getCube = () => {
+        return cube;
+    };
+    pCube.getGLBox = () => {
+        return glbox;
+    };
+    pCube.getGLSegments = () => {
+        return gl_elements;
+    };
 
     window.polyCube = pCube;
 }());
