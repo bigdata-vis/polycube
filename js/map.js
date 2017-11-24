@@ -58,6 +58,7 @@
 
     var position = new THREE.Vector3();
 
+    var pointSelectedLines = [];
 
     /**
      * Flip mirro and horizontal
@@ -412,7 +413,7 @@
 
         pCube.updatePC = function (datasets) {
 
-            var image, interval, stc, object;
+            // var image, interval, stc, object;
 
             /**
              * Remove all elements from the scene
@@ -430,11 +431,11 @@
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 .each(function (d, i) {
-                    image = document.createElement('div');
+                    const image = document.createElement('div');
                     interval = 500 / dataSlices; //height/segments
-                    stc = new THREE.Object3D();
+                    const stc = new THREE.Object3D();
                     // var object = new THREE.CSS3DObject(image),
-                    object = new THREE.CSS3DSprite(image);
+                    const object = new THREE.CSS3DSprite(image);
                     // update matrix true on entry
                     object.matrixAutoUpdate = true;
                     // object.updateMatrix();
@@ -445,7 +446,7 @@
                     image.className = "pointCloud";
                     image.style.background = colour(d.time);
 
-                    object.position.copy(position);
+                    // object.position.copy(position);
                     object.position.multiplyScalar(75);
 
 
@@ -466,6 +467,8 @@
                     object.matrixAutoUpdate = false;
                     object.matrixWorldNeedsUpdate = false;
                     object.updateMatrix();
+
+                    // const cp = {...object.position};
 
                     /**
                      * add each proerties of the pointcloud to new data
@@ -500,7 +503,8 @@
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL)
 
-
+                        
+                        drawPointSelectedLines(object, object.position);
                     };
 
                     // lineList.push(object.position);
@@ -628,6 +632,38 @@
         layout = "STC";
 
     };
+
+    function drawPointSelectedLines(element, elementPosition) {
+      // cleanup 
+      pointSelectedLines.forEach(x => WGLScene.remove(x));
+      pointSelectedLines = [];
+
+      const drawLine = (vec1, vec2) => {
+        var material = new THREE.LineBasicMaterial({
+          color: 0x0000ff
+        });
+        var geometry = new THREE.Geometry();
+        geometry.vertices.push(
+          vec1, vec2
+        );
+        var line = new THREE.Line( geometry, material );
+
+        //fix rotation - take rotation from pointcloud
+        line.rotation.copy(pointCloud.rotation);
+
+        pointSelectedLines.push(line);
+        WGLScene.add(line);
+      };
+
+      drawLine(
+        new THREE.Vector3( elementPosition.x, elementPosition.y, elementPosition.z ),
+        new THREE.Vector3( elementPosition.x, -250, elementPosition.z )
+      );
+      drawLine(
+        new THREE.Vector3( elementPosition.x, elementPosition.y, elementPosition.z ),
+        new THREE.Vector3( 250, elementPosition.y, -250 )
+      );
+    }
 
     function addtoScene(d, i) {
         var objSeg = new THREE.CSS3DObject(this);
