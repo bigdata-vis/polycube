@@ -78,6 +78,7 @@
 
   let _matrix_struct_info = {}
   let _infoBox = null;
+  let _infoCounter = null;
   let _selectionInfoBox = null;
 
   /**
@@ -215,6 +216,12 @@
                       position: absolute;
                       top: 0;
                       left: 0;
+                      color: white;
+                    }
+                    #infoCounter {
+                      position: absolute;
+                      top: 0;
+                      right: 10px;
                       color: white;
                     }
                     #selectionInfoBox {
@@ -467,6 +474,10 @@
       _infoBox.id = 'infoBox';
       pCube.root.appendChild(_infoBox);
 
+      _infoCounter = document.createElement('div');
+      _infoCounter.id = 'infoCounter';
+      pCube.root.appendChild(_infoCounter);
+
       _selectionInfoBox = document.createElement('div');
       _selectionInfoBox.id = 'selectionInfoBox';
       pCube.root.appendChild(_selectionInfoBox);
@@ -476,8 +487,11 @@
 
     console.info('options:', pCube.sets_options);
 
+    pCube.sets_filtered_by_selection = options.parsedData.map(d => d).filter(x => x.time !== null);
+    console.info(`No Date filter reduced data from ${pCube.sets_options.parsedData.length} to ${pCube.sets_filtered_by_selection.length}`);
+
     // create stats for sets and multi-sets before filtering
-    buildTotalStats(pCube.sets_options.parsedData);
+    buildTotalStats(pCube.sets_filtered_by_selection);
 
     if (SWITCH_OUTPUT_OBJECTS_WITH_MULTIPLE_SETS) {
       console.info(`out of ${pCube.sets_filtered_by_selection.length} items, ${_.sum(Object.values(_stats.countGroupedByMultiSets))} have multiple categories`, _stats.countGroupedByMultiSets);
@@ -486,6 +500,7 @@
     pCube.sets_filtered_by_selection = options.parsedData.map(d => d);
 
     // filter out data that is below the data threshold - based on the number of already filtered out data.
+    const pre_threshold_count = pCube.sets_filtered_by_selection.length;
     if (pCube.sets_options.data_threshold) {
       pCube.sets_filtered_by_selection = pCube.sets_filtered_by_selection.filter(isAboveThreshold);
       if (pCube.sets_options.data_threshold_remove_categories_below) {
@@ -494,7 +509,7 @@
           return d;
         });
       }
-      console.info(`Threshold filter reduced data from ${pCube.sets_options.parsedData.length} to ${pCube.sets_filtered_by_selection.length}`);
+      console.info(`Threshold filter reduced data from ${pre_threshold_count} to ${pCube.sets_filtered_by_selection.length}`);
     }
 
     // build stats after threshold filter
@@ -742,6 +757,7 @@
       drawTreemapHierarchyFlat();
     }
 
+    updateInfoCounter();
 
     if (sets_selected_categories.length > 0 && sets_selected_operations) {
       pCube.selectItemsBySets(sets_selected_categories, sets_selected_operations, sets_selected_repository);
@@ -1020,6 +1036,7 @@
     });
 
     console.info('selected items:', items);
+    updateInfoCounter();
     return items;
   };
 
@@ -1049,6 +1066,7 @@
     }
 
     _selectionInfoBox.innerText = buildSelectionName(sets_selected_operations, sets_selected_categories, sets_selected_repository);
+    updateInfoCounter();
 
     let items = [];
     if (sets_selected_categories.length > 0 || sets_selected_repository) {
@@ -1065,8 +1083,8 @@
     }
 
     console.info('selected items:', items);
-
     pCube.sets_selected_items_memory = items;
+    updateInfoCounter();
 
     return items;
   };
@@ -1149,6 +1167,13 @@
       _infoBox.innerText = text;
     }
   };
+
+  const updateInfoCounter = () => {
+    if (_infoCounter) {
+      const ct = polyCube.sets_selected_items_memory.length > 0 ? polyCube.sets_selected_items_memory.length : polyCube.sets_filtered_by_selection.length;
+      _infoCounter.innerText = `${ct} items displayed`;
+    }
+  }
 
   const toggleBoxOpacity = (b, opacity, borderOpacity = 0) => {
     b.material.opacity = opacity;
