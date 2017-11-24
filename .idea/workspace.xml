@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/map.js" afterPath="$PROJECT_DIR$/js/map.js" />
-    </list>
+    <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="" />
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="map.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="610" column="44" lean-forward="true" selection-start-line="610" selection-start-column="44" selection-end-line="610" selection-end-column="44" />
+            <state relative-caret-position="323">
+              <caret line="615" column="0" lean-forward="true" selection-start-line="615" selection-start-column="0" selection-end-line="615" selection-end-column="0" />
               <folding>
                 <element signature="e#2789#2884#0" expanded="false" />
                 <element signature="e#2941#3089#0" expanded="false" />
@@ -1067,12 +1065,12 @@
       <workItem from="1511182994765" duration="882000" />
       <workItem from="1511290543467" duration="23190000" />
       <workItem from="1511370239917" duration="1374000" />
-      <workItem from="1511425427262" duration="17303000" />
+      <workItem from="1511425427262" duration="17395000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="840030000" />
+    <option name="totallyTimeSpent" value="840122000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1531,8 +1529,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="610" column="44" lean-forward="true" selection-start-line="610" selection-start-column="44" selection-end-line="610" selection-end-column="44" />
+        <state relative-caret-position="323">
+          <caret line="615" column="0" lean-forward="true" selection-start-line="615" selection-start-column="0" selection-end-line="615" selection-end-column="0" />
           <folding>
             <element signature="e#2789#2884#0" expanded="false" />
             <element signature="e#2941#3089#0" expanded="false" />
