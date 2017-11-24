@@ -264,12 +264,6 @@
 //            map: "street"
         };
 
-//        d3.selectAll(".leaflet-marker-icon")
-//            .classed("hide", true);
-//
-//        d3.select("#textTitle")
-//            .style("color", "black");
-
         d3.select("body")
             .style("background-color", params.BG);
         d3.select("canvas")
@@ -285,16 +279,12 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-//        d3.selectAll(".leaflet-marker-icon")
-//            .attr("src", "texture/ball2.png");
-
 
         /**
          * Data UI Controls
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
         let gui = new dat.GUI({});
-
 
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
@@ -305,7 +295,7 @@
                 .style("background-color", d)
             ;
         });
-        theme.add(params, "invert").onChange(d =>{
+        theme.add(params, "invert").onFinishChange(d =>{
             if(d){
                 d3.select("body")
                     .style("filter", "invert(100%)")

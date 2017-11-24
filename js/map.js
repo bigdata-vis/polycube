@@ -179,18 +179,18 @@
         WGLRenderer.domElement.style.top = 0;
         // document.body.appendChild(WGLRenderer.domElement);
 
-        /**
-         * SVG Renderer
-         */
-        svgRenderer = new THREE.SVGRenderer();
-        svgRenderer.setSize(window.innerWidth, window.innerHeight);
-        svgRenderer.domElement.style.top = 0;
-        // svgRenderer.setQuality('low');
-        svgRenderer.domElement.style.position = 'absolute';
-        svgRenderer.domElement.style.backgroundColor = 'black';
+        // /**
+        //  * SVG Renderer
+        //  */
+        // svgRenderer = new THREE.SVGRenderer();
+        // svgRenderer.setSize(window.innerWidth, window.innerHeight);
+        // svgRenderer.domElement.style.top = 0;
+        // // svgRenderer.setQuality('low');
+        // svgRenderer.domElement.style.position = 'absolute';
+        // svgRenderer.domElement.style.backgroundColor = 'black';
+        //
+        // document.body.appendChild(svgRenderer.domElement);
 
-
-        document.body.appendChild(svgRenderer.domElement);
 
         /**CSS renderer
          *
@@ -607,10 +607,11 @@
                 var elMessage = document.createTextNode(message);
                 element.appendChild(elMessage);
 
-                // var object = new THREE.CSS3DObject(element);
-                var object = new THREE.CSS3DSprite(element);
+                var object = new THREE.CSS3DObject(element);
+                // var object = new THREE.CSS3DSprite(element);
                 object.name = "titles";
-                mesh.add(object);
+                // mesh.add(object);
+                // mesh.add(object);
 
                 return object;
             }
@@ -1329,6 +1330,7 @@
 
     };
 
+
     /**
      * CSS3D sprite for point cloud implementation
      * @param xScale
@@ -1382,7 +1384,7 @@
         // remember to call both renderers!
         WGLRenderer.render(WGLScene, camera);
         renderer.render(scene, camera);
-        svgRenderer.render(svgScene, camera);
+        // svgRenderer.render(svgScene, camera);
 
         // cube.rotation.y -= 0.05;
         // pointCloud.rotation.y -= 0.05;
