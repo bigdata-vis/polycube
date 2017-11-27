@@ -1,10 +1,11 @@
 
 .elements {
     pointer-events: none;
-    border: 3px double rgb(115, 115, 115);
+    border: 1px solid rgb(115, 115, 115);
 }
 
 body {
+    filter: invert(10%);
     /*background-color: #000;*/
 
     /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
@@ -66,6 +67,12 @@ text {
     font-size: 8px;
     /*font-weight: 300;*/
     text-anchor: middle;
+}
+
+.subunit_points{
+    cursor: pointer;
+    z-index: 999;
+    pointer-events:all;
 }
 
 .boundary {
