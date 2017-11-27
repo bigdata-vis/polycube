@@ -357,6 +357,10 @@
              *Currently using todo: datasets1 should be changed to datasets2
              */
 
+            //to reverse data from begining
+            dataBySeg.reverse();
+
+
             elements = d3.select("body").selectAll('.element')
             //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
             //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
@@ -443,7 +447,6 @@
                     object.matrixAutoUpdate = true;
                     // object.updateMatrix();
 
-
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
@@ -464,7 +467,6 @@
                     }
                     object.position.z = coord[1];
                     object.position.x = coord[0];
-
 
                     // update matrix off on exit
                     object.matrixAutoUpdate = false;
@@ -1069,7 +1071,6 @@
         controls.center.add(cube.position);
         // console.log(controls);
 
-
         //controls
         // controls.noZoom = false;
         controls.noRotate = true;
@@ -1107,7 +1108,7 @@
 
             var flattenPoints = new TWEEN.Tween(d.position)
                 .to({
-                    y: 0
+                    y: 0.5
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
