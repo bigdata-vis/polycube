@@ -269,24 +269,31 @@
                 .text(selectedData.length);
 
             polyCube.updatePC(selectedData);
+
+            chosenData = selectedData;
+
         }
 
         var animateTimer = function (times = 20, gap = 1) {
             var i = 0;
             let start = window.dateTestEx[0] - gap;
             let end = start + gap;
+            let defaultData = data;
+
+            //update select from brush list
+            if (chosenData) {
+                defaultData = chosenData;
+            }
+
 
             while (i < times) {
                 (function (i) {
                     setTimeout(function () {
+
+                        //start and end from chosenData extents
+
                         let newStart = start += gap;
                         let newEnd = end += gap;
-                        let defaultData = data;
-
-                        //update select from brush list
-                        if (chosenData) {
-                            defaultData = chosenData;
-                        }
 
                         // console.log(newStart + ": " + newEnd)
                         // let selectedData = data.filter(function (d) {

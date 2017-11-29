@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/map.js" afterPath="$PROJECT_DIR$/js/map.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/pcmodule_proj.js" afterPath="$PROJECT_DIR$/js/pcmodule_proj.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushTimeCM.js" afterPath="$PROJECT_DIR$/js/vis/brushTimeCM.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/map.html" afterPath="$PROJECT_DIR$/map.html" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,8 +75,8 @@
       <file leaf-file-name="brushTimeCM.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/vis/brushTimeCM.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="295" column="29" lean-forward="true" selection-start-line="295" selection-start-column="29" selection-end-line="295" selection-end-column="29" />
+            <state relative-caret-position="41">
+              <caret line="290" column="44" lean-forward="true" selection-start-line="290" selection-start-column="44" selection-end-line="290" selection-end-column="44" />
               <folding>
                 <element signature="e#4800#6617#0" expanded="false" />
                 <element signature="e#6249#6368#0" expanded="false" />
@@ -1111,12 +1108,12 @@
       <workItem from="1511554991875" duration="320000" />
       <workItem from="1511769926553" duration="12057000" />
       <workItem from="1511829988716" duration="488000" />
-      <workItem from="1511944366845" duration="15081000" />
+      <workItem from="1511944366845" duration="15356000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="872938000" />
+    <option name="totallyTimeSpent" value="873213000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1626,8 +1623,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vis/brushTimeCM.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="295" column="29" lean-forward="true" selection-start-line="295" selection-start-column="29" selection-end-line="295" selection-end-column="29" />
+        <state relative-caret-position="41">
+          <caret line="290" column="44" lean-forward="true" selection-start-line="290" selection-start-column="44" selection-end-line="290" selection-end-column="44" />
           <folding>
             <element signature="e#4800#6617#0" expanded="false" />
             <element signature="e#6249#6368#0" expanded="false" />
