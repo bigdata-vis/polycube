@@ -529,7 +529,6 @@
 
         pCube.updatePC(datasets);
 
-
         elements.each(addtoScene);
 
 
@@ -1296,6 +1295,7 @@
      * Morphing controls accross data layers
      * @param parameters
      */
+
     pCube.morphing = function (parameters) {
         if (parameters === undefined) parameters = {};
 

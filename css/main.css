@@ -289,3 +289,9 @@ input:focus {
 }
 
 .bar { fill: steelblue; }
+
+.select{
+    position: absolute;
+    top: 2%;
+    /*left: 100%;*/
+}

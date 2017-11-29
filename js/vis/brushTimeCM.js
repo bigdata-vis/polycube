@@ -7,10 +7,10 @@
     let timeBrush = {};
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
+    var genre;
 
     function init() {
         // console.log(window.dateTestEx);
-
 
         // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
@@ -27,7 +27,9 @@
             .range([0, width - 10]);
 
         let data = window.data;
-        x.domain([0, d3.max(count(), function(d) { return d.val; })]);
+        x.domain([0, d3.max(count(), function (d) {
+            return d.val;
+        })]);
 
 
         let line = d3.line()
@@ -78,14 +80,13 @@
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                    .ticks(d3.timeYear) //cushman
+                .ticks(d3.timeYear) //cushman
                 .tickPadding(6)
             )
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 6);
         // .attr("y", 0);
-
 
         svg.select(".domain")
             .attr("fill", "none")
@@ -107,7 +108,21 @@
             .attr("stroke", "#8a8a8a")
             // .attr("stroke", "blue")
             .text(function (d) {
-                return 550;
+                return 778;
+            });
+
+        let seletData = ["A", "B", "C", "D"];
+
+        let select = d3.select("#timeLine")
+            .append('select')
+            .attr('class', 'select')
+            .on('change', onChangeSelect);
+
+        select.selectAll('option')
+            .data(genre).enter()
+            .append('option')
+            .text(function (d) {
+                return d.title;
             });
 
         function brushened() {
@@ -144,7 +159,7 @@
 
             // console.log(window.dateTestEx);
 
-            let selectedData = window.data.filter(function (d) {
+            let selectedData = data.filter(function (d) {
                 if (d.time >= start && d.time <= end) {
                     return d;
                 }
@@ -155,15 +170,18 @@
             //update text count
             d3.select(".brush_count")
                 .text(selectedData.length);
-
         }
 
         function count() {
             let counts = {};
             let container = [];
 
+            let cat = {};
+            let categories = [];
+
             for (let i = 0; i < data.length; i++) {
                 counts[data[i].time] = 1 + (counts[data[i].time] || 0);
+                cat[data[i].Genre_1] = 1 + (cat[data[i].Genre_1] || 0);
             }
 
             let obj;
@@ -174,6 +192,12 @@
                 value = counts[key];
                 container.push({date: obj, val: counts[key]});
             });
+
+            d3.keys(cat).forEach(function eachKey(key) {
+                categories.push({title: key, count: cat[key]});
+            });
+
+            genre = categories;
 
             return container;
         }
@@ -199,11 +223,26 @@
             // remove transition so just d3.select(".brush") to just draw
             brush.event(d3.select(".brush").transition().delay(1000))
         }
-    }
 
+        function onChangeSelect() {
+            let selectValue = d3.select(this).property('value');
+            // console.log(data);
+            let selectedData = data.filter(function (d) {
+                if (d.Genre_1 === selectValue) {
+                    return d;
+                }
+            });
+
+            //update data count
+            d3.select(".brush_count")
+                .text(selectedData.length);
+
+            //redraw polycube with new data
+            polyCube.updatePC(selectedData);
+        }
+    }
     setTimeout(function () {
         init();
     }, 1000);
-
 
 }());

@@ -162,8 +162,9 @@
                     d.unix = +(full_date/1000).toFixed(0);
 
 //                    console.log(new Date(unix * 1000));
+//                    console.log(d.Topical_Subject_Headings_1);
+//                    console.log(d.Genre_1);
 
-//                    console.log(d.unix);
 //                    console.log(d.Date);
 
                     let year = d.year;
@@ -221,14 +222,23 @@
             }
 
             Cushman();
-//
-            let newData = data.slice(0, 550).sort(function (x, y) {
+
+//            let newData = data.slice(0, 550).sort(function (x, y) {
+//                return d3.ascending(x.time, y.time);
+//            });
+
+            let newData = data.filter(function (d) {
+                return d.Genre_1 === "Architectural photographs"
+//                return d.Genre_1 === "Glamour photographs"
+            }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
             let newData2 = data.slice(0, 100).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
+
+
 
             //Draw
             polyCube.drawElements(newData, geoMap);
@@ -257,12 +267,10 @@
             overlapNodes: 0,
             nodeSize: 3,
             colorScale: false,
-//            BG: "#d5dde4",
-//            BG: "#d4d4d4",
             BG: "#000000",
             invert: false,
 //            projection: 5000,
-//            map: "street"
+            dataCategory: [ 'pizza', 'chrome', 'hooray' ]
         };
 
         d3.select("body")
@@ -336,7 +344,6 @@
                 .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-
         Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {
             let value = params.overlapNodes;
 
@@ -350,7 +357,8 @@
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
 
-        gui.add(params, "showData").onChange(function () {
+        let Data = gui.addFolder("Data");
+        Data.add(params, "showData").onChange(function () {
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
