@@ -8,6 +8,7 @@
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
     var genre;
+    let chosenData;
 
     function init() {
         // console.log(window.dateTestEx);
@@ -111,18 +112,38 @@
                 return 778;
             });
 
-        let seletData = ["A", "B", "C", "D"];
+        // animate button
+        let animateButton = svg.append("g")
+            .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")")
+            .append("rect")
+            .attr("width", 40)
+            .attr("height", 40)
+            .attr("rx", 4)
+            .style("fill", "steelblue")
+            .on("click", function () {
+                //animate on click
+                animateTimer()
+            });
 
+        animateButton.append("path")
+            .attr("d", "M15 10 L15 40 L35 25 Z")
+            .style("fill", "white");
+
+
+        //select options
+        let seletData = ["A", "B", "C", "D"];
         let select = d3.select("#timeLine")
             .append('select')
             .attr('class', 'select')
             .on('change', onChangeSelect);
-
         select.selectAll('option')
             .data(genre).enter()
             .append('option')
-            .text(function (d) {
+            .attr("value", function (d) {
                 return d.title;
+            })
+            .text(function (d) {
+                return d.title + ": " + d.count;
             });
 
         function brushened() {
@@ -164,8 +185,10 @@
                     return d;
                 }
             });
-
             polyCube.updatePC(selectedData);
+
+            //update global variable
+            chosenData = selectedData;
 
             //update text count
             d3.select(".brush_count")
@@ -206,6 +229,7 @@
          * Animate brush from A to B
          * http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
          */
+
         // animate briush from a to b
         function animateBrush() {
             // our year will this.innerText
@@ -220,14 +244,21 @@
             brush(d3.select(".brush").transition());
 
             // now fire the brushstart, brushmove, and brushend events
-            // remove transition so just d3.select(".brush") to just draw
             brush.event(d3.select(".brush").transition().delay(1000))
         }
 
         function onChangeSelect() {
             let selectValue = d3.select(this).property('value');
+            let defaultData = data;
             // console.log(data);
-            let selectedData = data.filter(function (d) {
+
+            //update select from brush list
+            if (chosenData) {
+                defaultData = chosenData;
+            }
+
+
+            let selectedData = defaultData.filter(function (d) {
                 if (d.Genre_1 === selectValue) {
                     return d;
                 }
@@ -237,12 +268,80 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            //redraw polycube with new data
             polyCube.updatePC(selectedData);
         }
+
+        var animateTimer = function (times = 20, gap = 1) {
+            var i = 0;
+            let start = window.dateTestEx[0] - gap;
+            let end = start + gap;
+
+            while (i < times) {
+                (function (i) {
+                    setTimeout(function () {
+                        let newStart = start += gap;
+                        let newEnd = end += gap;
+                        let defaultData = data;
+
+                        //update select from brush list
+                        if (chosenData) {
+                            defaultData = chosenData;
+                        }
+
+                        // console.log(newStart + ": " + newEnd)
+                        // let selectedData = data.filter(function (d) {
+                        let selectedData = defaultData.filter(function (d) {
+                            if (d.time >= newStart && d.time <= newEnd) {
+                                return d;
+                            }
+                        });
+                        polyCube.updatePC(selectedData);
+
+                    }, 1000 * i)
+                })(i++)
+            }
+        };
+        // animateTimer();
     }
+
     setTimeout(function () {
         init();
     }, 1000);
+
+    /**
+     * animate with setTimeout
+     * https://stackoverflow.com/questions/37728184/settimeout-method-inside-a-while-loop
+     */
+
+    // function animateTime(times = 16) {
+    //     for(let i =0; i<times; i++){
+    //         setTimeout(function () {
+    //             let start = 1946;
+    //             let end = 1947;
+    //
+    //             let selectedData = data.filter(function (d) {
+    //                 if (d.time >= start && d.time <= end) {
+    //                     return d;
+    //                 }
+    //             });
+    //             polyCube.updatePC(selectedData);
+    //
+    //         }, 2000);
+    //     }
+    // }
+
+    // setTimeout(function () {
+    //     let start = 1946;
+    //     let end = 1947;
+    //
+    //     console.log(start + end);
+    //
+    //     let selectedData = data.filter(function (d) {
+    //         if (d.time >= start && d.time <= end) {
+    //             return d;
+    //         }
+    //     });
+    //     polyCube.updatePC(selectedData);
+    // }, 4000);
 
 }());

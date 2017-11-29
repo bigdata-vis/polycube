@@ -98,6 +98,7 @@
 
 
         window.dateTestEx = dateTestEx;
+        window.geoMapData = geoMap;
 
         // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
         var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
@@ -341,7 +342,23 @@
          *Dynamic Scale with editing and update function
          //  */
 
-        pCube.updateMap = function (scale = 800, mapData) {
+        pCube.updateMap = function (scale = 400, mapData) {
+
+            //clear all map data on the scene todo: finc a smarter way
+            //clear all d3 elements in DOM
+
+            // cube.children = [];
+            // d3.selectAll('.elements').remove();
+            // d3.selectAll('#mapbox').remove();
+            // pointCloud.children = [];
+            // d3.selectAll('.pointCloud').remove();
+            // d3.selectAll("elements.parent").selectAll("*").remove();
+            // // d3.selectAll('.element').remove();
+            // d3.selectAll('.map-div').remove();
+            // d3.selectAll('.elements_child').remove();
+            // // d3.selectAll('svg').remove();
+            // d3.selectAll('img').remove();
+
 
             projection = d3.geoEquirectangular()
                 .translate([width / 2, height / 2])
@@ -356,12 +373,10 @@
              * main Element Div (Create new segments holders from here)
              *Currently using todo: datasets1 should be changed to datasets2
              */
-
             //to reverse data from begining
             dataBySeg.reverse();
 
-
-            elements = d3.select("body").selectAll('.element')
+            elements = d3.select("body").selectAll('.elements')
             //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
             //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
                 .data(dataBySeg)
@@ -404,11 +419,6 @@
 
                     var geoMap = pCube.drawMap2(d.key, mapData, d.values)
                 });
-
-            /**
-             * Objectify and draw segments elements
-             */
-            // elements.each(setViewData);
         };
         pCube.updateMap(400, geoMap);
 
@@ -417,6 +427,7 @@
          */
 
         // console.log(dateTestEx);
+
 
         pCube.updatePC = function (datasets) {
 
@@ -526,11 +537,9 @@
 
             polyCube.render()
         };
-
         pCube.updatePC(datasets);
 
         elements.each(addtoScene);
-
 
         /**
          * Draw Timeline and Labels
@@ -698,12 +707,6 @@
         objSeg.rotation.fromArray(rot[2]);
         objSeg.name = "seg";
         cube.add(objSeg);
-        //add new object test
-
-        // console.log(objSeg.rotation);
-        // objSeg.rotation.x = 1;
-
-        // console.log(rot[2])
     }
 
     // console.log(testData);

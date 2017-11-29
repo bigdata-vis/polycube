@@ -269,7 +269,7 @@
             colorScale: false,
             BG: "#000000",
             invert: false,
-//            projection: 5000,
+//            projection: 400,
             dataCategory: [ 'pizza', 'chrome', 'hooray' ]
         };
 
@@ -356,6 +356,11 @@
 //                .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
+//        Space.add(params, "projection").min(10).max(2000).step(10).onFinishChange(function () {
+//            let value = params.projection;
+//            console.log(value);
+//        polyCube.updateMap(+value, window.geoMapData);
+//        });
 
         let Data = gui.addFolder("Data");
         Data.add(params, "showData").onChange(function () {

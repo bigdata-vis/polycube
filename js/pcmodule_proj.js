@@ -316,7 +316,6 @@
 
             var elements = d3.select("body")
                 .data(datasets).enter() //todo: limit datasets to sepcific time for y axis
-
                 .append('div')
                 .attr('class', 'elements')
                 .attr('id', 'mapbox')
