@@ -75,14 +75,14 @@
       <file leaf-file-name="brushTimeCM.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/vis/brushTimeCM.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="224" column="13" lean-forward="true" selection-start-line="224" selection-start-column="13" selection-end-line="224" selection-end-column="13" />
+            <state relative-caret-position="220">
+              <caret line="242" column="29" lean-forward="true" selection-start-line="242" selection-start-column="29" selection-end-line="242" selection-end-column="29" />
               <folding>
-                <element signature="e#5809#5928#0" expanded="false" />
-                <element signature="e#6204#6999#0" expanded="false" />
-                <element signature="e#6378#6537#0" expanded="false" />
-                <element signature="e#7898#8622#0" expanded="false" />
-                <element signature="e#8682#10039#0" expanded="false" />
+                <element signature="e#5839#5958#0" expanded="false" />
+                <element signature="e#6234#7029#0" expanded="false" />
+                <element signature="e#6408#6567#0" expanded="false" />
+                <element signature="e#8004#8728#0" expanded="false" />
+                <element signature="e#9098#10135#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -157,7 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setsDraw</find>
       <find>hide</find>
       <find>ontario</find>
       <find>manito</find>
@@ -187,6 +186,7 @@
       <find>count</find>
       <find>window.data</find>
       <find>dateRange</find>
+      <find>chosenData</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1110,12 +1110,12 @@
       <workItem from="1511829988716" duration="488000" />
       <workItem from="1511944366845" duration="22830000" />
       <workItem from="1512051833330" duration="203000" />
-      <workItem from="1512083845001" duration="181000" />
+      <workItem from="1512083845001" duration="1385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="881071000" />
+    <option name="totallyTimeSpent" value="882275000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1620,14 +1620,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/vis/brushTimeCM.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="224" column="13" lean-forward="true" selection-start-line="224" selection-start-column="13" selection-end-line="224" selection-end-column="13" />
+        <state relative-caret-position="220">
+          <caret line="242" column="29" lean-forward="true" selection-start-line="242" selection-start-column="29" selection-end-line="242" selection-end-column="29" />
           <folding>
-            <element signature="e#5809#5928#0" expanded="false" />
-            <element signature="e#6204#6999#0" expanded="false" />
-            <element signature="e#6378#6537#0" expanded="false" />
-            <element signature="e#7898#8622#0" expanded="false" />
-            <element signature="e#8682#10039#0" expanded="false" />
+            <element signature="e#5839#5958#0" expanded="false" />
+            <element signature="e#6234#7029#0" expanded="false" />
+            <element signature="e#6408#6567#0" expanded="false" />
+            <element signature="e#8004#8728#0" expanded="false" />
+            <element signature="e#9098#10135#0" expanded="false" />
           </folding>
         </state>
       </provider>

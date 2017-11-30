@@ -9,6 +9,8 @@
     let format2 = d3.timeFormat("%Y");
     var genre;
     let chosenData;
+    let checkSelect = false;
+
 
     function init() {
         // console.log(window.dateTestEx);
@@ -217,6 +219,7 @@
         function onChangeSelect() {
             let selectValue = d3.select(this).property('value');
             let defaultData = data;
+            checkSelect = true;
             // console.log(data);
 
             //update select from brush list
@@ -237,8 +240,9 @@
 
             polyCube.updatePC(selectedData);
 
-            // chosenData = selectedData;
-
+            if(!checkSelect){
+                chosenData = selectedData;
+            }
         }
 
         /**
