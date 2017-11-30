@@ -129,9 +129,7 @@
             .attr("d", "M15 10 L15 40 L35 25 Z")
             .style("fill", "white");
 
-
         //select options
-        let seletData = ["A", "B", "C", "D"];
         let select = d3.select("#timeLine")
             .append('select')
             .attr('class', 'select')
@@ -149,18 +147,9 @@
         function brushened() {
             if (!d3.event.sourceEvent) return; // Only transition after input.
             if (!d3.event.selection) return; // Ignore empty selections.
+
             let d0 = d3.event.selection.map(y.invert),
                 d1 = d0.map(d3.timeMonth.round);
-            // d1 = d0.map(d3.timeYear.round);
-            //
-            // var d0 = d3.event.selection.map(x.invert),
-            //     d1 = d0.map(d3.timeDay.round);
-
-            // If empty when rounded, use floor & ceil instead.
-            // if (d1[0] >= d1[1]) {
-            //     d1[0] = d3.timeDay.floor(d0[0]);
-            //     d1[1] = d3.timeDay.offset(d1[0]);
-            // }
 
             // d3.select(this).transition().call(d3.event.target.move, d1.map(x));
             d3.select(this).transition().call(d3.event.target.move, d1.map(y));
@@ -225,28 +214,6 @@
             return container;
         }
 
-        /**
-         * Animate brush from A to B
-         * http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
-         */
-
-        // animate briush from a to b
-        function animateBrush() {
-            // our year will this.innerText
-            console.log(this.innerText);
-
-            // define our brush extent to be begin and end of the year
-            brush.extent([new Date(this.innerText + '-01-01'), new Date(this.innerText + '-12-31')]);
-
-            // now draw the brush to match our extent
-            // use transition to slow it down so we can see what is happening
-            // remove transition so just d3.select(".brush") to just draw
-            brush(d3.select(".brush").transition());
-
-            // now fire the brushstart, brushmove, and brushend events
-            brush.event(d3.select(".brush").transition().delay(1000))
-        }
-
         function onChangeSelect() {
             let selectValue = d3.select(this).property('value');
             let defaultData = data;
@@ -274,7 +241,29 @@
 
         }
 
-        var animateTimer = function (times = 20, gap = 1) {
+        /**
+         * Animate brush from A to B
+         * http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
+         */
+
+        // animate briush from a to b
+        function animateBrush() {
+            // our year will this.innerText
+            console.log(this.innerText);
+
+            // // define our brush extent to be begin and end of the year
+            // brush.extent([new Date(this.innerText + '-01-01'), new Date(this.innerText + '-12-31')]);
+            //
+            // // now draw the brush to match our extent
+            // // use transition to slow it down so we can see what is happening
+            // // remove transition so just d3.select(".brush") to just draw
+            // brush(d3.select(".brush").transition());
+            //
+            // // now fire the brushstart, brushmove, and brushend events
+            // brush.event(d3.select(".brush").transition().delay(1000))
+        }
+
+        var animateTimer = function (times = 17, gap = 1) {
             var i = 0;
             let start = window.dateTestEx[0] - gap;
             let end = start + gap;
@@ -285,13 +274,11 @@
                 defaultData = chosenData;
             }
 
-
             while (i < times) {
                 (function (i) {
                     setTimeout(function () {
 
                         //start and end from chosenData extents
-
                         let newStart = start += gap;
                         let newEnd = end += gap;
 
@@ -304,7 +291,11 @@
                         });
                         polyCube.updatePC(selectedData);
 
-                    }, 1000 * i)
+                        //move brush
+                        // svg.select(".brush").call(brush.move, [y0,y1]);
+                        svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
+
+                    }, 500 * i)
                 })(i++)
             }
         };
@@ -319,36 +310,5 @@
      * animate with setTimeout
      * https://stackoverflow.com/questions/37728184/settimeout-method-inside-a-while-loop
      */
-
-    // function animateTime(times = 16) {
-    //     for(let i =0; i<times; i++){
-    //         setTimeout(function () {
-    //             let start = 1946;
-    //             let end = 1947;
-    //
-    //             let selectedData = data.filter(function (d) {
-    //                 if (d.time >= start && d.time <= end) {
-    //                     return d;
-    //                 }
-    //             });
-    //             polyCube.updatePC(selectedData);
-    //
-    //         }, 2000);
-    //     }
-    // }
-
-    // setTimeout(function () {
-    //     let start = 1946;
-    //     let end = 1947;
-    //
-    //     console.log(start + end);
-    //
-    //     let selectedData = data.filter(function (d) {
-    //         if (d.time >= start && d.time <= end) {
-    //             return d;
-    //         }
-    //     });
-    //     polyCube.updatePC(selectedData);
-    // }, 4000);
 
 }());
