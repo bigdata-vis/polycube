@@ -237,7 +237,7 @@
 
             polyCube.updatePC(selectedData);
 
-            chosenData = selectedData;
+            // chosenData = selectedData;
 
         }
 
