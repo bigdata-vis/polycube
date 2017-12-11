@@ -104,7 +104,8 @@
         var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
 
         // let colour = d3.scaleOrdinal()
-        colour = d3.scaleSequential(d3.interpolateBlues)
+        // colour = d3.scaleSequential(d3.interpolateBlues)
+        colour = d3.scaleSequential(d3.interpolateSpectral)
             .domain([dateTestEx[0], dateTestEx[1]]);
 
         timeLinearG = timeLinear;
@@ -746,6 +747,10 @@
      *
      */
     pCube.default = function (callbackFuntion) {
+
+        // d3.selectAll(".pointCloud")
+        //     .classed("green_BG", true);
+
         // var segments = defaultData.length;
         var segments = dataSlices;
 
@@ -1093,7 +1098,6 @@
         scene.children[0].children.reverse();
         // console.log(scene.children[0].children);
 
-
         /**
          * Point Cloud Flattening
          * create a new object STC, save positions of STC inside object
@@ -1103,6 +1107,10 @@
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             // d.position.y = -249;
+
+            // console.log(d3.select(d.element));
+
+            // d3.select(d.element).classed("green_BG", false);
 
             // update matrix true on entry
             d.matrixAutoUpdate = true;
@@ -1181,11 +1189,11 @@
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
 
-                // var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
-                //     .to({
-                //         opacity: 0.9
-                //     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
-                //     .start()
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        opacity: 0.3
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
             }
 
         });
@@ -1268,17 +1276,15 @@
             }, duration)
                 .easing(TWEEN.Easing.Elastic.InOut)
                 // .onUpdate(function () {
-                //     camera.rotation.set(this.x, this.y, this.z);
-                //     // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                //     //camera.fov = 8; todo: add a new fov to change perspective
+                //     // camera.rotation.set(this.x, this.y, this.z);
+                //     // // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                //     // //camera.fov = 8; todo: add a new fov to change perspective
                 // })
                 .onComplete(function () {
-                    // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    // camera.position.x = 0;
-                    // camera.position.y = 1077.0329614258226;
-                    // camera.position.z = 0.0010770329614261862;
+
                 })
                 .start();
+
         }
 
         //else
