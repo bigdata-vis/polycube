@@ -2,6 +2,7 @@
  * Created by simba on 06/04/2017.
  *  * addint data to time brush
  * http://blockbuilder.org/mbostock/4349545
+ * move dateExtent to the main data entry point
  */
 (function () {
     let timeBrush = {};

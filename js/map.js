@@ -105,7 +105,8 @@
 
         // let colour = d3.scaleOrdinal()
         // colour = d3.scaleSequential(d3.interpolateBlues)
-        colour = d3.scaleSequential(d3.interpolateSpectral)
+        // colour = d3.scaleSequential(d3.interpolateSpectral)
+        colour = d3.scaleSequential(d3.interpolateYlGnBu)
             .domain([dateTestEx[0], dateTestEx[1]]);
 
         timeLinearG = timeLinear;
