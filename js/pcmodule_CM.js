@@ -87,7 +87,6 @@
 
         // console.log(dateUnixEx);
 
-
         window.dateTestEx = dateTestEx;
 
         // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);

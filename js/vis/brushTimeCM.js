@@ -18,6 +18,7 @@
         // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
 
+
         let margin = {top: 40, right: 40, bottom: 140, left: 40},
             width = 120 - margin.left - margin.right,
             height = window.innerHeight - margin.top - margin.bottom;
@@ -306,9 +307,12 @@
         // animateTimer();
     }
 
-    setTimeout(function () {
-        init();
-    }, 1000);
+        setTimeout(function () {
+            if(window.dateTestEx){
+                init();
+            }
+
+        }, 1000);
 
     /**
      * animate with setTimeout
