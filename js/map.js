@@ -178,7 +178,7 @@
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
         WGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        WGLRenderer.setClearColor(0x00ff00, 0.0);
+        // WGLRenderer.setClearColor(0x00ff00, 0.0);
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
@@ -222,9 +222,14 @@
 
         // console.log(pointCloud);
 
-        pointCloud.rotation.y = -1.54;
-        pointCloud.position.z += -3;
-        pointCloud.position.x += 5;
+        // pointCloud.rotation.y = -1.54;
+        // pointCloud.position.z += -5;
+        // pointCloud.position.x += 5;
+
+        pointCloud.rotation.y = -1.6;
+        pointCloud.position.z += 1;
+        pointCloud.position.x += -1;
+
 
         //calibration glbox lines with CSS scene
         glbox.position.copy(pointCloud.position);
@@ -277,7 +282,6 @@
         // glbox.rotation.z = 3.15;
         // glbox.position.z = -90;
         // glbox.position.y += 5;
-
 
         //Cushman
         // pointCloud.rotation.z = 3.15;
@@ -369,6 +373,7 @@
                 .scale(scale);
 
             path = d3.geoPath().projection(projection);
+
 
             /**
              *Create Div holders for the segments
@@ -648,6 +653,7 @@
     };
 
     function drawPointSelectedLines(element, elementPosition) {
+
         // cleanup
         // pointSelectedLines.forEach(x => WGLScene.remove(x));
         pointSelectedLines.forEach(x => glbox.remove(x));
@@ -660,7 +666,7 @@
             // });
 
             var material = new THREE.LineDashedMaterial({
-                color: "#00b438",
+                color: "#00b421",
                 linewidth: 10,
                 scale: 1,
                 dashSize: 1,
@@ -669,6 +675,7 @@
 
 
             var geometry = new THREE.Geometry();
+            geometry.name = "guidelines";
 
             geometry.vertices.push(
                 vec1, vec2
@@ -683,7 +690,6 @@
             pointSelectedLines.push(line);
             // WGLScene.add(line);
             glbox.add(line);
-
         };
 
         drawLine(
@@ -815,16 +821,30 @@
          * Reverse array to show last segment first
          * Only show
          */
-        // scene.getObjectByName("pointCloud").children.reverse(); reverse point cloud y axis
+
         if (layout !== "STC") {
-            scene.children[0].children.reverse();
+            // scene.children[0].children.reverse(); //on
         }
 
+        // if(layout !== "JP"){
+        //     scene.children[0].children.reverse();
+        // }
+        //
         // if(layout === "SI"){
         //     scene.children[0].children.reverse();
         // }
 
-        // console.log(scene.children[0].children);
+        d3.selectAll(".elements_child")
+            .filter(function (d, i) {  //todo: point of hiding other map items
+                console.log(d);
+                // return i !== 0;
+                return d.key !== "jp1";
+            })
+            .classed("hide", true)
+            .classed("dataPane", false);
+
+        console.log(d3.selectAll(".elements_child"));
+
 
         scene.children[0].children.forEach(function (object, i) {
 
@@ -898,13 +918,6 @@
         // console.log(d3.selectAll(".elements_child"));
 
 
-        d3.selectAll(".elements_child")
-            .filter(function (d, i) {  //todo: point of hiding other map items
-                return i !== 0;
-            })
-            .classed("hide", true)
-            .classed("dataPane", false);
-
         //callback function to run at the end of every default redraw
         if (callbackFuntion) {
             callbackFuntion()
@@ -962,7 +975,8 @@
          * Flatten Time before animating
          */
 
-        scene.children[0].children.reverse();
+        // scene.children[0].children.reverse(); //on
+
 
         // console.log(scene.children[0].children);
 
@@ -1071,7 +1085,6 @@
      */
 
     pCube.superImpose = function () {
-
         flat_time = true;
 
         //make control center thesame as cube xyz position
@@ -1091,12 +1104,15 @@
         d3.selectAll(".elements_child")
             .classed("hide", false);
 
+        //hide guide lines
+        hideGuide();
+
         var duration = 700;
 
         /**
          * Reverse array to show last segment first
          */
-        scene.children[0].children.reverse();
+        // scene.children[0].children.reverse(); //on
         // console.log(scene.children[0].children);
 
         /**
@@ -1192,7 +1208,7 @@
 
                 var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
                     .to({
-                        opacity: 0.3
+                        // opacity: 0.3
                     }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start()
             }
@@ -1675,7 +1691,7 @@
         let mapSVG = d3.selectAll("#" + elemID).append("svg")
             .attr("width", width)
             .attr("height", height)
-            .style("opacity", 0.5);
+            .style("opacity", 0.7);
 
         // let features = topojson.feature(data, data.objects.land);
         let mapPoints = points;
@@ -1725,6 +1741,7 @@
                 return d.properties.name;
             });
 
+        //points on map
         mapSVG.append("g")
             .attr("class", "pointOnMap")
             .selectAll(".subunit_points")
@@ -1740,7 +1757,8 @@
             })
             .attr("fill", function (d) {
                 // console.log(d)
-                return colour(d.time)
+                // return colour(d.time)
+                return "#ed7019"
             })
             .on('click', function(d,i) {
                 // update elements
@@ -1854,15 +1872,9 @@
         return [point[1] - (width / 2), (height / 2) - point[0]];
     }
 
-    function imageToCanvas(image) {
-        const width = image.width;
-        const height = image.height;
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext('2d');
-        context.drawImage(image, 0, 0, width, height);
-        return canvas;
+
+    function hideGuide(show = false) {
+        glbox.children = []
     }
 
     /**
