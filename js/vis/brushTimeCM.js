@@ -12,7 +12,6 @@
     let chosenData;
     let checkSelect = false;
 
-
     function init() {
         // console.log(window.dateTestEx);
 
@@ -53,6 +52,7 @@
             .extent([[0, 0], [width, height]])
             .on("end", brushened);
 
+
         let svg = d3.select("#timeLine")
             .style("position", "absolute")
             .style("z-index", "999")
@@ -65,7 +65,30 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        //y axis
+        // let gradient = d3.scaleSequential(d3.interpolateYlGnBu);
+
+//         // Define the gradient
+//         var gradient = svg.append("svg:defs")
+//             .append("svg:linearGradient")
+//             .attr("id", "gradient")
+//             .attr("x1", "0%")
+//             .attr("y1", "0%")
+//             .attr("x2", "100%")
+//             .attr("y2", "100%");
+//         // .attr("spreadMethod", "pad");
+//
+// // Define the gradient colors todo:change to viridis
+//         gradient.append("svg:stop")
+//             .attr("offset", "0%")
+//             .attr("stop-color", "#051ba0");
+//         // .attr("stop-opacity", 1);
+//
+//         gradient.append("svg:stop")
+//             .attr("offset", "100%")
+//             .attr("stop-color", "#c0a408");
+//         // .attr("stop-opacity", 1);
+
+        //y axis2
         svg.append("g")
             .attr("class", "axis2 axis--y2")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
@@ -81,6 +104,7 @@
                 return d.getYear();
             });
 
+        //axis
         svg.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -90,14 +114,26 @@
             )
             .attr("text-anchor", null)
             .selectAll("text")
-            .attr("x", 6);
-        // .attr("y", 0);
+            .attr("x", 6)
+            // .attr("fill", "#ffffff");
+            .attr("fill", function (d) {
+                let year = new Date(d).getFullYear();
+                let colorScale = window.colorScale;
+                // console.log(colorScale(year));
+                return colorScale(year)
+            });
 
-        svg.select(".domain")
+        //area chart domain
+        svg.select(".axis2").select(".domain")
             .attr("fill", "none")
             .attr("stroke", "blue")
             .attr("stroke-width", "2")
             .attr("d", line(count()));
+
+        //legend domain
+        svg.select(".axis").select(".domain")
+        .attr("fill", "none");
+        //     .style("fill", "url(#gradient)");
 
         svg.append("g")
             .attr("class", "brush")
@@ -242,7 +278,7 @@
 
             polyCube.updatePC(selectedData);
 
-            if(!checkSelect){
+            if (!checkSelect) {
                 chosenData = selectedData;
             }
         }
@@ -308,12 +344,12 @@
         // animateTimer();
     }
 
-        setTimeout(function () {
-            if(window.dateTestEx){
-                init();
-            }
+    setTimeout(function () {
+        if (window.dateTestEx) {
+            init();
+        }
 
-        }, 1000);
+    }, 1000);
 
     /**
      * animate with setTimeout

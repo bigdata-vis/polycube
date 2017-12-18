@@ -56,33 +56,35 @@ text {
 
 .subunit-boundary {
     fill: none;
-    stroke: #777;
+    /*stroke: #777;*/
+    stroke: #666666;
+    /*stroke-width: 1px;*/
     stroke-dasharray: 2, 2;
     stroke-linejoin: round;
 }
 
 .subunit-label {
-    fill: black;
+    /*fill: black;*/
+    fill: #181818;
     fill-opacity: 1;
     font-size: 8px;
     /*font-weight: 300;*/
     text-anchor: middle;
 }
 
-.subunit_points{
+.subunit_points {
     cursor: pointer;
     z-index: 999;
-    pointer-events:all;
+    pointer-events: all;
 }
 
 .boundary {
-    /*fill: #DEB887;*/
-    fill: #cccccc;
+    fill: #040404;
+    /*fill: #cccccc;*/
     /*stroke: black;*/
     stroke: #353636;
     stroke-width: 1px;
 }
-
 
 .hide {
     /*opacity: 0;*/
@@ -139,7 +141,7 @@ input:focus {
 
 .axis--y .domain,
 .tick text {
-    fill: #353636;
+    /*fill: #353636;*/
 }
 
 .axis--grid .tick--minor line {
@@ -153,8 +155,9 @@ input:focus {
 }
 
 .axis,
-.axis--chart{
-    fill: #0022de;
+.axis--chart {
+    /*fill: #3f3f3f;*/
+    fill: #353636;
     stroke-width: 0;
 }
 
@@ -186,7 +189,6 @@ input:focus {
     font: 10px sans-serif;
 }
 
-
 .button {
     background-color: #999a9a; /* Green */
     border: none;
@@ -205,7 +207,6 @@ input:focus {
     display: inline-block;
 }
 
-
 #textTitle {
     color: #7b7b7b;
 }
@@ -214,8 +215,8 @@ input:focus {
     font-size: smaller;
 }
 
-#searchLink{
- font-size: small;
+#searchLink {
+    font-size: small;
 }
 
 #textTitle {
@@ -247,6 +248,10 @@ input:focus {
     max-width: 246px;
 }
 
+.segLabel {
+    color: #7b7b7b;
+}
+
 .pointCloud {
     /*height: 2px !important;*/
     /*width: 2px !important;*/
@@ -269,34 +274,36 @@ input:focus {
 }
 
 /*.pointCloud::after {*/
-    /*background-color: rgba(255, 255, 255, 0.3);*/
-    /*content: '';*/
-    /*height: 45%;*/
-    /*width: 12%;*/
-    /*position: absolute;*/
-    /*top: 4%;*/
-    /*left: 15%;*/
-    /*border-radius: 50%;*/
-    /*transform: rotate(40deg);*/
+/*background-color: rgba(255, 255, 255, 0.3);*/
+/*content: '';*/
+/*height: 45%;*/
+/*width: 12%;*/
+/*position: absolute;*/
+/*top: 4%;*/
+/*left: 15%;*/
+/*border-radius: 50%;*/
+/*transform: rotate(40deg);*/
 /*}*/
 
 .green {
     background-color: green;
 }
 
-.green_BG{
+.green_BG {
     /*background-color: #00b438 !important;*/
     background-color: #ed7019 !important;
 }
 
-.no_BG{
+.no_BG {
     /*background-color: #00b438 !important;*/
     background-color: #ed7019 !important;
 }
 
-.bar { fill: steelblue; }
+.bar {
+    fill: steelblue;
+}
 
-.select{
+.select {
     position: absolute;
     top: 2%;
     /*left: 100%;*/

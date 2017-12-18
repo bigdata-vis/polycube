@@ -79,7 +79,7 @@
     //            .defer(d3.json, "data/painting_gallery_clean.json")
     //        .defer(d3.csv, "data/Cushman-Collection.csv")
         .defer(d3.json, "data/cm.json")
-//        .defer(d3.json, "data/land.topojson")
+        //        .defer(d3.json, "data/land.topojson")
         .defer(d3.json, "data/worldUS.json")
         .await(init);
 
@@ -159,7 +159,7 @@
                     d.time = +format2(d.time);
 
                     //get unix
-                    d.unix = +(full_date/1000).toFixed(0);
+                    d.unix = +(full_date / 1000).toFixed(0);
 
 //                    console.log(new Date(unix * 1000));
 //                    console.log(d.Topical_Subject_Headings_1);
@@ -239,7 +239,6 @@
             });
 
 
-
             //Draw
             polyCube.drawElements(newData, geoMap);
             polyCube.render();
@@ -270,7 +269,7 @@
             BG: "#000000",
             invert: false,
 //            projection: 400,
-            dataCategory: [ 'pizza', 'chrome', 'hooray' ]
+            dataCategory: ['pizza', 'chrome', 'hooray']
         };
 
         d3.select("body")
@@ -306,11 +305,11 @@
                 .style("background-color", d)
             ;
         });
-        theme.add(params, "invert").onFinishChange(d =>{
-            if(d){
+        theme.add(params, "invert").onFinishChange(d => {
+            if (d) {
                 d3.select("body")
                     .style("filter", "invert(100%)")
-            }else {
+            } else {
                 d3.select("body")
                     .style("filter", "invert(0%)")
             }

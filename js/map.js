@@ -105,9 +105,16 @@
 
         // let colour = d3.scaleOrdinal()
         // colour = d3.scaleSequential(d3.interpolateBlues)
+        colour = d3.scaleSequential(d3.interpolateViridis)
         // colour = d3.scaleSequential(d3.interpolateSpectral)
-        colour = d3.scaleSequential(d3.interpolateYlGnBu)
+        // colour = d3.scaleSequential(d3.interpolateYlGnBu)
             .domain([dateTestEx[0], dateTestEx[1]]);
+
+        /**
+         * Define and Transfer the color scaler
+         */
+
+        window.colorScale = colour;
 
         timeLinearG = timeLinear;
 
@@ -425,6 +432,36 @@
                         // var geoMap = pCube.drawMap2(d.key,d.values,path)
 
                     var geoMap = pCube.drawMap2(d.key, mapData, d.values)
+                });
+
+            elements.append('p')
+                .attr("class", "segLabel")
+                .classed("hide", true)
+                .html(function (d) {
+                    // console.log(d);
+                    let retVal;
+
+                    switch (d.key)
+                    {
+                        case "jp1":
+                            retVal = "<= 1942";
+                            break;
+
+                        case "jp2":
+                            retVal = "1943 - 1946";
+                            break;
+
+                        case "jp3":
+                            retVal = "1947 - 1950";
+                            break;
+
+                        case "jp4":
+                            retVal = ">= 1951";
+                            break;
+                    }
+
+                    return retVal;
+
                 });
         };
         pCube.updateMap(400, geoMap);
@@ -754,13 +791,7 @@
      *
      */
     pCube.default = function (callbackFuntion) {
-
-        // d3.selectAll(".pointCloud")
-        //     .classed("green_BG", true);
-
-        // var segments = defaultData.length;
         var segments = dataSlices;
-
         var interval = height / segments; //height/segments
 
         flat_time = false;
@@ -774,13 +805,23 @@
         d3.selectAll(".subunit_points")
             .classed("hide", true);
 
-        //show all time panels
+        /**
+         * Hide SegLable
+         */
+        d3.selectAll(".segLabel")
+            .classed("hide", true);
+
+        /**
+         * show all time panels
+         */
         d3.selectAll(".textTitle")
             .classed("hide", false);
 
-        //show all point clouds
-        //delay poitcloud introduction
-        //add transition tween
+        /**
+         * show all point clouds
+         * delay poitcloud introduction
+         * add transition tween
+         */
 
         setTimeout(function () {
             d3.selectAll(".pointCloud")
@@ -836,14 +877,12 @@
 
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
-                console.log(d);
+                // console.log(d);
                 // return i !== 0;
                 return d.key !== "jp1";
             })
             .classed("hide", true)
             .classed("dataPane", false);
-
-        console.log(d3.selectAll(".elements_child"));
 
 
         scene.children[0].children.forEach(function (object, i) {
@@ -942,11 +981,11 @@
         d3.selectAll(".subunit_points")
             .classed("hide", false);
 
-        //
-        // d3.selectAll(".elements")
-        //     .style("pointer-events, none;")
-
-        // polyCube.hideLeafletMap(false);
+        /**
+         * Hide SegLable
+         */
+        d3.selectAll(".segLabel")
+            .classed("hide", false);
 
         // conntrols
         controls.noZoom = false;
@@ -1087,14 +1126,16 @@
     pCube.superImpose = function () {
         flat_time = true;
 
-        //make control center thesame as cube xyz position
-        // controls.center = cube.position;
+        /**
+         * make control center thesame as cube xyz position
+         */
         controls.center.add(cube.position);
-        // console.log(controls);
 
-        //controls
-        // controls.noZoom = false;
+        /**
+         * controls
+         */
         controls.noRotate = true;
+
 
         //hide all time panels
         d3.selectAll(".textTitle")
@@ -1103,6 +1144,12 @@
         //display all the maps for the segments
         d3.selectAll(".elements_child")
             .classed("hide", false);
+
+        /**
+         * Hide SegLable
+         */
+        d3.selectAll(".segLabel")
+            .classed("hide", true);
 
         //hide guide lines
         hideGuide();
