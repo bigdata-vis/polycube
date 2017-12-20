@@ -35,17 +35,27 @@
             return d.val;
         })]);
 
+        // define the area
+        let area = d3.area()
+            .y(d => {
+                return y(new Date(d.date, 1, 1))
+            })
+            .x0(0)
+            .x1(d => {
+                return x(d.val);
+            })
+            .curve(d3.curveCardinal);
+
 
         let line = d3.line()
             .y(d => {
                 return y(new Date(d.date, 1, 1))
-                // return d.val
             })
             .x(d => {
                 return x(d.val);
-                // return y(new Date(d.date, 1, 1))
             })
             .curve(d3.curveCardinal);
+
 
         let brush = d3
             .brushY()
@@ -64,29 +74,6 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        // let gradient = d3.scaleSequential(d3.interpolateYlGnBu);
-
-//         // Define the gradient
-//         var gradient = svg.append("svg:defs")
-//             .append("svg:linearGradient")
-//             .attr("id", "gradient")
-//             .attr("x1", "0%")
-//             .attr("y1", "0%")
-//             .attr("x2", "100%")
-//             .attr("y2", "100%");
-//         // .attr("spreadMethod", "pad");
-//
-// // Define the gradient colors todo:change to viridis
-//         gradient.append("svg:stop")
-//             .attr("offset", "0%")
-//             .attr("stop-color", "#051ba0");
-//         // .attr("stop-opacity", 1);
-//
-//         gradient.append("svg:stop")
-//             .attr("offset", "100%")
-//             .attr("stop-color", "#c0a408");
-//         // .attr("stop-opacity", 1);
 
         //y axis2
         svg.append("g")
@@ -126,15 +113,28 @@
             .classed('green_BG', true);
 
         //area chart domain
+
+        svg.select(".axis2")
+            .append("path")
+            // .attr("fill", "#ed7019")
+            // .attr("fill", "#ed7019")
+            .attr("fill", "#7b7b7b")
+            .attr("fill-opacity", 0.3)
+            .attr("d", area(count()));
+
+
         svg.select(".axis2").select(".domain")
             .attr("fill", "none")
-            .attr("stroke", "blue")
+            // .attr("stroke", "#ed7019")
+            .attr("stroke", "#7b7b7b")
             .attr("stroke-width", "2")
             .attr("d", line(count()));
 
+
+
         //legend domain
         svg.select(".axis").select(".domain")
-        .attr("fill", "none");
+            .attr("fill", "none");
         //     .style("fill", "url(#gradient)");
 
         svg.append("g")

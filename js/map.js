@@ -490,6 +490,11 @@
             pointCloud.children = [];
             d3.selectAll('.pointCloud').remove();
 
+            /**
+             *hide guide lines
+             */
+            hideGuide();
+
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 .each(function (d, i) {
@@ -1151,7 +1156,9 @@
         d3.selectAll(".segLabel")
             .classed("hide", true);
 
-        //hide guide lines
+        /**
+         *hide guide lines
+         */
         hideGuide();
 
         var duration = 700;
@@ -1921,7 +1928,9 @@
 
 
     function hideGuide(show = false) {
-        glbox.children = []
+        if(glbox.children){
+            glbox.children = []
+        }
     }
 
     /**
