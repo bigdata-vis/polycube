@@ -12,6 +12,7 @@
     let chosenData;
     let checkSelect = false;
 
+
     function init() {
         // console.log(window.dateTestEx);
 
@@ -320,30 +321,61 @@
                 defaultData = chosenData;
             }
 
-            while (i < times) {
-                (function (i) {
-                    setTimeout(function () {
+            // while (i < times || function(){ /* callback */ return false;}) {
+            // while (i < times) {
+            //     (function (i) {
+            //             setTimeout(function () {
+            //
+            //                 //start and end from chosenData extents
+            //                 let newStart = start += gap;
+            //                 let newEnd = end += gap;
+            //
+            //                 // console.log(newStart + ": " + newEnd)
+            //                 // let selectedData = data.filter(function (d) {
+            //                 let selectedData = defaultData.filter(function (d) {
+            //                     if (d.time >= newStart && d.time <= newEnd) {
+            //                         return d;
+            //                     }
+            //                 });
+            //                 polyCube.updatePC(selectedData);
+            //
+            //                 //move brush
+            //                 // svg.select(".brush").call(brush.move, [y0,y1]);
+            //                 svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
+            //
+            //             }, 500 * i)
+            //         })(i++);
+            // }
 
-                        //start and end from chosenData extents
-                        let newStart = start += gap;
-                        let newEnd = end += gap;
+            for (let x = 0; x < times; x++) {
+                setTimeout(function (i) {
 
-                        // console.log(newStart + ": " + newEnd)
-                        // let selectedData = data.filter(function (d) {
-                        let selectedData = defaultData.filter(function (d) {
-                            if (d.time >= newStart && d.time <= newEnd) {
-                                return d;
-                            }
-                        });
-                        polyCube.updatePC(selectedData);
+                    //start and end from chosenData extents
+                    let newStart = start += gap;
+                    let newEnd = end += gap;
 
-                        //move brush
-                        // svg.select(".brush").call(brush.move, [y0,y1]);
-                        svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
+                    // console.log(newStart + ": " + newEnd)
+                    // let selectedData = data.filter(function (d) {
+                    let selectedData = defaultData.filter(function (d) {
+                        if (d.time >= newStart && d.time <= newEnd) {
+                            return d;
+                        }
+                    });
+                    polyCube.updatePC(selectedData);
 
-                    }, 500 * i)
-                })(i++)
+                    //move brush
+                    // svg.select(".brush").call(brush.move, [y0,y1]);
+                    svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
+
+                    //add one extra layer for full structure view
+                    // if(x >= (times-1)){
+                    //     // console.log(data)
+                    //     polyCube.updatePC(data)
+                    // }
+
+                }, 500 * x);
             }
+
         };
         // animateTimer();
     }
