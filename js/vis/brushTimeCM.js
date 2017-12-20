@@ -131,7 +131,6 @@
             .attr("d", line(count()));
 
 
-
         //legend domain
         svg.select(".axis").select(".domain")
             .attr("fill", "none");
@@ -156,20 +155,23 @@
 
         // animate button
         let animateButton = svg.append("g")
-            .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")")
-            .append("rect")
+            .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")");
+
+        animateButton.append("rect")
             .attr("width", 40)
             .attr("height", 40)
             .attr("rx", 4)
-            .style("fill", "steelblue")
+            .style("fill", "#999a9a")
+            .attr("fill-opacity", 0.3)
             .on("click", function () {
                 //animate on click
                 animateTimer()
             });
 
         animateButton.append("path")
-            .attr("d", "M15 10 L15 40 L35 25 Z")
-            .style("fill", "white");
+            .attr("d", "M5 5 L5 35 L35 20 Z")
+            .style("fill", "#8a8a8a")
+            .style("stroke", "#8a8a8a");
 
         //select options
         let select = d3.select("#timeLine")
