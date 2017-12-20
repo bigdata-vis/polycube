@@ -490,6 +490,7 @@
             pointCloud.children = [];
             d3.selectAll('.pointCloud').remove();
 
+
             /**
              *hide guide lines
              */

@@ -21,6 +21,19 @@
 </head>
 <body>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+
+
 <button class="button" type="button" onclick="polyCube.default()">
     space-time cube
 </button>
@@ -28,10 +41,6 @@
 <button class="button" type="button"
         onclick="
         polyCube.superImpose();
-//        polyCube.default();
-//        setTimeout(function() {
-//          polyCube.superImpose()
-//        },2550);
 "> superimposition
 </button>
 
@@ -40,22 +49,11 @@
     juxtaposition
 </button>
 
-<!--<button id="testBTN" class="button" type="button"></button>-->
-
-<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.setsDraw()"> Show Sets-->
-<!--</button>-->
-<!--<br>-->
 <a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
-<img id="dataImage" src="#">
+<!--<img id="dataImage" src="#">-->
 
-
-<!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.test()">test-->
-<!--</button>-->
-
-<!--<br>-->
-
+<!-- Trigger the Modal -->
+<img id="dataImage" src="#" alt="" width="300" height="200">
 
 <div id="timeLine"></div>
 
@@ -388,6 +386,30 @@
 
     }
 
+</script>
+
+<script>
+    // Get the modal
+    let modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    let img = document.getElementById('dataImage');
+    let modalImg = document.getElementById("img01");
+    let captionText = document.getElementById("caption");
+    let imgDetails = document.getElementById("textTitle");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = imgDetails.innerHTML;
+    };
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
 </script>
 
 </body>
