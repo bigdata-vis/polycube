@@ -292,6 +292,7 @@ input:focus {
 .green_BG {
     /*background-color: #00b438 !important;*/
     background-color: #ed7019 !important;
+    fill: #ed7019 !important;
 }
 
 .no_BG {

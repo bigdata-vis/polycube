@@ -327,12 +327,18 @@
                 //show green on pointCloud
 
                 d3.selectAll(".pointCloud")
+                    .classed("green_BG", true);
+
+                d3.selectAll(".timelineTick")
                     .classed("green_BG", true)
 
             } else {
                 //show green on pointCloud
                 d3.selectAll(".pointCloud")
-                    .classed("green_BG", false)
+                    .classed("green_BG", false);
+
+                d3.selectAll(".timelineTick")
+                    .classed("green_BG", false);
             }
 
         }).name("Time Colour");

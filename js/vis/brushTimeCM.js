@@ -115,13 +115,15 @@
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 6)
+            .attr("class", "timelineTick")
             // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
                 let year = new Date(d).getFullYear();
                 let colorScale = window.colorScale;
                 // console.log(colorScale(year));
                 return colorScale(year)
-            });
+            })
+            .classed('green_BG', true);
 
         //area chart domain
         svg.select(".axis2").select(".domain")
