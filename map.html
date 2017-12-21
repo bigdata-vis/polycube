@@ -262,8 +262,9 @@
             showNodes: false,
             overlapNodes: 0,
             nodeSize: 3,
-            colorScale: false,
+            colorScale: true,
             BG: "#000000",
+            dataColor: "#ed7019",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -302,6 +303,20 @@
                 .style("background-color", d)
             ;
         });
+        
+
+        theme.addColor(params, 'dataColor').onChange(d => {
+
+            d3.selectAll(".pointCloud")
+                .classed("green_BG", false)
+                .style("background-color", d);
+
+            d3.selectAll(".tick text")
+                .classed("green_BG", false)
+                .style("fill", d);
+
+        });
+
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {
                 d3.select("body")

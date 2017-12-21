@@ -103,7 +103,7 @@
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 6)
-            .attr("class", "timelineTick")
+            // .attr("class", "timelineTick")
             // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
                 let year = new Date(d).getFullYear();
@@ -111,7 +111,7 @@
                 // console.log(colorScale(year));
                 return colorScale(year)
             })
-            .classed('green_BG', true);
+            .classed('timelineTick', true);
 
         //area chart domain
 
@@ -179,6 +179,7 @@
             .append('select')
             .attr('class', 'select')
             .on('change', onChangeSelect);
+
         select.selectAll('option')
             .data(genre).enter()
             .append('option')

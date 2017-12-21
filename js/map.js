@@ -993,6 +993,12 @@
         d3.selectAll(".segLabel")
             .classed("hide", false);
 
+        /**
+         *hide guide lines
+         */
+        hideGuide();
+
+
         // conntrols
         controls.noZoom = false;
         controls.noRotate = true;

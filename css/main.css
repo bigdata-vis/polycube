@@ -310,6 +310,10 @@ input:focus {
     /*left: 100%;*/
 }
 
+
+.timelineTick{
+    fill: white;
+}
 /*modal*/
 
 /* Style the Image Used to Trigger the Modal */
