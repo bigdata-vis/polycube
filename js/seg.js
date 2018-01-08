@@ -105,9 +105,8 @@
         // let colour = d3.scaleOrdinal()
         // colour = d3.scaleSequential(d3.interpolateBlues)
         colour = d3.scaleSequential(d3.interpolateViridis)
-        // colour = d3.scaleSequential(d3.interpolateSpectral)
-        // colour = d3.scaleSequential(d3.interpolateYlGnBu)
-            .domain([dateTestEx[0], dateTestEx[1]]);
+        //     .domain([dateTestEx[0], dateTestEx[1]]);
+            .domain(dateUnixEx);
 
         /**
          * Define and Transfer the color scaler
@@ -513,7 +512,10 @@
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
-                    image.style.background = colour(d.time);
+                    // image.style.background = colour(d.time);
+                    image.style.background = colour(d.unix);
+
+                    // console.log(d);
 
                     // object.position.copy(position);
                     object.position.multiplyScalar(75);
