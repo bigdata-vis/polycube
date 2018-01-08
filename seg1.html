@@ -63,8 +63,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/map.js"></script>
-<script src="js/vis/brushTimeCM.js"></script>
+<script src="js/seg.js"></script>
+<script src="js/vis/brushSeg.js"></script>
 
 <script>
     /**Merge the cut section into a mega structure
@@ -85,13 +85,14 @@
         if (error) console.log(error);
 
         //filter based on the dates segmentations
-        data.forEach(function (d) {
-            console.log(d)
-        });
+//        console.log(data);
 
-        //filter data from begining
+        let seg1 = 1940, seg2 = 1946, seg3 = 1950, seg4 = 1977;
+
         data.filter(function (d) {
-            return d.Genre_1 === "Architectural photographs"
+//            console.log(d);
+//            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+            return d.time <= seg1;
         });
 
         function tempRange(data, geoMap) {
@@ -147,8 +148,6 @@
                     }
 
                 });
-                window.data = data;
-
             }
 
 //            KHM();
@@ -207,7 +206,9 @@
 
 //                    console.log(d);
 
-                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+//                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+                    var jp1 = 1938, jp2 = 1939, jp3 = 1940;
+
 
                     if (d.time <= jp1) {
                         d.ts = "jp1";
@@ -220,13 +221,12 @@
                     if (d.time > jp2 && d.time <= jp3) {
                         d.ts = "jp3";
                     }
-
-                    if (d.time > jp3 && d.time <= jp4) {
-                        d.ts = "jp4";
-                    }
+//
+//                    if (d.time > jp3 && d.time <= jp4) {
+//                        d.ts = "jp4";
+//                    }
                 });
-
-                window.data = data;
+//                window.data = data;
             }
 
             Cushman();
@@ -236,11 +236,15 @@
 //            });
 
             let newData = data.filter(function (d) {
-                return d.Genre_1 === "Architectural photographs"
+//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+                return d.time <= seg1;
 //                return d.Genre_1 === "Glamour photographs"
             }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
+
+            window.data = newData;
+
 
             let newData2 = data.slice(0, 100).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
@@ -313,7 +317,7 @@
                 .style("background-color", d)
             ;
         });
-        
+
 
         theme.addColor(params, 'dataColor').onChange(d => {
 
@@ -421,7 +425,7 @@
     let modalImg = document.getElementById("img01");
     let captionText = document.getElementById("caption");
     let imgDetails = document.getElementById("textTitle");
-    img.onclick = function(){
+    img.onclick = function () {
         modal.style.display = "block";
         modalImg.src = this.src;
         captionText.innerHTML = imgDetails.innerHTML;
@@ -431,7 +435,7 @@
     let span = document.getElementsByClassName("close")[0];
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 </script>
