@@ -386,7 +386,7 @@
              *Currently using todo: datasets1 should be changed to datasets2
              */
 
-            console.log(dataBySeg);
+            // console.log(dataBySeg);
 
             //to reverse data from begining
             dataBySeg.reverse();
@@ -445,15 +445,15 @@
                     switch (d.key)
                     {
                         case "jp1":
-                            retVal = "<= 1942";
+                            retVal = "1938";
                             break;
 
                         case "jp2":
-                            retVal = "1943 - 1946";
+                            retVal = "1939";
                             break;
 
                         case "jp3":
-                            retVal = "1947 - 1950";
+                            retVal = "1940";
                             break;
 
                         case "jp4":

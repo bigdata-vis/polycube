@@ -92,7 +92,7 @@
         data.filter(function (d) {
 //            console.log(d);
 //            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time <= seg1;
+            return d.time <= seg1 ;
         });
 
         function tempRange(data, geoMap) {
@@ -299,8 +299,8 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-        d3.selectAll(".pointCloud")
-            .classed("green_BG", true);
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", true);
 
         /**
          * Data UI Controls
@@ -425,6 +425,7 @@
     let modalImg = document.getElementById("img01");
     let captionText = document.getElementById("caption");
     let imgDetails = document.getElementById("textTitle");
+
     img.onclick = function () {
         modal.style.display = "block";
         modalImg.src = this.src;
@@ -433,9 +434,14 @@
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    closeModal.onclick = function () {
         modal.style.display = "none";
     }
 </script>

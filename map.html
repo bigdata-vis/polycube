@@ -85,9 +85,9 @@
         if (error) console.log(error);
 
         //filter based on the dates segmentations
-        data.forEach(function (d) {
-            console.log(d)
-        });
+//        data.forEach(function (d) {
+////            console.log(d)
+//        });
 
         //filter data from begining
         data.filter(function (d) {
@@ -429,9 +429,13 @@
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
+        modal.style.display = "none";
+    };
+    closeModal.onclick = function () {
         modal.style.display = "none";
     }
 </script>
