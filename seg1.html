@@ -92,7 +92,7 @@
         data.filter(function (d) {
 //            console.log(d);
 //            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time <= seg1 ;
+            return d.time <= seg1;
         });
 
         function tempRange(data, geoMap) {
@@ -115,7 +115,6 @@
 
 //          switch data
             function KHM() {
-
                 data.forEach(function (d, i) {
                     d.long = d.location_data.country.lat;
                     d.lat = d.location_data.country.long;
@@ -161,18 +160,11 @@
                     //get full date
                     let full_date = d.time;
 
-
                     // get year only
                     d.time = +format2(d.time);
 
                     //get unix
                     d.unix = +(full_date / 1000).toFixed(0);
-
-//                    console.log(new Date(unix * 1000));
-//                    console.log(d.Topical_Subject_Headings_1);
-//                    console.log(d.Genre_1);
-
-//                    console.log(d.Date);
 
                     let year = d.year;
 //                    let time = +format2(parse4(d.Date));
@@ -226,7 +218,6 @@
 //                        d.ts = "jp4";
 //                    }
                 });
-//                window.data = data;
             }
 
             Cushman();
@@ -243,8 +234,10 @@
                 return d3.ascending(x.time, y.time);
             });
 
-            window.data = newData;
+//            console.log(count(newData));
+            count(newData);
 
+            window.data = newData;
 
             let newData2 = data.slice(0, 100).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
@@ -258,6 +251,18 @@
         }
 
         tempRange(data, geoMap);
+
+        function count(data) {
+
+//            console.log(data)
+
+            let counts = {};
+            for (let i = 0; i < data.length; i++) {
+                counts[data[i].City_and_State] = (1 + (counts[data[i].City_and_State] || 1));
+            }
+            return counts;
+        }
+
 
         /**
          * Toggle PointCloud Data UI
@@ -377,18 +382,19 @@
                 .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-        Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {
-            let value = params.overlapNodes;
-
+        Space.add(params, "overlapNodes").min(0).max(40).onFinishChange(function () {
             /**increase or decrease the node x and y axis position to show overlaping content
              * ref: http://networkcube.net/ vid:3:25
              **/
+            let value = params.overlapNodes;
 
-//            d3.selectAll(".pointCloud")
-//                .style("width", value + "px")
-//                .style("height", value + "px")
-//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+            if (value > 0) {
+                polyCube.overlappingNodes(+value)
+            } else {
+                polyCube.nooverlappingNodes()
+            }
         });
+
 //        Space.add(params, "projection").min(10).max(2000).step(10).onFinishChange(function () {
 //            let value = params.projection;
 //            console.log(value);

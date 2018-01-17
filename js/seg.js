@@ -59,6 +59,9 @@
 
     var pointSelectedLines = [];
 
+    var overlapingData;
+    // var noicyData;
+
     let colour;
     /**
      * Flip mirro and horizontal
@@ -442,8 +445,7 @@
                     // console.log(d);
                     let retVal;
 
-                    switch (d.key)
-                    {
+                    switch (d.key) {
                         case "jp1":
                             retVal = "1938";
                             break;
@@ -473,8 +475,9 @@
 
         // console.log(dateTestEx);
 
+        overlapingData = datasets;
 
-        pCube.updatePC = function (datasets) {
+        pCube.updatePC = function (datasets = datasets) {
 
             // var image, interval, stc, object;
 
@@ -490,7 +493,6 @@
             //clear all d3 elements in DOM
             pointCloud.children = [];
             d3.selectAll('.pointCloud').remove();
-
 
             /**
              *hide guide lines
@@ -519,7 +521,6 @@
 
                     // object.position.copy(position);
                     object.position.multiplyScalar(75);
-
 
                     var long = d.lat,
                         lat = d.long,
@@ -559,7 +560,7 @@
                         // object.element.onmouseover = function () {
 
                         //Change image src
-                        // console.log(d);
+                        console.log(d);
 
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
@@ -592,6 +593,9 @@
             polyCube.render()
         };
         pCube.updatePC(datasets);
+
+        //pass datasets to overlapping function
+        window.noicyData = datasets;
 
         elements.each(addtoScene);
 
@@ -1383,46 +1387,6 @@
     };
 
     /**
-     * Morphing controls accross data layers
-     * @param parameters
-     */
-
-    pCube.morphing = function (parameters) {
-        if (parameters === undefined) parameters = {};
-
-        var segCounter = 0; //keep list of the segment counters
-        var duration = 5500;
-        var yMorph = parameters["axis"] || 50; // todo: create
-        scene.children[0].children.forEach(function (object, i) {
-            //show only segments
-            if (object.name == "seg") {
-
-                segCounter++;
-                // console.log(segCounter);
-                if (segCounter == 1) {
-
-                    object.element.firstChild.lastChild.style.display = "none"; //remove red circle
-
-                    object.position.y = yMorph; //todo:for the control
-                    object.position.x = 0; //todo:for the control
-                    object.position.z = 0; //todo:for the control
-
-                    // var posTween = new TWEEN.Tween(object.position) //todo: for the tween
-                    //     .to({
-                    //         x: 0,
-                    //         y: yMorph,
-                    //         z: 0
-                    //     }, duration)
-                    //     .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    //     .start();
-
-                    //todo: animate the data spots on the map as it moves along time
-                }
-            }
-        });
-    };
-
-    /**
      * Line function implementation
      * create line using only CSS3D
      */
@@ -1825,7 +1789,7 @@
                 // return colour(d.time)
                 return "#ed7019"
             })
-            .on('click', function(d,i) {
+            .on('click', function (d, i) {
                 // update elements
 
                 d3.select("#textTitle")
@@ -1926,6 +1890,88 @@
     };
 
     /**
+     * Morphing controls accross data layers
+     * @param parameters
+     */
+
+    pCube.morphing = function (parameters) {
+        if (parameters === undefined) parameters = {};
+
+        var segCounter = 0; //keep list of the segment counters
+        var duration = 5500;
+        var yMorph = parameters["axis"] || 50; // todo: create
+
+        scene.children[0].children.forEach(function (object, i) {
+            //show only segments
+            if (object.name == "seg") {
+
+                segCounter++;
+                // console.log(segCounter);
+                if (segCounter == 1) {
+
+                    object.element.firstChild.lastChild.style.display = "none"; //remove red circle
+
+                    object.position.y = yMorph; //todo:for the control
+                    object.position.x = 0; //todo:for the control
+                    object.position.z = 0; //todo:for the control
+
+                    // var posTween = new TWEEN.Tween(object.position) //todo: for the tween
+                    //     .to({
+                    //         x: 0,
+                    //         y: yMorph,
+                    //         z: 0
+                    //     }, duration)
+                    //     .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    //     .start();
+
+                    //todo: animate the data spots on the map as it moves along time
+                }
+            }
+        });
+    };
+
+    pCube.overlappingNodes = function (value) {
+        var duration = 700;
+        TWEEN.removeAll();
+
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
+            d.matrixAutoUpdate = true;
+            d.updateMatrix();
+            // console.log(d);
+            //
+
+            var unClusterPoints = new TWEEN.Tween(d.position)
+                .to({
+                    x: d.position.x += (getRandomInt(-value, value)),
+                    z: d.position.z += (getRandomInt(-value, value))
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+        });
+        // console.log("noice")
+    };
+
+    pCube.nooverlappingNodes = function () {
+        TWEEN.removeAll();
+        let duration = 700;
+
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
+            d.matrixAutoUpdate = true;
+            d.updateMatrix();
+
+            var clusterPoints = new TWEEN.Tween(d.position)
+                .to({
+                    x: d.STC.position.x,
+                    z: d.STC.position.z
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+        });
+    };
+
+    /**
      * Translate function for the long and lat coordinates
      * @param point
      * @returns {*[]}
@@ -1937,11 +1983,14 @@
         return [point[1] - (width / 2), (height / 2) - point[0]];
     }
 
-
     function hideGuide(show = false) {
-        if(glbox.children){
+        if (glbox.children) {
             glbox.children = []
         }
+    }
+
+    function getRandomInt(min, max) {
+        return (Math.random() * (max - min + 1)) + min;
     }
 
     /**

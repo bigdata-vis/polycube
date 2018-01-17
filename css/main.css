@@ -271,6 +271,7 @@ input:focus {
     /*margin: 5%;*/
     background-color: #00b438;
     cursor: pointer;
+    opacity: 0.7;
 }
 
 /*.pointCloud::after {*/
