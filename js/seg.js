@@ -98,8 +98,8 @@
 
         // console.log(dateUnixEx);
 
-
         window.dateTestEx = dateTestEx;
+        window.dateExUnix = dateUnixEx;
         window.geoMapData = geoMap;
 
         // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
@@ -574,7 +574,7 @@
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL);
 
-                        drawPointSelectedLines(object, object.position);
+                        drawPointSelectedLines(object.position);
                     };
 
                     // lineList.push(object.position);
@@ -702,57 +702,6 @@
         layout = "STC";
 
     };
-
-    function drawPointSelectedLines(element, elementPosition) {
-
-        // cleanup
-        // pointSelectedLines.forEach(x => WGLScene.remove(x));
-        pointSelectedLines.forEach(x => glbox.remove(x));
-        pointSelectedLines = [];
-
-        const drawLine = (vec1, vec2) => {
-
-            // var material = new THREE.LineBasicMaterial({
-            //   color: 0x0000ff
-            // });
-
-            var material = new THREE.LineDashedMaterial({
-                color: "#00b421",
-                linewidth: 10,
-                scale: 1,
-                dashSize: 1,
-                gapSize: 1,
-            });
-
-
-            var geometry = new THREE.Geometry();
-            geometry.name = "guidelines";
-
-            geometry.vertices.push(
-                vec1, vec2
-            );
-            geometry.computeLineDistances();
-
-            var line = new THREE.Line(geometry, material);
-
-            //fix rotation - take rotation from pointcloud
-            line.rotation.copy(pointCloud.rotation);
-
-            pointSelectedLines.push(line);
-            // WGLScene.add(line);
-            glbox.add(line);
-        };
-
-        drawLine(
-            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-            new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
-        );
-
-        // drawLine(
-        //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-        //     new THREE.Vector3(250, elementPosition.y, -250)
-        // );
-    }
 
     function addtoScene(d, i) {
         var objSeg = new THREE.CSS3DObject(this);
@@ -1785,9 +1734,9 @@
                 return projection([d.lat, d.long])[1]
             })
             .attr("fill", function (d) {
-                // console.log(d)
-                // return colour(d.time)
-                return "#ed7019"
+                console.log(d);
+                return colour(d.unix);
+                // return "#ed7019"
             })
             .on('click', function (d, i) {
                 // update elements
@@ -1930,16 +1879,19 @@
         });
     };
 
-    pCube.overlappingNodes = function (value) {
+    pCube.overlappingNodes = function (value, properties) {
         var duration = 700;
         TWEEN.removeAll();
+        // cleanup
+        // pointSelectedLines.forEach(x => WGLScene.remove(x));
+        pointSelectedLines.forEach(x => glbox.remove(x));
+        pointSelectedLines = [];
 
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
             d.matrixAutoUpdate = true;
             d.updateMatrix();
             // console.log(d);
-            //
 
             var unClusterPoints = new TWEEN.Tween(d.position)
                 .to({
@@ -1948,13 +1900,23 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
+
+            var elementPosition = {x: d.position.x, y: d.position.y, z: d.position.z};
+            var elementDefault = {x: d.STC.position.x, y: d.STC.position.y, z: d.STC.position.z};
+            // var elementDefault = {x: d.STC.position.x, y: -250, z: d.STC.position.z};
+
+
+            drawMeshLines(elementPosition,elementDefault)
         });
-        // console.log("noice")
     };
 
     pCube.nooverlappingNodes = function () {
         TWEEN.removeAll();
         let duration = 700;
+        // cleanup
+        // pointSelectedLines.forEach(x => WGLScene.remove(x));
+        pointSelectedLines.forEach(x => glbox.remove(x));
+        pointSelectedLines = [];
 
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
@@ -1970,6 +1932,110 @@
                 .start();
         });
     };
+
+    function drawPointSelectedLines(elementPosition) {
+
+        // cleanup
+        // pointSelectedLines.forEach(x => WGLScene.remove(x));
+        pointSelectedLines.forEach(x => glbox.remove(x));
+        pointSelectedLines = [];
+
+        const drawLine = (vec1, vec2) => {
+
+            // var material = new THREE.LineBasicMaterial({
+            //   color: 0x0000ff
+            // });
+
+            var material = new THREE.LineDashedMaterial({
+                color: "#00b421",
+                linewidth: 10,
+                scale: 1,
+                dashSize: 1,
+                gapSize: 1,
+            });
+
+
+            var geometry = new THREE.Geometry();
+            geometry.name = "guidelines";
+
+            geometry.vertices.push(
+                vec1, vec2
+            );
+            geometry.computeLineDistances();
+
+            var line = new THREE.Line(geometry, material);
+
+            //fix rotation - take rotation from pointcloud
+            line.rotation.copy(pointCloud.rotation);
+
+            pointSelectedLines.push(line);
+            // WGLScene.add(line);
+            glbox.add(line);
+        };
+
+        drawLine(
+            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+            new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
+        );
+
+        // drawLine(
+        //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+        //     new THREE.Vector3(250, elementPosition.y, -250)
+        // );
+    }
+
+    function drawMeshLines(elementPosition, elementDefault) {
+
+        // cleanup
+        // pointSelectedLines.forEach(x => WGLScene.remove(x));
+        // pointSelectedLines.forEach(x => glbox.remove(x));
+        // pointSelectedLines = [];
+
+        const drawLine = (vec1, vec2) => {
+
+            // var material = new THREE.LineBasicMaterial({
+            //   color: 0x0000ff
+            // });
+
+            // var material = new THREE.LineDashedMaterial({
+            var material = new THREE.LineBasicMaterial({
+                color: "#181818",
+                linewidth: 2,
+                scale: 1,
+                // dashSize: 1,
+                // gapSize: 1,
+            });
+
+
+            var geometry = new THREE.Geometry();
+            geometry.name = "guidelines";
+
+            geometry.vertices.push(
+                vec1, vec2
+            );
+            geometry.computeLineDistances();
+
+            var line = new THREE.Line(geometry, material);
+
+            //fix rotation - take rotation from pointcloud
+            line.rotation.copy(pointCloud.rotation);
+
+            pointSelectedLines.push(line);
+            // WGLScene.add(line);
+            glbox.add(line);
+        };
+
+        drawLine(
+            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+            new THREE.Vector3(elementDefault.x, elementDefault.y, elementDefault.z)
+        );
+
+        // drawLine(
+        //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+        //     new THREE.Vector3(250, elementPosition.y, -250)
+        // );
+    }
+
 
     /**
      * Translate function for the long and lat coordinates

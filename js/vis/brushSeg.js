@@ -12,13 +12,24 @@
     let chosenData;
     let checkSelect = false;
 
+    Date.prototype.addMonths = function (m) {
+        var d = new Date(this);
+        var years = Math.floor(m / 12);
+        var months = m - (years * 12);
+        if (years) d.setFullYear(d.getFullYear() + years);
+        if (months) d.setMonth(d.getMonth() + months);
+        return d;
+    }
+
 
     function init() {
         // console.log(window.dateTestEx);
+        // console.log(window.dateExUnix);
+        // console.log(new Date(window.dateExUnix[0] * 1000));
 
         // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
-        let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
-
+        // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
+        let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
         let margin = {top: 40, right: 40, bottom: 140, left: 40},
             width = 120 - margin.left - margin.right,
@@ -36,10 +47,14 @@
             return d.val;
         })]);
 
+        // console.log(count())
+
         // define the area
         let area = d3.area()
             .y(d => {
-                return y(new Date(d.date, 1, 1))
+                // console.log(y(new Date(d.date * 1000)));
+                // return y(new Date(d.date, 1, 1))
+                return y(new Date(d.date * 1000));
             })
             .x0(0)
             .x1(d => {
@@ -47,10 +62,10 @@
             })
             .curve(d3.curveCardinal);
 
-
         let line = d3.line()
             .y(d => {
-                return y(new Date(d.date, 1, 1))
+                // return y(new Date(d.date, 1, 1))
+                return y(new Date(d.date * 1000))
             })
             .x(d => {
                 return x(d.val);
@@ -97,7 +112,9 @@
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                .ticks(d3.timeYear) //cushman
+                // .ticks(d3.timeMonth) //cushman
+                // .tickFormat(d3.timeFormat("%b"))
+                // .ticks(d3.timeYear) //cushman
                 // .tickPadding(6)
             )
             .attr("text-anchor", null)
@@ -106,15 +123,16 @@
             // .attr("class", "timelineTick")
             // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
-                let year = new Date(d).getFullYear();
+
+                // let year = new Date(d).getFullYear();
+                let year = (d / 1000).toFixed(0);
                 let colorScale = window.colorScale;
-                // console.log(colorScale(year));
+
                 return colorScale(year)
-            })
-            .classed('timelineTick', true);
+            });
+            // .classed('timelineTick', true);
 
         //area chart domain
-
         svg.select(".axis2")
             .append("path")
             // .attr("fill", "#ed7019")
@@ -123,14 +141,12 @@
             .attr("fill-opacity", 0.3)
             .attr("d", area(count()));
 
-
         svg.select(".axis2").select(".domain")
             .attr("fill", "none")
             // .attr("stroke", "#ed7019")
             .attr("stroke", "#7b7b7b")
             .attr("stroke-width", "2")
             .attr("d", line(count()));
-
 
         //legend domain
         svg.select(".axis").select(".domain")
@@ -151,7 +167,7 @@
             .attr("stroke", "#8a8a8a")
             // .attr("stroke", "blue")
             .text(function (d) {
-                return 778;
+                return data.length;
             });
 
         // animate button
@@ -210,13 +226,19 @@
              */
                 // dateRange = [new Date(dateTestEx[0], 1, 1), new Date(dateTestEx[1], 1, 1) - 1];
                 // init();
-            let start = +format2(range[1]);
-            let end = +format2(range[0]);
+                // let start = +format2(range[1]);
+                // let end = +format2(range[0]);
 
-            // console.log(window.dateTestEx);
+            let start = +(range[1] / 1000).toFixed(0);
+            let end = +(range[0] / 1000).toFixed(0);
+
+            // console.log(range);
+            // console.log(+(range[1] / 1000).toFixed(0) + " to " + +(range[0] / 1000).toFixed(0));
 
             let selectedData = data.filter(function (d) {
-                if (d.time >= start && d.time <= end) {
+
+                if (d.unix >= start && d.unix <= end) {
+                    // console.log(d.unix);
                     return d;
                 }
             });
@@ -237,13 +259,19 @@
             let cat = {};
             let categories = [];
 
+            // console.log(data);
+
             for (let i = 0; i < data.length; i++) {
-                counts[data[i].time] = 1 + (counts[data[i].time] || 0);
+
+                counts[data[i].unix] = 1 + (counts[data[i].unix] || 0);
+                // counts[data[i].time] = 1 + (counts[data[i].time] || 0);
                 cat[data[i].Genre_1] = 1 + (cat[data[i].Genre_1] || 0);
             }
 
             let obj;
             let value;
+
+            // console.log(counts);
 
             d3.keys(counts).forEach(function eachKey(key) {
                 obj = +key;
@@ -257,7 +285,9 @@
 
             genre = categories;
 
-            return container;
+            return container.sort(function(x, y){
+                return d3.descending(+x.date, +y.date);
+            });
         }
 
         function onChangeSelect() {
@@ -311,10 +341,10 @@
             // brush.event(d3.select(".brush").transition().delay(1000))
         }
 
-        var animateTimer = function (times = 17, gap = 1) {
-            var i = 0;
-            let start = window.dateTestEx[0] - gap;
-            let end = start + gap;
+        var animateTimer = function (times = 28, gap = 2) {
+            var i = 1;
+            let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-2);
+            let uend = ustart.addMonths(gap);
             let defaultData = data;
 
             //update select from brush list
@@ -322,57 +352,42 @@
                 defaultData = chosenData;
             }
 
-            // while (i < times || function(){ /* callback */ return false;}) {
-            // while (i < times) {
-            //     (function (i) {
-            //             setTimeout(function () {
-            //
-            //                 //start and end from chosenData extents
-            //                 let newStart = start += gap;
-            //                 let newEnd = end += gap;
-            //
-            //                 // console.log(newStart + ": " + newEnd)
-            //                 // let selectedData = data.filter(function (d) {
-            //                 let selectedData = defaultData.filter(function (d) {
-            //                     if (d.time >= newStart && d.time <= newEnd) {
-            //                         return d;
-            //                     }
-            //                 });
-            //                 polyCube.updatePC(selectedData);
-            //
-            //                 //move brush
-            //                 // svg.select(".brush").call(brush.move, [y0,y1]);
-            //                 svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
-            //
-            //             }, 500 * i)
-            //         })(i++);
-            // }
-
             for (let x = 0; x < times; x++) {
-                setTimeout(function (i) {
+                setTimeout(function () {
 
                     //start and end from chosenData extents
-                    let newStart = start += gap;
-                    let newEnd = end += gap;
+                    // let newStart = start += gap;
+                    // let newEnd = end += gap;
 
-                    // console.log(newStart + ": " + newEnd)
-                    // let selectedData = data.filter(function (d) {
+                    //for brush labels only
+                    let unewStart = ustart.addMonths(++i);
+                    let unewEnd = uend.addMonths(+i);
+
+                    //for unix value
+                    let unixStart = +(unewStart / 1000).toFixed(0);
+                    let unixEnd = +(unewEnd / 1000).toFixed(0);
+
+                    // console.log(unixStart + " to " + unixEnd);
+
+                    // let selectedData = defaultData.filter(function (d) {
+                    //
+                    //     if (d.time >= newStart && d.time <= newEnd) {
+                    //         return d;
+                    //     }
+                    // });
+
                     let selectedData = defaultData.filter(function (d) {
-                        if (d.time >= newStart && d.time <= newEnd) {
+
+                        if (d.unix >= unixStart && d.unix <= unixEnd) {
                             return d;
                         }
                     });
+
                     polyCube.updatePC(selectedData);
 
                     //move brush
-                    // svg.select(".brush").call(brush.move, [y0,y1]);
-                    svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
-
-                    //add one extra layer for full structure view
-                    // if(x >= (times-1)){
-                    //     // console.log(data)
-                    //     polyCube.updatePC(data)
-                    // }
+                    // svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
+                    svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
 
                 }, 500 * x);
             }

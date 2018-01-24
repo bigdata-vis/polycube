@@ -279,7 +279,7 @@
             Morphing: -250,
             showData: true,
             showNodes: false,
-            overlapNodes: 0,
+            noverlap: 0,
             nodeSize: 3,
             colorScale: true,
             BG: "#000000",
@@ -382,11 +382,11 @@
                 .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-        Space.add(params, "overlapNodes").min(0).max(40).onFinishChange(function () {
+        Space.add(params, "noverlap").min(0).max(40).onFinishChange(function () {
             /**increase or decrease the node x and y axis position to show overlaping content
              * ref: http://networkcube.net/ vid:3:25
              **/
-            let value = params.overlapNodes;
+            let value = params.noverlap;
 
             if (value > 0) {
                 polyCube.overlappingNodes(+value)

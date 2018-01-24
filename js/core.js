@@ -6,3 +6,4 @@ THREE.Object3D.prototype.clear = function(){
         this.removeChild(child);
     }
 };
+
