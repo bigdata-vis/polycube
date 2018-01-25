@@ -112,9 +112,14 @@
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                // .ticks(d3.timeMonth) //cushman
-                // .tickFormat(d3.timeFormat("%b"))
-                // .ticks(d3.timeYear) //cushman
+                .tickFormat(function(date){
+                    if (d3.timeYear(date) < date) {
+                        return d3.timeFormat('%b')(date);
+                    } else {
+                        return d3.timeFormat('%Y')(date);
+                    }
+                })
+                // .ticks(d3.timeMonth)
                 // .tickPadding(6)
             )
             .attr("text-anchor", null)

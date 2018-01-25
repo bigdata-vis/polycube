@@ -148,7 +148,6 @@
 
                 });
             }
-
 //            KHM();
 
             function Cushman() {
@@ -219,7 +218,6 @@
 //                    }
                 });
             }
-
             Cushman();
 
 //            let newData = data.slice(0, 550).sort(function (x, y) {
@@ -229,14 +227,12 @@
             let newData = data.filter(function (d) {
 //                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
                 return d.time <= seg1;
-//                return d.Genre_1 === "Glamour photographs"
             }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
 //            console.log(count(newData));
-            count(newData);
-
+//            count(newData);
             window.data = newData;
 
             let newData2 = data.slice(0, 100).sort(function (x, y) {
@@ -253,9 +249,7 @@
         tempRange(data, geoMap);
 
         function count(data) {
-
 //            console.log(data)
-
             let counts = {};
             for (let i = 0; i < data.length; i++) {
                 counts[data[i].City_and_State] = (1 + (counts[data[i].City_and_State] || 1));
