@@ -19,7 +19,7 @@
         if (years) d.setFullYear(d.getFullYear() + years);
         if (months) d.setMonth(d.getMonth() + months);
         return d;
-    }
+    };
 
 
     function init() {

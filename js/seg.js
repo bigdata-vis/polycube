@@ -1728,13 +1728,17 @@
             .attr("class", "subunit_points hide")
             .attr("r", 3)
             .attr("cx", function (d) {
-                return projection([d.lat, d.long])[0]
+                let cx = projection([d.lat, d.long])[0];
+                d.cx = cx;
+                return cx;
             })
             .attr("cy", function (d) {
-                return projection([d.lat, d.long])[1]
+                let cy = projection([d.lat, d.long])[1];
+                d.cy =cy;
+                return cy;
             })
             .attr("fill", function (d) {
-                console.log(d);
+                // console.log(d);
                 return colour(d.unix);
                 // return "#ed7019"
             })
@@ -1753,33 +1757,6 @@
                 d3.select("#dataImage")
                     .attr("src", d.Image_URL);
             });
-
-        // points on map
-        // mapSVG.selectAll(".screen_dots")
-        //     .data(points)
-        //     .enter().append("circle")
-        //     .attr("class", "screen_dots")
-        //     .attr("r", 0.4)
-        //     .attr("cy", function (d) {
-        //         console.log(d);
-        //         return projection([d.long, d.lat])[0]
-        //     })
-        //     .attr("cx", function (d) {
-        //         return projection([d.long, d.lat])[1]
-        //     })
-        // .attr("fill", "white")
-        // .attr("fill-opacity", function (d) {
-        //     return d.uncert
-        // });
-
-        // console.log(features);
-        //
-        // mapSVG.selectAll(".subunit")
-        //     .data([features])
-        //     .enter()
-        //     .append('g')
-        //     .append("path")
-        //     .attr("d", path);
     };
 
     pCube.hideLeafletMap = function (value) {
@@ -1893,6 +1870,7 @@
             d.updateMatrix();
             // console.log(d);
 
+            //radomise STC
             var unClusterPoints = new TWEEN.Tween(d.position)
                 .to({
                     x: d.position.x += (getRandomInt(-value, value)),
@@ -1901,6 +1879,7 @@
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
 
+
             var elementPosition = {x: d.position.x, y: d.position.y, z: d.position.z};
             var elementDefault = {x: d.STC.position.x, y: d.STC.position.y, z: d.STC.position.z};
             // var elementDefault = {x: d.STC.position.x, y: -250, z: d.STC.position.z};
@@ -1908,6 +1887,22 @@
 
             drawMeshLines(elementPosition,elementDefault)
         });
+
+        //randomise JP
+        d3.selectAll(".subunit_points").attr("cx", function (d) {
+            let def = d.cx;
+            return def += (getRandomInt(-value, value));
+        }).attr("cy", function (d) {
+            let def = d.cy;
+            return def += (getRandomInt(-value, value));
+        });
+
+        // d3.selectAll(".subunit_points")._groups[0].forEach(function (d) {
+        //     d3.selectAll(this).attr("cx", 100);
+        // });
+
+
+        // d3.selectAll("subunit_points");
     };
 
     pCube.nooverlappingNodes = function () {
@@ -1931,6 +1926,15 @@
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
         });
+
+        //reverse randomise JP
+        d3.selectAll(".subunit_points").attr("cx", function (d) {
+            // console.log(d);
+            return d.cx;
+        }).attr("cy", function (d) {
+            return d.cy;
+        });
+
     };
 
     function drawPointSelectedLines(elementPosition) {
