@@ -311,9 +311,15 @@ input:focus {
     /*left: 100%;*/
 }
 
-.timelineTick{
+#timeLine {
+    top: 30px;
+    left: -30px;
+}
+
+.timelineTick {
     fill: white;
 }
+
 /*modal*/
 
 /* Style the Image Used to Trigger the Modal */
@@ -403,9 +409,6 @@ input:focus {
     }
 }
 
-
-
-
 /*dotplot*/
 
 .enter {
@@ -440,10 +443,10 @@ div.tooltip {
     z-index: 999;
 }
 
-.dotplot{
+.dotplot {
 
 }
 
-.dotplot text{
+.dotplot text {
     fill: #fffef2
 }

@@ -19,7 +19,7 @@
     //from google spreadsheet
 
     //SVG setup
-    const margin = {top: 10, right: 30, bottom: 80, left: 30},
+    const margin = {top: 10, right: 240, bottom: 40, left: 30},
         // width = 550 - margin.left - margin.right,
         width = rightPane.offsetWidth - margin.left - margin.right,
         // height = 480 - margin.top - margin.bottom;
@@ -31,8 +31,8 @@
         .append("svg")
         .style("position", "absolute")
         .style("z-index", "999")
-        // .style("top", (300) + "px")
-        // .style("right", (30) + "px")
+        .style("bottom", (180) + "px")
+        .style("right", (-60) + "px")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -137,7 +137,8 @@
                 return -d.idx * 2 * d.radius - d.radius;
             })
             .attr("r", 0)
-            .on("mouseover", tooltipOn)
+            // .on("mouseover", tooltipOn)
+            .on("click", tooltipOn)
             .on("mouseout", tooltipOff)
             .transition()
             .duration(500)
@@ -185,7 +186,7 @@
             .attr("r", 0)
             .merge(dots)
             // .on("mouseover", tooltipOn)
-            .on("mouseover", tooltipOn)
+            .on("click", tooltipOn)
             .on("mouseout", tooltipOff)
             .transition()
             .duration(500)
@@ -196,26 +197,26 @@
 
 
         // add x axis
-        svg.append("g")
-            .attr("class", "axis axis--x dotplot")
-            .attr("transform", "translate(0," + height + ")")
-            // .call(d3.axisBottom(x))
-            .call(d3.axisBottom(x)
-                .ticks(12)
-                .tickFormat(function (date) {
-                    let fromUnix = new Date(date * 1000);
-                    if (d3.timeYear(fromUnix) < date) {
-                        return d3.timeFormat('%b-%y')(fromUnix);
-                    } else {
-                        return d3.timeFormat('%Y')(fromUnix);
-                    }
-                }))
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-10px")
-            .attr("dy", "-2em")
-            .attr("transform", "rotate(-65)")
-            .style("font-size", "8px");
+        // svg.append("g")
+        //     .attr("class", "axis axis--x dotplot")
+        //     .attr("transform", "translate(0," + height + ")")
+        //     // .call(d3.axisBottom(x))
+        //     .call(d3.axisBottom(x)
+        //         .ticks(12)
+        //         .tickFormat(function (date) {
+        //             let fromUnix = new Date(date * 1000);
+        //             if (d3.timeYear(fromUnix) < date) {
+        //                 return d3.timeFormat('%b-%y')(fromUnix);
+        //             } else {
+        //                 return d3.timeFormat('%Y')(fromUnix);
+        //             }
+        //         }))
+        //     .selectAll("text")
+        //     .style("text-anchor", "end")
+        //     .attr("dx", "-10px")
+        //     .attr("dy", "-2em")
+        //     .attr("transform", "rotate(-65)")
+        //     .style("font-size", "8px");
     }
 
     function tooltipOn(d) {
@@ -244,6 +245,16 @@
                 "<span class='date'>Date : " + d.Date + " </span> <br>" +
                 "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
             );
+
+        let selectedData = window.data.filter(function (p) {
+            // console.log(d)
+            // console.log(p)
+            if (p.IU_Archives_Number === d.name) {
+                // console.log(p);
+                return p;
+            }
+        });
+        polyCube.updatePC(selectedData);
 
     }//tooltipOn
 

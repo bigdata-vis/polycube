@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="css/main.css">
     <style type="text/css">
 
+        .select{
+            display: none;
+        }
         .dg.ac {
             position: fixed;
             top: 0;
@@ -34,6 +37,8 @@
 
         html, body {
             height: 100%;
+            overflow: hidden;
+            margin: 0;
         }
 
         .panes-container {
@@ -43,7 +48,7 @@
         }
 
         .left-pane {
-            width: 49%;
+            width: 45%;
             /*background: #ccc;*/
         }
 
@@ -86,28 +91,37 @@
 
 <div class="panes-container">
     <div class="left-pane" id="left-pane">
-        <!--<div id="timeLine"></div>-->
+
+        <!--<button class="button" type="button" onclick="polyCube.default()">-->
+        <!--space-time cube-->
+        <!--</button>-->
+        <!--<button class="button" type="button"-->
+        <!--onclick="-->
+        <!--polyCube.superImpose();-->
+        <!--"> superimposition-->
+        <!--</button>-->
+
+        <!--<button class="button" type="button"-->
+        <!--onclick="SI()">-->
+        <!--juxtaposition-->
+        <!--</button>-->
     </div>
     <div class="panes-separator" id="panes-separator"></div>
     <div class="right-pane" id="right-pane">
+        <div id="timeLine" style="-webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    left:auto;
+    top: 320px;
+    right: 480px;
+    position: relative;
+"></div>
         <div id="dotPlot"></div>
     </div>
 </div>
 
-<!--<button class="button" type="button" onclick="polyCube.default()">-->
-    <!--space-time cube-->
-<!--</button>-->
-
-<!--<button class="button" type="button"-->
-        <!--onclick="-->
-        <!--polyCube.superImpose();-->
-<!--"> superimposition-->
-<!--</button>-->
-
-<!--<button class="button" type="button"-->
-        <!--onclick="SI()">-->
-    <!--juxtaposition-->
-<!--</button>-->
 
 <a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
@@ -521,8 +535,8 @@
     // The script below constrains the target to move horizontally between a left and a right virtual boundaries.
     // - the left limit is positioned at 10% of the screen width
     // - the right limit is positioned at 90% of the screen width
-    var leftLimit = 10;
-    var rightLimit = 90;
+    var leftLimit = 40;
+    var rightLimit = 60;
 
 
     paneSep.sdrag(function (el, pageX, startX, pageY, startY, fix) {
@@ -547,7 +561,7 @@
         }
 
 
-        var right = (100-cur-2);
+        var right = (100 - cur - 2);
         leftPane.style.width = cur + '%';
         rightPane.style.width = right + '%';
 
