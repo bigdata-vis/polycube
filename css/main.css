@@ -402,3 +402,48 @@ input:focus {
         width: 100%;
     }
 }
+
+
+
+
+/*dotplot*/
+
+.enter {
+    fill: #EDCA3A;
+}
+
+.update {
+    fill: #1FBAD6;
+}
+
+.exit {
+    fill: #F25754;
+}
+
+.selected {
+    fill: #E6B0F1;
+}
+
+div.tooltip {
+    color: black;
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    font-family: Futura;
+    font: 12px sans-serif;
+    background: #FCB8C3FF;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.dotplot{
+
+}
+
+.dotplot text{
+    fill: #fffef2
+}

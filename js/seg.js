@@ -107,7 +107,7 @@
 
         // let colour = d3.scaleOrdinal()
         // colour = d3.scaleSequential(d3.interpolateBlues)
-        colour = d3.scaleSequential(d3.interpolateViridis)
+        colour = d3.scaleSequential(d3.interpolateCool)
         //     .domain([dateTestEx[0], dateTestEx[1]]);
             .domain(dateUnixEx);
 
@@ -560,7 +560,7 @@
                         // object.element.onmouseover = function () {
 
                         //Change image src
-                        console.log(d);
+                        // console.log(d);
 
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
@@ -609,6 +609,7 @@
             labelPosition: {
                 x: widthHalf,//offset border
                 y: -(height / 2) - 10,
+                // y: -(height / 2) + 80,
                 z: widthHalf
             },
             labelCount: 17
@@ -1900,7 +1901,6 @@
         // d3.selectAll(".subunit_points")._groups[0].forEach(function (d) {
         //     d3.selectAll(this).attr("cx", 100);
         // });
-
 
         // d3.selectAll("subunit_points");
     };

@@ -21,7 +21,6 @@
         return d;
     };
 
-
     function init() {
         // console.log(window.dateTestEx);
         // console.log(window.dateExUnix);
@@ -116,7 +115,7 @@
                     if (d3.timeYear(date) < date) {
                         return d3.timeFormat('%b')(date);
                     } else {
-                        return d3.timeFormat('%Y')(date);
+                        return d3.timeFormat('%b%Y')(date);
                     }
                 })
                 // .ticks(d3.timeMonth)
@@ -124,7 +123,7 @@
             )
             .attr("text-anchor", null)
             .selectAll("text")
-            .attr("x", 6)
+            .attr("x", 0)
             // .attr("class", "timelineTick")
             // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
@@ -241,9 +240,7 @@
             // console.log(+(range[1] / 1000).toFixed(0) + " to " + +(range[0] / 1000).toFixed(0));
 
             let selectedData = data.filter(function (d) {
-
                 if (d.unix >= start && d.unix <= end) {
-                    // console.log(d.unix);
                     return d;
                 }
             });
@@ -255,6 +252,19 @@
             //update text count
             d3.select(".brush_count")
                 .text(selectedData.length);
+
+            //update jp data with selection
+            // d3.selectAll(".subunit_points").attr("cx", function (d) {
+            //     // console.log(d)
+            // })
+
+            // d3.selectAll(".subunit_points").attr("d",function (d) {
+            //     if (d.unix >= start && d.unix <= end) {
+            //         console.log(d3.select(this))
+            //     }else {
+            //         d3.select(this).remove()
+            //     }
+            // });
         }
 
         function count() {
