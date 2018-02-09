@@ -31,6 +31,7 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+
 canvas {
     background: transparent;
 }
@@ -79,7 +80,7 @@ text {
 }
 
 .boundary {
-    fill: #040404;
+    /*fill: #040404;*/
     /*fill: #cccccc;*/
     /*stroke: black;*/
     stroke: #353636;
@@ -89,6 +90,21 @@ text {
 .hide {
     /*opacity: 0;*/
     display: none;
+}
+
+.highlight{
+    width: 20px !important;
+    height: 20px !important;
+    background: #0273d4 !important;
+}
+
+
+.highlightDot{
+    fill: #0273d4 !important;
+}
+
+.noHighlight{
+
 }
 
 /*.hide, .leaflet-pane .leaflet-tile-pane{*/
@@ -415,6 +431,10 @@ input:focus {
     fill: #EDCA3A;
 }
 
+.dotplot{
+    fill: #EDCA3A;
+}
+
 .update {
     fill: #1FBAD6;
 }
@@ -441,10 +461,6 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
     z-index: 999;
-}
-
-.dotplot {
-
 }
 
 .dotplot text {

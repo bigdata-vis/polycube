@@ -137,20 +137,20 @@
             // .classed('timelineTick', true);
 
         //area chart domain
-        svg.select(".axis2")
-            .append("path")
-            // .attr("fill", "#ed7019")
-            // .attr("fill", "#ed7019")
-            .attr("fill", "#7b7b7b")
-            .attr("fill-opacity", 0.3)
-            .attr("d", area(count()));
+        // svg.select(".axis2")
+        //     .append("path")
+        //     // .attr("fill", "#ed7019")
+        //     // .attr("fill", "#ed7019")
+        //     .attr("fill", "#7b7b7b")
+        //     .attr("fill-opacity", 0.3)
+        //     .attr("d", area(count()));
 
-        svg.select(".axis2").select(".domain")
-            .attr("fill", "none")
-            // .attr("stroke", "#ed7019")
-            .attr("stroke", "#7b7b7b")
-            .attr("stroke-width", "2")
-            .attr("d", line(count()));
+        // svg.select(".axis2").select(".domain")
+        //     .attr("fill", "none")
+        //     // .attr("stroke", "#ed7019")
+        //     .attr("stroke", "#7b7b7b")
+        //     .attr("stroke-width", "2")
+        //     .attr("d", line(count()));
 
         //legend domain
         svg.select(".axis").select(".domain")
@@ -176,23 +176,29 @@
 
         // animate button
         let animateButton = svg.append("g")
-            .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")");
+            .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")")
+            .attr("class", "animateButton");
 
         animateButton.append("rect")
             .attr("width", 40)
             .attr("height", 40)
             .attr("rx", 4)
             .style("fill", "#999a9a")
-            .attr("fill-opacity", 0.3)
-            .on("click", function () {
-                //animate on click
-                animateTimer()
-            });
+            .attr("fill-opacity", 0.3);
+            // .on("click", function () {
+            //     //animate on click
+            //     animateTimer()
+            // });
 
         animateButton.append("path")
             .attr("d", "M5 5 L5 35 L35 20 Z")
             .style("fill", "#8a8a8a")
             .style("stroke", "#8a8a8a");
+
+        animateButton.on("click", function () {
+            //animate on click
+            animateTimer()
+        });
 
         //select options
         let select = d3.select("#timeLine")
@@ -356,7 +362,7 @@
             // brush.event(d3.select(".brush").transition().delay(1000))
         }
 
-        var animateTimer = function (times = 28, gap = 2) {
+        var animateTimer = function (times = 36, gap = 2) {
             var i = 1;
             let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-2);
             let uend = ustart.addMonths(gap);

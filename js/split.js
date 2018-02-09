@@ -556,11 +556,10 @@
                     object.name = "pointCloud"; //todo: remove later
 
                     object.element.onclick = function () {
-                        // object.element.onmouseover = function () {
+                        //clean up
+                        d3.selectAll(".highlight").classed("highlight", false);
 
                         //Change image src
-                        // console.log(d);
-
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
                                 "<span class='date'>Date : " + d.Date + " </span> <br>" +
@@ -574,7 +573,28 @@
                             .attr("src", d.Image_URL);
 
                         drawPointSelectedLines(object.position);
+
+                        // highlight this selection
+                        d3.select(object.element).classed("highlight", true);
+
+                        // console.log(object.element)
+
+                        //highlight dotplot todo: a more elegant generic solution
+                        // console.log(d3.selectAll(".dotplot").data());
+                        //cleanup
+                        d3.selectAll('.highlightDot').classed("highlightDot", false);
+                        d3.selectAll('.dotplot')  //here's how you get all the nodes
+                            .each(function(dot) {
+                                if(dot.name === d.IU_Archives_Number){
+                                    // console.log(d3.select(this));
+                                    d3.select(this).classed("highlightDot", true);
+                                }
+                            });
+
                     };
+
+
+
 
                     // lineList.push(object.position);
                     /**
@@ -1739,7 +1759,7 @@
             })
             .attr("cy", function (d) {
                 let cy = projection([d.lat, d.long])[1];
-                d.cy =cy;
+                d.cy = cy;
                 return cy;
             })
             .attr("fill", function (d) {
@@ -1749,7 +1769,6 @@
             })
             .on('click', function (d, i) {
                 // update elements
-
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
                         "<span class='date'>Date : " + d.Date + " </span> <br>" +
@@ -1890,7 +1909,7 @@
             // var elementDefault = {x: d.STC.position.x, y: -250, z: d.STC.position.z};
 
 
-            drawMeshLines(elementPosition,elementDefault)
+            drawMeshLines(elementPosition, elementDefault)
         });
 
         //randomise JP
@@ -1937,6 +1956,26 @@
             return d.cx;
         }).attr("cy", function (d) {
             return d.cy;
+        });
+
+    };
+
+    pCube.highlightNodes = function (point) {
+        TWEEN.removeAll();
+        let duration = 700;
+        // cleanup
+        d3.selectAll(".highlight").classed("highlight", false);
+
+        // console.log(point);
+        point.forEach(function (point) {
+            scene.getObjectByName("pointCloud").children.forEach(function (d) {
+                if (point.IU_Archives_Number === d.newData.IU_Archives_Number) {
+                    // console.log(point);
+                    // console.log(d);
+                    d3.select(d.element).classed("highlight", true);
+                    // console.log(d3.select(d.element));
+                }
+            });
         });
 
     };

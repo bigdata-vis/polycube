@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="css/main.css">
     <style type="text/css">
 
+        .animateButton{
+            display: none;
+        }
+
         .select{
             display: none;
         }
@@ -319,6 +323,7 @@
 
             //Draw
             polyCube.drawElements(newData, geoMap);
+            polyCube.superImpose();
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
@@ -355,7 +360,8 @@
             nodeSize: 3,
             colorScale: true,
             BG: "#000000",
-            dataColor: "#ed7019",
+            dataColor: "#EDCA3A",
+            mapColor: "#040404",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -378,6 +384,9 @@
 
 //        d3.selectAll(".pointCloud")
 //            .classed("green_BG", true);
+
+        d3.selectAll(".pointCloud")
+            .style("background", params.dataColor);
 
         /**
          * Data UI Controls
@@ -407,6 +416,19 @@
                 .style("fill", d);
 
         });
+
+        theme.addColor(params, 'mapColor').onChange(d => {
+
+            d3.selectAll(".boundary")
+                .classed("green_BG", false)
+                .attr("fill", d);
+
+//            d3.selectAll(".tick text")
+//                .classed("green_BG", false)
+//                .style("fill", d);
+
+        });
+
 
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {

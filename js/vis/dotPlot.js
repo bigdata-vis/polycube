@@ -54,7 +54,6 @@
     //number of bins for histogram
     const nbins = 36;
 
-
     function initDotPlot() {
 
         //x scales
@@ -116,7 +115,7 @@
             .attr("transform", d => `translate(${x(d.x0)}, ${height})`);
 
         //need to populate the bin containers with data the first time
-        binContainerEnter.selectAll("circle")
+        binContainerEnter.selectAll("dotplot")
             .data(d => d.map((p, i) => {
                 return {
                     City_and_State: p.City_and_State,
@@ -131,7 +130,7 @@
             }))
             .enter()
             .append("circle")
-            .attr("class", "enter")
+            .attr("class", "dotplot")
             .attr("cx", 0) //g element already at correct x pos
             .attr("cy", function (d) {
                 return -d.idx * 2 * d.radius - d.radius;
@@ -151,7 +150,7 @@
             .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
 
         //enter/update/exit for circles, inside each container
-        let dots = binContainer.selectAll("circle")
+        let dots = binContainer.selectAll("dotplot")
             .data(d => d.map((p, i) => {
                 return {
                     City_and_State: p.City_and_State,
@@ -178,7 +177,7 @@
         //ENTER new elements present in new data.
         dots.enter()
             .append("circle")
-            .attr("class", "enter")
+            .attr("class", "dotplot")
             .attr("cx", 0) //g element already at correct x pos
             .attr("cy", function (d) {
                 return -d.idx * 2 * d.radius - d.radius;
@@ -194,7 +193,6 @@
                 return (d.length == 0) ? 0 : d.radius;
                 // })
             });//d3.csv
-
 
         // add x axis
         // svg.append("g")
@@ -220,22 +218,25 @@
     }
 
     function tooltipOn(d) {
+        //clean up all highlightDot
+        d3.selectAll(".highlightDot").classed("highlightDot", false);
+
         //x position of parent g element
-        let gParent = d3.select(this.parentElement);
-        let translateValue = gParent.attr("transform");
-
-        let gX = translateValue.split(",")[0].split("(")[1];
-        let gY = height + (+d3.select(this).attr("cy") - 50);
-
-        d3.select(this)
-            .classed("selected", true);
-        tooltip.transition()
-            .duration(200)
-            .style("opacity", .9);
-        // tooltip.html(d.name + "<br/> (" + d.value + ")")
-        tooltip.html(d.name + "<br/> (" + new Date(d.value * 1000) + ")")
-            .style("right", gX + "px")
-            .style("top", gY + 300 + "px");
+        // let gParent = d3.select(this.parentElement);
+        // let translateValue = gParent.attr("transform");
+        //
+        // let gX = translateValue.split(",")[0].split("(")[1];
+        // let gY = height + (+d3.select(this).attr("cy") - 50);
+        //
+        // d3.select(this)
+        //     .classed("selected", true);
+        // tooltip.transition()
+        //     .duration(200)
+        //     .style("opacity", .9);
+        // // tooltip.html(d.name + "<br/> (" + d.value + ")")
+        // tooltip.html(d.name + "<br/> (" + new Date(d.value * 1000) + ")")
+        //     .style("right", gX + "px")
+        //     .style("top", gY + 300 + "px");
 
         d3.select("#dataImage")
             .attr("src", d.Image_URL);
@@ -250,12 +251,16 @@
             // console.log(d)
             // console.log(p)
             if (p.IU_Archives_Number === d.name) {
+            // if (p.IU_Archives_Number < d.name) {
                 // console.log(p);
                 return p;
             }
         });
-        polyCube.updatePC(selectedData);
+        // polyCube.updatePC(selectedData);
+        polyCube.highlightNodes(selectedData);
 
+        //highlight dotted selection
+        d3.select(this).classed("highlightDot", true);
     }//tooltipOn
 
     function tooltipOff(d) {
@@ -265,7 +270,6 @@
             .duration(500)
             .style("opacity", 0);
     }//tooltipOff
-
 
     setTimeout(function () {
         if (window.data) {

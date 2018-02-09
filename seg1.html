@@ -18,6 +18,12 @@
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        .select{
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -287,6 +293,7 @@
             colorScale: true,
             BG: "#000000",
             dataColor: "#ed7019",
+            mapColor: "#040404",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -336,6 +343,18 @@
             d3.selectAll(".tick text")
                 .classed("green_BG", false)
                 .style("fill", d);
+
+        });
+
+        theme.addColor(params, 'mapColor').onChange(d => {
+
+            d3.selectAll(".boundary")
+                .classed("green_BG", false)
+                .attr("fill", d);
+
+//            d3.selectAll(".tick text")
+//                .classed("green_BG", false)
+//                .style("fill", d);
 
         });
 
