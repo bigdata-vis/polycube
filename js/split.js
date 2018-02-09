@@ -2072,15 +2072,16 @@
             glbox.add(line);
         };
 
-        drawLine(
-            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-            new THREE.Vector3(elementDefault.x, elementDefault.y, elementDefault.z)
-        );
+        console.log(layout);
 
-        // drawLine(
-        //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-        //     new THREE.Vector3(250, elementPosition.y, -250)
-        // );
+        //only draw when not on SI
+        if(layout !== "SI"){
+            drawLine(
+                new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+                new THREE.Vector3(elementDefault.x, elementDefault.y, elementDefault.z)
+            );
+        }
+
     }
 
 
