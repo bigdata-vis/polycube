@@ -513,8 +513,8 @@
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
-                    // image.style.background = colour(d.time);
-                    image.style.background = colour(d.unix);
+                    image.style.background = "#EDCA3A";
+                    // image.style.background = colour(d.unix);
 
                     // console.log(d);
 
@@ -556,9 +556,11 @@
                     object.name = "pointCloud"; //todo: remove later
 
                     object.element.onclick = function () {
+
+                        // console.log(d);
+
                         //clean up
                         d3.selectAll(".highlight").classed("highlight", false);
-
                         //Change image src
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +

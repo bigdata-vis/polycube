@@ -23,13 +23,18 @@
     <link rel="stylesheet" href="css/main.css">
     <style type="text/css">
 
-        .animateButton{
+        .axis--y .domain, .tick text {
+            fill: #7c7c7c !important;
+        }
+
+        .animateButton {
             display: none;
         }
 
-        .select{
+        .select {
             display: none;
         }
+
         .dg.ac {
             position: fixed;
             top: 0;
@@ -123,15 +128,13 @@
     position: relative;
 "></div>
         <div id="dotPlot"></div>
+        <a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
+        <!--<img id="dataImage" src="#">-->
+
+        <!-- Trigger the Modal -->
+        <img id="dataImage" src="#" alt="" width="300" height="200">
     </div>
 </div>
-
-
-<a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
-<!--<img id="dataImage" src="#">-->
-
-<!-- Trigger the Modal -->
-<img id="dataImage" src="#" alt="" width="300" height="200">
 
 <br>
 <script src="lib/d3/d3.js"></script>
@@ -387,6 +390,7 @@
 
         d3.selectAll(".pointCloud")
             .style("background", params.dataColor);
+
 
         /**
          * Data UI Controls

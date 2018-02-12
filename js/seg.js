@@ -28,6 +28,8 @@
     var svg;
 
     var formatTime = d3.timeFormat("%Y");
+    let formatDate = d3.timeFormat("%d %b %Y");
+    let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
 
     var projectionScale = 5000;
 
@@ -477,8 +479,7 @@
 
         overlapingData = datasets;
 
-        pCube.updatePC = function (datasets = datasets) {
-
+        pCube.updatePC = function (datasets = datasets, jitter) {
             // var image, interval, stc, object;
 
             /**
@@ -531,8 +532,14 @@
                     } else {
                         object.position.y = timeLinear(d.unix); //for unix date
                     }
-                    object.position.z = coord[1];
-                    object.position.x = coord[0];
+
+                    if(jitter){
+                        object.position.z = coord[1] + getRandomInt(-jitter, jitter);
+                        object.position.x = coord[0] + getRandomInt(-jitter, jitter);
+                    }else {
+                        object.position.z = coord[1];
+                        object.position.x = coord[0];
+                    }
 
                     // update matrix off on exit
                     object.matrixAutoUpdate = false;
@@ -564,12 +571,12 @@
 
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                                "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                                "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                                 "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                             );
 
-                        d3.select("#searchLink")
-                            .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
+                        // d3.select("#searchLink")
+                        //     .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
 
                         d3.select("#dataImage")
                             .attr("src", d.Image_URL);
@@ -1570,7 +1577,7 @@
                 // console.log(d);
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
@@ -1748,12 +1755,13 @@
 
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='date'>Date : " + formatDate(parse4(d.Date))+ " </span> <br>" +
                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
-                d3.select("#searchLink")
-                    .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
+                // d3.select("#searchLink")
+                //     .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
+
 
                 d3.select("#dataImage")
                     .attr("src", d.Image_URL);
@@ -1886,7 +1894,7 @@
             // var elementDefault = {x: d.STC.position.x, y: -250, z: d.STC.position.z};
 
 
-            drawMeshLines(elementPosition,elementDefault)
+            // drawMeshLines(elementPosition,elementDefault)
         });
 
         //randomise JP

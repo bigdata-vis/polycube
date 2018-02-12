@@ -22,7 +22,6 @@
         .select{
             display: none;
         }
-
     </style>
 </head>
 <body>
@@ -100,12 +99,11 @@
         //filter based on the dates segmentations
 //        console.log(data);
 
-        let seg1 = 1940, seg2 = 1946, seg3 = 1950, seg4 = 1977;
+        let seg1 = 1940, seg2 = 1943, seg3 = 1951, seg4 = 1977;
 
         data.filter(function (d) {
-//            console.log(d);
 //            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time <= seg1;
+            return d.time > 1952 && d.time <= 1955;
         });
 
         function tempRange(data, geoMap) {
@@ -125,44 +123,6 @@
             /**
              * Sort and clean the data according to ascending dates to help with line drawing
              * */
-
-//          switch data
-            function KHM() {
-                data.forEach(function (d, i) {
-                    d.long = d.location_data.country.lat;
-                    d.lat = d.location_data.country.long;
-
-                    // console.log(+format2(parse4(d.Date)));
-                    d.time = parse5(d.time);
-                    d.time = +format2(d.time);
-                    d.description = d.Description_from_Slide_Mount;
-                    d.Image_URL = d.preview;
-
-//                    console.log(d.location_data.country)
-                    d.location = d.location_data.country.name;
-
-                    var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
-
-                    if (d.time <= jp1) {
-                        d.ts = "jp1";
-                    }
-
-                    if (d.time > jp1 && d.time <= jp2) {
-                        d.ts = "jp2";
-                    }
-
-                    if (d.time > jp2 && d.time <= jp3) {
-                        d.ts = "jp3";
-                    }
-
-                    if (d.time > jp3 && d.time <= jp4) {
-                        d.ts = "jp4";
-                    }
-
-                });
-            }
-
-//            KHM();
 
             function Cushman() {
 
@@ -211,8 +171,7 @@
 
 //                    console.log(d);
 
-//                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
-                    var jp1 = 1938, jp2 = 1939, jp3 = 1940;
+                    var jp1 = 1953, jp2 = 1954, jp3 = 1955;
 
 
                     if (d.time <= jp1) {
@@ -240,8 +199,7 @@
 //            });
 
             let newData = data.filter(function (d) {
-//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-                return d.time <= seg1;
+                return d.time > 1952 && d.time <= 1955;
             }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });

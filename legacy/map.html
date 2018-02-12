@@ -3,13 +3,13 @@
 <head>
     <!--<script src="lib/three.js/three.min.js"></script>-->
     <script src="//threejs.org/build/three.min.js"></script>
-    <script src="lib/three.js/CombinedCamera.js"></script>
-    <script src="lib/three.js/OrbitControls.js"></script>
-    <script src="lib/three.js/tween.js"></script>
+    <script src="../lib/three.js/CombinedCamera.js"></script>
+    <script src="../lib/three.js/OrbitControls.js"></script>
+    <script src="../lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
 
-    <script src="lib/three.js/projector.js"></script>
-    <script src="lib/three.js/SVGRenderer.js"></script>
+    <script src="../lib/three.js/projector.js"></script>
+    <script src="../lib/three.js/SVGRenderer.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
@@ -17,13 +17,7 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
-    <link rel="stylesheet" href="css/main.css">
-    <style>
-        .select{
-            display: none;
-        }
-
-    </style>
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
 
@@ -51,11 +45,11 @@
 </button>
 
 <button class="button" type="button"
-        onclick="SI()">
+        onclick="polyCube.juxstaPose()">
     juxtaposition
 </button>
 
-<a target="_blank" id="searchLink" ><p id="textTitle">i</p></a>
+<a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
 
 <!-- Trigger the Modal -->
@@ -63,49 +57,41 @@
 
 <div id="timeLine"></div>
 
-<div id="dotPlot"></div>
-
 <br>
-<script src="lib/d3/d3.js"></script>
+<script src="../lib/d3/d3.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="lib/d3/topojson.min.js"></script>
-<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
-<script src="js/core.js"></script>
-<script src="js/seg.js"></script>
-<script src="js/vis/brushSeg.js"></script>
-<!--<script src="js/vis/dotPlot.js"></script>-->
+<script src="../lib/d3/topojson.min.js"></script>
+<script type='text/javascript' src='../lib/dat.gui/dat.gui.min.js'></script>
+<script src="../js/core.js"></script>
+<script src="../js/map.js"></script>
+<script src="../js/vis/brushTimeCM.js"></script>
 
 <script>
-
-    function SI() {
-        polyCube.juxstaPose();
-    }
-
     /**Merge the cut section into a mega structure
      * https://stackoverflow.com/questions/16105565/how-to-create-multiple-polygon-into-single-geometry-with-three-js
      * http://learningthreejs.com/blog/2011/10/05/performance-merging-geometry/
      * https://stackoverflow.com/questions/30245990/how-to-merge-two-geometries-or-meshes-using-three-js-r71
      **/
+
     d3.queue()
     //            .defer(d3.json, "data/painting_gallery_clean.json")
     //        .defer(d3.csv, "data/Cushman-Collection.csv")
-        .defer(d3.json, "data/cm.json")
+        .defer(d3.json, "/data/cm.json")
         //        .defer(d3.json, "data/land.topojson")
-        .defer(d3.json, "data/worldUS.json")
+        .defer(d3.json, "/data/worldUS.json")
         .await(init);
 
     function init(error, data, geoMap) {
         if (error) console.log(error);
 
         //filter based on the dates segmentations
-//        console.log(data);
+//        data.forEach(function (d) {
+////            console.log(d)
+//        });
 
-        let seg1 = 1940, seg2 = 1946, seg3 = 1950, seg4 = 1977;
-
+        //filter data from begining
         data.filter(function (d) {
-//            console.log(d);
-//            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time <= seg1;
+            return d.Genre_1 === "Architectural photographs"
         });
 
         function tempRange(data, geoMap) {
@@ -128,6 +114,7 @@
 
 //          switch data
             function KHM() {
+
                 data.forEach(function (d, i) {
                     d.long = d.location_data.country.lat;
                     d.lat = d.location_data.country.long;
@@ -160,6 +147,8 @@
                     }
 
                 });
+                window.data = data;
+
             }
 
 //            KHM();
@@ -173,11 +162,18 @@
                     //get full date
                     let full_date = d.time;
 
+
                     // get year only
                     d.time = +format2(d.time);
 
                     //get unix
                     d.unix = +(full_date / 1000).toFixed(0);
+
+//                    console.log(new Date(unix * 1000));
+//                    console.log(d.Topical_Subject_Headings_1);
+//                    console.log(d.Genre_1);
+
+//                    console.log(d.Date);
 
                     let year = d.year;
 //                    let time = +format2(parse4(d.Date));
@@ -211,9 +207,7 @@
 
 //                    console.log(d);
 
-//                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
-                    var jp1 = 1938, jp2 = 1939, jp3 = 1940;
-
+                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
 
                     if (d.time <= jp1) {
                         d.ts = "jp1";
@@ -226,11 +220,13 @@
                     if (d.time > jp2 && d.time <= jp3) {
                         d.ts = "jp3";
                     }
-//
-//                    if (d.time > jp3 && d.time <= jp4) {
-//                        d.ts = "jp4";
-//                    }
+
+                    if (d.time > jp3 && d.time <= jp4) {
+                        d.ts = "jp4";
+                    }
                 });
+
+                window.data = data;
             }
 
             Cushman();
@@ -240,15 +236,11 @@
 //            });
 
             let newData = data.filter(function (d) {
-//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-                return d.time <= seg1;
+                return d.Genre_1 === "Architectural photographs"
+//                return d.Genre_1 === "Glamour photographs"
             }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
-
-//            console.log(count(newData));
-//            count(newData);
-            window.data = newData;
 
             let newData2 = data.slice(0, 100).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
@@ -262,16 +254,6 @@
         }
 
         tempRange(data, geoMap);
-
-        function count(data) {
-//            console.log(data)
-            let counts = {};
-            for (let i = 0; i < data.length; i++) {
-                counts[data[i].City_and_State] = (1 + (counts[data[i].City_and_State] || 1));
-            }
-            return counts;
-        }
-
 
         /**
          * Toggle PointCloud Data UI
@@ -288,12 +270,11 @@
             Morphing: -250,
             showData: true,
             showNodes: false,
-            noverlap: 0,
+            overlapNodes: 0,
             nodeSize: 3,
             colorScale: true,
             BG: "#000000",
             dataColor: "#ed7019",
-            mapColor: "#040404",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -332,7 +313,7 @@
                 .style("background-color", d)
             ;
         });
-
+        
 
         theme.addColor(params, 'dataColor').onChange(d => {
 
@@ -343,18 +324,6 @@
             d3.selectAll(".tick text")
                 .classed("green_BG", false)
                 .style("fill", d);
-
-        });
-
-        theme.addColor(params, 'mapColor').onChange(d => {
-
-            d3.selectAll(".boundary")
-                .classed("green_BG", false)
-                .attr("fill", d);
-
-//            d3.selectAll(".tick text")
-//                .classed("green_BG", false)
-//                .style("fill", d);
 
         });
 
@@ -404,19 +373,18 @@
                 .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-        Space.add(params, "noverlap").min(0).max(40).onFinishChange(function () {
+        Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {
+            let value = params.overlapNodes;
+
             /**increase or decrease the node x and y axis position to show overlaping content
              * ref: http://networkcube.net/ vid:3:25
              **/
-            let value = params.noverlap;
 
-            if (value > 0) {
-                polyCube.overlappingNodes(+value)
-            } else {
-                polyCube.nooverlappingNodes()
-            }
+//            d3.selectAll(".pointCloud")
+//                .style("width", value + "px")
+//                .style("height", value + "px")
+//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-
 //        Space.add(params, "projection").min(10).max(2000).step(10).onFinishChange(function () {
 //            let value = params.projection;
 //            console.log(value);
@@ -453,8 +421,7 @@
     let modalImg = document.getElementById("img01");
     let captionText = document.getElementById("caption");
     let imgDetails = document.getElementById("textTitle");
-
-    img.onclick = function () {
+    img.onclick = function(){
         modal.style.display = "block";
         modalImg.src = this.src;
         captionText.innerHTML = imgDetails.innerHTML;
@@ -465,10 +432,9 @@
     let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
+    span.onclick = function() {
         modal.style.display = "none";
     };
-
     closeModal.onclick = function () {
         modal.style.display = "none";
     }

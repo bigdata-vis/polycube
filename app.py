@@ -1,7 +1,15 @@
 #-*- coding: utf-8 -*-
 # encoding=utf8
-import sys, requests, json, csv, re, os, time, pycurl, StringIO, simplejson, time, urllib
-import config
+import json
+import re
+import requests
+import simplejson
+import sys
+import time
+import urllib
+
+from legacy import config
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -181,7 +189,7 @@ if data != []:
     print 'Query completed.'
 print 'Trying to store Data...'
 try:
-    with open('output'+config.collection+'.json', 'w') as outfile:
+    with open('output'+ config.collection+ '.json', 'w') as outfile:
         json.dump(data, outfile)
     outfile.close()
     print 'Data written to output.json'

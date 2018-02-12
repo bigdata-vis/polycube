@@ -111,13 +111,13 @@
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                .tickFormat(function(date){
-                    if (d3.timeYear(date) < date) {
-                        return d3.timeFormat('%b')(date);
-                    } else {
-                        return d3.timeFormat('%b%Y')(date);
-                    }
-                })
+                    .tickFormat(function (date) {
+                        if (d3.timeYear(date) < date) {
+                            return d3.timeFormat('%b')(date);
+                        } else {
+                            return d3.timeFormat('%b%Y')(date);
+                        }
+                    })
                 // .ticks(d3.timeMonth)
                 // .tickPadding(6)
             )
@@ -134,7 +134,7 @@
 
                 return colorScale(year)
             });
-            // .classed('timelineTick', true);
+        // .classed('timelineTick', true);
 
         //area chart domain
         // svg.select(".axis2")
@@ -185,10 +185,10 @@
             .attr("rx", 4)
             .style("fill", "#999a9a")
             .attr("fill-opacity", 0.3);
-            // .on("click", function () {
-            //     //animate on click
-            //     animateTimer()
-            // });
+        // .on("click", function () {
+        //     //animate on click
+        //     animateTimer()
+        // });
 
         animateButton.append("path")
             .attr("d", "M5 5 L5 35 L35 20 Z")
@@ -259,18 +259,18 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            //update jp data with selection
-            // d3.selectAll(".subunit_points").attr("cx", function (d) {
-            //     // console.log(d)
-            // })
-
-            // d3.selectAll(".subunit_points").attr("d",function (d) {
-            //     if (d.unix >= start && d.unix <= end) {
-            //         console.log(d3.select(this))
-            //     }else {
-            //         d3.select(this).remove()
-            //     }
-            // });
+            //update dotplot selection
+            //cleanup
+            d3.selectAll('.highlightDot').classed("highlightDot", false);
+            d3.selectAll('.dotplot')  //here's how you get all the nodes
+                .each(function(dot) {
+                    selectedData.map(d => {
+                        if(d.IU_Archives_Number === dot.name){
+                            // console.log(d3.select(this));
+                            d3.select(this).classed("highlightDot", true);
+                        }
+                    })
+                });
         }
 
         function count() {
@@ -306,7 +306,7 @@
 
             genre = categories;
 
-            return container.sort(function(x, y){
+            return container.sort(function (x, y) {
                 return d3.descending(+x.date, +y.date);
             });
         }
@@ -404,7 +404,7 @@
                         }
                     });
 
-                    polyCube.updatePC(selectedData);
+                    polyCube.updatePC(selectedData, 6);
 
                     //move brush
                     // svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
