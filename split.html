@@ -60,6 +60,7 @@
             width: 45%;
             /*background: #ccc;*/
         }
+
         .panes-separator {
             width: 1%;
             background: #636363;
@@ -72,7 +73,7 @@
             /*background: #eee;*/
         }
 
-        .controls-panel{
+        .controls-panel {
             width: 12%;
         }
 
@@ -97,6 +98,7 @@
         #dataImage {
             top: 290px;
         }
+
         #timeLine {
             top: auto;
             left: auto;
@@ -155,6 +157,15 @@
     /*top: 320px;*/
     /*right: 480px;*/
     /*position: relative;*/
+
+    .handle .handle--s{
+    cursor: ew-resize;
+    }
+
+    .handle .handle--s{
+    cursor: ew-resize;
+    }
+
 "></div>
         </div>
 
@@ -419,6 +430,13 @@
 
         d3.selectAll(".pointCloud")
             .style("background", params.dataColor);
+
+
+//        d3.selectAll(".handle .handle--n")
+//            .attr("cursor", "ew-resize");
+//
+//        d3.selectAll(".handle .handle--s")
+//            .attr("cursor", "ew-resize");
 
 
         /**

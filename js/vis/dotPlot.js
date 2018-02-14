@@ -41,6 +41,7 @@
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
     //tooltip
     const tooltip = d3.select("body")
         .append("div")
@@ -90,6 +91,7 @@
         x.domain([min, max]);
 
         const thresholds = d3.range(min, max, (max - min) / nbins);
+
         let data = allData;
 
         //histogram binning
@@ -113,7 +115,10 @@
         let binContainerEnter = binContainer.enter()
             .append("g")
             .attr("class", "gBin")
-            .attr("transform", d => `translate(${x(d.x0)}, ${height})`);
+            // .attr("transform", d => `translate(${x(d.x0)}, ${height})`);
+            .attr("transform", function (d) {
+                return "translate(" + x(d.x0) + "," + height +")"
+            });
 
         //need to populate the bin containers with data the first time
         binContainerEnter.selectAll("dotplot")
@@ -126,7 +131,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 7
+                    radius: (x(d.x1) - x(d.x0)) / 20
                 }
             }))
             .enter()
@@ -143,12 +148,15 @@
             .transition()
             .duration(500)
             .attr("r", function (d) {
-
                 return (d.length == 0) ? 0 : d.radius;
             });
 
         binContainerEnter.merge(binContainer)
-            .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
+            // .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
+            .attr("transform", function (d) {
+                console.log(d);
+                return "translate(" + x(d.x0) + "," + height +")"
+            });
 
         //enter/update/exit for circles, inside each container
         let dots = binContainer.selectAll("dotplot")
@@ -161,7 +169,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 7
+                    radius: (x(d.x1) - x(d.x0)) / 20
                 }
             }));
 
@@ -194,28 +202,6 @@
                 return (d.length == 0) ? 0 : d.radius;
                 // })
             });//d3.csv
-
-        // add x axis
-        // svg.append("g")
-        //     .attr("class", "axis axis--x dotplot")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     // .call(d3.axisBottom(x))
-        //     .call(d3.axisBottom(x)
-        //         .ticks(12)
-        //         .tickFormat(function (date) {
-        //             let fromUnix = new Date(date * 1000);
-        //             if (d3.timeYear(fromUnix) < date) {
-        //                 return d3.timeFormat('%b-%y')(fromUnix);
-        //             } else {
-        //                 return d3.timeFormat('%Y')(fromUnix);
-        //             }
-        //         }))
-        //     .selectAll("text")
-        //     .style("text-anchor", "end")
-        //     .attr("dx", "-10px")
-        //     .attr("dy", "-2em")
-        //     .attr("transform", "rotate(-65)")
-        //     .style("font-size", "8px");
     }
 
     function tooltipOn(d) {

@@ -17,11 +17,93 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
+    <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+
+    <script src="https://cdn.rawgit.com/lingtalfi/simpledrag/master/simpledrag.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    <style>
-        .select{
+    <style type="text/css">
+
+        .axis--y .domain, .tick text {
+            fill: #7c7c7c !important;
+        }
+
+        .animateButton {
             display: none;
         }
+
+        .select {
+            display: none;
+        }
+
+        .dg.ac {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            z-index: 9999;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .panes-container {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .left-pane {
+            width: 45%;
+            /*background: #ccc;*/
+        }
+
+        .panes-separator {
+            width: 1%;
+            background: #636363;
+            position: relative;
+            cursor: col-resize;
+        }
+
+        .right-pane {
+            flex: auto;
+            /*background: #eee;*/
+        }
+
+        .controls-panel {
+            width: 12%;
+        }
+
+        .panes-container,
+        .panes-separator,
+        .left-pane,
+        .right-pane {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #textTitle {
+            position: absolute;
+            top: 195px;
+            right: 15px;
+            z-index: 999;
+            float: right;
+            margin: 0px;
+        }
+
+        #dataImage {
+            top: 290px;
+        }
+
+        #timeLine {
+            top: auto;
+            left: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -38,45 +120,70 @@
     <div id="caption"></div>
 </div>
 
+<div class="panes-container">
+    <div class="left-pane" id="left-pane">
 
-<button class="button" type="button" onclick="polyCube.default()">
-    space-time cube
-</button>
+        <!--<button class="button" type="button" onclick="polyCube.default()">-->
+        <!--space-time cube-->
+        <!--</button>-->
+        <!--<button class="button" type="button"-->
+        <!--onclick="-->
+        <!--polyCube.superImpose();-->
+        <!--"> superimposition-->
+        <!--</button>-->
 
-<button class="button" type="button"
-        onclick="
-        polyCube.superImpose();
-"> superimposition
-</button>
+        <!--<button class="button" type="button"-->
+        <!--onclick="SI()">-->
+        <!--juxtaposition-->
+        <!--</button>-->
+    </div>
+    <div class="panes-separator" id="panes-separator"></div>
+    <div class="right-pane" id="right-pane">
 
-<button class="button" type="button"
-        onclick="SI()">
-    juxtaposition
-</button>
+        <p id="textTitle">i</p>
+        <img id="dataImage" src="#" alt="" width="300" height="200">
 
-<a class="button" target="_blank" href="split2.html">
-    Split View
-</a>
+        <div style="top: 22%; position: absolute;">
 
-<a target="_blank" id="searchLink" ><p id="textTitle">i</p></a>
-<!--<img id="dataImage" src="#">-->
+            <div id="dotPlot"></div>
+            <div id="timeLine" style="
+        -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-top: 40px;
+    /*left:auto;*/
+    /*top: 320px;*/
+    /*right: 480px;*/
+    /*position: relative;*/
 
-<!-- Trigger the Modal -->
-<img id="dataImage" src="#" alt="" width="300" height="200">
+    .handle .handle--s{
+    cursor: ew-resize;
+    }
 
-<div id="timeLine"></div>
+    .handle .handle--s{
+    cursor: ew-resize;
+    }
 
-<div id="dotPlot"></div>
+"></div>
+        </div>
+
+        <!--<img id="dataImage" src="#">-->
+        <!-- Trigger the Modal -->
+    </div>
+    <div class="controls-panel" id="controls-panel">
+    </div>
+</div>
 
 <br>
 <script src="lib/d3/d3.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="lib/d3/topojson.min.js"></script>
-<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/seg.js"></script>
-<script src="js/vis/brushSeg.js"></script>
-<!--<script src="js/vis/dotPlot.js"></script>-->
+<script src="js/split.js"></script>
+<script src="js/vis/brushSeg2.js"></script>
+<script src="js/vis/dotPlot.js"></script>
 
 <script>
 
@@ -106,8 +213,9 @@
         let seg1 = 1940, seg2 = 1943, seg3 = 1950, seg4 = 1977;
 
         data.filter(function (d) {
+//            console.log(d);
 //            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time > seg1 && d.time <= seg2;
+            return d.time > 1949 && d.time <= 1952;
         });
 
         function tempRange(data, geoMap) {
@@ -127,6 +235,44 @@
             /**
              * Sort and clean the data according to ascending dates to help with line drawing
              * */
+
+//          switch data
+            function KHM() {
+                data.forEach(function (d, i) {
+                    d.long = d.location_data.country.lat;
+                    d.lat = d.location_data.country.long;
+
+                    // console.log(+format2(parse4(d.Date)));
+                    d.time = parse5(d.time);
+                    d.time = +format2(d.time);
+                    d.description = d.Description_from_Slide_Mount;
+                    d.Image_URL = d.preview;
+
+//                    console.log(d.location_data.country)
+                    d.location = d.location_data.country.name;
+
+                    var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
+
+                    if (d.time <= jp1) {
+                        d.ts = "jp1";
+                    }
+
+                    if (d.time > jp1 && d.time <= jp2) {
+                        d.ts = "jp2";
+                    }
+
+                    if (d.time > jp2 && d.time <= jp3) {
+                        d.ts = "jp3";
+                    }
+
+                    if (d.time > jp3 && d.time <= jp4) {
+                        d.ts = "jp4";
+                    }
+
+                });
+            }
+
+//            KHM();
 
             function Cushman() {
 
@@ -175,8 +321,8 @@
 
 //                    console.log(d);
 
-                    var jp1 = 1941, jp2 = 1942, jp3 = 1943;
-
+//                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+                    var jp1 = 1950, jp2 = 1951, jp3 = 1952;
 
                     if (d.time <= jp1) {
                         d.ts = "jp1";
@@ -202,9 +348,9 @@
 //                return d3.ascending(x.time, y.time);
 //            });
 
-
             let newData = data.filter(function (d) {
-                return d.time > seg1 && d.time <= seg2;
+//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+                return d.time > 1949 && d.time <= 1952;
             }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
@@ -219,6 +365,7 @@
 
             //Draw
             polyCube.drawElements(newData, geoMap);
+            polyCube.superImpose();
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
@@ -255,7 +402,7 @@
             nodeSize: 3,
             colorScale: true,
             BG: "#000000",
-            dataColor: "#ed7019",
+            dataColor: "#EDCA3A",
             mapColor: "#040404",
             invert: false,
 //            projection: 400,
@@ -279,6 +426,17 @@
 
 //        d3.selectAll(".pointCloud")
 //            .classed("green_BG", true);
+
+        d3.selectAll(".pointCloud")
+            .style("background", params.dataColor);
+
+
+//        d3.selectAll(".handle .handle--n")
+//            .attr("cursor", "ew-resize");
+//
+//        d3.selectAll(".handle .handle--s")
+//            .attr("cursor", "ew-resize");
+
 
         /**
          * Data UI Controls
@@ -320,6 +478,7 @@
 //                .style("fill", d);
 
         });
+
 
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {
@@ -435,6 +594,54 @@
     closeModal.onclick = function () {
         modal.style.display = "none";
     }
+</script>
+
+
+<script>
+
+
+    var leftPane = document.getElementById('left-pane');
+    var rightPane = document.getElementById('right-pane');
+    var paneSep = document.getElementById('panes-separator');
+
+    // The script below constrains the target to move horizontally between a left and a right virtual boundaries.
+    // - the left limit is positioned at 10% of the screen width
+    // - the right limit is positioned at 90% of the screen width
+    var leftLimit = 40;
+    var rightLimit = 60;
+
+
+    paneSep.sdrag(function (el, pageX, startX, pageY, startY, fix) {
+
+        fix.skipX = true;
+
+        if (pageX < window.innerWidth * leftLimit / 100) {
+            pageX = window.innerWidth * leftLimit / 100;
+            fix.pageX = pageX;
+        }
+        if (pageX > window.innerWidth * rightLimit / 100) {
+            pageX = window.innerWidth * rightLimit / 100;
+            fix.pageX = pageX;
+        }
+
+        var cur = pageX / window.innerWidth * 100;
+        if (cur < 0) {
+            cur = 0;
+        }
+        if (cur > window.innerWidth) {
+            cur = window.innerWidth;
+        }
+
+
+        var right = (100 - cur - 2);
+        leftPane.style.width = cur + '%';
+        rightPane.style.width = right + '%';
+
+        polyCube.onWindowResize();
+
+    }, null, 'horizontal');
+
+
 </script>
 
 </body>

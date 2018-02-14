@@ -232,7 +232,7 @@
             if (!d3.event.selection) return; // Ignore empty selections.
 
             let d0 = d3.event.selection.map(y.invert),
-                d1 = d0.map(d3.timeMonth.round);
+                d1 = d0.map(d3.timeDay.round);
 
             // d3.select(this).transition().call(d3.event.target.move, d1.map(x));
             d3.select(this).transition().call(d3.event.target.move, d1.map(y));
