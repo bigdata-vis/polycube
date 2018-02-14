@@ -363,9 +363,9 @@
             // brush.event(d3.select(".brush").transition().delay(1000))
         }
 
-        var animateTimer = function (times = 36, gap = 2) {
+        var animateTimer = function (times = 36, gap = 1) {
             var i = 1;
-            let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-2);
+            let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-1);
             let uend = ustart.addMonths(gap);
             let defaultData = data;
 

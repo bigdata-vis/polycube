@@ -12,6 +12,7 @@
     let timeBrush = {};
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
+    let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
     var genre;
     let chosenData;
     let checkSelect = false;
@@ -55,6 +56,7 @@
 
     //number of bins for histogram
     const nbins = 36;
+    // const nbins = 72;
 
     function initDotPlot() {
 
@@ -123,6 +125,8 @@
         //need to populate the bin containers with data the first time
         binContainerEnter.selectAll("dotplot")
             .data(d => d.map((p, i) => {
+
+                // cons
                 return {
                     City_and_State: p.City_and_State,
                     Date: p.Date,
@@ -131,7 +135,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 20
+                    radius: (x(d.x1) - x(d.x0)) / 18
                 }
             }))
             .enter()
@@ -154,7 +158,6 @@
         binContainerEnter.merge(binContainer)
             // .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
             .attr("transform", function (d) {
-                console.log(d);
                 return "translate(" + x(d.x0) + "," + height +")"
             });
 
@@ -169,7 +172,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 20
+                    radius: (x(d.x1) - x(d.x0)) / 18
                 }
             }));
 
