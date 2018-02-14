@@ -12,6 +12,8 @@
     var genre;
     let chosenData;
     let checkSelect = false;
+    let rightPane = document.getElementById('right-pane');
+
 
     Date.prototype.addMonths = function (m) {
         var d = new Date(this);
@@ -31,9 +33,13 @@
         // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
-        let margin = {top: 40, right: 40, bottom: 140, left: 40},
+        let margin = {top: 240, right: 40, bottom: 40, left: 40},
             width = 120 - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
+            height = rightPane.offsetWidth - margin.top - margin.bottom;
+
+        //
+        // width = rightPane.offsetWidth - margin.left - margin.right,
+        //     height = rightPane.offsetHeight - margin.top - margin.bottom;
 
         let y = d3.scaleTime() //todo: pass the date range from datasets for polycube
             .domain(dateRange)
@@ -80,12 +86,13 @@
 
 
         let svg = d3.select("#timeLine")
-            .style("position", "absolute")
+            .append("svg")
             .style("z-index", "999")
             .style("width", "150px")
-            // .style("top", (30) + "px")
-            // .style("left", (-30) + "px")
-            .append("svg")
+            // .style("position", "absolute")
+            // .style("bottom", (180) + "px")
+            // .style("right", (-60) + "px")
+
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -264,9 +271,9 @@
             //cleanup
             d3.selectAll('.highlightDot').classed("highlightDot", false);
             d3.selectAll('.dotplot')  //here's how you get all the nodes
-                .each(function(dot) {
+                .each(function (dot) {
                     selectedData.map(d => {
-                        if(d.IU_Archives_Number === dot.name){
+                        if (d.IU_Archives_Number === dot.name) {
                             // console.log(d3.select(this));
                             d3.select(this).classed("highlightDot", true);
                         }

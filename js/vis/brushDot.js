@@ -31,19 +31,23 @@
         // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
-        let margin = {top: 40, right: 40, bottom: 140, left: 40},
-            width = 120 - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
+        let margin = {top: 140, right: 40, bottom: 40, left: 40},
+            // width = 120 - margin.left - margin.right,
+            width = rightPane.offsetWidth - margin.left - margin.right,
+            // height = window.innerHeight - margin.top - margin.bottom,
+            // height = rightPane.offsetHeight - margin.top - margin.bottom;
+            height = rightPane.offsetHeight - margin.top - margin.bottom;
 
-        let y = d3.scaleTime() //todo: pass the date range from datasets for polycube
+
+        let x = d3.scaleTime() //todo: pass the date range from datasets for polycube
             .domain(dateRange)
-            .rangeRound([height, 0]);
+            .rangeRound([0, width]);
 
-        let x = d3.scaleLinear()
-            .range([0, width - 10]);
+        let y = d3.scaleLinear()
+            .range([height, 0]);
 
         let data = window.data;
-        x.domain([0, d3.max(count(), function (d) {
+        y.domain([0, d3.max(count(), function (d) {
             return d.val;
         })]);
 
@@ -51,30 +55,30 @@
 
         // define the area
         let area = d3.area()
-            .y(d => {
+            .x(d => {
                 // console.log(y(new Date(d.date * 1000)));
                 // return y(new Date(d.date, 1, 1))
                 return y(new Date(d.date * 1000));
             })
-            .x0(0)
-            .x1(d => {
+            .y0(0)
+            .y1(d => {
                 return x(d.val);
             })
             .curve(d3.curveCardinal);
 
         let line = d3.line()
-            .y(d => {
+            .x(d => {
                 // return y(new Date(d.date, 1, 1))
                 return y(new Date(d.date * 1000))
             })
-            .x(d => {
+            .y(d => {
                 return x(d.val);
             })
             .curve(d3.curveCardinal);
 
 
         let brush = d3
-            .brushY()
+            .brushX()
             .extent([[0, 0], [width, height]])
             .on("end", brushened);
 
@@ -95,7 +99,7 @@
         svg.append("g")
             .attr("class", "axis2 axis--y2")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
-            .call(d3.axisLeft(y)
+            .call(d3.axisBottom(x)
                 .ticks(d3.timeMonth)
                 // .ticks(d3.timeYear) //khm
                 .tickSize(-width)
@@ -111,7 +115,7 @@
         svg.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(d3.axisLeft(y)
+            .call(d3.axisBottom(x)
                     .tickFormat(function (date) {
                         if (d3.timeYear(date) < date) {
                             return d3.timeFormat('%b')(date);
@@ -221,14 +225,14 @@
             if (!d3.event.sourceEvent) return; // Only transition after input.
             if (!d3.event.selection) return; // Ignore empty selections.
 
-            let d0 = d3.event.selection.map(y.invert),
+            let d0 = d3.event.selection.map(x.invert),
                 d1 = d0.map(d3.timeMonth.round);
 
             // d3.select(this).transition().call(d3.event.target.move, d1.map(x));
-            d3.select(this).transition().call(d3.event.target.move, d1.map(y));
+            d3.select(this).transition().call(d3.event.target.move, d1.map(x));
 
             let range = d3.brushSelection(this)
-                .map(y.invert);
+                .map(x.invert);
 
             /**
              * TODO:Function to determine what data to use from the start and end date
@@ -264,9 +268,9 @@
             //cleanup
             d3.selectAll('.highlightDot').classed("highlightDot", false);
             d3.selectAll('.dotplot')  //here's how you get all the nodes
-                .each(function(dot) {
+                .each(function (dot) {
                     selectedData.map(d => {
-                        if(d.IU_Archives_Number === dot.name){
+                        if (d.IU_Archives_Number === dot.name) {
                             // console.log(d3.select(this));
                             d3.select(this).classed("highlightDot", true);
                         }

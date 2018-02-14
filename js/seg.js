@@ -689,8 +689,8 @@
                 var elMessage = document.createTextNode(message);
                 element.appendChild(elMessage);
 
-                // var object = new THREE.CSS3DObject(element);
-                var object = new THREE.CSS3DSprite(element);
+                var object = new THREE.CSS3DObject(element);
+                // var object = new THREE.CSS3DSprite(element);
                 object.name = "titles";
                 // mesh.add(object);
                 // mesh.add(object);

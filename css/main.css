@@ -221,6 +221,8 @@ input:focus {
     left: 10px;
     z-index: 999;
     display: inline-block;
+    text-align: center;
+    text-decoration:none;
 }
 
 #textTitle {

@@ -25,14 +25,13 @@
         // height = 480 - margin.top - margin.bottom;
         height = rightPane.offsetHeight - margin.top - margin.bottom;
 
-
     //set up svg
     const svg = d3.select("#dotPlot")
         .append("svg")
-        .style("position", "absolute")
+        // .style("position", "absolute")
         .style("z-index", "999")
-        .style("bottom", (180) + "px")
-        .style("right", (-60) + "px")
+        // .style("bottom", (180) + "px")
+        // .style("right", (-60) + "px")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
