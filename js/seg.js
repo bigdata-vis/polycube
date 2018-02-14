@@ -623,15 +623,15 @@
         });
 
 
-        // drawLabels({ //Todo: fix label with proper svg
-        //     labelPosition: {
-        //         x: -widthHalf,//offset border
-        //         y: -(height / 2) - 10,
-        //         z: -widthHalf
-        //     },
-        //     rotation: 10,
-        //     labelCount:17
-        // });
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: -widthHalf,//offset border
+                y: -(height / 2) - 10,
+                z: -widthHalf
+            },
+            rotation: 10,
+            labelCount:17
+        });
 
         function drawLabels(parameters) {
 
