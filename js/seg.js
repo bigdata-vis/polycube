@@ -2,6 +2,9 @@
  * Created by simba on 27/03/2017.
  */
 (function () {
+    'use strict';
+
+
     var pCube = {};
 
     /**default data
@@ -623,55 +626,43 @@
         });
 
 
-        drawLabels({ //Todo: fix label with proper svg
-            labelPosition: {
-                x: -widthHalf,//offset border
-                y: -(height / 2) - 10,
-                z: -widthHalf
-            },
-            rotation: 10,
-            labelCount:17
-        });
+        // drawLabels({ //Todo: fix label with proper svg
+        //     labelPosition: {
+        //         x: -widthHalf,//offset border
+        //         y: -(height / 2) - 10,
+        //         z: -widthHalf
+        //     },
+        //     rotation: 10,
+        //     labelCount:17
+        // });
 
         function drawLabels(parameters) {
 
-            // console.log(dateTestEx[0]);
-            // console.log(new Date(dateTestEx[1]));
-
-            // console.log(d3.scaleTime().domain([new Date(dateTestEx[0])]))
-
             if (parameters === undefined) parameters = {};
-            var labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
+            let labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
 
-            var startDate = parameters["startDate"] || dateTestEx[1].toString();
-            var endDate = parameters["endDate"] || dateTestEx[0].toString();
+            let startDate = parameters["startDate"] || dateTestEx[1].toString();
+            let endDate = parameters["endDate"] || dateTestEx[0].toString();
 
             let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
 
-            var dateArray = d3.scaleTime()
+            let dateArray = d3.scaleTime()
                 .domain([new Date(endDate), new Date(startDate)])
-                // .ticks(dataSlices);
-                // .ticks(labelCount);
-                // .ticks(d3.timeMonth);
                 .ticks(d3.timeYear);
 
-            // console.log(dateArray);
-
-            // var separator = height / dateArray.length;
-            var separator = height / labelCount;
-            var p = parameters["labelPosition"] || {
+            let separator = height / labelCount;
+            let p = parameters["labelPosition"] || {
                 x: -80,//offset border
                 y: 0,
                 z: 100
             };
 
             // for (var i = 0; i < (dataSlices); i++) {
-            for (var i = 0; i < (dateArray.length); i++) {
-
+            for (let i = 0; i < (dateArray.length); i++) {
                 // console.log(dateArray[i]);
 
-                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+                let label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = rotation;
                 // p.y += separator; //increment y position of individual label to increase over time
@@ -689,11 +680,8 @@
                 var elMessage = document.createTextNode(message);
                 element.appendChild(elMessage);
 
-                var object = new THREE.CSS3DObject(element);
-                // var object = new THREE.CSS3DSprite(element);
-                object.name = "titles";
-                // mesh.add(object);
-                // mesh.add(object);
+                // var object = new THREE.CSS3DObject(element);
+                var object = new THREE.CSS3DSprite(element);
                 cube.add(object);
 
                 return object;

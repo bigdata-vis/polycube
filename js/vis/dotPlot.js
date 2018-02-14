@@ -5,6 +5,10 @@
  * move dateExtent to the main data entry point
  */
 (function () {
+
+    'use strict';
+
+
     let timeBrush = {};
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
@@ -19,25 +23,23 @@
     //from google spreadsheet
 
     //SVG setup
-    const margin = {top: 10, right: 240, bottom: 40, left: 30},
+    const margin = {top: 40, right: 40, bottom: 40, left: 40},
         // width = 550 - margin.left - margin.right,
         width = rightPane.offsetWidth - margin.left - margin.right,
         // height = 480 - margin.top - margin.bottom;
-        height = rightPane.offsetHeight - margin.top - margin.bottom;
+        height = rightPane.offsetHeight/2 - margin.top - margin.bottom;
 
     //set up svg
     const svg = d3.select("#dotPlot")
+    .style("top", (80) + "px")
+    // .style("right", (-60) + "px")
+    .style("position", "relative")
         .append("svg")
-        // .style("position", "absolute")
         .style("z-index", "999")
-        // .style("bottom", (180) + "px")
-        // .style("right", (-60) + "px")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform",
-            `translate(${margin.left}, ${margin.top})`);
-
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     //tooltip
     const tooltip = d3.select("body")

@@ -6,6 +6,10 @@
  */
 
 (function () {
+
+    'use strict';
+
+
     let timeBrush = {};
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
@@ -33,8 +37,8 @@
         // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
-        let margin = {top: 240, right: 40, bottom: 40, left: 40},
-            width = 120 - margin.left - margin.right,
+        let margin = {top: 20, right: 0, bottom: 50, left: 0},
+            width = 70 - margin.left - margin.right,
             height = rightPane.offsetWidth - margin.top - margin.bottom;
 
         //
@@ -86,13 +90,12 @@
 
 
         let svg = d3.select("#timeLine")
+        // .style("top", (100) + "px")
+        // .style("right", (-60) + "px")
+        .style("position", "relative")
             .append("svg")
             .style("z-index", "999")
-            .style("width", "150px")
-            // .style("position", "absolute")
-            // .style("bottom", (180) + "px")
-            // .style("right", (-60) + "px")
-
+            // .style("width", "100px")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")

@@ -60,7 +60,6 @@
             width: 45%;
             /*background: #ccc;*/
         }
-
         .panes-separator {
             width: 1%;
             background: #636363;
@@ -73,6 +72,10 @@
             /*background: #eee;*/
         }
 
+        .controls-panel{
+            width: 12%;
+        }
+
         .panes-container,
         .panes-separator,
         .left-pane,
@@ -80,6 +83,23 @@
             margin: 0;
             padding: 0;
             height: 100%;
+        }
+
+        #textTitle {
+            position: absolute;
+            top: 195px;
+            right: 15px;
+            z-index: 999;
+            float: right;
+            margin: 0px;
+        }
+
+        #dataImage {
+            top: 290px;
+        }
+        #timeLine {
+            top: auto;
+            left: auto;
         }
 
     </style>
@@ -117,23 +137,31 @@
     </div>
     <div class="panes-separator" id="panes-separator"></div>
     <div class="right-pane" id="right-pane">
-        <div id="timeLine" style="
+
+        <p id="textTitle">i</p>
+        <img id="dataImage" src="#" alt="" width="300" height="200">
+
+        <div style="top: 22%; position: absolute;">
+
+            <div id="dotPlot"></div>
+            <div id="timeLine" style="
         -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
+    margin-top: 40px;
     /*left:auto;*/
     /*top: 320px;*/
     /*right: 480px;*/
     /*position: relative;*/
 "></div>
-        <div id="dotPlot"></div>
-        <a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
-        <!--<img id="dataImage" src="#">-->
+        </div>
 
+        <!--<img id="dataImage" src="#">-->
         <!-- Trigger the Modal -->
-        <img id="dataImage" src="#" alt="" width="300" height="200">
+    </div>
+    <div class="controls-panel" id="controls-panel">
     </div>
 </div>
 
