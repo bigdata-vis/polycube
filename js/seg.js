@@ -650,9 +650,12 @@
             let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
 
-            let dateArray = d3.scaleTime()
-                .domain([new Date(endDate), new Date(startDate)])
-                .ticks(d3.timeYear);
+            // let dateArray = d3.scaleTime()
+            //     .domain([new Date(endDate), new Date(startDate)])
+            //     .ticks(d3.timeYear);
+
+            // var dateRange = d3.timeYears(new Date(endDate), new Date(startDate));
+            let dateArray = d3.timeYears(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
             let separator = height / labelCount;
             let p = parameters["labelPosition"] || {
@@ -661,10 +664,11 @@
                 z: 100
             };
 
-            dateArray.forEach(function (d) {
-                console.log(d);
+            // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
+            // console.log(dateRange);
 
-                // console.log(i);
+            dateArray.forEach(function (d) {
+                // console.log(d);
                 let label = makeTextSprite(formatTime(d), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = rotation;
