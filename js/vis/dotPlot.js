@@ -98,9 +98,10 @@
 
         //histogram binning
         const histogram = d3.histogram()
+        // const histogram = d3.layout.histogram()
             .domain(x.domain())
-            // .thresholds(x.ticks(nbins))
-            .thresholds(thresholds)
+            .thresholds(x.ticks(nbins))
+            // .thresholds(thresholds)
             .value(function (d) {
                 return d.Value;
             });
@@ -135,7 +136,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 18
+                    radius: (x(d.x1) - x(d.x0)) / 12
                 }
             }))
             .enter()
@@ -172,7 +173,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 18
+                    radius: (x(d.x1) - x(d.x0)) / 12
                 }
             }));
 

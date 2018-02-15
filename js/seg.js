@@ -615,16 +615,19 @@
          *
          */
 
-        drawLabels({ //Todo: fix label with proper svg
-            labelPosition: {
-                x: widthHalf,//offset border
-                y: -(height / 2) - 10,
-                // y: -(height / 2) + 80,
-                z: widthHalf
-            },
-            labelCount: 17
-        });
-
+        setTimeout(function () {
+            if (window.dateTestEx) {
+                drawLabels({ //Todo: fix label with proper svg
+                    labelPosition: {
+                        x: widthHalf,//offset border
+                        y: -(height / 2) - 10,
+                        // y: -(height / 2) + 80,
+                        z: widthHalf
+                    },
+                    labelCount: 17
+                });
+            }
+        }, 500);
 
         // drawLabels({ //Todo: fix label with proper svg
         //     labelPosition: {
@@ -654,20 +657,30 @@
             let separator = height / labelCount;
             let p = parameters["labelPosition"] || {
                 x: -80,//offset border
-                y: 0,
+                y: height / dateArray.length,
                 z: 100
             };
 
-            // for (var i = 0; i < (dataSlices); i++) {
-            for (let i = 0; i < (dateArray.length); i++) {
-                // console.log(dateArray[i]);
+            dateArray.forEach(function (d) {
+                console.log(d);
 
-                let label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+                // console.log(i);
+                let label = makeTextSprite(formatTime(d), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = rotation;
-                // p.y += separator; //increment y position of individual label to increase over time
                 p.y += height / dateArray.length; //increment y position of individual label to increase over time
-            }
+                // p.y += separator; //increment y position of individual label to increase over time
+
+            });
+            //
+            // for (let i = 0; i < (dateArray.length); i++) {
+            //     // console.log(i);
+            //     let label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+            //     label.position.set(p.x, p.y, p.z);
+            //     label.rotation.y = rotation;
+            //     // p.y += separator; //increment y position of individual label to increase over time
+            //     p.y += height / dateArray.length; //increment y position of individual label to increase over time
+            // }
 
             function makeTextSprite(message, parameters) {
                 if (parameters === undefined) parameters = {};
