@@ -625,7 +625,6 @@
             labelCount: 17
         });
 
-
         // drawLabels({ //Todo: fix label with proper svg
         //     labelPosition: {
         //         x: -widthHalf,//offset border
@@ -1967,14 +1966,13 @@
                 gapSize: 1,
             });
 
-
             var geometry = new THREE.Geometry();
             geometry.name = "guidelines";
 
             geometry.vertices.push(
                 vec1, vec2
             );
-            geometry.computeLineDistances();
+            // geometry.computeLineDistances();
 
             var line = new THREE.Line(geometry, material);
 
