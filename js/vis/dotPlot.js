@@ -136,7 +136,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 12
+                    radius: (x(d.x1) - x(d.x0)) / 10
                 }
             }))
             .enter()
@@ -173,7 +173,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 12
+                    radius: (x(d.x1) - x(d.x0)) / 10
                 }
             }));
 

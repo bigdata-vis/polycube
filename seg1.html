@@ -19,7 +19,7 @@
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
     <style>
-        .select{
+        .select {
             display: none;
         }
 
@@ -40,26 +40,25 @@
 </div>
 
 
-<button class="button" type="button" onclick="polyCube.default()">
+<button class="button" type="button" onclick="STC()">
     space-time cube
 </button>
 
 <button class="button" type="button"
         onclick="
-        polyCube.superImpose();
-"> superimposition
+        SI()"> superimposition
 </button>
 
 <button class="button" type="button"
-        onclick="SI()">
+        onclick="JP()">
     juxtaposition
 </button>
 
-<a class="button" target="_blank" href="split.html">
+<a class="button" target="_blank" href="split2.html">
     Split View
 </a>
 
-<a target="_blank" id="searchLink" ><p id="textTitle">i</p></a>
+<a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
 
 <!-- Trigger the Modal -->
@@ -81,8 +80,21 @@
 
 <script>
 
-    function SI() {
+    function JP() {
         polyCube.juxstaPose();
+    }
+
+    function SI() {
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", false);
+        polyCube.superImpose();
+    }
+
+    function STC() {
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+        polyCube.default();
     }
 
     /**Merge the cut section into a mega structure
@@ -318,8 +330,10 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-//        d3.selectAll(".pointCloud")
-//            .classed("green_BG", true);
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+
 
         /**
          * Data UI Controls

@@ -19,7 +19,7 @@
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
     <style>
-        .select{
+        .select {
             display: none;
         }
     </style>
@@ -39,18 +39,17 @@
 </div>
 
 
-<button class="button" type="button" onclick="polyCube.default()">
+<button class="button" type="button" onclick="STC()">
     space-time cube
 </button>
 
 <button class="button" type="button"
         onclick="
-        polyCube.superImpose();
-"> superimposition
+        SI()"> superimposition
 </button>
 
 <button class="button" type="button"
-        onclick="SI()">
+        onclick="JP()">
     juxtaposition
 </button>
 
@@ -58,7 +57,7 @@
     Split View
 </a>
 
-<a target="_blank" id="searchLink" ><p id="textTitle">i</p></a>
+<a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
 
 <!-- Trigger the Modal -->
@@ -80,8 +79,21 @@
 
 <script>
 
-    function SI() {
+    function JP() {
         polyCube.juxstaPose();
+    }
+
+    function SI() {
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", false);
+        polyCube.superImpose();
+    }
+
+    function STC() {
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+        polyCube.default();
     }
 
     /**Merge the cut section into a mega structure
@@ -255,7 +267,7 @@
             nodeSize: 3,
             colorScale: true,
             BG: "#000000",
-            dataColor: "#ed7019",
+            dataColor: "#EDCA3A",
             mapColor: "#040404",
             invert: false,
 //            projection: 400,
@@ -277,8 +289,13 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-//        d3.selectAll(".pointCloud")
-//            .classed("green_BG", true);
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+
+//
+//        d3.selectAll(".tick text")
+//            .style("fill", params.dataColor);
 
         /**
          * Data UI Controls
@@ -348,6 +365,14 @@
                 d3.selectAll(".timelineTick")
                     .classed("green_BG", true)
 
+//                d3.selectAll(".pointCloud")
+//                    .classed("green_BG", false)
+//                    .style("background-color", params.dataColor);
+//
+//                d3.selectAll(".tick text")
+//                    .classed("green_BG", false)
+//                    .style("fill", params.dataColor);
+
             } else {
                 //show green on pointCloud
                 d3.selectAll(".pointCloud")
@@ -355,6 +380,14 @@
 
                 d3.selectAll(".timelineTick")
                     .classed("green_BG", false);
+
+//                d3.selectAll(".pointCloud")
+//                    .classed("green_BG", false)
+//                    .style("background-color", params.dataColor);
+//
+//                d3.selectAll(".tick text")
+//                    .classed("green_BG", false)
+//                    .style("fill", params.dataColor);
             }
 
         }).name("Time Colour");
