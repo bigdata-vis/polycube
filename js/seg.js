@@ -536,10 +536,10 @@
                         object.position.y = timeLinear(d.unix); //for unix date
                     }
 
-                    if(jitter){
+                    if (jitter) {
                         object.position.z = coord[1] + getRandomInt(-jitter, jitter);
                         object.position.x = coord[0] + getRandomInt(-jitter, jitter);
-                    }else {
+                    } else {
                         object.position.z = coord[1];
                         object.position.x = coord[0];
                     }
@@ -615,19 +615,16 @@
          *
          */
 
-        setTimeout(function () {
-            if (window.dateTestEx) {
-                drawLabels({ //Todo: fix label with proper svg
-                    labelPosition: {
-                        x: widthHalf,//offset border
-                        y: -(height / 2) - 10,
-                        // y: -(height / 2) + 80,
-                        z: widthHalf
-                    },
-                    labelCount: 17
-                });
-            }
-        }, 500);
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: widthHalf,//offset border
+                y: -(height / 2) - 10,
+                // y: -(height / 2) + 80,
+                z: widthHalf
+            },
+            labelCount: 17
+        });
+
 
         // drawLabels({ //Todo: fix label with proper svg
         //     labelPosition: {
@@ -644,8 +641,8 @@
             if (parameters === undefined) parameters = {};
             let labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
 
-            let startDate = parameters["startDate"] || dateTestEx[1].toString();
-            let endDate = parameters["endDate"] || dateTestEx[0].toString();
+            // let startDate = parameters["startDate"] || dateTestEx[1].toString();
+            // let endDate = parameters["endDate"] || dateTestEx[0].toString();
 
             let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
@@ -674,7 +671,6 @@
                 label.rotation.y = rotation;
                 p.y += height / dateArray.length; //increment y position of individual label to increase over time
                 // p.y += separator; //increment y position of individual label to increase over time
-
             });
             //
             // for (let i = 0; i < (dateArray.length); i++) {
@@ -1747,7 +1743,7 @@
             })
             .attr("cy", function (d) {
                 let cy = projection([d.lat, d.long])[1];
-                d.cy =cy;
+                d.cy = cy;
                 return cy;
             })
             .attr("fill", function (d) {
@@ -1760,7 +1756,7 @@
 
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + formatDate(parse4(d.Date))+ " </span> <br>" +
+                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
@@ -2043,7 +2039,7 @@
         };
 
         //only draw when not on SI
-        if(layout !== "SI"){
+        if (layout !== "SI") {
             drawLine(
                 new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
                 new THREE.Vector3(elementDefault.x, elementDefault.y, elementDefault.z)
