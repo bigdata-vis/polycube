@@ -110,6 +110,7 @@
             return d.time > seg1 && d.time <= seg2;
         });
 
+
         function tempRange(data, geoMap) {
 
             /**
@@ -131,6 +132,7 @@
             function Cushman() {
 
                 data.map(d => {
+
 
                     d.time = parse4(d.Date);
 
@@ -202,7 +204,6 @@
 //                return d3.ascending(x.time, y.time);
 //            });
 
-
             let newData = data.filter(function (d) {
                 return d.time > seg1 && d.time <= seg2;
             }).sort(function (x, y) {
@@ -210,12 +211,11 @@
             });
 
 //            console.log(count(newData));
-//            count(newData);
             window.data = newData;
 
-            let newData2 = data.slice(0, 100).sort(function (x, y) {
-                return d3.ascending(x.time, y.time);
-            });
+//            let newData2 = data.slice(0, 100).sort(function (x, y) {
+//                return d3.ascending(x.time, y.time);
+//            });
 
             //Draw
             polyCube.drawElements(newData, geoMap);

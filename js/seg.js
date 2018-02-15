@@ -646,12 +646,13 @@
             let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
 
-            // let dateArray = d3.scaleTime()
-            //     .domain([new Date(endDate), new Date(startDate)])
-            //     .ticks(d3.timeYear);
+            // let dateArrayOld = d3.scaleTime()
+            //     .domain([new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)])
+            //     .ticks();
 
-            // var dateRange = d3.timeYears(new Date(endDate), new Date(startDate));
-            let dateArray = d3.timeYears(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
+            let dateArray = d3.timeYears(new Date(window.dateTestEx[0], 1-1, 1 ), new Date(window.dateTestEx[1], 1, 1));
+
+            // let dateArray = d3.timeYears(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
             let separator = height / labelCount;
             let p = parameters["labelPosition"] || {
@@ -661,7 +662,6 @@
             };
 
             // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
-            // console.log(dateRange);
 
             dateArray.forEach(function (d) {
                 // console.log(d);
