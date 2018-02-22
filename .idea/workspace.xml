@@ -3,18 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/split.js" afterPath="$PROJECT_DIR$/js/split.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushSeg2.js" afterPath="$PROJECT_DIR$/js/vis/brushSeg2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/dotPlot.js" afterPath="$PROJECT_DIR$/js/vis/dotPlot.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg1.html" afterPath="$PROJECT_DIR$/seg1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg2.html" afterPath="$PROJECT_DIR$/seg2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg3.html" afterPath="$PROJECT_DIR$/seg3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg4.html" afterPath="$PROJECT_DIR$/seg4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split.html" afterPath="$PROJECT_DIR$/split.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split2.html" afterPath="$PROJECT_DIR$/split2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split3.html" afterPath="$PROJECT_DIR$/split3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split4.html" afterPath="$PROJECT_DIR$/split4.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/seg.js" afterPath="$PROJECT_DIR$/js/seg.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="seg.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="seg.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/seg.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="544" column="1" lean-forward="true" selection-start-line="544" selection-start-column="1" selection-end-line="550" selection-end-column="21" />
+            <state relative-caret-position="235">
+              <caret line="1750" column="26" lean-forward="true" selection-start-line="1750" selection-start-column="26" selection-end-line="1750" selection-end-column="26" />
               <folding>
                 <element signature="e#11174#15419#0" expanded="false" />
                 <element signature="e#13077#14596#0" expanded="false" />
@@ -66,7 +55,6 @@
                 <element signature="e#45295#46694#0" expanded="false" />
                 <element signature="e#47740#52995#0" expanded="false" />
                 <element signature="e#53051#54272#0" expanded="false" />
-                <element signature="e#54328#57579#0" expanded="false" />
                 <element signature="e#56898#57571#0" expanded="false" />
                 <element signature="e#57626#57853#0" expanded="false" />
                 <element signature="e#57889#59221#0" expanded="false" />
@@ -82,12 +70,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="split.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="split.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/split.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="478" column="69" lean-forward="true" selection-start-line="478" selection-start-column="69" selection-end-line="478" selection-end-column="69" />
+            <state relative-caret-position="103">
+              <caret line="475" column="0" lean-forward="true" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
               <folding>
+                <element signature="e#15420#21122#0" expanded="false" />
                 <element signature="e#65538#65756#0" expanded="false" />
               </folding>
             </state>
@@ -152,7 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>right-pane</find>
       <find>window.data</find>
       <find>dotplot</find>
       <find>map</find>
@@ -182,6 +170,7 @@
       <find>textTitle</find>
       <find>seletAllData</find>
       <find>updatePC</find>
+      <find>juxtaposition</find>
     </findStrings>
     <replaceStrings>
       <replace>noverlap</replace>
@@ -235,7 +224,6 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/segAnim.js" />
         <option value="$PROJECT_DIR$/css/split.css" />
-        <option value="$PROJECT_DIR$/js/seg.js" />
         <option value="$PROJECT_DIR$/js/vis/brushSeg2.js" />
         <option value="$PROJECT_DIR$/js/vis/dotPlot.js" />
         <option value="$PROJECT_DIR$/seg4.html" />
@@ -249,6 +237,7 @@
         <option value="$PROJECT_DIR$/split3.html" />
         <option value="$PROJECT_DIR$/split.html" />
         <option value="$PROJECT_DIR$/js/split.js" />
+        <option value="$PROJECT_DIR$/js/seg.js" />
       </list>
     </option>
   </component>
@@ -1128,12 +1117,12 @@
       <workItem from="1518978566141" duration="6037000" />
       <workItem from="1519201248184" duration="6924000" />
       <workItem from="1519215627426" duration="3459000" />
-      <workItem from="1519289248748" duration="7792000" />
+      <workItem from="1519289248748" duration="8015000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1133245000" />
+    <option name="totallyTimeSpent" value="1133468000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1158,7 +1147,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12142857" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15428571" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3057607" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1532,8 +1521,8 @@
         <state relative-caret-position="258">
           <caret line="63" column="57" lean-forward="true" selection-start-line="63" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1850#1857#1" expanded="true" />
+            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#1850#1857#1" expanded="false" />
             <element signature="n#script#7;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#14528#14573#0" expanded="false" />
@@ -1546,8 +1535,8 @@
         <state relative-caret-position="374">
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1882#1889#1" expanded="true" />
+            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#1882#1889#1" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#15218#15263#0" expanded="false" />
           </folding>
@@ -1559,8 +1548,8 @@
         <state relative-caret-position="170">
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1881#1888#1" expanded="true" />
+            <element signature="n#style#0;n#a#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#1881#1888#1" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#14541#14586#0" expanded="false" />
           </folding>
@@ -1624,8 +1613,8 @@
         <state relative-caret-position="210">
           <caret line="14" column="49" lean-forward="false" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
           <folding>
-            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#2260#2267#1" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#2260#2267#1" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#16622#16667#0" expanded="false" />
             <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1638,8 +1627,8 @@
         <state relative-caret-position="312">
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#2260#2267#1" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#2260#2267#1" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#16622#16667#0" expanded="false" />
             <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1652,8 +1641,8 @@
         <state relative-caret-position="338">
           <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#2259#2266#1" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#2259#2266#1" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="e#16621#16666#0" expanded="false" />
             <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1676,10 +1665,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/split.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="475" column="0" lean-forward="true" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
+          <folding>
+            <element signature="e#15420#21122#0" expanded="false" />
+            <element signature="e#65538#65756#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/seg.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="544" column="1" lean-forward="true" selection-start-line="544" selection-start-column="1" selection-end-line="550" selection-end-column="21" />
+        <state relative-caret-position="235">
+          <caret line="1750" column="26" lean-forward="true" selection-start-line="1750" selection-start-column="26" selection-end-line="1750" selection-end-column="26" />
           <folding>
             <element signature="e#11174#15419#0" expanded="false" />
             <element signature="e#13077#14596#0" expanded="false" />
@@ -1696,7 +1696,6 @@
             <element signature="e#45295#46694#0" expanded="false" />
             <element signature="e#47740#52995#0" expanded="false" />
             <element signature="e#53051#54272#0" expanded="false" />
-            <element signature="e#54328#57579#0" expanded="false" />
             <element signature="e#56898#57571#0" expanded="false" />
             <element signature="e#57626#57853#0" expanded="false" />
             <element signature="e#57889#59221#0" expanded="false" />
@@ -1707,16 +1706,6 @@
             <element signature="e#66597#66739#0" expanded="false" />
             <element signature="e#66778#66857#0" expanded="false" />
             <element signature="e#66895#66958#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/split.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="478" column="69" lean-forward="true" selection-start-line="478" selection-start-column="69" selection-end-line="478" selection-end-column="69" />
-          <folding>
-            <element signature="e#65538#65756#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -1753,8 +1753,8 @@
             })
             .attr("fill", function (d) {
                 // console.log(d);
-                return colour(d.unix);
-                // return "#ed7019"
+                // return colour(d.unix);
+                return "#EDCA3A"
             })
             .on('click', function (d, i) {
                 // update elements
