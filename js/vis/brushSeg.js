@@ -83,8 +83,6 @@
             .style("position", "absolute")
             .style("z-index", "999")
             .style("width", "150px")
-            // .style("top", (30) + "px")
-            // .style("left", (-30) + "px")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -125,17 +123,13 @@
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 0)
-            // .attr("class", "timelineTick")
-            // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
-
-                // let year = new Date(d).getFullYear();
                 let year = (d / 1000).toFixed(0);
                 let colorScale = window.colorScale;
 
                 return colorScale(year)
+                // return "#EDCA3A";
             });
-        // .classed('timelineTick', true);
 
         //area chart domain
         // svg.select(".axis2")
@@ -158,6 +152,7 @@
             .attr("fill", "none");
         //     .style("fill", "url(#gradient)");
 
+        //Brush
         svg.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
@@ -167,13 +162,16 @@
             .attr("x", function () {
                 return 5;
             })
-            // .attr("y", -20)
             .attr("dy", ".35em")
             .attr("stroke", "#8a8a8a")
-            // .attr("stroke", "blue")
             .text(function (d) {
                 return data.length;
             });
+
+        //selectAllData function
+        svg.selectAll(".selection")
+            .on("contextmenu", seletAllData, true);
+
 
         // animate button
         let animateButton = svg.append("g")
@@ -251,7 +249,7 @@
                     return d;
                 }
             });
-            polyCube.updatePC(selectedData);
+            polyCube.updatePC(selectedData, 6, true);
 
             //update global variable
             chosenData = selectedData;
@@ -334,7 +332,7 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            polyCube.updatePC(selectedData);
+            polyCube.updatePC(selectedData, 6, false);
 
             if (!checkSelect) {
                 chosenData = selectedData;
@@ -345,6 +343,24 @@
          * Animate brush from A to B
          * http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
          */
+
+        function seletAllData() {
+            // polyCube.updatePC(data, 6);
+
+            d3.event.preventDefault();
+
+            let ustart = new Date(window.dateExUnix[0] * 1000);
+            let uend = new Date(window.dateExUnix[1] * 1000);
+
+            // console.log("Brushed");
+            // console.log(ustart);
+            // console.log(uend);
+
+
+            //move brush
+            svg.select(".brush").call(brush.move, [height - (height - y(uend)), height - (height - y(ustart))]);
+
+        }
 
         // animate briush from a to b
         function animateBrush() {
@@ -364,56 +380,40 @@
         }
 
         var animateTimer = function (times = 36, gap = 1) {
-            var i = 1;
+            let i = 1;
             let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-1);
             let uend = ustart.addMonths(gap);
             let defaultData = data;
 
-            //update select from brush list
-            if (chosenData) {
-                defaultData = chosenData;
-            }
+                //update select from brush list
+                if (chosenData) {
+                    defaultData = chosenData;
+                }
+                for (let x = 0; x < times; x++) {
+                    setTimeout(function () {
 
-            for (let x = 0; x < times; x++) {
-                setTimeout(function () {
+                        //for brush labels only
+                        let unewStart = ustart.addMonths(++i);
+                        let unewEnd = uend.addMonths(+i);
 
-                    //start and end from chosenData extents
-                    // let newStart = start += gap;
-                    // let newEnd = end += gap;
+                        //for unix value
+                        let unixStart = +(unewStart / 1000).toFixed(0);
+                        let unixEnd = +(unewEnd / 1000).toFixed(0);
 
-                    //for brush labels only
-                    let unewStart = ustart.addMonths(++i);
-                    let unewEnd = uend.addMonths(+i);
+                        let selectedData = defaultData.filter(function (d) {
 
-                    //for unix value
-                    let unixStart = +(unewStart / 1000).toFixed(0);
-                    let unixEnd = +(unewEnd / 1000).toFixed(0);
+                            if (d.unix >= unixStart && d.unix <= unixEnd) {
+                                return d;
+                            }
+                        });
 
-                    // console.log(unixStart + " to " + unixEnd);
+                        polyCube.updatePC(selectedData, 6, false);
 
-                    // let selectedData = defaultData.filter(function (d) {
-                    //
-                    //     if (d.time >= newStart && d.time <= newEnd) {
-                    //         return d;
-                    //     }
-                    // });
+                        //move brush
+                        svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
 
-                    let selectedData = defaultData.filter(function (d) {
-
-                        if (d.unix >= unixStart && d.unix <= unixEnd) {
-                            return d;
-                        }
-                    });
-
-                    polyCube.updatePC(selectedData, 6);
-
-                    //move brush
-                    // svg.select(".brush").call(brush.move, [height - (height - y(new Date(newEnd, 1, 1))), height - (height - y(new Date(newStart, 1, 1)))]);
-                    svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
-
-                }, 500 * x);
-            }
-
+                    }, 500 * x);
+                }
         };
         // animateTimer();
     }

@@ -54,7 +54,7 @@
     juxtaposition
 </button>
 
-<a class="button" target="_blank" href="split2.html">
+<a class="button" target="_blank" href="split.html">
     Split View
 </a>
 
@@ -88,12 +88,22 @@
         // test color
         d3.selectAll(".pointCloud")
             .classed("green_BG", false);
+
+        d3.selectAll(".tick")
+            .classed("notick", true)
+            .classed("tick", false);
+
         polyCube.superImpose();
     }
 
     function STC() {
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
+
+        d3.selectAll(".notick")
+            .classed("tick", true)
+            .classed("notick", false);
+
         polyCube.default();
     }
 
@@ -333,7 +343,6 @@
         // test color
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
-
 
         /**
          * Data UI Controls

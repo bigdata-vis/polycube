@@ -482,7 +482,7 @@
 
         overlapingData = datasets;
 
-        pCube.updatePC = function (datasets = datasets, jitter, color=false) {
+        pCube.updatePC = function (datasets = datasets, jitter) {
             // var image, interval, stc, object;
 
             /**
@@ -518,16 +518,11 @@
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
-
-                    if(color){
-                        // image.style.background = "#EDCA3A";
-                        image.className = "pointCloud green_BG";
-                    }else {
-                        image.style.background = colour(d.unix);
-                        // image.style.background = colour(d.time);
-                    }
+                    // image.style.background = colour(d.time);
                     // image.style.background = colour(d.unix);
+                    image.style.background = "#EDCA3A";
 
+                    // console.log(d);
 
                     // object.position.copy(position);
                     object.position.multiplyScalar(75);
@@ -608,7 +603,7 @@
 
             polyCube.render()
         };
-        pCube.updatePC(datasets,6);
+        pCube.updatePC(datasets);
 
         //pass datasets to overlapping function
         window.noicyData = datasets;
@@ -1965,7 +1960,7 @@
             // });
 
             var material = new THREE.LineDashedMaterial({
-                color: "#898989",
+                color: "#00b421",
                 linewidth: 10,
                 scale: 1,
                 dashSize: 1,
@@ -1990,12 +1985,10 @@
             glbox.add(line);
         };
 
-        if(layout === "STC" || layout === "JP" ){
-            drawLine(
-                new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-                new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
-            );
-        }
+        drawLine(
+            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+            new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
+        );
 
         // drawLine(
         //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),

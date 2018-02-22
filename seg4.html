@@ -39,18 +39,18 @@
 </div>
 
 
-<button class="button" type="button" onclick="polyCube.default()">
+
+<button class="button" type="button" onclick="STC()">
     space-time cube
 </button>
 
 <button class="button" type="button"
         onclick="
-        polyCube.superImpose();
-"> superimposition
+        SI()"> superimposition
 </button>
 
 <button class="button" type="button"
-        onclick="SI()">
+        onclick="JP()">
     juxtaposition
 </button>
 
@@ -58,7 +58,7 @@
     Split View
 </a>
 
-<a target="_blank" id="searchLink" ><p id="textTitle">i</p></a>
+<a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
 
 <!-- Trigger the Modal -->
@@ -74,15 +74,39 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/seg.js"></script>
+<script src="js/segAnim.js"></script>
 <script src="js/vis/brushSeg.js"></script>
 <!--<script src="js/vis/dotPlot.js"></script>-->
 
 <script>
 
-    function SI() {
+    function JP() {
         polyCube.juxstaPose();
     }
+
+    function SI() {
+        // test color
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", false);
+//
+//        d3.selectAll(".tick")
+//            .classed("notick", true)
+//            .classed("tick", false);
+
+        polyCube.superImpose();
+    }
+
+    function STC() {
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", true);
+//
+//        d3.selectAll(".notick")
+//            .classed("tick", true)
+//            .classed("notick", false);
+
+        polyCube.default();
+    }
+
 
     /**Merge the cut section into a mega structure
      * https://stackoverflow.com/questions/16105565/how-to-create-multiple-polygon-into-single-geometry-with-three-js

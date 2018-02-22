@@ -93,9 +93,19 @@ text {
 }
 
 .highlight{
-    width: 20px !important;
-    height: 20px !important;
+    width: 8px !important;
+    height: 8px !important;
+    /*transform: scale(2);*/
     background: #0273d4 !important;
+    z-index: -999;
+
+    stroke: #0273d4;
+    stroke-width:5px;
+    /*stroke-dasharray: 2,2;*/
+    /*stroke-linejoin: round;*/
+
+    /*-webkit-filter: drop-shadow( -5px -5px 5px #0273d4 );*/
+    /*filter: drop-shadow( -5px -5px 5px #0273d4 );*/
 }
 
 
@@ -155,10 +165,16 @@ input:focus {
     stroke: #353636;
 }
 
-.axis--y .domain,
+/*.axis--y .domain,*/
 .tick text {
-    /*fill: #353636;*/
+    fill: #EDCA3A;
 }
+
+/*.axis--y .domain,*/
+.notick text {
+    /*fill: #353636 !important;*/
+}
+
 
 .axis--grid .tick--minor line {
     stroke-opacity: .5;

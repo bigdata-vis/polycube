@@ -136,7 +136,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 10
+                    radius: (x(d.x1) - x(d.x0)) / 9
                 }
             }))
             .enter()
@@ -173,7 +173,7 @@
                     idx: i,
                     name: p.Name,
                     value: p.Value,
-                    radius: (x(d.x1) - x(d.x0)) / 10
+                    radius: (x(d.x1) - x(d.x0)) / 9
                 }
             }));
 
@@ -240,14 +240,11 @@
 
         let selectedData = window.data.filter(function (p) {
             // console.log(d)
-            // console.log(p)
             if (p.IU_Archives_Number === d.name) {
-            // if (p.IU_Archives_Number < d.name) {
-                // console.log(p);
                 return p;
             }
         });
-        // polyCube.updatePC(selectedData);
+
         polyCube.highlightNodes(selectedData);
 
         //highlight dotted selection

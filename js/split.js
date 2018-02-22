@@ -2010,7 +2010,7 @@
             geometry.vertices.push(
                 vec1, vec2
             );
-            geometry.computeLineDistances();
+            // geometry.computeLineDistances();
 
             var line = new THREE.Line(geometry, material);
 
@@ -2022,10 +2022,12 @@
             glbox.add(line);
         };
 
-        drawLine(
-            new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
-            new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
-        );
+        if(layout === "STC" || layout === "JP" ){
+            drawLine(
+                new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
+                new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
+            );
+        }
 
         // drawLine(
         //     new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
