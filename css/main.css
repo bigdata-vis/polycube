@@ -97,7 +97,7 @@ text {
     height: 8px !important;
     /*transform: scale(2);*/
     background: #0273d4 !important;
-    z-index: -999;
+    z-index: -9;
 
     stroke: #0273d4;
     stroke-width:5px;
@@ -280,6 +280,23 @@ input:focus {
     overflow-x: hidden;
     max-width: 246px;
     height: auto;
+}
+
+.close-info{
+    /*width: 200px;*/
+    /*color: white;*/
+    position: relative;
+    top: 180px;
+    /*left: 60px;*/
+    z-index: 99;
+    margin-bottom: 40px;
+    float: right;
+    margin-right: 10px;
+    overflow-x: hidden;
+    /*max-width: 246px;*/
+    /*width: 246px;*/
+    text-align: left;
+    color: #7b7b7b;
 }
 
 .segLabel {

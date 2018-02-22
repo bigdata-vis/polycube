@@ -476,7 +476,7 @@
 
         overlapingData = datasets;
 
-        pCube.updatePC = function (datasets = datasets) {
+        pCube.updatePC = function (datasets = datasets, jitter = 6) {
 
             // var image, interval, stc, object;
 
@@ -530,8 +530,17 @@
                     } else {
                         object.position.y = timeLinear(d.unix); //for unix date
                     }
-                    object.position.z = coord[1];
-                    object.position.x = coord[0];
+
+                    if (jitter) {
+                        object.position.z = coord[1] + getRandomInt(-jitter, jitter);
+                        object.position.x = coord[0] + getRandomInt(-jitter, jitter);
+                    } else {
+                        object.position.z = coord[1];
+                        object.position.x = coord[0];
+                    }
+
+                    // object.position.z = coord[1];
+                    // object.position.x = coord[0];
 
                     // update matrix off on exit
                     object.matrixAutoUpdate = false;

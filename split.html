@@ -58,6 +58,8 @@
     <div class="right-pane" id="right-pane">
 
         <p id="textTitle">i</p>
+        <a style="cursor: pointer" class="close-info">&times;</a>
+
         <img id="dataImage" src="#" alt="" width="300" height="200">
 
         <div style="top: 22%; position: absolute;">
@@ -484,9 +486,12 @@
 
 </script>
 
+
 <script>
     // Get the modal
     let modal = document.getElementById('myModal');
+    let threejsBox = document.getElementById('CSSLayoutBox');
+
 
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     let img = document.getElementById('dataImage');
@@ -502,6 +507,7 @@
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    let spanCloseInfo = document.getElementsByClassName("close-info")[0];
     let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
@@ -511,7 +517,15 @@
 
     closeModal.onclick = function () {
         modal.style.display = "none";
-    }
+    };
+
+    spanCloseInfo.onclick = function () {
+//        console.log(img);
+        img.src = "";
+        imgDetails.innerHTML = ""
+    };
+
+
 </script>
 
 

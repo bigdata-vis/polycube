@@ -29,21 +29,11 @@
     };
 
     function init() {
-        // console.log(window.dateTestEx);
-        // console.log(window.dateExUnix);
-        // console.log(new Date(window.dateExUnix[0] * 1000));
-
-        // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
-        // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
         let margin = {top: 20, right: 0, bottom: 50, left: 0},
             width = 70 - margin.left - margin.right,
             height = rightPane.offsetWidth - margin.top - margin.bottom;
-
-        //
-        // width = rightPane.offsetWidth - margin.left - margin.right,
-        //     height = rightPane.offsetHeight - margin.top - margin.bottom;
 
         let y = d3.scaleTime() //todo: pass the date range from datasets for polycube
             .domain(dateRange)
@@ -62,8 +52,6 @@
         // define the area
         let area = d3.area()
             .y(d => {
-                // console.log(y(new Date(d.date * 1000)));
-                // return y(new Date(d.date, 1, 1))
                 return y(new Date(d.date * 1000));
             })
             .x0(0)
@@ -74,7 +62,6 @@
 
         let line = d3.line()
             .y(d => {
-                // return y(new Date(d.date, 1, 1))
                 return y(new Date(d.date * 1000))
             })
             .x(d => {
@@ -92,7 +79,7 @@
         let svg = d3.select("#timeLine")
         // .style("top", (100) + "px")
         // .style("right", (-60) + "px")
-        .style("position", "relative")
+            .style("position", "relative")
             .append("svg")
             .style("z-index", "999")
             // .style("width", "100px")
@@ -104,11 +91,12 @@
         //y axis2
         svg.append("g")
             .attr("class", "axis2 axis--y2")
-            .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+            // .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+            .attr("transform", "translate(" + 0 + "," + 10 + ")")
             .call(d3.axisLeft(y)
                 .ticks(d3.timeMonth)
                 // .ticks(d3.timeYear) //khm
-                .tickSize(-width)
+                .tickSize(-width/4)
                 .tickFormat(function () {
                     return null;
                 }))
@@ -120,13 +108,14 @@
         //axis
         svg.append("g")
             .attr("class", "axis axis--y")
+            // .attr("transform", "translate(" + margin.left + "," + 8 + ")")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
                     .tickFormat(function (date) {
                         if (d3.timeYear(date) < date) {
-                            return d3.timeFormat('%b')(date);
+                            return d3.timeFormat('-----%b')(date);
                         } else {
-                            return d3.timeFormat('%b%Y')(date);
+                            return d3.timeFormat('-----%b%Y')(date);
                         }
                     })
                 // .ticks(d3.timeMonth)
@@ -168,6 +157,7 @@
             .attr("fill", "none");
         //     .style("fill", "url(#gradient)");
 
+        //brush
         svg.append("g")
             .attr("class", "brush")
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
@@ -184,6 +174,10 @@
             .text(function (d) {
                 return data.length;
             });
+
+        //selectAllData function
+        svg.selectAll(".selection")
+            .on("contextmenu", seletAllData, true);
 
         // animate button
         let animateButton = svg.append("g")
@@ -355,6 +349,25 @@
          * Animate brush from A to B
          * http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
          */
+
+        function seletAllData() {
+            // polyCube.updatePC(data, 6);
+
+            d3.event.preventDefault();
+
+            let ustart = new Date(window.dateExUnix[0] * 1000);
+            let uend = new Date(window.dateExUnix[1] * 1000);
+
+            // console.log("Brushed");
+            // console.log(ustart);
+            // console.log(uend);
+
+
+            //move brush
+            svg.select(".brush").call(brush.move, [height - (height - y(uend)), height - (height - y(ustart))]);
+
+        }
+
 
         // animate briush from a to b
         function animateBrush() {

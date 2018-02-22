@@ -59,6 +59,8 @@
 
 <a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
 <!--<img id="dataImage" src="#">-->
+<a style="cursor: pointer" class="close-info">&times;</a>
+
 
 <!-- Trigger the Modal -->
 <img id="dataImage" src="#" alt="" width="300" height="200">
@@ -432,6 +434,8 @@
 <script>
     // Get the modal
     let modal = document.getElementById('myModal');
+    let threejsBox = document.getElementById('CSSLayoutBox');
+
 
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     let img = document.getElementById('dataImage');
@@ -447,6 +451,7 @@
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    let spanCloseInfo = document.getElementsByClassName("close-info")[0];
     let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
@@ -456,7 +461,15 @@
 
     closeModal.onclick = function () {
         modal.style.display = "none";
-    }
+    };
+
+    spanCloseInfo.onclick = function () {
+//        console.log(img);
+        img.src = "";
+        imgDetails.innerHTML = ""
+    };
+
+
 </script>
 
 </body>

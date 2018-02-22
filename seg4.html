@@ -19,7 +19,7 @@
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
     <style>
-        .select{
+        .select {
             display: none;
         }
     </style>
@@ -37,7 +37,6 @@
     <!-- Modal Caption (Image Text) -->
     <div id="caption"></div>
 </div>
-
 
 
 <button class="button" type="button" onclick="STC()">
@@ -58,7 +57,12 @@
     Split View
 </a>
 
-<a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
+
+
+<a id="searchLink" target="_blank"><p id="textTitle"> i</p></a>
+
+<a style="cursor: pointer" class="close-info">&times;</a>
+
 <!--<img id="dataImage" src="#">-->
 
 <!-- Trigger the Modal -->
@@ -433,6 +437,8 @@
 <script>
     // Get the modal
     let modal = document.getElementById('myModal');
+    let threejsBox = document.getElementById('CSSLayoutBox');
+
 
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     let img = document.getElementById('dataImage');
@@ -448,6 +454,7 @@
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    let spanCloseInfo = document.getElementsByClassName("close-info")[0];
     let closeModal = document.getElementsByClassName("modal")[0];
 
     // When the user clicks on <span> (x), close the modal
@@ -457,7 +464,15 @@
 
     closeModal.onclick = function () {
         modal.style.display = "none";
-    }
+    };
+
+    spanCloseInfo.onclick = function () {
+//        console.log(img);
+        img.src = "";
+        imgDetails.innerHTML = ""
+    };
+
+
 </script>
 
 </body>

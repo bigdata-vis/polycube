@@ -28,13 +28,13 @@
         // width = 550 - margin.left - margin.right,
         width = rightPane.offsetWidth - margin.left - margin.right,
         // height = 480 - margin.top - margin.bottom;
-        height = rightPane.offsetHeight/2 - margin.top - margin.bottom;
+        height = rightPane.offsetHeight / 2 - margin.top - margin.bottom;
 
     //set up svg
     const svg = d3.select("#dotPlot")
-    .style("top", (80) + "px")
-    // .style("right", (-60) + "px")
-    .style("position", "relative")
+        .style("top", (80) + "px")
+        // .style("right", (-60) + "px")
+        .style("position", "relative")
         .append("svg")
         .style("z-index", "999")
         .attr("width", width + margin.left + margin.right)
@@ -56,6 +56,7 @@
 
     //number of bins for histogram
     const nbins = 36;
+
     // const nbins = 72;
 
     function initDotPlot() {
@@ -120,7 +121,7 @@
             .attr("class", "gBin")
             // .attr("transform", d => `translate(${x(d.x0)}, ${height})`);
             .attr("transform", function (d) {
-                return "translate(" + x(d.x0) + "," + height +")"
+                return "translate(" + x(d.x0) + "," + height + ")"
             });
 
         //need to populate the bin containers with data the first time
@@ -157,9 +158,9 @@
             });
 
         binContainerEnter.merge(binContainer)
-            // .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
+        // .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
             .attr("transform", function (d) {
-                return "translate(" + x(d.x0) + "," + height +")"
+                return "translate(" + x(d.x0) + "," + height + ")"
             });
 
         //enter/update/exit for circles, inside each container
@@ -245,10 +246,13 @@
             }
         });
 
+        //delay highlight to refresh cube
+        // polyCube.updatePC(window.data);
         polyCube.highlightNodes(selectedData);
 
         //highlight dotted selection
         d3.select(this).classed("highlightDot", true);
+
     }//tooltipOn
 
     function tooltipOff(d) {
