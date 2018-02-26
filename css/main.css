@@ -51,7 +51,7 @@ canvas {
 
 text {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /*font-size: 10px;*/
+    font-size: 10px;
     pointer-events: none;
 }
 
@@ -93,8 +93,8 @@ text {
 }
 
 .highlight{
-    width: 8px !important;
-    height: 8px !important;
+    width: 20px !important;
+    height: 20px !important;
     /*transform: scale(2);*/
     background: #0273d4 !important;
     z-index: -9;
@@ -221,7 +221,28 @@ input:focus {
     font: 10px sans-serif;
 }
 
-.button {
+button.button  {
+    background-color: #999a9a; /* Green */
+    border: none;
+    color: white;
+    width: 150px;
+    /*padding: 15px 32px;*/
+    /*text-align: center;*/
+    /*text-decoration: none;*/
+    /*display: inline-block;*/
+    font-size: 12px;
+
+    position: relative;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+    display: inline-block;
+    text-align: center;
+    text-decoration:none;
+}
+
+
+a.button  {
     background-color: #999a9a; /* Green */
     border: none;
     color: white;

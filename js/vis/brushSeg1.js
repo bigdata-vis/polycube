@@ -82,9 +82,9 @@
         let svg = d3.select("#timeLine")
             .style("position", "absolute")
             .style("z-index", "999")
-            .style("width", "180px")
+            .style("width", "150px")
             .append("svg")
-            .attr("width", width + margin.left + margin.right + margin.right)
+            .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -122,7 +122,7 @@
             )
             .attr("text-anchor", null)
             .selectAll("text")
-            .attr("x", 10)
+            .attr("x", 0)
             .attr("fill", function (d) {
                 let year = (d / 1000).toFixed(0);
                 let colorScale = window.colorScale;
@@ -173,7 +173,6 @@
             .on("contextmenu", seletAllData, true);
 
 
-
         // animate button
         let animateButton = svg.append("g")
             .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")")
@@ -217,7 +216,6 @@
             });
 
         function brushened() {
-
             if (!d3.event.sourceEvent) return; // Only transition after input.
             if (!d3.event.selection) return; // Ignore empty selections.
 
@@ -262,7 +260,6 @@
 
             //update dotplot selection
             //cleanup
-            d3.selectAll(".closeButton").remove();
             d3.selectAll('.highlightDot').classed("highlightDot", false);
             d3.selectAll('.dotplot')  //here's how you get all the nodes
                 .each(function (dot) {
@@ -273,28 +270,6 @@
                         }
                     })
                 });
-
-            //
-
-
-            d3.selectAll(".brush")
-                .append("g")
-                .on("click", seletAllData, true)
-                .classed("closeButton", true)
-                .append("text")
-                .attr("y", function () {
-                    // let newy = d3.selectAll(".selection").attr("y");
-                    // console.log(+d3.selectAll(".selection").attr("y") + 60)
-                    return +d3.selectAll(".selection").attr("y") - 10;
-                })
-                .attr("x",width)
-                .attr("dy", ".35em")
-                .attr("stroke", "#8a8a8a")
-                .style("pointer-events", "visible")
-                .style("cursor", "zoom-out")
-                .text(function (d) {
-                    return "X";
-                })
         }
 
         function count() {
@@ -357,7 +332,7 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            polyCube.updatePC(selectedData, 6, false);
+            polyCube.updatePC(selectedData, 6);
 
             if (!checkSelect) {
                 chosenData = selectedData;
@@ -381,9 +356,10 @@
             // console.log(ustart);
             // console.log(uend);
 
+
             //move brush
             svg.select(".brush").call(brush.move, [height - (height - y(uend)), height - (height - y(ustart))]);
-            svg.select(".brush").call(brush.move, null);
+
         }
 
         // animate briush from a to b
@@ -431,7 +407,7 @@
                             }
                         });
 
-                        polyCube.updatePC(selectedData, 6, false);
+                        polyCube.updatePC(selectedData, 6);
 
                         //move brush
                         svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);

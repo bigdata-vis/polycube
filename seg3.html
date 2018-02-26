@@ -75,7 +75,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/seg.js"></script>
+<!--<script src="js/seg.js"></script>-->
+<script src="js/segAnim.js"></script>
 <script src="js/vis/brushSeg.js"></script>
 <!--<script src="js/vis/dotPlot.js"></script>-->
 
@@ -86,13 +87,13 @@
     }
 
     function SI() {
-        // test color
-        d3.selectAll(".pointCloud")
-            .classed("green_BG", false);
-
-        d3.selectAll(".tick")
-            .classed("notick", true)
-            .classed("tick", false);
+//        // test color
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", false);
+//
+//        d3.selectAll(".tick")
+//            .classed("notick", true)
+//            .classed("tick", false);
 
         polyCube.superImpose();
     }
@@ -280,7 +281,7 @@
             colorScale: true,
             BG: "#000000",
             dataColor: "#ed7019",
-            mapColor: "#040404",
+            mapColor: "#fffef2",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -303,6 +304,8 @@
 
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
+
+
 
         /**
          * Data UI Controls

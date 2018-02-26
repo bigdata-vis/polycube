@@ -482,7 +482,7 @@
 
         overlapingData = datasets;
 
-        pCube.updatePC = function (datasets = datasets, jitter = 6) {
+        pCube.updatePC = function (datasets = datasets, jitter, color=false) {
             // var image, interval, stc, object;
 
             /**
@@ -518,11 +518,16 @@
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
-                    // image.style.background = colour(d.time);
-                    // image.style.background = colour(d.unix);
-                    image.style.background = "#EDCA3A";
 
-                    // console.log(d);
+                    // if(color){
+                    //     // image.style.background = "#EDCA3A";
+                    //     image.className = "pointCloud green_BG";
+                    // }else {
+                    //     image.style.background = colour(d.unix);
+                    //     // image.style.background = colour(d.time);
+                    // }
+                    image.style.background = colour(d.unix);
+
 
                     // object.position.copy(position);
                     object.position.multiplyScalar(75);
@@ -603,7 +608,7 @@
 
             polyCube.render()
         };
-        pCube.updatePC(datasets);
+        pCube.updatePC(datasets,6);
 
         //pass datasets to overlapping function
         window.noicyData = datasets;
@@ -1748,8 +1753,8 @@
             })
             .attr("fill", function (d) {
                 // console.log(d);
-                return colour(d.unix);
-                // return "#ed7019"
+                // return colour(d.unix);
+                return "#EDCA3A"
             })
             .on('click', function (d, i) {
                 // update elements
