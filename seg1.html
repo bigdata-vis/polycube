@@ -332,7 +332,7 @@
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
         let gui = new dat.GUI({});
-        gui.remember(params);
+//        gui.remember(params);
 
 
         d3.select("body")
@@ -379,9 +379,9 @@
 
         theme.addColor(params, 'mapColor').onChange(d => {
 
-//            d3.selectAll(".boundary")
-//                .classed("green_BG", false)
-//                .attr("fill", d);
+            d3.selectAll(".boundary")
+                .classed("green_BG", false)
+                .attr("fill", d);
 
 //            d3.selectAll(".tick text")
 //                .classed("green_BG", false)
@@ -389,7 +389,6 @@
 
         });
 
-        gui.remember(params);
 
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {
