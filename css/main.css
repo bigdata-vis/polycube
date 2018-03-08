@@ -93,8 +93,8 @@ text {
 }
 
 .highlight{
-    /*width: 20px !important;*/
-    /*height: 20px !important;*/
+    width: 15px !important;
+    height: 15px !important;
     /*transform: scale(2);*/
     background: #0273d4 !important;
     /*z-index: -1;*/
@@ -112,6 +112,10 @@ text {
 
 .highlightDot{
     fill: #0273d4 !important;
+}
+
+.brownDot{
+    fill: #462015 !important;
 }
 
 .noHighlight{
@@ -272,7 +276,7 @@ a.button  {
 }
 
 #searchLink {
-    font-size: small;
+    /*font-size: small;*/
 }
 
 #textTitle {

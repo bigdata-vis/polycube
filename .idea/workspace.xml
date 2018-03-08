@@ -4,18 +4,7 @@
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/seg.js" afterPath="$PROJECT_DIR$/js/seg.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/segcolor.js" afterPath="$PROJECT_DIR$/js/segcolor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/split.js" afterPath="$PROJECT_DIR$/js/split.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushSeg.js" afterPath="$PROJECT_DIR$/js/vis/brushSeg.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg1.html" afterPath="$PROJECT_DIR$/seg1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg2.html" afterPath="$PROJECT_DIR$/seg2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg3.html" afterPath="$PROJECT_DIR$/seg3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg4.html" afterPath="$PROJECT_DIR$/seg4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split.html" afterPath="$PROJECT_DIR$/split.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split2.html" afterPath="$PROJECT_DIR$/split2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split3.html" afterPath="$PROJECT_DIR$/split3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split4.html" afterPath="$PROJECT_DIR$/split4.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/vis/brushSeg2.js" afterPath="$PROJECT_DIR$/js/vis/brushSeg2.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,8 +65,8 @@
       <file leaf-file-name="split.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/split.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
+            <state relative-caret-position="247">
+              <caret line="105" column="0" lean-forward="true" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding>
                 <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="e#13388#13967#0" expanded="false" />
@@ -89,11 +78,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="split.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="brushSeg2.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/vis/brushSeg2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="321">
+              <caret line="271" column="38" lean-forward="true" selection-start-line="271" selection-start-column="38" selection-end-line="271" selection-end-column="38" />
+              <folding>
+                <element signature="e#4117#4333#0" expanded="false" />
+                <element signature="e#9425#10462#0" expanded="false" />
+                <element signature="e#10498#11238#0" expanded="false" />
+                <element signature="e#11401#11873#0" expanded="false" />
+                <element signature="e#11946#12670#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="split.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/split.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="514" column="51" lean-forward="true" selection-start-line="514" selection-start-column="51" selection-end-line="514" selection-end-column="51" />
+            <state relative-caret-position="286">
+              <caret line="517" column="0" lean-forward="true" selection-start-line="517" selection-start-column="0" selection-end-line="517" selection-end-column="0" />
               <folding>
                 <element signature="e#65538#65756#0" expanded="false" />
               </folding>
@@ -104,8 +109,8 @@
       <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="367" column="21" lean-forward="true" selection-start-line="367" selection-start-column="21" selection-end-line="367" selection-end-column="29" />
+            <state relative-caret-position="222">
+              <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -141,7 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>polycube.updatePc</find>
       <find>colour</find>
       <find>elements_child</find>
       <find>display: none;</find>
@@ -161,9 +165,7 @@
       <find>layout</find>
       <find>high</find>
       <find>updatePC</find>
-      <find>highlightDot</find>
       <find>.highlightDot</find>
-      <find>highlight</find>
       <find>width</find>
       <find>.highlight</find>
       <find>animateButton</find>
@@ -171,6 +173,9 @@
       <find>.boundary</find>
       <find>green</find>
       <find>green_</find>
+      <find>textTitle</find>
+      <find>highlight</find>
+      <find>highlightDot</find>
     </findStrings>
     <replaceStrings>
       <replace>noverlap</replace>
@@ -219,7 +224,6 @@
         <option value="$PROJECT_DIR$/legacy/map.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/split.css" />
-        <option value="$PROJECT_DIR$/js/vis/brushSeg2.js" />
         <option value="$PROJECT_DIR$/js/vis/dotPlot.js" />
         <option value="$PROJECT_DIR$/js/vis/brushSeg1.js" />
         <option value="$PROJECT_DIR$/js/seg1.js" />
@@ -234,10 +238,11 @@
         <option value="$PROJECT_DIR$/js/vis/brushSeg.js" />
         <option value="$PROJECT_DIR$/js/seg.js" />
         <option value="$PROJECT_DIR$/seg2.html" />
-        <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/split.html" />
         <option value="$PROJECT_DIR$/seg1.html" />
         <option value="$PROJECT_DIR$/js/split.js" />
+        <option value="$PROJECT_DIR$/css/main.css" />
+        <option value="$PROJECT_DIR$/js/vis/brushSeg2.js" />
       </list>
     </option>
   </component>
@@ -287,6 +292,12 @@
               <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
               <item name="polycube" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
+              <item name="polycube" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="vis" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1126,12 +1137,12 @@
       <workItem from="1519389252007" duration="490000" />
       <workItem from="1519637499643" duration="16230000" />
       <workItem from="1519824924003" duration="1079000" />
-      <workItem from="1520412116965" duration="15608000" />
+      <workItem from="1520412116965" duration="17262000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1171528000" />
+    <option name="totallyTimeSpent" value="1173182000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1408,21 +1419,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/vis/brushSeg2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="171" column="38" lean-forward="true" selection-start-line="171" selection-start-column="38" selection-end-line="171" selection-end-column="38" />
-          <folding>
-            <element signature="e#4117#4333#0" expanded="false" />
-            <element signature="e#7063#9258#0" expanded="false" />
-            <element signature="e#9285#10322#0" expanded="false" />
-            <element signature="e#10358#11098#0" expanded="false" />
-            <element signature="e#11261#11733#0" expanded="false" />
-            <element signature="e#11806#12530#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/resources/html5-schema/html5/phrase.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -1607,28 +1603,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="367" column="21" lean-forward="true" selection-start-line="367" selection-start-column="21" selection-end-line="367" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/split.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
-          <folding>
-            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#13388#13967#0" expanded="false" />
-            <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#16762#16807#0" expanded="false" />
-            <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/seg1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="211">
@@ -1656,10 +1630,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/split.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="514" column="51" lean-forward="true" selection-start-line="514" selection-start-column="51" selection-end-line="514" selection-end-column="51" />
+        <state relative-caret-position="286">
+          <caret line="517" column="0" lean-forward="true" selection-start-line="517" selection-start-column="0" selection-end-line="517" selection-end-column="0" />
           <folding>
             <element signature="e#65538#65756#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/split.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="105" column="0" lean-forward="true" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding>
+            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#13388#13967#0" expanded="false" />
+            <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#16762#16807#0" expanded="false" />
+            <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="116" column="0" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/vis/brushSeg2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="271" column="38" lean-forward="true" selection-start-line="271" selection-start-column="38" selection-end-line="271" selection-end-column="38" />
+          <folding>
+            <element signature="e#4117#4333#0" expanded="false" />
+            <element signature="e#9425#10462#0" expanded="false" />
+            <element signature="e#10498#11238#0" expanded="false" />
+            <element signature="e#11401#11873#0" expanded="false" />
+            <element signature="e#11946#12670#0" expanded="false" />
           </folding>
         </state>
       </provider>

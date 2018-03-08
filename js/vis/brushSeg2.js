@@ -267,12 +267,14 @@
             //update dotplot selection
             //cleanup
             d3.selectAll('.highlightDot').classed("highlightDot", false);
+            d3.selectAll('.brownDot').classed("brownDot", false);
             d3.selectAll('.dotplot')  //here's how you get all the nodes
                 .each(function (dot) {
                     selectedData.map(d => {
                         if (d.IU_Archives_Number === dot.name) {
                             // console.log(d3.select(this));
-                            d3.select(this).classed("highlightDot", true);
+                            // d3.select(this).classed("highlightDot", true);
+                            d3.select(this).classed("brownDot", true);
                         }
                     })
                 });
