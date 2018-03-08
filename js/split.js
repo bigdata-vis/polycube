@@ -594,11 +594,13 @@
                         // console.log(d3.selectAll(".dotplot").data());
                         //cleanup
                         d3.selectAll('.highlightDot').classed("highlightDot", false);
+                        // d3.selectAll('.highlight').classed("highlight", false);
                         d3.selectAll('.dotplot')  //here's how you get all the nodes
                             .each(function(dot) {
                                 if(dot.name === d.IU_Archives_Number){
                                     // console.log(d3.select(this));
                                     d3.select(this).classed("highlightDot", true);
+                                    d3.select(this).classed("highlight", true);
                                 }
                             });
 
