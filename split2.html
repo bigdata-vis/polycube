@@ -315,7 +315,7 @@
          */
         var params = {
             Project: "Cushman Data",
-            Morphing: -250,
+//            Morphing: -250,
             showData: true,
             showNodes: false,
             noverlap: 0,
@@ -411,10 +411,10 @@
         });
 
         let Time = gui.addFolder("Time");
-        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-            var value = params.Morphing;
-            polyCube.morphing({axis: +value})
-        });
+//        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+//            var value = params.Morphing;
+//            polyCube.morphing({axis: +value})
+//        });
         Time.add(params, "colorScale").onChange(function () {
             var value = params.colorScale;
 

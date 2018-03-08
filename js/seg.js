@@ -515,8 +515,8 @@
                     object.matrixAutoUpdate = true;
                     // object.updateMatrix();
 
-                    image.style.width = 3 + "px";
-                    image.style.height = 3 + "px";
+                    image.style.width = 3.5 + "px";
+                    image.style.height = 3.5 + "px";
                     image.className = "pointCloud";
 
                     if(color){
@@ -526,7 +526,6 @@
                         image.style.background = colour(d.unix);
                         // image.style.background = colour(d.time);
                     }
-                    // image.style.background = colour(d.unix);
 
 
                     // object.position.copy(position);
@@ -608,7 +607,7 @@
 
             polyCube.render()
         };
-        pCube.updatePC(datasets,6);
+        pCube.updatePC(datasets,6, false);
 
         //pass datasets to overlapping function
         window.noicyData = datasets;
@@ -714,7 +713,7 @@
 
         pCube.render();
         layout = "STC";
-
+        window.layout = layout;
     };
 
     function addtoScene(d, i) {
@@ -940,6 +939,7 @@
         }
 
         layout = "STC";
+        window.layout = layout;
     };
 
     /**
@@ -1082,6 +1082,7 @@
             .start();
 
         layout = "JP";
+        window.layout = layout;
 
     };
 
@@ -1347,6 +1348,7 @@
         // camera.toOrthographic();
 
         layout = "SI";
+        window.layout = layout;
     };
 
     /**

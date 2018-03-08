@@ -513,7 +513,7 @@
                     image.style.width = 3 + "px";
                     image.style.height = 3 + "px";
                     image.className = "pointCloud";
-                    image.style.background = "#EDCA3A";
+                    image.style.background = "#462015";
                     // image.style.background = colour(d.unix);
 
                     // console.log(d);

@@ -173,11 +173,10 @@
             .on("contextmenu", seletAllData, true);
 
 
-
         // animate button
         let animateButton = svg.append("g")
             .attr("transform", "translate(" + 0 + "," + (height + 50 ) + ")")
-            .attr("class", "animateButton");
+            .attr("class", "animateButton hide");
 
         animateButton.append("rect")
             .attr("width", 40)
@@ -251,7 +250,16 @@
                     return d;
                 }
             });
-            polyCube.updatePC(selectedData, 6, true);
+
+            // console.log(window.layout);
+
+            //only use color in SI
+            if (window.layout === "SI") {
+                polyCube.updatePC(selectedData, 6, false);
+            } else {
+                polyCube.updatePC(selectedData, 6, true);
+            }
+
 
             //update global variable
             chosenData = selectedData;
@@ -287,7 +295,7 @@
                     // console.log(+d3.selectAll(".selection").attr("y") + 60)
                     return +d3.selectAll(".selection").attr("y") - 10;
                 })
-                .attr("x",width)
+                .attr("x", width)
                 .attr("dy", ".35em")
                 .attr("stroke", "#8a8a8a")
                 .style("pointer-events", "visible")
@@ -357,7 +365,7 @@
             d3.select(".brush_count")
                 .text(selectedData.length);
 
-            polyCube.updatePC(selectedData, 6, false);
+            polyCube.updatePC(selectedData, 6, true);
 
             if (!checkSelect) {
                 chosenData = selectedData;
@@ -387,21 +395,7 @@
         }
 
         // animate briush from a to b
-        function animateBrush() {
-            // our year will this.innerText
-            console.log(this.innerText);
 
-            // // define our brush extent to be begin and end of the year
-            // brush.extent([new Date(this.innerText + '-01-01'), new Date(this.innerText + '-12-31')]);
-            //
-            // // now draw the brush to match our extent
-            // // use transition to slow it down so we can see what is happening
-            // // remove transition so just d3.select(".brush") to just draw
-            // brush(d3.select(".brush").transition());
-            //
-            // // now fire the brushstart, brushmove, and brushend events
-            // brush.event(d3.select(".brush").transition().delay(1000))
-        }
 
         var animateTimer = function (times = 36, gap = 1) {
             let i = 1;
@@ -409,35 +403,45 @@
             let uend = ustart.addMonths(gap);
             let defaultData = data;
 
-                //update select from brush list
-                if (chosenData) {
-                    defaultData = chosenData;
-                }
-                for (let x = 0; x < times; x++) {
-                    setTimeout(function () {
+            // clean func
+            //default start and end
+            let defaultstart = new Date(window.dateExUnix[0] * 1000);
+            let defaultend = new Date(window.dateExUnix[1] * 1000);
 
-                        //for brush labels only
-                        let unewStart = ustart.addMonths(++i);
-                        let unewEnd = uend.addMonths(+i);
+            //start animation from begining by refreshing the screen
+            svg.select(".brush").call(brush.move, [height - (height - y(defaultend)), height - (height - y(defaultstart))]);
+            svg.select(".brush").call(brush.move, null);
 
-                        //for unix value
-                        let unixStart = +(unewStart / 1000).toFixed(0);
-                        let unixEnd = +(unewEnd / 1000).toFixed(0);
 
-                        let selectedData = defaultData.filter(function (d) {
+            //update select from brush list
+            if (chosenData) {
+                defaultData = chosenData;
+            }
+            for (let x = 0; x < times; x++) {
+                setTimeout(function () {
 
-                            if (d.unix >= unixStart && d.unix <= unixEnd) {
-                                return d;
-                            }
-                        });
+                    //for brush labels only
+                    let unewStart = ustart.addMonths(++i);
+                    let unewEnd = uend.addMonths(+i);
 
-                        polyCube.updatePC(selectedData, 6, false);
+                    //for unix value
+                    let unixStart = +(unewStart / 1000).toFixed(0);
+                    let unixEnd = +(unewEnd / 1000).toFixed(0);
 
-                        //move brush
-                        svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
+                    let selectedData = defaultData.filter(function (d) {
 
-                    }, 500 * x);
-                }
+                        if (d.unix >= unixStart && d.unix <= unixEnd) {
+                            return d;
+                        }
+                    });
+
+                    polyCube.updatePC(selectedData, 6, true);
+
+                    //move brush
+                    svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
+
+                }, 500 * x);
+            }
         };
         // animateTimer();
     }

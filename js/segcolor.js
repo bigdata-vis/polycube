@@ -1704,7 +1704,7 @@
 
         //states
         mapSVG.append("g")
-            .attr("class", "boundary state hidden")
+            .attr("class", "boundary state")
             .selectAll("boundary")
             .data(topojson.feature(data, data.objects.states).features)
             .enter().append("path")

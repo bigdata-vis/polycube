@@ -49,8 +49,8 @@
 </button>
 
 <button class="button" type="button"
-        onclick="JP()">
-    juxtaposition
+        onclick="AN()">
+    Animation
 </button>
 
 <a class="button" target="_blank" href="split2.html">
@@ -97,6 +97,23 @@
         polyCube.superImpose();
     }
 
+    function AN() {
+        // test color
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", false);
+//
+//        d3.selectAll(".tick")
+//            .classed("notick", true)
+//            .classed("tick", false);
+
+        d3.selectAll(".animateButton")
+            .classed("hide", false);
+
+        polyCube.superImpose();
+
+        window.layout = "AN";
+    }
+
     function STC() {
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
@@ -104,6 +121,9 @@
         d3.selectAll(".notick")
             .classed("tick", true)
             .classed("notick", false);
+
+        d3.selectAll(".animateButton")
+            .classed("hide", true);
 
         polyCube.default();
     }
@@ -272,11 +292,11 @@
          */
         var params = {
             Project: "Cushman Data",
-            Morphing: -250,
+//            Morphing: -250,
             showData: true,
             showNodes: false,
             noverlap: 0,
-            nodeSize: 3,
+            nodeSize: 3.5,
             colorScale: true,
             BG: "#000000",
             dataColor: "#EDCA3A",
@@ -285,6 +305,7 @@
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
         };
+
 
         d3.select("body")
             .style("background-color", params.BG);
@@ -308,6 +329,7 @@
 //
 //        d3.selectAll(".tick text")
 //            .style("fill", params.dataColor);
+
 
         /**
          * Data UI Controls
@@ -361,10 +383,10 @@
         });
 
         let Time = gui.addFolder("Time");
-        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-            var value = params.Morphing;
-            polyCube.morphing({axis: +value})
-        });
+//        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+//            var value = params.Morphing;
+//            polyCube.morphing({axis: +value})
+//        });
         Time.add(params, "colorScale").onChange(function () {
             var value = params.colorScale;
 

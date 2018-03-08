@@ -77,7 +77,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/segcolor.js"></script>
+<!--<script src="js/segcolor.js"></script>-->
+<script src="js/seg.js"></script>
 <script src="js/vis/brushSeg.js"></script>
 <!--<script src="js/vis/dotPlot.js"></script>-->
 
@@ -301,7 +302,6 @@
             return counts;
         }
 
-
         /**
          * Toggle PointCloud Data UI
          */
@@ -314,17 +314,17 @@
          */
         var params = {
             Project: "Cushman Data",
-            Morphing: -250,
+//            Morphing: -250,
             showData: true,
             showNodes: false,
             noverlap: 0,
             nodeSize: 3,
             colorScale: true,
-            BG: "#000000",
-            dataColor: "#ed7019",
-            mapColor: "#040404",
+            BG: "#f5efdf",
+            dataColor: "#462015",
+//            mapColor: "#040404",
+            mapColor: "#dec987",
             invert: false,
-//            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
         };
         /**
@@ -332,8 +332,7 @@
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
         let gui = new dat.GUI({});
-//        gui.remember(params);
-
+        gui.remember(params);
 
         d3.select("body")
             .style("background-color", params.BG);
@@ -347,12 +346,18 @@
         d3.selectAll(".screen_dots")
             .style("fill", "rgb(16, 49, 21)");
 
-        d3.selectAll(".elements_child").selectAll(".subunit")
-            .style("fill", "black");
+//        d3.selectAll(".elements_child").selectAll(".subunit")
+//            .style("fill", "black");
 
-        // test color
+//         Theme Color
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
+
+        d3.selectAll(".boundary")
+            .attr("fill", params.mapColor);
+
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", true);
 
 
 //        gui.add(params, 'Project').onFinishChange(function () {
@@ -389,7 +394,6 @@
 
         });
 
-
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {
                 d3.select("body")
@@ -400,12 +404,13 @@
             }
         });
 
-
         let Time = gui.addFolder("Time");
-        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-            var value = params.Morphing;
-            polyCube.morphing({axis: +value})
-        });
+//        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+//            var value = params.Morphing;
+//            if (value) {
+//                polyCube.morphing({axis: +value})
+//            }
+//        });
         Time.add(params, "colorScale").onChange(function () {
             var value = params.colorScale;
 
@@ -429,7 +434,6 @@
 
         }).name("Time Colour");
 
-
         let Space = gui.addFolder("Space");
         Space.add(params, "nodeSize").min(0.01).max(80).onChange(function () {
             var value = params.nodeSize;
@@ -451,12 +455,6 @@
             }
         });
 
-//        Space.add(params, "projection").min(10).max(2000).step(10).onFinishChange(function () {
-//            let value = params.projection;
-//            console.log(value);
-//        polyCube.updateMap(+value, window.geoMapData);
-//        });
-
         let Data = gui.addFolder("Data");
         Data.add(params, "showData").onChange(function () {
             var value = params.showData;
@@ -473,7 +471,6 @@
             }
 
         }).name("Show PC Data");
-
 
     }
 
