@@ -212,6 +212,7 @@
     function tooltipOn(d) {
         //clean up all highlightDot
         d3.selectAll(".highlightDot").classed("highlightDot", false);
+        d3.selectAll('.brownDot').classed("brownDot", false);
 
         //x position of parent g element
         // let gParent = d3.select(this.parentElement);
@@ -251,6 +252,7 @@
         polyCube.highlightNodes(selectedData);
 
         //highlight dotted selection
+        // d3.select(this).classed("brownDot", true);
         d3.select(this).classed("highlightDot", true);
 
     }//tooltipOn

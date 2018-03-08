@@ -50,8 +50,8 @@
 </button>
 
 <button class="button" type="button"
-        onclick="JP()">
-    juxtaposition
+        onclick="AN()">
+    Animation
 </button>
 
 <a class="button" target="_blank" href="split.html">
@@ -109,6 +109,19 @@
             .classed("notick", false);
 
         polyCube.default();
+    }
+
+    function AN() {
+        // test color
+
+        d3.selectAll(".animateButton")
+            .classed("hide", false);
+
+        polyCube.superImpose();
+
+        window.layout = "AN";
+
+
     }
 
     /**Merge the cut section into a mega structure
