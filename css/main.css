@@ -114,7 +114,7 @@ text {
     fill: #0273d4 !important;
 }
 
-.brownDot{
+.highlightDot{
     fill: #462015 !important;
 }
 
@@ -172,7 +172,8 @@ input:focus {
 
 /*.axis--y .domain,*/
 .tick text {
-    fill: #EDCA3A;
+    /*fill: #EDCA3A;*/
+    fill: #462015;
 }
 
 /*.axis--y .domain,*/
