@@ -495,7 +495,8 @@ a.button  {
 }
 
 .dotplot{
-    fill: #EDCA3A;
+    /*fill: #EDCA3A;*/
+    fill: #d37948;
 }
 
 .update {

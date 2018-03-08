@@ -273,7 +273,7 @@
                     selectedData.map(d => {
                         if (d.IU_Archives_Number === dot.name) {
                             // console.log(d3.select(this));
-                            // d3.select(this).classed("highlightDot", true);
+                            d3.select(this).classed("highlightDot", true);
                             d3.select(this).classed("brownDot", true);
                         }
                     })
