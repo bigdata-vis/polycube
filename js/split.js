@@ -28,6 +28,8 @@
     var svg;
 
     var formatTime = d3.timeFormat("%Y");
+    let formatDate = d3.timeFormat("%d %b %Y");
+    let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
 
     var projectionScale = 5000;
 
@@ -573,7 +575,7 @@
                         //Change image src
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                                "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                                "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                                 "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                             );
 
@@ -605,9 +607,6 @@
                             });
 
                     };
-
-
-
 
                     // lineList.push(object.position);
                     /**
@@ -1607,7 +1606,7 @@
                 // console.log(d);
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 
@@ -1784,7 +1783,7 @@
                 // update elements
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + d.Date + " </span> <br>" +
+                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                     );
 

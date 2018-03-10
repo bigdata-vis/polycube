@@ -111,8 +111,9 @@
         var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
 
         // let colour = d3.scaleOrdinal()
-        // colour = d3.scaleSequential(d3.interpolateBlues)
-        colour = d3.scaleSequential(d3.interpolateCool)
+        // colour = d3.scaleSequential(d3.interpolateRainbow)
+        // colour = d3.scaleSequential(d3.interpolateCool)
+        colour = d3.scaleSequential(d3.interpolateViridis)
         //     .domain([dateTestEx[0], dateTestEx[1]]);
             .domain(dateUnixEx);
 
