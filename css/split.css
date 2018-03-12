@@ -80,3 +80,19 @@ html, body {
     top: auto;
     left: auto;
 }
+
+.handle.handle--n{
+    cursor: ew-resize !important;
+}
+
+.handle.handle--n:target{
+    cursor: ew-resize !important;
+}
+
+.handle.handle--s{
+    cursor: ew-resize !important;
+}
+
+.handle.handle--s:target{
+    cursor: ew-resize !important;
+}

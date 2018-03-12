@@ -168,7 +168,7 @@
             .attr("dy", ".35em")
             .attr("stroke", "#8a8a8a")
             .text(function (d) {
-                return data.length;
+                return "objects: " + data.length;
             });
 
         //selectAllData function
@@ -269,7 +269,7 @@
 
             //update text count
             d3.select(".brush_count")
-                .text(selectedData.length);
+                .text("objects: " + selectedData.length);
 
             //update dotplot selection
             //cleanup
@@ -365,7 +365,7 @@
 
             //update data count
             d3.select(".brush_count")
-                .text(selectedData.length);
+                .text("objects: " + selectedData.length);
 
             polyCube.updatePC(selectedData, 6, true);
 
