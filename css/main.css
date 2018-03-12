@@ -179,9 +179,10 @@ input:focus {
 /*.axis--y .domain,*/
 .notick text {
     /*fill: #353636 !important;*/
-    /*stroke: black;*/
-    /*stroke-width: 0.1px;*/
-    font-size: 140%;
+    stroke: #525252;
+    stroke-width: 0.3px;
+    font-size: 120%;
+    font-weight: bold;
 }
 
 

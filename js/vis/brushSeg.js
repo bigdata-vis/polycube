@@ -162,6 +162,9 @@
             .attr("x", function () {
                 return 5;
             })
+            .attr("y", function () {
+                return -10;
+            })
             .attr("dy", ".35em")
             .attr("stroke", "#8a8a8a")
             .text(function (d) {
