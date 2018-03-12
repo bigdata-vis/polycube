@@ -294,7 +294,7 @@
                 .attr("dy", ".35em")
                 .attr("stroke", "#8a8a8a")
                 .style("pointer-events", "visible")
-                .style("cursor", "zoom-out")
+                .style("cursor", "pointer")
                 .text(function (d) {
                     return "X";
                 })
