@@ -294,11 +294,10 @@
                 .classed("closeButton", true)
                 .append("text")
                 .attr("y", function () {
-                    // let newy = d3.selectAll(".selection").attr("y");
-                    // console.log(+d3.selectAll(".selection").attr("y") + 60)
                     return +d3.selectAll(".selection").attr("y") - 10;
                 })
-                .attr("x", width)
+                // .attr("x", width-20)
+                .attr("x", 0)
                 .attr("dy", ".35em")
                 .attr("stroke", "#8a8a8a")
                 .style("pointer-events", "visible")

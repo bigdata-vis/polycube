@@ -266,6 +266,7 @@
 
             //update dotplot selection
             //cleanup
+            d3.selectAll(".closeButton").remove();
             d3.selectAll('.highlightDot').classed("highlightDot", false);
             d3.selectAll('.brownDot').classed("brownDot", false);
             d3.selectAll('.dotplot')  //here's how you get all the nodes
@@ -278,6 +279,26 @@
                         }
                     })
                 });
+
+            d3.selectAll(".brush")
+                .append("g")
+                .on("click", seletAllData, true)
+                .classed("closeButton", true)
+                .append("text")
+                .attr("y", function () {
+                    // let newy = d3.selectAll(".selection").attr("y");
+                    // console.log(+d3.selectAll(".selection").attr("y") + 60)
+                    return +d3.selectAll(".selection").attr("y") - 10;
+                })
+                .attr("x", 45)
+                .attr("dy", ".35em")
+                .attr("stroke", "#8a8a8a")
+                .style("pointer-events", "visible")
+                .style("cursor", "zoom-out")
+                .text(function (d) {
+                    return "X";
+                })
+
         }
 
         function count() {
