@@ -4,14 +4,6 @@
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg1.html" afterPath="$PROJECT_DIR$/seg1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg2.html" afterPath="$PROJECT_DIR$/seg2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg3.html" afterPath="$PROJECT_DIR$/seg3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg4.html" afterPath="$PROJECT_DIR$/seg4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split.html" afterPath="$PROJECT_DIR$/split.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split2.html" afterPath="$PROJECT_DIR$/split2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split3.html" afterPath="$PROJECT_DIR$/split3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split4.html" afterPath="$PROJECT_DIR$/split4.html" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -137,8 +129,8 @@
       <file leaf-file-name="main.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="182" column="24" lean-forward="true" selection-start-line="182" selection-start-column="24" selection-end-line="182" selection-end-column="24" />
+            <state relative-caret-position="157">
+              <caret line="179" column="14" lean-forward="true" selection-start-line="179" selection-start-column="14" selection-end-line="179" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -1147,12 +1139,12 @@
       <workItem from="1520412116965" duration="24458000" />
       <workItem from="1520686310633" duration="252000" />
       <workItem from="1520686945108" duration="1805000" />
-      <workItem from="1520843257934" duration="2511000" />
+      <workItem from="1520843257934" duration="3057000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1184946000" />
+    <option name="totallyTimeSpent" value="1185492000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1638,8 +1630,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="182" column="24" lean-forward="true" selection-start-line="182" selection-start-column="24" selection-end-line="182" selection-end-column="24" />
+        <state relative-caret-position="157">
+          <caret line="179" column="14" lean-forward="true" selection-start-line="179" selection-start-column="14" selection-end-line="179" selection-end-column="14" />
           <folding />
         </state>
       </provider>

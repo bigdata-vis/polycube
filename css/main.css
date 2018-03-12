@@ -180,7 +180,7 @@ input:focus {
 .notick text {
     /*fill: #353636 !important;*/
     stroke: black;
-    stroke-width: 0.4px;
+    stroke-width: 0.3px;
     font-size: 110%;
 }
 
