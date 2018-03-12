@@ -388,7 +388,7 @@
 
             //move brush
             svg.select(".brush").call(brush.move, [height - (height - y(uend)), height - (height - y(ustart))]);
-
+            svg.select(".brush").call(brush.move, null);
         }
 
 

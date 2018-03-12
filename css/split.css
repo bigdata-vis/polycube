@@ -1,6 +1,7 @@
 
 .axis--y .domain, .tick text {
     fill: #7c7c7c !important;
+    font-size: 120%;
 }
 
 .animateButton {
