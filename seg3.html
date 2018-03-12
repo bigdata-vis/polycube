@@ -49,8 +49,8 @@
 </button>
 
 <button class="button" type="button"
-        onclick="JP()">
-    juxtaposition
+        onclick="AN()">
+    Animation
 </button>
 
 <a class="button" target="_blank" href="split3.html">
@@ -75,8 +75,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<!--<script src="js/seg.js"></script>-->
-<script src="js/segAnim.js"></script>
+<script src="js/seg.js"></script>
+<!--<script src="js/segAnim.js"></script>-->
 <script src="js/vis/brushSeg.js"></script>
 <!--<script src="js/vis/dotPlot.js"></script>-->
 
@@ -87,13 +87,13 @@
     }
 
     function SI() {
-//        // test color
-//        d3.selectAll(".pointCloud")
-//            .classed("green_BG", false);
-//
-//        d3.selectAll(".tick")
-//            .classed("notick", true)
-//            .classed("tick", false);
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", false);
+
+        d3.selectAll(".tick")
+            .classed("notick", true)
+            .classed("tick", false);
 
         polyCube.superImpose();
     }
@@ -107,6 +107,16 @@
             .classed("notick", false);
 
         polyCube.default();
+    }
+
+    function AN() {
+
+        d3.selectAll(".animateButton")
+            .classed("hide", false);
+
+        polyCube.superImpose();
+
+        window.layout = "AN";
     }
 
     /**Merge the cut section into a mega structure
@@ -279,9 +289,11 @@
             noverlap: 0,
             nodeSize: 3,
             colorScale: true,
-            BG: "#000000",
-            dataColor: "#ed7019",
-            mapColor: "#fffef2",
+            BG: "#cac6ba",
+            dataColor: "#462015",
+//            mapColor: "#040404",
+//            mapColor: "#dec987",
+            mapColor: "#ffffff",
             invert: false,
 //            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
@@ -299,11 +311,15 @@
         d3.selectAll(".screen_dots")
             .style("fill", "rgb(16, 49, 21)");
 
-        d3.selectAll(".elements_child").selectAll(".subunit")
-            .style("fill", "black");
+//        d3.selectAll(".elements_child").selectAll(".subunit")
+//            .style("fill", "black");
 
+        //         Theme Color
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
+
+        d3.selectAll(".boundary")
+            .attr("fill", params.mapColor);
 
 
 

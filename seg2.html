@@ -296,13 +296,14 @@
             showData: true,
             showNodes: false,
             noverlap: 0,
-            nodeSize: 3.5,
+            nodeSize: 3,
             colorScale: true,
-            BG: "#000000",
-            dataColor: "#EDCA3A",
-            mapColor: "#040404",
+            BG: "#cac6ba",
+            dataColor: "#462015",
+//            mapColor: "#040404",
+//            mapColor: "#dec987",
+            mapColor: "#ffffff",
             invert: false,
-//            projection: 400,
             dataCategory: ['pizza', 'chrome', 'hooray']
         };
 
@@ -319,16 +320,15 @@
         d3.selectAll(".screen_dots")
             .style("fill", "rgb(16, 49, 21)");
 
-        d3.selectAll(".elements_child").selectAll(".subunit")
-            .style("fill", "black");
+//        d3.selectAll(".elements_child").selectAll(".subunit")
+//            .style("fill", "black");
 
-        // test color
+//         Theme Color
         d3.selectAll(".pointCloud")
             .classed("green_BG", true);
 
-//
-//        d3.selectAll(".tick text")
-//            .style("fill", params.dataColor);
+        d3.selectAll(".boundary")
+            .attr("fill", params.mapColor);
 
 
         /**
