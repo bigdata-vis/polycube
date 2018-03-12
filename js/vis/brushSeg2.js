@@ -298,7 +298,6 @@
                 .text(function (d) {
                     return "X";
                 })
-
         }
 
         function count() {
