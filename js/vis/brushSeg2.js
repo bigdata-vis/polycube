@@ -124,6 +124,7 @@
             .attr("text-anchor", null)
             .selectAll("text")
             .attr("x", 0)
+            .attr("y", -10)
             // .attr("class", "timelineTick")
             // .attr("fill", "#ffffff");
             .attr("fill", function (d) {
@@ -136,21 +137,6 @@
             });
         // .classed('timelineTick', true);
 
-        //area chart domain
-        // svg.select(".axis2")
-        //     .append("path")
-        //     // .attr("fill", "#ed7019")
-        //     // .attr("fill", "#ed7019")
-        //     .attr("fill", "#7b7b7b")
-        //     .attr("fill-opacity", 0.3)
-        //     .attr("d", area(count()));
-
-        // svg.select(".axis2").select(".domain")
-        //     .attr("fill", "none")
-        //     // .attr("stroke", "#ed7019")
-        //     .attr("stroke", "#7b7b7b")
-        //     .attr("stroke-width", "2")
-        //     .attr("d", line(count()));
 
         //legend domain
         svg.select(".axis").select(".domain")
