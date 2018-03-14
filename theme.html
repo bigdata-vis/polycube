@@ -18,28 +18,8 @@
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
-    <!--<link rel="stylesheet" id="styles-animations" href="css/theme.css">-->
-    <link rel="stylesheet" id="styles-animations" href="css/blue.css">
+    <link rel="stylesheet" href="css/theme.css">
     <style>
-        .select {
-            display: none;
-        }
-
-        canvas{
-            pointer-events:none;
-            z-index: 9;
-        }
-
-        .green_BG {
-            background-color: #426403 !important;
-            fill: #426403 !important;
-        }
-
-        /*timeline labels*/
-        .tick text {
-            fill: #426403;
-        }
-
 
     </style>
 </head>
@@ -364,10 +344,11 @@
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
         let gui = new dat.GUI({});
-//        gui.remember(params);
+        gui.remember(params);
 
         d3.select("body")
             .style("background-color", params.BG);
+
         d3.select("canvas")
             .style("background", "transparent");
 
@@ -387,8 +368,6 @@
 
         d3.selectAll(".boundary")
             .attr("fill", params.mapColor);
-
-        document.getElementById("styles-animations").disabled = true;
 
 //        d3.selectAll(".pointCloud")
 //            .classed("green_BG", true);
@@ -430,19 +409,13 @@
 
         theme.add(params, "invert").onFinishChange(d => {
             if (d) {
-//                d3.select("body")
-//                    .style("filter", "invert(100%)")
-
-                document.getElementById("styles-animations").disabled = false;
-
+                d3.select("body")
+                    .style("filter", "invert(100%)")
             } else {
-
-//                d3.select("body")
-//                    .style("filter", "invert(0%)")
-
-                document.getElementById("styles-animations").disabled = true;
+                d3.select("body")
+                    .style("filter", "invert(0%)")
             }
-        }).name("Toggle Theme");
+        });
 
         let Time = gui.addFolder("Time");
 //        Time.add(params, 'Morphing').min(-250).max(250).onChange(function () {

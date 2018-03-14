@@ -1,0 +1,31 @@
+body{
+    /*background-image: radial-gradient(circle, #231651, #231651, #231651, #231651, #231651);*/
+    /*background-image: radial-gradient(circle, #051937, #004d7a, #008793, #00bf72, #a8eb12);*/
+    /*background-image: radial-gradient(circle, #0c1f9f, #002586, #00256a, #00214c, #101c2e);*/
+    background-image: radial-gradient(circle, #0c154f, #041848, #041a40, #091c37, #101c2e);
+}
+
+/*point cloud*/
+.green_BG {
+    background-color: #FF8811 !important;
+    /*background-color: #26b180 !important;*/
+    fill: #FF8811 !important;
+    /*fill: #26b180 !important;*/
+}
+
+/*timeline labels*/
+.tick text {
+    fill: #FF8811;
+}
+
+/*map color*/
+.boundary {
+    fill: #0c154f !important;
+}
+/*map text color*/
+.subunit-label {
+    fill: #a2a2a2;
+    fill-opacity: 1;
+    font-size: 5px;
+    text-anchor: middle;
+}
