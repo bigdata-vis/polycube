@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/css/blue.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/css/theme.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/theme.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/seg1.html" afterPath="$PROJECT_DIR$/seg1.html" />
     </list>
     <ignored path="polycube.iws" />
@@ -40,13 +36,13 @@
       <file leaf-file-name="seg1.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/seg1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="26" column="8" lean-forward="false" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
+            <state relative-caret-position="226">
+              <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
               <folding>
-                <element signature="e#12962#13370#0" expanded="false" />
-                <element signature="e#12983#13170#0" expanded="false" />
-                <element signature="e#13730#14309#0" expanded="false" />
-                <element signature="e#14796#15173#0" expanded="false" />
+                <element signature="e#12982#13390#0" expanded="false" />
+                <element signature="e#13003#13190#0" expanded="false" />
+                <element signature="e#13750#14329#0" expanded="false" />
+                <element signature="e#14816#15193#0" expanded="false" />
                 <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
@@ -1134,12 +1130,12 @@
       <workItem from="1520686310633" duration="252000" />
       <workItem from="1520686945108" duration="1805000" />
       <workItem from="1520843257934" duration="12056000" />
-      <workItem from="1521021050175" duration="8047000" />
+      <workItem from="1521021050175" duration="8127000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1202538000" />
+    <option name="totallyTimeSpent" value="1202618000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1637,13 +1633,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/seg1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="26" column="8" lean-forward="false" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
+        <state relative-caret-position="226">
+          <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
           <folding>
-            <element signature="e#12962#13370#0" expanded="false" />
-            <element signature="e#12983#13170#0" expanded="false" />
-            <element signature="e#13730#14309#0" expanded="false" />
-            <element signature="e#14796#15173#0" expanded="false" />
+            <element signature="e#12982#13390#0" expanded="false" />
+            <element signature="e#13003#13190#0" expanded="false" />
+            <element signature="e#13750#14329#0" expanded="false" />
+            <element signature="e#14816#15193#0" expanded="false" />
             <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
