@@ -34,6 +34,7 @@ body {
 
 canvas {
     background: transparent;
+    /*canvas over html*/
     pointer-events:none;
     z-index: 9;
 
@@ -176,7 +177,8 @@ input:focus {
 /*.axis--y .domain,*/
 .tick text {
     /*fill: #EDCA3A;*/
-    fill: #462015;
+    /*fill: #462015;*/
+    fill: #c83409;
 }
 
 /*.axis--y .domain,*/
@@ -377,9 +379,11 @@ a.button  {
 
 .green_BG {
     /*background-color: #EDCA3A !important;*/
-    background-color: #462015 !important;
+    /*background-color: #462015 !important;*/
+    background-color: #c83409 !important;
     /*fill: #EDCA3A !important;*/
-    fill: #462015 !important;
+    /*fill: #462015 !important;*/
+    fill: #c83409 !important;
 }
 
 .no_BG {
