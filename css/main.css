@@ -387,6 +387,13 @@ a.button  {
     fill: #c83409 !important;
 }
 
+.dotplot{
+    /*fill: #EDCA3A;*/
+    /*fill: #886855;*/
+    fill: #c83409;
+    /*fill: #d37948;*/
+}
+
 .no_BG {
     /*background-color: #00b438 !important;*/
     background-color: #EDCA3A !important;
@@ -506,11 +513,6 @@ a.button  {
     fill: #EDCA3A;
 }
 
-.dotplot{
-    /*fill: #EDCA3A;*/
-    fill: #886855;
-    /*fill: #d37948;*/
-}
 
 .update {
     fill: #1FBAD6;

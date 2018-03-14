@@ -4,6 +4,11 @@
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/split.js" afterPath="$PROJECT_DIR$/js/split.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split.html" afterPath="$PROJECT_DIR$/split.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split2.html" afterPath="$PROJECT_DIR$/split2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split3.html" afterPath="$PROJECT_DIR$/split3.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/split4.html" afterPath="$PROJECT_DIR$/split4.html" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,12 +55,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="182" column="1" lean-forward="true" selection-start-line="182" selection-start-column="1" selection-end-line="182" selection-end-column="1" />
+            <state relative-caret-position="213">
+              <caret line="383" column="22" lean-forward="false" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="29" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="split4.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/split4.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="388">
+              <caret line="323" column="33" lean-forward="true" selection-start-line="323" selection-start-column="33" selection-end-line="323" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="split.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/split.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="520" column="0" lean-forward="true" selection-start-line="520" selection-start-column="0" selection-end-line="520" selection-end-column="0" />
+              <folding>
+                <element signature="e#18923#20953#0" expanded="false" />
+                <element signature="e#65918#66136#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,8 +111,8 @@
       <file leaf-file-name="split.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/split.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
+            <state relative-caret-position="188">
+              <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
               <folding>
                 <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -98,31 +126,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="split.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/split.js">
+      <file leaf-file-name="split2.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/split2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="52" />
+            <state relative-caret-position="208">
+              <caret line="324" column="33" lean-forward="true" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="33" />
               <folding>
-                <element signature="e#18864#20894#0" expanded="false" />
-                <element signature="e#65859#66077#0" expanded="false" />
+                <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="brushSeg2.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/vis/brushSeg2.js">
+      <file leaf-file-name="split3.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/split3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="125" column="25" lean-forward="false" selection-start-line="125" selection-start-column="25" selection-end-line="125" selection-end-column="25" />
-              <folding>
-                <element signature="e#4145#4361#0" expanded="false" />
-                <element signature="e#9710#10747#0" expanded="false" />
-                <element signature="e#10783#11523#0" expanded="false" />
-                <element signature="e#12287#13011#0" expanded="false" />
-                <element signature="e#13071#14968#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="340">
+              <caret line="324" column="33" lean-forward="true" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="33" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -152,7 +173,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pointCloud</find>
       <find>.boundary</find>
       <find>green</find>
       <find>highlightDot</find>
@@ -167,7 +187,6 @@
       <find>textTitle</find>
       <find>colour</find>
       <find>.notick text</find>
-      <find>dotplot</find>
       <find>superImpose</find>
       <find>.brush</find>
       <find>.tick text</find>
@@ -176,12 +195,14 @@
       <find>count</find>
       <find>brush_count</find>
       <find>closeButton</find>
-      <find>format</find>
       <find>green_BG</find>
       <find>boundary</find>
-      <find>green_bg</find>
       <find>tick text</find>
       <find>invert</find>
+      <find>dotplot</find>
+      <find>format</find>
+      <find>green_bg</find>
+      <find>#462015</find>
     </findStrings>
     <replaceStrings>
       <replace>noverlap</replace>
@@ -231,15 +252,10 @@
         <option value="$PROJECT_DIR$/data/worldUS.json" />
         <option value="$PROJECT_DIR$/js/segAnim.js" />
         <option value="$PROJECT_DIR$/js/segcolor.js" />
-        <option value="$PROJECT_DIR$/js/split.js" />
         <option value="$PROJECT_DIR$/js/seg.js" />
         <option value="$PROJECT_DIR$/seg2.html" />
         <option value="$PROJECT_DIR$/seg3.html" />
         <option value="$PROJECT_DIR$/seg4.html" />
-        <option value="$PROJECT_DIR$/split.html" />
-        <option value="$PROJECT_DIR$/split2.html" />
-        <option value="$PROJECT_DIR$/split3.html" />
-        <option value="$PROJECT_DIR$/split4.html" />
         <option value="$PROJECT_DIR$/css/split.css" />
         <option value="$PROJECT_DIR$/js/vis/dotPlot.js" />
         <option value="$PROJECT_DIR$/js/vis/brushSeg.js" />
@@ -249,6 +265,11 @@
         <option value="$PROJECT_DIR$/css/blue.css" />
         <option value="$PROJECT_DIR$/seg1.html" />
         <option value="$PROJECT_DIR$/css/main.css" />
+        <option value="$PROJECT_DIR$/js/split.js" />
+        <option value="$PROJECT_DIR$/split.html" />
+        <option value="$PROJECT_DIR$/split2.html" />
+        <option value="$PROJECT_DIR$/split3.html" />
+        <option value="$PROJECT_DIR$/split4.html" />
       </list>
     </option>
   </component>
@@ -1141,12 +1162,12 @@
       <workItem from="1520686310633" duration="252000" />
       <workItem from="1520686945108" duration="1805000" />
       <workItem from="1520843257934" duration="12056000" />
-      <workItem from="1521021050175" duration="10112000" />
+      <workItem from="1521021050175" duration="10730000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1204603000" />
+    <option name="totallyTimeSpent" value="1205221000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1501,27 +1522,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/split4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="351" column="0" lean-forward="true" selection-start-line="351" selection-start-column="0" selection-end-line="351" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/split3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="363" column="43" lean-forward="true" selection-start-line="333" selection-start-column="7" selection-end-line="363" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/split2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="363" column="43" lean-forward="true" selection-start-line="333" selection-start-column="5" selection-end-line="363" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/seg4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="77">
@@ -1544,17 +1544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/split.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="52" />
-          <folding>
-            <element signature="e#18864#20894#0" expanded="false" />
-            <element signature="e#65859#66077#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/vis/brushSeg.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -1564,14 +1553,6 @@
             <element signature="e#10390#11427#0" expanded="false" />
             <element signature="e#11463#12226#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/vis/dotPlot.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="242" column="14" lean-forward="false" selection-start-line="242" selection-start-column="14" selection-end-line="242" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1598,22 +1579,6 @@
             <element signature="e#6182#8567#0" expanded="false" />
             <element signature="e#11634#11735#0" expanded="false" />
             <element signature="e#11797#12060#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/split.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
-          <folding>
-            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#6385#8770#0" expanded="false" />
-            <element signature="e#13423#14002#0" expanded="false" />
-            <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#16797#16842#0" expanded="false" />
-            <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1648,10 +1613,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/vis/dotPlot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="242" column="14" lean-forward="false" selection-start-line="242" selection-start-column="14" selection-end-line="242" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="182" column="1" lean-forward="true" selection-start-line="182" selection-start-column="1" selection-end-line="182" selection-end-column="1" />
+        <state relative-caret-position="213">
+          <caret line="383" column="22" lean-forward="false" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/split.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="520" column="0" lean-forward="true" selection-start-line="520" selection-start-column="0" selection-end-line="520" selection-end-column="0" />
+          <folding>
+            <element signature="e#18923#20953#0" expanded="false" />
+            <element signature="e#65918#66136#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/split.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="323" column="26" lean-forward="true" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
+          <folding>
+            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#6385#8770#0" expanded="false" />
+            <element signature="e#13423#14002#0" expanded="false" />
+            <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#16797#16842#0" expanded="false" />
+            <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/split2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="324" column="33" lean-forward="true" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="33" />
+          <folding>
+            <element signature="n#script#8;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/split3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="324" column="33" lean-forward="true" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/split4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="323" column="33" lean-forward="true" selection-start-line="323" selection-start-column="33" selection-end-line="323" selection-end-column="33" />
           <folding />
         </state>
       </provider>
