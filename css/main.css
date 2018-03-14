@@ -34,6 +34,9 @@ body {
 
 canvas {
     background: transparent;
+    pointer-events:none;
+    z-index: 9;
+
 }
 
 .elements_child {
