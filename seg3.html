@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<script src="lib/three.js/three.min.js"></script>-->
-    <script src="//threejs.org/build/three.min.js"></script>
+    <!--<script src="//threejs.org/build/three.min.js"></script>-->
+    <script src="lib/three.js/threejs91.min.js"></script>
     <script src="lib/three.js/CombinedCamera.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
     <script src="lib/three.js/tween.js"></script>
-    <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+    <script src="lib/three.js/CSS3DRenderer.js"></script>
+    <!--<script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>-->
 
     <script src="lib/three.js/projector.js"></script>
     <script src="lib/three.js/SVGRenderer.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-          crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-            crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" class="stylesheet" id="blue" href="">
     <style>
-        .select{
+        .select {
             display: none;
         }
+
+        /*canvas over html*/
+
+        /*.green_BG {*/
+        /*!*background-color: #426403 !important;*!*/
+        /*!*background-color: #0075c8 !important;*!*/
+        /*background-color: #c83409 !important;*/
+        /*!*fill: #426403 !important;*!*/
+        /*!*fill: #0075c8 !important;*!*/
+        /*fill: #c83409 !important;*/
+        /*}*/
+
+        /*!*timeline labels*!*/
+        /*.tick text {*/
+        /*!*fill: #426403;*!*/
+        /*fill: #c83409;*/
+        /*}*/
+
+
     </style>
 </head>
 <body>
@@ -333,6 +347,11 @@
         }).name("PolyCube ©");
 
         let theme = gui.addFolder('Theme');
+
+        theme.add(params, 'dataCategory', ['default','blue', 'black', 'white']).onChange(d => {
+            d3.selectAll(".stylesheet").attr("href", "css/" + d + ".css");
+        }).name("Theme");
+
         theme.addColor(params, 'BG').onChange(d => {
             d3.select("body")
                 .style("background-color", d)
