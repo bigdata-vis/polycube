@@ -370,10 +370,12 @@
             // console.log(ustart);
             // console.log(uend);
 
-
             //move brush
             svg.select(".brush").call(brush.move, [height - (height - y(uend)), height - (height - y(ustart))]);
             svg.select(".brush").call(brush.move, null);
+
+            d3.selectAll('.highlightDot').classed("highlightDot", false);
+            // d3.selectAll('.brownDot').classed("brownDot", false);
         }
 
 
