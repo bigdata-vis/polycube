@@ -16,6 +16,7 @@ def data_clean_func(d):
 
 data_clean_func(data)
 
+
 # # crime count function
 # def count_types(nth, data_list):
 #     count_obj = {}

@@ -14,7 +14,6 @@
     let checkSelect = false;
 
     //animation
-    let z = 0;
     let animActive = false;
 
     Date.prototype.addMonths = function (m) {
@@ -406,7 +405,7 @@
             let ustart = new Date(window.dateExUnix[0] * 1000).addMonths(-1);
             let uend = ustart.addMonths(gap);
             let defaultData = data;
-            z = 0;
+            let z = 1;
 
             // clean func
             //default start and end
@@ -417,18 +416,30 @@
             svg.select(".brush").call(brush.move, [height - (height - y(defaultend)), height - (height - y(defaultstart))]);
             svg.select(".brush").call(brush.move, null);
 
-
             //update select from brush list
             if (chosenData) {
                 defaultData = chosenData;
             }
 
-            while (z < times){
-                setTimeout(function () {
+            let counterOn = true;
+            let delay = 500;
+            let lastRun;
+            let tempDelay;
+            let intervalId;
+            let max = 10;
+            let counter = 0;
+            // let inc = 1;
 
-                    //for brush labels only
-                    let unewStart = ustart.addMonths(++i);
-                    let unewEnd = uend.addMonths(+i);
+            function decrementCounter() {
+                if (counter < times) {
+                    // do something
+                    lastRun = new Date();
+                    // console.log(counter++);
+                    timeoutId = setTimeout(decrementCounter, delay);
+
+                    //animation run start
+                    let unewStart = ustart.addMonths(++counter);
+                    let unewEnd = uend.addMonths(+counter);
 
                     //for unix value
                     let unixStart = +(unewStart / 1000).toFixed(0);
@@ -445,14 +456,35 @@
 
                     //move brush
                     svg.select(".brush").call(brush.move, [height - (height - y(unewEnd)), height - (height - y(unewStart))]);
-
-                }, 500 * z);
-                z++;
+                    //animation run end
+                }
             }
 
+            function toggleCounter() {
+                var curTime = new Date();
+                counterOn = !counterOn;
+                if (counterOn) {
+                    lastRun = curTime.valueOf() + tempDelay - delay;
+                    timeoutId = setTimeout(decrementCounter, tempDelay);
+                } else {
+                    clearTimeout(timeoutId);
+                    tempDelay = delay - (curTime.valueOf() - lastRun);
+                    console.log("paused")
+                }
+            }
+
+            $(document).keydown(function (e) {
+                if (e.which === 80) {
+                    toggleCounter();
+                }
+            });
+
+            decrementCounter();
+
+
             // for (let x = 0; x < times; x++) {
-            //     setTimeout(function () {
             //
+            //     setTimeout(function () {
             //         //for brush labels only
             //         let unewStart = ustart.addMonths(++i);
             //         let unewEnd = uend.addMonths(+i);
@@ -475,6 +507,14 @@
             //
             //     }, 500 * x);
             // }
+
+
+            stopBTN.onclick = function () {
+                console.log("animation stooped");
+                toggleCounter();
+            };
+
+
         };
         // animateTimer();
     }

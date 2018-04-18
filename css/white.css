@@ -18,9 +18,10 @@ body{
     fill: #2347ff;
 }
 
+
 /*map color*/
 .boundary {
-    fill: #dcdcdc !important;
+    fill: #f3f3f3 !important;
 }
 /*map text color*/
 .subunit-label {

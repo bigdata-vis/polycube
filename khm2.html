@@ -100,7 +100,7 @@
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <!--<script src="js/segcolor.js"></script>-->
-<script src="js/seg.js"></script>
+<script src="js/segKhm.js"></script>
 <script src="js/vis/brushSegloop.js"></script>
 <!--<script src="js/vis/dotPlot.js"></script>-->
 
@@ -152,9 +152,9 @@
      * https://stackoverflow.com/questions/30245990/how-to-merge-two-geometries-or-meshes-using-three-js-r71
      **/
     d3.queue()
-    //            .defer(d3.json, "data/painting_gallery_clean.json")
+                .defer(d3.json, "data/painting_gallery_clean.json")
     //        .defer(d3.csv, "data/Cushman-Collection.csv")
-        .defer(d3.json, "data/cm.json")
+//        .defer(d3.json, "data/cm.json")
         //        .defer(d3.json, "data/land.topojson")
         .defer(d3.json, "data/worldUS.json")
         .await(init);
@@ -165,13 +165,12 @@
         //filter based on the dates segmentations
 //        console.log(data);
 
-        let seg1 = 1940, seg2 = 1946, seg3 = 1950, seg4 = 1977;
 
-        data.filter(function (d) {
-//            console.log(d);
-//            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-            return d.time <= seg1;
-        });
+//        data.filter(function (d) {
+////            console.log(d);
+////            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+//            return d.time <= seg1;
+//        });
 
         function tempRange(data, geoMap) {
 
@@ -193,20 +192,56 @@
 
 //          switch data
             function KHM() {
-                data.forEach(function (d, i) {
+                data.map(function (d, i) {
+
+
+                    //location only
                     d.long = d.location_data.country.lat;
                     d.lat = d.location_data.country.long;
 
-                    // console.log(+format2(parse4(d.Date)));
-                    d.time = parse5(d.time);
-                    d.time = +format2(d.time);
-                    d.description = d.Description_from_Slide_Mount;
-                    d.Image_URL = d.preview;
-
-//                    console.log(d.location_data.country)
+                    //                    console.log(d.location_data.country)
                     d.location = d.location_data.country.name;
 
+
+                    //year only
+                    d.time = parse5(d.time);
+                    d.time = +format2(d.time);
+
+                    //full date
+                    //get full date
+                    let full_date = new Date(d.time, 1, 1);
+
+                    d.description = d.lidoRecID;
+                    d.Image_URL = d.preview;
+
+                    d.unix = +(full_date / 1000).toFixed(0);
+
+                    console.log(d);
+
+                    let year = d.time;
+                    let time = d.time;
+                    let long = d.long;
+                    let lat = d.lat;
+                    let description = d.description;
+                    let date = full_date;
+                    let location = d.location;
+                    let Image_URL = d.Image_URL;
+                    return {
+                        year,
+                        time,
+                        long,
+                        lat,
+                        description,
+                        date,
+                        location,
+                        Image_URL,
+                    }
+
+                });
+
+                data.map(function (d, i) {
                     var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
+
 
                     if (d.time <= jp1) {
                         d.ts = "jp1";
@@ -223,11 +258,11 @@
                     if (d.time > jp3 && d.time <= jp4) {
                         d.ts = "jp4";
                     }
-
                 });
+
             }
 
-//            KHM();
+            KHM();
 
             function Cushman() {
 
@@ -298,16 +333,13 @@
                 });
             }
 
-            Cushman();
+//            Cushman();
 
 //            let newData = data.slice(0, 550).sort(function (x, y) {
 //                return d3.ascending(x.time, y.time);
 //            });
 
-            let newData = data.filter(function (d) {
-//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-                return d.time <= seg1;
-            }).sort(function (x, y) {
+            let newData = data.sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
