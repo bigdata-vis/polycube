@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/painting_gallery_clean2.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/painting_gallery_clean3.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/segKhm.js" afterPath="$PROJECT_DIR$/js/segKhm.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/khm2.html" afterPath="$PROJECT_DIR$/khm2.html" />
@@ -37,39 +35,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="khm2.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="khm2.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/khm2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="372" column="8" lean-forward="false" selection-start-line="372" selection-start-column="8" selection-end-line="372" selection-end-column="8" />
+            <state relative-caret-position="158">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
-                <element signature="e#5712#7463#0" expanded="false" />
-                <element signature="e#8125#10510#0" expanded="false" />
-                <element signature="e#9257#10494#0" expanded="false" />
-                <element signature="e#11425#11684#0" expanded="false" />
-                <element signature="e#11729#11731#0" expanded="false" />
-                <element signature="e#13327#13364#0" expanded="false" />
+                <element signature="e#9055#11440#0" expanded="false" />
+                <element signature="e#10187#11424#0" expanded="false" />
+                <element signature="e#12347#12606#0" expanded="false" />
+                <element signature="e#12651#12653#0" expanded="false" />
+                <element signature="e#14249#14286#0" expanded="false" />
                 <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="seg1.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/seg1.html">
+      <file leaf-file-name="segKhm.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/segKhm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="306" column="26" lean-forward="false" selection-start-line="306" selection-start-column="26" selection-end-line="309" selection-end-column="14" />
-              <folding />
+            <state relative-caret-position="246">
+              <caret line="519" column="43" lean-forward="false" selection-start-line="519" selection-start-column="43" selection-end-line="519" selection-end-column="43" />
+              <folding>
+                <element signature="e#11281#15011#0" expanded="false" />
+                <element signature="e#21390#24382#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="segKhm.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/segKhm.js">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="103" column="0" lean-forward="true" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+            <state relative-caret-position="547">
+              <caret line="361" column="17" lean-forward="true" selection-start-line="361" selection-start-column="17" selection-end-line="361" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -90,8 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.tick</find>
-      <find>tick</find>
       <find>count</find>
       <find>brush_count</find>
       <find>closeButton</find>
@@ -120,6 +118,8 @@
       <find>parse5</find>
       <find>formatDate</find>
       <find>d.time</find>
+      <find>.pointCloud</find>
+      <find>d3.scaleLinear</find>
     </findStrings>
     <replaceStrings>
       <replace>noverlap</replace>
@@ -231,6 +231,11 @@
             <path>
               <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
               <item name="polycube" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
+              <item name="polycube" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1091,7 +1096,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1262973000" />
+    <option name="totallyTimeSpent" value="1267318000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1283,13 +1288,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
           <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="383" column="22" lean-forward="false" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -1559,14 +1557,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/segKhm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="103" column="0" lean-forward="true" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/seg1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
@@ -1575,18 +1565,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="361" column="17" lean-forward="true" selection-start-line="361" selection-start-column="17" selection-end-line="361" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/khm2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="372" column="8" lean-forward="false" selection-start-line="372" selection-start-column="8" selection-end-line="372" selection-end-column="8" />
+        <state relative-caret-position="158">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
-            <element signature="e#5712#7463#0" expanded="false" />
-            <element signature="e#8125#10510#0" expanded="false" />
-            <element signature="e#9257#10494#0" expanded="false" />
-            <element signature="e#11425#11684#0" expanded="false" />
-            <element signature="e#11729#11731#0" expanded="false" />
-            <element signature="e#13327#13364#0" expanded="false" />
+            <element signature="e#9055#11440#0" expanded="false" />
+            <element signature="e#10187#11424#0" expanded="false" />
+            <element signature="e#12347#12606#0" expanded="false" />
+            <element signature="e#12651#12653#0" expanded="false" />
+            <element signature="e#14249#14286#0" expanded="false" />
             <element signature="n#script#9;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/segKhm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="519" column="43" lean-forward="false" selection-start-line="519" selection-start-column="43" selection-end-line="519" selection-end-column="43" />
+          <folding>
+            <element signature="e#11281#15011#0" expanded="false" />
+            <element signature="e#21390#24382#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -498,9 +498,10 @@
                 .data(datasets).enter()
                 .each(function (d, i) {
                     const image = document.createElement('div');
+                    const unc = document.createElement('div');
+
                     interval = 500 / dataSlices; //height/segments
                     const stc = new THREE.Object3D();
-                    // var object = new THREE.CSS3DObject(image),
                     const object = new THREE.CSS3DSprite(image);
                     // update matrix true on entry
                     object.matrixAutoUpdate = true;
@@ -510,12 +511,24 @@
                     image.style.height = 3.5 + "px";
                     image.className = "pointCloud";
 
+                    let avg = +d.dateRange[1] - +d.dateRange[0];
+
+
+                    //uncertainty box
+                    // console.log(avg/10); todo: work out the right scaling for the height of the cube
+                    unc.style.width = 2 + "px";
+                    unc.style.height = avg/5 + "px";
+                    // unc.style.left = 40 + "%";
+                    // unc.style.top = -50 + "%";
+                    unc.style.position = "absolute";
+                    unc.className = "uncertainty";
+                    image.appendChild(unc);
+
+
                     if(color){
-                        // image.style.background = "#EDCA3A";
                         image.className = "pointCloud green_BG";
                     }else {
                         image.style.background = colour(d.unix);
-                        // image.style.background = colour(d.time);
                     }
 
 
@@ -558,10 +571,7 @@
                     object['STC'] = stc;
 
                     // add object rotation
-                    // object.rotation.fromArray(rot[2]);
-
                     object.name = "pointCloud"; //todo: remove later
-
                     object.element.onclick = function () {
                         // object.element.onmouseover = function () {
 
