@@ -18,6 +18,10 @@
             display: none;
         }
 
+        #textTitle {
+            top: 140px;
+        }
+
         /*canvas over html*/
 
         /*.green_BG {*/
@@ -72,10 +76,10 @@
 </a>
 
 <!--<a id="startBTN" class="button" target="_blank" >-->
-    <!--Start-->
+<!--Start-->
 <!--</a>-->
 
-<a id="stopBTN" class="button" target="_blank" >
+<a id="stopBTN" class="button" target="_blank">
     Stop
 </a>
 
@@ -152,26 +156,28 @@
      * https://stackoverflow.com/questions/30245990/how-to-merge-two-geometries-or-meshes-using-three-js-r71
      **/
     d3.queue()
-                .defer(d3.json, "data/painting_gallery_clean.json")
-    //        .defer(d3.csv, "data/Cushman-Collection.csv")
-//        .defer(d3.json, "data/cm.json")
+        .defer(d3.json, "data/painting_gallery_clean3.json")
+        //        .defer(d3.csv, "data/Cushman-Collection.csv")
+        //        .defer(d3.json, "data/cm.json")
         //        .defer(d3.json, "data/land.topojson")
         .defer(d3.json, "data/worldUS.json")
-        .defer(d3.json, "data/lido-output.json")
+        //        .defer(d3.json, "data/lido-output.json")
+        //        .defer(d3.json, "data/painting_gallery_clean2.json")
+        //        .defer(d3.json, "data/painting_gallery.json")
+        //        .defer(d3.json, "data/lido-output.json")
         .await(init);
 
-    function init(error, data, geoMap, lido) {
+    function init(error, data, geoMap) {
         if (error) console.log(error);
 
-        //filter based on the dates segmentations
-//        console.log(data);
+        let seg1 = 1500, seg2 = 1600, seg3 = 1900, seg4 = 2000;
+        //200 years
 
-
-//        data.filter(function (d) {
-////            console.log(d);
-////            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
-//            return d.time <= seg1;
-//        });
+        data.filter(function (d) {
+//            console.log(d);
+//            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+            return d.time <= seg2;
+        });
 
         function tempRange(data, geoMap) {
 
@@ -195,14 +201,15 @@
             function KHM() {
                 data.map(function (d, i) {
 
-
                     //location only
-                    d.long = d.location_data.country.lat;
-                    d.lat = d.location_data.country.long;
-
-                    //                    console.log(d.location_data.country)
-                    d.location = d.location_data.country.name;
-
+//                    d.long = d.location_data.country.lat;
+//                    d.lat = d.location_data.country.long;
+                    if (d.location_data) {
+                        d.long = parseFloat(d.location_data['lat-cou']);
+                        d.lat = parseFloat(d.location_data['lon-cou']);
+                        d.location = d.location_data.placename;
+//                        console.log(d)
+                    }
 
                     //year only
                     d.time = parse5(d.time);
@@ -212,12 +219,16 @@
                     //get full date
                     let full_date = new Date(d.time, 1, 1);
 
-                    d.description = d.lidoRecID;
+                    //date range
+                    d.dateRange = [d.dateRange.earliestDate["0"],d.dateRange.latestDate["0"]];
+
+                    //description
+                    d.description = d.title;
                     d.Image_URL = d.preview;
 
                     d.unix = +(full_date / 1000).toFixed(0);
 
-//                    console.log(d);
+                    console.log(d);
 
                     let year = d.time;
                     let time = d.time;
@@ -241,8 +252,7 @@
                 });
 
                 data.map(function (d, i) {
-                    var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
-
+                    var jp1 = 1450, jp2 = 1500, jp3 = 1550, jp4 = 1600;
 
                     if (d.time <= jp1) {
                         d.ts = "jp1";
@@ -340,7 +350,9 @@
 //                return d3.ascending(x.time, y.time);
 //            });
 
-            let newData = data.sort(function (x, y) {
+            let newData = data.filter(function (d) {
+                return d.time <= seg2;
+            }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
@@ -370,45 +382,95 @@
             return counts;
         }
 
+//        console.log(khmplaces);
 
         //
-        var placeNames = [];
-        lido.forEach(function (d) {
-
-            var placename = d.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"];
-
-            if (placename !== undefined) {
-
-                if (placename.eventPlace) {
+//        var placeNamesArray = [];
+//        lido.forEach(function (d) {
+////            let placeName = d.location;
+//            let locId = d.lidoRecID;
 //
-                    if (placename.eventPlace["0"].displayPlace) {
-
-                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
-
-                        var placeName = placename.eventPlace["0"].displayPlace;
-                        console.log(placeName);
-
-
-//                        if (typeof placename.eventPlace["0"].displayPlace["0"] === 'object') { //check for object in music collection
-//
-//
-////                            placeNames.push("Collections" + collections); //collections
-////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
-//                            //for items in the collection places
-//                        } else {
-//
-////                            placeNames.push("Collections " + collections); //collections
-////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
 ////
-////                            console.log(collections)
-//                        }
+//            khmplaces.forEach(function (x) {
+//                let lidoRecID = x.lidoRecID["0"]._;
+//                var title = x.descriptiveMetadata["0"].objectIdentificationWrap["0"].titleWrap["0"].titleSet["0"].appellationValue["0"];
+//
+//                if (locId === lidoRecID) {
+//                    var displayActor = x.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"].eventActor["0"].displayActorInRole["0"];
+//                    var displayActorName = x.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"].eventActor["0"].actorInRole["0"].actor["0"].nameActorSet["0"].appellationValue["0"]._;
+//                    var tempUnc = x.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"].eventDate["0"].date["0"];
+//
+//                    d.displayActor = displayActor;
+//                    d.displayActorName = displayActorName;
+//                    d.title = title;
+//                    d.dateRange = tempUnc;
+//
+////                    console.log(displayActorName);
+//
+////                    console.log(x.descriptiveMetadata["0"]);
+//
+////                    d.location_data = x;
+////                    console.log({place: placeName, loc_data: x})
+//                    return d;
+//                }
+//            })
+//        });
+//
+//        setTimeout(function () {
+//            console.log(JSON.stringify(lido));
+//        }, 4000);
 
-                    }
-                }
-            } else {
-                console.log("no place name")
-            }
-        });
+        const response = [];
+
+//        lido.forEach(function (d) {
+//
+//            var placename = d.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"];
+//
+//            if (placename !== undefined) {
+//
+//                if (placename.eventPlace) {
+////
+//                    if (placename.eventPlace["0"].displayPlace) {
+//
+//                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
+//                        var placeName = placename.eventPlace["0"].displayPlace["0"],
+//                            lidoRecID = d.lidoRecID["0"]._;
+//
+//
+//                        if (collections === "Kunsthistorisches Museum Wien, Gemäldegalerie") {
+//                            console.log(d);
+//                        }
+//
+//
+////                        if (typeof placename.eventPlace["0"].displayPlace["0"] !== 'object') { //check for object in music collection
+////
+//////                            console.log(placeName)
+////
+////                            khmplaces.forEach(function (d) {
+////
+////                                if(d.placename === placeName){
+////                                    console.log({place: placeName, loc_data:d})
+////                                }
+////                            })
+//////                            console.log(placeName);
+////
+//////                            placeNames.push("Collections" + collections); //collections
+//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
+////                            //for items in the collection places
+////                        } else {
+////
+//////                            placeNames.push("Collections " + collections); //collections
+//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
+//////
+//////                            console.log(collections)
+////                        }
+//
+//                    }
+//                }
+//            } else {
+//                console.log("no place name")
+//            }
+//        });
 
         /**
          * Toggle PointCloud Data UI
@@ -475,7 +537,7 @@
 
         let theme = gui.addFolder('Theme');
 
-        theme.add(params, 'dataCategory', ['default','blue', 'black', 'white']).onChange(d => {
+        theme.add(params, 'dataCategory', ['default', 'blue', 'black', 'white']).onChange(d => {
 //            document.getElementById(d).disabled = false;
 //            document.getElementsByClassName("stylesheet").disabled = false;
             d3.selectAll(".stylesheet").attr("href", "css/" + d + ".css");
@@ -611,7 +673,7 @@
     let captionText = document.getElementById("caption");
     let imgDetails = document.getElementById("textTitle");
 
-    let startBTN= document.getElementById("startBTN");
+    let startBTN = document.getElementById("startBTN");
     let stopBTN = document.getElementById("stopBTN");
 
 
@@ -640,7 +702,6 @@
         img.src = "";
         imgDetails.innerHTML = ""
     };
-
 
 
 </script>

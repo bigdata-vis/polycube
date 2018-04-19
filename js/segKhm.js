@@ -33,6 +33,7 @@
     var formatTime = d3.timeFormat("%Y");
     let formatDate = d3.timeFormat("%d %b %Y");
     let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
+    let parse5 = d3.timeParse("%Y-%m-%d");
 
     var projectionScale = 5000;
 
@@ -568,9 +569,9 @@
                         // console.log(d);
 
                         d3.select("#textTitle")
-                            .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                                "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
-                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                            .html("<strong<p>" + d.description + "</p>" +
+                                "<span class='date'>Date : " + d.dateRange + " </span> <br>" +
+                                "<span class='location'>Location : " + d.location + "</span> <br>"
                             );
 
                         // d3.select("#searchLink")
@@ -1576,9 +1577,9 @@
             marker.on('click', function (e) {
                 // console.log(d);
                 d3.select("#textTitle")
-                    .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
-                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                    .html("<strong<p>" + d.description + "</p>" +
+                        "<span class='date'>Date : " + d.dateRange + " </span> <br>" +
+                        "<span class='location'>Location : " + d.location + "</span> <br>"
                     );
 
                 d3.select("#dataImage")
@@ -1753,10 +1754,11 @@
             .on('click', function (d, i) {
                 // update elements
 
+
                 d3.select("#textTitle")
-                    .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                        "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
-                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                    .html("<strong<p>" + d.description + "</p>" +
+                        "<span class='date'>Date : " + d.dateRange + " </span> <br>" +
+                        "<span class='location'>Location : " + d.location + "</span> <br>"
                     );
 
                 // d3.select("#searchLink")
