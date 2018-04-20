@@ -494,6 +494,8 @@
              */
             hideGuide();
 
+            var scaleUnc = d3.scaleLinear().domain(dateTestEx).range([0, height]);
+
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 .each(function (d, i) {
@@ -511,15 +513,14 @@
                     image.style.height = 3.5 + "px";
                     image.className = "pointCloud";
 
-                    let avg = +d.dateRange[1] - +d.dateRange[0];
 
+
+                    let avg = +d.dateRange[1] - +d.dateRange[0];
 
                     //uncertainty box
                     // console.log(avg/10); todo: work out the right scaling for the height of the cube
                     unc.style.width = 2 + "px";
                     unc.style.height = avg/5 + "px";
-                    // unc.style.left = 40 + "%";
-                    // unc.style.top = -50 + "%";
                     unc.style.position = "absolute";
                     unc.className = "uncertainty";
                     image.appendChild(unc);
