@@ -22,23 +22,54 @@
             top: 140px;
         }
 
+        .uncertainty{
+            cursor: pointer;
+            opacity: 0.7;
+            /*background-color: #c83409;*/
+            background: linear-gradient(rgba(255,0,0,0.5), rgba(255,0,0,1), rgba(255,0,0,0.5));
+
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
+
+        .pointCloud {
+            /*background: red;*/
+            /*position: relative;*/
+            /*-moz-border-radius:    10px;*/
+            /*-webkit-border-radius: 10px;*/
+            /*border-radius:         10px;*/
+        }
+
+        /*.pointCloud:before{*/
+            /*content:"";*/
+            /*position: absolute;*/
+            /*right: 100%;*/
+            /*!*top: 26px;*!*/
+            /*width: 0;*/
+            /*height: 0;*/
+
+            /*!*up*!*/
+            /*border-left: 50px solid transparent;*/
+            /*border-right: 50px solid transparent;*/
+            /*border-bottom: 100px solid red;*/
+        /*}*/
+
+        /*.pointCloud:after{*/
+            /*content:"";*/
+            /*position: absolute;*/
+            /*right: 50%;*/
+            /*!*top: 26px;*!*/
+            /*width: 0;*/
+            /*height: 0;*/
+
+            /*!*down*!*/
+            /*border-left: 3.5px solid transparent;*/
+            /*border-right: 3.5px solid transparent;*/
+            /*border-top: 100px solid red;*/
+        /*}*/
+
         /*canvas over html*/
-
-        /*.green_BG {*/
-        /*!*background-color: #426403 !important;*!*/
-        /*!*background-color: #0075c8 !important;*!*/
-        /*background-color: #c83409 !important;*/
-        /*!*fill: #426403 !important;*!*/
-        /*!*fill: #0075c8 !important;*!*/
-        /*fill: #c83409 !important;*/
-        /*}*/
-
-        /*!*timeline labels*!*/
-        /*.tick text {*/
-        /*!*fill: #426403;*!*/
-        /*fill: #c83409;*/
-        /*}*/
-
 
     </style>
 </head>
@@ -228,7 +259,7 @@
 
                     d.unix = +(full_date / 1000).toFixed(0);
 
-                    console.log(d);
+//                    console.log(d);
 
                     let year = d.time;
                     let time = d.time;
