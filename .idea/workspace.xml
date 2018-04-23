@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9399357-6273-473b-b337-7199682baa8c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/segKhm.js" afterPath="$PROJECT_DIR$/js/segKhm.js" />
     </list>
     <ignored path="polycube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,21 +51,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="segKhm.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="segKhm.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/segKhm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="512" column="48" lean-forward="true" selection-start-line="512" selection-start-column="48" selection-end-line="512" selection-end-column="48" />
+            <state relative-caret-position="248">
+              <caret line="17" column="20" lean-forward="true" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/main.css">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5415">
-              <caret line="361" column="17" lean-forward="false" selection-start-line="361" selection-start-column="17" selection-end-line="361" selection-end-column="17" />
+            <state relative-caret-position="15">
+              <caret line="1" column="7" lean-forward="true" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -132,7 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/proj.html" />
         <option value="$PROJECT_DIR$/js/vis/brushTime.js" />
         <option value="$PROJECT_DIR$/sb/molecule.html" />
         <option value="$PROJECT_DIR$/js/pcmodule_CD_leagcy.js" />
@@ -183,6 +182,7 @@
         <option value="$PROJECT_DIR$/data/painting_gallery_clean3.json" />
         <option value="$PROJECT_DIR$/khm2.html" />
         <option value="$PROJECT_DIR$/js/segKhm.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -230,11 +230,6 @@
             <path>
               <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
               <item name="polycube" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="polycube" type="b2602c69:ProjectViewProjectNode" />
-              <item name="polycube" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1088,12 +1083,12 @@
       <workItem from="1523538037714" duration="1233000" />
       <workItem from="1523866251123" duration="2056000" />
       <workItem from="1524038043702" duration="5827000" />
-      <workItem from="1524247421765" duration="96000" />
+      <workItem from="1524247421765" duration="2157000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1270805000" />
+    <option name="totallyTimeSpent" value="1272866000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1118,7 +1113,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.017167382" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20960699" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34788936" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19956616" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1202,13 +1197,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/resources/html5-schema/html5/phrase.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="343" column="16" lean-forward="false" selection-start-line="343" selection-start-column="16" selection-end-line="343" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/vis/brushSeg1.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="538">
@@ -1551,8 +1539,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/segKhm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="512" column="48" lean-forward="true" selection-start-line="512" selection-start-column="48" selection-end-line="512" selection-end-column="48" />
+        <state relative-caret-position="248">
+          <caret line="17" column="20" lean-forward="true" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="7" lean-forward="true" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
           <folding />
         </state>
       </provider>
