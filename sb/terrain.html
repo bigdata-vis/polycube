@@ -69,7 +69,6 @@
         d3.xml('jotunheimen-track.gpx', 'application/xml', gpxParser);
     }
 
-
     function gpxParser(gpx) {
         var tracks = gpx.getElementsByTagName('trk'),
                 geometry = new THREE.Geometry();

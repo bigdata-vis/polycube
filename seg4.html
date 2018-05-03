@@ -53,6 +53,7 @@
 </div>
 
 
+
 <button class="button" type="button" onclick="STC()">
     space-time cube
 </button>
@@ -67,7 +68,12 @@
     Animation
 </button>
 
-<a class="button" target="_blank" href="split4.html">
+<button class="button" type="button"
+        onclick="JP()">
+    Juxtapose
+</button>
+
+<a class="button" target="_blank" href="split.html">
     Split View
 </a>
 
@@ -312,7 +318,9 @@
             mapColor: "#ffffff",
             invert: false,
 //            projection: 400,
-            dataCategory: ['pizza', 'chrome', 'hooray']
+            dataCategory: ['pizza', 'chrome', 'hooray'],
+            dataSets: []
+
         };
 
         d3.select("body")
@@ -449,22 +457,25 @@
 //        });
 
         let Data = gui.addFolder("Data");
-        Data.add(params, "showData").onChange(function () {
-            var value = params.showData;
-            if (value) {
-                d3.selectAll(".pointCloud")
-                    .classed("hide", false);
-                d3.selectAll(".leaflet-marker-icon")
-                    .classed("hide", false);
-            } else {
-                d3.selectAll(".pointCloud")
-                    .classed("hide", true);
-                d3.selectAll(".leaflet-marker-icon")
-                    .classed("hide", true);
-            }
+//        Data.add(params, "showData").onChange(function () {
+//            var value = params.showData;
+//            if (value) {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", false);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", false);
+//            } else {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", true);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", true);
+//            }
+//
+//        }).name("Show PC Data");
 
-        }).name("Show PC Data");
-
+        Data.add(params, 'dataSets', ['seg1','seg2', 'seg3', 'seg4', 'khm2']).onChange(d => {
+            window.location.href = `/${d}.html`;
+        }).name("Data Sets");
     }
 
 </script>

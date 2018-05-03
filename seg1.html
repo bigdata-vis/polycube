@@ -67,6 +67,11 @@
     Animation
 </button>
 
+<button class="button" type="button"
+        onclick="JP()">
+    Juxtapose
+</button>
+
 <a class="button" target="_blank" href="split.html">
     Split View
 </a>
@@ -74,10 +79,6 @@
 <!--<a id="startBTN" class="button" target="_blank" >-->
     <!--Start-->
 <!--</a>-->
-
-<a id="stopBTN" class="button" target="_blank" >
-    Stop
-</a>
 
 <a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
 
@@ -99,10 +100,8 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<!--<script src="js/segcolor.js"></script>-->
 <script src="js/seg.js"></script>
 <script src="js/vis/brushSegloop.js"></script>
-<!--<script src="js/vis/dotPlot.js"></script>-->
 
 <script>
 
@@ -361,7 +360,8 @@
 //            mapColor: "#dec987",
             mapColor: "#ffffff",
             invert: false,
-            dataCategory: []
+            dataCategory: [],
+            dataSets: []
         };
         /**
          * Data UI Controls
@@ -506,23 +506,25 @@
         });
 
         let Data = gui.addFolder("Data");
-        Data.add(params, "showData").onChange(function () {
-            var value = params.showData;
-            if (value) {
-                d3.selectAll(".pointCloud")
-                    .classed("hide", false);
-                d3.selectAll(".leaflet-marker-icon")
-                    .classed("hide", false);
-            } else {
-                d3.selectAll(".pointCloud")
-                    .classed("hide", true);
-                d3.selectAll(".leaflet-marker-icon")
-                    .classed("hide", true);
-            }
+//        Data.add(params, "showData").onChange(function () {
+//            var value = params.showData;
+//            if (value) {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", false);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", false);
+//            } else {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", true);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", true);
+//            }
+//
+//        }).name("Show PC Data");
 
-        }).name("Show PC Data");
-
-
+        Data.add(params, 'dataSets', ['seg1','seg2', 'seg3', 'seg4', 'khm2']).onChange(d => {
+            window.location.href = `/${d}.html`;
+        }).name("Data Sets");
     }
 
 </script>

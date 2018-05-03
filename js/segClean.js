@@ -5,36 +5,36 @@
     'use strict';
 
 
-    var pCube = {};
+    let pCube = {};
 
     /**default data
      *
      * @type {Array}
      */
-    var defaultData = [];
+    let defaultData = [];
 
     /**
      * Container to hold line geometry coordinates
      * @type {Array}
      */
-    var lineList = [];
-    var pcObjects = [];
+    let lineList = [];
+    let pcObjects = [];
 
     /**d3 variables and declarations
      *
      * @type {number}
      */
-    var width = 500,
+    let width = 500,
         height = 500,
         widthHalf = width / 2,
         heightHalf = height / 2;
-    var svg;
+    let svg;
 
-    var formatTime = d3.timeFormat("%Y");
+    let formatTime = d3.timeFormat("%Y");
     let formatDate = d3.timeFormat("%d %b %Y");
     let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
 
-    var projectionScale = 5000;
+    let projectionScale = 5000;
 
     let flat_time = false; //used to store flatten or timelinear info on pointCloud
 
@@ -44,37 +44,28 @@
      * @param datasets2
      */
 
-    var dataSlices = 3;
-    var interval = 500 / dataSlices; //height/segments
+    let dataSlices = 3;
+    let interval = 500 / dataSlices; //height/segments
 
-    var timeLinearG;
 
+    /**
+     * Global variables
+     */
+    let timeLinearG;
     let dataBySeg;
+    let layout;
 
-    var layout;
+    let projection;
+    let path;
+    let elements;
 
+    let position = new THREE.Vector3();
 
-    var projection;
-    var path;
-    var elements;
+    let pointSelectedLines = [];
 
-    // let colour2 = d3.scaleSequential(d3.interpolatePiYG())
-
-    var position = new THREE.Vector3();
-
-    var pointSelectedLines = [];
-
-    var overlapingData;
-    // var noicyData;
+    let overlapingData;
 
     let colour;
-    /**
-     * Flip mirro and horizontal
-     * https://threejs.org/docs/#manual/introduction/Matrix-transformations
-     * https://stackoverflow.com/questions/11060734/how-to-rotate-a-3d-object-on-axis-three-js
-     */
-
-    // var mS = (new THREE.Matrix4()).identity();
 
     pCube.drawElements = function (datasets, geoMap) {
 
@@ -91,60 +82,52 @@
 
         /**
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
-         *
          */
-        var dateTestEx = d3.extent(datasets, function (d) {
+        let dateTestEx = d3.extent(datasets, function (d) {
             return d.time;
         });
-
         let dateUnixEx = d3.extent(datasets, function (d) {
             return d.unix;
         });
 
-        // console.log(dateUnixEx);
-
+        /**
+         * global window variables
+         */
         window.dateTestEx = dateTestEx;
         window.dateExUnix = dateUnixEx;
         window.geoMapData = geoMap;
 
         // var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
-        var timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
+        let timeLinear = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
 
-        // let colour = d3.scaleOrdinal()
-        // colour = d3.scaleSequential(d3.interpolateRainbow)
-        // colour = d3.scaleSequential(d3.interpolateCool)
-        colour = d3.scaleSequential(d3.interpolateViridis)
-        //     .domain([dateTestEx[0], dateTestEx[1]]);
-            .domain(dateUnixEx);
 
         /**
          * Define and Transfer the color scaler
          */
-
+        colour = d3.scaleSequential(d3.interpolateViridis)
+            .domain(dateUnixEx);
         window.colorScale = colour;
-
         timeLinearG = timeLinear;
 
         /**d3 data scale
          * to be implemented with datasets with time and location
          * todo: data scale for x, y, z
          */
-        var xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
+        let xExent = d3.extent(datasets, function (d) {//to determine the range of x in the data
                 return d.Archive_Date;
             }),
             yExent = d3.extent(datasets, function (d) { // to determine the range of y in the data
-                // console.log(d["Archive Date"]);
                 return d.Archive_Date;
             }),
             zExent = d3.extent(datasets, function (d) {
                 return d;
             });
 
+
         /**
-         * D3.nest to segment each data by ts property
+         * D3.nest to segment each data by the ts property
          * sort data by jp1
          */
-
         dataBySeg = d3.nest()
             .key(function (d) {
                 return d.ts;
@@ -153,7 +136,6 @@
                 return a.key < b.key;
             });
 
-        // console.log(dataBySeg)
         /**
          * calculate the largest and smallest value for Xscale and Y scale
          */
@@ -176,9 +158,10 @@
          * Render point cloud from the automated data and points;
          * TrackballControls makes object disspear when zooming out ?
          */
-        pCube.showPointCloud = function () {
-        };
 
+        /**
+         * Show and Hide Point Cloud
+         */
         pCube.showNodes = function () {
             pCube.drawLines()
         };
@@ -198,18 +181,6 @@
         WGLRenderer.domElement.style.top = 0;
         document.body.appendChild(WGLRenderer.domElement);
 
-        // /**
-        //  * SVG Renderer
-        //  */
-        // svgRenderer = new THREE.SVGRenderer();
-        // svgRenderer.setSize(window.innerWidth, window.innerHeight);
-        // svgRenderer.domElement.style.top = 0;
-        // // svgRenderer.setQuality('low');
-        // svgRenderer.domElement.style.position = 'absolute';
-        // svgRenderer.domElement.style.backgroundColor = 'black';
-        //
-        // document.body.appendChild(svgRenderer.domElement);
-
 
         /**CSS renderer
          *
@@ -228,25 +199,13 @@
          * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
          * Copy position of the cube box and attach it to glbox to callibrate both objects
          */
-        // glbox.position.copy(cube.position);
-        // glbox.rotation.copy(cube.rotation);
-
-        // pointCloud.position.copy(cube.position);
-        // pointCloud.rotation.copy(cube.position);
-
-        // console.log(pointCloud);
-
-        // pointCloud.rotation.y = -1.54;
-        // pointCloud.position.z += -5;
-        // pointCloud.position.x += 5;
-
         pointCloud.rotation.y = -1.6;
         pointCloud.position.z += 1;
         pointCloud.position.x += -1;
 
-
         //calibration glbox lines with CSS scene
         glbox.position.copy(pointCloud.position);
+
 
         /**camera
          * Threejs camera implementation
@@ -257,9 +216,9 @@
          * try a combined camera
          */
 
-        // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(600, 400, 800);
+
 
         /** Mouse Controls for zooming, panning etc
          *
@@ -271,45 +230,17 @@
         controls.autoRotateSpeed = 0.3;
         controls.noRotate = false;
         // controls.pan = false;
-        controls.addEventListener('change', pCube.render);
+        controls.addEventListener('change', pCube.render); //todo:check this ?
+
 
         /**
          * Add Object Group to Scene (Cube and Mesh?)
          *Mesh is for the timeline title
          */
-
         scene.add(cube);
         scene.add(mesh);
         scene.add(pointCloud);
         WGLScene.add(glbox);
-
-        /**
-         * Time axis inverted
-         * @type {number}
-         */
-
-        //KHM
-        // pointCloud.rotation.z = 3.15;
-        // pointCloud.position.z = 90;
-        // pointCloud.position.y += 5;
-        // pointCloud.position.x -= 625;
-        // glbox.rotation.z = 3.15;
-        // glbox.position.z = -90;
-        // glbox.position.y += 5;
-
-        //Cushman
-        // pointCloud.rotation.z = 3.15;
-        // pointCloud.position.z = -90;
-        // pointCloud.position.y += 5;
-
-        // glbox.rotation.z = 3.15;
-        // glbox.position.z = -90;
-        // glbox.position.y += 5;
-
-
-        /**
-         * SandBox
-         */
 
 
         /**CSS3D Scene
@@ -330,7 +261,7 @@
              *
              * @type {string}
              */
-            element.style.opacity = '1';
+            element.style.opacity = '0.1';
             element.style.border = "0.5px dotted #FFF";
             element.className = "side";
 
@@ -352,16 +283,13 @@
          * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
          * segements from the length of defaultData or datasets1
          */
-        // var segments = defaultData.length;
-        // var segments = (datasets2.length < 20 ? datasets.length : 10);
-        // var segments = 10;
 
-        /**D3
+
+        /**Segment Entry Point
          *Map Projection
          *Mercator or geoAlbers
          *Dynamic Scale with editing and update function
          //  */
-
         pCube.updateMap = function (scale = 400, mapData) {
 
             //clear all map data on the scene todo: finc a smarter way
@@ -379,7 +307,6 @@
             // // d3.selectAll('svg').remove();
             // d3.selectAll('img').remove();
 
-
             projection = d3.geoEquirectangular()
                 .translate([width / 2, height / 2])
                 // .center([21.62731, 47.5316049])
@@ -393,9 +320,8 @@
              *Create Div holders for the segments
              * main Element Div (Create new segments holders from here)
              *Currently using todo: datasets1 should be changed to datasets2
+             * revers data
              */
-
-            // console.log(dataBySeg);
 
             //to reverse data from begining
             dataBySeg.reverse();
@@ -435,7 +361,6 @@
                      * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
                      *
                      */
-
                         // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
                         // var maps = pCube.drawMap(d.key, d.values);
 
@@ -478,12 +403,11 @@
         /**
          * Colour Scale
          */
-
         // console.log(dateTestEx);
 
         overlapingData = datasets;
 
-        pCube.updatePC = function (datasets = datasets, jitter, color=false) {
+        pCube.updatePC = function (datasets = datasets, jitter, color = false) {
             // var image, interval, stc, object;
 
             /**
@@ -504,11 +428,11 @@
              */
             hideGuide();
 
-            var testElem = d3.selectAll('.pointCloud')
+            var pcElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 .each(function (d, i) {
                     const image = document.createElement('div');
-                    interval = 500 / dataSlices; //height/segments
+                    interval = height / dataSlices; //height/segments
                     const stc = new THREE.Object3D();
                     // var object = new THREE.CSS3DObject(image),
                     const object = new THREE.CSS3DSprite(image);
@@ -520,14 +444,13 @@
                     image.style.height = 3.5 + "px";
                     image.className = "pointCloud";
 
-                    if(color){
+                    if (color) {
                         // image.style.background = "#EDCA3A";
                         image.className = "pointCloud green_BG";
-                    }else {
+                    } else {
                         image.style.background = colour(d.unix);
                         // image.style.background = colour(d.time);
                     }
-
 
                     // object.position.copy(position);
                     object.position.multiplyScalar(75);
@@ -555,7 +478,6 @@
                     object.matrixWorldNeedsUpdate = false;
                     object.updateMatrix();
 
-                    // const cp = {...object.position};
 
                     /**
                      * add each proerties of the pointcloud to new data
@@ -568,7 +490,6 @@
                     object['STC'] = stc;
 
                     // add object rotation
-                    // object.rotation.fromArray(rot[2]);
 
                     object.name = "pointCloud"; //todo: remove later
 
@@ -608,13 +529,17 @@
 
             polyCube.render()
         };
-        pCube.updatePC(datasets,6, false);
-
+        pCube.updatePC(datasets, 6, false);
 
         //pass datasets to overlapping function
         window.noicyData = datasets;
 
+        /**
+         * Add to Scene
+         * Add each element to scene after d3 creation
+         */
         elements.each(addtoScene);
+
 
         /**
          * Draw Timeline and Labels
@@ -632,34 +557,25 @@
             labelCount: 17
         });
 
-        // drawLabels({ //Todo: fix label with proper svg
-        //     labelPosition: {
-        //         x: -widthHalf,//offset border
-        //         y: -(height / 2) - 10,
-        //         z: -widthHalf
-        //     },
-        //     rotation: 10,
-        //     labelCount:17
-        // });
+        drawLabels({ //Todo: fix label with proper svg
+            labelPosition: {
+                x: -widthHalf,//offset border
+                y: -(height / 2) - 10,
+                z: -widthHalf
+            },
+            rotation: 10,
+            labelCount:17
+        });
 
+        //todo: document lables section
         function drawLabels(parameters) {
 
             if (parameters === undefined) parameters = {};
             let labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
 
-            // let startDate = parameters["startDate"] || dateTestEx[1].toString();
-            // let endDate = parameters["endDate"] || dateTestEx[0].toString();
-
             let rotation = parameters["rotation"] || 20;
-            // console.log(endDate);
 
-            // let dateArrayOld = d3.scaleTime()
-            //     .domain([new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)])
-            //     .ticks();
-
-            let dateArray = d3.timeYears(new Date(window.dateTestEx[0], 1-1, 1 ), new Date(window.dateTestEx[1], 1, 1));
-
-            // let dateArray = d3.timeYears(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
+            let dateArray = d3.timeYears(new Date(window.dateTestEx[0], 1 - 1, 1), new Date(window.dateTestEx[1], 1, 1));
 
             let separator = height / labelCount;
             let p = parameters["labelPosition"] || {
@@ -667,8 +583,6 @@
                 y: height / dateArray.length,
                 z: 100
             };
-
-            // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
             dateArray.forEach(function (d) {
                 // console.log(d);
@@ -679,14 +593,6 @@
                 // p.y += separator; //increment y position of individual label to increase over time
             });
             //
-            // for (let i = 0; i < (dateArray.length); i++) {
-            //     // console.log(i);
-            //     let label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
-            //     label.position.set(p.x, p.y, p.z);
-            //     label.rotation.y = rotation;
-            //     // p.y += separator; //increment y position of individual label to increase over time
-            //     p.y += height / dateArray.length; //increment y position of individual label to increase over time
-            // }
 
             function makeTextSprite(message, parameters) {
                 if (parameters === undefined) parameters = {};
@@ -730,38 +636,6 @@
         objSeg.rotation.fromArray(rot[2]);
         objSeg.name = "seg";
         cube.add(objSeg);
-    }
-
-    // console.log(testData);
-    function setViewData(d, i) {
-        var vector, phi, theta;
-        var stc, jp, si;
-
-        // stc = new THREE.Object3D();
-        // stc.position.x = Math.random() * 4000 - 2000;
-        // stc.position.y = Math.random() * 4000 - 2000;
-        // stc.position.z = Math.random() * 4000 - 2000;
-        // d['STC'] = stc;
-
-        stc = new THREE.Object3D();
-        stc.position.x = d.position.x;
-        stc.position.y = d.position.y;
-        stc.position.z = d.position.z;
-        d['STC'] = stc;
-
-
-        // jp = new THREE.Object3D();
-        // jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
-        // jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
-        // jp.position.z = 0;
-        // jp.time = ["1920", "1930"];
-        // d['JP'] = jp;
-        //
-        // si = new THREE.Object3D();
-        // si.position.x = (( i % 5 ) * 1050) - 2000;
-        // si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
-        // si.position.z = 0;
-        // d['SI'] = si;
     }
 
     /**
@@ -1002,7 +876,7 @@
         // scene.children[0].children.reverse(); //on
 
 
-        // console.log(scene);
+        console.log(scene.children[0].children);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
@@ -1108,7 +982,6 @@
      * Super imposition function
      * todo: fix rotation of the cube with map
      */
-
     pCube.superImpose = function () {
         flat_time = true;
 
@@ -1490,7 +1363,6 @@
      * http://blockbuilder.org/jaegerka/e53294b2f5087e03525ff8d508767a2d
      *
      */
-
     pCube.drawMap = function (elemID, data) {
 
         var accesToken = 'pk.eyJ1Ijoib3NhZXoiLCJhIjoiOExKN0RWQSJ9.Hgewe_0r7gXoLCJHuupRfg';
@@ -1643,46 +1515,6 @@
         };
     };
 
-    pCube.drawMap3 = function (elemID, data, points) {
-
-        // console.log(elemID);
-        // console.log(points);
-
-        var counter = 0; //counter to monitor the amount of data rounds
-
-        // Convert the TopoJSON features to GeoJSON
-        var features = topojson.feature(data, data.objects.land);
-
-        // console.log(features);
-
-        var mapSVG = d3.selectAll("#" + elemID).append("svg")
-        // .attr("class", "elements_child")
-            .attr("width", width)
-            .attr("height", height)
-            .style("opacity", 0.2);
-
-        // console.log(mapSVG);
-
-        mapSVG.selectAll(".subunit")
-            .data([features])
-            // .data(aut.features)
-            .enter()
-            .append('g')
-            // .attr('transform', 'translate(460,0)rotate(80)')
-            // .attr('transform', 'translate(460,0)rotate(80)')
-            .append("path")
-            .attr("class", function (d, i) {
-                return "subunit"; //remove id
-            })
-            // .classed("hide", function (d, i) {
-            //     counter += 1;
-            //     if (counter !== 1) { //only display map path for first map
-            //         return true
-            //     }
-            // })
-            .attr("d", path);
-    };
-
     pCube.drawMap2 = function (elemID, data, points) {
         let mapSVG = d3.selectAll("#" + elemID).append("svg")
             .attr("width", width)
@@ -1758,7 +1590,7 @@
             .attr("fill", function (d) {
                 // console.log(d);
                 // return colour(d.unix);
-                return "#c83409"
+                return "#EDCA3A"
             })
             .on('click', function (d, i) {
                 // update elements
@@ -1778,16 +1610,6 @@
             });
     };
 
-    pCube.hideLeafletMap = function (value) {
-
-        d3.selectAll(".leaflet-pane .leaflet-tile-pane")
-            .filter(function (d, i) {  //todo: point of hiding other map items
-                return i !== 0;
-            })
-            .classed("hide", value)
-    };
-
-    //todo: document setsdraw
     pCube.setsDraw = function () {
         var duration = 1000;
         //rearrange point clouds
@@ -1811,13 +1633,15 @@
             // console.log(interval);
 
             segs.forEach(function (d) {
+                // d.position.y = interval + interval;
+                // d.position.y = interval * i - 125;
+
                 d.matrixAutoUpdate = true;
                 d.updateMatrix();
 
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            // y: interval * i - (interval + interval)
-                        y: (i * interval) - height / 2
+                            y: interval * i - (interval + interval)
                         }
                         , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
@@ -1993,7 +1817,7 @@
             glbox.add(line);
         };
 
-        if(layout === "STC" || layout === "JP" ){
+        if (layout === "STC" || layout === "JP") {
             drawLine(
                 new THREE.Vector3(elementPosition.x, elementPosition.y, elementPosition.z),
                 new THREE.Vector3(elementPosition.x, -250, elementPosition.z)
@@ -2057,7 +1881,6 @@
 
     }
 
-
     /**
      * Translate function for the long and lat coordinates
      * @param point
@@ -2084,20 +1907,20 @@
      * 3D Scene Renderer
      *
      */
-    var renderer, scene, camera, controls;
-    var cube = new THREE.Object3D();
+    let renderer, scene, camera, controls;
+    let cube = new THREE.Object3D();
     cube.name = "cube";
-    var mesh = new THREE.Object3D();
-    var glbox = new THREE.Object3D();
+    let mesh = new THREE.Object3D();
+    let glbox = new THREE.Object3D();
     glbox.name = "glbox";
-    var pointCloud = new THREE.Object3D();
+    let pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
 
     /**
      * WebGl Scene and renderer
      * Example od a perfect webglcube https://threejs.org/examples/webgl_lines_dashed.html
      */
-    var WGLScene,
+    let WGLScene,
         WGLRenderer,
         svgScene,
         svgRenderer;
@@ -2106,10 +1929,10 @@
      * Array cube rotation and position css3d matrix
      * @type {*[]}
      */
-    var r = Math.PI / 2;
-    var d = 250;
-    var pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
-    var rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
+    let r = Math.PI / 2;
+    let d = 250;
+    let pos = [[d, 0, 0], [-d, 0, 0], [0, d, 0], [0, -d, 0], [0, 0, d], [0, 0, -d]];
+    let rot = [[0, r, 0], [0, -r, 0], [-r, 0, 0], [r, 0, 0], [0, 0, 0], [0, 0, 0]];
 
 
     // pointCloud.position.x = 0;

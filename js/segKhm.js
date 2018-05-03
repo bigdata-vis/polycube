@@ -178,6 +178,7 @@
          * TrackballControls makes object disspear when zooming out ?
          */
         pCube.showPointCloud = function () {
+
         };
 
         pCube.showNodes = function () {
@@ -363,7 +364,7 @@
          *Dynamic Scale with editing and update function
          //  */
 
-        pCube.updateMap = function (scale = 400, mapData) {
+        pCube.updateMap = function (scale = 400, mapData, jitter = 6) {
 
             //clear all map data on the scene todo: finc a smarter way
             //clear all d3 elements in DOM
@@ -431,7 +432,7 @@
 
                         // var geoMap = pCube.drawMap2(d.key,d.values,path)
 
-                    var geoMap = pCube.drawMap2(d.key, mapData, d.values)
+                    var geoMap = pCube.drawMap2(d.key, mapData, d.values, jitter)
                 });
 
             elements.append('p')
@@ -1685,7 +1686,7 @@
             .attr("d", path);
     };
 
-    pCube.drawMap2 = function (elemID, data, points) {
+    pCube.drawMap2 = function (elemID, data, points, jitter) {
         let mapSVG = d3.selectAll("#" + elemID).append("svg")
             .attr("width", width)
             .attr("height", height)
@@ -1760,7 +1761,7 @@
             .attr("fill", function (d) {
                 // console.log(d);
                 // return colour(d.unix);
-                return "#EDCA3A"
+                return "#c83409"
             })
             .on('click', function (d, i) {
                 // update elements
@@ -1821,7 +1822,8 @@
 
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            y: interval * i - (interval + interval)
+                            // y: interval * i - (interval + interval)
+                            y: (i * interval) - height / 2
                         }
                         , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
