@@ -687,7 +687,7 @@
 //
 //        }).name("Show PC Data");
 
-        Data.add(params, 'dataSets', ['seg1','seg2', 'seg3', 'seg4', 'khm2']).onChange(d => {
+        Data.add(params, 'dataSets', ['/polycube/seg1','/polycube/seg2', '/polycube/seg3', '/polycube/seg4', '/polycube/khm2']).onChange(d => {
             window.location.href = `/${d}.html`;
         }).name("Data Sets");
 
