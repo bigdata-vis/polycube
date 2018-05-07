@@ -44,8 +44,10 @@
      * @param datasets2
      */
 
-    var dataSlices = 3;
+    var dataSlices = pCube.dataSlices = 3;
     var interval = 500 / dataSlices; //height/segments
+
+    var gl_elements = null;
 
     var timeLinearG;
 
@@ -76,7 +78,19 @@
 
     // var mS = (new THREE.Matrix4()).identity();
 
-    pCube.drawElements = function (datasets, geoMap) {
+
+    /**
+     * Container in which the cube elements are rendered.
+     * @type {DOMElement}
+     */
+    pCube.root = document.body;
+
+    pCube.drawElements = function (datasets, geoMap, argDataSlices) {
+
+        if (argDataSlices && typeof argDataSlices === 'number') {
+          dataSlices = pCube.dataSlices = argDataSlices;
+          interval = 500 / dataSlices;
+        }
 
         //update datasets with new data
         //update cube.children
@@ -153,6 +167,16 @@
                 return a.key < b.key;
             });
 
+
+        /**
+         * TODO: BL do segmentation by dataSlices instead of timestamps in the dataset
+         */
+        if (window._) {
+          dataBySeg = _.chunk(datasets, Math.ceil(datasets.length / dataSlices)).map((l, i) => {
+            return { key: 'jp' + i, values: l };
+          });
+        }
+
         // console.log(dataBySeg)
         /**
          * calculate the largest and smallest value for Xscale and Y scale
@@ -191,18 +215,19 @@
          * setting both wgl dom and css dom styles to thesame absolute position to align xyz positions
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
-        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         // WGLRenderer.setClearColor(0x00ff00, 0.0);
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
-        document.body.appendChild(WGLRenderer.domElement);
+        pCube.root.appendChild(WGLRenderer.domElement);
+        // document.body.appendChild(WGLRenderer.domElement);
 
         // /**
         //  * SVG Renderer
         //  */
         // svgRenderer = new THREE.SVGRenderer();
-        // svgRenderer.setSize(window.innerWidth, window.innerHeight);
+        // svgRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         // svgRenderer.domElement.style.top = 0;
         // // svgRenderer.setQuality('low');
         // svgRenderer.domElement.style.position = 'absolute';
@@ -217,10 +242,11 @@
          */
         renderer = new THREE.CSS3DRenderer();
         renderer.domElement.id = "CSSLayoutBox";
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         renderer.domElement.style.position = 'absolute';
         renderer.domElement.style.top = 0;
-        document.body.appendChild(renderer.domElement);
+        // document.body.appendChild(renderer.domElement);
+        pCube.root.appendChild(renderer.domElement);
 
 
         /**
@@ -257,8 +283,8 @@
          * try a combined camera
          */
 
-        // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
-        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+        // camera = new THREE.CombinedCamera( pCube.getInnerWidth(), pCube.getInnerHeight(), 55, 1, 1000, - 200, 100 );
+        camera = new THREE.PerspectiveCamera(40, pCube.getInnerWidth() / pCube.getInnerHeight(), 1, 10000);
         camera.position.set(600, 400, 800);
 
         /** Mouse Controls for zooming, panning etc
@@ -481,6 +507,8 @@
 
         // console.log(dateTestEx);
 
+        gl_elements = [];
+
         overlapingData = datasets;
 
         pCube.updatePC = function (datasets = datasets, jitter, color=false) {
@@ -642,6 +670,8 @@
         //     labelCount:17
         // });
 
+        pCube.drawLabels = drawLabels;
+
         function drawLabels(parameters) {
 
             if (parameters === undefined) parameters = {};
@@ -649,6 +679,14 @@
 
             // let startDate = parameters["startDate"] || dateTestEx[1].toString();
             // let endDate = parameters["endDate"] || dateTestEx[0].toString();
+            // var startDate = parameters["startDate"] || dateTestEx[0].toString();
+            // var endDate = parameters["endDate"] || dateTestEx[1].toString();
+            var startDate = parameters["startDate"] || new Date(window.dateTestEx[0], 1-1, 1 );
+            var endDate = parameters["endDate"] || new Date(window.dateTestEx[1], 1, 1);
+            var fontsize = parameters["fontSize"] || 10;
+            var startAtBottom = parameters["startAtBottom"] || false;
+            var dateArray = parameters["dateArray"] || d3.scaleTime().domain([endDate, startDate]).ticks(dataSlices);
+            var deleteLabels = parameters["deleteLabels"] === true ? true : false;
 
             let rotation = parameters["rotation"] || 20;
             // console.log(endDate);
@@ -657,7 +695,7 @@
             //     .domain([new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)])
             //     .ticks();
 
-            let dateArray = d3.timeYears(new Date(window.dateTestEx[0], 1-1, 1 ), new Date(window.dateTestEx[1], 1, 1));
+            // let dateArray = d3.timeYears(new Date(window.dateTestEx[0], 1-1, 1 ), new Date(window.dateTestEx[1], 1, 1));
 
             // let dateArray = d3.timeYears(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
@@ -668,7 +706,15 @@
                 z: 100
             };
 
+
+            if (deleteLabels) {
+                d3.selectAll("p.textTitle").remove();
+                cube.children.filter(x => x.name === 'titles').forEach(x => cube.remove(x));
+            }
+
             // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
+
+            console.warn(dateArray)
 
             dateArray.forEach(function (d) {
                 // console.log(d);
@@ -701,6 +747,7 @@
 
                 // var object = new THREE.CSS3DObject(element);
                 var object = new THREE.CSS3DSprite(element);
+                object.name = "titles";
                 cube.add(object);
 
                 return object;
@@ -730,6 +777,7 @@
         objSeg.rotation.fromArray(rot[2]);
         objSeg.name = "seg";
         cube.add(objSeg);
+        gl_elements.push(objSeg);
     }
 
     // console.log(testData);
@@ -763,6 +811,12 @@
         // si.position.z = 0;
         // d['SI'] = si;
     }
+
+
+    /**
+     * Additional functions that will execute after the default function.
+     */
+    pCube.default_functions = [];
 
     /**
      * Default STC Layout Fallback function
@@ -942,7 +996,14 @@
 
         layout = "STC";
         window.layout = layout;
+
+        pCube.default_functions.forEach(f => f.call(pCube, duration));
     };
+
+    /**
+     * Additional functions that will be executed after the juxstaPose function.
+     */
+    pCube.juxstaPose_functions = [];
 
     /**
      * Juxtaposition function
@@ -1086,14 +1147,15 @@
         layout = "JP";
         window.layout = layout;
 
+        pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
     };
 
     pCube.onWindowResize = function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = pCube.getInnerWidth() / pCube.getInnerHeight();
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        // svgRenderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
+        WGLRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
+        // svgRenderer.setSize(pCube.getInnerWidth(), pCube.getInnerHeight());
         pCube.render()
     };
 
@@ -1459,10 +1521,16 @@
         image.src = 'texture/ball2.png';
     };
 
+
+    /**
+     * Additional functions that will execute after the render function.
+     */
+    pCube.render_functions = [];
+
     pCube.render = function () {
 
 
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = pCube.getInnerWidth() / pCube.getInnerHeight();
         camera.updateProjectionMatrix();
 
         // remember to call both renderers!
@@ -1477,6 +1545,8 @@
 
         //make mesh always face camera
         // mesh.lookAt( camera.position );
+
+        pCube.render_functions.forEach(f => f.call(pCube, camera));
     };
 
     /**
@@ -2081,6 +2151,28 @@
     }
 
     /**
+     * Return width from the root element or window (if root == body)
+     * @returns {number}
+     */
+    pCube.getInnerWidth = function () {
+        if (pCube.root === document.body) {
+            return window.innerWidth;
+        }
+        return pCube.root.clientWidth;
+    }
+
+    /**
+     * Return height from the root element or window (if root == body)
+     * @returns {number}
+     */
+    pCube.getInnerHeight = function () {
+        if (pCube.root === document.body) {
+            return window.innerHeight;
+        }
+        return pCube.root.clientHeight;
+    }
+
+    /**
      * 3D Scene Renderer
      *
      */
@@ -2115,6 +2207,27 @@
     // pointCloud.position.x = 0;
     // pointCloud.position.z = 0;
 
+    pCube.getCamera = () => {
+      return camera;
+    }
+    pCube.getScene = () => {
+        return scene;
+    };
+    pCube.getGLScene = () => {
+        return WGLScene;
+    };
+    pCube.getGLRenderer = () => {
+        return WGLRenderer;
+    };
+    pCube.getCube = () => {
+        return cube;
+    };
+    pCube.getGLBox = () => {
+        return glbox;
+    };
+    pCube.getGLSegments = () => {
+        return gl_elements;
+    };
 
     window.polyCube = pCube;
 }());

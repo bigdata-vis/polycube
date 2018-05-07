@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<script src="//threejs.org/build/three.min.js"></script>-->
+    <script src="lib/three.js/threejs91.min.js"></script>
+    <script src="lib/three.js/CombinedCamera.js"></script>
+    <script src="lib/three.js/OrbitControls.js"></script>
+    <script src="lib/three.js/tween.js"></script>
+    <script src="lib/three.js/CSS3DRenderer.js"></script>
+    <!--<script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>-->
+
+    <script src="lib/three.js/projector.js"></script>
+    <script src="lib/three.js/SVGRenderer.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" class="stylesheet" id="blue" href="">
+    <style>
+        .select {
+            display: none;
+        }
+
+        /*canvas over html*/
+
+        /*.green_BG {*/
+        /*!*background-color: #426403 !important;*!*/
+        /*!*background-color: #0075c8 !important;*!*/
+        /*background-color: #c83409 !important;*/
+        /*!*fill: #426403 !important;*!*/
+        /*!*fill: #0075c8 !important;*!*/
+        /*fill: #c83409 !important;*/
+        /*}*/
+
+        /*!*timeline labels*!*/
+        /*.tick text {*/
+        /*!*fill: #426403;*!*/
+        /*fill: #c83409;*/
+        /*}*/
+
+
+    </style>
+</head>
+<body>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+
+
+<button class="button" type="button" onclick="STC()">
+    space-time cube
+</button>
+
+<button class="button" type="button"
+        onclick="
+        SI()"> superimposition
+</button>
+
+<button class="button" type="button"
+        onclick="AN()">
+    Animation
+</button>
+
+<button class="button" type="button"
+        onclick="JP()">
+    Juxtapose
+</button>
+
+<a class="button" target="_blank" href="split.html">
+    Split View
+</a>
+
+<!--<a id="startBTN" class="button" target="_blank" >-->
+    <!--Start-->
+<!--</a>-->
+
+<a target="_blank" id="searchLink"><p id="textTitle">i</p></a>
+
+<a style="cursor: pointer" class="close-info">&times;</a>
+
+<!--<img id="dataImage" src="#">-->
+
+<!-- Trigger the Modal -->
+<img id="dataImage" src="#" alt="" width="300" height="200">
+
+<div id="timeLine"></div>
+
+<div id="dotPlot"></div>
+
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="lib/d3/d3.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="lib/d3/topojson.min.js"></script>
+<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+<script src="js/core.js"></script>
+<script src="js/seg.js"></script>
+<script src="js/pcmodule_sets.js"></script>
+<script src="js/vis/brushSegloop.js"></script>
+
+<script>
+
+    const url = new URL(window.location);
+
+    var params = window.guiParams = {
+      showData: true,
+      showNodes: false,
+      noverlap: 0,
+      nodeSize: 3,
+      colorScale: true,
+      BG: "#cac6ba",
+      dataColor: "#462015",
+      mapColor: "#ffffff",
+      invert: false,
+      dataCategory: [],
+      dataSets: [],
+      layers: parseInt(url.searchParams.get('layers'), 10) || 10,
+      // sets options
+      setVisType: 'treemap',
+      setCalculationOption: polyCube.SET_CALCULATION_OPTIONS[0],
+      dataThreshold: 0.01,
+      scaleCube: polyCube.SCALE_TYPES[1],
+      matrixOpacityByCount: true,
+      matrixShowGrid: false,
+      layerClickable: false,
+      layerSelectAnimation: polyCube.LAYER_CLICK_ANIMATION_STYLES[1],
+      selectionYearStart: 1000,
+      selectionYearEnd: 2000,
+      treemapFlatLineStyle: 'corner', // 'center
+      dataLayerSumUp: true,
+      selectionSet: '',
+      selectionSet2: '',
+      clearSelection: () => polyCube.selectItemsBySets([], 'union'),
+      selectionSetsOption: polyCube.OVERLAPPING_OPTIONS[0]
+    };
+
+    function JP() {
+        polyCube.juxstaPose();
+    }
+
+    function SI() {
+        // test color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", false);
+
+        d3.selectAll(".tick")
+            .classed("notick", true)
+            .classed("tick", false);
+
+        polyCube.superImpose();
+    }
+
+    function STC() {
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+
+        d3.selectAll(".notick")
+            .classed("tick", true)
+            .classed("notick", false);
+
+        polyCube.default();
+    }
+
+    function AN() {
+        // test color
+
+        d3.selectAll(".animateButton")
+            .classed("hide", false);
+
+        polyCube.superImpose();
+
+        window.layout = "AN";
+
+
+    }
+
+    /**Merge the cut section into a mega structure
+     * https://stackoverflow.com/questions/16105565/how-to-create-multiple-polygon-into-single-geometry-with-three-js
+     * http://learningthreejs.com/blog/2011/10/05/performance-merging-geometry/
+     * https://stackoverflow.com/questions/30245990/how-to-merge-two-geometries-or-meshes-using-three-js-r71
+     **/
+    d3.queue()
+        .defer(d3.json, "data/cm.json")
+        .defer(d3.json, "data/worldUS.json")
+        .defer(d3.json, "data/lido-output.json")
+        .await(init);
+
+
+    function fnClearAndDrawSets() {
+        let options = {
+          parsedData: window.parsedLidoData,
+          vis_type: window.guiParams.setVisType,
+          vis_type_set_calculation_option: window.guiParams.setCalculationOption,
+          vis_type_treemap_flat_line_style: window.guiParams.treemapFlatLineStyle,
+          vis_type_matrix_count_opacity: window.guiParams.matrixOpacityByCount,
+          vis_type_matrix_show_grid: window.guiParams.matrixShowGrid,
+          vis_type_layer_clickable: window.guiParams.layerClickable,
+          vis_type_layer_click_animation: window.guiParams.layerSelectAnimation,
+          data_year_range: [window.guiParams.selectionYearStart, window.guiParams.selectionYearEnd],
+          data_threshold: window.guiParams.dataThreshold,
+          data_scale_cube: window.guiParams.scaleCube,
+          data_layer_sumUp: window.guiParams.dataLayerSumUp
+          
+        };
+        console.info(options);
+        polyCube.drawSets(options);
+    }
+
+    function init(error, data, geoMap, lido) {
+        if (error) console.log(error);
+
+        //filter based on the dates segmentations
+//        console.log(data);
+
+        let seg1 = 1940, seg2 = 1946, seg3 = 1950, seg4 = 1977;
+
+        data.filter(function (d) {
+//            console.log(d);
+//            return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+            return d.time <= seg1;
+        });
+
+        function tempRange(data, geoMap) {
+
+            /**
+             * Parse and Format Time
+             */
+            let parse2 = d3.timeParse("%Y-%m-%d");
+            let parse3 = d3.timeParse("%b. %d, %Y"); //data format for cushman data
+            let parse4 = d3.timeParse("%Y-%m-%dT00:00:00Z");
+            let parse5 = d3.timeParse("%Y");
+            let format2 = d3.timeFormat("%Y");
+
+//            let newData = data.slice(0, 550); //todo: slice arrray according to date range
+
+            /**
+             * Sort and clean the data according to ascending dates to help with line drawing
+             * */
+
+//          switch data
+            function KHM() {
+                data.forEach(function (d, i) {
+                    d.long = d.location_data.country.lat;
+                    d.lat = d.location_data.country.long;
+
+                    // console.log(+format2(parse4(d.Date)));
+                    d.time = parse5(d.time);
+                    d.time = +format2(d.time);
+                    d.description = d.Description_from_Slide_Mount;
+                    d.Image_URL = d.preview;
+
+//                    console.log(d.location_data.country)
+                    d.location = d.location_data.country.name;
+
+                    var jp1 = 1500, jp2 = 1600, jp3 = 1700, jp4 = 1900;
+
+                    if (d.time <= jp1) {
+                        d.ts = "jp1";
+                    }
+
+                    if (d.time > jp1 && d.time <= jp2) {
+                        d.ts = "jp2";
+                    }
+
+                    if (d.time > jp2 && d.time <= jp3) {
+                        d.ts = "jp3";
+                    }
+
+                    if (d.time > jp3 && d.time <= jp4) {
+                        d.ts = "jp4";
+                    }
+
+                });
+            }
+
+//            KHM();
+
+            function Cushman() {
+
+                data.map(d => {
+
+                    d.time = parse4(d.Date);
+
+                    //get full date
+                    let full_date = d.time;
+
+                    // get year only
+                    d.time = +format2(d.time);
+
+                    //get unix
+                    d.unix = +(full_date / 1000).toFixed(0);
+
+                    let year = d.year;
+//                    let time = +format2(parse4(d.Date));
+                    let time = d.time;
+                    let long = d.long;
+                    let lat = d.lat;
+                    let description = d.Description_from_Slide_Mount;
+                    let date = d.Date;
+                    let location = d.City_and_State;
+                    let Image_URL = d.Image_URL;
+                    return {
+                        year,
+                        time,
+                        long,
+                        lat,
+                        description,
+                        date,
+                        location,
+                        Image_URL,
+                    }
+                });
+                data.map(function (d, i) {
+                    //data segmentation
+                    /**
+                     * Group dataSets by intervals and sum of the intervals date range,
+                     * add a field to each data object representing the value of the range in y axis e.g jp:1, jp:2, jp:3
+                     * use d3.nest() to group all elements in dataSet by jp suing example from the link below
+                     * https://proquestionasker.github.io/blog/d3Nest/
+                     * pass grouped data to elements d3 function and draw them on maps individually
+                     */
+
+//                    console.log(d);
+
+//                    var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+                    var jp1 = 1938, jp2 = 1939, jp3 = 1940;
+
+
+                    if (d.time <= jp1) {
+                        d.ts = "jp1";
+                    }
+
+                    if (d.time > jp1 && d.time <= jp2) {
+                        d.ts = "jp2";
+                    }
+
+                    if (d.time > jp2 && d.time <= jp3) {
+                        d.ts = "jp3";
+                    }
+//
+//                    if (d.time > jp3 && d.time <= jp4) {
+//                        d.ts = "jp4";
+//                    }
+                });
+            }
+
+            Cushman();
+
+//            let newData = data.slice(0, 550).sort(function (x, y) {
+//                return d3.ascending(x.time, y.time);
+//            });
+
+            let newData = data.filter(function (d) {
+//                return d.Genre_1 === "Architectural photographs" && d.time <= seg1;
+                return d.time <= seg1;
+            }).sort(function (x, y) {
+                return d3.ascending(x.time, y.time);
+            });
+
+//            console.log(count(newData));
+//            count(newData);
+            window.data = newData;
+
+            let newData2 = data.slice(0, 100).sort(function (x, y) {
+                return d3.ascending(x.time, y.time);
+            });
+
+
+            window.lidoData = lido;
+            let parsedLidoData = window.parsedLidoData = lido.map(d => {
+              let lidoRecID = _.get(d, 'lidoRecID[0]._');
+              let repoName = _.get(d, 'administrativeMetadata[0].recordWrap[0].recordSource[0].legalBodyID[0]._');
+              let classes = _.get(d, 'descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification');
+              let conceptID = _.map(classes.filter(x => x.conceptID), 'conceptID[0]._');
+              let term = _.map(classes.filter(x => x.term), x => {
+                return x.term[0]._ ? x.term[0]._ : x.term[0];
+              });
+              let location = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventPlace[0].displayPlace[0]');
+              let preview = _.get(d, 'administrativeMetadata[0].resourceWrap[0].resourceSet[1].resourceRepresentation[0].linkResource[0]');
+              let time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].date[0].earliestDate[0]');
+              if (time === "") {
+                time = _.get(d, 'descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventDate[0].displayDate[0]');
+                time = time.replace(/(um|Um) /, ''); // cut the "um" if earlistDate not available.
+              }
+              time = parseInt(time, 10) || null;
+              return {
+                lidoRecID,
+                conceptID,
+                time,
+                term,
+                repoName,
+                location,
+                preview
+              }
+            });
+
+            window.yearRange = d3.extent(parsedLidoData, d => d.time);
+
+            //Draw
+            // polyCube.root = document.getElementById('cube');
+            // polyCube.drawElements(newData, szabo, window.guiParams.layers);
+            polyCube.drawElements(newData, geoMap, window.guiParams.layers);
+
+            fnClearAndDrawSets();
+
+            polyCube.render();
+            polyCube.animate();
+            window.addEventListener('resize', polyCube.onWindowResize, false);
+        }
+
+        tempRange(data, geoMap);
+
+        function count(data) {
+//            console.log(data)
+            let counts = {};
+            for (let i = 0; i < data.length; i++) {
+                counts[data[i].City_and_State] = (1 + (counts[data[i].City_and_State] || 1));
+            }
+            return counts;
+        }
+
+        /**
+         * Toggle PointCloud Data UI
+         */
+
+        polyCube.showPointCloud();
+
+        /**
+         * Data UI Controls
+         * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
+         */
+        let gui = new dat.GUI({});
+//        gui.remember(params);
+
+        d3.select("body")
+            .style("background-color", params.BG);
+        d3.select("canvas")
+            .style("background", "transparent");
+
+        d3.selectAll(".side")
+            .style("border", "0.5px dotted rgb(10, 10, 10)")
+            .style("background", "white");
+
+        d3.selectAll(".screen_dots")
+            .style("fill", "rgb(16, 49, 21)");
+
+//        d3.selectAll(".elements_child").selectAll(".subunit")
+//            .style("fill", "black");
+
+//         Theme Color
+        d3.selectAll(".pointCloud")
+            .classed("green_BG", true);
+
+        d3.selectAll(".boundary")
+            .attr("fill", params.mapColor);
+
+        //themes
+//        document.getElementById("blue").disabled = true;
+
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", true);
+//        gui.add(window.guiParams, 'Project').onFinishChange(function () {
+//        }).name("PolyCube ©");
+
+        let theme = gui.addFolder('Theme');
+
+        theme.add(window.guiParams, 'dataCategory', ['default','blue', 'black', 'white']).onChange(d => {
+//            document.getElementById(d).disabled = false;
+//            document.getElementsByClassName("stylesheet").disabled = false;
+            d3.selectAll(".stylesheet").attr("href", "css/" + d + ".css");
+        }).name("Theme");
+
+        theme.addColor(params, 'BG').onChange(d => {
+            d3.select("body")
+                .style("background-color", d)
+            ;
+        });
+
+        theme.addColor(params, 'dataColor').onChange(d => {
+
+            d3.selectAll(".pointCloud")
+                .classed("green_BG", false)
+                .style("background-color", d);
+
+            d3.selectAll(".tick text")
+                .classed("green_BG", false)
+                .style("fill", d);
+
+        });
+
+        theme.addColor(params, 'mapColor').onChange(d => {
+
+            d3.selectAll(".boundary")
+                .classed("green_BG", false)
+                .attr("fill", d);
+
+//            d3.selectAll(".tick text")
+//                .classed("green_BG", false)
+//                .style("fill", d);
+
+        });
+
+        theme.add(window.guiParams, "invert").onFinishChange(d => {
+            if (d) {
+//                d3.select("body")
+//                    .style("filter", "invert(100%)")
+
+                document.getElementById("styles-animations").disabled = false;
+
+            } else {
+
+//                d3.select("body")
+//                    .style("filter", "invert(0%)")
+
+                document.getElementById("blue").disabled = true;
+            }
+        }).name("Toggle Theme");
+
+        let Time = gui.addFolder("Time");
+//        Time.add(window.guiParams, 'Morphing').min(-250).max(250).onChange(function () {
+//            var value = params.Morphing;
+//            if (value) {
+//                polyCube.morphing({axis: +value})
+//            }
+//        });
+        Time.add(window.guiParams, "colorScale").onChange(function () {
+            var value = params.colorScale;
+
+            if (value) {
+                //show green on pointCloud
+
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", true);
+
+                d3.selectAll(".timelineTick")
+                    .classed("green_BG", true)
+
+            } else {
+                //show green on pointCloud
+                d3.selectAll(".pointCloud")
+                    .classed("green_BG", false);
+
+                d3.selectAll(".timelineTick")
+                    .classed("green_BG", false);
+            }
+
+        }).name("Time Colour");
+
+        let Space = gui.addFolder("Space");
+        Space.add(window.guiParams, "nodeSize").min(0.01).max(80).onChange(function () {
+            var value = params.nodeSize;
+            d3.selectAll(".pointCloud")
+                .style("width", value + "px")
+                .style("height", value + "px")
+//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+        });
+        Space.add(window.guiParams, "noverlap").min(0).max(40).onFinishChange(function () {
+            /**increase or decrease the node x and y axis position to show overlaping content
+             * ref: http://networkcube.net/ vid:3:25
+             **/
+            let value = params.noverlap;
+
+            if (value > 0) {
+                polyCube.overlappingNodes(+value)
+            } else {
+                polyCube.nooverlappingNodes()
+            }
+        });
+
+        let Data = gui.addFolder("Data");
+//        Data.add(window.guiParams, "showData").onChange(function () {
+//            var value = params.showData;
+//            if (value) {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", false);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", false);
+//            } else {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", true);
+//                d3.selectAll(".leaflet-marker-icon")
+//                    .classed("hide", true);
+//            }
+//
+//        }).name("Show PC Data");
+
+        Data.add(window.guiParams, 'dataSets', ['/polycube/seg1','/polycube/seg2', '/polycube/seg3', '/polycube/seg4', '/polycube/khm2']).onChange(d => {
+            window.location.href = `/${d}.html`;
+        }).name("Data Sets");
+
+
+        gui.add(window.guiParams, "layers").min(1).max(50).step(1).onChange(() => {
+          location.search = '?layers=' + window.guiParams.layers;
+          // location.reload();
+        });
+
+        var fsets = gui.addFolder('Sets');
+
+        let possibleSets = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+        let possibleSets2 = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+        let setNames = Object.keys(polyCube.getMultiSetsSortedByTotalCount());
+        const repReg = /\ \[\d+\]/g;
+
+        const setOperationAction = () => {
+          let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+          let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+          const list = [].concat(setName1 || '', setName2  || '').filter(itm => itm);
+          polyCube.selectItemsBySets(list, window.guiParams.selectionSetsOption || 'union');
+        };
+
+        fsets.add(window.guiParams, 'setVisType', polyCube.SET_VIS_TYPES).onChange(fnClearAndDrawSets).name("Set Visualization");
+        fsets.add(window.guiParams, 'setCalculationOption', polyCube.SET_CALCULATION_OPTIONS).onChange(fnClearAndDrawSets).name("Set Calculation");
+        fsets.add(window.guiParams, "selectionYearStart").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Starting Year").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "selectionYearEnd").min(window.yearRange[0]).max(window.yearRange[1]).step(10).name("Ending Year").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "scaleCube", polyCube.SCALE_TYPES).name("Cube Scaling").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "layerClickable").name("Layer Clickable").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "layerSelectAnimation", polyCube.LAYER_CLICK_ANIMATION_STYLES).name("Layer Select Animation").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "matrixOpacityByCount").name("Opacity by Category").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "matrixShowGrid").name("Show Grid").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "dataThreshold").min(0).max(0.10).step(0.01).name("Data Threshold Percent").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "dataLayerSumUp").name("SumUp Layers").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, 'treemapFlatLineStyle', ['corner', 'center']).name("Flat Line Style").onChange(fnClearAndDrawSets);
+        fsets.add(window.guiParams, "clearSelection").name("Clear Selection");
+        fsets.add(window.guiParams, "selectionSet", possibleSets).name("Selected Items By Category").onChange(() => {
+          setOperationAction();
+
+          let setName1 = window.guiParams.selectionSet.replace(repReg, '');
+          let setName2 = window.guiParams.selectionSet2.replace(repReg, '');
+          let ctrl = fsets.__controllers.find(x => x.property === 'selectionSet2');
+          ctrl.remove();
+          fsets.__controllers.splice(fsets.__controllers.indexOf(ctrl), 1);
+          if (setName1) {
+            let newItems = polyCube.getPossibleSetsToIntersectSortedByTotalCount(setName1);
+            newItems = [].concat([''], newItems.map(x => `${x.setName} [${x.count}]`));
+            fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+          } else {
+            let newItems = [].concat([''], polyCube.getSetsSortedByTotalCount().map(x => `${x.setName} [${x.count}]`));
+            fsets.add(window.guiParams, "selectionSet2", newItems).name("Second Category").onChange(setOperationAction);
+          }
+        });
+        fsets.add(window.guiParams, "selectionSetsOption", polyCube.OVERLAPPING_OPTIONS).name("Set Operation").onChange(setOperationAction);
+        fsets.add(window.guiParams, "selectionSet2", possibleSets2).name("Second Category").onChange(setOperationAction);
+        
+
+        fsets.open();
+
+    }
+
+</script>
+
+<script>
+    // Get the modal
+    let modal = document.getElementById('myModal');
+    let threejsBox = document.getElementById('CSSLayoutBox');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    let img = document.getElementById('dataImage');
+    let modalImg = document.getElementById("img01");
+    let captionText = document.getElementById("caption");
+    let imgDetails = document.getElementById("textTitle");
+
+    let startBTN= document.getElementById("startBTN");
+    let stopBTN = document.getElementById("stopBTN");
+
+
+    img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = imgDetails.innerHTML;
+    };
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+    let spanCloseInfo = document.getElementsByClassName("close-info")[0];
+    let closeModal = document.getElementsByClassName("modal")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    closeModal.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    spanCloseInfo.onclick = function () {
+//        console.log(img);
+        img.src = "";
+        imgDetails.innerHTML = ""
+    };
+
+
+
+</script>
+
+</body>
+</html>
