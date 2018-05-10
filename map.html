@@ -3,10 +3,13 @@
 <head>
     <!--<script src="lib/three.js/three.min.js"></script>-->
     <script src="//threejs.org/build/three.min.js"></script>
-    <script src="../lib/three.js/CombinedCamera.js"></script>
-    <script src="../lib/three.js/OrbitControls.js"></script>
-    <script src="../lib/three.js/tween.js"></script>
+    <script src="lib/three.js/CombinedCamera.js"></script>
+    <script src="lib/three.js/OrbitControls.js"></script>
+    <script src="lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+
+    <script src="lib/three.js/projector.js"></script>
+    <script src="lib/three.js/SVGRenderer.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
@@ -14,13 +17,22 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-<div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
-    <input style="" type="range" max="250" min="-250" id="cube-morphing" value="-50">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
 </div>
+
 
 <button class="button" type="button" onclick="polyCube.default()">
     space-time cube
@@ -29,10 +41,6 @@
 <button class="button" type="button"
         onclick="
         polyCube.superImpose();
-//        polyCube.default();
-//        setTimeout(function() {
-//          polyCube.superImpose()
-//        },2550);
 "> superimposition
 </button>
 
@@ -41,34 +49,22 @@
     juxtaposition
 </button>
 
+<a target="_blank" id="searchLink" href="#"><p id="textTitle">i</p></a>
+<!--<img id="dataImage" src="#">-->
 
-<!--<button id="testBTN" class="button" type="button"></button>-->
-
-<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.setsDraw()"> Show Sets-->
-<!--</button>-->
-<!--<br>-->
-<p id="textTitle">i</p>
-<img id="dataImage" src="#">
-
-
-<!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.test()">test-->
-<!--</button>-->
-
-<!--<br>-->
-
+<!-- Trigger the Modal -->
+<img id="dataImage" src="#" alt="" width="300" height="200">
 
 <div id="timeLine"></div>
 
 <br>
-<script src="../lib/d3/d3.js"></script>
+<script src="lib/d3/d3.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="../lib/d3/topojson.min.js"></script>
-<script type='text/javascript' src='../lib/dat.gui/dat.gui.min.js'></script>
-<script src="../js/core.js"></script>
-<script src="../js/pcmodule_CM.js"></script>
-<script src="../js/vis/brushTimeCM.js"></script>
+<script src="lib/d3/topojson.min.js"></script>
+<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+<script src="js/core.js"></script>
+<script src="js/map.js"></script>
+<script src="js/vis/brushTimeCM.js"></script>
 
 <script>
     /**Merge the cut section into a mega structure
@@ -78,17 +74,27 @@
      **/
 
     d3.queue()
-//            .defer(d3.json, "data/painting_gallery_clean.json")
-//        .defer(d3.csv, "data/Cushman-Collection.csv")
-        .defer(d3.json, "data/cm.json")
-        .defer(d3.csv, "data/Szabo2.csv")
-        .defer(d3.json, "data/cm.json")
+    //            .defer(d3.json, "data/painting_gallery_clean.json")
+    //        .defer(d3.csv, "data/Cushman-Collection.csv")
+        .defer(d3.json, "/data/cm.json")
+        //        .defer(d3.json, "data/land.topojson")
+        .defer(d3.json, "/data/worldUS.json")
         .await(init);
 
-    function init(error, data, szabo, cm) {
+    function init(error, data, geoMap) {
         if (error) console.log(error);
 
-        function tempRange(data) {
+        //filter based on the dates segmentations
+//        data.forEach(function (d) {
+////            console.log(d)
+//        });
+
+        //filter data from begining
+        data.filter(function (d) {
+            return d.Genre_1 === "Architectural photographs"
+        });
+
+        function tempRange(data, geoMap) {
 
             /**
              * Parse and Format Time
@@ -161,11 +167,12 @@
                     d.time = +format2(d.time);
 
                     //get unix
-                    d.unix = +(full_date/1000).toFixed(0);
+                    d.unix = +(full_date / 1000).toFixed(0);
 
 //                    console.log(new Date(unix * 1000));
+//                    console.log(d.Topical_Subject_Headings_1);
+//                    console.log(d.Genre_1);
 
-//                    console.log(d.unix);
 //                    console.log(d.Date);
 
                     let year = d.year;
@@ -223,8 +230,15 @@
             }
 
             Cushman();
-//
-            let newData = data.slice(0, 550).sort(function (x, y) {
+
+//            let newData = data.slice(0, 550).sort(function (x, y) {
+//                return d3.ascending(x.time, y.time);
+//            });
+
+            let newData = data.filter(function (d) {
+                return d.Genre_1 === "Architectural photographs"
+//                return d.Genre_1 === "Glamour photographs"
+            }).sort(function (x, y) {
                 return d3.ascending(x.time, y.time);
             });
 
@@ -233,13 +247,13 @@
             });
 
             //Draw
-            polyCube.drawElements(newData);
+            polyCube.drawElements(newData, geoMap);
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
 
-        tempRange(data);
+        tempRange(data, geoMap);
 
         /**
          * Toggle PointCloud Data UI
@@ -258,18 +272,13 @@
             showNodes: false,
             overlapNodes: 0,
             nodeSize: 3,
-            colorScale: false,
-            BG: "#d5dde4",
+            colorScale: true,
+            BG: "#000000",
+            dataColor: "#ed7019",
             invert: false,
-//            projection: 5000,
-//            map: "street"
+//            projection: 400,
+            dataCategory: ['pizza', 'chrome', 'hooray']
         };
-
-        d3.selectAll(".leaflet-marker-icon")
-            .classed("hide", true);
-//
-//        d3.select("#textTitle")
-//            .style("color", "black");
 
         d3.select("body")
             .style("background-color", params.BG);
@@ -283,22 +292,17 @@
         d3.selectAll(".screen_dots")
             .style("fill", "rgb(16, 49, 21)");
 
-//                d3.selectAll(".elements_child")
-//                        .style("background-color", "#8fa7b9");
-
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
-        d3.selectAll(".leaflet-marker-icon")
-            .attr("src", "texture/ball2.png");
-
+//        d3.selectAll(".pointCloud")
+//            .classed("green_BG", true);
 
         /**
          * Data UI Controls
          * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
          */
         let gui = new dat.GUI({});
-
 
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
@@ -309,11 +313,25 @@
                 .style("background-color", d)
             ;
         });
-        theme.add(params, "invert").onChange(d =>{
-            if(d){
+        
+
+        theme.addColor(params, 'dataColor').onChange(d => {
+
+            d3.selectAll(".pointCloud")
+                .classed("green_BG", false)
+                .style("background-color", d);
+
+            d3.selectAll(".tick text")
+                .classed("green_BG", false)
+                .style("fill", d);
+
+        });
+
+        theme.add(params, "invert").onFinishChange(d => {
+            if (d) {
                 d3.select("body")
                     .style("filter", "invert(100%)")
-            }else {
+            } else {
                 d3.select("body")
                     .style("filter", "invert(0%)")
             }
@@ -331,12 +349,18 @@
                 //show green on pointCloud
 
                 d3.selectAll(".pointCloud")
+                    .classed("green_BG", true);
+
+                d3.selectAll(".timelineTick")
                     .classed("green_BG", true)
 
             } else {
                 //show green on pointCloud
                 d3.selectAll(".pointCloud")
-                    .classed("green_BG", false)
+                    .classed("green_BG", false);
+
+                d3.selectAll(".timelineTick")
+                    .classed("green_BG", false);
             }
 
         }).name("Time Colour");
@@ -347,24 +371,28 @@
             d3.selectAll(".pointCloud")
                 .style("width", value + "px")
                 .style("height", value + "px")
-                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
+//                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
-
         Space.add(params, "overlapNodes").min(0).max(80).onChange(function () {
             let value = params.overlapNodes;
 
             /**increase or decrease the node x and y axis position to show overlaping content
              * ref: http://networkcube.net/ vid:3:25
-            **/
+             **/
 
 //            d3.selectAll(".pointCloud")
 //                .style("width", value + "px")
 //                .style("height", value + "px")
 //                .style("box-shadow", "0 0 " + value / 2 + "px #1891ff")
         });
+//        Space.add(params, "projection").min(10).max(2000).step(10).onFinishChange(function () {
+//            let value = params.projection;
+//            console.log(value);
+//        polyCube.updateMap(+value, window.geoMapData);
+//        });
 
-
-        gui.add(params, "showData").onChange(function () {
+        let Data = gui.addFolder("Data");
+        Data.add(params, "showData").onChange(function () {
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
@@ -382,6 +410,34 @@
 
     }
 
+</script>
+
+<script>
+    // Get the modal
+    let modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    let img = document.getElementById('dataImage');
+    let modalImg = document.getElementById("img01");
+    let captionText = document.getElementById("caption");
+    let imgDetails = document.getElementById("textTitle");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = imgDetails.innerHTML;
+    };
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+    let closeModal = document.getElementsByClassName("modal")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+    closeModal.onclick = function () {
+        modal.style.display = "none";
+    }
 </script>
 
 </body>

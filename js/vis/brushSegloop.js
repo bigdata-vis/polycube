@@ -3,6 +3,7 @@
  *  * addint data to time brush
  * http://blockbuilder.org/mbostock/4349545
  * move dateExtent to the main data entry point
+ * http://bl.ocks.org/feyderm/03602b83146d69b1b6993e5f98123175
  */
 
 (function () {
@@ -81,6 +82,11 @@
             .extent([[0, 0], [width, height]])
             .on("end", brushened);
 
+        let zoom = d3.zoom()
+            .scaleExtent([1, Infinity])
+            .translateExtent([[0, 0], [width, height]])
+            .extent([[0, 0], [width, height]])
+            .on("zoom", zoomed);
 
         let svg = d3.select("#timeLine")
             .style("position", "absolute")
@@ -92,10 +98,10 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        //y axis2
+        //y axis2 brush
         svg.append("g")
             .attr("class", "axis2 axis--y2")
-            .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+            .attr("transform", "translate(" + 70 + "," + margin.top + ")")
             .call(d3.axisLeft(y)
                 .ticks(d3.timeMonth)
                 // .ticks(d3.timeYear) //khm
@@ -108,10 +114,27 @@
                 return d.getYear();
             });
 
+        //y axis3 zoom
+        svg.append("g")
+            .attr("class", "axis3 axis--y3")
+            .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+            .call(d3.axisLeft(y)
+            // .ticks(d3.timeMonth)
+            // .ticks(d3.timeYear) //khm
+                .tickSize(-width)
+                .tickFormat(function () {
+                    return null;
+                }))
+            .selectAll(".tick")
+            .classed("tick--minor", function (d) {
+                return d.getYear();
+            });
+
         //axis
         svg.append("g")
             .attr("class", "axis axis--y")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            // .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("transform", "translate(" + 80 + "," + margin.top + ")")
             .call(d3.axisLeft(y)
                     .tickFormat(function (date) {
                         if (d3.timeYear(date) < date) {
@@ -134,31 +157,41 @@
                 // return "#EDCA3A";
             });
 
-        //area chart domain
-        // svg.select(".axis2")
-        //     .append("path")
-        //     // .attr("fill", "#ed7019")
-        //     // .attr("fill", "#ed7019")
-        //     .attr("fill", "#7b7b7b")
-        //     .attr("fill-opacity", 0.3)
-        //     .attr("d", area(count()));
+        //add zoom
+        svg.select(".axis3")
+            .append("rect")
+            .attr("class", "zoom")
+            .attr("width", width)
+            .attr("height", height)
+            // .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(zoom);
 
-        // svg.select(".axis2").select(".domain")
-        //     .attr("fill", "none")
-        //     // .attr("stroke", "#ed7019")
-        //     .attr("stroke", "#7b7b7b")
-        //     .attr("stroke-width", "2")
-        //     .attr("d", line(count()));
+
+        // area chart domain
+        svg.select(".axis3")
+            .append("path")
+            .attr("fill", "#7b7b7b")
+            .attr("class", "area")
+            .attr("fill-opacity", 0.3)
+            .attr("d", area(count()));
+
+        svg.select(".axis3").select(".domain")
+            .attr("fill", "none")
+            .attr("stroke", "#7b7b7b")
+            .attr("stroke-width", "2")
+            .attr("d", line(count()));
+
+
 
         //legend domain
         svg.select(".axis").select(".domain")
             .attr("fill", "none");
-        //     .style("fill", "url(#gradient)");
+            // .style("fill", "url(#gradient)");
 
         //Brush
         svg.append("g")
             .attr("class", "brush")
-            .attr("transform", "translate(" + 0 + "," + margin.top + ")")
+            .attr("transform", "translate(" + 70 + "," + margin.top + ")")
             .call(brush)
             .append("text")
             .attr("class", "brush_count")
@@ -310,6 +343,17 @@
                 })
         }
 
+        function zoomed() {
+            if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
+            var t = d3.event.transform;
+
+            y.domain(t.rescaleY(y).domain());
+
+            focus.select(".area").attr("d", area(count()));
+            // focus.select(".axis--x").call(xAxis);
+            // context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+        }
+
         function count() {
             let counts = {};
             let container = [];
@@ -428,6 +472,7 @@
             let intervalId;
             let max = 10;
             let counter = 0;
+
             // let inc = 1;
 
             function decrementCounter() {

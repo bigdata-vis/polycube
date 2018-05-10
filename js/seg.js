@@ -486,6 +486,7 @@
         pCube.updatePC = function (datasets = datasets, jitter, color=false) {
             // var image, interval, stc, object;
 
+
             /**
              * Remove all elements from the scene
              * remove pointClouds threejs

@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 from collections import namedtuple
 from pprint import pprint
+import spacy
+
 
 with open('data/output15502_Ag_AT_Kulturpool_Khm.json') as json_data:
     data = json.load(json_data)

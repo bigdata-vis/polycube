@@ -3,7 +3,6 @@
 <head>
     <!--<script src="lib/three.js/three.min.js"></script>-->
     <script src="//threejs.org/build/three.min.js"></script>
-    <script src="lib/three.js/CombinedCamera.js"></script>
     <script src="lib/three.js/OrbitControls.js"></script>
     <script src="lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
@@ -18,6 +17,7 @@
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 <body>
 
@@ -35,13 +35,22 @@
 </button>
 
 <button class="button" type="button"
-        onclick="polyCube.superImpose()"> superimposition
+        onclick="
+        polyCube.default();
+        setTimeout(function() {
+          polyCube.superImpose()
+        },2500);
+"> superimposition
 </button>
+
+
 <!--<br>-->
+
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
         <!--onclick="polyCube.setsDraw()"> Show Sets-->
 <!--</button>-->
 <br>
+
 <p  id="textTitle">i</p>
 <img id="dataImage" src="#">
 
@@ -59,7 +68,7 @@
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
-<script src="js/pcmodule_Sets1.js"></script>
+<script src="js/pcmodule_CD2.js"></script>
 
 <script>
 
@@ -76,7 +85,7 @@
 
             //check to remove lat and long data
 
-            var newData = data.slice(0, 500); //todo: slice arrray according to date range
+            var newData = data.slice(0, 1000); //todo: slice arrray according to date range
 
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -102,6 +111,12 @@
 
         polyCube.showPointCloud();
 
+
+        /**
+         * Hide leaflet markers
+         */
+        d3.selectAll(".leaflet-marker-icon")
+                .classed("hide", true);
 
         /**
          * Show pCube Time Brush
@@ -136,25 +151,14 @@
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", false)
-                        .style("pointer-events", "visible");
-
-                d3.selectAll("#textTitle")
                         .classed("hide", false);
-
-                d3.selectAll("#dataImage")
-                        .classed("hide", false)
-
+                d3.selectAll(".leaflet-marker-icon")
+                        .classed("hide", false);
             } else {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", true)
-                        .style("pointer-events", "none");
-
-                d3.selectAll("#textTitle")
-                        .classed("hide", true)
-
-                d3.selectAll("#dataImage")
-                        .classed("hide", true)
+                        .classed("hide", true);
+                d3.selectAll(".leaflet-marker-icon")
+                        .classed("hide", true);
             }
 
         }).name("Show PC Data");
@@ -187,12 +191,27 @@
         f1.add(params, "light").onChange(function () {
             var value = params.light;
             if (value) {
+
+                d3.select("#textTitle")
+                        .style("color", "black");
+
                 d3.select("body")
                         .style("background-color", "aliceblue");
                 d3.select("canvas")
                         .style("background", "transparent");
+
                 d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png");
+                        .attr("src", "texture/ball2.png")
+                        //change selected pointcloud color
+                        .on("mouseover", function () {
+//                            console.log(this)
+                        })
+                        //                        .on("mouseout", function () {
+                        //                            this.src = "texture/ball2.png"
+                        //                        })
+                        .on("click", function () {
+                            this.src = "texture/ball2_dark.png"
+                        });
 
                 d3.selectAll(".side")
                         .style("border", "0.5px dotted rgb(10, 10, 10)")
