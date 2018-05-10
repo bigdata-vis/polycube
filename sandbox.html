@@ -70,7 +70,7 @@
 //            .defer(d3.xml, "data/export.xml")
             .await(init);
 
-    function init(error, data, szabo, map) {
+    function init(error, data) {
         if (error) console.log(error);
         function tempRange(data) {
 
@@ -87,9 +87,7 @@
              });
 
             //Draw
-            polyCube.drawElements(newData, szabo);
-//            polyCube.drawMap(map);
-//            polyCube.drawLines();
+            polyCube.drawElements(newData);
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);

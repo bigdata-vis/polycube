@@ -44,7 +44,7 @@
     var segmentedData;
 
 
-    pCube.drawElements = function (datasets, datasets2) {
+    pCube.drawElements = function (datasets) {
 
         /**
          * Parse and Format Time
@@ -64,6 +64,7 @@
          * Clean func for Datasets1
          *Datasets to draw the segments
          */
+
         datasets.forEach(function (d, i) {
             var coord = d.Geocoordinates.split(",");
             d.long = +coord[0];
@@ -114,10 +115,6 @@
          * Clean func for Data sets 2
          *Data sets to draw point clouds
          */
-        datasets2.forEach(function (d, i) {
-            d.start_date = parse2(d.start_date); //parse date first and then format
-            d.start_date = +format2(d.start_date)
-        });
 
         /**
          * Time linear function to calculate the y axis on the cube by passing the value of year from the datasets
@@ -173,7 +170,6 @@
             // pCube.spriteRender(xScale, yScale);
         };
 
-
         pCube.showNodes = function () {
             pCube.drawLines()
         };
@@ -220,10 +216,10 @@
          * @type {number}
          */
 
-        pointCloud.rotation.z = 3.15;
-        cube.rotation.z = 3.15;
-        glbox.rotation.z = 3.15;
-        cube.position.y = cube.position.y - interval;
+        // pointCloud.rotation.z = 3.15;
+        // cube.rotation.z = 3.15;
+        // glbox.rotation.z = 3.15;
+        // cube.position.y = cube.position.y - interval;
         // pointCloud.position.z = -90;
         // pointCloud.position.y += 5;
         // pointCloud.position.x += 4;
@@ -231,17 +227,6 @@
         // console.log(pointCloud);
         glbox.position.copy(pointCloud.position);
 
-        // glbox.rotation.y = 10;
-        // glbox.position.z = -60;
-
-        //rotate cube
-        // pointCloud.position.copy(cube.position);
-        // pointCloud.rotation.copy(cube.rotation);
-
-
-        //flip pointcloud
-        // cube.applyMatrix(mS);
-        // pointCloud.applyMatrix(mS);
 
         /**camera
          * Threejs camera implementation
@@ -322,31 +307,6 @@
         }
 
         /**
-         * Segments
-         * var segments = datasets.length; //todo: specify config value for the segments numbers
-         * dynamic segementation :: var segments = (datasets2.length < 20 ? datasets.length : 10)
-         * segements from the length of defaultData or datasets1
-         */
-        // var segments = defaultData.length;
-        // var segments = (datasets2.length < 20 ? datasets.length : 10);
-        // var segments = 10;
-
-        /**D3
-         *Map Projection
-         *Mercator or geoAlbers
-         *Dynamic Scale with editing and update function
-         */
-        var projection = d3.geoAlbers()
-            .translate([width / 2, height / 2])
-            .center([0, 45.5])
-            .rotate([-13.5, -2])
-            .scale(100);
-
-        var path = d3.geoPath()
-            .projection(projection)
-            .pointRadius(2);
-
-        /**
          * D3.nest to segment each data by ts property
          * sort data by jp1
          */
@@ -364,16 +324,12 @@
          * @type {any}
          */
         segmentedData = dataBySeg;
-        // console.log(dataBySeg);
 
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
-
-
-
         var elements = d3.select("body").selectAll('.element')
         //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
         //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
@@ -384,56 +340,17 @@
             .style("width", width + "px")
             .style("height", height + "px")
             .attr('id', 'mapbox');
-        // .each(function (d, i) {
-        //     // console.log(d);
-        //     var div = d3.select(this).append("div")
-        //         .attr("class", "elements_child")
-        //         .style("width", width + "px")
-        //         .style("height", height + "px")
-        //         .attr("id", function (d) {
-        //             // return d.IU_Archives_Number; //todo: show different data on map layers
-        //             return d.key;
-        //             // return "55117";
-        //         });
-        //         // .filter(function () {  //todo: point of hiding other map items
-        //         //     return i !== 0;
-        //         // })
-        //         // .classed("hide", true)
-        //         // .classed("dataPane", true);
-        //
-        //     /**
-        //      * MAP entry point
-        //      * world mao implementation with leaflet
-        //      * @param d.IU is the elem ID of each mao
-        //      * Implement MabBox component
-        //      * http://www.delimited.io/blog/2014/5/10/maps-with-d3js-threejs-and-mapbox
-        //      *
-        //      */
-        //     // pCube.drawMap(d.IU_Archives_Number, datasets); //todo: show map on each layer
-        //     // pCube.drawMap(d.key, d.values);
-        // });
 
         //Div SVG
         svg = elements.append("svg")
             .attr("class", "circle_elements")
             .attr("width", width)
             .attr("height", height)
-            // .style("opacity", 0.2)
             .append("circle")
             .attr("r", function (d, i) { //generated data to highlight circle radius
-
                 var x = d.values.length / 2;
-                // x2 = x * (datasets.length / 2) + x;
-
-                // if (i < (datasets.length / 2)) {
-                //     return x + (i * x )
-                // } else {
-                //     return x2 - (i * (x / 2));
-                // }
-
                 return x;
             })
-
             .attr("cx", function (d) {
                 // return d.geometry.coordinates[0] += 40;
                 return 250
@@ -443,24 +360,16 @@
                 return 250;
             })
             .attr("fill", "#690")
-            .attr("opacity", 0.4);
+            .attr("opacity", 1)
 
-        // pCube.drawMap("55117", datasets);
-
+            .append("circle")
+            .attr("fill", "#072e99")
+            .attr("opacity", 1);
 
         /**
          * Objectify and draw segments elements
          */
-        // elements.each(setViewData);
         elements.each(addtoScene);
-
-        // var newDiv = d3.select("body").append('div')
-        //     .attr("class", "newElement")
-        //     .style("width",200 + "px")
-        //     .style("height",200 + "px");
-        //
-        // newDiv.each(addtoScene);
-
 
         /**
          * Test biographical data
@@ -468,65 +377,43 @@
 
         var newList = [];
 
-        var testElem = d3.selectAll('.pointCloud')
+
+
+        var PCElem = d3.selectAll('.pointCloud')
             .data(dataBySeg).enter()
             .each(function (data, i) {
-
-                // console.log(data);
-
-
-                // var pack = d3.pack()
-                //     .size([width, height])
-                //     .padding(0);
-                // .value(function (d) { return 10; });
-
-                // console.log(nodes)
-
-
                 data.values.forEach(function (d) {
 
-
                     var image = document.createElement('img');
-                    var interval = 500 / dataSlices; //height/segments
+                    var interval = height / dataSlices; //height/segments
                     var min = -50,
                         max = data.values.length / 2;
-
-                    // console.log(max);
 
                     image.style.width = 10 + "px";
                     image.style.height = 10 + "px";
                     image.className = "pointCloud";
 
+                    // console.log(d.time);
+
                     image.addEventListener('load', function (event) {
                         var object = new THREE.CSS3DSprite(image.cloneNode());
-                        // long = pCube.projection(d.long, d.lat).x,
-                        // lat = pCube.projection(d.long, d.lat).y;
 
-                        // var coord = translate([lat, long]);
-
-                        object.position.y = interval * i - 125; //todo: height + scale + time to determine y axis
-                        // object.position.z =  Math.random() * ((data.values.length/2) - (-20)) + (-20);
-                        // object.position.x =  Math.random() * (data.values.length/2);
-                        // object.position.y = Math.random() * (max - min) + min;
-
+                        // object.position.y = timeLinear(d.time); //for unix date
+                        object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
                         object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
                         object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
-
 
                         /**
                          * add each proerties of the pointcloud to new data
                          */
                         object["newData"] = d;
 
-                        // add object rotation
-                        // object.rotation.fromArray(rot[2]);
 
                         object.name = "pointCloud"; //todo: remove later
                         object.element.onmouseover = function () {
-                            // console.log(d);
                             d3.select("#textTitle")
                                 .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                    "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                                    "<span class='date'>Date : " + d.time + " </span> <br>" +
                                     "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                 );
 
@@ -536,22 +423,18 @@
 
 
                         /**
-                         * populate line list
+                         * populate line list to be used for drawing line and hull convex
                          */
-
-                        // newList.push(object.position);
 
                         lineList.push(object.position);
 
                         /**
                          * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
                          */
-
-                        pointCloud.add(object);
+                        // pointCloud.add(object);
                         // }
                     }, false);
                     image.src = 'texture/ball.png';
-
                 })
             });
 
@@ -568,7 +451,6 @@
                 z: widthHalf
             }
         });
-
         function drawLabels(parameters) {
 
             // console.log(dateTestEx[0]);
@@ -579,6 +461,9 @@
 
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || dataSlices; //use label count or specified parameters
+
+            // var startDate = parameters["startDate"] || new Date(window.dateTestEx[0].toString(), 1-1, 1 );
+            // var endDate = parameters["endDate"] || new Date(window.dateTestEx[1].toString(), 1, 1);
 
             var startDate = parameters["startDate"] || dateTestEx[0].toString();
             var endDate = parameters["endDate"] || dateTestEx[1].toString();
@@ -601,15 +486,24 @@
                     z: 100
                 };
 
-            for (var i = 0; i < (dataSlices); i++) {
+            // for (var i = 0; i < (dataSlices); i++) {
+            //     // console.log(dateArray[i]);
+            //
+            //     var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+            //     label.position.set(p.x, p.y, p.z);
+            //     label.rotation.y = 20;
+            //     p.y += separator; //increment y position of individual label to increase over time
+            // }
 
-                // console.log(dateArray[i]);
-
-                var label = makeTextSprite(formatTime(dateArray[i]), {fontsize: 10});
+            dateArray.forEach(function (d) {
+                // console.log(d);
+                let label = makeTextSprite(formatTime(d), {fontsize: 10});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
-            }
+                // p.y += separator; //increment y position of individual label to increase over time
+            });
+
 
             function makeTextSprite(message, parameters) {
                 if (parameters === undefined) parameters = {};
@@ -632,7 +526,6 @@
                 return object;
             }
         }
-
         /**
          * BioVis Styling
          */
@@ -763,10 +656,6 @@
 
             }
         }
-
-        // geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
-        // geometry.vertices.push(new THREE.Vector3(0, 40, 0));
-        // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
 
         var line = new THREE.Line(geometry, material);
         glbox.add(line);
