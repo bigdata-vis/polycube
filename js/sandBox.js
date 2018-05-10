@@ -341,12 +341,21 @@
             .style("height", height + "px")
             .attr('id', 'mapbox');
 
+
         //Div SVG
         svg = elements.append("svg")
             .attr("class", "circle_elements")
             .attr("width", width)
             .attr("height", height)
-            .append("circle")
+            .append("g")
+            // .attr("x", function (d) {
+            //     return 250
+            // })
+            // .attr("y", function (d) {
+            //     return 250;
+            // });
+
+        svg.append("circle")
             .attr("r", function (d, i) { //generated data to highlight circle radius
                 var x = d.values.length / 2;
                 return x;
@@ -360,11 +369,23 @@
                 return 250;
             })
             .attr("fill", "#690")
-            .attr("opacity", 1)
-
-            .append("circle")
-            .attr("fill", "#072e99")
             .attr("opacity", 1);
+
+        svg.append("circle")
+            .attr("fill", "#072e99")
+            .attr("opacity", 1)
+            .attr("r", function (d, i) { //generated data to highlight circle radius
+                var x = d.values.length / 3;
+                return x;
+            })
+            .attr("cx", function (d) {
+                // return d.geometry.coordinates[0] += 40;
+                return 250
+            })
+            .attr("cy", function (d) {
+                // var cy = d.geometry.coordinates[1] + 220;
+                return 250;
+            });
 
         /**
          * Objectify and draw segments elements
@@ -376,7 +397,6 @@
          */
 
         var newList = [];
-
 
 
         var PCElem = d3.selectAll('.pointCloud')
@@ -451,6 +471,7 @@
                 z: widthHalf
             }
         });
+
         function drawLabels(parameters) {
 
             // console.log(dateTestEx[0]);
@@ -481,10 +502,10 @@
             // var separator = height / dateArray.length;
             var separator = height / dataSlices;
             var p = parameters["labelPosition"] || {
-                    x: -80,//offset border
-                    y: 0,
-                    z: 100
-                };
+                x: -80,//offset border
+                y: 0,
+                z: 100
+            };
 
             // for (var i = 0; i < (dataSlices); i++) {
             //     // console.log(dateArray[i]);
@@ -526,6 +547,7 @@
                 return object;
             }
         }
+
         /**
          * BioVis Styling
          */
