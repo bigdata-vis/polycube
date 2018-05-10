@@ -3,6 +3,13 @@
  */
 (function (pCube) {
 
+  /* check if _ lodash is available */
+  if (!window._) {
+    throw new Error('lodash.js is not available!');
+  }
+
+  const DEBUG_OUTPUT = false;
+
   const SET_VIS_TYPE_TREEMAP = 'treemap';
   const SET_VIS_TYPE_TREEMAP_FLAT = 'treemap_flat';
   const SET_VIS_TYPE_TREEMAP_HIERARCHY = 'treemap_hierarchy';
@@ -605,7 +612,7 @@
     // [dateExt[0], dateExt[1]] DOMAIN_RANGE
     _yearTicks = tickValues;
     // _yearScale = d3.scaleLinear().domain(tickValues).range(rangeValues).clamp(true).nice();
-    // console.debug(dateExt, _yearScale(dateExt[0]), _yearScale(dateExt[1]), Math.floor(_yearScale(1000)));
+    // !DEBUG_OUTPUT || console.debug(dateExt, _yearScale(dateExt[0]), _yearScale(dateExt[1]), Math.floor(_yearScale(1000)));
     // pCube.dateTestEx(dateExt);
 
     // update labels 
@@ -704,9 +711,9 @@
     });
 
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
-      console.debug(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
-      console.debug(`treemap_hierarchy: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_hierarchy[index])} items`);
-      console.debug(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`treemap_hierarchy: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_hierarchy[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
     }
 
     if (pCube.sets_options.data_layer_sumUp) {
@@ -735,10 +742,10 @@
     }
 
     for (var index = 0; index < NUMBER_OF_LAYERS; index++) {
-      console.debug(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
-      console.debug(`treemap_hierarchy: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_hierarchy[index])} items`);
-      console.debug(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
-      console.debug(`sets_matrix_objects: layer ${index} with ${getMatrixLayerItemCountWithIdArray(pCube.sets_matrix_objects[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`treemap: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_sets[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`treemap_hierarchy: layer ${index} with ${getTreemapLayerItemCount(pCube.treemap_hierarchy[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`matrix: layer ${index} with ${getMatrixLayerItemCount(pCube.matrix_sets[index])} items`);
+      !DEBUG_OUTPUT || console.debug(`sets_matrix_objects: layer ${index} with ${getMatrixLayerItemCountWithIdArray(pCube.sets_matrix_objects[index])} items`);
     }
 
     drawLayers();
@@ -2225,12 +2232,12 @@
       _simple_hierarchy_root = d3.hierarchy(data);
       _simple_hierarchy_root = _simple_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[maxLayer][d.name].length : null; })
         .sort(treemapSortFunction);
-      console.debug(_simple_hierarchy_root);
+      !DEBUG_OUTPUT || console.debug(_simple_hierarchy_root);
     }
     _simple_hierarchy_root = _simple_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
       .sort(treemapSortFunction);
     let nodes = _tmap(_simple_hierarchy_root).leaves();
-    console.debug(layerNumber, _simple_hierarchy_root);
+    !DEBUG_OUTPUT || console.debug(layerNumber, _simple_hierarchy_root);
     return nodes;
   };
 
@@ -2256,12 +2263,12 @@
       _complex_hierarchy_root = stratify(list);
       _complex_hierarchy_root = _complex_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[maxLayer][d.name].length : null; })
         .sort(treemapSortFunction);
-      console.debug(_complex_hierarchy_root);
+      !DEBUG_OUTPUT || console.debug(_complex_hierarchy_root);
     }
     _complex_hierarchy_root = _complex_hierarchy_root.sum(function (d) { return d.name !== 'tree' && dataset[layerNumber][d.name] ? dataset[layerNumber][d.name].length : null; })
       .sort(treemapSortFunction);
     let nodes = _tmap(_complex_hierarchy_root).descendants();
-    console.debug(layerNumber, _complex_hierarchy_root);
+    !DEBUG_OUTPUT || console.debug(layerNumber, _complex_hierarchy_root);
     return nodes;
   };
 
