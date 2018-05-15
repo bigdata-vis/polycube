@@ -48,3 +48,15 @@ function randomSpherePoint(x0,y0,z0,radius){
     var z = z0 + (radius * Math.cos(phi));
     return [x,y,z];
 }
+
+
+//How to get unique values in an array
+Array.prototype.unique = function() {
+    var arr = [];
+    for(var i = 0; i < this.length; i++) {
+        if(!arr.includes(this[i])) {
+            arr.push(this[i]);
+        }
+    }
+    return arr;
+};

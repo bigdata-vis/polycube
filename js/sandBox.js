@@ -413,13 +413,20 @@
         /**
          * Objectify and draw segments elements
          */
-
         elements.each(addtoScene);
 
         /**
          * Push pc data to scene
          */
-        var newList = [];
+        let newList = [];
+        let colorList = [];
+
+        //color scale
+        var colorScale = d3.scaleOrdinal()
+            // .domain(["New York", "San Francisco", "Austin"])
+            .domain(colorList.unique())
+            // .range(["#FF0000", "#009933" , "#0000FF"]);
+            .range(d3.schemePaired);
 
         // var PCElem = d3.selectAll('.pointCloud')
         //     .data(dataBySeg).enter()
@@ -471,17 +478,17 @@
         //             pointCloud.add(object);
         //         })
         //     });
-
-
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
             .each(function (data, i) { //layers
 
                 data.values.forEach(function (data) { //groups
+                    colorList.push(data.key);
 
                     const rad = data.values.length;
                     const geometry = new THREE.CircleGeometry(rad, 12);
-                    const material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0.7});
+                    // const material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0.7});
+                    const material = new THREE.MeshBasicMaterial({color: colorScale(data.key), side: THREE.DoubleSide, transparent: true, opacity: 0.7});
                     const circle = new THREE.Mesh(geometry, material);
                     circle.name = data.key;
                     circle.rotation.x = Math.PI / 2;
