@@ -184,7 +184,7 @@
          */
         WGLRenderer = new THREE.WebGLRenderer({alpha: true});
         WGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        WGLRenderer.setClearColor(0x00ff00, 0.0);
+        // WGLRenderer.setClearColor(0x00ff00, 0.0);
         WGLRenderer.domElement.style.position = 'absolute';
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
@@ -207,22 +207,9 @@
          * https://stackoverflow.com/questions/24681170/three-js-properly-blending-css3d-and-webgl/24688807#24688807
          * Copy position of the cube box and attach it to glbox to callibrate both objects
          */
-        glbox.position.copy(cube.position);
-        glbox.rotation.copy(cube.rotation);
-
-
-        /**
-         * Time axis inverted
-         * @type {number}
-         */
-
-        // pointCloud.rotation.z = 3.15;
-        // cube.rotation.z = 3.15;
-        // glbox.rotation.z = 3.15;
-        // cube.position.y = cube.position.y - interval;
-        // pointCloud.position.z = -90;
-        // pointCloud.position.y += 5;
-        // pointCloud.position.x += 4;
+        // glbox.position.copy(cube.position);
+        // glbox.rotation.copy(cube.rotation);
+        //
 
         // console.log(pointCloud);
         glbox.position.copy(pointCloud.position);
@@ -264,13 +251,13 @@
         scene.add(pointCloud);
         WGLScene.add(glbox);
 
-
         /**
-         * WEBGL PLAYGROUND
-         * Callibrating css cubebox and glcube box positions
+         * Lights
          *
          */
 
+        var light = new THREE.PointLight(0xffffff);
+        WGLScene.add(light);
 
         /**CSS3D Scene
          * Cube Sides
@@ -307,13 +294,28 @@
         }
 
         /**
-         * D3.nest to segment each data by ts property
+         * D3.nest to segment each data by its temporal ts property
          * sort data by jp1
          */
-
         var dataBySeg = d3.nest()
             .key(function (d) {
                 return d.ts;
+                // return d.Genre_1;
+            })
+            .entries(datasets).sort(function (a, b) {
+                return a.key > b.key;
+            });
+
+        /**
+         * convert the flat data into a hierarchy
+         */
+
+        let segDataGroups = d3.nest()
+            .key(function (d) {
+                return d.ts;
+            })
+            .key(function (d) {
+                return d.Genre_1;
             })
             .entries(datasets).sort(function (a, b) {
                 return a.key > b.key;
@@ -325,15 +327,15 @@
          */
         segmentedData = dataBySeg;
 
+        // console.log(segDataGroups);
+
         /**
          *Create Div holders for the segments
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
         var elements = d3.select("body").selectAll('.element')
-        //todo: add function to .data to slice dataSets into dataSlides amount of individual segments
-        //     .data(datasets.slice(0, dataSlices)).enter() //todo: limit datasets to sepcific time for y axis
-            .data(dataBySeg)
+            .data(dataBySeg)//automate the use of slices
             .enter()
             .append('div')
             .attr('class', 'elements')
@@ -341,121 +343,213 @@
             .style("height", height + "px")
             .attr('id', 'mapbox');
 
-
         //Div SVG
         svg = elements.append("svg")
             .attr("class", "circle_elements")
             .attr("width", width)
             .attr("height", height)
-            .append("g")
-            // .attr("x", function (d) {
-            //     return 250
-            // })
-            // .attr("y", function (d) {
-            //     return 250;
-            // });
+            .append("g");
 
-        svg.append("circle")
-            .attr("r", function (d, i) { //generated data to highlight circle radius
-                var x = d.values.length / 2;
-                return x;
-            })
-            .attr("cx", function (d) {
-                // return d.geometry.coordinates[0] += 40;
-                return 250
-            })
-            .attr("cy", function (d) {
-                // var cy = d.geometry.coordinates[1] + 220;
-                return 250;
-            })
-            .attr("fill", "#690")
-            .attr("opacity", 1);
+        // .each(function (data) {
+        //     data.values.forEach(function (d) {
+        //         console.log(d3.select("circle_elements"));
+        //         // d3.select(this).append("circle")
+        //         //     .attr("r", function (d, i) {
+        //         //         console.log(d.values);
+        //         //         // var x = d.values.length;
+        //         //         // return x;
+        //         //     })
+        //         //     .attr("cx", function (d) {
+        //         //         return 250
+        //         //     })
+        //         //     .attr("cy", function (d) {
+        //         //         return 250;
+        //         //     })
+        //         //     .attr("fill", "#690")
+        //         //     .attr("opacity", 1);
+        //     })
+        // });
 
-        svg.append("circle")
-            .attr("fill", "#072e99")
-            .attr("opacity", 1)
-            .attr("r", function (d, i) { //generated data to highlight circle radius
-                var x = d.values.length / 3;
-                return x;
-            })
-            .attr("cx", function (d) {
-                // return d.geometry.coordinates[0] += 40;
-                return 250
-            })
-            .attr("cy", function (d) {
-                // var cy = d.geometry.coordinates[1] + 220;
-                return 250;
-            });
+        // green circle
+        // svg.selectAll("g")
+        //     .data(segDataGroups)
+        //     .enter()
+        //     .each(d=> console.log(d)
+        //     )
+        //     .append("circle")
+        //     .attr("r", function (d, i) { //generated data to highlight circle radius
+        //         // console.log(d.values);
+        //         var x = d.values.length;
+        //         return x;
+        //     })
+        //     .attr("cx", function (d) {
+        //         // return d.geometry.coordinates[0] += 40;
+        //         return 250
+        //     })
+        //     .attr("cy", function (d) {
+        //         // var cy = d.geometry.coordinates[1] + 220;
+        //         return 250;
+        //     })
+        //     .attr("fill", "#690")
+        //     .attr("opacity", 1);
+
+        // blue circle
+        // svg.append("circle")
+        //     .attr("fill", "#072e99")
+        //     .attr("opacity", 1)
+        //     .attr("r", function (d, i) { //generated data to highlight circle radius
+        //         var x = d.values.length / 3;
+        //         return x;
+        //     })
+        //     .attr("cx", function (d) {
+        //         // return d.geometry.coordinates[0] += 40;
+        //         return 250
+        //     })
+        //     .attr("cy", function (d) {
+        //         // var cy = d.geometry.coordinates[1] + 220;
+        //         return 250;
+        //     });
 
         /**
          * Objectify and draw segments elements
          */
+
         elements.each(addtoScene);
 
         /**
-         * Test biographical data
+         * Push pc data to scene
          */
-
         var newList = [];
 
+        // var PCElem = d3.selectAll('.pointCloud')
+        //     .data(dataBySeg).enter()
+        //     .each(function (data, i) {
+        //         data.values.forEach(function (d) {
+        //
+        //             var image = document.createElement('div');
+        //             var interval = height / dataSlices; //height/segments
+        //             var min = -50,
+        //                 max = data.values.length / 2;
+        //
+        //             image.style.width = 10 + "px";
+        //             image.style.height = 10 + "px";
+        //             image.className = "pointCloud";
+        //             var object = new THREE.CSS3DSprite(image);
+        //
+        //
+        //             object.position.y = timeLinear(d.time); //for unix date
+        //             // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
+        //             object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
+        //             object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
+        //
+        //             /**
+        //              * add each proerties of the pointcloud to new data
+        //              */
+        //             object["newData"] = d;
+        //
+        //             object.name = "pointCloud"; //todo: remove later
+        //             object.element.onclick = function () {
+        //                 d3.select("#textTitle")
+        //                     .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
+        //                         "<span class='date'>Date : " + d.time + " </span> <br>" +
+        //                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+        //                     );
+        //
+        //                 d3.select("#dataImage")
+        //                     .attr("src", d.Image_URL)
+        //             };
+        //
+        //             /**
+        //              * populate line list to be used for drawing line and hull convex
+        //              */
+        //
+        //             lineList.push(object.position);
+        //
+        //             /**
+        //              * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
+        //              */
+        //             pointCloud.add(object);
+        //         })
+        //     });
 
-        var PCElem = d3.selectAll('.pointCloud')
-            .data(dataBySeg).enter()
-            .each(function (data, i) {
-                data.values.forEach(function (d) {
 
-                    var image = document.createElement('img');
-                    var interval = height / dataSlices; //height/segments
-                    var min = -50,
-                        max = data.values.length / 2;
+        var PC2Elem = d3.selectAll('.pointCloud')
+            .data(segDataGroups).enter()
+            .each(function (data, i) { //layers
 
-                    image.style.width = 10 + "px";
-                    image.style.height = 10 + "px";
-                    image.className = "pointCloud";
+                data.values.forEach(function (data) { //groups
 
-                    // console.log(d.time);
+                    const rad = data.values.length;
+                    const geometry = new THREE.CircleGeometry(rad, 12);
+                    const material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0.7});
+                    const circle = new THREE.Mesh(geometry, material);
+                    circle.name = data.key;
+                    circle.rotation.x = Math.PI / 2;
 
-                    image.addEventListener('load', function (event) {
-                        var object = new THREE.CSS3DSprite(image.cloneNode());
+                    //x&z axis
+                    circle.position.x = (Math.random() * heightHalf * 4 - widthHalf * 2);
+                    circle.position.z = (Math.random() * heightHalf * 4 - widthHalf * 2);
+                    circle.position.normalize();
+                    circle.position.multiplyScalar(150);
 
+                    //y axis
+                    circle.position.y = (interval * i) - interval - interval;
+
+                    glbox.add(circle);
+
+                    //create group and add the points
+                    const group = new THREE.Group();
+                    group.name = data.key;
+                    group.position.copy(circle.position);
+                    group.radius = circle.geometry.parameters.radius;
+
+
+                    data.values.forEach(function (d) { //groups
+
+                        var image = document.createElement('div');
+                        var min = -50;
+                        image.style.width = 10 + "px";
+                        image.style.height = 10 + "px";
+                        image.className = "pointCloud";
+
+                        var object = new THREE.CSS3DSprite(image);
                         // object.position.y = timeLinear(d.time); //for unix date
-                        object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
-                        object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
-                        object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
+                        // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
+                        // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
+                        // object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
 
-                        /**
-                         * add each proerties of the pointcloud to new data
-                         */
-                        object["newData"] = d;
-
+                        const objPos = randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius);
+                        // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
+                        object.position.x = objPos[0];
+                        object.position.y = objPos[1];
+                        object.position.z = objPos[2];
 
                         object.name = "pointCloud"; //todo: remove later
-                        object.element.onmouseover = function () {
+
+                        object.element.onclick = function () {
+                            // console.log(d);
                             d3.select("#textTitle")
                                 .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                    "<span class='date'>Date : " + d.time + " </span> <br>" +
+                                    "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
                                     "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                 );
-
                             d3.select("#dataImage")
                                 .attr("src", d.Image_URL)
                         };
 
-
-                        /**
-                         * populate line list to be used for drawing line and hull convex
-                         */
+                        //add object to group
+                        group.add( object );
 
                         lineList.push(object.position);
+
+                        //onlick object
 
                         /**
                          * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
                          */
-                        // pointCloud.add(object);
-                        // }
-                    }, false);
-                    image.src = 'texture/ball.png';
-                })
+                        pointCloud.add(object);
+                    })
+                });
             });
 
         /**
@@ -582,6 +676,7 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
         pCube.render()
     };
 
