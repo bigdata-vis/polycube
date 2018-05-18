@@ -307,9 +307,8 @@
             });
 
         /**
-         * convert the flat data into a hierarchy
+         * convert category data into a time and group hierarchy
          */
-
         let segDataGroups = d3.nest()
             .key(function (d) {
                 return d.ts;
@@ -321,11 +320,11 @@
                 return a.key > b.key;
             });
 
-        /**
-         * push segmented data to global variable
-         * @type {any}
-         */
-        segmentedData = dataBySeg;
+        // /**
+        //  * push segmented data to global variable
+        //  * @type {any}
+        //  */
+        // segmentedData = dataBySeg;
 
         // console.log(segDataGroups);
 
@@ -428,81 +427,32 @@
             // .range(["#FF0000", "#009933" , "#0000FF"]);
             .range(d3.schemePaired);
 
-        // var PCElem = d3.selectAll('.pointCloud')
-        //     .data(dataBySeg).enter()
-        //     .each(function (data, i) {
-        //         data.values.forEach(function (d) {
-        //
-        //             var image = document.createElement('div');
-        //             var interval = height / dataSlices; //height/segments
-        //             var min = -50,
-        //                 max = data.values.length / 2;
-        //
-        //             image.style.width = 10 + "px";
-        //             image.style.height = 10 + "px";
-        //             image.className = "pointCloud";
-        //             var object = new THREE.CSS3DSprite(image);
-        //
-        //
-        //             object.position.y = timeLinear(d.time); //for unix date
-        //             // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
-        //             object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
-        //             object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
-        //
-        //             /**
-        //              * add each proerties of the pointcloud to new data
-        //              */
-        //             object["newData"] = d;
-        //
-        //             object.name = "pointCloud"; //todo: remove later
-        //             object.element.onclick = function () {
-        //                 d3.select("#textTitle")
-        //                     .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-        //                         "<span class='date'>Date : " + d.time + " </span> <br>" +
-        //                         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
-        //                     );
-        //
-        //                 d3.select("#dataImage")
-        //                     .attr("src", d.Image_URL)
-        //             };
-        //
-        //             /**
-        //              * populate line list to be used for drawing line and hull convex
-        //              */
-        //
-        //             lineList.push(object.position);
-        //
-        //             /**
-        //              * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
-        //              */
-        //             pointCloud.add(object);
-        //         })
-        //     });
+        console.log(segDataGroups);
+
+        //Data Point Cloud Draw
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
-            .each(function (data, i) { //layers
-
-                data.values.forEach(function (data) { //groups
+            .each(function (data, i) { //time layers :ral
+                data.values.forEach(function (data) { // data groups :ral
                     colorList.push(data.key);
-
-                    const rad = data.values.length;
-                    const geometry = new THREE.CircleGeometry(rad, 12);
-                    // const material = new THREE.MeshBasicMaterial({color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0.7});
+                    //circle geometry
+                    const rad = data.values.length;//ral: size of the big circles
+                    const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
                     const material = new THREE.MeshBasicMaterial({color: colorScale(data.key), side: THREE.DoubleSide, transparent: true, opacity: 0.7});
                     const circle = new THREE.Mesh(geometry, material);
                     circle.name = data.key;
                     circle.rotation.x = Math.PI / 2;
 
-                    //x&z axis
+                    //x&z axis for position axis :ral
                     circle.position.x = (Math.random() * heightHalf * 4 - widthHalf * 2);
                     circle.position.z = (Math.random() * heightHalf * 4 - widthHalf * 2);
                     circle.position.normalize();
                     circle.position.multiplyScalar(150);
 
-                    //y axis
+                    //y axis for time
                     circle.position.y = (interval * i) - interval - interval;
-
                     glbox.add(circle);
+
 
                     //create group and add the points
                     const group = new THREE.Group();
@@ -511,7 +461,7 @@
                     group.radius = circle.geometry.parameters.radius;
 
 
-                    data.values.forEach(function (d) { //groups
+                    data.values.forEach(function (d) { //points
 
                         var image = document.createElement('div');
                         var min = -50;
