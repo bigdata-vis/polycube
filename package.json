@@ -1,0 +1,22 @@
+{
+  "name": "polycube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigdata-vis/polycube.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bigdata-vis/polycube/issues"
+  },
+  "homepage": "https://github.com/bigdata-vis/polycube#readme",
+  "dependencies": {
+    "quickhull3d": "^2.0.3"
+  }
+}

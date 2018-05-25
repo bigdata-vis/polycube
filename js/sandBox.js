@@ -1,7 +1,9 @@
+
 /**
  * Created by simba on 27/03/2017.
  */
 (function () {
+
     var pCube = {};
 
     /**default data
@@ -422,35 +424,63 @@
 
         //color scale
         var colorScale = d3.scaleOrdinal()
-            // .domain(["New York", "San Francisco", "Austin"])
+        // .domain(["New York", "San Francisco", "Austin"])
             .domain(colorList.unique())
-            // .range(["#FF0000", "#009933" , "#0000FF"]);
-            .range(d3.schemePaired);
+            .range(["#FF0000", "#009933", "#0000FF", "#ffea3f", "#422ba1", "#671a34"]);
+        // .range(d3.schemePaired);
 
-        console.log(segDataGroups);
+        // console.log(segDataGroups);
+
+
+        //force directed sim
+        let simulation = d3.forceSimulation()
+            .force('charge', d3.forceManyBody().strength(5))
+            .force('center', d3.forceCenter(widthHalf, heightHalf))
+            .force('collision', d3.forceCollide().strength(.5).radius(function (d) {
+                return d.values.length;
+            }).iterations(2));
+
 
         //Data Point Cloud Draw
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
             .each(function (data, i) { //time layers :ral
+
+                simulation.nodes(data.values);
+
+                // console.log(data.values);
+
                 data.values.forEach(function (data) { // data groups :ral
                     colorList.push(data.key);
                     //circle geometry
                     const rad = data.values.length;//ral: size of the big circles
-                    const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
-                    const material = new THREE.MeshBasicMaterial({color: colorScale(data.key), side: THREE.DoubleSide, transparent: true, opacity: 0.7});
+                    const geometry = new THREE.CircleGeometry(rad, 12);//hull resolution
+                    const material = new THREE.MeshBasicMaterial({
+                        color: colorScale(data.key),
+                        side: THREE.DoubleSide,
+                        transparent: true,
+                        opacity: 0.7
+                    });
                     const circle = new THREE.Mesh(geometry, material);
                     circle.name = data.key;
                     circle.rotation.x = Math.PI / 2;
 
                     //x&z axis for position axis :ral
-                    circle.position.x = (Math.random() * heightHalf * 4 - widthHalf * 2);
-                    circle.position.z = (Math.random() * heightHalf * 4 - widthHalf * 2);
-                    circle.position.normalize();
-                    circle.position.multiplyScalar(150);
+                    // circle.position.x = (Math.random() * heightHalf * 4 - widthHalf * 2);
+                    // circle.position.z = (Math.random() * heightHalf * 4 - widthHalf * 2);
+                    // circle.position.normalize();
+                    // circle.position.multiplyScalar(150);
+
+                    //apply force layout
+                    // console.log(data);
+
+                    circle.position.x = data.y * 7;
+                    circle.position.z = data.x * 7;
 
                     //y axis for time
                     circle.position.y = (interval * i) - interval - interval;
+                    // circle.position.y = timeLinear(d.time);
+                    circle.updateMatrixWorld();
                     glbox.add(circle);
 
 
@@ -459,7 +489,7 @@
                     group.name = data.key;
                     group.position.copy(circle.position);
                     group.radius = circle.geometry.parameters.radius;
-
+                    // group.updateMatrixWorld();
 
                     data.values.forEach(function (d) { //points
 
@@ -475,7 +505,7 @@
                         // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
                         // object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
 
-                        const objPos = randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius);
+                        const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius);
                         // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
                         object.position.x = objPos[0];
                         object.position.y = objPos[1];
@@ -484,18 +514,19 @@
                         object.name = "pointCloud"; //todo: remove later
 
                         object.element.onclick = function () {
-                            // console.log(d);
+                            console.log(d);
                             d3.select("#textTitle")
-                                .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                    "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
-                                    "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                                .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                                    "<span class='date'>Group : " + d.Genre_1 + " </span> <br>" +
+                                    "<span class='location'>Date : " + d.time + "</span> <br>"
+                                    // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                 );
                             d3.select("#dataImage")
                                 .attr("src", d.Image_URL)
                         };
 
                         //add object to group
-                        group.add( object );
+                        group.add(object);
 
                         lineList.push(object.position);
 
@@ -537,8 +568,8 @@
             // var startDate = parameters["startDate"] || new Date(window.dateTestEx[0].toString(), 1-1, 1 );
             // var endDate = parameters["endDate"] || new Date(window.dateTestEx[1].toString(), 1, 1);
 
-            var startDate = parameters["startDate"] || dateTestEx[0].toString();
-            var endDate = parameters["endDate"] || dateTestEx[1].toString();
+            var startDate = parameters["startDate"] || dateTestEx[1].toString();
+            var endDate = parameters["endDate"] || dateTestEx[0].toString();
 
             // console.log(startDate);
             // console.log(endDate);
@@ -607,6 +638,24 @@
 
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
+
+
+        //hull implementation
+        const glHullbox = WGLScene.getObjectByName("glbox");
+        glHullbox.children.forEach(d => {
+            if (d.name === "Identification photographs") {
+                let object = d.getObjectByName("Identification photographs");
+                // object.updateMatrixWorld(); //fix position displacement for component
+
+                console.log(object.geometry.vertices);
+
+                //add geometry points to points vertices
+                object.geometry.vertices.forEach((d) => {
+                    //fuse arrays at given points
+                    pointsHullArray.push(object.localToWorld(d)); //add every vertices into points geometry
+                });
+            }
+        });
 
         pCube.render();
     };
@@ -684,10 +733,13 @@
         });
     };
 
+    //hull implementation
+    let pointsHullArray = [];
+
 
     pCube.drawLines = function () {
-
-        // console.log(lineList);
+        lineList = pointsHullArray;
+        // console.log(pointsHullArray);
 
         /** Threejs Material decl to be used later for lines implementation
          *
@@ -736,6 +788,116 @@
 
         // WGLScene.add(line);
 
+    };
+
+    pCube.drawLines_old = function () {
+        console.log(lineList);
+
+        /** Threejs Material decl to be used later for lines implementation
+         *
+         * @type {any}
+         */
+        var material = new THREE.LineBasicMaterial({
+            color: "#FF4500",
+            linewidth: 2,
+            linecap: 'round', //ignored by WebGLRenderer
+            linejoin: 'round' //ignored by WebGLRenderer
+        });
+        material.blending = THREE.NoBlending;
+
+        /**
+         * WebGl Scene
+         * Temporary Web Gl Scene implementation for line testing
+         * @type {any}
+         */
+        var geometry = new THREE.Geometry();
+
+        /**
+         * Draw lines from the coordinates inside lineList
+         * interates through linelist
+         * select position one, draw from 1 to 2, 2 to 3, 3 to 4
+         */
+
+
+        for (var i = 0; i < lineList.length; i++) {
+            if (lineList[i].x !== undefined) {
+                // console.log("A " + lineList[i].x);
+                geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
+            }
+
+            for (var z = 0; z < lineList.length - 1; z++) {
+                if (lineList[i + 1] !== undefined) {
+                    // console.log("B " + lineList[i + 1].x)
+                    geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y, lineList[i + 1].z));
+
+                }
+
+            }
+        }
+
+        var line = new THREE.Line(geometry, material);
+        glbox.add(line);
+
+        // WGLScene.add(line);
+
+    };
+
+
+    pCube.drawHull = function () {
+
+        //CSG example
+        // var cylinder = THREE.CSG.toCSG(new THREE.CylinderGeometry(100, 100, 200, 16, 4, false ),new THREE.Vector3(0,-100,0));
+        // var sphere   = THREE.CSG.toCSG(new THREE.SphereGeometry(100,16,12));
+        // var circle   = THREE.CSG.toCSG(new THREE.CircleGeometry(10,26));
+        //
+        // // var geometry = cylinder.union(sphere);
+        // var geometry = sphere.union(cylinder).union(circle);
+        // var mesh = new THREE.Mesh(THREE.CSG.fromCSG( geometry ),new THREE.MeshNormalMaterial());
+        // glbox.add(mesh);
+
+        // // console.log(points);
+        // // console.log(pointsHullArray);
+        //
+        // WGLScene.add( new THREE.AmbientLight( 0x222222 ) );
+        // var light = new THREE.PointLight( 0xffffff, 1 );
+        // camera.add( light );
+        //
+        // var pointsGeometry = new THREE.DodecahedronGeometry( 10 );
+        //
+        // for (var i = 0; i < pointsGeometry.vertices.length; i++) {
+        //     pointsGeometry.vertices[i].add(randomPoint().multiplyScalar(50)); // wiggle the points
+        // }
+        //
+        // var pointsMaterial = new THREE.PointsMaterial( {
+        //     color: 0x0080ff,
+        //     size: 1,
+        //     alphaTest: 0.5
+        // } );
+        //
+        // var pointsGM = new THREE.Points( pointsGeometry, pointsMaterial );
+        // glbox.add( pointsGM );
+        //
+        // // convex hull
+        // var meshMaterial = new THREE.MeshLambertMaterial( {
+        //     color: 0xffffff,
+        //     opacity: 0.5,
+        //     transparent: true
+        // } );
+        //
+        // var meshGeometry = new THREE.ConvexBufferGeometry( pointsGeometry.vertices );
+        //
+        // var mesh = new THREE.Mesh( meshGeometry, meshMaterial );
+        // mesh.material.side = THREE.BackSide; // back faces
+        // mesh.renderOrder = 0;
+        // glbox.add( mesh );
+        // var mesh = new THREE.Mesh( meshGeometry, meshMaterial.clone() );
+        // mesh.material.side = THREE.FrontSide; // front faces
+        // mesh.renderOrder = 1;
+        // glbox.add( mesh );
+
+        function randomPoint() {
+            return new THREE.Vector3( THREE.Math.randFloat( - 1, 1 ), THREE.Math.randFloat( - 1, 1 ), THREE.Math.randFloat( - 1, 1 ) );
+        }
     };
 
     pCube.render = function () {
