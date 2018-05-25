@@ -8,11 +8,10 @@
     <script src="lib/three.js/tween.js"></script>
     <!--<script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>-->
     <script src="lib/three.js/CSS3DRenderer.js"></script>
-
-    <script src="/lib/three.js/QuickHull.js"></script>
-    <script src="/lib/three.js/ConvexGeometry.js"></script>
-    <script src="/lib/csg.js"></script>
-    <script src="/lib/ThreeCSG.js"></script>
+    <script src="lib/three.js/QuickHull.js"></script>
+    <script src="lib/three.js/ConvexGeometry.js"></script>
+    <script src="lib/csg.js"></script>
+    <script src="lib/ThreeCSG.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <style>
         #textTitle {
@@ -175,7 +174,8 @@
         gui.add(params, "showNodes").onChange(function () {
             var value = params.showData;
             if (value) {
-                polyCube.showNodes()
+                //polyCube.showNodes()
+                polyCube.create3DShape()
 //                polyCube.drawHull()
             } else {
             }
