@@ -480,7 +480,7 @@
                     //y axis for time
                     circle.position.y = (interval * i) - interval - interval;
                     // circle.position.y = timeLinear(d.time);
-                    circle.updateMatrixWorld();
+                    // circle.updateMatrixWorld();
                     glbox.add(circle);
 
 
@@ -647,7 +647,7 @@
                 let object = d.getObjectByName("Identification photographs");
                 // object.updateMatrixWorld(); //fix position displacement for component
 
-                console.log(object.geometry.vertices);
+                // console.log(object.geometry.vertices);
 
                 //add geometry points to points vertices
                 object.geometry.vertices.forEach((d) => {
