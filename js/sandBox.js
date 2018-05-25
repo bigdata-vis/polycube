@@ -44,7 +44,7 @@
     var timeLinearG;
 
     var segmentedData;
-
+    let tempArr = [];
 
     pCube.drawElements = function (datasets) {
 
@@ -482,11 +482,7 @@
                     circle.position.x = data.y * 7;
                     circle.position.z = data.x * 7;
 
-                    if(firstSlice.key === 'jp1') {
-                      console.log('if jp1')
-                      originalPositions.x = circle.position.x;
-                      originalPositions.z = circle.position.z;
-                    }
+
                     circle.position.y = (interval * i) - interval - interval;
                     // circle.position.y = timeLinear(d.time);
                     // circle.updateMatrixWorld();
@@ -648,7 +644,6 @@
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
 
-
         //hull implementation
         const glHullbox = WGLScene.getObjectByName("glbox");
         glHullbox.children.forEach(d => {
@@ -656,17 +651,53 @@
                 let object = d.getObjectByName("Identification photographs");
                 // object.updateMatrixWorld(); //fix position displacement for component
 
-                // console.log(object.geometry.vertices);
-
+              //  console.log(object.geometry.vertices);
                 //add geometry points to points vertices
+                var array_aux = [];
+                object.updateMatrixWorld();
                 object.geometry.vertices.forEach((d) => {
                     //fuse arrays at given points
+                    //console.log(d);
                     pointsHullArray.push(object.localToWorld(d)); //add every vertices into points geometry
+
+                    array_aux.push(object.localToWorld(d));
                 });
+
+                tempArr.push(array_aux);
             }
+        //    console.log(tempArr);
         });
 
         pCube.render();
+
+    };
+    function createPoint(a) {
+      console.log('creating point');
+      console.log(a);
+      var dotGeometry = new THREE.Geometry();
+      dotGeometry.vertices.push(new THREE.Vector3( a.x, a.y, a.z));
+      var dotMaterial = new THREE.PointsMaterial( { size: 10, sizeAttenuation: true } );
+      var dot = new THREE.Points( dotGeometry, dotMaterial );
+      glbox.add(dot);
+    };
+
+
+    function createRectangle(a, b, c, d) {
+      let geometry = new THREE.BufferGeometry();
+      let vertices = new Float32Array([
+        a.x, a.y, a.z,
+        b.x, b.y, b.z,
+        c.x, c.y, c.z,
+
+        b.x, b.y, b.z,
+        c.x, c.y, c.z,
+        d.x, d.y, d.z
+      ]);
+      geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+      let material = new THREE.MeshBasicMaterial( { color : 0xff0000, side: THREE.DoubleSide, opacity : 0.5});
+      let mesh = new THREE.Mesh( geometry, material );
+      glbox.add(mesh);
+      console.log('mesh added');
     };
 
     function addtoScene(d, i) {
@@ -850,9 +881,49 @@
         // WGLScene.add(line);
 
     };
+    pCube.create3DShape = function() {
+      console.log(tempArr[0]);
+      for(let i = 0; i < tempArr.length - 1; i++) { // array of arrays
+        let a = tempArr[i];
+        let b = tempArr[i+1];
+        for(let j = 1; j < a.length; j++) { // item @ idx 0 is the center; array of vertices
+          let firstAVertex = a[j];
+          let tempY = firstAVertex.y;
+          let tempZ = firstAVertex.z;
+          firstAVertex.y = tempZ;
+          firstAVertex.z = tempY;
 
-
+           // firstAVertex.z = firstAVertex.y;
+           // firstAVertex.y = (interval * i) - interval - interval;
+           let secondAVertex = a[j+1 % a.length];
+          tempY = secondAVertex.y;
+          tempZ = secondAVertex.z;
+          secondAVertex.y = tempZ;
+          secondAVertex.z = tempY;
+           // secondAVertex.z = secondAVertex.y;
+           // secondAVertex.y = (interval * i) - interval - interval;
+          let firstBVertex = b[j % a.length];
+          tempY = firstBVertex.y;
+          tempZ = firstBVertex.z;
+          firstBVertex.y = tempZ;
+          firstBVertex.z = tempY;
+           // firstBVertex.z = firstBVertex.y;
+           // firstBVertex.y = (interval * (i+1)) - interval - interval;
+          let secondBVertex = b[j+1 % a.length];
+          tempY = secondBVertex.y;
+          tempZ = secondBVertex.z;
+          secondBVertex.y = tempZ;
+          secondBVertex.z = tempY;
+           // secondBVertex.z = secondBVertex.y;
+           // secondBVertex.y = (interval * (i+1)) - interval - interval;
+          createPoint(firstAVertex);
+          //createRectangle(firstAVertex, secondAVertex, firstBVertex, secondBVertex);
+        }
+        // HANDLE LAST IDX TO FIRST
+      }
+    }
     pCube.drawHull = function () {
+
 
         //CSG example
         // var cylinder = THREE.CSG.toCSG(new THREE.CylinderGeometry(100, 100, 200, 16, 4, false ),new THREE.Vector3(0,-100,0));
@@ -904,9 +975,6 @@
         // mesh.renderOrder = 1;
         // glbox.add( mesh );
 
-        function randomPoint() {
-            return new THREE.Vector3( THREE.Math.randFloat( - 1, 1 ), THREE.Math.randFloat( - 1, 1 ), THREE.Math.randFloat( - 1, 1 ) );
-        }
     };
 
     pCube.render = function () {
