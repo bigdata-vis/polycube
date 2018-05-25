@@ -419,7 +419,11 @@
          */
         let newList = [];
         let colorList = [];
-
+        let originalPositions = {
+          x: 0,
+          z: 0
+        };
+        let firstSlice = null;
         //color scale
         var colorScale = d3.scaleOrdinal()
             // .domain(["New York", "San Francisco", "Austin"])
@@ -427,14 +431,20 @@
             // .range(["#FF0000", "#009933" , "#0000FF"]);
             .range(d3.schemePaired);
 
-        console.log(segDataGroups);
-
+        //console.log(segDataGroups
         //Data Point Cloud Draw
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
             .each(function (data, i) { //time layers :ral
+                // console.log('time ' + i);
+                // console.log(data);
+                // console.log('=========');
+                if(!firstSlice) {
+                  firstSlice = data;
+                }
                 data.values.forEach(function (data) { // data groups :ral
                     colorList.push(data.key);
+                    // console.log(data);
                     //circle geometry
                     const rad = data.values.length;//ral: size of the big circles
                     const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
@@ -449,8 +459,13 @@
                     circle.position.normalize();
                     circle.position.multiplyScalar(150);
 
-                    //y axis for time
+                    if(firstSlice.key === 'jp1') {
+                      console.log('if jp1')
+                      originalPositions.x = circle.position.x;
+                      originalPositions.z = circle.position.z;
+                    }
                     circle.position.y = (interval * i) - interval - interval;
+                    //y axis for time
                     glbox.add(circle);
 
 
@@ -486,8 +501,8 @@
                         object.element.onclick = function () {
                             // console.log(d);
                             d3.select("#textTitle")
-                                .html("<strong<p>" + d.Description_from_Notebook + "</p>" +
-                                    "<span class='date'>Date : " + d.Archive_Date + " </span> <br>" +
+                                .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                                    "<span class='date'>Date : " + d.Date + " </span> <br>" +
                                     "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                 );
                             d3.select("#dataImage")

@@ -286,35 +286,27 @@ a.button  {
     font-size: smaller;
 }
 
+.tooltip-preview {
+  position: absolute;
+  z-index: 10;
+  top: 220px;
+  right: 15px;
+  display: flex;
+  flex: 1 auto;
+  flex-direction: column;
+}
+
 #searchLink {
     /*font-size: small;*/
 }
 
 #textTitle {
-    /*width: 200px;*/
-    /*color: white;*/
-    position: relative;
-    top: 180px;
-    /*left: 60px;*/
-    z-index: 99;
-    margin-bottom: 40px;
-    float: right;
-    margin-right: 15px;
-    overflow-x: hidden;
     max-width: 246px;
     width: 246px;
     text-align: left;
 }
 
 #dataImage {
-    /*width: 350px;*/
-    position: absolute;
-    top: 280px;
-    right: 15px;
-    z-index: 999;
-    float: right;
-    /*margin-right: 15px;*/
-    overflow-x: hidden;
     max-width: 246px;
     height: auto;
 }
@@ -428,7 +420,8 @@ a.button  {
 }
 
 #dataImage:hover {
-    opacity: 0.7;
+  transform-origin: 100% 0%;
+  transform: scale(3.5);
 }
 
 /* The Modal (background) */
