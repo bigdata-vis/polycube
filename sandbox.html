@@ -10,26 +10,26 @@
     <script src="lib/three.js/CSS3DRenderer.js"></script>
     <script src="lib/three.js/QuickHull.js"></script>
     <script src="lib/three.js/ConvexGeometry.js"></script>
-    <script src="lib/csg.js"></script>
-    <script src="lib/ThreeCSG.js"></script>
+    <!--<script src="lib/csg.js"></script>-->
+    <!--<script src="lib/ThreeCSG.js"></script>-->
     <link rel="stylesheet" href="css/main.css">
-    <style>
-        #textTitle {
-            /* width: 200px; */
-            /* color: white; */
-            position: relative;
-            top: 135px;
-            /* left: 60px; */
-            z-index: 99;
-            margin-bottom: 40px;
-            float: right;
-            margin-right: 15px;
-            overflow-x: hidden;
-            max-width: 246px;
-            width: 246px;
-            text-align: left;
-        }
-    </style>
+    <!--<style>-->
+        <!--#textTitle {-->
+            <!--/* width: 200px; */-->
+            <!--/* color: white; */-->
+            <!--position: relative;-->
+            <!--top: 135px;-->
+            <!--/* left: 60px; */-->
+            <!--z-index: 99;-->
+            <!--margin-bottom: 40px;-->
+            <!--float: right;-->
+            <!--margin-right: 15px;-->
+            <!--overflow-x: hidden;-->
+            <!--max-width: 246px;-->
+            <!--width: 246px;-->
+            <!--text-align: left;-->
+        <!--}-->
+    <!--</style>-->
 </head>
 <body>
 
@@ -74,7 +74,6 @@
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/sandBox.js"></script>
-
 <script>
 
     d3.queue()
@@ -175,8 +174,9 @@
             var value = params.showData;
             if (value) {
                 //polyCube.showNodes()
-                polyCube.create3DShape()
-//                polyCube.drawHull()
+//                polyCube.create3DShape()
+//                polyCube.drawHull("Architectural photographs")
+                polyCube.drawHull()
             } else {
             }
 

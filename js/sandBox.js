@@ -445,6 +445,8 @@
             }).iterations(2));
 
 
+
+
         //Data Point Cloud Draw
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
@@ -458,6 +460,7 @@
                     colorList.push(data.key);
                     // console.log(data);
                     //circle geometry
+
                     const rad = data.values.length;//ral: size of the big circles
                     const geometry = new THREE.CircleGeometry(rad, 12);//hull resolution
                     const material = new THREE.MeshBasicMaterial({
@@ -467,6 +470,7 @@
                         opacity: 0.7
                     });
                     const circle = new THREE.Mesh(geometry, material);
+                    circle.matrixWorldNeedsUpdate = true;
                     circle.name = data.key;
                     circle.rotation.x = Math.PI / 2;
 
@@ -482,10 +486,9 @@
                     circle.position.x = data.y * 7;
                     circle.position.z = data.x * 7;
 
-
                     circle.position.y = (interval * i) - interval - interval;
                     // circle.position.y = timeLinear(d.time);
-                    // circle.updateMatrixWorld();
+                    circle.updateMatrixWorld();
                     glbox.add(circle);
 
 
@@ -494,7 +497,8 @@
                     group.name = data.key;
                     group.position.copy(circle.position);
                     group.radius = circle.geometry.parameters.radius;
-                    // group.updateMatrixWorld();
+                    group.matrixWorldNeedsUpdate = true;
+                    group.updateMatrixWorld();
 
                     data.values.forEach(function (d) { //points
 
@@ -643,30 +647,6 @@
 
         d3.selectAll(".elements")
             .style("border", "1px solid #585858");
-
-        //hull implementation
-        const glHullbox = WGLScene.getObjectByName("glbox");
-        glHullbox.children.forEach(d => {
-            if (d.name === "Identification photographs") {
-                let object = d.getObjectByName("Identification photographs");
-                // object.updateMatrixWorld(); //fix position displacement for component
-
-              //  console.log(object.geometry.vertices);
-                //add geometry points to points vertices
-                var array_aux = [];
-                object.updateMatrixWorld();
-                object.geometry.vertices.forEach((d) => {
-                    //fuse arrays at given points
-                    //console.log(d);
-                    pointsHullArray.push(object.localToWorld(d)); //add every vertices into points geometry
-
-                    array_aux.push(object.localToWorld(d));
-                });
-
-                tempArr.push(array_aux);
-            }
-        //    console.log(tempArr);
-        });
 
         pCube.render();
 
@@ -882,7 +862,25 @@
 
     };
     pCube.create3DShape = function() {
-      console.log(tempArr[0]);
+
+        //get data
+        let glHullbox = WGLScene.getObjectByName("glbox");
+        glHullbox.children.forEach(d => {
+            if (d.name === "Identification photographs") {
+                let object = d.getObjectByName("Identification photographs");
+                //add geometry points to points vertices
+                var array_aux = [];
+                object.geometry.vertices.forEach((d) => {
+                    pointsHullArray.push(d); //add every vertices into points geometry
+                    array_aux.push(object.localToWorld(d));
+                });
+                tempArr.push(array_aux);
+            }
+        });
+
+
+        //draw shape
+        console.log(tempArr[0]);
       for(let i = 0; i < tempArr.length - 1; i++) { // array of arrays
         let a = tempArr[i];
         let b = tempArr[i+1];
@@ -921,9 +919,68 @@
         }
         // HANDLE LAST IDX TO FIRST
       }
-    }
-    pCube.drawHull = function () {
+    };
 
+    //hull implementation
+    pCube.drawHull = function (group = "Identification photographs") {
+        //get hall data
+        let glHullbox = WGLScene.getObjectByName("glbox");
+        let count = 0;
+        glHullbox.children.forEach(d => {
+            if (d.name === group) {
+                let object = d.getObjectByName(group);
+                //add geometry points to points vertices
+                var array_aux = [];
+                object.geometry.vertices.forEach((d) => {
+                    pointsHullArray.push(d); //add every vertices into points geometry
+                    array_aux.push(object.localToWorld(d));
+                });
+                tempArr.push(array_aux);
+                count ++;
+            }
+        });
+
+        tempArr.forEach((d,i)=>{
+            let meshData = tempArr[i].concat(tempArr[i+1]);
+            addMeshToScene(meshData)
+        });
+        //
+
+        // for(let z = 0; z < tempArr.length; z++){
+        //     if(z < tempArr.length){
+        //         let meshData = tempArr[z].concat(tempArr[z+1]);
+        //         addMeshToScene(meshData)
+        //     }
+        // }
+
+        function addMeshToScene(d) {
+            //Advanced 3d convex geo
+            // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
+            // use the same points to create a convexgeometry
+
+            var meshMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.2});
+            meshMaterial.side = THREE.DoubleSide;
+            var wireFrameMat = new THREE.MeshBasicMaterial();
+            wireFrameMat.wireframe = true;
+
+            let hullGeometry = new THREE.ConvexGeometry(d);
+            // var material = new THREE.MeshBasicMaterial( { wireframe: true } );
+            let hullMesh = new THREE.Mesh( hullGeometry, [meshMaterial, wireFrameMat] );
+            glbox.add(hullMesh);
+        }
+
+        //lathe example
+        //https://threejs.org/docs/#api/geometries/LatheGeometry
+        // let points = [];
+        // for ( let i = 0; i < 50; i ++ ) {
+        //     console.log(new THREE.Vector2( Math.sin( i * 0.2 ) * 50 + 5, ( i - 5 ) * 2 ) );
+        //     points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) );
+        // }
+        //
+        // var geometry = new THREE.LatheGeometry( points );
+        // var material = new THREE.MeshBasicMaterial( { color: 0xffff00, doubleSided: true } );
+        // var lathe = new THREE.Mesh( geometry, material );
+        // glbox.add( lathe );
 
         //CSG example
         // var cylinder = THREE.CSG.toCSG(new THREE.CylinderGeometry(100, 100, 200, 16, 4, false ),new THREE.Vector3(0,-100,0));
@@ -974,7 +1031,6 @@
         // mesh.material.side = THREE.FrontSide; // front faces
         // mesh.renderOrder = 1;
         // glbox.add( mesh );
-
     };
 
     pCube.render = function () {
