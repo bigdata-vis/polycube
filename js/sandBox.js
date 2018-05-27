@@ -46,6 +46,7 @@
     var segmentedData;
     let tempArr = [];
 
+
     pCube.drawElements = function (datasets) {
 
         /**
@@ -351,66 +352,6 @@
             .attr("height", height)
             .append("g");
 
-        // .each(function (data) {
-        //     data.values.forEach(function (d) {
-        //         console.log(d3.select("circle_elements"));
-        //         // d3.select(this).append("circle")
-        //         //     .attr("r", function (d, i) {
-        //         //         console.log(d.values);
-        //         //         // var x = d.values.length;
-        //         //         // return x;
-        //         //     })
-        //         //     .attr("cx", function (d) {
-        //         //         return 250
-        //         //     })
-        //         //     .attr("cy", function (d) {
-        //         //         return 250;
-        //         //     })
-        //         //     .attr("fill", "#690")
-        //         //     .attr("opacity", 1);
-        //     })
-        // });
-
-        // green circle
-        // svg.selectAll("g")
-        //     .data(segDataGroups)
-        //     .enter()
-        //     .each(d=> console.log(d)
-        //     )
-        //     .append("circle")
-        //     .attr("r", function (d, i) { //generated data to highlight circle radius
-        //         // console.log(d.values);
-        //         var x = d.values.length;
-        //         return x;
-        //     })
-        //     .attr("cx", function (d) {
-        //         // return d.geometry.coordinates[0] += 40;
-        //         return 250
-        //     })
-        //     .attr("cy", function (d) {
-        //         // var cy = d.geometry.coordinates[1] + 220;
-        //         return 250;
-        //     })
-        //     .attr("fill", "#690")
-        //     .attr("opacity", 1);
-
-        // blue circle
-        // svg.append("circle")
-        //     .attr("fill", "#072e99")
-        //     .attr("opacity", 1)
-        //     .attr("r", function (d, i) { //generated data to highlight circle radius
-        //         var x = d.values.length / 3;
-        //         return x;
-        //     })
-        //     .attr("cx", function (d) {
-        //         // return d.geometry.coordinates[0] += 40;
-        //         return 250
-        //     })
-        //     .attr("cy", function (d) {
-        //         // var cy = d.geometry.coordinates[1] + 220;
-        //         return 250;
-        //     });
-
         /**
          * Objectify and draw segments elements
          */
@@ -523,7 +464,11 @@
                         object.name = "pointCloud"; //todo: remove later
 
                         object.element.onclick = function () {
-                            console.log(d);
+
+                            //clean point hull data
+                            // console.log(hullGroup)
+
+                            // console.log(d.Genre_1);
                             d3.select("#textTitle")
                                 .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
                                     "<span class='date'>Group : " + d.Genre_1 + " </span> <br>" +
@@ -531,7 +476,10 @@
                                     // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                 );
                             d3.select("#dataImage")
-                                .attr("src", d.Image_URL)
+                                .attr("src", d.Image_URL);
+
+                            polyCube.drawHull(d.Genre_1); //draw each group on click
+
                         };
 
                         //add object to group
@@ -660,7 +608,6 @@
       var dot = new THREE.Points( dotGeometry, dotMaterial );
       glbox.add(dot);
     };
-
 
     function createRectangle(a, b, c, d) {
       let geometry = new THREE.BufferGeometry();
@@ -809,7 +756,6 @@
         // WGLScene.add(line);
 
     };
-
     pCube.drawLines_old = function () {
         console.log(lineList);
 
@@ -923,6 +869,9 @@
 
     //hull implementation
     pCube.drawHull = function (group = "Identification photographs") {
+        //clean func
+        tempArr = [];
+        
         //get hall data
         let glHullbox = WGLScene.getObjectByName("glbox");
         let count = 0;
@@ -966,6 +915,7 @@
             let hullGeometry = new THREE.ConvexGeometry(d);
             // var material = new THREE.MeshBasicMaterial( { wireframe: true } );
             let hullMesh = new THREE.Mesh( hullGeometry, [meshMaterial, wireFrameMat] );
+            hullGroup.add(hullMesh); // add to group hull
             glbox.add(hullMesh);
         }
 
@@ -1099,6 +1049,8 @@
 
     var pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
+
+    let hullGroup = new THREE.Group; //hold hullbox as a group content
 
     /**
      * WebGl Scene and renderer
