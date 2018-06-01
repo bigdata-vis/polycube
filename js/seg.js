@@ -715,7 +715,7 @@
 
             // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
-            console.warn(dateArray)
+            console.warn(dateArray);
 
             dateArray.forEach(function (d) {
                 // console.log(d);

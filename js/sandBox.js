@@ -1,4 +1,3 @@
-
 /**
  * Created by simba on 27/03/2017.
  */
@@ -39,7 +38,8 @@
      */
 
     var dataSlices = 4;
-    var interval = 500 / dataSlices; //height/segments
+    var segSlices = 11; //dynamic segment numbers
+    var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
 
@@ -96,7 +96,14 @@
             // console.log(+format2(parse4(d.Date)));
 
             d.time = parse4(d.Date);
+
+            //get full date
+            let full_date = d.time;
+
             d.time = +format2(d.time);
+
+            //get unix
+            d.unix = +(full_date / 1000).toFixed(0);
 
 
             //data segmentation
@@ -141,8 +148,15 @@
             return d.time;
         });
 
+        let dateUnixEx = d3.extent(datasets, function (d) {
+            return d.unix;
+        });
+
 
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
+
+        let timeLinearUnix = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
+
 
         timeLinearG = timeLinear;
 
@@ -327,12 +341,16 @@
          * convert category data into a time and group hierarchy
          */
         let segDataGroups = d3.nest()
-            .key(function (d) {
-                return d.ts;
+            .key(function (d) { //temporal distribution
+                // console.log(d);
+                // console.log(timeRage(d.time,dateTestEx[0],dateTestEx[1],12));
+
+                // return d.ts;
+                return timeRage(d.time, dateTestEx[0], dateTestEx[1], segSlices);
             })
             .key(function (d) {
                 return d.Genre_1;
-            })
+            }) //group sets distribution
             .entries(datasets).sort(function (a, b) {
                 return a.key > b.key;
             });
@@ -377,8 +395,8 @@
         let newList = [];
         let colorList = [];
         let originalPositions = {
-          x: 0,
-          z: 0
+            x: 0,
+            z: 0
         };
         let firstSlice = null;
         //color scale
@@ -400,8 +418,6 @@
             }).iterations(2));
 
 
-
-
         //Data Point Cloud Draw
         var PC2Elem = d3.selectAll('.pointCloud')
             .data(segDataGroups).enter()
@@ -409,6 +425,7 @@
 
                 simulation.nodes(data.values);
 
+                console.log(data);
                 // console.log(data.values);
 
                 data.values.forEach(function (data) { // data groups :ral
@@ -417,7 +434,7 @@
                     //circle geometry
 
                     const rad = data.values.length;//ral: size of the big circles
-                    const geometry = new THREE.CircleGeometry(rad, 12);//hull resolution
+                    const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
                     const material = new THREE.MeshBasicMaterial({
                         color: colorScale(data.key),
                         side: THREE.DoubleSide,
@@ -425,15 +442,11 @@
                         opacity: 0.7
                     });
                     const circle = new THREE.Mesh(geometry, material);
+                    let interval = height/segSlices; //new interval slice declaration
+
                     circle.matrixWorldNeedsUpdate = true;
                     circle.name = data.key;
                     circle.rotation.x = Math.PI / 2;
-
-                    //x&z axis for position axis :ral
-                    // circle.position.x = (Math.random() * heightHalf * 4 - widthHalf * 2);
-                    // circle.position.z = (Math.random() * heightHalf * 4 - widthHalf * 2);
-                    // circle.position.normalize();
-                    // circle.position.multiplyScalar(150);
 
                     //apply force layout
                     // console.log(data);
@@ -448,11 +461,13 @@
                       circle.position.z = data.x * 7;
                     }
 
-                    circle.position.y = (interval * i) - interval - interval;
-                    // circle.position.y = timeLinear(d.time);
+                    // console.log((height/segSlices * i) - heightHalf);
+
+                    // circle.position.y = (interval * i) - interval - interval;
+                    circle.position.y = (interval * i) - heightHalf;
+
                     circle.updateMatrixWorld();
                     glbox.add(circle);
-
 
                     //create group and add the points
                     const group = new THREE.Group();
@@ -480,7 +495,11 @@
                         // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
                         object.position.x = objPos[0];
                         object.position.y = objPos[1];
+                        // object.position.y = timeLinearUnix(d.unix);
+                        // object.position.y = timeLinear(d.time);
                         object.position.z = objPos[2];
+
+                        console.log(d);
 
                         object.name = "pointCloud"; //todo: remove later
 
@@ -502,6 +521,7 @@
                             polyCube.drawHull(d.Genre_1); //draw each group on click
 
                         };
+
 
                         //add object to group
                         group.add(object);
@@ -567,6 +587,8 @@
                 z: 100
             };
 
+            // console.log(dateArray);
+
             // for (var i = 0; i < (dataSlices); i++) {
             //     // console.log(dateArray[i]);
             //
@@ -624,31 +646,31 @@
     };
 
     function createPoint(a) {
-      console.log('creating point');
-      console.log(a);
-      var dotGeometry = new THREE.Geometry();
-      dotGeometry.vertices.push(new THREE.Vector3( a.x, a.y, a.z));
-      var dotMaterial = new THREE.PointsMaterial( { size: 10, sizeAttenuation: true } );
-      var dot = new THREE.Points( dotGeometry, dotMaterial );
-      glbox.add(dot);
+        console.log('creating point');
+        console.log(a);
+        var dotGeometry = new THREE.Geometry();
+        dotGeometry.vertices.push(new THREE.Vector3(a.x, a.y, a.z));
+        var dotMaterial = new THREE.PointsMaterial({size: 10, sizeAttenuation: true});
+        var dot = new THREE.Points(dotGeometry, dotMaterial);
+        glbox.add(dot);
     };
 
     function createRectangle(a, b, c, d) {
-      let geometry = new THREE.BufferGeometry();
-      let vertices = new Float32Array([
-        a.x, a.y, a.z,
-        b.x, b.y, b.z,
-        c.x, c.y, c.z,
+        let geometry = new THREE.BufferGeometry();
+        let vertices = new Float32Array([
+            a.x, a.y, a.z,
+            b.x, b.y, b.z,
+            c.x, c.y, c.z,
 
-        b.x, b.y, b.z,
-        c.x, c.y, c.z,
-        d.x, d.y, d.z
-      ]);
-      geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-      let material = new THREE.MeshBasicMaterial( { color : 0xff0000, side: THREE.DoubleSide, opacity : 0.5});
-      let mesh = new THREE.Mesh( geometry, material );
-      glbox.add(mesh);
-      console.log('mesh added');
+            b.x, b.y, b.z,
+            c.x, c.y, c.z,
+            d.x, d.y, d.z
+        ]);
+        geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        let material = new THREE.MeshBasicMaterial({color: 0xff0000, side: THREE.DoubleSide, opacity: 0.5});
+        let mesh = new THREE.Mesh(geometry, material);
+        glbox.add(mesh);
+        console.log('mesh added');
     };
 
     function addtoScene(d, i) {
@@ -831,7 +853,7 @@
         // WGLScene.add(line);
 
     };
-    pCube.create3DShape = function() {
+    pCube.create3DShape = function () {
 
         //get data
         let glHullbox = WGLScene.getObjectByName("glbox");
@@ -851,71 +873,88 @@
 
         //draw shape
         console.log(tempArr[0]);
-      for(let i = 0; i < tempArr.length - 1; i++) { // array of arrays
-        let a = tempArr[i];
-        let b = tempArr[i+1];
-        for(let j = 1; j < a.length; j++) { // item @ idx 0 is the center; array of vertices
-          let firstAVertex = a[j];
-          let tempY = firstAVertex.y;
-          let tempZ = firstAVertex.z;
-          firstAVertex.y = tempZ;
-          firstAVertex.z = tempY;
+        for (let i = 0; i < tempArr.length - 1; i++) { // array of arrays
+            let a = tempArr[i];
+            let b = tempArr[i + 1];
+            for (let j = 1; j < a.length; j++) { // item @ idx 0 is the center; array of vertices
+                let firstAVertex = a[j];
+                let tempY = firstAVertex.y;
+                let tempZ = firstAVertex.z;
+                firstAVertex.y = tempZ;
+                firstAVertex.z = tempY;
 
-           // firstAVertex.z = firstAVertex.y;
-           // firstAVertex.y = (interval * i) - interval - interval;
-           let secondAVertex = a[j+1 % a.length];
-          tempY = secondAVertex.y;
-          tempZ = secondAVertex.z;
-          secondAVertex.y = tempZ;
-          secondAVertex.z = tempY;
-           // secondAVertex.z = secondAVertex.y;
-           // secondAVertex.y = (interval * i) - interval - interval;
-          let firstBVertex = b[j % a.length];
-          tempY = firstBVertex.y;
-          tempZ = firstBVertex.z;
-          firstBVertex.y = tempZ;
-          firstBVertex.z = tempY;
-           // firstBVertex.z = firstBVertex.y;
-           // firstBVertex.y = (interval * (i+1)) - interval - interval;
-          let secondBVertex = b[j+1 % a.length];
-          tempY = secondBVertex.y;
-          tempZ = secondBVertex.z;
-          secondBVertex.y = tempZ;
-          secondBVertex.z = tempY;
-           // secondBVertex.z = secondBVertex.y;
-           // secondBVertex.y = (interval * (i+1)) - interval - interval;
-          createPoint(firstAVertex);
-          //createRectangle(firstAVertex, secondAVertex, firstBVertex, secondBVertex);
+                // firstAVertex.z = firstAVertex.y;
+                // firstAVertex.y = (interval * i) - interval - interval;
+                let secondAVertex = a[j + 1 % a.length];
+                tempY = secondAVertex.y;
+                tempZ = secondAVertex.z;
+                secondAVertex.y = tempZ;
+                secondAVertex.z = tempY;
+                // secondAVertex.z = secondAVertex.y;
+                // secondAVertex.y = (interval * i) - interval - interval;
+                let firstBVertex = b[j % a.length];
+                tempY = firstBVertex.y;
+                tempZ = firstBVertex.z;
+                firstBVertex.y = tempZ;
+                firstBVertex.z = tempY;
+                // firstBVertex.z = firstBVertex.y;
+                // firstBVertex.y = (interval * (i+1)) - interval - interval;
+                let secondBVertex = b[j + 1 % a.length];
+                tempY = secondBVertex.y;
+                tempZ = secondBVertex.z;
+                secondBVertex.y = tempZ;
+                secondBVertex.z = tempY;
+                // secondBVertex.z = secondBVertex.y;
+                // secondBVertex.y = (interval * (i+1)) - interval - interval;
+                createPoint(firstAVertex);
+                //createRectangle(firstAVertex, secondAVertex, firstBVertex, secondBVertex);
+            }
+            // HANDLE LAST IDX TO FIRST
         }
-        // HANDLE LAST IDX TO FIRST
-      }
     };
 
     //hull implementation
     pCube.drawHull = function (group = "Identification photographs") {
         //clean func
         tempArr = [];
-        
+
         //get hall data
         let glHullbox = WGLScene.getObjectByName("glbox");
         let count = 0;
         glHullbox.children.forEach(d => {
             if (d.name === group) {
                 let object = d.getObjectByName(group);
+                // console.log(object);
+
                 //add geometry points to points vertices
                 var array_aux = [];
                 object.geometry.vertices.forEach((d) => {
-                    pointsHullArray.push(d); //add every vertices into points geometry
+                    // pointsHullArray.push(d); //add every vertices into points geometry
                     array_aux.push(object.localToWorld(d));
                 });
                 tempArr.push(array_aux);
-                count ++;
+                count++;
             }
         });
 
-        tempArr.forEach((d,i)=>{
-            let meshData = tempArr[i].concat(tempArr[i+1]);
-            addMeshToScene(meshData)
+        tempArr.forEach((d, i) => {
+            let meshData;
+            //deal with first component structure
+            // if (i < 1) {
+            //     meshData = [new THREE.Vector3(tempArr[0][0].x, -(heightHalf + 10), tempArr[0][0].z)].concat(tempArr[0]);
+            //     addMeshToScene(meshData);
+            //     // console.log(meshData)
+            // }
+
+            if (i !== tempArr.length - 1) { //if to deal with last component structure
+                meshData = tempArr[i].concat(tempArr[i + 1]);
+                addMeshToScene(meshData)
+            } else { //to show the cone ontop of the structure
+                // meshData = tempArr[i].concat(new THREE.Vector3(tempArr[i][0].x, (heightHalf / 1.5), tempArr[i][0].z));
+                // addMeshToScene(meshData);
+                // console.log(tempArr[i][0].x);
+                // console.log(tempArr[i]);
+            }
         });
         //
 
@@ -931,14 +970,15 @@
             // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
             // use the same points to create a convexgeometry
 
-            var meshMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.2});
+            var meshMaterial = new THREE.MeshBasicMaterial({color: 0xffffdd, transparent: true, opacity: 0.3});
             meshMaterial.side = THREE.DoubleSide;
-            var wireFrameMat = new THREE.MeshBasicMaterial();
+            var wireFrameMat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.3});
             wireFrameMat.wireframe = true;
 
             let hullGeometry = new THREE.ConvexGeometry(d);
             // var material = new THREE.MeshBasicMaterial( { wireframe: true } );
-            let hullMesh = new THREE.Mesh( hullGeometry, [meshMaterial, wireFrameMat] );
+            let hullMesh = new THREE.Mesh(hullGeometry, [wireFrameMat]);
+            // let hullMesh = new THREE.Mesh( hullGeometry, [meshMaterial, wireFrameMat] );
             hullGroup.add(hullMesh); // add to group hull
             glbox.add(hullMesh);
         }
