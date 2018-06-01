@@ -31,7 +31,7 @@
     var formatTime = d3.timeFormat("%Y");
 
     var projectionScale = 5000;
-
+    var firstPass = true;
     /**
      * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
      * @param datasets
@@ -45,10 +45,24 @@
 
     var segmentedData;
     let tempArr = [];
+    let   superTemporalMap = new Map();
 
+    pCube.fixedSetCoordinates = function(datasets) {
+
+      let glHullbox = WGLScene.getObjectByName("glbox");
+      // console.log(glHullbox);
+      glHullbox.children.forEach( (child) => {
+        if(!superTemporalMap.has(child.name)) {
+          superTemporalMap.set(child.name, {x:  child.position.x, z:  child.position.z} )
+        }
+      });
+      firstPass = false;
+      pCube.drawElements(datasets);
+    //  console.log(superTemporalMap);
+    };
 
     pCube.drawElements = function (datasets) {
-
+        console.log(datasets);
         /**
          * Parse and Format Time
          */
@@ -423,9 +437,16 @@
 
                     //apply force layout
                     // console.log(data);
-
-                    circle.position.x = data.y * 7;
-                    circle.position.z = data.x * 7;
+                    //console.log(`${data.x}; ${data.y}`);
+                    // console.log(data);
+                    if(superTemporalMap.has(data.key)) {
+                      console.log(`${data.key} already in set`);
+                      circle.position.x = superTemporalMap.get(data.key).x;
+                      circle.position.z = superTemporalMap.get(data.key).z;
+                    } else {
+                      circle.position.x = data.y * 7;
+                      circle.position.z = data.x * 7;
+                    }
 
                     circle.position.y = (interval * i) - interval - interval;
                     // circle.position.y = timeLinear(d.time);
@@ -597,8 +618,11 @@
             .style("border", "1px solid #585858");
 
         pCube.render();
-
+        if(firstPass) {
+          pCube.fixedSetCoordinates(datasets);
+        }
     };
+
     function createPoint(a) {
       console.log('creating point');
       console.log(a);
