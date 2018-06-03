@@ -179,7 +179,7 @@ input:focus {
     /*fill: #EDCA3A;*/
     /*fill: #462015;*/
     /*fill: #c83409;*/
-    /*fill: #2d2d2d;*/
+    fill: #2d2d2d;
 }
 
 /*.axis--y .domain,*/
@@ -315,6 +315,49 @@ a.button  {
     float: right;
     /*margin-right: 15px;*/
     overflow-x: hidden;
+    max-width: 246px;
+    height: auto;
+}
+
+.close-info{
+    /*width: 200px;*/
+    /*color: white;*/
+    position: relative;
+    top: 180px;
+    /*left: 60px;*/
+    z-index: 99;
+    margin-bottom: 40px;
+    float: right;
+    margin-right: 10px;
+    overflow-x: hidden;
+    /*max-width: 246px;*/
+    /*width: 246px;*/
+    text-align: left;
+    color: #7b7b7b;
+}
+
+
+.tooltip-preview {
+  position: absolute;
+  z-index: 10;
+  top: 220px;
+  right: 15px;
+  display: flex;
+  flex: 1 auto;
+  flex-direction: column;
+}
+
+#searchLink {
+    /*font-size: small;*/
+}
+
+#textTitle {
+    max-width: 246px;
+    width: 246px;
+    text-align: left;
+}
+
+#dataImage {
     max-width: 246px;
     height: auto;
 }
