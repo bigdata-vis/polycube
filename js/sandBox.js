@@ -38,32 +38,32 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 10; //dynamic segment numbers
+    var segSlices = 16; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
 
     var segmentedData;
     let tempArr = [];
-    let   superTemporalMap = new Map();
+    let superTemporalMap = new Map();
 
 
-    pCube.fixedSetCoordinates = function(datasets) {
+    pCube.fixedSetCoordinates = function (datasets) {
 
-      let glHullbox = WGLScene.getObjectByName("glbox");
-      // console.log(glHullbox);
-      glHullbox.children.forEach( (child) => {
-        if(!superTemporalMap.has(child.name)) {
-          superTemporalMap.set(child.name, {x:  child.position.x, z:  child.position.z} )
-        }
-      });
-      firstPass = false;
-      pCube.drawElements(datasets);
-    //  console.log(superTemporalMap);
+        let glHullbox = WGLScene.getObjectByName("glbox");
+        // console.log(glHullbox);
+        glHullbox.children.forEach((child) => {
+            if (!superTemporalMap.has(child.name)) {
+                superTemporalMap.set(child.name, {x: child.position.x, z: child.position.z})
+            }
+        });
+        firstPass = false;
+        pCube.drawElements(datasets);
+        //  console.log(superTemporalMap);
     };
 
     pCube.drawElements = function (datasets) {
-        console.log(datasets);
+        // console.log(datasets);
         /**
          * Parse and Format Time
          */
@@ -354,18 +354,6 @@
                 return a.key > b.key;
             });
 
-        let testData = d3.nest()
-            .key(function (d) { //temporal distribution
-                return d.ts;
-                // return timeRage(d.time, dateTestEx[0], dateTestEx[1], segSlices);
-            })
-            .key(function (d) {
-                return d.Genre_1;
-            }) //group sets distribution
-            .entries(datasets).sort(function (a, b) {
-                return a.key < b.key;
-            });
-
         // /**
         //  * push segmented data to global variable
         //  * @type {any}
@@ -452,6 +440,10 @@
                     })));
                     maxArray = segDataGroups[maxArray].values;
 
+                    if (i === 0) {
+                        originalPositions.push(maxArray);
+                        // console.log(maxArray);
+                    }
 
                     //apply force layout
                     // console.log(data);
@@ -483,6 +475,7 @@
                         circle.matrixWorldNeedsUpdate = true;
                         circle.name = data.key;
                         circle.rotation.x = Math.PI / 2;
+                        circle.groupName = "CircleGroup";
 
                         //apply force layout
 
@@ -569,16 +562,67 @@
                     });
                 });
         };
-        pCube.updatePC(segDataGroups);
 
+        pCube.updatePC(segDataGroups);
         pCube.updateScene = function () {
-            // console.log(testData);
-            testData.forEach(d=>{
-                console.log(d);
+            let duration = 700;
+
+            ////selection and tween solution
+            // WGLScene.getObjectByName("glbox").children.forEach(function (d) {
+            //
+            //     if (d.groupName === "CircleGroup") { //check to select only meshes with circles
+            //
+            //         // update matrix true on entry
+            //         d.matrixAutoUpdate = true;
+            //         d.updateMatrix();
+            //
+            //         // console.log(d);
+            //
+            //         originalPositions[0].forEach(function (data) {
+            //             if(d.name === data.key){
+            //
+            //                 // key.x = data.x;
+            //                 // key.y = data.y;
+            //                 let moveCircle = new TWEEN.Tween(d.position)
+            //                     .to({
+            //                         x: data.x,
+            //                         y: data.y
+            //                     }, duration)
+            //                     .easing(TWEEN.Easing.Sinusoidal.InOut)
+            //                     .start();
+            //
+            //             }
+            //         });
+            //
+            //     }
+            //
+            // });
+
+
+            // redraw solutions
+            segDataGroups.forEach(data => {
                 //update testdata with new cordinates
+                // console.log(data);
+                data.values.forEach(data=>{
+                    let key = data;
+
+                    originalPositions[0].forEach(function (data) {
+                       if(key.key === data.key){
+                           // console.log(data.x);
+                           // console.log(key.key);
+                           key.x = data.x;
+                           key.y = data.y;
+                       }
+                       // console.log(data.key);
+                       // console.log(key.key)
+                    });
+
+
+                });
             });
-            pCube.updatePC(testData);
+            pCube.updatePC(segDataGroups);
         };
+        pCube.updateScene();
 
         /**
          * Draw Timeline and Labels
@@ -965,6 +1009,10 @@
         let glHullbox = WGLScene.getObjectByName("glbox");
         let count = 0;
         glHullbox.children.forEach(d => {
+
+            // console.log(d.name);
+            // console.log(group);
+
             if (d.name === group) {
                 let object = d.getObjectByName(group);
                 // console.log(object);
@@ -999,7 +1047,6 @@
                 // console.log(tempArr[i]);
             }
         });
-        //
 
         // for(let z = 0; z < tempArr.length; z++){
         //     if(z < tempArr.length){
