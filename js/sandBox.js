@@ -38,7 +38,7 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 16; //dynamic segment numbers
+    var segSlices = 20; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -254,6 +254,7 @@
          * https://stackoverflow.com/questions/29185783/three-js-things-disappear-when-zooming-out
          * try a combined camera
          */
+
 
         // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
@@ -527,7 +528,8 @@
 
                             object.name = "pointCloud"; //todo: remove later
 
-                            object.element.onclick = function () {
+                            // object.element.onclick = function () {
+                            object.element.onmouseover = function () {
 
                                 //clean point hull data
                                 // console.log(hullGroup)
@@ -541,10 +543,12 @@
                                     );
                                 d3.select("#dataImage")
                                     .attr("src", d.Image_URL);
-
-                                polyCube.drawHull(d.Genre_1); //draw each group on click
-
                             };
+
+
+                            object.element.ondblclick = (() => {
+                                polyCube.drawHull(d.Genre_1); //draw each group on click
+                            });
 
 
                             //add object to group
@@ -603,18 +607,18 @@
             segDataGroups.forEach(data => {
                 //update testdata with new cordinates
                 // console.log(data);
-                data.values.forEach(data=>{
+                data.values.forEach(data => {
                     let key = data;
 
                     originalPositions[0].forEach(function (data) {
-                       if(key.key === data.key){
-                           // console.log(data.x);
-                           // console.log(key.key);
-                           key.x = data.x;
-                           key.y = data.y;
-                       }
-                       // console.log(data.key);
-                       // console.log(key.key)
+                        if (key.key === data.key) {
+                            // console.log(data.x);
+                            // console.log(key.key);
+                            key.x = data.x;
+                            key.y = data.y;
+                        }
+                        // console.log(data.key);
+                        // console.log(key.key)
                     });
 
 

@@ -51,6 +51,7 @@
 			var pointCloud;
 			var particlePositions;
 			var linesMesh;
+            var controls;
 
 			var maxParticleCount = 1000;
 			var particleCount = 500;
@@ -98,7 +99,7 @@
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 4000 );
 				camera.position.z = 1750;
 
-				var controls = new THREE.OrbitControls( camera, container );
+				controls = new THREE.OrbitControls( camera, container );
 
 				scene = new THREE.Scene();
 
@@ -172,7 +173,6 @@
 				group.add( linesMesh );
 
 				//
-
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -279,6 +279,7 @@
 
 				requestAnimationFrame( animate );
 
+                controls.update();
 				stats.update();
 				render();
 
@@ -288,7 +289,8 @@
 
 				var time = Date.now() * 0.001;
 
-				group.rotation.y = time * 0.1;
+//				group.rotation.y = time * 0.1;
+
 				renderer.render( scene, camera );
 
 			}
