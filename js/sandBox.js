@@ -38,10 +38,11 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 20; //dynamic segment numbers
+    var segSlices = 16; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
+    var layout;
 
     var segmentedData;
     let tempArr = [];
@@ -395,6 +396,7 @@
         let newList = [];
         let colorList = [];
         let originalPositions = [];
+        let allGroups = [];
 
         let firstSlice = null;
         //color scale
@@ -426,12 +428,32 @@
                     return d.values.length;
                 }).iterations(2));
 
+            var myPack = d3.pack()
+                .size([500, 500])
+                .padding(3);
+
             //Data Point Cloud Draw
             var PC2Elem = d3.selectAll('.pointCloud')
                 .data(segDataGroups).enter()
                 .each(function (data, i) { //time layers :ral
 
                     simulation.nodes(data.values);
+
+                    //node sim test
+                    let nodes = d3.hierarchy({children: data.values})
+                        .sum(function (d) {
+                            let size = d.length;
+                            return size;
+                        });
+                    nodes = myPack(nodes);
+
+                    console.log(nodes);
+
+                    // let nodeData = nodes.children;
+                    // //node sim test
+                    // nodeData.forEach(function (d) {
+                    //     console.log(d)
+                    // });
 
                     // push first set of largest array layers position to the origposition to be used by the rest of the cube
                     let maxArray = segDataGroups.map(function (a) {
@@ -443,24 +465,12 @@
 
                     if (i === 0) {
                         originalPositions.push(maxArray);
-                        // console.log(maxArray);
                     }
-
-                    //apply force layout
-                    // console.log(data);
-                    //console.log(`${data.x}; ${data.y}`);
-                    // console.log(data);
-                    // if(superTemporalMap.has(data.key)) {
-                    //   console.log(`${data.key} already in set`);
-                    //   circle.position.x = superTemporalMap.get(data.key).x;
-                    //   circle.position.z = superTemporalMap.get(data.key).z;
-                    // } else {
-                    //   circle.position.x = data.y * 7;
-                    //   circle.position.z = data.x * 7;
-                    // }
 
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
+
+                        allGroups.push(data);
 
                         //circle geometry
                         const rad = data.values.length;//ral: size of the big circles
@@ -564,7 +574,12 @@
                             pointCloud.add(object);
                         })
                     });
+
+
                 });
+
+            getAnchoring(allGroups);
+
         };
 
         pCube.updatePC(segDataGroups);
@@ -626,7 +641,7 @@
             });
             pCube.updatePC(segDataGroups);
         };
-        pCube.updateScene();
+        // pCube.updateScene();
 
         /**
          * Draw Timeline and Labels
@@ -730,9 +745,7 @@
             .style("border", "1px solid #585858");
 
         pCube.render();
-        // if(firstPass) {
-        //   pCube.fixedSetCoordinates(datasets);
-        // }
+        layout = "STC";
     };
 
     function createPoint(a) {
@@ -795,6 +808,211 @@
         TWEEN.update();
         controls.update();
         pCube.render()
+    };
+
+    pCube.superImpose = function () {
+        flat_time = true;
+
+        /**
+         * make control center thesame as cube xyz position
+         */
+        controls.center.add(cube.position);
+
+        /**
+         * controls
+         */
+        controls.noRotate = true;
+
+
+        //hide all time panels
+        d3.selectAll(".textTitle")
+            .classed("hide", true);
+
+        //display all the maps for the segments
+        d3.selectAll(".elements_child")
+            .classed("hide", false);
+
+        /**
+         * Hide SegLable
+         */
+        d3.selectAll(".segLabel")
+            .classed("hide", true);
+
+        /**
+         *hide guide lines
+         */
+
+        var duration = 700;
+
+        /**
+         * Reverse array to show last segment first
+         */
+        // scene.children[0].children.reverse(); //on
+        // console.log(scene.children[0].children);
+
+        /**
+         * Point Cloud Flattening
+         * create a new object STC, save positions of STC inside object
+         * rotate point cloud to match the positions of the
+         */
+
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
+            // d.position.y = -249;
+
+            // console.log(d3.select(d.element));
+
+            // d3.select(d.element).classed("green_BG", false);
+
+            // update matrix true on entry
+            d.matrixAutoUpdate = true;
+            d.updateMatrix();
+
+            var flattenPoints = new TWEEN.Tween(d.position)
+                .to({
+                    y: 0.5
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+
+            // console.log(d)
+
+            // // update matrix false on exit
+            // d.matrixAutoUpdate = false;
+            // d.updateMatrix();
+        });
+
+        /**
+         * Layers flattening
+         */
+
+        scene.children[0].children.forEach(function (object, i) {
+
+            // remove box shapes
+            if (object.name == "side") {
+                object.element.hidden = true;
+            }
+
+            //show only segments
+            if (object.name == "seg") {
+
+                var posTween = new TWEEN.Tween(object.position)
+                    .to({
+                        y: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        // opacity: 0.3
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
+            }
+
+        });
+
+        //change camera view
+        //camera position
+
+        //if juxtapos = false
+        /**
+         * Smoothing the camera transition
+         */
+
+        if (layout === "JP" || layout === "SI") {
+
+            //transparent leaflet maps
+            // setTimeout(function () {
+            polyCube.hideLeafletMap(true);
+            // }, duration)
+
+            //put the segments together
+            scene.getObjectByName("cube").children.forEach(function (d, i) {
+                if (d.getObjectByName("seg")) {
+                    var reduceLeft = {
+                        x: 0,
+                        // y: ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 200, //just another way of getting 550
+                        z: 0
+                    };
+
+                    var posTween = new TWEEN.Tween(d.position)
+                        .to(reduceLeft, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    var rotate = new TWEEN.Tween(d.rotation)
+                        .to({x: 0, y: 0, z: 0}, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    d.position.x = 0;
+                    d.position.z = 0;
+                }
+            });
+            //and rotate the camera with all the points showing as above
+
+            //or show the points only with only one map on the pane
+
+            //rotate the pointclouds thesame way and position as the camera
+
+        } else {
+            //camera rotation
+            var tween = new TWEEN.Tween({
+                x: camera.position.x,
+                y: camera.position.y,
+                z: camera.position.z
+            }).to({
+                x: 0, //todo: fix rotation of camera axis
+                y: 1077.0329614263626,
+                z: 0
+            }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.Out)
+                .onUpdate(function () {
+                    camera.position.set(this.x, this.y, this.z);
+                    camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    //camera.fov = 8; todo: add a new fov to change perspective
+                })
+                .onComplete(function () {
+                    camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    // camera.lookAt(scene.position);
+                })
+                .start();
+
+            var rotate = new TWEEN.Tween({
+                x: camera.rotation.x,
+                y: camera.rotation.y,
+                z: camera.rotation.z
+            }).to({
+                x: -1.5707953161924646,
+                y: -5.53118884027981,
+                z: -0.005531219681680428
+            }, duration)
+                .easing(TWEEN.Easing.Elastic.InOut)
+                // .onUpdate(function () {
+                //     // camera.rotation.set(this.x, this.y, this.z);
+                //     // // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                //     // //camera.fov = 8; todo: add a new fov to change perspective
+                // })
+                .onComplete(function () {
+
+                })
+                .start();
+
+        }
+
+        //else
+        // do not rotate camera
+        /**
+         * Use Orthographic Camera
+         * https://threejs.org/docs/#api/cameras/OrthographicCamera
+         * https://threejs.org/docs/#examples/cameras/CombinedCamera
+         */
+
+        // camera.toOrthographic();
+
+        layout = "SI";
+        window.layout = layout;
     };
 
 

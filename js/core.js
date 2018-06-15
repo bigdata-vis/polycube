@@ -93,4 +93,44 @@ Array.prototype.unique = function () {
 };
 
 
-//
+// sort by largest or smallest array
+function compareArrayBySize(a,b) {
+    if (a.values.length < b.values.length)
+        return 1;
+    if (a.values.length > b.values.length)
+        return -1;
+    return 0;
+}
+
+function getAnchoring(allGroups){
+    //1 = sorting all groups
+    allGroups.sort(compareArrayBySize);
+
+    // console.log(allGroups);
+
+    //1.5 = get all groups name
+    let unique_groups_names = [...new Set(allGroups.map(item => item.key))];
+    // console.log(unique_groups_names);
+
+    let biggest_of_each_group = [];
+
+    unique_groups_names.forEach(function (n){ //todo: RAL
+     allGroups.forEach(function (g) {
+         if(g.key === n){
+             biggest_of_each_group.push(g);
+             return false;
+         }
+     });
+
+    });
+
+    // console.log(biggest_of_each_group)
+
+    //2 = find the biggest for each group
+
+    //3 = sort the biggest of each group array
+    //4 = create anchoring based on those
+    //5 = return the anchoring position of each group
+    //(outside here)6 = receive those anchoring position and consult it every time display group
+
+}
