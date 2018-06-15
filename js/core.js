@@ -49,8 +49,8 @@ function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
     //     .clamp(true);
 
     let myQuantizeFunction = d3.scaleQuantize()
-            .domain([start, end])
-            .range(rangeArray);
+        .domain([start, end])
+        .range(rangeArray);
     let filterQuantize = function (d) {
         if (d == 0) {
             return range[0];
@@ -94,7 +94,7 @@ Array.prototype.unique = function () {
 
 
 // sort by largest or smallest array
-function compareArrayBySize(a,b) {
+function compareArrayBySize(a, b) {
     if (a.values.length < b.values.length)
         return 1;
     if (a.values.length > b.values.length)
@@ -102,7 +102,7 @@ function compareArrayBySize(a,b) {
     return 0;
 }
 
-function getAnchoring(allGroups){
+function getSuperLayer(allGroups) {
     //1 = sorting all groups
     allGroups.sort(compareArrayBySize);
 
@@ -114,14 +114,22 @@ function getAnchoring(allGroups){
 
     let biggest_of_each_group = [];
 
-    unique_groups_names.forEach(function (n){ //todo: RAL
-     allGroups.forEach(function (g) {
-         if(g.key === n){
-             biggest_of_each_group.push(g);
-             return false;
-         }
-     });
+    unique_groups_names.forEach(function (n) { //todo: RAL
 
+        for (let i = 0; i < allGroups.length; i++) {
+            // allGroups[i]
+            if(allGroups[i].key === n){
+                biggest_of_each_group.push(allGroups[i]);
+                break;
+            }
+        }
+        //
+        // allGroups.forEach(function (g) {
+        //     if (g.key === n) {
+        //         biggest_of_each_group.push(g);
+        //         // return false;
+        //     }
+        // });
     });
 
     // console.log(biggest_of_each_group)
@@ -133,4 +141,19 @@ function getAnchoring(allGroups){
     //5 = return the anchoring position of each group
     //(outside here)6 = receive those anchoring position and consult it every time display group
 
+    return biggest_of_each_group;
+}
+
+//get super layer and use it the
+
+//getRadScale
+
+function getRadScale( radius, min = 0, max = 94, height = 1000){
+
+    let x = d3.scaleLinear()
+        .domain([min, max])
+        .range([0, (height/4)]);
+    return x(radius)
+    //input all the radius list,  min and max, width, height
+    //return the scale for the largest radius
 }

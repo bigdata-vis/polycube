@@ -21,8 +21,8 @@
      *
      * @type {number}
      */
-    var width = 500,
-        height = 500,
+    var width = 1000,
+        height = 1000,
         widthHalf = width / 2,
         heightHalf = height / 2;
     var svg;
@@ -406,7 +406,7 @@
             .range(["#FF0000", "#009933", "#0000FF", "#ffea3f", "#422ba1", "#671a34"]);
         // .range(d3.schemePaired);
 
-        // console.log(segDataGroups);
+        // let simulation =
 
         pCube.updatePC = function (segDataGroups) {
 
@@ -422,50 +422,54 @@
 
             //force directed sim
             let simulation = d3.forceSimulation()
-                .force('charge', d3.forceManyBody().strength(5))
+                .force('charge', d3.forceManyBody())
                 .force('center', d3.forceCenter(widthHalf, heightHalf))
-                .force('collision', d3.forceCollide().strength(.5).radius(function (d) {
-                    return d.values.length;
+                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+                    let rad = d.values.length;
+                    return rad;
                 }).iterations(2));
 
-            var myPack = d3.pack()
-                .size([500, 500])
-                .padding(3);
+            // var myPack = d3.pack()
+            //     .size([500, 500])
+            //     .padding(3);
+
+            // simulation.nodes(segDataGroups);
 
             //Data Point Cloud Draw
             var PC2Elem = d3.selectAll('.pointCloud')
                 .data(segDataGroups).enter()
                 .each(function (data, i) { //time layers :ral
-
                     simulation.nodes(data.values);
 
+                    // console.log(data)
+
                     //node sim test
-                    let nodes = d3.hierarchy({children: data.values})
-                        .sum(function (d) {
-                            let size = d.length;
-                            return size;
-                        });
-                    nodes = myPack(nodes);
-
-                    console.log(nodes);
-
+                    // let nodes = d3.hierarchy({children: data.values})
+                    //     .sum(function (d) {
+                    //         let size = d.length;
+                    //         return size;
+                    //     });
+                    // nodes = myPack(nodes);
+                    // console.log(nodes);
                     // let nodeData = nodes.children;
                     // //node sim test
                     // nodeData.forEach(function (d) {
                     //     console.log(d)
                     // });
 
-                    // push first set of largest array layers position to the origposition to be used by the rest of the cube
-                    let maxArray = segDataGroups.map(function (a) {
-                        return a.values.length;
-                    }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
-                        return a.values.length;
-                    })));
-                    maxArray = segDataGroups[maxArray].values;
-
-                    if (i === 0) {
-                        originalPositions.push(maxArray);
-                    }
+                    // // push first set of largest array layers position to the origposition to be used by the rest of the cube
+                    // let maxArray = segDataGroups.map(function (a) {
+                    //     return a.values.length;
+                    // }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
+                    //     return a.values.length;
+                    // })));
+                    //
+                    // maxArray = segDataGroups[maxArray].values;
+                    //
+                    // if (i === 0) {
+                    //     console.log(maxArray);
+                    //     originalPositions.push(maxArray);
+                    // }
 
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
@@ -489,10 +493,8 @@
                         circle.groupName = "CircleGroup";
 
                         //apply force layout
-
-
-                        circle.position.x = data.y * 7;
-                        circle.position.z = data.x * 7;
+                        circle.position.x = data.y * getRadScale(7);
+                        circle.position.z = data.x * getRadScale(7);
 
                         // console.log((height/segSlices * i) - heightHalf);
 
@@ -578,70 +580,74 @@
 
                 });
 
-            getAnchoring(allGroups);
+            // getSuperLayer(allGroups);
 
         };
 
         pCube.updatePC(segDataGroups);
-        pCube.updateScene = function () {
+        // pCube.updateScene = function () {
+        //     let duration = 700;
+        //     // redraw solutions
+        //     segDataGroups.forEach(data => {
+        //         //update testdata with new cordinates
+        //         // console.log(data);
+        //         data.values.forEach(data => {
+        //             let key = data;
+        //
+        //             originalPositions[0].forEach(function (data) {
+        //                 if (key.key === data.key) {
+        //                     // console.log(data.x);
+        //                     // console.log(key.key);
+        //                     key.x = data.x;
+        //                     key.y = data.y;
+        //                 }
+        //                 // console.log(data.key);
+        //                 // console.log(key.key)
+        //             });
+        //
+        //
+        //         });
+        //     });
+        //     pCube.updatePC(segDataGroups);
+        // };
+        // pCube.updateScene();
+
+
+        let origPos = getSuperLayer(allGroups); //original position from the superlayer
+
+        //super layer test
+        pCube.updateSupelayer = function () {
             let duration = 700;
-
-            ////selection and tween solution
-            // WGLScene.getObjectByName("glbox").children.forEach(function (d) {
-            //
-            //     if (d.groupName === "CircleGroup") { //check to select only meshes with circles
-            //
-            //         // update matrix true on entry
-            //         d.matrixAutoUpdate = true;
-            //         d.updateMatrix();
-            //
-            //         // console.log(d);
-            //
-            //         originalPositions[0].forEach(function (data) {
-            //             if(d.name === data.key){
-            //
-            //                 // key.x = data.x;
-            //                 // key.y = data.y;
-            //                 let moveCircle = new TWEEN.Tween(d.position)
-            //                     .to({
-            //                         x: data.x,
-            //                         y: data.y
-            //                     }, duration)
-            //                     .easing(TWEEN.Easing.Sinusoidal.InOut)
-            //                     .start();
-            //
-            //             }
-            //         });
-            //
-            //     }
-            //
-            // });
-
-
             // redraw solutions
+
+            // console.log(getSuperLayer(allGroups));
+
+            // console.log(originalPositions);
+
             segDataGroups.forEach(data => {
-                //update testdata with new cordinates
+
                 // console.log(data);
+
                 data.values.forEach(data => {
+
                     let key = data;
 
-                    originalPositions[0].forEach(function (data) {
+                    origPos.forEach(data => { //todo: fix array length issues
                         if (key.key === data.key) {
                             // console.log(data.x);
                             // console.log(key.key);
                             key.x = data.x;
                             key.y = data.y;
                         }
-                        // console.log(data.key);
-                        // console.log(key.key)
                     });
-
-
                 });
             });
+
+            // console.log(segDataGroups);
+
             pCube.updatePC(segDataGroups);
         };
-        // pCube.updateScene();
+        pCube.updateSupelayer();
 
         /**
          * Draw Timeline and Labels
