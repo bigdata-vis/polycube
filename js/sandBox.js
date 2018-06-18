@@ -63,6 +63,16 @@
         //  console.log(superTemporalMap);
     };
 
+    //force directed sim
+    let simulation = d3.forceSimulation()
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(widthHalf, heightHalf))
+        .force('collision', d3.forceCollide().strength(1).radius(function (d, i) {
+            let rad = d.values.length;
+            return rad;
+            // return i;
+        }).iterations(2))
+
     pCube.drawElements = function (datasets) {
         // console.log(datasets);
         /**
@@ -259,7 +269,7 @@
 
         // camera = new THREE.CombinedCamera( window.innerWidth, window.innerHeight, 55, 1, 1000, - 200, 100 );
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.set(600, 400, 800);
+        camera.position.set(600, 400, 1800);
 
         /** Mouse Controls for zooming, panning etc
          *
@@ -420,14 +430,6 @@
 
             interval = height / segSlices;//new interval
 
-            //force directed sim
-            let simulation = d3.forceSimulation()
-                .force('charge', d3.forceManyBody())
-                .force('center', d3.forceCenter(widthHalf, heightHalf))
-                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
-                    let rad = d.values.length;
-                    return rad;
-                }).iterations(2));
 
             // var myPack = d3.pack()
             //     .size([500, 500])
@@ -442,7 +444,6 @@
                     simulation.nodes(data.values);
 
                     // console.log(data)
-
                     //node sim test
                     // let nodes = d3.hierarchy({children: data.values})
                     //     .sum(function (d) {
@@ -577,7 +578,6 @@
                         })
                     });
 
-
                 });
 
             // getSuperLayer(allGroups);
@@ -622,13 +622,19 @@
 
             // console.log(getSuperLayer(allGroups));
 
-            // console.log(originalPositions);
+            //new force sim
+            simulation.nodes(origPos);
+            // simulation.tick();
+
+            // console.log(simulation)
+
+            // simulation.alpha(0.8).restart();
+
+            console.log(origPos);
 
             segDataGroups.forEach(data => {
 
-                // console.log(data);
-
-                data.values.forEach(data => {
+                data.values.forEach(data => { //todo: how to go through the next loop with
 
                     let key = data;
 
@@ -1020,7 +1026,6 @@
         layout = "SI";
         window.layout = layout;
     };
-
 
     /**
      * Morphing controls accross data layers

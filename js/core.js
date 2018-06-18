@@ -92,7 +92,6 @@ Array.prototype.unique = function () {
     return arr;
 };
 
-
 // sort by largest or smallest array
 function compareArrayBySize(a, b) {
     if (a.values.length < b.values.length)

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<svg width="960" height="500" viewBox="-480 -250 960 500">
+    <circle r="100" stroke="brown" stroke-opacity="0.5" fill="none"></circle>
+    <circle r="200" stroke="steelblue" stroke-opacity="0.5" fill="none"></circle>
+</svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    var nodes = [].concat(
+        d3.range(80).map(function () {
+            return {type: "a"};
+        }),
+        d3.range(160).map(function () {
+            return {type: "b"};
+        })
+    );
+
+    var node = d3.select("svg")
+        .append("g")
+        .selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("r", 2.5)
+        .attr("fill", function (d) {
+            return d.type === "a" ? "brown" : "steelblue";
+        })
+
+    var simulation = d3.forceSimulation(nodes)
+        .force("charge", d3.forceCollide().radius(5))
+        .force("r", forceRadial(function (d) {
+            return d.type === "a" ? 100 : 200;
+        }))
+        .on("tick", ticked);
+
+    function ticked() {
+        node
+            .attr("cx", function (d) {
+                return d.x;
+            })
+            .attr("cy", function (d) {
+                return d.y;
+            });
+    }
+
+    function forceRadial(radius, x, y) {
+        var nodes,
+            strength = constant(0.1),
+            strengths,
+            radiuses;
+
+        if (typeof radius !== "function") radius = constant(+radius);
+        if (x == null) x = 0;
+        if (y == null) y = 0;
+
+        function force(alpha) {
+            for (var i = 0, n = nodes.length; i < n; ++i) {
+                var node = nodes[i],
+                    dx = node.x - x || 1e-6,
+                    dy = node.y - y || 1e-6,
+                    r = Math.sqrt(dx * dx + dy * dy),
+                    k = (radiuses[i] - r) * strengths[i] * alpha / r;
+                node.vx += dx * k;
+                node.vy += dy * k;
+            }
+        }
+
+        function initialize() {
+            if (!nodes) return;
+            var i, n = nodes.length;
+            strengths = new Array(n);
+            radiuses = new Array(n);
+            for (i = 0; i < n; ++i) {
+                radiuses[i] = +radius(nodes[i], i, nodes);
+                strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
+            }
+        }
+
+        force.initialize = function (_) {
+            nodes = _, initialize();
+        };
+
+        force.strength = function (_) {
+            return arguments.length ? (strength = typeof _ === "function" ? _ : constant(+_), initialize(), force) : strength;
+        };
+
+        force.radius = function (_) {
+            return arguments.length ? (radius = typeof _ === "function" ? _ : constant(+_), initialize(), force) : radius;
+        };
+
+        force.x = function (_) {
+            return arguments.length ? (x = +_, force) : x;
+        };
+
+        force.y = function (_) {
+            return arguments.length ? (y = +_, force) : y;
+        };
+
+        return force;
+    }
+
+    function constant(x) {
+        return function () {
+            return x;
+        };
+    }
+
+</script>
