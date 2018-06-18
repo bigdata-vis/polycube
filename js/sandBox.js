@@ -440,6 +440,8 @@
                 .data(segDataGroups).enter()
                 .each(function (data, i) { //time layers :ral
                     simulation.nodes(data.values);
+                    //console.log("data.values: ");
+                    //console.log(data.values);
 
                     // console.log(data)
 
@@ -613,33 +615,34 @@
         // pCube.updateScene();
 
 
-        let origPos = getSuperLayer(allGroups); //original position from the superlayer
+        
 
         //super layer test
         pCube.updateSupelayer = function () {
+            let superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
+            let forcedLayoutBasedOnSuperLayer = createForcedLayout(superLayerPos,widthHalf, heightHalf);
             let duration = 700;
-            // redraw solutions
+            
+            
+            // console.log("##### superlayerpos:");
+            // console.log(superLayerPos);
+            // console.log("##### segDataGroups:");
+            // console.log(segDataGroups);
 
-            // console.log(getSuperLayer(allGroups));
-
-            // console.log(originalPositions);
+            // console.log("##### forcedLayoutBasedOnSuperLayer:");
+            // console.log(forcedLayoutBasedOnSuperLayer);
 
             segDataGroups.forEach(data => {
-
-                // console.log(data);
-
-                data.values.forEach(data => {
-
-                    let key = data;
-
-                    origPos.forEach(data => { //todo: fix array length issues
-                        if (key.key === data.key) {
-                            // console.log(data.x);
-                            // console.log(key.key);
-                            key.x = data.x;
-                            key.y = data.y;
-                        }
-                    });
+                // console.log(data);                  
+                    data.values.forEach(data => {
+                        let key = data;                        
+                        superLayerPos.forEach(data => { //todo: fix array length issues
+                        
+                            if (key.key === data.key) {
+                                key.x = data.x;
+                                key.y = data.y;
+                            }
+                        });
                 });
             });
 

@@ -103,10 +103,9 @@ function compareArrayBySize(a, b) {
 }
 
 function getSuperLayer(allGroups) {
+
     //1 = sorting all groups
     allGroups.sort(compareArrayBySize);
-
-    // console.log(allGroups);
 
     //1.5 = get all groups name
     let unique_groups_names = [...new Set(allGroups.map(item => item.key))];
@@ -115,24 +114,40 @@ function getSuperLayer(allGroups) {
     let biggest_of_each_group = [];
 
     unique_groups_names.forEach(function (n) { //todo: RAL
-
         for (let i = 0; i < allGroups.length; i++) {
-            // allGroups[i]
             if(allGroups[i].key === n){
-                biggest_of_each_group.push(allGroups[i]);
+                biggest_of_each_group.push({key: allGroups[i].key, values: allGroups[i].values});
                 break;
-            }
-        }
-        //
-        // allGroups.forEach(function (g) {
-        //     if (g.key === n) {
-        //         biggest_of_each_group.push(g);
-        //         // return false;
-        //     }
-        // });
+            }//end if
+        }//end for
     });
 
     // console.log(biggest_of_each_group)
+
+    return biggest_of_each_group;
+}
+
+function createForcedLayout(group_list,widthHalf, heightHalf){
+    // console.log("group_list before:");
+    // console.log(group_list);
+    let simulation = d3.forceSimulation()
+                .force('charge', d3.forceManyBody())
+                .force('center', d3.forceCenter(widthHalf, heightHalf))
+                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+                    let rad = d.values.length;
+                    return rad;
+                }).iterations(2));
+
+    
+    simulation.nodes(group_list);
+    // console.log("group_list after:");
+    // console.log(group_list);
+
+    return group_list;
+
+}
+
+function createCircularLayout(){
 
     //2 = find the biggest for each group
 
@@ -141,9 +156,7 @@ function getSuperLayer(allGroups) {
     //5 = return the anchoring position of each group
     //(outside here)6 = receive those anchoring position and consult it every time display group
 
-    return biggest_of_each_group;
 }
-
 //get super layer and use it the
 
 //getRadScale
