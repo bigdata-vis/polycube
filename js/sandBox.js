@@ -620,7 +620,12 @@
         //super layer test
         pCube.updateSupelayer = function () {
             let superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
-            let forcedLayoutBasedOnSuperLayer = createForcedLayout(superLayerPos,widthHalf, heightHalf);
+            
+            
+            //let forcedLayoutBasedOnSuperLayer = createForcedLayout(superLayerPos,widthHalf, heightHalf);
+            let forcedLayoutBasedOnSuperLayer = createDiagonalLayout(superLayerPos);
+
+
             let duration = 700;
             
             
@@ -636,8 +641,7 @@
                 // console.log(data);                  
                     data.values.forEach(data => {
                         let key = data;                        
-                        superLayerPos.forEach(data => { //todo: fix array length issues
-                        
+                        superLayerPos.forEach(data => { //todo: fix array length issues                        
                             if (key.key === data.key) {
                                 key.x = data.x;
                                 key.y = data.y;

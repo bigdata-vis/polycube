@@ -144,7 +144,23 @@ function createForcedLayout(group_list,widthHalf, heightHalf){
     // console.log(group_list);
 
     return group_list;
+}
 
+function createDiagonalLayout(group_list){
+    let posX = 25;
+    let posY = 25;
+    let rad = 0;
+
+    for (var i = 0; i < group_list.length; i++) {
+        group_list[i].x = posX;
+        group_list[i].y = posY;
+
+        rad = group_list[i].values.length;
+        posX = posX - rad/10;
+        posY = posY - rad/10;
+    }
+
+    return group_list;
 }
 
 function createCircularLayout(){
