@@ -524,6 +524,7 @@
                             image.style.width = 10 + "px";
                             image.style.height = 10 + "px";
                             image.className = "pointCloud";
+                            const stc = new THREE.Object3D();
 
                             var object = new THREE.CSS3DSprite(image);
                             // object.position.y = timeLinear(d.time); //for unix date
@@ -565,6 +566,11 @@
                                 polyCube.drawHull(d.Genre_1); //draw each group on click
                             });
 
+                            object["newData"] = d;
+                            stc.position.x = object.position.x;
+                            stc.position.y = object.position.y; // for unix
+                            stc.position.z = object.position.z;
+                            object['STC'] = stc;
 
                             //add object to group
                             group.add(object);
@@ -585,7 +591,6 @@
             // getSuperLayer(allGroups);
 
         };
-
         pCube.updatePC(segDataGroups);
         // pCube.updateScene = function () {
         //     let duration = 700;
@@ -613,8 +618,6 @@
         //     pCube.updatePC(segDataGroups);
         // };
         // pCube.updateScene();
-
-
         
 
         //super layer test
@@ -624,9 +627,9 @@
             /* Forced Layout */
             //createForcedLayout(superLayerPos,widthHalf, heightHalf);
             /* Forced DiagonalLinear */
-            //createDiagonalLayout(superLayerPos);
+            createDiagonalLayout(superLayerPos);
             /* Forced Circular */
-            createCircularLayout(superLayerPos);
+            // createCircularLayout(superLayerPos);
 
 
             let duration = 700;
@@ -824,6 +827,152 @@
         controls.update();
         pCube.render()
     };
+
+    /**
+     * Juxtaposition function
+     *
+     */
+    pCube.juxstaPose = function () {
+        var duration = 2500;
+        TWEEN.removeAll();
+
+        /**
+         * show leaflet markers
+         * show leaflet maps
+         * show pointer event on layers
+         */
+        d3.selectAll(".subunit_points")
+            .classed("hide", false);
+
+        /**
+         * Hide SegLable
+         */
+        d3.selectAll(".segLabel")
+            .classed("hide", false);
+
+        /**
+         *hide guide lines
+         */
+        // hideGuide();
+
+
+        // conntrols
+        controls.noZoom = false;
+        controls.noRotate = true;
+
+        //display all the maps for the segments
+        d3.selectAll(".elements_child")
+            .classed("hide", false);
+
+        //hide canvas temporarily //todo: remove all pointClouds
+
+
+        if (layout === "STC") {
+            //flatten pointCloud time first if layout is STC
+            polyCube.setsDraw();
+        }
+
+        //hide all time panels
+        d3.selectAll(".textTitle")
+            .classed("hide", true);
+
+        var segCounter = 0; //keep list of the segment counters
+
+        /**
+         * reverse array before animating
+         * Flatten Time before animating
+         */
+
+        // scene.children[0].children.reverse(); //on
+
+
+        // console.log(scene);
+
+        scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
+
+            var reduceLeft = {
+                x: (( segCounter % 5 ) * (width + 50)) - (width),
+                y: ( -( Math.floor(segCounter / 5) % 5 ) * (width + 50) ) - 100, //just another way of getting 550
+                z: 0
+            };
+
+            //remove box shapes
+            if (object.name == "side") {
+                object.element.hidden = true;
+            }
+
+            //tween the segments to grid shape
+            if (object.name == "seg") {
+                segCounter++;
+
+                // console.log(object);
+                //delay the transition to flatten time first
+                // if (layout === "STC") {
+                //
+                // }
+
+                setTimeout(function () {
+                    d3.selectAll(".pointCloud")
+                        .classed("hide", true);
+
+                    var posTween = new TWEEN.Tween(object.position)
+                        .to(reduceLeft, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    var rotate = new TWEEN.Tween(object.rotation)
+                        .to({x: 0, y: 0, z: 0}, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+
+                    //
+                    var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                        .to({
+                            // opacity: 0.8,
+                            backgroundColor: "black"
+                        }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+                }, 1200);
+
+
+                // console.log(object)
+
+                //store object JP position inside the container
+                var jp = new THREE.Object3D();
+                jp.position.x = object.position.x;
+                jp.position.y = object.position.y;
+                jp.position.z = object.position.z;
+                object['JP'] = jp;
+            }
+        });
+
+        //camera movement
+        var tween = new TWEEN.Tween({
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        })
+            .to({
+                x: 0,
+                y: 0,
+                z: 2050
+            }, 1600)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
+
+        layout = "JP";
+        window.layout = layout;
+
+        pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
+    };
+
 
     pCube.superImpose = function () {
         flat_time = true;
@@ -1398,7 +1547,6 @@
             });
 
         // console.log(nestedPointCloud);
-
 
         nestedPointCloud.forEach(function (data, i) {
             var segs = data.values;
