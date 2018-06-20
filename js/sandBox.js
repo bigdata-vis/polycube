@@ -431,34 +431,11 @@
             interval = height / segSlices;//new interval
 
 
-            // var myPack = d3.pack()
-            //     .size([500, 500])
-            //     .padding(3);
-
-            // simulation.nodes(segDataGroups);
-
             //Data Point Cloud Draw
             var PC2Elem = d3.selectAll('.pointCloud')
                 .data(segDataGroups).enter()
                 .each(function (data, i) { //time layers :ral
                     simulation.nodes(data.values);
-                    //console.log("data.values: ");
-                    //console.log(data.values);
-
-                    // console.log(data)
-                    //node sim test
-                    // let nodes = d3.hierarchy({children: data.values})
-                    //     .sum(function (d) {
-                    //         let size = d.length;
-                    //         return size;
-                    //     });
-                    // nodes = myPack(nodes);
-                    // console.log(nodes);
-                    // let nodeData = nodes.children;
-                    // //node sim test
-                    // nodeData.forEach(function (d) {
-                    //     console.log(d)
-                    // });
 
                     // // push first set of largest array layers position to the origposition to be used by the rest of the cube
                     // let maxArray = segDataGroups.map(function (a) {
@@ -498,10 +475,6 @@
                         //apply force layout
                         circle.position.x = data.y * getRadScale(7);
                         circle.position.z = data.x * getRadScale(7);
-
-                        // console.log((height/segSlices * i) - heightHalf);
-
-                        // console.log((interval * i) - heightHalf);
 
                         // circle.position.y = (interval * i) - interval - interval;
                         circle.position.y = (interval * i) - heightHalf;
@@ -620,27 +593,25 @@
         // pCube.updateScene();
 
 
-
         //super layer test
-        pCube.updateSupelayer = function () {
+        pCube.updateSupelayer = function (layout = 'circle') {
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
 
-            /* Forced Layout */
-            //createForcedLayout(superLayerPos,widthHalf, heightHalf);
-            /* Forced DiagonalLinear */
-            createDiagonalLayout(superLayerPos);
-            /* Forced Circular */
-            // createCircularLayout(superLayerPos);
-
-
-            let duration = 700;
-
+            if (layout === 'force') {
+                /* Forced Layout */
+                createForcedLayout(superLayerPos, widthHalf, heightHalf);
+            } else if (layout === 'diagonal') {
+                /* Forced DiagonalLinear */
+                createDiagonalLayout(superLayerPos);
+            } else if (layout === 'circle') {
+                /* Forced Circular */
+                createCircularLayout(superLayerPos);
+            }
 
             // console.log("##### superlayerpos:");
             // console.log(superLayerPos);
             // console.log("##### segDataGroups:");
             // console.log(segDataGroups);
-
 
             segDataGroups.forEach(data => {
                 // console.log(data);                  
@@ -654,8 +625,6 @@
                     });
                 });
             });
-
-            // console.log(segDataGroups);
 
             pCube.updatePC(segDataGroups);
         };
@@ -776,24 +745,6 @@
         glbox.add(dot);
     };
 
-    function createRectangle(a, b, c, d) {
-        let geometry = new THREE.BufferGeometry();
-        let vertices = new Float32Array([
-            a.x, a.y, a.z,
-            b.x, b.y, b.z,
-            c.x, c.y, c.z,
-
-            b.x, b.y, b.z,
-            c.x, c.y, c.z,
-            d.x, d.y, d.z
-        ]);
-        geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        let material = new THREE.MeshBasicMaterial({color: 0xff0000, side: THREE.DoubleSide, opacity: 0.5});
-        let mesh = new THREE.Mesh(geometry, material);
-        glbox.add(mesh);
-        console.log('mesh added');
-    };
-
     function addtoScene(d, i) {
         var objSeg = new THREE.CSS3DObject(this);
         //position
@@ -834,18 +785,15 @@
      */
     pCube.juxstaPose = function () {
         var duration = 2500;
+
+        // clean func
         TWEEN.removeAll();
-
         WGLScene.getObjectByName("glbox").visible = false;
-        // console.log(glscene);
 
-        /**
-         * show leaflet markers
-         * show leaflet maps
-         * show pointer event on layers
-         */
-        d3.selectAll(".subunit_points")
+        // hide groups
+        d3.selectAll(".circle_elements")
             .classed("hide", false);
+
 
         /**
          * Hide SegLable
@@ -868,7 +816,6 @@
             .classed("hide", false);
 
         //hide canvas temporarily //todo: remove all pointClouds
-
 
         if (layout === "STC") {
             //flatten pointCloud time first if layout is STC
@@ -947,13 +894,11 @@
 
         //group layout
 
-
         //select all segment layers
         //append layers to the group
 
         let segmentLayers = elements.selectAll('svg');
 
-        // console.log(segmentLayers.data);
 
         segmentLayers.each(function (d) {
             // console.log(d);
@@ -966,35 +911,30 @@
                 // console.log(data);
                 // console.log(superLayerPos);
 
-                    let key = data;
+                let key = data;
 
-                    superLayerPos.forEach(data => { //todo: fix array length issues
+                superLayerPos.forEach(data => { //todo: fix array length issues
 
-                       // let layers =  d3.select(elm)
-                       //      .append('g');
+                    // let layers =  d3.select(elm)
+                    //      .append('g');
 
-                        if (key.key === data.key) {
-                            console.log(key);
-                            // key.x = data.x;
-                            // key.y = data.y;
+                    if (key.key === data.key) {
 
-                            elm.append("circle")
-                                .attr("cx", function (d, i) {
-                                    // return widthHalf;
-                                    return (data.x * 10) + widthHalf;
-                                })
-                                .attr("cy", function (d,i) {
-                                    // return heightHalf;
-                                    return (data.y * 10) + heightHalf;
-                                })
-                                .attr("r", function (d, i) {
-                                    // console.log(key);
-                                    // return 20;
-                                    return key.values.length/2;
-                                })
-                                .attr("fill", colorScale(key.key));
-                        }
-                    });
+                        elm.append("circle")
+                            .attr("cx", function (d, i) {
+                                return (data.x * 15) + widthHalf;
+                            })
+                            .attr("cy", function (d, i) {
+                                return (data.y * 15) + heightHalf;
+                            })
+                            .attr("r", function (d, i) {
+                                // console.log(key);
+                                // return 20;
+                                return key.values.length / 1.7;
+                            })
+                            .attr("fill", colorScale(key.key));
+                    }
+                });
 
             });
             //append circle from values to each element
@@ -1031,6 +971,184 @@
         window.layout = layout;
 
         // pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
+    };
+
+    /**
+     * Default STC Layout Fallback function
+     *
+     */
+    pCube.default = function (callbackFuntion) {
+        var segments = dataSlices;
+        var interval = height / segments; //height/segments
+
+        var duration = 2500;
+        TWEEN.removeAll();
+
+
+        /**Clean func section
+         * group points
+         */
+        // hide groups
+        d3.selectAll(".circle_elements")
+            .classed("hide", true);
+
+        //show glbox
+        WGLScene.getObjectByName("glbox").visible = true;
+
+
+        /**
+         * show all time panels
+         */
+        d3.selectAll(".textTitle")
+            .classed("hide", false);
+
+        /**
+         * show all point clouds
+         * delay poitcloud introduction
+         * add transition tween
+         */
+
+        setTimeout(function () {
+            d3.selectAll(".pointCloud")
+                .classed("hide", false);
+        }, 2500);
+
+        //display all the maps for the segments
+        // d3.selectAll(".elements_child")
+        //     .classed("hide", function (d, i) {
+        //         // console.log(i);
+        //         if (i !== 0) {
+        //             return true
+        //         }
+        //     });
+
+        var segCounter = 0; //keep list of the segment counters
+
+        /**
+         * Point Cloud reverse flattening
+         */
+        scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
+            var unFlattenPoints = new TWEEN.Tween(d.position)
+                .to({
+                    y: d.STC.position.y
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+
+            // update matrix false on exit
+            // d.matrixAutoUpdate = false;
+            // d.updateMatrix();
+
+            // console.log(d)
+        });
+
+        /**
+         * Reverse array to show last segment first
+         * Only show
+         */
+
+        if (layout !== "STC") {
+            // scene.children[0].children.reverse(); //on
+        }
+
+        // if(layout !== "JP"){
+        //     scene.children[0].children.reverse();
+        // }
+        //
+        // if(layout === "SI"){
+        //     scene.children[0].children.reverse();
+        // }
+
+        d3.selectAll(".elements_child")
+            .filter(function (d, i) {  //todo: point of hiding other map items
+                // console.log(d);
+                // return i !== 0;
+                return d.key !== "jp1";
+            })
+            .classed("hide", true)
+            .classed("dataPane", false);
+
+
+        scene.children[0].children.forEach(function (object, i) {
+
+            //show box shapes
+            if (object.name == "side") {
+                object.element.hidden = false;
+            }
+
+
+            //show segments
+            if (object.name == "seg") {
+
+                segCounter++;
+
+                // console.log(interval);
+
+                var posTween = new TWEEN.Tween(object.position)
+                    .to({
+                        x: 0,
+                        y: (segCounter * interval) - (height / 2 + interval),
+                        z: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+
+                var rotate = new TWEEN.Tween(object.rotation)
+                    .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start();
+
+
+                var tweenOpacity = new TWEEN.Tween((object.element.firstChild.style))
+                    .to({
+                        // opacity: 0.2,
+                        backgroundColor: "#2f2f2f"
+                    }, duration).easing(TWEEN.Easing.Sinusoidal.InOut)
+                    .start()
+            }
+
+        });
+
+        //camera movement
+
+        var tween = new TWEEN.Tween({
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        }).to({
+            x: 600,
+            y: 400,
+            z: 800
+        }, 1600)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+                camera.position.set(this.x, this.y, this.z);
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .onComplete(function () {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            })
+            .start();
+
+        //modify controls
+        controls.noZoom = false;
+        controls.noRotate = false;
+
+        /**
+         * Remove transparency on first layer only and hide the rest
+         */
+        // console.log(d3.selectAll(".elements_child"));
+
+
+        //callback function to run at the end of every default redraw
+        if (callbackFuntion) {
+            callbackFuntion()
+        }
+
+        layout = "STC";
+        window.layout = layout;
     };
 
 
@@ -1618,7 +1736,7 @@
 
                 var rotate = new TWEEN.Tween(d.position)
                     .to({
-                            y: interval * i - 125
+                            y: interval
                         }
                         , duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)

@@ -813,7 +813,6 @@
         // d['SI'] = si;
     }
 
-
     /**
      * Additional functions that will execute after the default function.
      */
@@ -861,14 +860,6 @@
                 .classed("hide", false);
         }, 2500);
 
-        //display all the maps for the segments
-        // d3.selectAll(".elements_child")
-        //     .classed("hide", function (d, i) {
-        //         // console.log(i);
-        //         if (i !== 0) {
-        //             return true
-        //         }
-        //     });
 
         var segCounter = 0; //keep list of the segment counters
 
@@ -900,13 +891,6 @@
             // scene.children[0].children.reverse(); //on
         }
 
-        // if(layout !== "JP"){
-        //     scene.children[0].children.reverse();
-        // }
-        //
-        // if(layout === "SI"){
-        //     scene.children[0].children.reverse();
-        // }
 
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
@@ -997,8 +981,6 @@
 
         layout = "STC";
         window.layout = layout;
-
-        pCube.default_functions.forEach(f => f.call(pCube, duration));
     };
 
     /**

@@ -13,23 +13,6 @@
     <!--<script src="lib/csg.js"></script>-->
     <!--<script src="lib/ThreeCSG.js"></script>-->
     <link rel="stylesheet" href="css/main.css">
-    <!--<style>-->
-        <!--#textTitle {-->
-            <!--/* width: 200px; */-->
-            <!--/* color: white; */-->
-            <!--position: relative;-->
-            <!--top: 135px;-->
-            <!--/* left: 60px; */-->
-            <!--z-index: 99;-->
-            <!--margin-bottom: 40px;-->
-            <!--float: right;-->
-            <!--margin-right: 15px;-->
-            <!--overflow-x: hidden;-->
-            <!--max-width: 246px;-->
-            <!--width: 246px;-->
-            <!--text-align: left;-->
-        <!--}-->
-    <!--</style>-->
 </head>
 <body>
 
@@ -137,8 +120,8 @@
             showData: true,
             showNodes: false,
             nodeSize: 15,
-            light: false
-//            projection: 5000
+            light: false,
+            setsLayout: []
         };
 
         gui.add(params, 'Project').onFinishChange(function () {
@@ -196,11 +179,10 @@
                     .style("height", value + "px");
         });
 
-//        gui.add(params, "projection").min(1000).max(5000).onChange(function () {
-//            var value = params.projection;
-////            polyCube.projectionScale({scale: +value});
-////            console.log(value);
-//        });
+        gui.add(params, 'setsLayout', ['force','diagonal', 'circle']).onChange(d => {
+            console.log(d);
+            polyCube.updateSupelayer(d);
+        }).name("Sets Layouts");
 
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {
