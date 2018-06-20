@@ -43,11 +43,20 @@
 
     var timeLinearG;
     var layout;
+    let elements;
 
     var segmentedData;
     let tempArr = [];
     let superTemporalMap = new Map();
+    let superLayerPos;
 
+    let dataBySeg; //hold segment data for superimposition
+    let colorList = [];
+    //color scale
+    var colorScale = d3.scaleOrdinal()
+    // .domain(["New York", "San Francisco", "Austin"])
+        .domain(colorList.unique())
+        .range(["#FF0000", "#009933", "#0000FF", "#ffea3f", "#422ba1", "#671a34"]);
 
     pCube.fixedSetCoordinates = function (datasets) {
 
@@ -187,16 +196,6 @@
                 return d;
             });
 
-
-        /**
-         * calculate the largest and smallest value for Xscale and Y scale
-         */
-        var xScale = d3.scaleLinear()
-                .domain(xExent)
-                .range([-widthHalf, width]),
-            yScale = d3.scaleLinear()
-                .domain(yExent)
-                .range([0, height]);
 
         /**
          * scenes
@@ -340,10 +339,13 @@
          * D3.nest to segment each data by its temporal ts property
          * sort data by jp1
          */
-        var dataBySeg = d3.nest()
+        dataBySeg = d3.nest()
             .key(function (d) {
                 return d.ts;
                 // return d.Genre_1;
+            })
+            .key(function (d) {
+                return d.Genre_1;
             })
             .entries(datasets).sort(function (a, b) {
                 return a.key > b.key;
@@ -379,7 +381,7 @@
          * main Element Div (Create new segments holders from here)
          *Currently using todo: datasets1 should be changed to datasets2
          */
-        var elements = d3.select("body").selectAll('.element')
+        elements = d3.select("body").selectAll('.element')
             .data(dataBySeg)//automate the use of slices
             .enter()
             .append('div')
@@ -393,7 +395,11 @@
             .attr("class", "circle_elements")
             .attr("width", width)
             .attr("height", height)
-            .append("g");
+            .append("g")
+            .each(function (d) {
+                // console.log(d);
+                // console.log(superTemporalMap)
+            });
 
         /**
          * Objectify and draw segments elements
@@ -404,16 +410,10 @@
          * Push pc data to scene
          */
         let newList = [];
-        let colorList = [];
         let originalPositions = [];
         let allGroups = [];
 
         let firstSlice = null;
-        //color scale
-        var colorScale = d3.scaleOrdinal()
-        // .domain(["New York", "San Francisco", "Austin"])
-            .domain(colorList.unique())
-            .range(["#FF0000", "#009933", "#0000FF", "#ffea3f", "#422ba1", "#671a34"]);
         // .range(d3.schemePaired);
 
         // let simulation =
@@ -618,12 +618,13 @@
         //     pCube.updatePC(segDataGroups);
         // };
         // pCube.updateScene();
-        
+
+
 
         //super layer test
         pCube.updateSupelayer = function () {
-            let superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
-            
+            superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
+
             /* Forced Layout */
             //createForcedLayout(superLayerPos,widthHalf, heightHalf);
             /* Forced DiagonalLinear */
@@ -633,25 +634,24 @@
 
 
             let duration = 700;
-            
-            
+
+
             // console.log("##### superlayerpos:");
-            console.log(superLayerPos);
+            // console.log(superLayerPos);
             // console.log("##### segDataGroups:");
             // console.log(segDataGroups);
 
 
             segDataGroups.forEach(data => {
                 // console.log(data);                  
-                    data.values.forEach(data => {
-                        let key = data;                        
-                        superLayerPos.forEach(data => { //todo: fix array length issues                        
-                            if (key.key === data.key) {
-                                key.x = data.x;
-                                key.y = data.y;
-                            }
-                        });
-// >>>>>>> 8bf6ede30b47c6da1ef2f453a22ebf77516b1b47
+                data.values.forEach(data => {
+                    let key = data;
+                    superLayerPos.forEach(data => { //todo: fix array length issues
+                        if (key.key === data.key) {
+                            key.x = data.x;
+                            key.y = data.y;
+                        }
+                    });
                 });
             });
 
@@ -836,6 +836,9 @@
         var duration = 2500;
         TWEEN.removeAll();
 
+        WGLScene.getObjectByName("glbox").visible = false;
+        // console.log(glscene);
+
         /**
          * show leaflet markers
          * show leaflet maps
@@ -883,10 +886,6 @@
          * Flatten Time before animating
          */
 
-        // scene.children[0].children.reverse(); //on
-
-
-        // console.log(scene);
 
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
@@ -946,6 +945,67 @@
             }
         });
 
+        //group layout
+
+
+        //select all segment layers
+        //append layers to the group
+
+        let segmentLayers = elements.selectAll('svg');
+
+        // console.log(segmentLayers.data);
+
+        segmentLayers.each(function (d) {
+            // console.log(d);
+            // let elm = this;
+            let elm = d3.select(this)
+                .append('g');
+
+            d.values.forEach(function (data) {
+
+                // console.log(data);
+                // console.log(superLayerPos);
+
+                    let key = data;
+
+                    superLayerPos.forEach(data => { //todo: fix array length issues
+
+                       // let layers =  d3.select(elm)
+                       //      .append('g');
+
+                        if (key.key === data.key) {
+                            console.log(key);
+                            // key.x = data.x;
+                            // key.y = data.y;
+
+                            elm.append("circle")
+                                .attr("cx", function (d, i) {
+                                    // return widthHalf;
+                                    return (data.x * 10) + widthHalf;
+                                })
+                                .attr("cy", function (d,i) {
+                                    // return heightHalf;
+                                    return (data.y * 10) + heightHalf;
+                                })
+                                .attr("r", function (d, i) {
+                                    // console.log(key);
+                                    // return 20;
+                                    return key.values.length/2;
+                                })
+                                .attr("fill", colorScale(key.key));
+                        }
+                    });
+
+            });
+            //append circle from values to each element
+        });
+
+        // console.log(segmentLayers);
+
+        // segmentLayers.each(function (d) {
+        //     console.log(d)
+        // });
+
         //camera movement
         var tween = new TWEEN.Tween({
             x: camera.position.x,
@@ -970,7 +1030,7 @@
         layout = "JP";
         window.layout = layout;
 
-        pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
+        // pCube.juxstaPose_functions.forEach(f => f.call(pCube, duration, width, height));
     };
 
 
