@@ -395,10 +395,6 @@
             .attr("width", width)
             .attr("height", height)
             .append("g")
-            .each(function (d) {
-                // console.log(d);
-                // console.log(superTemporalMap)
-            });
 
         /**
          * Objectify and draw segments elements
@@ -716,6 +712,7 @@
                 element.appendChild(elMessage);
 
                 var object = new THREE.CSS3DObject(element);
+                // var object = new THREE.CSS3DSprite(element);
                 // object.position.fromArray(pos[i]);
                 // object.rotation.fromArray(rot[i]);
                 object.name = "titles";
@@ -786,18 +783,14 @@
      * Juxtaposition function
      *
      */
-    pCube.juxstaPose = function () {
+    pCube.juxstaPose = function () { //todo: RAL
         var duration = 2500;
-
         // clean func
         TWEEN.removeAll();
         WGLScene.getObjectByName("glbox").visible = false;
-
         // hide groups
         d3.selectAll(".circle_elements")
             .classed("hide", false);
-
-
         /**
          * Hide SegLable
          */
@@ -836,7 +829,7 @@
          * Flatten Time before animating
          */
 
-
+        // animate the layers to new position
         scene.children[0].children.forEach(function (object, i) { //todo: fixleftspace
 
             var reduceLeft = {
@@ -901,7 +894,6 @@
         //append layers to the group
 
         let segmentLayers = elements.selectAll('svg');
-
 
         segmentLayers.each(function (d) {
             // console.log(d);
