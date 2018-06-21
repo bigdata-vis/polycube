@@ -422,6 +422,7 @@
             pointCloud.children = [];
             glbox.children = [];
             d3.selectAll('.pointCloud').remove();
+            d3.selectAll('.set-label').classed('hide', true);
 
             interval = height / segSlices;//new interval
 
@@ -607,6 +608,12 @@
                 createMatrixLayout(superLayerPos);
             }
 
+            let params = { fontsize: 32, fontface: "Georgia", borderColor: {r:0, g:0, b:255, a:1.0} };
+            for(var i = 0; i < superLayerPos.length; i++) {
+                let label = createNewSpriteLabel(superLayerPos[i].key, params);
+                mesh.add(label);
+                label.position.set(superLayerPos[i].y*getRadScale(7) , heightHalf + 20, superLayerPos[i].x*getRadScale(7));
+            }
             // console.log("##### superlayerpos:");
             // console.log(superLayerPos);
             // console.log("##### segDataGroups:");
