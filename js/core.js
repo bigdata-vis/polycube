@@ -241,6 +241,7 @@ function createNewSpriteLabel(message, parameters) {
   let label = document.createElement('p');
   label.style.width = '50px';
   label.style.height = '50px';
+  label.style.color = '#7b7b7b';
   label.className = 'set-label';
   let textLabel = document.createTextNode(message);
   label.appendChild(textLabel);

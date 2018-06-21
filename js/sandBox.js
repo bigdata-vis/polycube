@@ -614,10 +614,6 @@
                 mesh.add(label);
                 label.position.set(superLayerPos[i].y*getRadScale(7) , heightHalf + 20, superLayerPos[i].x*getRadScale(7));
             }
-            // console.log("##### superlayerpos:");
-            // console.log(superLayerPos);
-            // console.log("##### segDataGroups:");
-            // console.log(segDataGroups);
 
             segDataGroups.forEach(data => {
                 // console.log(data);                  
