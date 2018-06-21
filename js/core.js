@@ -194,3 +194,33 @@ function getRadScale( radius, min = 0, max = 94, height = 1000){
     //return the scale for the largest radius
 }
 
+function createNewSpriteLabel(message, parameters) {
+  if (parameters === undefined) parameters = {};
+  var size = parameters["size"] || 10; // check params
+  let label = document.createElement('p');
+  label.style.width = '50px';
+  label.style.height = '50px';
+  label.className = 'set-label';
+  let textLabel = document.createTextNode(message);
+  label.appendChild(textLabel);
+  let object = new THREE.CSS3DSprite(label);
+  return object;
+}
+
+// function for drawing rounded rectangles
+function roundRect(ctx, x, y, w, h, r)
+{
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+    ctx.fill();
+	  ctx.stroke();
+}
