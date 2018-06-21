@@ -1469,6 +1469,7 @@
     pCube.spriteRender = function (xScale, yScale, params) {
         if (params === undefined) params = {};
         var size = params["size"] || 10;
+
         var image = document.createElement('img');
 
         //count of point clouds

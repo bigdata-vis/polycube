@@ -196,7 +196,6 @@
                 return d;
             });
 
-
         /**
          * scenes
          * Introduction CSS3D and WebGL scenes
@@ -437,19 +436,19 @@
                 .each(function (data, i) { //time layers :ral
                     simulation.nodes(data.values);
 
-                    // // push first set of largest array layers position to the origposition to be used by the rest of the cube
-                    // let maxArray = segDataGroups.map(function (a) {
-                    //     return a.values.length;
-                    // }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
-                    //     return a.values.length;
-                    // })));
-                    //
-                    // maxArray = segDataGroups[maxArray].values;
-                    //
-                    // if (i === 0) {
-                    //     console.log(maxArray);
-                    //     originalPositions.push(maxArray);
-                    // }
+                    // push first set of largest array layers position to the origposition to be used by the rest of the cube
+                    let maxArray = segDataGroups.map(function (a) {
+                        return a.values.length;
+                    }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
+                        return a.values.length;
+                    })));
+
+                    maxArray = segDataGroups[maxArray].values;
+
+                    if (i === 0) {
+                        console.log(maxArray);
+                        originalPositions.push(maxArray);
+                    }
 
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
@@ -1724,7 +1723,7 @@
                 return a.key > b.key;
             });
 
-        // console.log(nestedPointCloud);
+        console.log(nestedPointCloud);
 
         nestedPointCloud.forEach(function (data, i) {
             var segs = data.values;
