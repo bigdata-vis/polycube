@@ -161,6 +161,28 @@ function createDiagonalLayout(group_list){
     return group_list;
 }
 
+
+function createMatrixLayout(group_list){
+    let border = 22
+    let posX = border;
+    let posY = border;
+    let grainX = (2*border)/3;
+
+    group_list = shuffle(group_list);
+
+    for (var i = 0; i < group_list.length; i++) {
+        group_list[i].x = posX;
+        group_list[i].y = posY;
+        
+        if((posX - grainX)<-border){ posX = border;
+                              posY = posY - grainX; }
+        else{                 posX = posX - grainX; }        
+        
+    }
+
+    return group_list;
+}
+
 function createCircularLayout(group_list){
     let fraction = (2* Math.PI)/group_list.length;
     let current_pos = 0;
@@ -180,6 +202,25 @@ function createCircularLayout(group_list){
     }
 
 }
+
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
 //get super layer and use it the
 
 //getRadScale
