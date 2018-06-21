@@ -179,7 +179,7 @@
                     .style("height", value + "px");
         });
 
-        gui.add(params, 'setsLayout', ['force','diagonal', 'circle']).onChange(d => {
+        gui.add(params, 'setsLayout', ['force','diagonal', 'circle', 'matrix']).onChange(d => {
             console.log(d);
             polyCube.updateSupelayer(d);
         }).name("Sets Layouts");

@@ -593,7 +593,7 @@
 
 
         //super layer test
-        pCube.updateSupelayer = function (layout = 'circle') {
+        pCube.updateSupelayer = function (layout = 'matrix') {
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
 
             if (layout === 'force') {
@@ -605,6 +605,10 @@
             } else if (layout === 'circle') {
                 /* Forced Circular */
                 createCircularLayout(superLayerPos);
+            }
+            else if (layout === 'matrix') {
+                /* Forced Circular */
+                createMatrixLayout(superLayerPos);
             }
 
             // console.log("##### superlayerpos:");
