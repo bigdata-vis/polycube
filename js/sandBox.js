@@ -456,7 +456,8 @@
                         const rad = data.values.length;//ral: size of the big circles
                         const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
                         const material = new THREE.MeshBasicMaterial({
-                            color: colorScale(data.key),
+                            color: '#797979',
+                            // color: colorScale(data.key),
                             side: THREE.DoubleSide,
                             transparent: true,
                             opacity: 0.7
@@ -529,7 +530,6 @@
                                 d3.select("#dataImage")
                                     .attr("src", d.Image_URL);
                             };
-
 
                             object.element.ondblclick = (() => {
                                 polyCube.drawHull(d.Genre_1); //draw each group on click
@@ -694,7 +694,7 @@
 
             dateArray.forEach(function (d) {
                 // console.log(d);
-                let label = makeTextSprite(formatTime(d), {fontsize: 10});
+                let label = makeTextSprite(formatTime(d), {fontsize: 20});
                 label.position.set(p.x, p.y, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
@@ -714,8 +714,8 @@
                 var elMessage = document.createTextNode(message);
                 element.appendChild(elMessage);
 
-                var object = new THREE.CSS3DObject(element);
-                // var object = new THREE.CSS3DSprite(element);
+                // var object = new THREE.CSS3DObject(element);
+                var object = new THREE.CSS3DSprite(element);
                 // object.position.fromArray(pos[i]);
                 // object.rotation.fromArray(rot[i]);
                 object.name = "titles";
@@ -799,11 +799,6 @@
          */
         d3.selectAll(".segLabel")
             .classed("hide", false);
-
-        /**
-         *hide guide lines
-         */
-        // hideGuide();
 
 
         // conntrols
@@ -917,20 +912,61 @@
                     //      .append('g');
 
                     if (key.key === data.key) {
-
                         elm.append("circle")
                             .attr("cx", function (d, i) {
-                                return (data.x * 15) + widthHalf;
+                                key.x = (data.x * 15) + widthHalf;
+                                return key.x;
                             })
                             .attr("cy", function (d, i) {
-                                return (data.y * 15) + heightHalf;
+                                key.y = (data.y * 15) + heightHalf;
+                                return key.y;
                             })
                             .attr("r", function (d, i) {
-                                // console.log(key);
-                                // return 20;
                                 return key.values.length / 1.7;
                             })
-                            .attr("fill", colorScale(key.key));
+                            .attr("fill", colorScale(key.key))
+                            .each(function(d){
+                                console.log(key);
+
+                                // elm.append("g")
+                                //     .attr("class", "small-circle")
+                                //     .selectAll("boundary")
+                                //     .data(key.values)
+                                //     .enter().append("path")
+                                //     .attr("name", function (d) {
+                                //         return d.properties.name;
+                                //     })
+                                //     .attr("id", function (d) {
+                                //         return d.id;
+                                //     })
+                                //     .attr("d", path);
+
+                                // d3.selectAll('small-circle')
+
+                                // let circle = d3.select(this).append('g');
+                                // // let cx = circle.attr('cx')
+                                // let cx = (data.x * 15) + widthHalf;
+                                // // let cy = circle.attr('cy');
+                                // let cy = (data.y * 15) + heightHalf;
+                                // let rad = key.values.length / 1.7;
+                                // key.values.forEach(d=>{
+                                //
+                                //     // const position = randomSpherePoint(cx,cy,0,rad);
+                                //
+                                //     elm.append("circle")
+                                //         .attr("cx", function (d, i) {
+                                //             return randomSpherePoint(cx,cy,0,rad)[0];
+                                //         })
+                                //         .attr("cy", function (d, i) {
+                                //             return randomSpherePoint(cx,cy,0,rad)[1];
+                                //         })
+                                //         .attr("r", function (d, i) {
+                                //             return 5;
+                                //         })
+                                //         .attr("fill", 'blue')
+                                // })
+                            });
+
                     }
                 });
 
@@ -938,11 +974,6 @@
             //append circle from values to each element
         });
 
-        // console.log(segmentLayers);
-
-        // segmentLayers.each(function (d) {
-        //     console.log(d)
-        // });
 
         //camera movement
         var tween = new TWEEN.Tween({
@@ -1621,9 +1652,10 @@
             // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
             // use the same points to create a convexgeometry
 
-            var meshMaterial = new THREE.MeshBasicMaterial({color: 0xffffdd, transparent: true, opacity: 0.3});
+            // var meshMaterial = new THREE.MeshBasicMaterial({color: 0xffffdd, transparent: true, opacity: 0.3});
+            var meshMaterial = new THREE.MeshBasicMaterial({color: '#2347ff', transparent: true, opacity: 0.3});
             meshMaterial.side = THREE.DoubleSide;
-            var wireFrameMat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.3});
+            var wireFrameMat = new THREE.MeshBasicMaterial({color: '#a2a2a2',transparent: true, opacity: 0.3});
             wireFrameMat.wireframe = true;
 
             let hullGeometry = new THREE.ConvexGeometry(d);

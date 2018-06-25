@@ -64,10 +64,6 @@ function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
     return myQuantizeFunction(d)
 }
 
-// console.log(x(new Date(+d, 0, 0))); // 640
-// console.log(timeRage(1945)); // 640
-
-
 //https://stackoverflow.com/questions/5531827/random-point-on-a-given-sphere
 function randomSpherePoint(x0, y0, z0, radius) {
     var u = Math.random();
@@ -80,6 +76,8 @@ function randomSpherePoint(x0, y0, z0, radius) {
     var z = z0 + (radius * Math.cos(phi));
     return [x, y, z];
 }
+
+
 
 //How to get unique values in an array
 Array.prototype.unique = function () {
@@ -161,7 +159,6 @@ function createDiagonalLayout(group_list){
     return group_list;
 }
 
-
 function createMatrixLayout(group_list){
     let border = 22
     let posX = border;
@@ -201,6 +198,27 @@ function createCircularLayout(group_list){
         posY = r*Math.sin(current_pos);
     }
 
+}
+
+function createCiclePackingLayout(group_list,widthHalf, heightHalf) {
+
+    const packLayout = d3.pack()
+        .size([1000, 1000])
+        .radius(() => 60)
+        .padding(5);
+
+
+    let simulation = d3.forceSimulation()
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(widthHalf, heightHalf))
+        .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+            let rad = d.values.length ;
+            return rad;
+        }).iterations(2));
+
+    simulation.nodes(group_list);
+
+    return group_list;
 }
 
 function shuffle(array) {
