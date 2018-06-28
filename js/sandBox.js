@@ -291,7 +291,7 @@
 
         scene.add(pointCloud);
         WGLScene.add(glbox);
-
+        WGLScene.add(groupSets);
         /**
          * Lights
          *
@@ -350,6 +350,15 @@
                 return a.key > b.key;
             });
 
+        //
+        // let dataCount = d3.nest()
+        //     .key(function (d) {
+        //         return d.Genre_1
+        //     }).entries(datasets).sort(function (a, b) {
+        //         return a.key > b.key;
+        //     });
+        // console.log(dataCount);
+
         /**
          * convert category data into a time and group hierarchy
          */
@@ -394,7 +403,7 @@
             .attr("class", "circle_elements")
             .attr("width", width)
             .attr("height", height)
-            .append("g")
+            .append("g");
 
         /**
          * Objectify and draw segments elements
@@ -421,6 +430,7 @@
 
             pointCloud.children = [];
             glbox.children = [];
+            groupSets.children = [];
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
@@ -478,6 +488,7 @@
 
                         circle.updateMatrixWorld();
                         glbox.add(circle);
+                        groupSets.add(circle);
 
                         //create group and add the points
                         const group = new THREE.Group();
@@ -486,6 +497,9 @@
                         group.radius = circle.geometry.parameters.radius;
                         group.matrixWorldNeedsUpdate = true;
                         group.updateMatrixWorld();
+
+
+
 
                         data.values.forEach(function (d) { //points
 
@@ -590,7 +604,7 @@
 
 
         //super layer test
-        pCube.updateSupelayer = function (layout = 'matrix') {
+        pCube.updateSupelayer = function (layout = 'circle') {
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
 
             if (layout === 'force') {
@@ -1239,12 +1253,15 @@
             d.matrixAutoUpdate = true;
             d.updateMatrix();
 
+            //flatten points time
             var flattenPoints = new TWEEN.Tween(d.position)
                 .to({
                     y: 0.5
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
+
+
 
             // console.log(d)
 
@@ -1256,7 +1273,6 @@
         /**
          * Layers flattening
          */
-
         scene.children[0].children.forEach(function (object, i) {
 
             // remove box shapes
@@ -1282,6 +1298,28 @@
             }
 
         });
+
+        // sets flattening
+
+        // WGLScene
+        let sets =  WGLScene.getObjectByName("groupSets");
+        sets.visible = false;
+        console.log(sets);
+        // sets.children.forEach(function (d) {
+        //
+        //     // update matrix true on entry
+        //     // d.matrixAutoUpdate = true;
+        //     // d.updateMatrix();
+        //
+        //     //flatten points time
+        //     var flattenPoints = new TWEEN.Tween(d.position)
+        //         .to({
+        //             y: 0
+        //         }, duration)
+        //         .easing(TWEEN.Easing.Sinusoidal.InOut)
+        //         .start();
+        // });
+
 
         //change camera view
         //camera position
@@ -1798,8 +1836,8 @@
 
     let hullGroup = new THREE.Group; //hold hullbox as a group content
 
-    var groupCloud = new THREE.Object3D();
-    groupCloud.name = "groupCloud";
+    var groupSets = new THREE.Object3D();
+    groupSets.name = "groupSets";
 
 
     /**
