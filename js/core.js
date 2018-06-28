@@ -99,6 +99,22 @@ function compareArrayBySize(a, b) {
     return 0;
 }
 
+// returns a time-flattened representation of the data set
+function getFlattenedLayer(allGroups) {
+  allGroups.sort(compareArrayBySize);
+  let flattenedLayer = new Map();
+
+  for(let i = 0; i < allGroups.length; i++) {
+    if(flattenedLayer.get(allGroups[i].key)) {
+      let concatenatedArray = flattenedLayer.get(allGroups[i].key).concat(allGroups[i].values);
+      flattenedLayer.set(allGroups[i].key, concatenatedArray);
+    } else {
+      flattenedLayer.set(allGroups[i].key, allGroups[i].values);
+    }
+  }
+  return Array.from(flattenedLayer);
+}
+
 function getSuperLayer(allGroups) {
 
     //1 = sorting all groups
