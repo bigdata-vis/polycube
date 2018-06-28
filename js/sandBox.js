@@ -52,6 +52,9 @@
 
     let dataBySeg; //hold segment data for superimposition
     let colorList = [];
+
+    let colour;
+
     //color scale
     var colorScale = d3.scaleOrdinal()
     // .domain(["New York", "San Francisco", "Austin"])
@@ -80,7 +83,7 @@
             let rad = d.values.length;
             return rad;
             // return i;
-        }).iterations(2))
+        }).iterations(2));
 
     pCube.drawElements = function (datasets) {
         // console.log(datasets);
@@ -180,6 +183,13 @@
 
 
         timeLinearG = timeLinear;
+
+        /**
+         * Color scale from unix time for temporal encoding
+         */
+        // colour = d3.scaleSequential(d3.interpolateViridis)
+        colour = d3.scaleSequential(d3.interpolateRainbow)
+            .domain(dateUnixEx);
 
         /**d3 data scale
          * to be implemented with datasets with time and location
@@ -814,6 +824,13 @@
         d3.selectAll(".segLabel")
             .classed("hide", false);
 
+        d3.selectAll(".set-label")
+            .classed("hide", true);
+
+        //hide labels and circles
+        //show glbox
+        WGLScene.getObjectByName("groupSets").visible = false;
+
 
         // conntrols
         controls.noZoom = false;
@@ -942,43 +959,30 @@
                             .each(function(d){
                                 console.log(key);
 
-                                // elm.append("g")
-                                //     .attr("class", "small-circle")
-                                //     .selectAll("boundary")
-                                //     .data(key.values)
-                                //     .enter().append("path")
-                                //     .attr("name", function (d) {
-                                //         return d.properties.name;
-                                //     })
-                                //     .attr("id", function (d) {
-                                //         return d.id;
-                                //     })
-                                //     .attr("d", path);
+                                let circle = d3.select(this).append('g');
+                                // let cx = circle.attr('cx')
+                                let cx = (data.x * 15) + widthHalf;
+                                let cy = (data.y * 15) + heightHalf;
+                                let rad = key.values.length / 1.7;
+                                const position = randomSpherePoint(cx,cy,0,rad);
 
-                                // d3.selectAll('small-circle')
+                                key.values.forEach(d =>{
 
-                                // let circle = d3.select(this).append('g');
-                                // // let cx = circle.attr('cx')
-                                // let cx = (data.x * 15) + widthHalf;
-                                // // let cy = circle.attr('cy');
-                                // let cy = (data.y * 15) + heightHalf;
-                                // let rad = key.values.length / 1.7;
-                                // key.values.forEach(d=>{
-                                //
-                                //     // const position = randomSpherePoint(cx,cy,0,rad);
-                                //
-                                //     elm.append("circle")
-                                //         .attr("cx", function (d, i) {
-                                //             return randomSpherePoint(cx,cy,0,rad)[0];
-                                //         })
-                                //         .attr("cy", function (d, i) {
-                                //             return randomSpherePoint(cx,cy,0,rad)[1];
-                                //         })
-                                //         .attr("r", function (d, i) {
-                                //             return 5;
-                                //         })
-                                //         .attr("fill", 'blue')
-                                // })
+
+                                    elm.append("circle")
+                                        .attr("cx", function (d, i) {
+                                            return cx;
+                                            // return randomSpherePoint(cx,cy,0,rad)[0];
+                                        })
+                                        .attr("cy", function (d, i) {
+                                            return cy;
+                                            // return randomSpherePoint(cx,cy,0,rad)[1];
+                                        })
+                                        .attr("r", function (d, i) {
+                                            return 5;
+                                        })
+                                        .attr("fill", 'blue')
+                                })
                             });
 
                     }
@@ -1045,6 +1049,9 @@
         d3.selectAll(".textTitle")
             .classed("hide", false);
 
+        d3.selectAll(".set-label")
+            .classed("hide", false);
+
         /**
          * show all point clouds
          * delay poitcloud introduction
@@ -1056,14 +1063,6 @@
                 .classed("hide", false);
         }, 2500);
 
-        //display all the maps for the segments
-        // d3.selectAll(".elements_child")
-        //     .classed("hide", function (d, i) {
-        //         // console.log(i);
-        //         if (i !== 0) {
-        //             return true
-        //         }
-        //     });
 
         var segCounter = 0; //keep list of the segment counters
 
@@ -1071,6 +1070,9 @@
          * Point Cloud reverse flattening
          */
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
+            //update points color
+            d.element.style.backgroundColor = "#c83409";
 
             var unFlattenPoints = new TWEEN.Tween(d.position)
                 .to({
@@ -1086,22 +1088,17 @@
             // console.log(d)
         });
 
+
         /**
          * Reverse array to show last segment first
          * Only show
          */
 
+
         if (layout !== "STC") {
             // scene.children[0].children.reverse(); //on
         }
 
-        // if(layout !== "JP"){
-        //     scene.children[0].children.reverse();
-        // }
-        //
-        // if(layout === "SI"){
-        //     scene.children[0].children.reverse();
-        // }
 
         d3.selectAll(".elements_child")
             .filter(function (d, i) {  //todo: point of hiding other map items
@@ -1156,6 +1153,9 @@
 
         //camera movement
 
+        /**
+         * animate camera position
+         */
         var tween = new TWEEN.Tween({
             x: camera.position.x,
             y: camera.position.y,
@@ -1174,6 +1174,13 @@
                 camera.lookAt(new THREE.Vector3(0, 0, 0));
             })
             .start();
+
+
+        /**
+         * Reverse Sets hiding
+         */
+        WGLScene.getObjectByName("groupSets").visible = true;
+
 
         //modify controls
         controls.noZoom = false;
@@ -1240,14 +1247,12 @@
          * create a new object STC, save positions of STC inside object
          * rotate point cloud to match the positions of the
          */
-
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
-            // d.position.y = -249;
+            // console.log(d);
 
-            // console.log(d3.select(d.element));
-
-            // d3.select(d.element).classed("green_BG", false);
+            colour(d.newData.unix);
+            d.element.style.backgroundColor = colour(d.newData.unix);
 
             // update matrix true on entry
             d.matrixAutoUpdate = true;
@@ -1269,7 +1274,6 @@
             // d.matrixAutoUpdate = false;
             // d.updateMatrix();
         });
-
         /**
          * Layers flattening
          */
@@ -1299,14 +1303,12 @@
 
         });
 
-        // sets flattening
-
-        // WGLScene
+        /**
+         * Sets flattening
+         */
         let sets =  WGLScene.getObjectByName("groupSets");
         sets.visible = false;
-        console.log(sets);
         // sets.children.forEach(function (d) {
-        //
         //     // update matrix true on entry
         //     // d.matrixAutoUpdate = true;
         //     // d.updateMatrix();
@@ -1319,7 +1321,6 @@
         //         .easing(TWEEN.Easing.Sinusoidal.InOut)
         //         .start();
         // });
-
 
         //change camera view
         //camera position
