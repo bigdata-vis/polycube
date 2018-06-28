@@ -497,8 +497,8 @@
                         circle.position.y = (interval * i) - heightHalf;
 
                         circle.updateMatrixWorld();
-                        glbox.add(circle);
                         groupSets.add(circle);
+                        glbox.add(circle);
 
                         //create group and add the points
                         const group = new THREE.Group();
@@ -556,6 +556,8 @@
                             };
 
                             object.element.ondblclick = (() => {
+                                console.log(d);
+
                                 polyCube.drawHull(d.Genre_1); //draw each group on click
                             });
 
@@ -1679,13 +1681,6 @@
             }
         });
 
-        // for(let z = 0; z < tempArr.length; z++){
-        //     if(z < tempArr.length){
-        //         let meshData = tempArr[z].concat(tempArr[z+1]);
-        //         addMeshToScene(meshData)
-        //     }
-        // }
-
         function addMeshToScene(d) {
             //Advanced 3d convex geo
             // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
@@ -1705,68 +1700,6 @@
             glbox.add(hullMesh);
         }
 
-        //lathe example
-        //https://threejs.org/docs/#api/geometries/LatheGeometry
-        // let points = [];
-        // for ( let i = 0; i < 50; i ++ ) {
-        //     console.log(new THREE.Vector2( Math.sin( i * 0.2 ) * 50 + 5, ( i - 5 ) * 2 ) );
-        //     points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) );
-        // }
-        //
-        // var geometry = new THREE.LatheGeometry( points );
-        // var material = new THREE.MeshBasicMaterial( { color: 0xffff00, doubleSided: true } );
-        // var lathe = new THREE.Mesh( geometry, material );
-        // glbox.add( lathe );
-
-        //CSG example
-        // var cylinder = THREE.CSG.toCSG(new THREE.CylinderGeometry(100, 100, 200, 16, 4, false ),new THREE.Vector3(0,-100,0));
-        // var sphere   = THREE.CSG.toCSG(new THREE.SphereGeometry(100,16,12));
-        // var circle   = THREE.CSG.toCSG(new THREE.CircleGeometry(10,26));
-        //
-        // // var geometry = cylinder.union(sphere);
-        // var geometry = sphere.union(cylinder).union(circle);
-        // var mesh = new THREE.Mesh(THREE.CSG.fromCSG( geometry ),new THREE.MeshNormalMaterial());
-        // glbox.add(mesh);
-
-        // // console.log(points);
-        // // console.log(pointsHullArray);
-        //
-        // WGLScene.add( new THREE.AmbientLight( 0x222222 ) );
-        // var light = new THREE.PointLight( 0xffffff, 1 );
-        // camera.add( light );
-        //
-        // var pointsGeometry = new THREE.DodecahedronGeometry( 10 );
-        //
-        // for (var i = 0; i < pointsGeometry.vertices.length; i++) {
-        //     pointsGeometry.vertices[i].add(randomPoint().multiplyScalar(50)); // wiggle the points
-        // }
-        //
-        // var pointsMaterial = new THREE.PointsMaterial( {
-        //     color: 0x0080ff,
-        //     size: 1,
-        //     alphaTest: 0.5
-        // } );
-        //
-        // var pointsGM = new THREE.Points( pointsGeometry, pointsMaterial );
-        // glbox.add( pointsGM );
-        //
-        // // convex hull
-        // var meshMaterial = new THREE.MeshLambertMaterial( {
-        //     color: 0xffffff,
-        //     opacity: 0.5,
-        //     transparent: true
-        // } );
-        //
-        // var meshGeometry = new THREE.ConvexBufferGeometry( pointsGeometry.vertices );
-        //
-        // var mesh = new THREE.Mesh( meshGeometry, meshMaterial );
-        // mesh.material.side = THREE.BackSide; // back faces
-        // mesh.renderOrder = 0;
-        // glbox.add( mesh );
-        // var mesh = new THREE.Mesh( meshGeometry, meshMaterial.clone() );
-        // mesh.material.side = THREE.FrontSide; // front faces
-        // mesh.renderOrder = 1;
-        // glbox.add( mesh );
     };
 
     pCube.render = function () {
