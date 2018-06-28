@@ -523,6 +523,7 @@
                             const stc = new THREE.Object3D();
 
                             var object = new THREE.CSS3DSprite(image);
+                            // var object = new THREE.CSS3DObject(image);
                             // object.position.y = timeLinear(d.time); //for unix date
                             // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
                             // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
