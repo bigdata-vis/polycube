@@ -43,11 +43,11 @@
     <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button class="button"  type="button" onclick="polyCube.default()">
+<button class="button" type="button" onclick="polyCube.default()">
     space-time cube
 </button>
 
-<button class="button"  type="button"
+<button class="button" type="button"
         onclick="polyCube.juxstaPose()">
     juxtaposition
 </button>
@@ -57,17 +57,17 @@
 </button>
 
 <!--<button class="button" type="button"-->
-        <!--onclick="polyCube.updateScene()"> update scene-->
+<!--onclick="polyCube.updateScene()"> update scene-->
 <!--</button>-->
 
 <!--<br>-->
 <!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-        <!--onclick="polyCube.setsDraw()"> Show Sets-->
+<!--onclick="polyCube.setsDraw()"> Show Sets-->
 <!--</button>-->
 <br>
 <div class="tooltip-preview">
-  <p id="textTitle"></p>
-  <img id="dataImage" src="">
+    <p id="textTitle"></p>
+    <img id="dataImage" src="">
 </div>
 <!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
 <!--onclick="polyCube.test()">test-->
@@ -89,14 +89,15 @@
 <script>
 
     d3.queue()
-            .defer(d3.csv, "data/Cushman-Collection.csv")
-            .defer(d3.csv, "data/Szabo2.csv")
-            .defer(d3.json, "data/austria.json")
-//            .defer(d3.xml, "data/export.xml")
-            .await(init);
+        .defer(d3.csv, "data/Cushman-Collection.csv")
+        .defer(d3.csv, "data/Szabo2.csv")
+        .defer(d3.json, "data/austria.json")
+        //            .defer(d3.xml, "data/export.xml")
+        .await(init);
 
     function init(error, data) {
         if (error) console.log(error);
+
         function tempRange(data) {
 
             //check to remove lat and long data
@@ -107,9 +108,9 @@
              * Sort the data according to ascending dates to help with line drawing
              * */
 
-             newData.sort(function (x, y) {
-                 return d3.ascending(x.Archive_Date, y.Archive_Date);
-             });
+            newData.sort(function (x, y) {
+                return d3.ascending(x.Archive_Date, y.Archive_Date);
+            });
 
             //Draw
             polyCube.drawElements(newData);
@@ -117,6 +118,7 @@
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
         }
+
         tempRange(data);
 
         /**
@@ -159,37 +161,40 @@
             var value = params.showData;
             if (value) {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", false)
-                        .style("pointer-events", "visible");
+                    .classed("hide", false)
+                    .style("pointer-events", "visible");
 
                 d3.selectAll("#textTitle")
-                        .classed("hide", false);
+                    .classed("hide", false);
 
                 d3.selectAll("#dataImage")
-                        .classed("hide", false)
+                    .classed("hide", false)
 
             } else {
                 d3.selectAll(".pointCloud")
-                        .classed("hide", true)
-                        .style("pointer-events", "none");
+                    .classed("hide", true)
+                    .style("pointer-events", "none");
 
                 d3.selectAll("#textTitle")
-                        .classed("hide", true);
+                    .classed("hide", true);
 
                 d3.selectAll("#dataImage")
-                        .classed("hide", true);
+                    .classed("hide", true);
             }
 
         }).name("Show PC Data");
 
         gui.add(params, "showNodes").onChange(function () {
-            var value = params.showData;
-            if (value) {
+            const value = params.showNodes;
+
+            if (value === true) {
                 //polyCube.showNodes()
 //                polyCube.create3DShape()
-                polyCube.drawHull("Architectural photographs")
-//                polyCube.drawHull()
+//                polyCube.drawHull("Architectural photographs")
+                polyCube.drawCompleteHull();
             } else {
+//                console.log(value);
+                polyCube.hideAllHull();
             }
 
         }).name("Show Hull");
@@ -198,11 +203,11 @@
             var value = params.nodeSize;
 //        console.log(value);
             d3.selectAll(".pointCloud")
-                    .style("width", value + "px")
-                    .style("height", value + "px");
+                .style("width", value + "px")
+                .style("height", value + "px");
         });
 
-        gui.add(params, 'setsLayout', ['force','diagonal', 'circle', 'matrix']).onChange(d => {
+        gui.add(params, 'setsLayout', ['force', 'diagonal', 'circle', 'matrix']).onChange(d => {
             console.log(d);
             polyCube.updateSupelayer(d);
         }).name("Sets Layouts");
@@ -212,26 +217,26 @@
             var value = params.light;
             if (value) {
                 d3.select("body")
-//                        .style("background-color", "aliceblue");
-                        .style("background-color", "rgb(202, 198, 186)");
+                //                        .style("background-color", "aliceblue");
+                    .style("background-color", "rgb(202, 198, 186)");
                 d3.select("canvas")
-                        .style("background", "transparent");
+                    .style("background", "transparent");
                 d3.selectAll(".pointCloud")
-                        .attr("src", "texture/ball2.png");
+                    .attr("src", "texture/ball2.png");
 
                 d3.selectAll(".side")
-                        .style("border", "0.5px dotted rgb(10, 10, 10)")
-                        .style("background", "white");
+                    .style("border", "0.5px dotted rgb(10, 10, 10)")
+                    .style("background", "white");
 
                 d3.selectAll(".screen_dots")
-                        .style("fill", "rgb(16, 49, 21)");
+                    .style("fill", "rgb(16, 49, 21)");
 
                 d3.selectAll(".elements_child")
-                        .style("background-color", "#8fa7b9");
+                    .style("background-color", "#8fa7b9");
 
                 d3.selectAll(".elements_child").selectAll(".subunit")
                 //                    .style("fill", "#0050af");
-                        .style("fill", "black");
+                    .style("fill", "black");
 
 
             } else {

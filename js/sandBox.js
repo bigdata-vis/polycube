@@ -302,6 +302,7 @@
         scene.add(pointCloud);
         WGLScene.add(glbox);
         WGLScene.add(groupSets);
+        WGLScene.add(hullGroup);
         /**
          * Lights
          *
@@ -441,6 +442,7 @@
             pointCloud.children = [];
             glbox.children = [];
             groupSets.children = [];
+            hullGroup.children = [];
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
@@ -497,7 +499,7 @@
                         circle.position.y = (interval * i) - heightHalf;
 
                         circle.updateMatrixWorld();
-                        groupSets.add(circle);
+
                         glbox.add(circle);
 
                         //create group and add the points
@@ -508,8 +510,8 @@
                         group.matrixWorldNeedsUpdate = true;
                         group.updateMatrixWorld();
 
-
-
+                        // hullGroup.add(group); //store group positions
+                        groupSets.add(circle); //add sets position
 
                         data.values.forEach(function (d) { //points
 
@@ -832,7 +834,7 @@
         //hide labels and circles
         //show glbox
         WGLScene.getObjectByName("groupSets").visible = false;
-
+        hullGroup.visible = false;
 
         // conntrols
         controls.noZoom = false;
@@ -1043,7 +1045,7 @@
 
         //show glbox
         WGLScene.getObjectByName("glbox").visible = true;
-
+        hullGroup.visible = true;
 
         /**
          * show all time panels
@@ -1180,9 +1182,10 @@
 
         /**
          * Reverse Sets hiding
+         * show hull
          */
         WGLScene.getObjectByName("groupSets").visible = true;
-
+        WGLScene.getObjectByName("hullGroup").visible = true;
 
         //modify controls
         controls.noZoom = false;
@@ -1307,9 +1310,13 @@
 
         /**
          * Sets flattening
+         * hide sets
+         * hide hull
          */
         let sets =  WGLScene.getObjectByName("groupSets");
         sets.visible = false;
+
+        WGLScene.getObjectByName("hullGroup").visible = false;
         // sets.children.forEach(function (d) {
         //     // update matrix true on entry
         //     // d.matrixAutoUpdate = true;
@@ -1635,17 +1642,15 @@
 
     //hull implementation
     pCube.drawHull = function (group = "Identification photographs") {
+
         //clean func
         tempArr = [];
-
         //get hall data
-        let glHullbox = WGLScene.getObjectByName("glbox");
         let count = 0;
-        glHullbox.children.forEach(d => {
 
+        groupSets.children.forEach(d => {
             // console.log(d.name);
             // console.log(group);
-
             if (d.name === group) {
                 let object = d.getObjectByName(group);
                 // console.log(object);
@@ -1663,12 +1668,6 @@
 
         tempArr.forEach((d, i) => {
             let meshData;
-            //deal with first component structure
-            // if (i < 1) {
-            //     meshData = [new THREE.Vector3(tempArr[0][0].x, -(heightHalf + 10), tempArr[0][0].z)].concat(tempArr[0]);
-            //     addMeshToScene(meshData);
-            //     // console.log(meshData)
-            // }
 
             if (i !== tempArr.length - 1) { //if to deal with last component structure
                 meshData = tempArr[i].concat(tempArr[i + 1]);
@@ -1680,7 +1679,6 @@
                 // console.log(tempArr[i]);
             }
         });
-
         function addMeshToScene(d) {
             //Advanced 3d convex geo
             // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
@@ -1697,9 +1695,20 @@
             let hullMesh = new THREE.Mesh(hullGeometry, [wireFrameMat]);
             // let hullMesh = new THREE.Mesh( hullGeometry, [meshMaterial, wireFrameMat] );
             hullGroup.add(hullMesh); // add to group hull
-            glbox.add(hullMesh);
+            // glbox.add(hullMesh);
         }
+    };
+    pCube.drawCompleteHull = function () {
+        hullGroup.children = [];
+        hullGroup.visible = true;
+            superLayerPos.forEach(function (d) {
+                pCube.drawHull(d.key)
+            })
+    };
 
+    pCube.hideAllHull = function () {
+      hullGroup.visible = false;
+      // console.log(hullGroup);
     };
 
     pCube.render = function () {
@@ -1768,11 +1777,11 @@
     var pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
 
-    let hullGroup = new THREE.Group; //hold hullbox as a group content
+    let hullGroup = new THREE.Object3D(); //hold hullbox as a group content
+    hullGroup.name = 'hullGroup';
 
     var groupSets = new THREE.Object3D();
     groupSets.name = "groupSets";
-
 
     /**
      * WebGl Scene and renderer
