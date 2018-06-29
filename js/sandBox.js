@@ -517,8 +517,8 @@
 
                             var image = document.createElement('div');
                             var min = -50;
-                            image.style.width = 10 + "px";
-                            image.style.height = 10 + "px";
+                            image.style.width = 8 + "px";
+                            image.style.height = 8 + "px";
                             image.className = "pointCloud";
                             const stc = new THREE.Object3D();
 
