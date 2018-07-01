@@ -187,8 +187,8 @@
         /**
          * Color scale from unix time for temporal encoding
          */
-        // colour = d3.scaleSequential(d3.interpolateViridis)
-        colour = d3.scaleSequential(d3.interpolateRainbow)
+        colour = d3.scaleSequential(d3.interpolateViridis)
+        // colour = d3.scaleSequential(d3.interpolateRainbow)
             .domain(dateUnixEx);
 
         /**d3 data scale
@@ -465,7 +465,7 @@
                     maxArray = segDataGroups[maxArray].values;
 
                     if (i === 0) {
-                        console.log(maxArray);
+                        // console.log(maxArray);
                         originalPositions.push(maxArray);
                     }
 
@@ -513,7 +513,11 @@
                         // hullGroup.add(group); //store group positions
                         groupSets.add(circle); //add sets position
 
-                        data.values.forEach(function (d) { //points
+                        let newData = createSpiralLayout(group.position.x, group.position.z, group.radius, data.values);
+
+                        newData.forEach(function (d) { //points
+
+                            // console.log(d);
 
                             var image = document.createElement('div');
                             var min = -50;
@@ -523,21 +527,13 @@
                             const stc = new THREE.Object3D();
 
                             var object = new THREE.CSS3DSprite(image);
-                            // var object = new THREE.CSS3DObject(image);
-                            // object.position.y = timeLinear(d.time); //for unix date
-                            // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
-                            // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
-                            // object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
 
-                            const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius);
+                            // const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius, d.Genre_1);
                             // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
-                            object.position.x = objPos[0];
-                            object.position.y = objPos[1];
-                            // object.position.y = timeLinearUnix(d.unix);
-                            // object.position.y = timeLinear(d.time);
-                            object.position.z = objPos[2];
+                            object.position.x = d.x;
+                            object.position.y = group.position.y;
+                            object.position.z = d.y;
 
-                            // console.log(d);
 
                             object.name = "pointCloud"; //todo: remove later
 
@@ -549,19 +545,18 @@
 
                                 // console.log(d.Genre_1);
                                 d3.select("#textTitle")
-                                    .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
-                                        "<span class='date'>Group : " + d.Genre_1 + " </span> <br>" +
-                                        "<span class='location'>Date : " + d.time + "</span> <br>"
+                                    .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
+                                        "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
+                                        "<span class='location'>Date : " + d.data.time + "</span> <br>"
                                         // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
                                     );
                                 d3.select("#dataImage")
-                                    .attr("src", d.Image_URL);
+                                    .attr("src", d.data.Image_URL);
                             };
 
                             object.element.ondblclick = (() => {
-                                console.log(d);
 
-                                polyCube.drawHull(d.Genre_1); //draw each group on click
+                                polyCube.drawHull(d.data.Genre_1); //draw each group on click
                             });
 
                             object["newData"] = d;
@@ -582,6 +577,75 @@
                              */
                             pointCloud.add(object);
                         })
+
+                        // data.values.forEach(function (d) { //points
+                        //     var image = document.createElement('div');
+                        //     var min = -50;
+                        //     image.style.width = 8 + "px";
+                        //     image.style.height = 8 + "px";
+                        //     image.className = "pointCloud";
+                        //     const stc = new THREE.Object3D();
+                        //
+                        //     var object = new THREE.CSS3DSprite(image);
+                        //     // var object = new THREE.CSS3DObject(image);
+                        //     // object.position.y = timeLinear(d.time); //for unix date
+                        //     // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
+                        //     // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
+                        //     // object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
+                        //
+                        //     const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius, d.Genre_1);
+                        //     // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
+                        //     object.position.x = objPos[0];
+                        //     object.position.y = objPos[1];
+                        //     // object.position.y = timeLinearUnix(d.unix);
+                        //     // object.position.y = timeLinear(d.time);
+                        //     object.position.z = objPos[2];
+                        //
+                        //     // console.log(d);
+                        //
+                        //     object.name = "pointCloud"; //todo: remove later
+                        //
+                        //     // object.element.onclick = function () {
+                        //     object.element.onmouseover = function () {
+                        //
+                        //         //clean point hull data
+                        //         // console.log(hullGroup)
+                        //
+                        //         // console.log(d.Genre_1);
+                        //         d3.select("#textTitle")
+                        //             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                        //                 "<span class='date'>Group : " + d.Genre_1 + " </span> <br>" +
+                        //                 "<span class='location'>Date : " + d.time + "</span> <br>"
+                        //                 // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                        //             );
+                        //         d3.select("#dataImage")
+                        //             .attr("src", d.Image_URL);
+                        //     };
+                        //
+                        //     object.element.ondblclick = (() => {
+                        //         console.log(d);
+                        //
+                        //         polyCube.drawHull(d.Genre_1); //draw each group on click
+                        //     });
+                        //
+                        //     object["newData"] = d;
+                        //     stc.position.x = object.position.x;
+                        //     stc.position.y = object.position.y; // for unix
+                        //     stc.position.z = object.position.z;
+                        //     object['STC'] = stc;
+                        //
+                        //     //add object to group
+                        //     group.add(object);
+                        //
+                        //     lineList.push(object.position);
+                        //
+                        //     //onlick object
+                        //
+                        //     /**
+                        //      * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
+                        //      */
+                        //     pointCloud.add(object);
+                        // })
                     });
 
                 });
@@ -637,11 +701,11 @@
                 createMatrixLayout(superLayerPos);
             }
 
-            let params = { fontsize: 32, fontface: "Georgia", borderColor: {r:0, g:0, b:255, a:1.0} };
-            for(var i = 0; i < superLayerPos.length; i++) {
+            let params = {fontsize: 32, fontface: "Georgia", borderColor: {r: 0, g: 0, b: 255, a: 1.0}};
+            for (var i = 0; i < superLayerPos.length; i++) {
                 let label = createNewSpriteLabel(superLayerPos[i].key, params);
                 mesh.add(label);
-                label.position.set(superLayerPos[i].y*getRadScale(7) , heightHalf + 20, superLayerPos[i].x*getRadScale(7));
+                label.position.set(superLayerPos[i].y * getRadScale(7), heightHalf + 20, superLayerPos[i].x * getRadScale(7));
             }
 
             segDataGroups.forEach(data => {
@@ -948,6 +1012,9 @@
                     //      .append('g');
 
                     if (key.key === data.key) {
+
+                        // console.log(key.values[0].unix);
+
                         elm.append("circle")
                             .attr("cx", function (d, i) {
                                 key.x = (data.x * 15) + widthHalf;
@@ -960,34 +1027,53 @@
                             .attr("r", function (d, i) {
                                 return key.values.length / 1.7;
                             })
-                            .attr("fill", colorScale(key.key))
-                            .each(function(d){
-                                console.log(key);
-
+                            // .attr("fill", colorScale(key.key))
+                            .attr("fill", 'grey')
+                            .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
                                 let cx = (data.x * 15) + widthHalf;
                                 let cy = (data.y * 15) + heightHalf;
                                 let rad = key.values.length / 1.7;
-                                const position = randomSpherePoint(cx,cy,0,rad);
 
-                                key.values.forEach(d =>{
-
-
+                                //spiral layout
+                                // createSpiralLayout(cx,cy,rad,key.values);
+                                let newData = createSpiralLayout(cx, cy, rad, key.values);
+                                newData.forEach(function (d) {
+                                    // console.log(d.data.unix);
                                     elm.append("circle")
-                                        .attr("cx", function (d, i) {
-                                            return cx;
+                                        .attr("cx", function () {
+                                            return d.x;
                                             // return randomSpherePoint(cx,cy,0,rad)[0];
                                         })
-                                        .attr("cy", function (d, i) {
-                                            return cy;
+                                        .attr("cy", function () {
+                                            return d.y;
                                             // return randomSpherePoint(cx,cy,0,rad)[1];
                                         })
-                                        .attr("r", function (d, i) {
-                                            return 5;
+                                        .attr("r", function () {
+                                            return 3;
                                         })
-                                        .attr("fill", 'blue')
+                                        // .attr("fill", '#c83409')
+                                        .attr("fill", colour(d.data.unix))
                                 })
+
+                                //
+                                // key.values.forEach(d =>{
+                                //
+                                //     elm.append("circle")
+                                //         .attr("cx", function (d, i) {
+                                //             return cx;
+                                //             // return randomSpherePoint(cx,cy,0,rad)[0];
+                                //         })
+                                //         .attr("cy", function (d, i) {
+                                //             return cy;
+                                //             // return randomSpherePoint(cx,cy,0,rad)[1];
+                                //         })
+                                //         .attr("r", function (d, i) {
+                                //             return 5;
+                                //         })
+                                //         .attr("fill", 'blue')
+                                // })
                             });
 
                     }
@@ -1255,10 +1341,10 @@
          */
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
 
-            // console.log(d);
+            // console.log(d.newData);
 
-            colour(d.newData.unix);
-            d.element.style.backgroundColor = colour(d.newData.unix);
+            // colour(d.newData.data.unix);
+            d.element.style.backgroundColor = colour(d.newData.data.unix);
 
             // update matrix true on entry
             d.matrixAutoUpdate = true;
@@ -1271,7 +1357,6 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
-
 
 
             // console.log(d)
@@ -1314,7 +1399,7 @@
          * hide sets
          * hide hull
          */
-        let sets =  WGLScene.getObjectByName("groupSets");
+        let sets = WGLScene.getObjectByName("groupSets");
         sets.visible = false;
 
         WGLScene.getObjectByName("hullGroup").visible = false;
@@ -1680,6 +1765,7 @@
                 // console.log(tempArr[i]);
             }
         });
+
         function addMeshToScene(d) {
             //Advanced 3d convex geo
             // view-source:https://cs.wellesley.edu/~cs307/threejs/dirksen/chapter-06/01-advanced-3d-geometries-convex.html
@@ -1688,7 +1774,7 @@
             // var meshMaterial = new THREE.MeshBasicMaterial({color: 0xffffdd, transparent: true, opacity: 0.3});
             var meshMaterial = new THREE.MeshBasicMaterial({color: '#2347ff', transparent: true, opacity: 0.3});
             meshMaterial.side = THREE.DoubleSide;
-            var wireFrameMat = new THREE.MeshBasicMaterial({color: '#a2a2a2',transparent: true, opacity: 0.3});
+            var wireFrameMat = new THREE.MeshBasicMaterial({color: '#a2a2a2', transparent: true, opacity: 0.3});
             wireFrameMat.wireframe = true;
 
             let hullGeometry = new THREE.ConvexGeometry(d);
@@ -1702,14 +1788,14 @@
     pCube.drawCompleteHull = function () {
         hullGroup.children = [];
         hullGroup.visible = true;
-            superLayerPos.forEach(function (d) {
-                pCube.drawHull(d.key)
-            })
+        superLayerPos.forEach(function (d) {
+            pCube.drawHull(d.key)
+        })
     };
 
     pCube.hideAllHull = function () {
-      hullGroup.visible = false;
-      // console.log(hullGroup);
+        hullGroup.visible = false;
+        // console.log(hullGroup);
     };
 
     pCube.render = function () {
@@ -1736,7 +1822,7 @@
                 return a.key > b.key;
             });
 
-        console.log(nestedPointCloud);
+        // console.log(nestedPointCloud);
 
         nestedPointCloud.forEach(function (data, i) {
             var segs = data.values;
