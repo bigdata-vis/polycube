@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="lib/three.js/threejs92.js"></script>
+    <!--<script src="//threejs.org/build/three.min.js"></script>-->
+    <script src="lib/three.js/CombinedCamera.js"></script>
+    <script src="lib/three.js/OrbitControls.js"></script>
+    <script src="lib/three.js/tween.js"></script>
+    <!--<script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>-->
+    <script src="lib/three.js/CSS3DRenderer.js"></script>
+    <script src="lib/three.js/QuickHull.js"></script>
+    <script src="lib/three.js/ConvexGeometry.js"></script>
+    <!--<script src="lib/csg.js"></script>-->
+    <!--<script src="lib/ThreeCSG.js"></script>-->
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .pointCloud {
+            /* height: 2px !important; */
+            /* width: 2px !important; */
+            border-radius: 50%;
+            /* border: solid black 0.5px; */
+            /* text-align: center; */
+            /* vertical-align: middle; */
+            /* font-size: 500%; */
+            position: relative;
+            transition: background-color .5s ease-in-out;
+            /* box-shadow: inset -10px -10px 100px #000, 10px 10px 20px green, inset 0px 0px 10px green; */
+            /* -webkit-box-shadow: 0 0 5px blue; */
+            /* -moz-box-shadow: 0 0 5px blue; */
+            /* box-shadow: 0 0 2px #1891ff; */
+            /* display: inline-block; */
+            /* margin: 5%; */
+            background-color: #c83409;
+            /*background-color: #00b438;*/
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        canvas {
+            background: transparent;
+            /*canvas over html*/
+            pointer-events:none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
+    <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
+</div>
+
+<button class="button" type="button" onclick="polyCube.default()">
+    space-time cube
+</button>
+
+<button class="button" type="button"
+        onclick="polyCube.juxstaPose()">
+    juxtaposition
+</button>
+
+<button class="button" type="button"
+        onclick="polyCube.superImpose()"> superimposition
+</button>
+
+<!--<button class="button" type="button"-->
+<!--onclick="polyCube.updateScene()"> update scene-->
+<!--</button>-->
+
+<!--<br>-->
+<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
+<!--onclick="polyCube.setsDraw()"> Show Sets-->
+<!--</button>-->
+<br>
+<div class="tooltip-preview">
+    <p id="textTitle"></p>
+    <img id="dataImage" src="">
+</div>
+<!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
+<!--onclick="polyCube.test()">test-->
+<!--</button>-->
+
+<br>
+
+
+<div id="timeLine"></div>
+
+<br>
+<!--<script src="lib/d3/d3.js"></script>-->
+<script src='https://d3js.org/d3.v4.min.js'></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="lib/d3/topojson.min.js"></script>
+<script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+<script src="js/core.js"></script>
+<script src="js/sandBox.js"></script>
+<script>
+
+    d3.queue()
+        .defer(d3.csv, "data/Cushman-Collection.csv")
+        .defer(d3.csv, "data/Szabo2.csv")
+        .defer(d3.json, "data/austria.json")
+        //            .defer(d3.xml, "data/export.xml")
+        .await(init);
+
+    function init(error, data) {
+        if (error) console.log(error);
+
+        function tempRange(data) {
+
+            //check to remove lat and long data
+
+            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
+//            var newData = data;
+            /**
+             * Sort the data according to ascending dates to help with line drawing
+             * */
+
+            newData.sort(function (x, y) {
+                return d3.ascending(x.Archive_Date, y.Archive_Date);
+            });
+
+            //Draw
+            polyCube.drawElements(newData);
+            polyCube.render();
+            polyCube.animate();
+            window.addEventListener('resize', polyCube.onWindowResize, false);
+        }
+
+        tempRange(data);
+
+        /**
+         * Toggle PointCloud Data UI
+         */
+
+        polyCube.showPointCloud();
+
+
+        /**
+         * Show pCube Time Brush
+         */
+        //        timeBrush.init();
+
+        /**
+         * Data UI Controls
+         * ref: http://learningthreejs.com/blog/2011/08/14/dat-gui-simple-ui-for-demos/
+         */
+        var gui = new dat.GUI({});
+
+        var params = {
+            Project: "Cushman Data",
+            Morphing: -250,
+            showData: true,
+            showNodes: false,
+            nodeSize: 15,
+            light: false,
+            setsLayout: []
+        };
+
+        gui.add(params, 'Project').onFinishChange(function () {
+        }).name("PolyCube ©");
+
+        gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+            var value = params.Morphing;
+            polyCube.morphing({axis: +value})
+        });
+
+        gui.add(params, "showData").onChange(function () {
+            var value = params.showData;
+            if (value) {
+                d3.selectAll(".pointCloud")
+                    .classed("hide", false)
+                    .style("pointer-events", "visible");
+
+                d3.selectAll("#textTitle")
+                    .classed("hide", false);
+
+                d3.selectAll("#dataImage")
+                    .classed("hide", false)
+
+            } else {
+                d3.selectAll(".pointCloud")
+                    .classed("hide", true)
+                    .style("pointer-events", "none");
+
+                d3.selectAll("#textTitle")
+                    .classed("hide", true);
+
+                d3.selectAll("#dataImage")
+                    .classed("hide", true);
+            }
+
+        }).name("Show PC Data");
+
+        gui.add(params, "showNodes").onChange(function () {
+            const value = params.showNodes;
+
+            if (value === true) {
+                //polyCube.showNodes()
+//                polyCube.create3DShape()
+//                polyCube.drawHull("Architectural photographs")
+                polyCube.drawCompleteHull();
+            } else {
+//                console.log(value);
+                polyCube.hideAllHull();
+            }
+
+        }).name("Show Hull");
+
+        gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
+            var value = params.nodeSize;
+//        console.log(value);
+            d3.selectAll(".pointCloud")
+                .style("width", value + "px")
+                .style("height", value + "px");
+        });
+
+        gui.add(params, 'setsLayout', ['force', 'diagonal', 'circle', 'matrix']).onChange(d => {
+            console.log(d);
+            polyCube.updateSupelayer(d);
+        }).name("Sets Layouts");
+
+        var f1 = gui.addFolder('Theme');
+        f1.add(params, "light").onChange(function () {
+            var value = params.light;
+            if (value) {
+                d3.select("body")
+                //                        .style("background-color", "aliceblue");
+//                    .style("background-color", "rgb(202, 198, 186)");
+                    .style("background-color", "#fff");
+                d3.select("canvas")
+                    .style("background", "transparent");
+                d3.selectAll(".pointCloud")
+                    .attr("src", "texture/ball2.png");
+
+                d3.selectAll(".side")
+                    .style("border", "0.5px dotted rgb(10, 10, 10)")
+                    .style("background", "white");
+
+                d3.selectAll(".screen_dots")
+                    .style("fill", "rgb(16, 49, 21)");
+
+                d3.selectAll(".elements_child")
+                    .style("background-color", "#8fa7b9");
+
+                d3.selectAll(".elements_child").selectAll(".subunit")
+                //                    .style("fill", "#0050af");
+                    .style("fill", "black");
+
+
+            } else {
+//            d3.selectAll(".pointCloud")
+//                    .classed("hide", true)
+            }
+        });
+
+    }
+
+</script>
+
+<!--edmPlaceLatitude-->
+<!--edmPlaceLongitude-->
+<!--score-->
+<!--dcCreator-->
+<!--country-->
+
+<!--<script>-->
+<!--//    code perfomance-->
+<!--(function () {-->
+<!--var script = document.createElement('script');-->
+<!--script.onload = function () {-->
+<!--var stats = new Stats();-->
+<!--document.body.appendChild(stats.dom);-->
+<!--requestAnimationFrame(function loop() {-->
+<!--stats.update();-->
+<!--requestAnimationFrame(loop)-->
+<!--});-->
+<!--};-->
+<!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
+<!--document.head.appendChild(script);-->
+<!--})()-->
+<!--</script>-->
+</body>
+</html>

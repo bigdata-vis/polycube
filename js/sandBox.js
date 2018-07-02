@@ -54,7 +54,10 @@
     let colorList = [];
 
     let colour;
-
+    let tooltip = d3.select("body")
+                    .append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0) // d3 tooltip for inspecting single points
     //color scale
     var colorScale = d3.scaleOrdinal()
     // .domain(["New York", "San Francisco", "Austin"])
@@ -139,22 +142,31 @@
              * pass grouped data to elements d3 function and draw them on maps individually
              */
 
-            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1977;
+            var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1955;
 
             if (d.time < jp1) {
                 d.ts = "jp1";
+                d.label = jp1;
             }
 
             if (d.time > jp1 && d.time <= jp2) {
                 d.ts = "jp2";
+                d.label = jp2;
             }
 
             if (d.time > jp2 && d.time <= jp3) {
                 d.ts = "jp3";
+                d.label = jp3;
             }
 
             if (d.time > jp3 && d.time <= jp4) {
                 d.ts = "jp4";
+                d.label = jp4;
+            }
+
+            if(d.time > jp4) {
+              d.ts = "jp5";
+              d.label = "> 1955";
             }
 
         });
@@ -538,11 +550,16 @@
                             object.name = "pointCloud"; //todo: remove later
 
                             // object.element.onclick = function () {
-                            object.element.onmouseover = function () {
+                            object.element.onmouseover = function ($event) {
 
                                 //clean point hull data
                                 // console.log(hullGroup)
-
+                              tooltip.transition()
+                                  .duration(200)
+                                  .style("opacity", .9);
+                              tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
+                                  .style("left", ($event.x) + "px")
+                                  .style("top", ($event.y - 28) + "px");
                                 // console.log(d.Genre_1);
                                 d3.select("#textTitle")
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
@@ -553,7 +570,11 @@
                                 d3.select("#dataImage")
                                     .attr("src", d.data.Image_URL);
                             };
-
+                            object.element.onmouseout = function() {
+                              tooltip.transition()
+                                 .duration(500)
+                                 .style("opacity", 0);
+                            };
                             object.element.ondblclick = (() => {
 
                                 polyCube.drawHull(d.data.Genre_1); //draw each group on click
@@ -683,7 +704,7 @@
 
 
         //super layer test
-        pCube.updateSupelayer = function (layout = 'circle') {
+        pCube.updateSupelayer = function (layout = 'circle', ordering = 'ascending') {
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
 
             if (layout === 'force') {
@@ -698,7 +719,8 @@
             }
             else if (layout === 'matrix') {
                 /* Forced Circular */
-                createMatrixLayout(superLayerPos);
+                let order =  ordering === 'ascending' ? true : false;
+                createMatrixLayout(superLayerPos, order);
             }
 
             let params = {fontsize: 32, fontface: "Georgia", borderColor: {r: 0, g: 0, b: 255, a: 1.0}};
@@ -709,7 +731,7 @@
             }
 
             segDataGroups.forEach(data => {
-                // console.log(data);                  
+                // console.log(data);
                 data.values.forEach(data => {
                     let key = data;
                     superLayerPos.forEach(data => { //todo: fix array length issues
@@ -992,21 +1014,38 @@
         //append layers to the group
 
         let segmentLayers = elements.selectAll('svg');
-
+        let offSetCounter = 0;
+        let groupofLabelGroups = new THREE.Group();
         segmentLayers.each(function (d) {
             // console.log(d);
             // let elm = this;
             let elm = d3.select(this)
-                .append('g')
-                .style('pointer-events', 'none');
-
+                .append('g');
+            let labelGroup = new THREE.Group();
             d.values.forEach(function (data) {
 
+                // console.log(data);
+                // console.log(superLayerPos);
+
                 let key = data;
+
                 superLayerPos.forEach(data => { //todo: fix array length issues
 
-                    if (key.key === data.key) {
+                    // let layers =  d3.select(elm)
+                    //      .append('g');
 
+                    if (key.key === data.key) {
+                      let label = createNewSpriteLabel(data.key);
+                      label.position.set((data.x * 15) + offSetCounter*1000, (-data.y * 15) - 100, 0);
+                      labelGroup.add(label);
+                        // console.log(key.values[0].unix);
+                        elm.append("text")
+                            .text(function(d) {
+                              return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+' ;
+                            })
+                            .style("font-size", '100px')
+                            .style("color", 'grey')
+                            .style("transform", 'translateY(100px)');
                         elm.append("circle")
                             .attr("cx", function (d, i) {
                                 key.x = (data.x * 15) + widthHalf;
@@ -1020,8 +1059,7 @@
                                 return key.values.length / 1.7;
                             })
                             // .attr("fill", colorScale(key.key))
-                            .attr("fill", '#c5c6c6')
-                            .style('pointer-events', 'none')
+                            .attr("fill", 'grey')
                             .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
@@ -1046,21 +1084,8 @@
                                         .attr("r", function () {
                                             return 3;
                                         })
-                                        .attr("fill", '#c83409')
-                                        // .attr("fill", colour(d.data.unix))
-                                        .style('cursor','pointer')
-                                        .on('click', function (d, i) {
-                                            // update elements
-                                            d3.select("#textTitle")
-                                                .html("<strong<p>" + d.data.Description_from_Sli de_Mount + "</p>" +
-                                                    "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
-                                                    "<span class='location'>Date : " + d.data.time + "</span> <br>"
-                                                );
-
-                                            d3.select("#dataImage")
-                                                .attr("src", d.data.Image_URL);
-
-                                        });
+                                        // .attr("fill", '#c83409')
+                                        .attr("fill", colour(d.data.unix))
                                 })
 
                                 //
@@ -1086,10 +1111,25 @@
                 });
 
             });
+            offSetCounter++;
+            groupofLabelGroups.add(labelGroup);
             //append circle from values to each element
         });
 
-
+        let gap = 100;
+        groupofLabelGroups.children.forEach( (labelGroup, i) => {
+         if( i!== 0 ) {
+           console.log(`offsetting group ${i} ${gap}`);
+           labelGroup.children.forEach(label => {
+             label.translateX(gap);
+           });
+           gap += 50;
+         }
+        });
+        groupofLabelGroups.translateX(-1000);
+        setTimeout(function() {
+         scene.add(groupofLabelGroups);
+        }, 2750);
         //camera movement
         var tween = new TWEEN.Tween({
             x: camera.position.x,
@@ -1346,6 +1386,7 @@
          * rotate point cloud to match the positions of the
          */
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
+
             // console.log(d.newData);
 
             // colour(d.newData.data.unix);
@@ -1362,6 +1403,7 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
+
 
             // console.log(d)
 
@@ -1671,6 +1713,7 @@
 
     };
     pCube.create3DShape = function () {
+
         //get data
         let glHullbox = WGLScene.getObjectByName("glbox");
         glHullbox.children.forEach(d => {

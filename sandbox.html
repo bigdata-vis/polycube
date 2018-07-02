@@ -14,6 +14,15 @@
     <!--<script src="lib/ThreeCSG.js"></script>-->
     <link rel="stylesheet" href="css/main.css">
     <style>
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 150px;
+            border-radius: 2px;
+            height: auto;
+            padding: 5px;
+            pointer-events: none;
+        }
         .pointCloud {
             /* height: 2px !important; */
             /* width: 2px !important; */
@@ -225,8 +234,7 @@
             if (value) {
                 d3.select("body")
                 //                        .style("background-color", "aliceblue");
-//                    .style("background-color", "rgb(202, 198, 186)");
-                    .style("background-color", "#fff");
+                    .style("background-color", "rgb(202, 198, 186)");
                 d3.select("canvas")
                     .style("background", "transparent");
                 d3.selectAll(".pointCloud")

@@ -127,7 +127,7 @@ Array.prototype.unique = function () {
 };
 
 // sort by largest or smallest array
-function compareArrayBySize(a, b) {
+function compareArrayBySizeDesc(a, b) {
     if (a.values.length < b.values.length)
         return 1;
     if (a.values.length > b.values.length)
@@ -135,9 +135,17 @@ function compareArrayBySize(a, b) {
     return 0;
 }
 
+function compareArrayBySizeAsc(a, b) {
+    if (a.values.length > b.values.length)
+        return 1;
+    if (a.values.length < b.values.length)
+        return -1;
+    return 0;
+}
+
 // returns a time-flattened representation of the data set
 function getFlattenedLayer(allGroups) {
-    allGroups.sort(compareArrayBySize);
+    allGroups.sort(compareArrayBySizeDesc);
     let flattenedLayer = new Map();
 
     for (let i = 0; i < allGroups.length; i++) {
@@ -154,7 +162,7 @@ function getFlattenedLayer(allGroups) {
 function getSuperLayer(allGroups) {
 
     //1 = sorting all groups
-    allGroups.sort(compareArrayBySize);
+    allGroups.sort(compareArrayBySizeDesc);
 
     //1.5 = get all groups name
     let unique_groups_names = [...new Set(allGroups.map(item => item.key))];
@@ -204,40 +212,52 @@ function createDiagonalLayout(group_list) {
         group_list[i].y = posY;
 
         rad = group_list[i].values.length;
-        posX = posX - rad / 10;
-        posY = posY - rad / 10;
+        if(rad < 40) rad = 40;
+        posX = posX - rad/12.5;
+        posY = posY - rad/12.5;
     }
 
     return group_list;
 }
 
-function createMatrixLayout(group_list) {
+function createMatrixLayout(group_list, asc = false) {
 
     let border = 22;
     let posX = border;
     let posY = border;
     let grainX = (2 * border) / 3;
-
+    // currently hardcoded grid cell coordinates TODO extend to dynamic grid
+    let gridPositionArray = new Array(
+        {x: 22, y: 22},
+        {x: 7.333333333333334, y: 22},
+        {x: -7.333333333333332, y: 22},
+        {x: -22, y: 22},
+        {x: 22, y: 7.333333333333334},
+        {x: 7.333333333333334, y: 7.333333333333334},
+        {x: -7.333333333333332, y: 7.333333333333334},
+        {x: -22, y: 7.333333333333334},
+        {x: 22, y: -7.333333333333332},
+        {x: 7.333333333333334, y: -7.333333333333332},
+        {x: -7.333333333333332, y: -7.333333333333332},
+        {x: -22, y: -7.333333333333332},
+        {x: 22, y: -22},
+        {x: 7.333333333333334, y: -22}
+    );
     // group_list = shuffle(group_list);
-
-    group_list.sort(function (a, b) {
-        return a.key > b.key;
-    });
+    group_list = group_list.sort( asc ? compareArrayBySizeAsc : compareArrayBySizeDesc);
 
     for (var i = 0; i < group_list.length; i++) {
-        group_list[i].x = posX;
-        group_list[i].y = posY;
-
-        if ((posX - grainX) < -border) {
-            posX = border;
-            posY = posY - grainX;
-        }
-        else {
-            posX = posX - grainX;
-        }
-
+        group_list[i].x = gridPositionArray[i].x;
+        group_list[i].y = gridPositionArray[i].y;
+        //
+        // if ((posX - grainX) < -border) {
+        //     posX = border;
+        //     posY = posY - grainX;
+        // }
+        // else {
+        //     posX = posX - grainX;
+        // }
     }
-
     return group_list;
 }
 
@@ -261,13 +281,9 @@ function createCircularLayout(group_list) {
 
 }
 
-//Points Along an Archimedean Spiral inspired by
-//http://blockbuilder.org/fabiovalse/81043bf96c6441f4bf72
 function createSpiralLayout(centerX, centerY, radius, group_list) {
-    //arrange group list by time unix
-
     let sides = group_list.length,
-        coils = 8,
+        coils = 2,
         rotation = 0;
     // How far to step away from center for each side.
     let awayStep = radius / sides;
@@ -286,14 +302,19 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
         let away = i * awayStep;
 
         // How far around the center.
-        let around = i * aroundRadians + rotation;
+        let around = i +  aroundRadians*rotation;
 
         // Convert 'around' and 'away' to X and Y.
         let x = centerX + Math.cos(around) * away;
         let y = centerY + Math.sin(around) * away;
 
         new_time.push({x: x, y: y, data: group_list[i]});
+
+        // console.log(group_list[i]);
+        // group_list[i].x = x;
+        // group_list[i].y = y;
     }
+    // console.log(x0);
     return new_time;
 }
 
