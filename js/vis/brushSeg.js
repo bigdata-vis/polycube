@@ -483,7 +483,6 @@
         if (window.dateTestEx) {
             init();
         }
-
     }, 1000);
 
     /**

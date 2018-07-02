@@ -196,6 +196,10 @@
 
         timeLinearG = timeLinear;
 
+        //export date years min and max to windows
+        window.dateTimeEx = dateTestEx;
+        window.dateUnixEx = dateUnixEx;
+
         /**
          * Color scale from unix time for temporal encoding
          */
@@ -1119,7 +1123,6 @@
         let gap = 100;
         groupofLabelGroups.children.forEach( (labelGroup, i) => {
          if( i!== 0 ) {
-           console.log(`offsetting group ${i} ${gap}`);
            labelGroup.children.forEach(label => {
              label.translateX(gap);
            });

@@ -23,6 +23,7 @@
             padding: 5px;
             pointer-events: none;
         }
+
         .pointCloud {
             /* height: 2px !important; */
             /* width: 2px !important; */
@@ -48,7 +49,7 @@
         canvas {
             background: transparent;
             /*canvas over html*/
-            pointer-events:none;
+            pointer-events: none;
             z-index: -1;
         }
     </style>
@@ -91,17 +92,20 @@
 
 <br>
 
-
 <div id="timeLine"></div>
 
 <br>
 <!--<script src="lib/d3/d3.js"></script>-->
 <script src='https://d3js.org/d3.v4.min.js'></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="lib/d3/topojson.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js">
+    <
+    script
+    src = "lib/d3/topojson.min.js" ></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/sandBox.js"></script>
+<script src="js/vis/timeLegend.js"></script>
 <script>
 
     d3.queue()
@@ -164,6 +168,29 @@
             light: false,
             setsLayout: []
         };
+
+
+//        default theme
+        d3.select("body")
+            .style("background-color", "#ffffff");
+        d3.select("canvas")
+            .style("background", "transparent");
+        d3.selectAll(".pointCloud")
+            .attr("src", "texture/ball2.png");
+
+        d3.selectAll(".side")
+            .style("border", "0.5px dotted rgb(10, 10, 10)")
+            .style("background", "white");
+
+        d3.selectAll(".screen_dots")
+            .style("fill", "rgb(16, 49, 21)");
+
+        d3.selectAll(".elements_child")
+            .style("background-color", "#8fa7b9");
+
+        d3.selectAll(".elements_child").selectAll(".subunit")
+            .style("fill", "black");
+
 
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
@@ -232,28 +259,28 @@
         f1.add(params, "light").onChange(function () {
             var value = params.light;
             if (value) {
-                d3.select("body")
-                //                        .style("background-color", "aliceblue");
-                    .style("background-color", "rgb(202, 198, 186)");
-                d3.select("canvas")
-                    .style("background", "transparent");
-                d3.selectAll(".pointCloud")
-                    .attr("src", "texture/ball2.png");
-
-                d3.selectAll(".side")
-                    .style("border", "0.5px dotted rgb(10, 10, 10)")
-                    .style("background", "white");
-
-                d3.selectAll(".screen_dots")
-                    .style("fill", "rgb(16, 49, 21)");
-
-                d3.selectAll(".elements_child")
-                    .style("background-color", "#8fa7b9");
-
-                d3.selectAll(".elements_child").selectAll(".subunit")
-                //                    .style("fill", "#0050af");
-                    .style("fill", "black");
-
+//                d3.select("body")
+//                //                        .style("background-color", "aliceblue");
+////                    .style("background-color", "rgb(202, 198, 186)");
+//                    .style("background-color", "#ffffff");
+//                d3.select("canvas")
+//                    .style("background", "transparent");
+//                d3.selectAll(".pointCloud")
+//                    .attr("src", "texture/ball2.png");
+//
+//                d3.selectAll(".side")
+//                    .style("border", "0.5px dotted rgb(10, 10, 10)")
+//                    .style("background", "white");
+//
+//                d3.selectAll(".screen_dots")
+//                    .style("fill", "rgb(16, 49, 21)");
+//
+//                d3.selectAll(".elements_child")
+//                    .style("background-color", "#8fa7b9");
+//
+//                d3.selectAll(".elements_child").selectAll(".subunit")
+//                //                    .style("fill", "#0050af");
+//                    .style("fill", "black");
 
             } else {
 //            d3.selectAll(".pointCloud")

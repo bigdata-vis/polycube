@@ -126,7 +126,6 @@
             .attr("fill", function (d) {
                 let year = (d / 1000).toFixed(0);
                 let colorScale = window.colorScale;
-
                 return colorScale(year)
                 // return "#EDCA3A";
             });
