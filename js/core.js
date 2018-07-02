@@ -261,7 +261,11 @@ function createCircularLayout(group_list) {
 
 }
 
+//Points Along an Archimedean Spiral inspired by
+//http://blockbuilder.org/fabiovalse/81043bf96c6441f4bf72
 function createSpiralLayout(centerX, centerY, radius, group_list) {
+    //arrange group list by time unix
+
     let sides = group_list.length,
         coils = 8,
         rotation = 0;
@@ -289,12 +293,7 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
         let y = centerY + Math.sin(around) * away;
 
         new_time.push({x: x, y: y, data: group_list[i]});
-
-        // console.log(group_list[i]);
-        // group_list[i].x = x;
-        // group_list[i].y = y;
     }
-    // console.log(x0);
     return new_time;
 }
 
@@ -343,21 +342,4 @@ function createNewSpriteLabel(message, parameters) {
     label.appendChild(textLabel);
     let object = new THREE.CSS3DSprite(label);
     return object;
-}
-
-// function for drawing rounded rectangles
-function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
 }

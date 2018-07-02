@@ -997,23 +997,15 @@
             // console.log(d);
             // let elm = this;
             let elm = d3.select(this)
-                .append('g');
+                .append('g')
+                .style('pointer-events', 'none');
 
             d.values.forEach(function (data) {
 
-                // console.log(data);
-                // console.log(superLayerPos);
-
                 let key = data;
-
                 superLayerPos.forEach(data => { //todo: fix array length issues
 
-                    // let layers =  d3.select(elm)
-                    //      .append('g');
-
                     if (key.key === data.key) {
-
-                        // console.log(key.values[0].unix);
 
                         elm.append("circle")
                             .attr("cx", function (d, i) {
@@ -1028,7 +1020,8 @@
                                 return key.values.length / 1.7;
                             })
                             // .attr("fill", colorScale(key.key))
-                            .attr("fill", 'grey')
+                            .attr("fill", '#c5c6c6')
+                            .style('pointer-events', 'none')
                             .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
@@ -1053,8 +1046,21 @@
                                         .attr("r", function () {
                                             return 3;
                                         })
-                                        // .attr("fill", '#c83409')
-                                        .attr("fill", colour(d.data.unix))
+                                        .attr("fill", '#c83409')
+                                        // .attr("fill", colour(d.data.unix))
+                                        .style('cursor','pointer')
+                                        .on('click', function (d, i) {
+                                            // update elements
+                                            d3.select("#textTitle")
+                                                .html("<strong<p>" + d.data.Description_from_Sli de_Mount + "</p>" +
+                                                    "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
+                                                    "<span class='location'>Date : " + d.data.time + "</span> <br>"
+                                                );
+
+                                            d3.select("#dataImage")
+                                                .attr("src", d.data.Image_URL);
+
+                                        });
                                 })
 
                                 //
@@ -1340,7 +1346,6 @@
          * rotate point cloud to match the positions of the
          */
         scene.getObjectByName("pointCloud").children.forEach(function (d) {
-
             // console.log(d.newData);
 
             // colour(d.newData.data.unix);
@@ -1357,7 +1362,6 @@
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
-
 
             // console.log(d)
 
@@ -1667,7 +1671,6 @@
 
     };
     pCube.create3DShape = function () {
-
         //get data
         let glHullbox = WGLScene.getObjectByName("glbox");
         glHullbox.children.forEach(d => {
