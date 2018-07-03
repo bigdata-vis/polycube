@@ -37,8 +37,8 @@
      * @param datasets2
      */
 
-    var dataSlices = 4;
-    var segSlices = 16; //dynamic segment numbers
+    var dataSlices = 3;
+    var segSlices = 8; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -1048,7 +1048,8 @@
                               return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+' ;
                             })
                             .style("font-size", '100px')
-                            .style("color", 'grey')
+                            .style("fill", '#dcdcdc')
+                            .style("stroke", '#dcdcdc')
                             .style("transform", 'translateY(100px)');
                         elm.append("circle")
                             .attr("cx", function (d, i) {
@@ -1063,7 +1064,7 @@
                                 return key.values.length / 1.7;
                             })
                             // .attr("fill", colorScale(key.key))
-                            .attr("fill", 'grey')
+                            .attr("fill", '#dcdcdc')
                             .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
