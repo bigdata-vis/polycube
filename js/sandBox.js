@@ -38,7 +38,7 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 8; //dynamic segment numbers
+    var segSlices = 16; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -49,6 +49,7 @@
     let tempArr = [];
     let superTemporalMap = new Map();
     let superLayerPos;
+    let superFlattenedLayer;
 
     let dataBySeg; //hold segment data for superimposition
     let colorList = [];
@@ -203,8 +204,12 @@
         /**
          * Color scale from unix time for temporal encoding
          */
-        colour = d3.scaleSequential(d3.interpolateViridis)
-        // colour = d3.scaleSequential(d3.interpolateRainbow)
+        var colorRange = ['#422ba1', '#F6F6F4'];
+
+        colour =
+            d3.scaleSequential(d3.interpolateViridis)
+            // d3.scaleLinear().range(colorRange)
+            // colour = d3.scaleSequential(d3.interpolateRainbow)
             .domain(dateUnixEx);
 
         /**d3 data scale
@@ -401,11 +406,12 @@
             .sort(function (a, b) {
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
+
         // .sort(function (a, b) {
         //     return a.key < b.key;
         // });
 
-        console.log(segDataGroups);
+        // console.log(segDataGroups);
 
         // /**
         //  * push segmented data to global variable
@@ -719,6 +725,7 @@
         //super layer test
         pCube.updateSupelayer = function (layout = 'circle', ordering = 'ascending') {
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
+            superFlattenedLayer = getFlattenedLayer(allGroups); //flattened combined layers of all sets
 
             if (layout === 'force') {
                 /* Forced Layout */
@@ -1223,7 +1230,9 @@
 
             var unFlattenPoints = new TWEEN.Tween(d.position)
                 .to({
-                    y: d.STC.position.y
+                    y: d.STC.position.y,
+                    x: d.STC.position.x,
+                    z: d.STC.position.z
                 }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
@@ -1382,7 +1391,9 @@
          *hide guide lines
          */
 
-        var duration = 700;
+        let  duration = 700;
+        let pointClouds = scene.getObjectByName("pointCloud").children;
+
 
         /**
          * Reverse array to show last segment first
@@ -1395,7 +1406,7 @@
          * create a new object STC, save positions of STC inside object
          * rotate point cloud to match the positions of the
          */
-        scene.getObjectByName("pointCloud").children.forEach(function (d) {
+        pointClouds.forEach(function (d) {
 
             // console.log(d.newData);
 
@@ -1414,13 +1425,13 @@
                 .easing(TWEEN.Easing.Sinusoidal.InOut)
                 .start();
 
-
             // console.log(d)
 
             // // update matrix false on exit
             // d.matrixAutoUpdate = false;
             // d.updateMatrix();
         });
+
         /**
          * Layers flattening
          */
@@ -1451,6 +1462,53 @@
         });
 
         /**
+         * Super Layout Distribution
+         */
+        let segDataByGenre = d3.nest()
+            .key(function (d) {
+                // console.log(d.newData.data.Genre_1);
+                return d.newData.data.Genre_1;
+            }) //group sets distribution
+            .entries(pointClouds);
+
+        // console.log(superLayerPos);
+
+        segDataByGenre.forEach(function (points) {
+            superLayerPos.forEach(layer => {
+                if (points.key === layer.key) {
+                    // points.x = layer.x;
+                    // points.y = layer.y;
+
+                    let centerX = layer.x * 27,
+                        centerY = layer.y * 27,
+                        rad = points.values.length/3;
+
+                    let newLayout = createSpiralLayout(centerX,centerY,rad, points.values);
+                    console.log(newLayout);
+
+                    newLayout.forEach(function (d) {
+                        let threePoint = d.data;
+
+                        threePoint.position.z = d.x;
+                        threePoint.position.x = d.y;
+
+                        // var unFlattenPoints = new TWEEN.Tween(threePoint.position)
+                        //     .to({
+                        //         x: d.x,
+                        //         z: d.y
+                        //     }, duration)
+                        //     .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        //     .start();
+
+                        // console.log(threePoint)
+
+                    })
+                }
+            });
+
+        });
+
+        /**
          * Sets flattening
          * hide sets
          * hide hull
@@ -1459,19 +1517,8 @@
         sets.visible = false;
 
         WGLScene.getObjectByName("hullGroup").visible = false;
-        // sets.children.forEach(function (d) {
-        //     // update matrix true on entry
-        //     // d.matrixAutoUpdate = true;
-        //     // d.updateMatrix();
-        //
-        //     //flatten points time
-        //     var flattenPoints = new TWEEN.Tween(d.position)
-        //         .to({
-        //             y: 0
-        //         }, duration)
-        //         .easing(TWEEN.Easing.Sinusoidal.InOut)
-        //         .start();
-        // });
+
+        // console.log(superFlattenedLayer);
 
         //change camera view
         //camera position

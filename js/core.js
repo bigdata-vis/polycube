@@ -202,6 +202,8 @@ function createDiagonalLayout(group_list) {
     let posY = 25;
     let rad = 0;
 
+    // console.log(group_list);
+
     for (var i = 0; i < group_list.length; i++) {
         group_list[i].x = posX;
         group_list[i].y = posY;
