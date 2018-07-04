@@ -567,13 +567,13 @@
 
                                 //clean point hull data
                                 // console.log(hullGroup)
-                                // tooltip.transition()
-                                //     .duration(200)
-                                //     .style("opacity", .9);
-                                // tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
-                                //     .style("left", ($event.x) + "px")
-                                //     .style("top", ($event.y - 28) + "px");
-                                //   // console.log(d.Genre_1);
+                                tooltip.transition()
+                                    .duration(200)
+                                    .style("opacity", .9);
+                                tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
+                                    .style("left", ($event.x) + "px")
+                                    .style("top", ($event.y - 28) + "px");
+                                  // console.log(d.Genre_1);
                                 d3.select("#textTitle")
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
                                         "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
