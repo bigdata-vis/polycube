@@ -52,7 +52,7 @@ function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
         .domain([start, end])
         .range(rangeArray);
 
-    console.log(rangeArray);
+    // console.log(rangeArray);
 
     // console.log(rangeArray);
 

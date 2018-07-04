@@ -55,9 +55,9 @@
 
     let colour;
     let tooltip = d3.select("body")
-                    .append("div")
-                    .attr("class", "tooltip")
-                    .style("opacity", 0) // d3 tooltip for inspecting single points
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0) // d3 tooltip for inspecting single points
     //color scale
     var colorScale = d3.scaleOrdinal()
     // .domain(["New York", "San Francisco", "Austin"])
@@ -164,9 +164,9 @@
                 d.label = jp4;
             }
 
-            if(d.time > jp4) {
-              d.ts = "jp5";
-              d.label = "> 1955";
+            if (d.time > jp4) {
+                d.ts = "jp5";
+                d.label = "> 1955";
             }
 
         });
@@ -373,8 +373,9 @@
             .key(function (d) {
                 return d.Genre_1;
             })
-            .entries(datasets).sort(function (a, b) {
-                return a.key > b.key;
+            .entries(datasets)
+            .sort(function (a, b) {
+                return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
 
         //
@@ -391,17 +392,20 @@
          */
         let segDataGroups = d3.nest()
             .key(function (d) { //temporal distribution
-                // console.log(d);
-                // console.log(timeRage(d.time,dateTestEx[0],dateTestEx[1],12));
-                // return d.ts;
                 return timeRage(d.time, dateTestEx[0], dateTestEx[1], segSlices);
             })
             .key(function (d) {
                 return d.Genre_1;
             }) //group sets distribution
-            .entries(datasets).sort(function (a, b) {
-                return a.key > b.key;
+            .entries(datasets)
+            .sort(function (a, b) {
+                return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
+        // .sort(function (a, b) {
+        //     return a.key < b.key;
+        // });
+
+        console.log(segDataGroups);
 
         // /**
         //  * push segmented data to global variable
@@ -473,18 +477,18 @@
                     simulation.nodes(data.values);
 
                     // push first set of largest array layers position to the origposition to be used by the rest of the cube
-                    let maxArray = segDataGroups.map(function (a) {
-                        return a.values.length;
-                    }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
-                        return a.values.length;
-                    })));
-
-                    maxArray = segDataGroups[maxArray].values;
-
-                    if (i === 0) {
-                        // console.log(maxArray);
-                        originalPositions.push(maxArray);
-                    }
+                    // let maxArray = segDataGroups.map(function (a) {
+                    //     return a.values.length;
+                    // }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
+                    //     return a.values.length;
+                    // })));
+                    //
+                    // maxArray = segDataGroups[maxArray].values;
+                    //
+                    // if (i === 0) {
+                    //     // console.log(maxArray);
+                    //     originalPositions.push(maxArray);
+                    // }
 
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
@@ -517,8 +521,7 @@
                         // circle.position.y = (interval * i);
                         // circle.position.y = (interval * i < 0) ? (interval * i) - heightHalf :(interval * i) + heightHalf;
                         // let value = (((interval * i) - heightHalf) === 0) ? (interval * i) + heightHalf : (interval * i) - heightHalf;
-
-                        console.log((interval * i) - heightHalf);
+                        // console.log((interval * i) - heightHalf);
 
                         circle.updateMatrixWorld();
 
@@ -564,13 +567,13 @@
 
                                 //clean point hull data
                                 // console.log(hullGroup)
-                              // tooltip.transition()
-                              //     .duration(200)
-                              //     .style("opacity", .9);
-                              // tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
-                              //     .style("left", ($event.x) + "px")
-                              //     .style("top", ($event.y - 28) + "px");
-                              //   // console.log(d.Genre_1);
+                                // tooltip.transition()
+                                //     .duration(200)
+                                //     .style("opacity", .9);
+                                // tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
+                                //     .style("left", ($event.x) + "px")
+                                //     .style("top", ($event.y - 28) + "px");
+                                //   // console.log(d.Genre_1);
                                 d3.select("#textTitle")
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
                                         "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
@@ -580,10 +583,10 @@
                                 d3.select("#dataImage")
                                     .attr("src", d.data.Image_URL);
                             };
-                            object.element.onmouseout = function() {
-                              tooltip.transition()
-                                 .duration(500)
-                                 .style("opacity", 0);
+                            object.element.onmouseout = function () {
+                                tooltip.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
                             };
                             object.element.ondblclick = (() => {
 
@@ -729,7 +732,7 @@
             }
             else if (layout === 'matrix') {
                 /* Forced Circular */
-                let order =  ordering === 'ascending' ? true : false;
+                let order = ordering === 'ascending' ? true : false;
                 createMatrixLayout(superLayerPos, order);
             }
 
@@ -820,7 +823,7 @@
             dateArray.forEach(function (d) {
                 // console.log(d);
                 let label = makeTextSprite(formatTime(d), {fontsize: 20});
-                label.position.set(p.x, p.y, p.z);
+                label.position.set(p.x, p.y+interval, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
                 // p.y += separator; //increment y position of individual label to increase over time
@@ -1042,13 +1045,13 @@
                     //      .append('g');
 
                     if (key.key === data.key) {
-                      let label = createNewSpriteLabel(data.key);
-                      label.position.set((data.x * 15) + offSetCounter*1000, (-data.y * 15) - 100, 0);
-                      labelGroup.add(label);
+                        let label = createNewSpriteLabel(data.key);
+                        label.position.set((data.x * 15) + offSetCounter * 1000, (-data.y * 15) - 100, 0);
+                        labelGroup.add(label);
                         // console.log(key.values[0].unix);
                         elm.append("text")
-                            .text(function(d) {
-                              return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+' ;
+                            .text(function (d) {
+                                return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+';
                             })
                             .style("font-size", '100px')
                             .style("fill", '#dcdcdc')
@@ -1125,17 +1128,17 @@
         });
 
         let gap = 100;
-        groupofLabelGroups.children.forEach( (labelGroup, i) => {
-         if( i!== 0 ) {
-           labelGroup.children.forEach(label => {
-             label.translateX(gap);
-           });
-           gap += 50;
-         }
+        groupofLabelGroups.children.forEach((labelGroup, i) => {
+            if (i !== 0) {
+                labelGroup.children.forEach(label => {
+                    label.translateX(gap);
+                });
+                gap += 50;
+            }
         });
         groupofLabelGroups.translateX(-1000);
-        setTimeout(function() {
-         scene.add(groupofLabelGroups);
+        setTimeout(function () {
+            scene.add(groupofLabelGroups);
         }, 2750);
         //camera movement
         var tween = new TWEEN.Tween({
