@@ -37,8 +37,8 @@
      * @param datasets2
      */
 
-    var dataSlices = 3;
-    var segSlices = 8; //dynamic segment numbers
+    var dataSlices = 4;
+    var segSlices = 16; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -462,7 +462,8 @@
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
-            interval = height / segSlices;//new interval
+            let interval = height / segSlices;//new interval
+            // let interval = height / dataSlices;//new interval
 
 
             //Data Point Cloud Draw
@@ -513,6 +514,11 @@
 
                         // circle.position.y = (interval * i) - interval - interval;
                         circle.position.y = (interval * i) - heightHalf;
+                        // circle.position.y = (interval * i);
+                        // circle.position.y = (interval * i < 0) ? (interval * i) - heightHalf :(interval * i) + heightHalf;
+                        // let value = (((interval * i) - heightHalf) === 0) ? (interval * i) + heightHalf : (interval * i) - heightHalf;
+
+                        console.log((interval * i) - heightHalf);
 
                         circle.updateMatrixWorld();
 
@@ -868,6 +874,9 @@
     };
 
     function addtoScene(d, i) {
+
+        // let interval = height / dataSlices;//new interval
+
         var objSeg = new THREE.CSS3DObject(this);
         //position
         objSeg.position.x = 0;
@@ -878,12 +887,6 @@
         objSeg.name = "seg";
         cube.add(objSeg);
         //add new object test
-
-        // console.log(objSeg.rotation);
-        // objSeg.rotation.x = 1;
-
-        // console.log((i * interval) - height / 2)
-        // console.log((i * interval) - height / 2)
     }
 
     pCube.onWindowResize = function () {

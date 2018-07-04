@@ -51,13 +51,8 @@ function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
     let myQuantizeFunction = d3.scaleQuantize()
         .domain([start, end])
         .range(rangeArray);
-    let filterQuantize = function (d) {
-        if (d == 0) {
-            return range[0];
-        } else {
-            return myQuantizeFunction(d);
-        }
-    };
+
+    console.log(rangeArray);
 
     // console.log(rangeArray);
 
