@@ -32,7 +32,6 @@ function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
     let rangeArray = [];
     let scale = d3.scaleTime()
         .domain([new Date(start, 0, 0), new Date(end, 0, 0)]);
-
     //range scale
     let xRange = scale.ticks(segment);
     xRange.forEach(d => {

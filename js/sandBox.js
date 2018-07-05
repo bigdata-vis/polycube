@@ -145,7 +145,7 @@
 
             var jp1 = 1942, jp2 = 1946, jp3 = 1950, jp4 = 1955;
 
-            if (d.time < jp1) {
+            if (d.time <= jp1) {
                 d.ts = "jp1";
                 d.label = jp1;
             }
@@ -390,7 +390,7 @@
         //     }).entries(datasets).sort(function (a, b) {
         //         return a.key > b.key;
         //     });
-        // console.log(dataCount);
+        console.log(dataBySeg);
 
         /**
          * convert category data into a time and group hierarchy
@@ -1360,7 +1360,6 @@
 
 
     pCube.superImpose = function () {
-        flat_time = true;
 
         /**
          * make control center thesame as cube xyz position
@@ -1470,9 +1469,6 @@
                 return d.newData.data.Genre_1;
             }) //group sets distribution
             .entries(pointClouds);
-
-        // console.log(superLayerPos);
-
         segDataByGenre.forEach(function (points) {
             superLayerPos.forEach(layer => {
                 if (points.key === layer.key) {
