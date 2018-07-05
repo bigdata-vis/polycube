@@ -505,7 +505,7 @@
                         const rad = data.values.length;//ral: size of the big circles
                         const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
                         const material = new THREE.MeshBasicMaterial({
-                            color: '#797979',
+                            color: '#d0d0d0',
                             // color: colorScale(data.key),
                             side: THREE.DoubleSide,
                             transparent: true,
@@ -1069,7 +1069,7 @@
                                 }
                                 //return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+';
                             })
-                            .style("font-size", '100px')
+                            .style("font-size", '70px')
                             .style("fill", '#dcdcdc')
                             .style("stroke", '#dcdcdc')
                             .style("transform", 'translateY(100px)');
@@ -1086,7 +1086,8 @@
                                 return key.values.length / 1.7;
                             })
                             // .attr("fill", colorScale(key.key))
-                            .attr("fill", '#dcdcdc')
+                            // .attr("fill", '#dcdcdc')
+                            .attr("fill", '#d9d9d9')
                             .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
