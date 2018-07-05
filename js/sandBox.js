@@ -469,6 +469,7 @@
             glbox.children = [];
             groupSets.children = [];
             hullGroup.children = [];
+            allGroups = new Array();
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
@@ -498,7 +499,6 @@
 
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
-
                         allGroups.push(data);
 
                         //circle geometry
@@ -689,7 +689,6 @@
                     });
 
                 });
-
             // getSuperLayer(allGroups);
 
         };
@@ -729,10 +728,10 @@
 
             if (layout === 'force') {
                 /* Forced Layout */
-                createForcedLayout(superLayerPos, widthHalf, heightHalf);
+                 createForcedLayout(superLayerPos, widthHalf, heightHalf);
             } else if (layout === 'diagonal') {
                 /* Forced DiagonalLinear */
-                createDiagonalLayout(superLayerPos);
+                superLayerPos = createDiagonalLayout(superFlattenedLayer, superLayerPos);
             } else if (layout === 'circle') {
                 /* Forced Circular */
                 createCircularLayout(superLayerPos);
@@ -874,8 +873,6 @@
     };
 
     function createPoint(a) {
-        console.log('creating point');
-        console.log(a);
         var dotGeometry = new THREE.Geometry();
         dotGeometry.vertices.push(new THREE.Vector3(a.x, a.y, a.z));
         var dotMaterial = new THREE.PointsMaterial({size: 10, sizeAttenuation: true});
@@ -1034,7 +1031,7 @@
         let offSetCounter = 0;
         let groupofLabelGroups = new THREE.Group();
         segmentLayers.each(function (d) {
-            // console.log(d);
+            //console.log(d);
             // let elm = this;
             let elm = d3.select(this)
                 .append('g');
@@ -1058,7 +1055,19 @@
                         // console.log(key.values[0].unix);
                         elm.append("text")
                             .text(function (d) {
-                                return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+';
+                                switch(d.values[0].values[0].label) {
+                                  case 1942:
+                                    return '1938-1942';
+                                  case 1946:
+                                    return '1943-1946';
+                                  case 1950:
+                                    return '1947-1950';
+                                  case 1955:
+                                    return '1951-1955';
+                                  default:
+                                    return '1956-1969';
+                                }
+                                //return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+';
                             })
                             .style("font-size", '100px')
                             .style("fill", '#dcdcdc')
@@ -1103,7 +1112,11 @@
                                             return 3;
                                         })
                                         // .attr("fill", '#c83409')
-                                        .attr("fill", colour(d.data.unix))
+                                        .attr("fill", function() {
+                                          let assignedColor = colour(d.data.unix);
+                                          //console.log(new Date(d.data.unix*1000).getFullYear() +   '%c ' + assignedColor, 'background-color: ' + assignedColor + '; color: #fff');
+                                          return assignedColor;
+                                        })
                                 })
 
                                 //
