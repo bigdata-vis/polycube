@@ -38,7 +38,7 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 8; //dynamic segment numbers
+    var segSlices = 16; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -60,10 +60,13 @@
         .attr("class", "tooltip")
         .style("opacity", 0) // d3 tooltip for inspecting single points
     //color scale
-    var colorScale = d3.scaleOrdinal()
+    let colorScale = d3.scaleOrdinal()
     // .domain(["New York", "San Francisco", "Austin"])
         .domain(colorList.unique())
         .range(["#FF0000", "#009933", "#0000FF", "#ffea3f", "#422ba1", "#671a34"]);
+
+    //clipping
+    let clipPlane1, clipPlane2;
 
     pCube.fixedSetCoordinates = function (datasets) {
 
@@ -206,10 +209,9 @@
          */
         var colorRange = ['#422ba1', '#F6F6F4'];
 
-        colour =
-            d3.scaleSequential(d3.interpolateViridis)
-            // d3.scaleLinear().range(colorRange)
-            // colour = d3.scaleSequential(d3.interpolateRainbow)
+        colour = d3.scaleSequential(d3.interpolateViridis)
+        // d3.scaleLinear().range(colorRange)
+        // colour = d3.scaleSequential(d3.interpolateRainbow)
             .domain(dateUnixEx);
 
         /**d3 data scale
@@ -383,14 +385,7 @@
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
 
-        //
-        // let dataCount = d3.nest()
-        //     .key(function (d) {
-        //         return d.Genre_1
-        //     }).entries(datasets).sort(function (a, b) {
-        //         return a.key > b.key;
-        //     });
-        console.log(dataBySeg);
+        //add one more array for top cap layer
 
         /**
          * convert category data into a time and group hierarchy
@@ -576,10 +571,10 @@
                                 tooltip.transition()
                                     .duration(200)
                                     .style("opacity", .9);
-                                tooltip	.html(`${d.data.time}<br/>${d.data.Genre_1}`)
+                                tooltip.html(`${d.data.time}<br/>${d.data.Genre_1}`)
                                     .style("left", ($event.x) + "px")
                                     .style("top", ($event.y - 28) + "px");
-                                  // console.log(d.Genre_1);
+                                // console.log(d.Genre_1);
                                 d3.select("#textTitle")
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
                                         "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
@@ -728,7 +723,7 @@
 
             if (layout === 'force') {
                 /* Forced Layout */
-                 createForcedLayout(superLayerPos, widthHalf, heightHalf);
+                createForcedLayout(superLayerPos, widthHalf, heightHalf);
             } else if (layout === 'diagonal') {
                 /* Forced DiagonalLinear */
                 superLayerPos = createDiagonalLayout(superFlattenedLayer, superLayerPos);
@@ -829,7 +824,7 @@
             dateArray.forEach(function (d) {
                 // console.log(d);
                 let label = makeTextSprite(formatTime(d), {fontsize: 20});
-                label.position.set(p.x, p.y+interval, p.z);
+                label.position.set(p.x, p.y + interval, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
                 // p.y += separator; //increment y position of individual label to increase over time
@@ -1055,17 +1050,17 @@
                         // console.log(key.values[0].unix);
                         elm.append("text")
                             .text(function (d) {
-                                switch(d.values[0].values[0].label) {
-                                  case 1942:
-                                    return '1938-1942';
-                                  case 1946:
-                                    return '1943-1946';
-                                  case 1950:
-                                    return '1947-1950';
-                                  case 1955:
-                                    return '1951-1955';
-                                  default:
-                                    return '1956-1969';
+                                switch (d.values[0].values[0].label) {
+                                    case 1942:
+                                        return '1938-1942';
+                                    case 1946:
+                                        return '1943-1946';
+                                    case 1950:
+                                        return '1947-1950';
+                                    case 1955:
+                                        return '1951-1955';
+                                    default:
+                                        return '1956-1969';
                                 }
                                 //return d.values[0].values[0].label ? d.values[0].values[0].label : '1955+';
                             })
@@ -1113,10 +1108,10 @@
                                             return 3;
                                         })
                                         // .attr("fill", '#c83409')
-                                        .attr("fill", function() {
-                                          let assignedColor = colour(d.data.unix);
-                                          //console.log(new Date(d.data.unix*1000).getFullYear() +   '%c ' + assignedColor, 'background-color: ' + assignedColor + '; color: #fff');
-                                          return assignedColor;
+                                        .attr("fill", function () {
+                                            let assignedColor = colour(d.data.unix);
+                                            //console.log(new Date(d.data.unix*1000).getFullYear() +   '%c ' + assignedColor, 'background-color: ' + assignedColor + '; color: #fff');
+                                            return assignedColor;
                                         })
                                 })
 
@@ -1404,7 +1399,7 @@
          *hide guide lines
          */
 
-        let  duration = 700;
+        let duration = 700;
         let pointClouds = scene.getObjectByName("pointCloud").children;
 
 
@@ -1491,9 +1486,9 @@
 
                     let centerX = layer.x * 27,
                         centerY = layer.y * 27,
-                        rad = points.values.length/3;
+                        rad = points.values.length / 3;
 
-                    let newLayout = createSpiralLayout(centerX,centerY,rad, points.values);
+                    let newLayout = createSpiralLayout(centerX, centerY, rad, points.values);
                     console.log(newLayout);
 
                     newLayout.forEach(function (d) {
@@ -1631,45 +1626,6 @@
 
         layout = "SI";
         window.layout = layout;
-    };
-
-    /**
-     * Morphing controls accross data layers
-     * @param parameters
-     */
-    pCube.morphing = function (parameters) {
-        if (parameters === undefined) parameters = {};
-
-        var segCounter = 0; //keep list of the segment counters
-        var duration = 5500;
-        var yMorph = parameters["axis"] || 50; // todo: create
-        scene.children[0].children.forEach(function (object, i) {
-            //show only segments
-            if (object.name == "seg") {
-
-                segCounter++;
-                // console.log(segCounter);
-                if (segCounter == 1) {
-
-                    object.element.firstChild.lastChild.style.display = "none"; //remove red circle
-
-                    object.position.y = yMorph; //todo:for the control
-                    object.position.x = 0; //todo:for the control
-                    object.position.z = 0; //todo:for the control
-
-                    // var posTween = new TWEEN.Tween(object.position) //todo: for the tween
-                    //     .to({
-                    //         x: 0,
-                    //         y: yMorph,
-                    //         z: 0
-                    //     }, duration)
-                    //     .easing(TWEEN.Easing.Sinusoidal.InOut)
-                    //     .start();
-
-                    //todo: animate the data spots on the map as it moves along time
-                }
-            }
-        });
     };
 
     //hull implementation
@@ -1885,9 +1841,19 @@
             // use the same points to create a convexgeometry
 
             // var meshMaterial = new THREE.MeshBasicMaterial({color: 0xffffdd, transparent: true, opacity: 0.3});
-            var meshMaterial = new THREE.MeshBasicMaterial({color: '#2347ff', transparent: true, opacity: 0.3});
+            var meshMaterial = new THREE.MeshBasicMaterial({
+                color: '#2347ff', transparent: true, opacity: 0.3,
+                // ***** Clipping setup (material): *****
+                clippingPlanes: [ clipPlane1 ],
+                clipShadows: true
+            });
             meshMaterial.side = THREE.DoubleSide;
-            var wireFrameMat = new THREE.MeshBasicMaterial({color: '#a2a2a2', transparent: true, opacity: 0.3});
+            var wireFrameMat = new THREE.MeshBasicMaterial({
+                color: '#a2a2a2', transparent: true, opacity: 0.3,
+                // ***** Clipping setup (material): *****
+                clippingPlanes: [ ],
+                clipShadows: true
+            });
             wireFrameMat.wireframe = true;
 
             let hullGeometry = new THREE.ConvexGeometry(d);
@@ -1910,6 +1876,60 @@
         hullGroup.visible = false;
         // console.log(hullGroup);
     };
+
+
+    /**
+     * Morphing controls accross data layers
+     * @param parameters
+     */
+    pCube.morphing = function (parameters) {
+
+        //create plane and material
+
+//          clipPlane1 = new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 1);
+//          console.log(clipPlane1);
+//
+//         // Geometry
+//         var material = new THREE.MeshBasicMaterial( {
+//             color: 0x80ee10,
+//             // shininess: 100,
+//             side: THREE.DoubleSide,
+//             // ***** Clipping setup (material): *****
+//             clippingPlanes: [ clipPlane1 ],
+//             clipShadows: true,
+//             clipIntersection: true
+//         } );
+//
+//         let boxgeometry = new THREE.BoxBufferGeometry( 150, 150, 150 );
+//         box = new THREE.Mesh( boxgeometry, material );
+// //        box.position(THREE.Vector3(0,0,0));
+//         box.position.x = 0.5;
+//         box.position.y = 0;
+//         box.position.z = 0;
+//
+//         WGLScene.add(box);
+
+        // if (parameters === undefined) parameters = {};
+        //
+        // var segCounter = 0; //keep list of the segment counters
+        // var duration = 5500;
+        // var yMorph = parameters["axis"] || 50; // todo: create
+        // scene.children[0].children.forEach(function (object, i) {
+        //     //show only segments
+        //     if (object.name == "seg") {
+        //
+        //         segCounter++;
+        //         // console.log(segCounter);
+        //         if (segCounter == 1) {
+        //             object.element.firstChild.lastChild.style.display = "none"; //remove red circle
+        //             object.position.y = yMorph; //todo:for the control
+        //             object.position.x = 0; //todo:for the control
+        //             object.position.z = 0; //todo:for the control
+        //         }
+        //     }
+        // });
+    };
+
 
     pCube.render = function () {
         // remember to call both renderers!
