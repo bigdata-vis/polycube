@@ -38,7 +38,7 @@
      */
 
     var dataSlices = 4;
-    var segSlices = 16; //dynamic segment numbers
+    var segSlices = 8; //dynamic segment numbers
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
