@@ -157,7 +157,6 @@ function getFlattenedLayer(allGroups) {
     flattenedLayer.forEach( (value, key) => {
       result.push({ key: key, values: value});
     });
-    console.log(result);
     return result;
 }
 
@@ -210,7 +209,6 @@ function createDiagonalLayout(group_list, originalSizes = null) {
     let rad = 0;
     // console.log(group_list);
     let useOriginalSize = originalSizes !== null ? true : false;
-    console.log(originalSizes);
     for (var i = 0; i < group_list.length; i++) {
         group_list[i].x = posX;
         group_list[i].y = posY;
@@ -220,7 +218,6 @@ function createDiagonalLayout(group_list, originalSizes = null) {
         posX = posX - rad/12.5;
         posY = posY - rad/12.5;
     }
-    console.log(group_list);
     return group_list;
 }
 

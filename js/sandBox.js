@@ -728,19 +728,18 @@
 
             if (layout === 'force') {
                 /* Forced Layout */
-                superLayerPos = createForcedLayout(superLayerPos, widthHalf, heightHalf);
+                 createForcedLayout(superLayerPos, widthHalf, heightHalf);
             } else if (layout === 'diagonal') {
                 /* Forced DiagonalLinear */
-                console.log('DIAGONAL');
                 superLayerPos = createDiagonalLayout(superFlattenedLayer, superLayerPos);
             } else if (layout === 'circle') {
                 /* Forced Circular */
-                superLayerPos =createCircularLayout(superLayerPos);
+                createCircularLayout(superLayerPos);
             }
             else if (layout === 'matrix') {
                 /* Forced Circular */
                 let order = ordering === 'ascending' ? true : false;
-                superLayerPos = createMatrixLayout(superLayerPos, order);
+                createMatrixLayout(superLayerPos, order);
             }
 
             let params = {fontsize: 32, fontface: "Georgia", borderColor: {r: 0, g: 0, b: 255, a: 1.0}};
@@ -874,8 +873,6 @@
     };
 
     function createPoint(a) {
-        console.log('creating point');
-        console.log(a);
         var dotGeometry = new THREE.Geometry();
         dotGeometry.vertices.push(new THREE.Vector3(a.x, a.y, a.z));
         var dotMaterial = new THREE.PointsMaterial({size: 10, sizeAttenuation: true});
