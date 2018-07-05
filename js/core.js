@@ -151,7 +151,14 @@ function getFlattenedLayer(allGroups) {
             flattenedLayer.set(allGroups[i].key, allGroups[i].values);
         }
     }
-    return Array.from(flattenedLayer);
+    // convert to array of object so it works with other functions
+    let result = [];
+
+    flattenedLayer.forEach( (value, key) => {
+      result.push({ key: key, values: value});
+    });
+    console.log(result);
+    return result;
 }
 
 function getSuperLayer(allGroups) {
@@ -197,23 +204,23 @@ function createForcedLayout(group_list, widthHalf, heightHalf) {
     return group_list;
 }
 
-function createDiagonalLayout(group_list) {
+function createDiagonalLayout(group_list, originalSizes = null) {
     let posX = 25;
     let posY = 25;
     let rad = 0;
-
     // console.log(group_list);
-
+    let useOriginalSize = originalSizes !== null ? true : false;
+    console.log(originalSizes);
     for (var i = 0; i < group_list.length; i++) {
         group_list[i].x = posX;
         group_list[i].y = posY;
 
-        rad = group_list[i].values.length;
+        rad = useOriginalSize ? originalSizes[i].values.length : group_list[i].values.length;
         if(rad < 40) rad = 40;
         posX = posX - rad/12.5;
         posY = posY - rad/12.5;
     }
-
+    console.log(group_list);
     return group_list;
 }
 
@@ -281,29 +288,27 @@ function createCircularLayout(group_list) {
 function createSpiralLayout(centerX, centerY, radius, group_list) {
     let sides = group_list.length,
         coils = 2,
-        rotation = 0;
+        rotation = 2 * (Math.PI/180);
     // How far to step away from center for each side.
     let awayStep = radius / sides;
 // How far to rotate around center for each side.
     let aroundStep = coils / sides;// 0 to 1 based.
 // Convert aroundStep to radians.
-    let aroundRadians = aroundStep * 2 * Math.PI;
-// Convert rotation to radians.
-    rotation *= 2 * Math.PI;
+    let aroundRadians = aroundStep * (Math.PI/180);
 
     let new_time = [];
 
     // For every side, step around and away from center.
     for(let i=0; i<sides; i++){
         // How far away from center
-        let away = i * awayStep;
+        let away = (i * awayStep);
 
         // How far around the center.
-        let around = i +  aroundRadians*rotation;
+        let around = i + aroundRadians * rotation;
 
         // Convert 'around' and 'away' to X and Y.
-        let x = centerX + Math.cos(around) * away;
-        let y = centerY + Math.sin(around) * away;
+        let x = centerX + Math.sin(around) * away;
+        let y = centerY + Math.cos(around) * away;
 
         new_time.push({x: x, y: y, data: group_list[i]});
 
