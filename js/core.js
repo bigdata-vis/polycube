@@ -291,8 +291,14 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
     let aroundStep = coils / sides;// 0 to 1 based.
 // Convert aroundStep to radians.
     let aroundRadians = aroundStep * (Math.PI/180);
-
     let new_time = [];
+
+
+    // sort group by years
+    group_list.sort(function (a, b) {
+        return a.year == b.year ? 0 : +(a.year > b.year) || -1;
+    });
+
 
     // For every side, step around and away from center.
     for(let i=0; i<sides; i++){

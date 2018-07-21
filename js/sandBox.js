@@ -1380,7 +1380,6 @@
          */
         controls.noRotate = true;
 
-
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
@@ -1489,7 +1488,7 @@
                         rad = points.values.length / 3;
 
                     let newLayout = createSpiralLayout(centerX, centerY, rad, points.values);
-                    console.log(newLayout);
+                    // console.log(newLayout);
 
                     newLayout.forEach(function (d) {
                         let threePoint = d.data;
@@ -1497,20 +1496,9 @@
                         threePoint.position.z = d.x;
                         threePoint.position.x = d.y;
 
-                        // var unFlattenPoints = new TWEEN.Tween(threePoint.position)
-                        //     .to({
-                        //         x: d.x,
-                        //         z: d.y
-                        //     }, duration)
-                        //     .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        //     .start();
-
-                        // console.log(threePoint)
-
                     })
                 }
             });
-
         });
 
         /**
