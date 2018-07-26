@@ -202,7 +202,7 @@
 
         //export date years min and max to windows
         window.dateTimeEx = dateTestEx;
-        window.dateUnixEx = dateUnixEx;
+        window.dateExUnix = dateUnixEx;
 
         /**
          * Color scale from unix time for temporal encoding
@@ -213,6 +213,9 @@
         // d3.scaleLinear().range(colorRange)
         // colour = d3.scaleSequential(d3.interpolateRainbow)
             .domain(dateUnixEx);
+
+
+        window.colorScale = colour;
 
         /**d3 data scale
          * to be implemented with datasets with time and location
@@ -384,7 +387,6 @@
             .sort(function (a, b) {
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
-
         //add one more array for top cap layer
 
         /**
