@@ -251,6 +251,7 @@
                     return d;
                 }
             });
+
             polyCube.updatePC(selectedData, 6, true);
 
             //update global variable

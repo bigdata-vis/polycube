@@ -74,22 +74,11 @@
         onclick="polyCube.superImpose()"> superimposition
 </button>
 
-<!--<button class="button" type="button"-->
-<!--onclick="polyCube.updateScene()"> update scene-->
-<!--</button>-->
-
-<!--<br>-->
-<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.setsDraw()"> Show Sets-->
-<!--</button>-->
 <br>
 <div class="tooltip-preview">
     <p id="textTitle"></p>
     <img id="dataImage" src="">
 </div>
-<!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.test()">test-->
-<!--</button>-->
 
 <br>
 
@@ -100,24 +89,38 @@
 <script src='https://d3js.org/d3.v4.min.js'></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/sandBox.js"></script>
-
-<!--<script src="js/vis/brushSet.js"></script>-->
-<!--<script src="js/vis/timeLegend.js"></script>-->
 <script>
 
-    d3.queue()
-        .defer(d3.csv, "data/Cushman-Collection.csv")
-        .defer(d3.csv, "data/Szabo2.csv")
-        .defer(d3.json, "data/austria.json")
-        //            .defer(d3.xml, "data/export.xml")
-        .await(init);
+//    console.log(window.sessionStorage.getItem("cubeDataGSheet"));
+    let publicSpreadsheetUrl = window.sessionStorage.getItem("cubeDataGSheet") || 'https://docs.google.com/spreadsheets/d/1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY/edit?usp=sharing';
+    let googleSheetName;
 
-    function init(error, data) {
-        if (error) console.log(error);
+    documentReady(function () {
+        init_table();
+    });
+
+    function init_table() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            callback: consume_table,
+            simpleSheet: false
+        });
+    }
+
+    function consume_table(data, tabletop) {
+        googleSheetName = tabletop.googleSheetName;
+        let newdata = data.Cushman_Collection.elements;
+        init(newdata)
+    }
+
+    function init(data) {
+
+//        console.log(data2);
 
         function tempRange(data) {
 
@@ -147,7 +150,6 @@
         /**
          * Toggle PointCloud Data UI
          */
-
         polyCube.showPointCloud();
 
 
@@ -163,7 +165,7 @@
         var gui = new dat.GUI({});
 
         var params = {
-            Project: "Cushman Data",
+            Project: googleSheetName || "Cushman Data",
             Morphing: -250,
             showData: true,
             showNodes: false,
@@ -194,8 +196,11 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
             .style("fill", "black");
 
+        gui.add(params, 'Project').onFinishChange(function (d) {
+//            console.log(d);
+            window.sessionStorage.setItem("cubeDataGSheet", d);
+            window.location.reload();
 
-        gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
 
         gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
@@ -254,7 +259,6 @@
         });
 
         gui.add(params, 'setsLayout', ['force', 'diagonal', 'circle', 'matrix']).onChange(d => {
-            console.log(d);
             polyCube.updateSupelayer(d);
         }).name("Sets Layouts");
 
@@ -295,27 +299,5 @@
 
 </script>
 
-<!--edmPlaceLatitude-->
-<!--edmPlaceLongitude-->
-<!--score-->
-<!--dcCreator-->
-<!--country-->
-
-<!--<script>-->
-<!--//    code perfomance-->
-<!--(function () {-->
-<!--var script = document.createElement('script');-->
-<!--script.onload = function () {-->
-<!--var stats = new Stats();-->
-<!--document.body.appendChild(stats.dom);-->
-<!--requestAnimationFrame(function loop() {-->
-<!--stats.update();-->
-<!--requestAnimationFrame(loop)-->
-<!--});-->
-<!--};-->
-<!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
-<!--document.head.appendChild(script);-->
-<!--})()-->
-<!--</script>-->
 </body>
 </html>

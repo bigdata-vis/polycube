@@ -39,6 +39,7 @@
 
     var dataSlices = 4;
     var segSlices = 16; //dynamic segment numbers
+    window.segSlices = segSlices;
     var interval = height / dataSlices; //height/segments
 
     var timeLinearG;
@@ -214,7 +215,6 @@
         // colour = d3.scaleSequential(d3.interpolateRainbow)
             .domain(dateUnixEx);
 
-
         window.colorScale = colour;
 
         /**d3 data scale
@@ -371,6 +371,8 @@
             cube.add(object);
         }
 
+
+
         /**
          * D3.nest to segment each data by its temporal ts property
          * sort data by jp1
@@ -403,6 +405,7 @@
             .sort(function (a, b) {
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
+
 
         // .sort(function (a, b) {
         //     return a.key < b.key;
@@ -690,33 +693,6 @@
 
         };
         pCube.updatePC(segDataGroups);
-        // pCube.updateScene = function () {
-        //     let duration = 700;
-        //     // redraw solutions
-        //     segDataGroups.forEach(data => {
-        //         //update testdata with new cordinates
-        //         // console.log(data);
-        //         data.values.forEach(data => {
-        //             let key = data;
-        //
-        //             originalPositions[0].forEach(function (data) {
-        //                 if (key.key === data.key) {
-        //                     // console.log(data.x);
-        //                     // console.log(key.key);
-        //                     key.x = data.x;
-        //                     key.y = data.y;
-        //                 }
-        //                 // console.log(data.key);
-        //                 // console.log(key.key)
-        //             });
-        //
-        //
-        //         });
-        //     });
-        //     pCube.updatePC(segDataGroups);
-        // };
-        // pCube.updateScene();
-
 
         //super layer test
         pCube.updateSupelayer = function (layout = 'circle', ordering = 'ascending') {
