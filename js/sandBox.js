@@ -843,6 +843,9 @@
 
         pCube.render();
         layout = "STC";
+
+        //hide loader
+        document.getElementById("loading").style.display = "none"
     };
 
     function createPoint(a) {
@@ -883,6 +886,10 @@
         controls.update();
         pCube.render()
     };
+
+    // requestAnimationFrame(function () {
+    //     console.log('completed scene')
+    // });
 
     /**
      * Juxtaposition function

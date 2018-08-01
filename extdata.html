@@ -14,6 +14,9 @@
     <!--<script src="lib/ThreeCSG.js"></script>-->
     <link rel="stylesheet" href="css/main.css">
     <style>
+        #loading {width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99}
+        #loading-image {position: absolute;top: 20%;left: 40%;z-index: 100}
+
         .tooltip {
             position: absolute;
             text-align: center;
@@ -83,8 +86,17 @@
 <br>
 
 <div id="timeLine"></div>
-
 <br>
+
+
+<div id="loading">
+    <img id="loading-image" src="https://loading.io/spinners/cube/lg.pulsing-squares-loader.gif" alt="Loading..." />
+    <!--<img id="loading-image" src="https://loading.io/spinners/bricks/lg.block-rotate-loading-gif.gif" alt="Loading..." />-->
+    <!--<img id="loading-image" src="https://loading.io/spinners/squiggle/lg.squiggly-text-preloader.gif" alt="Loading..." />-->
+    <!--<img id="loading-image" src="https://loading.io/spinners/crystal/lg.crystal-rotating-spinner.gif" alt="Loading..." />-->
+</div>
+
+
 <!--<script src="lib/d3/d3.js"></script>-->
 <script src='https://d3js.org/d3.v4.min.js'></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -96,7 +108,9 @@
 <script src="js/sandBox.js"></script>
 <script>
 
-//    console.log(window.sessionStorage.getItem("cubeDataGSheet"));
+    //handle image loading
+
+    //    console.log(window.sessionStorage.getItem("cubeDataGSheet"));
     let publicSpreadsheetUrl = window.sessionStorage.getItem("cubeDataGSheet") || 'https://docs.google.com/spreadsheets/d/1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY/edit?usp=sharing';
     let googleSheetName;
 
@@ -296,6 +310,8 @@
         });
 
     }
+
+//    window.onload = function(){ document.getElementById("loading").style.display = "none" }
 
 </script>
 
