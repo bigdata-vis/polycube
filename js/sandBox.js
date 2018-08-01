@@ -115,10 +115,10 @@
          */
 
         datasets.forEach(function (d, i) {
-            var coord = d.Geocoordinates.split(",");
-            d.long = +coord[0];
-            d.lat = +coord[1];
-            // d.long = d
+            // var coord = d.Geocoordinates.split(",");
+            // d.long = +coord[0];
+            // d.lat = +coord[1];
+            d.long = d
             /**
              * Data to draw segements from
              * @type {T}
@@ -370,7 +370,6 @@
             object.name = "side";
             cube.add(object);
         }
-
 
 
         /**
@@ -845,7 +844,10 @@
         layout = "STC";
 
         //hide loader
-        document.getElementById("loading").style.display = "none"
+        if (document.getElementById("loading")) {
+            document.getElementById("loading").style.display = "none"
+        }
+        // document.getElementById("loading").style.display = "none"
     };
 
     function createPoint(a) {
@@ -1817,14 +1819,14 @@
             var meshMaterial = new THREE.MeshBasicMaterial({
                 color: '#2347ff', transparent: true, opacity: 0.3,
                 // ***** Clipping setup (material): *****
-                clippingPlanes: [ clipPlane1 ],
+                clippingPlanes: [clipPlane1],
                 clipShadows: true
             });
             meshMaterial.side = THREE.DoubleSide;
             var wireFrameMat = new THREE.MeshBasicMaterial({
                 color: '#a2a2a2', transparent: true, opacity: 0.3,
                 // ***** Clipping setup (material): *****
-                clippingPlanes: [ ],
+                clippingPlanes: [],
                 clipShadows: true
             });
             wireFrameMat.wireframe = true;

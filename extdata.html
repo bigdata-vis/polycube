@@ -110,9 +110,9 @@
 <script>
 
     //handle image loading
+    let query = getUrlQueryByName('url');
 
-    //    console.log(window.sessionStorage.getItem("cubeDataGSheet"));
-    let publicSpreadsheetUrl = window.sessionStorage.getItem("cubeDataGSheet") || 'https://docs.google.com/spreadsheets/d/1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY/edit?usp=sharing';
+    let publicSpreadsheetUrl = query || window.sessionStorage.getItem("cubeDataGSheet") || 'https://docs.google.com/spreadsheets/d/1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY/edit?usp=sharing';
     let googleSheetName;
 
     documentReady(function () {
@@ -129,7 +129,7 @@
 
     function consume_table(data, tabletop) {
         googleSheetName = tabletop.googleSheetName;
-        let newdata = data.Cushman_Collection.elements;
+        let newdata = data.Collection.elements;
         init(newdata)
     }
 
