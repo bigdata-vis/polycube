@@ -61,6 +61,6 @@ The spreadsheet is seperated into different sections. We go over the sections an
 | -| - |
 |----------------------|---|
 | target        | Number - The ID of the target node that the current node (source) is related to  |
-| directed             | Boolean - Defines of the relationship should be directed |
+| directed             | Boolean - Defines if the relationship should be directed or not |
 | label            | Text - The label that should appear on the relationship |
 | range | Date - Defines the temporal interval where the relationship is valid. The first argument is the start date and the second argument is the end date. If no end date is provided we assume its an ongoing relationship, __e.g., 2013-12-31T12:34:56 - 2014-12-31T12:34:56__ |
