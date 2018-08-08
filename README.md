@@ -33,7 +33,7 @@ The spreadsheet is seperated into different sections. We go over the sections an
 
 | -| - |
 |----------------------|---|
-| date_time        | Defines the temporal interval where the object is valid. The first argument is the start date and the second argument is the end date. If no end date is provided we assume its ongoing, __e.g., 2013-12-31T12:34:56 - 2014-12-31T12:34:56__  |
+| date_time        | Defines the temporal interval where the object is valid. The first argument is the start date and the second argument is the end date. If no end date is provided we assume its ongoing for Network and point in time for Geo and Sets, __e.g., 2013-12-31T12:34:56 - 2014-12-31T12:34:56__  |
 | date_time_uncert             | Number (Integer) - A number in the __range 0-100__   
 
 ### Categorical Data

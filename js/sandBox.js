@@ -595,7 +595,12 @@
                             };
                             object.element.ondblclick = (() => {
 
-                                polyCube.drawHull(d.data.Genre_1); //draw each group on click
+                                // polyCube.drawHull(d.data.Genre_1); //draw each group on click
+
+                                console.log(object.localToWorld(object.position));
+
+                                // console.log(camera.position);
+
                             });
 
                             object["newData"] = d;
@@ -1143,6 +1148,8 @@
         setTimeout(function () {
             scene.add(groupofLabelGroups);
         }, 2750);
+
+
         //camera movement
         var tween = new TWEEN.Tween({
             x: camera.position.x,
@@ -1905,6 +1912,72 @@
         // });
     };
 
+    pCube.pointOfInterest = function () {
+
+        //camera movement
+        // let point ={x: 0.8415650209133041, y: -187.5, z: 372.8805813571868};
+        let points = [
+            {x: 326.7414254330702, y: 375, z: -672.6003278088973},
+            {x: 583.8985337520141, y: 0, z: 465.3804953821567},
+            {x: 585.8514470770385, y: -500, z: 462.63485180047155}
+            ];
+
+        for (let i=0; i<points.length; i++) {
+
+            setTimeout( function timer(){
+                var tween = new TWEEN.Tween({
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z
+                })
+                    .to({
+                        x: points[i].x,
+                        y: points[i].y,
+                        z: points[i].z
+                    }, 1600)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .onUpdate(function () {
+                        camera.position.set(this.x, this.y, this.z);
+                        camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    })
+                    .onComplete(function () {
+                        camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    })
+                    .start();
+
+                // alert("point reached");
+
+            }, i*6000 );
+
+        }
+
+        // points.forEach(function (p) {
+        //     console.log(p);
+        //
+        //     var tween = new TWEEN.Tween({
+        //         x: camera.position.x,
+        //         y: camera.position.y,
+        //         z: camera.position.z
+        //     })
+        //         .to({
+        //             x: p.x,
+        //             y: p.y,
+        //             z: p.z + 200
+        //         }, 1600)
+        //         .easing(TWEEN.Easing.Linear.None)
+        //         .onUpdate(function () {
+        //             camera.position.set(this.x, this.y, this.z);
+        //             camera.lookAt(new THREE.Vector3(0, 0, 0));
+        //         })
+        //         .onComplete(function () {
+        //             camera.lookAt(new THREE.Vector3(0, 0, 0));
+        //         })
+        //         .start();
+        //
+        //
+        // });
+
+    };
 
     pCube.render = function () {
         // remember to call both renderers!
