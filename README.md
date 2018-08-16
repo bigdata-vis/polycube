@@ -17,7 +17,7 @@ We provide a template spreadsheet where you can plug-in your own data to display
 ## Data structure
 The spreadsheet is seperated into different sections. We go over the sections and provide an explanation and example of values the properties can have.
 
-### General Data
+### General Data (bright yellow cells)
 
 | -| - |
 |----------------------|---|
@@ -29,24 +29,15 @@ The spreadsheet is seperated into different sections. We go over the sections an
 | external_url      | URL - The URL to an external resource, __e.g., ''__ |
 | comments      | Text - The users comments for the object  |
 
-### Temporal Data
+### Temporal Data (bright range cells)
 
 | -| - |
 |----------------------|---|
 | date_time        | Defines the temporal interval where the object is valid. The first argument is the start date and the second argument is the end date. If no end date is provided we assume its ongoing for Network and point in time for Geo and Sets, __e.g., 2013-12-31T12:34:56 - 2014-12-31T12:34:56__  |
 | date_time_uncert             | Number (Integer) - A number in the __range 0-100__   
 
-### Categorical Data
-| -| - |
-|----------------------|---|
-| category_1        | Text - User defined category, __e.g., 'Architectural Photographs'__  |
-| category_2        | Text - User defined category, __e.g., 'Identification Photographs'__ |
-| category_3        | Text - User defined category, __e.g., 'Cityscapes'__ |
-| category_4        | Text - User defined category |
-| category_5        | Text - User defined category |
 
-
-### Geographical Data
+### Geographical Data (light blue cells)
 
 | -| - |
 |----------------------|---|
@@ -56,7 +47,18 @@ The spreadsheet is seperated into different sections. We go over the sections an
 | location_granularity | Text (Predefined) - Selected from the dropdown menu, __e.g., 'City', 'Region', 'Country'__ |
 | location_uncert      | Number (Integer) - A number in the __range 0-100__  |
 
-### Relational Data
+
+### Categorical Data (light green cells)
+| -| - |
+|----------------------|---|
+| category_1        | Text - User defined category, __e.g., 'Architectural Photographs'__  |
+| category_2        | Text - User defined category, __e.g., 'Identification Photographs'__ |
+| category_3        | Text - User defined category, __e.g., 'Cityscapes'__ |
+| category_4        | Text - User defined category |
+| category_5        | Text - User defined category |
+
+
+### Relational Data (beige cells)
 
 | -| - |
 |----------------------|---|

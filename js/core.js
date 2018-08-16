@@ -28,12 +28,20 @@ function getDates(startDate, stopDate) {
 //https://codepen.io/anon/pen/MwvQXq
 //http://jsfiddle.net/sarathsaleem/8tmLrb9t/7/
 //https://stackoverflow.com/questions/42838389/get-constant-interval-of-ticks-value-in-d3-scaletime
-function timeRage(d = 1952, start = 1938, end = 1955, segment = 12) {
+function timeRage(d = 1952, start = 1938, end = 1955, segment) {
     let rangeArray = [];
     let scale = d3.scaleTime()
         .domain([new Date(start, 0, 0), new Date(end, 0, 0)]);
     //range scale
     let xRange = scale.ticks(segment);
+
+    // const st = new Date(2012, 0, 15);
+    // const en   = new Date(2012, 4, 23);
+    // const ran = moment().range(st, en);
+
+    // console.log(ran);
+
+    // let xRange = scale.tickValues([1,2,3,4]);
     xRange.forEach(d => {
         rangeArray.push(d.getFullYear().toString())
     });
@@ -389,3 +397,12 @@ function getUrlQueryByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+Object.defineProperty(Array.prototype, 'chunk', {
+    value: function(chunkSize) {
+        var R = [];
+        for (var i=0; i<this.length; i+=chunkSize)
+            R.push(this.slice(i,i+chunkSize));
+        return R;
+    }
+});

@@ -6,32 +6,17 @@
     <script src="lib/three.js/OrbitControls.js"></script>
     <script src="lib/three.js/tween.js"></script>
     <script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
-
     <!--mapbox-->
     <script src='//api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
     <link href='//api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
-
+    <link rel="stylesheet" href="css/main.css">
     <style>
+        .elements {
+            pointer-events: none;
+            border: 1px solid rgb(115, 115, 115);
+        }
         body {
-            /*background-color: #000;*/
-
-            /*background: linear-gradient(to bottom, #020111 85%,#191621 100%);*/
-            /*background: linear-gradient(to bottom, #2d91c2 0%,#1e528e 100%);*/
-            /*background: linear-gradient(to bottom, #000000 50%, #00155c 100%);*/
-
             background-color: black;
-            /*background-image:*/
-            /*radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),*/
-            /*radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),*/
-            /*radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),*/
-            /*radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);*/
-            /*background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;*/
-            /*background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;*/
-
-            /*overflow: hidden;*/
-            /*background-repeat: no-repeat;*/
-            /*background-size: 100% 1000px;*/
-
             overflow: hidden;
             margin: 0;
 
@@ -39,6 +24,7 @@
 
         canvas {
             background: transparent;
+            pointer-events: none;
         }
 
         .elements_child {
@@ -134,6 +120,7 @@
             stroke-opacity: .5;
         }
     </style>
+
 </head>
 <body>
 
@@ -169,18 +156,41 @@
 
 <br>
 <script src="lib/d3/d3.js"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
-<script src="js/pcmodule.js"></script>
+<script src="js/core.js"></script>
+<script src="js/inputnet.js"></script>
 
 <script>
 
-    d3.queue()
-            .defer(d3.csv, "data/Szabo2.csv")
-            .await(init);
+    //handle image loading
+    let query = getUrlQueryByName('url');
 
-    function init(error, data) {
-        if (error) console.log(error);
+    let publicSpreadsheetUrl = query || 'https://docs.google.com/spreadsheets/d/1Mj3ayKypsORWjttFVNzsrZSnqBzt_P5-uV_xpre1brY/edit?usp=sharing';
+    let googleSheetName;
+
+    documentReady(function () {
+        init_table();
+    });
+
+    function init_table() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            callback: consume_table,
+            simpleSheet: false
+        });
+    }
+
+    function consume_table(data, tabletop) {
+        googleSheetName = tabletop.googleSheetName;
+        let newdata = data.data.elements;
+        init(newdata)
+    }
+
+    function init(data) {
+
         function tempRange(data) {
             polyCube.drawElements(data);
             polyCube.render();
@@ -208,7 +218,7 @@
         var gui = new dat.GUI({});
 
         var params = {
-            Project: "KHM Data",
+            Project: googleSheetName || "KHM Data",
             Morphing: -250,
             showData: true,
             showNodes: false,
@@ -337,14 +347,6 @@
 //        console.log(uniq);
 
 //        download(uniq, "placeNames.txt", "text/plain")
-    }
-
-    function download(text, name, type) {
-        var a = document.createElement("a");
-        var file = new Blob([text], {type: type});
-        a.href = URL.createObjectURL(file);
-        a.download = name;
-        a.click();
     }
 
 </script>

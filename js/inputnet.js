@@ -39,7 +39,6 @@
      * @param datasets
      * @param datasets2
      */
-
     pCube.drawElements = function (datasets2) {
 
         /**
@@ -53,8 +52,8 @@
          *Data sets to draw point clouds
          */
         datasets2.forEach(function (d, i) {
-            d.start_date = parse2(d.start_date); //parse date first and then format
-            d.start_date = +format2(d.start_date);
+            d.time = parse2(d.time); //parse date first and then format
+            d.time = +format2(d.time);
             defaultData[i] = d;
         });
 
@@ -63,7 +62,7 @@
          *
          */
         var dateTestEx = d3.extent(datasets2, function (d) {
-            return d.start_date;
+            return d.time;
         });
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
@@ -218,10 +217,12 @@
          *Currently using todo: datasets1 should be changed to datasets2
          */
         var elements = d3.select("body").selectAll('.element')
-            .data(datasets2).enter() //todo: limit datasets to sepcific time for y axis
+            .data(datasets2.chunk(dataSlices)[0]).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
             .attr('id', 'mapbox');
+
+        // console.log(datasets2.chunk(6)[0]);
 
         /**
          * Div SVG
@@ -236,7 +237,7 @@
         /**
          * Objectify and draw segments elements
          */
-        elements.each(setViewData);
+        // elements.each(setViewData);
         elements.each(addtoScene);
 
         /**
@@ -262,36 +263,35 @@
                 image.addEventListener('load', function (event) {
                     // for (var z = 0; z < 1; z++) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = d.longitude,
-                        lat = d.latitude,
+                        long = d.y,
+                        lat = d.x,
                         coord = translate(projection([long, lat]));
 
-                    // object.position.x = Math.random() * ((30) - (-50)) + (-50); // using xScale to determine the positions
-                    object.position.y = timeLinear(d.start_date); //todo: height + scale + time to determine y axis
-                    // object.position.z = projection([d.longitude, d.latitude])[0];
-                    // object.position.x = projection([d.longitude, d.latitude])[1];
+                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
 
-                    object.position.z = coord[0];
-                    object.position.x = coord[1];
+                    // object.position.z = coord[0];
+                    // object.position.x = coord[1];
 
+                    object.position.z = d.x;
+                    object.position.x = d.y;
                     object.name = "pointCloud"; //todo: remove later
-
                     object.element.onmouseover = function () {
                         console.log(d);
                         d3.select("#textTitle")
                         // .html("Simba")
                             .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                                "<span>Date:</span>" + d.start_date + "<br>" +
+                                "<span>Date:</span>" + d.time + "<br>" +
                                 "<span>Place Name:</span>" + d.place_name + "<br>"
                             )
                     };
 
-
                     /**
                      * populate line list
+                     * split the target links
                      */
 
-                    // newList.push(object.position);
+                    object.position.target = d.target.split(',');
+                    object.position.id = d.id;
 
                     lineList.push(object.position);
 
@@ -303,35 +303,9 @@
 
             });
 
-
-        // console.log(testData);
-        function setViewData(d, i) {
-            var vector, phi, theta;
-            var stc, jp, si;
-
-            stc = new THREE.Object3D();
-            stc.position.x = Math.random() * 4000 - 2000;
-            stc.position.y = Math.random() * 4000 - 2000;
-            stc.position.z = Math.random() * 4000 - 2000;
-            d['STC'] = stc;
-
-            jp = new THREE.Object3D();
-            jp.position.x = (( i % 5 ) * (width + 50)) - (width * 2);
-            jp.position.y = ( -( Math.floor(i / 5) % 5 ) * (width + 50) ) + 400;
-            jp.position.z = 0;
-            jp.time = ["1920", "1930"];
-            d['JP'] = jp;
-
-            si = new THREE.Object3D();
-            si.position.x = (( i % 5 ) * 1050) - 2000;
-            si.position.y = ( -( Math.floor(i / 5) % 5 ) * 650 ) + 800;
-            si.position.z = 0;
-            d['SI'] = si;
-        }
-
         function addtoScene(d, i) {
 
-            var interval = 500 / segments; //height/segments
+            var interval = height / dataSlices; //height/segments
             var objSeg = new THREE.CSS3DObject(this);
             //position
             objSeg.position.x = 0;
@@ -353,7 +327,7 @@
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
-                y: -(height / 2),
+                y: -(height / 2) + (-10),
                 z: widthHalf
             }
         });
@@ -380,7 +354,7 @@
 
             dateArray.forEach(function (d) {
                 let label = makeTextSprite(formatTime(d), {fontsize: 10});
-                label.position.set(p.x, p.y , p.z);
+                label.position.set(p.x, p.y + separator , p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
             });
@@ -415,7 +389,6 @@
 
         pCube.render();
     };
-
 
     /**
      * Default STC Layout Fallback function
@@ -789,57 +762,47 @@
 
     pCube.drawLines = function () {
 
-        /** Threejs Material decl to be used later for lines implementation
-         *
-         * @type {any}
-         */
-        var material = new THREE.LineBasicMaterial({
-            color: "#FF4500",
-            linewidth: 2,
-            linecap: 'round', //ignored by WebGLRenderer
-            linejoin: 'round' //ignored by WebGLRenderer
-        });
-        material.blending = THREE.NoBlending;
+        console.log(lineList);
 
-        /**
-         * WebGl Scene
-         * Temporary Web Gl Scene implementation for line testing
-         * @type {any}
-         */
-        var geometry = new THREE.Geometry();
+        function addLineToScene(a,b) {
+            /** Threejs Material decl to be used later for lines implementation
+             *
+             * @type {any}
+             */
+            var material = new THREE.LineBasicMaterial({
+                color: "#FF4500",
+                linewidth: 2,
+                linecap: 'round', //ignored by WebGLRenderer
+                linejoin: 'round' //ignored by WebGLRenderer
+            });
+            material.blending = THREE.NoBlending;
 
-        /**
-         * Draw lines from the coordinates inside lineList
-         * interates through linelist
-         * select position one, draw from 1 to 2, 2 to 3, 3 to 4
-         */
+            /**
+             * WebGl Scene
+             * Temporary Web Gl Scene implementation for line testing
+             * @type {any}
+             */
+            var geometry = new THREE.Geometry();
 
-        // console.log(lineList);
-
-        for (var i = 0; i < lineList.length; i++) {
-            if (lineList[i].x !== undefined) {
-                // console.log("A " + lineList[i].x);
-                geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
-            }
-
-            for (var z = 0; z < lineList.length - 1; z++) {
-                if (lineList[i + 1] !== undefined) {
-                    // console.log("B " + lineList[i + 1].x)
-                    geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y, lineList[i + 1].z));
-
+            for (var i = 0; i < lineList.length; i++) {
+                if (lineList[i].x !== undefined) {
+                    // console.log("A " + lineList[i].x);
+                    geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
                 }
 
+                for (var z = 0; z < lineList.length - 1; z++) {
+                    if (lineList[i + 1] !== undefined) {
+                        // console.log("B " + lineList[i + 1].x)
+                        geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y, lineList[i + 1].z));
+
+                    }
+                }
             }
+
+            var line = new THREE.Line(geometry, material);
+            glbox.add(line);
+
         }
-
-        // geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
-        // geometry.vertices.push(new THREE.Vector3(0, 40, 0));
-        // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
-
-        var line = new THREE.Line(geometry, material);
-        glbox.add(line);
-
-        // WGLScene.add(line);
 
     };
 

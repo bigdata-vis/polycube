@@ -118,7 +118,7 @@
             // var coord = d.Geocoordinates.split(",");
             // d.long = +coord[0];
             // d.lat = +coord[1];
-            d.long = d
+            d.long = d;
             /**
              * Data to draw segements from
              * @type {T}
@@ -405,10 +405,24 @@
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
 
+       let segTest = d3.nest()
+            .key(function (d) {
+                return timeRage(d.time, dateTestEx[0], dateTestEx[1], 5);
+                // return d.ts;
+                // return d.Genre_1;
+            })
+            .key(function (d) {
+                return d.Genre_1;
+            })
+            .entries(datasets)
+            .sort(function (a, b) {
+                return a.key == b.key ? 0 : +(a.key > b.key) || -1;
+            });
 
-        // .sort(function (a, b) {
-        //     return a.key < b.key;
-        // });
+
+       console.log(segTest);
+       console.log(dataBySeg);
+
 
         // console.log(segDataGroups);
 
@@ -1935,6 +1949,7 @@
             ];
 
         for (let i=0; i<points.length; i++) {
+
             setTimeout( function timer(){
                 var tween = new TWEEN.Tween({
                     x: camera.position.x,
@@ -1944,7 +1959,7 @@
                     .to({
                         x: points[i].x,
                         y: points[i].y,
-                        z: points[i].z - 50
+                        z: points[i].z
                     }, 1600)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate(function () {
@@ -1955,9 +1970,11 @@
                         camera.lookAt(new THREE.Vector3(0, 0, 0));
                     })
                     .start();
+
                 // alert("point reached");
 
             }, i*3000 );
+
         }
 
         // points.forEach(function (p) {
@@ -2045,6 +2062,7 @@
      * 3D Scene Renderer
      *
      */
+
     var renderer, scene, camera, controls;
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
