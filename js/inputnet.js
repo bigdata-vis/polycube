@@ -16,6 +16,8 @@
      */
     var lineList = [];
 
+    let tempArr = [];
+
     /**d3 variables and declarations
      *
      * @type {number}
@@ -148,6 +150,7 @@
          */
         scene.add(cube);
         scene.add(mesh);
+        scene.add(pointCloud);
         WGLScene.add(glbox);
 
 
@@ -258,8 +261,6 @@
                 image.style.height = 10 + "px";
                 image.className = "pointCloud";
 
-                // console.log(this.style);
-
                 image.addEventListener('load', function (event) {
                     // for (var z = 0; z < 1; z++) {
                     var object = new THREE.CSS3DSprite(image.cloneNode()),
@@ -284,19 +285,17 @@
                                 "<span>Place Name:</span>" + d.place_name + "<br>"
                             )
                     };
+                    object.userData = d;
+
 
                     /**
                      * populate line list
                      * split the target links
                      */
-
-                    object.position.target = d.target.split(',');
-                    object.position.id = d.id;
-
-                    lineList.push(object.position);
+                    lineList.push(object);
 
                     // console.log(object);
-                    scene.add(object);
+                    pointCloud.add(object);
                     // }
                 }, false);
                 image.src = 'texture/ball.png';
@@ -762,9 +761,37 @@
 
     pCube.drawLines = function () {
 
-        console.log(lineList);
+        // console.log(lineList);
 
-        function addLineToScene(a,b) {
+
+        tempArr = [];
+        let pointClouds = scene.getObjectByName("pointCloud").children;
+
+        lineList.forEach(function (data) {
+            if(data.userData.target){
+                let targets = data.userData.target.split(',');
+                let source = data.userData.id;
+
+                targets.forEach(function (d) {
+                    tempArr.push({source:{position: data.position, id:source}, target:{position: getTargetPos(d,lineList), id: d}})
+                });
+            }
+           function getTargetPos(target,list){
+               let position;
+               list.forEach(function (d) {
+                   if(d.userData.id === target.toString()){
+                       position = d.position;
+                   }
+               });
+               return position;
+           }
+        });
+
+        tempArr.forEach(function (d) {
+            addLineToScene(d)
+        });
+        function addLineToScene(data) {
+
             /** Threejs Material decl to be used later for lines implementation
              *
              * @type {any}
@@ -784,24 +811,16 @@
              */
             var geometry = new THREE.Geometry();
 
-            for (var i = 0; i < lineList.length; i++) {
-                if (lineList[i].x !== undefined) {
-                    // console.log("A " + lineList[i].x);
-                    geometry.vertices.push(new THREE.Vector3(lineList[i].x, lineList[i].y, lineList[i].z));
-                }
+            // console.log(data.source.position.x)
 
-                for (var z = 0; z < lineList.length - 1; z++) {
-                    if (lineList[i + 1] !== undefined) {
-                        // console.log("B " + lineList[i + 1].x)
-                        geometry.vertices.push(new THREE.Vector3(lineList[i + 1].x, lineList[i + 1].y, lineList[i + 1].z));
+            //source
+            geometry.vertices.push(new THREE.Vector3(data.source.position.x, data.source.position.y, data.source.position.z));
 
-                    }
-                }
-            }
+            //target
+            geometry.vertices.push(new THREE.Vector3(data.target.position.x, data.target.position.y, data.target.position.z));
 
             var line = new THREE.Line(geometry, material);
             glbox.add(line);
-
         }
 
     };
@@ -876,6 +895,9 @@
     var cube = new THREE.Object3D();
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
+
+    var pointCloud = new THREE.Object3D();
+    pointCloud.name = "pointCloud";
 
     /**
      * WebGl Scene and renderer
