@@ -771,6 +771,8 @@
                 let targets = data.userData.target.split(',');
                 let source = data.userData.id;
 
+                // console.log(targets)
+
                 targets.forEach(function (d) {
                     tempArr.push({source:{position: data.position, id:source}, target:{position: getTargetPos(d,lineList), id: d}})
                 });
@@ -788,7 +790,7 @@
 
         tempArr.forEach(function (d) {
 
-            console.log(d);
+            // console.log(d);
 
             addLineToScene(d)
 

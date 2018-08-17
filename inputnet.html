@@ -195,6 +195,9 @@
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
+            setTimeout(function (d) {
+                polyCube.drawLines();
+            }, 500)
         }
         tempRange(data);
 
