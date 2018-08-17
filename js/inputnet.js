@@ -765,7 +765,6 @@
 
 
         tempArr = [];
-        let pointClouds = scene.getObjectByName("pointCloud").children;
 
         lineList.forEach(function (data) {
             if(data.userData.target){
@@ -788,7 +787,11 @@
         });
 
         tempArr.forEach(function (d) {
+
+            console.log(d);
+
             addLineToScene(d)
+
         });
         function addLineToScene(data) {
 
@@ -811,13 +814,15 @@
              */
             var geometry = new THREE.Geometry();
 
-            // console.log(data.source.position.x)
+            // console.log(data);
 
-            //source
-            geometry.vertices.push(new THREE.Vector3(data.source.position.x, data.source.position.y, data.source.position.z));
+            if(data.source.position && data.target.position){
+                //source
+                geometry.vertices.push(new THREE.Vector3(data.source.position.x, data.source.position.y, data.source.position.z));
 
-            //target
-            geometry.vertices.push(new THREE.Vector3(data.target.position.x, data.target.position.y, data.target.position.z));
+                //target
+                geometry.vertices.push(new THREE.Vector3(data.target.position.x, data.target.position.y, data.target.position.z));
+            }
 
             var line = new THREE.Line(geometry, material);
             glbox.add(line);
