@@ -288,6 +288,13 @@
                     object.userData = d;
 
 
+                    //add label
+
+                    console.log(d);
+
+                    let nodelabel = makeTextSprite(d.label, {fontsize: 10});
+                    nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
+
                     /**
                      * populate line list
                      * split the target links
@@ -357,24 +364,6 @@
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
             });
-
-            function makeTextSprite(message, parameters) {
-                if (parameters === undefined) parameters = {};
-                var fontsize = parameters["fontsize"] || 40;
-
-                var element = document.createElement('p');
-                element.className = "textTitle";
-                element.style.color = 'grey';
-                element.style.fontSize = fontsize + "px";
-                var elMessage = document.createTextNode(message);
-                element.appendChild(elMessage);
-
-                var object = new THREE.CSS3DSprite(element);
-                object.name = "titles";
-                mesh.add(object);
-
-                return object;
-            }
         }
 
         /**
@@ -760,9 +749,7 @@
      */
 
     pCube.drawLines = function () {
-
         // console.log(lineList);
-
 
         tempArr = [];
 
@@ -770,9 +757,7 @@
             if(data.userData.target){
                 let targets = data.userData.target.split(',');
                 let source = data.userData.id;
-
                 // console.log(targets)
-
                 targets.forEach(function (d) {
                     tempArr.push({source:{position: data.position, id:source}, target:{position: getTargetPos(d,lineList), id: d}})
                 });
@@ -789,9 +774,7 @@
         });
 
         tempArr.forEach(function (d) {
-
             // console.log(d);
-
             addLineToScene(d)
 
         });
@@ -892,6 +875,24 @@
      */
     function translate(point) {
         return [point[0] - (width / 2), (height / 2) - point[1]];
+    }
+
+    function makeTextSprite(message, parameters) {
+        if (parameters === undefined) parameters = {};
+        var fontsize = parameters["fontsize"] || 40;
+
+        var element = document.createElement('p');
+        element.className = "textTitle";
+        element.style.color = 'grey';
+        element.style.fontSize = fontsize + "px";
+        var elMessage = document.createTextNode(message);
+        element.appendChild(elMessage);
+
+        var object = new THREE.CSS3DSprite(element);
+        object.name = "titles";
+        mesh.add(object);
+
+        return object;
     }
 
     /**
