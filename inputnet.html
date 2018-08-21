@@ -267,7 +267,7 @@
          * Toggle PointCloud Data UI
          */
 
-        polyCube.showPointCloud();
+//        polyCube.showPointCloud();
 
 
         /**
@@ -300,7 +300,9 @@
         });
 
         gui.add(params, "showData").onChange(function () {
-            var value = params.showData;
+            const value = params.showData;
+            polyCube.showPointCloud(value);
+
             if (value) {
                 d3.selectAll(".pointCloud")
                     .classed("hide", false)
@@ -309,17 +311,13 @@
                     .classed("hide", true)
             }
 
-        }).name("Show PC Data");
+        }).name("Show Nodes");
 
         gui.add(params, "showNodes").onChange(function () {
-            var value = params.showData;
-            if (value) {
-                polyCube.showNodes()
-            } else {
+            const value = params.showData;
+                polyCube.showLinks(value)
 
-            }
-
-        }).name("Show Nodes");
+        }).name("Show Links");
 
         gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
             var value = params.nodeSize;

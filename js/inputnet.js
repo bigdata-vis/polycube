@@ -41,6 +41,28 @@
      * @param datasets
      * @param datasets2
      */
+
+    /**
+     * Render point cloud from the automated data and points;
+     * TrackballControls makes object disspear when zooming out ?
+     */
+    pCube.showPointCloud = function (value) {
+
+
+        pointCloud.traverse( function ( object ) { object.visible = value; } );
+        mesh.traverse( function ( object ) { object.visible = value; } );
+
+        // console.log(pointCloud);
+        // pointCloud.visible = false;
+        // mesh.visible = false;
+        // nodeCloud.visible = false;
+    };
+
+    pCube.showLinks = function (value) {
+        linksCloud.traverse( function ( object ) { object.visible = value; } );
+    };
+
+
     pCube.drawElements = function (datasets2) {
 
         /**
@@ -76,17 +98,7 @@
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
 
-        /**
-         * Render point cloud from the automated data and points;
-         * TrackballControls makes object disspear when zooming out ?
-         */
-        pCube.showPointCloud = function () {
-            // pCube.spriteRender(xScale, yScale);
-        };
 
-        pCube.showNodes = function () {
-            pCube.drawLines()
-        };
 
         /**WebGL renderer implementation
          *
@@ -151,8 +163,9 @@
         scene.add(cube);
         scene.add(mesh);
         scene.add(pointCloud);
-        WGLScene.add(glbox);
 
+        WGLScene.add(linksCloud);
+        WGLScene.add(glbox);
 
         /**CSS3D Scene
          * Cube Sides
@@ -290,8 +303,6 @@
 
                     //add label
 
-                    console.log(d);
-
                     let nodelabel = makeTextSprite(d.label, {fontsize: 10});
                     nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
 
@@ -301,7 +312,6 @@
                      */
                     lineList.push(object);
 
-                    // console.log(object);
                     pointCloud.add(object);
                     // }
                 }, false);
@@ -810,11 +820,11 @@
             }
 
             var line = new THREE.Line(geometry, material);
-            glbox.add(line);
+            // glbox.add(line);
+            linksCloud.add(line);
         }
 
     };
-
 
     /**
      * CSS3D sprite for point cloud implementation
@@ -891,7 +901,6 @@
         var object = new THREE.CSS3DSprite(element);
         object.name = "titles";
         mesh.add(object);
-
         return object;
     }
 
@@ -904,8 +913,14 @@
     var mesh = new THREE.Object3D();
     var glbox = new THREE.Object3D();
 
-    var pointCloud = new THREE.Object3D();
+    let pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
+
+    let nodeCloud = new THREE.Object3D();
+    nodeCloud.name = "nodeCloud";
+
+    let linksCloud = new THREE.Object3D();
+    linksCloud.name = "linksCloud";
 
     /**
      * WebGl Scene and renderer
