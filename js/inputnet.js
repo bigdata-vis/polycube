@@ -50,7 +50,7 @@
 
 
         pointCloud.traverse( function ( object ) { object.visible = value; } );
-        mesh.traverse( function ( object ) { object.visible = value; } );
+
 
         // console.log(pointCloud);
         // pointCloud.visible = false;
@@ -61,7 +61,6 @@
     pCube.showLinks = function (value) {
         linksCloud.traverse( function ( object ) { object.visible = value; } );
     };
-
 
     pCube.drawElements = function (datasets2) {
 
@@ -795,7 +794,7 @@
              * @type {any}
              */
             var material = new THREE.LineBasicMaterial({
-                color: "#FF4500",
+                color: "#d0d0d0",
                 linewidth: 2,
                 linecap: 'round', //ignored by WebGLRenderer
                 linejoin: 'round' //ignored by WebGLRenderer
