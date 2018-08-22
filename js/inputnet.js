@@ -271,8 +271,13 @@
             .each(function (d, i) {
                 var image = document.createElement('div');
 
-                image.style.width = 10 + "px";
-                image.style.height = 10 + "px";
+                if(d.scale){
+                    image.style.width = (d.scale * 10) + "px" ;
+                    image.style.height = (d.scale * 10) + "px" ;
+                }else {
+                    image.style.width =  10 + "px" ;
+                    image.style.height =  10 + "px" ;
+                }
 
                 image.style.backgroundColor = d.color || "blue";
 
@@ -294,7 +299,6 @@
                         )
                 };
                 object.userData = d;
-
 
 
                 //add label
