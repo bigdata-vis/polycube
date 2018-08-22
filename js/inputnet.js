@@ -49,7 +49,9 @@
     pCube.showPointCloud = function (value) {
 
 
-        pointCloud.traverse( function ( object ) { object.visible = value; } );
+        pointCloud.traverse(function (object) {
+            object.visible = value;
+        });
 
 
         // console.log(pointCloud);
@@ -59,7 +61,9 @@
     };
 
     pCube.showLinks = function (value) {
-        linksCloud.traverse( function ( object ) { object.visible = value; } );
+        linksCloud.traverse(function (object) {
+            object.visible = value;
+        });
     };
 
     pCube.drawElements = function (datasets2) {
@@ -96,7 +100,6 @@
          */
         WGLScene = new THREE.Scene();
         scene = new THREE.Scene();
-
 
 
         /**WebGL renderer implementation
@@ -266,55 +269,47 @@
             .append("div")
             .attr("class", "map-div")
             .each(function (d, i) {
-                var image = document.createElement('img');
-                var interval = 500 / segments; //height/segments
+                var image = document.createElement('div');
 
                 image.style.width = 10 + "px";
                 image.style.height = 10 + "px";
+
+                image.style.backgroundColor = d.color || "blue";
+
                 image.className = "pointCloud";
 
-                image.addEventListener('load', function (event) {
-                    // for (var z = 0; z < 1; z++) {
-                    var object = new THREE.CSS3DSprite(image.cloneNode()),
-                        long = d.y,
-                        lat = d.x,
-                        coord = translate(projection([long, lat]));
+                var object = new THREE.CSS3DSprite(image.cloneNode());
+                object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
 
-                    object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-
-                    // object.position.z = coord[0];
-                    // object.position.x = coord[1];
-
-                    object.position.z = d.x;
-                    object.position.x = d.y;
-                    object.name = "pointCloud"; //todo: remove later
-                    object.element.onmouseover = function () {
-                        console.log(d);
-                        d3.select("#textTitle")
-                        // .html("Simba")
-                            .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                                "<span>Date:</span>" + d.time + "<br>" +
-                                "<span>Place Name:</span>" + d.place_name + "<br>"
-                            )
-                    };
-                    object.userData = d;
+                object.position.z = d.x;
+                object.position.x = d.y;
+                object.name = "pointCloud"; //todo: remove later
+                object.element.onmouseover = function () {
+                    console.log(d);
+                    d3.select("#textTitle")
+                    // .html("Simba")
+                        .html("<span>First Name:</span>" + d.first_name + "<br>" +
+                            "<span>Date:</span>" + d.time + "<br>" +
+                            "<span>Place Name:</span>" + d.place_name + "<br>"
+                        )
+                };
+                object.userData = d;
 
 
-                    //add label
 
-                    let nodelabel = makeTextSprite(d.label, {fontsize: 10});
-                    nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
+                //add label
+                let nodelabel = makeTextSprite(d.label, {fontsize: 10});
+                nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
 
-                    /**
-                     * populate line list
-                     * split the target links
-                     */
-                    lineList.push(object);
+                /**
+                 * populate line list
+                 * split the target links
+                 */
+                lineList.push(object);
 
-                    pointCloud.add(object);
-                    // }
-                }, false);
-                image.src = 'texture/ball.png';
+                pointCloud.add(object);
+                // }
+
 
             });
 
@@ -369,7 +364,7 @@
 
             dateArray.forEach(function (d) {
                 let label = makeTextSprite(formatTime(d), {fontsize: 10});
-                label.position.set(p.x, p.y + separator , p.z);
+                label.position.set(p.x, p.y + separator, p.z);
                 label.rotation.y = 20;
                 p.y += separator; //increment y position of individual label to increase over time
             });
@@ -763,23 +758,27 @@
         tempArr = [];
 
         lineList.forEach(function (data) {
-            if(data.userData.target){
+            if (data.userData.target) {
                 let targets = data.userData.target.split(',');
                 let source = data.userData.id;
                 // console.log(targets)
                 targets.forEach(function (d) {
-                    tempArr.push({source:{position: data.position, id:source}, target:{position: getTargetPos(d,lineList), id: d}})
+                    tempArr.push({
+                        source: {position: data.position, id: source},
+                        target: {position: getTargetPos(d, lineList), id: d}
+                    })
                 });
             }
-           function getTargetPos(target,list){
-               let position;
-               list.forEach(function (d) {
-                   if(d.userData.id === target.toString()){
-                       position = d.position;
-                   }
-               });
-               return position;
-           }
+
+            function getTargetPos(target, list) {
+                let position;
+                list.forEach(function (d) {
+                    if (d.userData.id === target.toString()) {
+                        position = d.position;
+                    }
+                });
+                return position;
+            }
         });
 
         tempArr.forEach(function (d) {
@@ -787,6 +786,7 @@
             addLineToScene(d)
 
         });
+
         function addLineToScene(data) {
 
             /** Threejs Material decl to be used later for lines implementation
@@ -810,7 +810,7 @@
 
             // console.log(data);
 
-            if(data.source.position && data.target.position){
+            if (data.source.position && data.target.position) {
                 //source
                 geometry.vertices.push(new THREE.Vector3(data.source.position.x, data.source.position.y, data.source.position.z));
 
