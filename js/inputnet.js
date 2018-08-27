@@ -274,7 +274,7 @@
                    .style('background-repeat', 'no-repeat')
                    .style('background-position', 'center')
                    .style('opacity', '0.4');
-                // console.log(datapane)
+                console.log(datapane)
             });
 
         /**
@@ -315,7 +315,8 @@
                 }
 
                 image.style.backgroundColor = d.color || "blue";
-                image.style.border = "solid " + config.pointoutlinecolour || "#000000" + config.pointoutlinewidth || " 2px";
+                // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
+                image.style.border = "solid " + config.pointoutline || "#000000 1px";
 
                 image.className = "pointCloud";
 
