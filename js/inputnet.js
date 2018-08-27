@@ -253,19 +253,39 @@
             .data(datasets2.chunk(dataSlices)[0]).enter() //todo: limit datasets to sepcific time for y axis
             .append('div')
             .attr('class', 'elements')
-            .attr('id', 'mapbox');
+            .attr('id', 'mapbox')
+            .each(function (d, i) {
 
-        // console.log(datasets2.chunk(6)[0]);
+                let div = d3.select(this);
+
+                div.append("svg")
+                    .attr("class", "elements_child")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("opacity", 0.2)
+                    .attr("fill", new THREE.Color("#ececec").getStyle());
+
+               let datapane =  div.filter(function () {  //todo: point of hiding other map items
+                    return i === 0;
+                }).classed("dataPane", true)
+                   .style('background-image', `url("${config.baselayer}")`)
+                   .style('background-color', 'transparent')
+                   .style('background-size', 'contain')
+                   .style('background-repeat', 'no-repeat')
+                   .style('background-position', 'center')
+                   .style('opacity', '0.4');
+                console.log(datapane)
+            });
 
         /**
          * Div SVG
          */
-        svg = elements.append("svg")
-            .attr("class", "elements_child")
-            .attr("width", width)
-            .attr("height", height)
-            .style("opacity", 0.2)
-            .attr("fill", new THREE.Color("#ececec").getStyle());
+        // svg = elements.append("svg")
+        //     .attr("class", "elements_child")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .style("opacity", 0.2)
+        //     .attr("fill", new THREE.Color("#ececec").getStyle());
 
         /**
          * Objectify and draw segments elements
@@ -286,17 +306,19 @@
             .each(function (d, i) {
                 var image = document.createElement('div');
 
-                if(d.scale){
-                    image.style.width = (d.scale * 10) + "px" ;
-                    image.style.height = (d.scale * 10) + "px" ;
-                }else {
-                    image.style.width =  10 + "px" ;
-                    image.style.height =  10 + "px" ;
+                if (d.scale) {
+                    image.style.width = (d.scale * 10) + "px";
+                    image.style.height = (d.scale * 10) + "px";
+                } else {
+                    image.style.width = 10 + "px";
+                    image.style.height = 10 + "px";
                 }
 
                 image.style.backgroundColor = d.color || "blue";
+                image.style.border = "solid " + config.pointoutlinecolour || "#000000" + config.pointoutlinewidth || " 2px";
 
                 image.className = "pointCloud";
+
 
                 var object = new THREE.CSS3DSprite(image.cloneNode());
                 object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
@@ -307,23 +329,22 @@
                 object.element.onmouseover = function () {
                     console.log(d);
                     d3.select("#textTitle")
-                        .html( "<span>Date:</span>" + d.time + "<br>" +
-                             d.description + "<br>" + "<br>" +
+                        .html("<span>Date:</span>" + d.time + "<br>" +
+                            d.description + "<br>" + "<br>" +
                             `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
                         );
 
                     // d3.select("#dataImage")
                     //     .attr("src", d.image_url);
                 };
-
                 object.userData = d;
 
 
                 //add label
 
-                if(d.label){
+                if (d.label) {
                     let nodelabel = pointLabel(d.label, {fontsize: 10});
-                    nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
+                    nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
                 }
 
                 /**
@@ -334,7 +355,6 @@
 
                 pointCloud.add(object);
                 // }
-
 
             });
 
@@ -812,7 +832,6 @@
         });
 
 
-
         function addLineToScene(data) {
 
             /** Threejs Material decl to be used later for lines implementation
@@ -821,7 +840,7 @@
              */
             var material = new THREE.LineBasicMaterial({
                 color: globalLineColour || "#d0d0d0",
-                linewidth: 4,
+                linewidth: 8,
                 linecap: 'round', //ignored by WebGLRenderer
                 linejoin: 'round' //ignored by WebGLRenderer
             });
