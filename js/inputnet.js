@@ -26,8 +26,10 @@
         height = 500,
         widthHalf = width / 2,
         heightHalf = height / 2,
-        dataSlices = 6;
+        dataSlices;
     var svg;
+
+    // console.log(googleSheetName)
 
     var formatTime = d3.timeFormat("%Y");
 
@@ -35,6 +37,8 @@
         end = "2000-01";
 
     var projectionScale = 5000;
+
+    let globalLineColour;
 
     /**
      * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
@@ -48,17 +52,18 @@
      */
     pCube.showPointCloud = function (value) {
 
+        //toggle label
+        labelCloud.traverse(function (object) {
+            object.visible = value;
+        });
 
+        //toggle points
         pointCloud.traverse(function (object) {
             object.visible = value;
         });
 
-
-        // console.log(pointCloud);
-        // pointCloud.visible = false;
-        // mesh.visible = false;
-        // nodeCloud.visible = false;
     };
+
 
     pCube.showLinks = function (value) {
         linksCloud.traverse(function (object) {
@@ -66,7 +71,11 @@
         });
     };
 
-    pCube.drawElements = function (datasets2) {
+    pCube.drawElements = function (datasets2, config) {
+        //set config values
+        // console.log(config.layers_slices);
+        dataSlices = +config.layers_slices || 8;
+        globalLineColour = config.linecolour;
 
         /**
          * Parse and Format Time
@@ -164,8 +173,14 @@
          */
         scene.add(cube);
         scene.add(mesh);
+
+        //hold points group
         scene.add(pointCloud);
 
+        //hold points label group
+        scene.add(labelCloud);
+
+        //holds link group
         WGLScene.add(linksCloud);
         WGLScene.add(glbox);
 
@@ -292,18 +307,24 @@
                 object.element.onmouseover = function () {
                     console.log(d);
                     d3.select("#textTitle")
-                    // .html("Simba")
-                        .html("<span>First Name:</span>" + d.first_name + "<br>" +
-                            "<span>Date:</span>" + d.time + "<br>" +
-                            "<span>Place Name:</span>" + d.place_name + "<br>"
-                        )
+                        .html( "<span>Date:</span>" + d.time + "<br>" +
+                             d.description + "<br>" + "<br>" +
+                            `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
+                        );
+
+                    // d3.select("#dataImage")
+                    //     .attr("src", d.image_url);
                 };
+
                 object.userData = d;
 
 
                 //add label
-                let nodelabel = makeTextSprite(d.label, {fontsize: 10});
-                nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
+
+                if(d.label){
+                    let nodelabel = pointLabel(d.label, {fontsize: 10});
+                    nodelabel.position.set(object.position.x, object.position.y - 12, object.position.z);
+                }
 
                 /**
                  * populate line list
@@ -798,8 +819,8 @@
              * @type {any}
              */
             var material = new THREE.LineBasicMaterial({
-                color: "#d0d0d0",
-                linewidth: 2,
+                color: globalLineColour || "#d0d0d0",
+                linewidth: 4,
                 linecap: 'round', //ignored by WebGLRenderer
                 linejoin: 'round' //ignored by WebGLRenderer
             });
@@ -907,6 +928,24 @@
         return object;
     }
 
+    function pointLabel(message, parameters) {
+        if (parameters === undefined) parameters = {};
+        var fontsize = parameters["fontsize"] || 40;
+
+        var element = document.createElement('p');
+        element.className = "pointlabel";
+        element.style.color = 'grey';
+        element.style.fontSize = fontsize + "px";
+        var elMessage = document.createTextNode(message);
+        element.appendChild(elMessage);
+
+        var object = new THREE.CSS3DSprite(element);
+        object.name = "pointlabel";
+        // mesh.add(object);
+        labelCloud.add(object);
+        return object;
+    }
+
     /**
      * 3D Scene Renderer
      *
@@ -924,6 +963,9 @@
 
     let linksCloud = new THREE.Object3D();
     linksCloud.name = "linksCloud";
+
+    let labelCloud = new THREE.Object3D();
+    labelCloud.name = "labelCloud";
 
     /**
      * WebGl Scene and renderer

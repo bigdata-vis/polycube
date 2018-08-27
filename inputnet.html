@@ -45,6 +45,28 @@
         canvas {
             background: transparent;
             pointer-events: none;
+            z-index: -2;
+        }
+
+        .pointCloud {
+            /* height: 2px !important; */
+            /* width: 2px !important; */
+            border-radius: 50%;
+            border: solid #ffffff 2px;
+            /* text-align: center; */
+            /* vertical-align: middle; */
+            /* font-size: 500%; */
+            position: relative;
+            /* box-shadow: inset -10px -10px 100px #000, 10px 10px 20px green, inset 0px 0px 10px green; */
+            /* -webkit-box-shadow: 0 0 5px blue; */
+            /* -moz-box-shadow: 0 0 5px blue; */
+            /* box-shadow: 0 0 2px #1891ff; */
+            /* display: inline-block; */
+            /* margin: 5%; */
+            background-color: #00b438;
+            cursor: pointer;
+            opacity: 1;
+            /* z-index: 999; */
         }
 
         .elements_child {
@@ -147,23 +169,6 @@
     <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<!--<button class="btn btn-outline-secondary" style="position: relative; top: 250px; left: 150px; z-index: 999"-->
-        <!--type="button"-->
-        <!--onclick="polyCube.juxstaPose()">-->
-    <!--JuxtPos-->
-<!--</button>-->
-
-<!--<br>-->
-<!--<button class="btn btn-outline-secondary" style="position: relative; top: 250px; left: 150px; z-index: 999"-->
-        <!--type="button" onclick="polyCube.default()">-->
-    <!--Default (STC)-->
-<!--</button>-->
-
-<!--<br>-->
-<!--<button class="btn btn-outline-secondary" style="position: relative; top: 250px; left: 150px; z-index: 999"-->
-        <!--type="button"-->
-        <!--onclick="polyCube.superImpose()"> SuperImposition-->
-<!--</button>-->
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
@@ -171,10 +176,15 @@
     Data
 </button>
 
-
+<br>
+<!--<p style=" width: 200px; color: white; position: relative; top: 250px; left: 150px; z-index: 999" id="textTitle">i</p>-->
+<p style="z-index: 999" id="textTitle">i</p>
+<p style="z-index: 999" id="imageTitle"><!-- Trigger the Modal -->
+    <img id="dataImage" src="#" alt="" width="300" height="200"></p>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 
@@ -187,14 +197,15 @@
                 <!--</button>-->
             </div>
             <!--<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTh-gCKj1wzvhCMPJAsAqPe8yW3OjbI0OIpJO4Zc3jfC4D00d2VgcAevlhUY3ANHbetaAs5KIdEoQfF/pubhtml?gid=783768853&amp;single=true&amp;widget=true&amp;headers=false" height="800" width="740"></iframe>-->
-            <iframe src="https://docs.google.com/spreadsheets/d/1Mj3ayKypsORWjttFVNzsrZSnqBzt_P5-uV_xpre1brY/edit?usp=sharing&amp;gid=783768853" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0" style="background: #FFFFFF;">Loading...</iframe>
+            <iframe src="https://docs.google.com/spreadsheets/d/1Mj3ayKypsORWjttFVNzsrZSnqBzt_P5-uV_xpre1brY/edit?usp=sharing&amp;gid=783768853"
+                    width="760" height="500" frameborder="0" marginheight="0" marginwidth="0"
+                    style="background: #FFFFFF;">Loading...
+            </iframe>
 
         </div>
     </div>
 </div>
 
-<br>
-<p style=" width: 200px; color: white; position: relative; top: 250px; left: 150px; z-index: 999" id="textTitle">i</p>
 
 <!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
 <!--onclick="polyCube.test()">test-->
@@ -230,7 +241,8 @@
     let query = getUrlQueryByName('url');
 
     let publicSpreadsheetUrl = query || 'https://docs.google.com/spreadsheets/d/1Mj3ayKypsORWjttFVNzsrZSnqBzt_P5-uV_xpre1brY/edit?usp=sharing';
-    let googleSheetName;
+    let googleSheetName,
+        globalBg;
 
     documentReady(function () {
         init_table();
@@ -246,13 +258,22 @@
 
     function consume_table(data, tabletop) {
         googleSheetName = tabletop.googleSheetName;
+
+        //data sheet
         let newdata = data.data.elements;
-        init(newdata)
+
+        //config sheet
+        let config = data.config.elements[0];
+
+        //set user bg color
+        globalBg = config.bgcolour;
+
+        init(newdata, config)
     }
 
-    function init(data) {
-        function tempRange(data) {
-            polyCube.drawElements(data);
+    function init(data, config) {
+        function tempRange(data, config) {
+            polyCube.drawElements(data, config);
             polyCube.render();
             polyCube.animate();
             window.addEventListener('resize', polyCube.onWindowResize, false);
@@ -261,7 +282,7 @@
             }, 500)
         }
 
-        tempRange(data);
+        tempRange(data, config);
 
         /**
          * Toggle PointCloud Data UI
@@ -292,9 +313,9 @@
         };
 
         //default theme
-
         d3.select("body")
-            .style("background-color", "#ffffff");
+            .style("background-color", globalBg || "#ffffff");
+
         d3.select("canvas")
             .style("background", "transparent");
         d3.selectAll(".pointCloud")
@@ -314,7 +335,6 @@
         d3.selectAll(".elements_child").selectAll(".subunit")
         //                    .style("fill", "#0050af");
             .style("fill", "black");
-
 
 
         gui.add(params, 'Project').onFinishChange(function () {
@@ -337,11 +357,20 @@
                     .classed("hide", true)
             }
 
+            if (value) {
+                d3.selectAll(".pointlabel")
+                    .classed("hide", false)
+            } else {
+                d3.selectAll(".pointlabel")
+                    .classed("hide", true)
+            }
+
+
         }).name("Show Nodes");
 
         gui.add(params, "showNodes").onChange(function () {
             const value = params.showData;
-                polyCube.showLinks(value)
+            polyCube.showLinks(value)
 
         }).name("Show Links");
 
@@ -352,7 +381,6 @@
                 .style("width", value + "px")
                 .style("height", value + "px");
         });
-
 
         var f1 = gui.addFolder('Theme');
         f1.add(params, "light").onChange(function () {
