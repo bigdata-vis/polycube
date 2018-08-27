@@ -809,8 +809,9 @@
         tempArr.forEach(function (d) {
             // console.log(d);
             addLineToScene(d)
-
         });
+
+
 
         function addLineToScene(data) {
 
@@ -847,7 +848,6 @@
             // glbox.add(line);
             linksCloud.add(line);
         }
-
     };
 
     /**
