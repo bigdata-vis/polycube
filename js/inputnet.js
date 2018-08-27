@@ -274,7 +274,7 @@
                    .style('background-repeat', 'no-repeat')
                    .style('background-position', 'center')
                    .style('opacity', '0.4');
-                console.log(datapane)
+                // console.log(datapane)
             });
 
         /**
