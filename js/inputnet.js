@@ -38,7 +38,7 @@
 
     var projectionScale = 5000;
 
-    let globalLineColour;
+    let globalConfig;
 
     /**
      * Point of entry function to draw scene elements and inject data from map (), point cloud () and segements ()
@@ -75,7 +75,7 @@
         //set config values
         // console.log(config.layers_slices);
         dataSlices = +config.layers_slices || 8;
-        globalLineColour = config.linecolour;
+        globalConfig = config;
 
         /**
          * Parse and Format Time
@@ -840,8 +840,8 @@
              * @type {any}
              */
             var material = new THREE.LineBasicMaterial({
-                color: globalLineColour || "#d0d0d0",
-                linewidth: 8,
+                color: globalConfig.linecolour || "#d0d0d0",
+                linewidth: +globalConfig.linewidth || 2,
                 linecap: 'round', //ignored by WebGLRenderer
                 linejoin: 'round' //ignored by WebGLRenderer
             });
