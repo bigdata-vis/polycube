@@ -309,8 +309,11 @@
         /**
          * Test biographical data
          */
+        // let forceLayout = createSimpleForcedLayout(datasets2,widthHalf,heightHalf);
+        // console.log(forceLayout);
 
-        var newList = [];
+        createSimpleForcedLayout(datasets2,widthHalf,heightHalf);
+
 
         var testElem = d3.selectAll('.map-div')
             .data(datasets2).enter()
@@ -336,25 +339,30 @@
                 // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                 object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
 
-                object.position.z = d.x;
-                object.position.x = d.y;
+                object.position.z = d._x;
+                object.position.x = d._y;
+
+
+                if(config.auto_layout === 'TRUE' || config.auto_layout === 'true'){
+                    object.position.z = d.x;
+                    object.position.x = d.y;
+                }
+
                 object.name = "pointCloud"; //todo: remove later
                 object.element.onmouseover = function () {
                     console.log(d);
                     d3.select("#textTitle")
                         .html("<span>Date:</span>" + d.time + "<br>" +
                             d.description + "<br>" + "<br>" +
-                            `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
+                            `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
+                            // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
                         );
-
                     // d3.select("#dataImage")
                     //     .attr("src", d.image_url);
                 };
                 object.userData = d;
 
-
                 //add label
-
                 if (d.label) {
                     let nodelabel = pointLabel(d.label, {fontsize: 10});
                     nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
@@ -426,7 +434,7 @@
                 z: 100
             };
 
-            console.log(dataSlices);
+            // console.log(dataSlices);
 
 
             dateArray.forEach(function (d, i) {

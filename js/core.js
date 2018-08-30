@@ -210,6 +210,42 @@ function createForcedLayout(group_list, widthHalf, heightHalf) {
     return group_list;
 }
 
+
+function createSimpleForcedLayout(group_list, widthHalf, heightHalf) {
+
+    let center_force = d3.forceCenter(widthHalf+widthHalf, heightHalf*2);
+    let radius = 10;
+
+    let simulation = d3.forceSimulation()
+        .force('charge_force', d3.forceManyBody())
+        .force('center_force', center_force)
+        .force('box_force', box_force)
+        .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+            return radius
+        }).iterations(2));
+        // .on("end", computeReadability);
+
+    function box_force() {
+        for (let i = 0, n = group_list.length; i < n; ++i) {
+            curr_node = group_list[i];
+            curr_node.x = Math.max(radius, Math.min(widthHalf - radius, curr_node.x));
+            curr_node.y = Math.max(radius, Math.min(heightHalf - radius, curr_node.y));
+        }
+    }
+
+    // function computeReadability () {
+    //     // var nodes = simulation.nodes();
+    //     // var links = simulation.force("link").links();
+    //     // console.log(group_list);
+    // }
+
+    simulation.nodes(group_list);
+    // console.log("group_list after:");
+    // console.log(group_list);
+    return group_list;
+}
+
+
 function createDiagonalLayout(group_list, originalSizes = null) {
     let posX = 25;
     let posY = 25;
