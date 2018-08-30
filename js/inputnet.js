@@ -77,8 +77,8 @@
         //set config values
         // console.log(config.layers_slices);
         dataSlices = +config.layers_slices || 8;
-        width = +config.cube_width || 800;
-        height = +config.cube_height || 600;
+        width = +config.cube_width || 500;
+        height = +config.cube_height || 500;
 
         globalConfig = config;
 
