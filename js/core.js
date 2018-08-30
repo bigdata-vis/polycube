@@ -216,6 +216,8 @@ function createSimpleForcedLayout(group_list, widthHalf, heightHalf) {
     let center_force = d3.forceCenter(widthHalf+widthHalf, heightHalf*2);
     let radius = 10;
 
+    group_list.reverse();
+
     let simulation = d3.forceSimulation()
         .force('charge_force', d3.forceManyBody())
         .force('center_force', center_force)

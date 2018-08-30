@@ -22,7 +22,7 @@
      *
      * @type {number}
      */
-    var width = 500,
+    let width = 800,
         height = 500,
         widthHalf = width / 2,
         heightHalf = height / 2,
@@ -77,6 +77,9 @@
         //set config values
         // console.log(config.layers_slices);
         dataSlices = +config.layers_slices || 8;
+        width = +config.cube_width || 800;
+        height = +config.cube_height || 600;
+
         globalConfig = config;
 
         /**
@@ -117,6 +120,9 @@
 
         let yAxis = d3.scaleTime().range([-heightHalf, heightHalf]).domain(timeExt);
 
+        let pointScale = d3.scaleLinear().range([5, 20]).domain(d3.extent(datasets2, function (d) {
+            return d.scale;
+        }));
 
         /**
          * scenes
@@ -312,7 +318,7 @@
         // let forceLayout = createSimpleForcedLayout(datasets2,widthHalf,heightHalf);
         // console.log(forceLayout);
 
-        createSimpleForcedLayout(datasets2,widthHalf,heightHalf);
+        createSimpleForcedLayout(datasets2, widthHalf, heightHalf);
 
 
         var testElem = d3.selectAll('.map-div')
@@ -323,8 +329,8 @@
                 var image = document.createElement('div');
 
                 if (d.scale) {
-                    image.style.width = (d.scale * 10) + "px";
-                    image.style.height = (d.scale * 10) + "px";
+                    image.style.width = (pointScale(d.scale)) + "px";
+                    image.style.height = (pointScale(d.scale)) + "px";
                 } else {
                     image.style.width = 10 + "px";
                     image.style.height = 10 + "px";
@@ -343,22 +349,27 @@
                 object.position.x = d._y;
 
 
-                if(config.auto_layout === 'TRUE' || config.auto_layout === 'true'){
+                if (config.auto_layout === 'TRUE' || config.auto_layout === 'true') {
                     object.position.z = d.x;
                     object.position.x = d.y;
                 }
 
                 object.name = "pointCloud"; //todo: remove later
                 object.element.onmouseover = function () {
+                    //clean func
+                    d3.selectAll('.highlighted').classed('highlighted', false);
+
+                    let self = d3.select(this).classed('highlighted', true);
+
                     console.log(d);
                     d3.select("#textTitle")
-                        .html("<span>Date:</span>" + d.time + "<br>" +
+                        .html("<span></span>" + moment(d.fullDate).format() + "<br>" +
                             d.description + "<br>" + "<br>" +
                             `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
                             // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
                         );
-                    // d3.select("#dataImage")
-                    //     .attr("src", d.image_url);
+
+
                 };
                 object.userData = d;
 
@@ -404,7 +415,7 @@
             labelPosition: {
                 x: widthHalf,//offset border
                 y: -(height / 2),
-                z: widthHalf
+                z: heightHalf
             }
         });
 
@@ -422,7 +433,7 @@
             var dateArray = d3.scaleTime()
                 .domain([new Date(endDate), new Date(startDate)])
                 .ticks((d3.timeHour, dataSlices))
-                // .ticks(timeExt.length > 5 ? (d3.timeHour, dataSlices) : (d3.timeHour, dataSlices))
+            // .ticks(timeExt.length > 5 ? (d3.timeHour, dataSlices) : (d3.timeHour, dataSlices))
 
             // let getAxis = getDynamicTimeAxis(startDate, endDate, dataSlices);
 
