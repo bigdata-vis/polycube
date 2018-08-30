@@ -406,3 +406,15 @@ Object.defineProperty(Array.prototype, 'chunk', {
         return R;
     }
 });
+
+
+function getDynamicTimeAxis(start,end,labelCount) {
+    //check if the start and end is day, month, or year
+
+    let dateArray = d3.scaleTime()
+        .domain([new Date(start), new Date(end)])
+        .ticks((d3.timeHour, labelCount))
+
+    // console.log(dateArray)
+
+}

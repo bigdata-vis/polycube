@@ -32,6 +32,7 @@
     // console.log(googleSheetName)
 
     var formatTime = d3.timeFormat("%Y");
+    let formatNewTime = d3.timeFormat("%Y");
 
     var start = "1920-01",
         end = "2000-01";
@@ -64,7 +65,6 @@
 
     };
 
-
     pCube.showLinks = function (value) {
         linksCloud.traverse(function (object) {
             object.visible = value;
@@ -72,6 +72,8 @@
     };
 
     pCube.drawElements = function (datasets2, config) {
+
+
         //set config values
         // console.log(config.layers_slices);
         dataSlices = +config.layers_slices || 8;
@@ -83,13 +85,19 @@
         var parse2 = d3.timeParse("%Y-%m-%d");
         var format2 = d3.timeFormat("%Y");
 
+
         /**
          * Clean func for Data sets 2
          *Data sets to draw point clouds
          */
         datasets2.forEach(function (d, i) {
+
+            // let testDate = moment(d.time).format();
+            // console.log(testDate);
+            d.fullDate = moment(d.time)._d;
             d.time = parse2(d.time); //parse date first and then format
             d.time = +format2(d.time);
+
             defaultData[i] = d;
         });
 
@@ -100,7 +108,14 @@
         var dateTestEx = d3.extent(datasets2, function (d) {
             return d.time;
         });
+
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
+
+        let timeExt = d3.extent(datasets2, function (d) {
+            return d.fullDate;
+        });
+
+        let yAxis = d3.scaleTime().range([-heightHalf, heightHalf]).domain(timeExt);
 
 
         /**
@@ -265,16 +280,15 @@
                     .style("opacity", 0.2)
                     .attr("fill", new THREE.Color("#ececec").getStyle());
 
-               let datapane =  div.filter(function () {  //todo: point of hiding other map items
+                let datapane = div.filter(function () {  //todo: point of hiding other map items
                     return i === 0;
                 }).classed("dataPane", true)
-                   .style('background-image', `url("${config.baselayer}")`)
-                   .style('background-color', 'transparent')
-                   .style('background-size', 'contain')
-                   .style('background-repeat', 'no-repeat')
-                   .style('background-position', 'center')
-                   .style('opacity', '0.4');
-                console.log(datapane)
+                    .style('background-image', `url("${config.baselayer}")`)
+                    .style('background-color', 'transparent')
+                    .style('background-size', 'contain')
+                    .style('background-repeat', 'no-repeat')
+                    .style('background-position', 'center')
+                    .style('opacity', '0.4');
             });
 
         /**
@@ -290,7 +304,6 @@
         /**
          * Objectify and draw segments elements
          */
-        // elements.each(setViewData);
         elements.each(addtoScene);
 
         /**
@@ -317,12 +330,11 @@
                 image.style.backgroundColor = d.color || "blue";
                 // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
                 image.style.border = "solid " + config.pointoutline || "#000000 1px";
-
                 image.className = "pointCloud";
 
-
                 var object = new THREE.CSS3DSprite(image.cloneNode());
-                object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
 
                 object.position.z = d.x;
                 object.position.x = d.y;
@@ -383,7 +395,7 @@
         drawLabels({ //Todo: fix label with proper svg
             labelPosition: {
                 x: widthHalf,//offset border
-                y: -(height / 2) + (-10),
+                y: -(height / 2),
                 z: widthHalf
             }
         });
@@ -393,12 +405,18 @@
             if (parameters === undefined) parameters = {};
             var labelCount = parameters["labelCount"] || segments; //use label count or specified parameters
 
-            var startDate = parameters["startDate"] || dateTestEx[1].toString();
-            var endDate = parameters["endDate"] || dateTestEx[0].toString();
+            // var startDate = parameters["startDate"] || dateTestEx[1].toString();
+            // var endDate = parameters["endDate"] || dateTestEx[0].toString();
+
+            var startDate = parameters["startDate"] || timeExt[1].toString();
+            var endDate = parameters["endDate"] || timeExt[0].toString();
 
             var dateArray = d3.scaleTime()
                 .domain([new Date(endDate), new Date(startDate)])
-                .ticks(dataSlices);
+                .ticks((d3.timeHour, dataSlices))
+                // .ticks(timeExt.length > 5 ? (d3.timeHour, dataSlices) : (d3.timeHour, dataSlices))
+
+            // let getAxis = getDynamicTimeAxis(startDate, endDate, dataSlices);
 
 
             var separator = height / dataSlices;
@@ -408,13 +426,22 @@
                 z: 100
             };
 
-            dateArray.forEach(function (d) {
-                let label = makeTextSprite(formatTime(d), {fontsize: 10});
+            console.log(dataSlices);
+
+
+            dateArray.forEach(function (d, i) {
+                // let label = makeTextSprite(formatTime(d), {fontsize: 10});
+                let label = makeTextSprite(moment(d).format('DD-MM-YYYY'), {fontsize: 8});
+                // label.position.set(p.x, p.y + separator, p.z);
                 label.position.set(p.x, p.y + separator, p.z);
                 label.rotation.y = 20;
-                p.y += separator; //increment y position of individual label to increase over time
+                // p.y = (i * separator) - height / 2;
+
+                p.y += separator;
+                // p.y += separator; //increment y position of individual label to increase over time
             });
         }
+
 
         /**
          * BioVis Styling
