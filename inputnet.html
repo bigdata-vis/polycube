@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
     <style>
 
         .highlighted{
@@ -183,6 +182,21 @@
     <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
+<div style="position: relative; top: 10px; left: 10px; z-index: 9999" class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button style="border-top-right-radius: 0; border-bottom-right-radius: 0" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            InputNet Cube
+        </button>
+        <div  class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="geo.html">Geo Cube</a>
+            <a class="dropdown-item" href="extdata.html">Set Cube</a>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" onclick="polyCube.default()">space-time cube</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="polyCube.juxstaPose()">juxtaposition</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="polyCube.superImpose()">superimposition</button>
+    </div>
+</div>
+
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"
@@ -244,11 +258,15 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
+
 <script src="lib/d3/d3.js"></script>
 <script src="lib/moment/min/moment.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <script src="lib/d3/topojson.min.js"></script>
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
+<!--<script src="/lib/three.js/d3.layout.force3d.js"></script>-->
+<!--<script src="node_modules/d3-force-3d/build/d3-force-3d.min.js"></script>-->
+
 <script src="js/core.js"></script>
 <script src="js/inputnet.js"></script>
 

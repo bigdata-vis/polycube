@@ -610,14 +610,16 @@
                         d3.select("#textTitle")
                             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
                                 "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
-                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                                "<span class='location'>Location : " + d.City_and_State + "</span> <br>" +
+                                    `<object style='max-width:240px' data='${d.Image_URL}'> </object>` + "<br>"
+
                             );
 
                         // d3.select("#searchLink")
                         //     .attr("href", "https://www.google.co.uk/search?tbm=isch&q=" + d.City_and_State + "+" + d.Description_from_Slide_Mount);
 
-                        d3.select("#dataImage")
-                            .attr("src", d.Image_URL);
+                        // d3.select("#dataImage")
+                        //     .attr("src", d.Image_URL);
 
                         drawPointSelectedLines(object.position);
                     };

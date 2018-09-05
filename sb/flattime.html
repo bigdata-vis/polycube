@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>three.js canvas - particles - waves</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        /*body {*/
+            /*background-color: #ffffff;*/
+            /*margin: 0px;*/
+            /*overflow: hidden;*/
+        /*}*/
+
+        /*a {*/
+            /*color: #0078ff;*/
+        /*}*/
+
+        body {
+            background-color: #193c6d;
+            filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#003073', endColorstr='#029797');
+            background-image: url(//img.alicdn.com/tps/TB1d.u8MXXXXXXuXFXXXXXXXXXX-1900-790.jpg);
+            background-size: 100%;
+            background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0, #003073), color-stop(100%, #029797));
+            background-image: -webkit-linear-gradient(135deg, #003073, #029797);
+            background-image: -moz-linear-gradient(45deg, #003073, #029797);
+            background-image: -ms-linear-gradient(45deg, #003073 0, #029797 100%);
+            background-image: -o-linear-gradient(45deg, #003073, #029797);
+            background-image: linear-gradient(135deg, #003073, #029797);
+            text-align: center;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<script src="/lib/three.js/threejs92.js"></script>
+<script src="/lib/three.js/projector.js"></script>
+<script src="//threejs.org/examples/js/renderers/CanvasRenderer.js"></script>
+<script src="//threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+<script src="/lib/stats.min.js"></script>
+<script src="/lib/three.js/OrbitControls.js"></script>
+
+<script>
+
+    var SEPARATION = 100, AMOUNTX = 10, AMOUNTY = 10;
+
+    var container, stats;
+    var camera, scene, renderer, controls;
+
+    var particles, particle, count = 0;
+
+    var mouseX = 0, mouseY = 0;
+
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+
+    let windowFullY = window.innerHeight;
+
+    init();
+    animate();
+
+    function init() {
+
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.z = 1000;
+
+        controls = new THREE.OrbitControls(camera, renderer);
+        controls.minZoom = 1200;
+        controls.maxDistance = 950;
+        controls.maxDistance = 950;
+        controls.maxPolarAngle = Math.PI; // radians
+        controls.maxPolarAngle = Math.PI / 2;
+
+        scene = new THREE.Scene();
+//        scene.background = new THREE.Color( 0xff0000 );
+
+        particles = new Array();
+
+        var PI2 = Math.PI * 2;
+        var material = new THREE.SpriteCanvasMaterial({
+
+            color: 0xe1e1e1,
+            program: function (context) {
+
+                context.beginPath();
+                context.arc(0, 0, 0.5, 0, PI2, true);
+                context.fill();
+
+            }
+
+        });
+
+//        var material = new THREE.ParticleCanvasMaterial({
+//
+//            color: 0xe1e1e1,
+//            program: function(context) {
+//
+//                context.beginPath();
+//                context.arc(0, 0, .6, 0, PI2, true);
+//                context.fill();
+//
+//            }
+//
+//        });
+
+
+        var i = 0;
+
+        for (var ix = 0; ix < AMOUNTX; ix++) {
+
+            for (var iy = 0; iy < AMOUNTY; iy++) {
+
+                particle = particles[i++] = new THREE.Sprite(material);
+                particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+                particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+                particle.position.y = -windowHalfY / 2;
+
+                scene.add(particle);
+            }
+
+        }
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setClearColor( 0xffffff, 0 );
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+//        stats = new Stats();
+//        container.appendChild( stats.dom );
+
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchmove', onDocumentTouchMove, false);
+
+        //
+
+        window.addEventListener('resize', onWindowResize, false);
+
+    }
+
+    function onWindowResize() {
+
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+    }
+
+    //
+
+    function onDocumentMouseMove(event) {
+
+        mouseX = event.clientX - windowHalfX;
+//        mouseY = event.clientY - windowHalfY;
+        mouseY = event.clientY + windowFullY;
+    }
+
+    function onDocumentTouchStart(event) {
+
+        if (event.touches.length === 1) {
+
+            event.preventDefault();
+
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+
+        }
+
+    }
+
+    function onDocumentTouchMove(event) {
+
+        if (event.touches.length === 1) {
+
+            event.preventDefault();
+
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+
+        }
+
+    }
+
+    //
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+        controls.update();
+        render();
+//        stats.update();
+
+
+    }
+
+    function render() {
+
+//        camera.position.x += ( mouseX - camera.position.x ) * .05;
+//        camera.position.z += ( - mouseY - camera.position.z) * .85;
+
+//        console.log(( - mouseY - camera.position.z ) )
+        camera.lookAt(scene.position);
+
+        var i = 0;
+
+//        for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+//
+//            for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+//
+//                particle = particles[ i++ ];
+//                particle.position.y = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) +
+//                    ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+//                particle.scale.x = particle.scale.y = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 4 +
+//                    ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 4;
+//
+//            }
+//
+//        }
+
+        renderer.render(scene, camera);
+
+        count += 0.1;
+
+    }
+
+</script>
+</body>
+</html>

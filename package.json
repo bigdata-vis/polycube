@@ -17,6 +17,5 @@
   },
   "homepage": "https://github.com/bigdata-vis/polycube#readme",
   "dependencies": {
-    "quickhull3d": "^2.0.3"
   }
 }

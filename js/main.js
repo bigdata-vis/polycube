@@ -32,4 +32,6 @@
     //
     //});
 
+    $('.dropdown-toggle').dropdown()
+
 })();

@@ -318,77 +318,99 @@
         // let forceLayout = createSimpleForcedLayout(datasets2,widthHalf,heightHalf);
         // console.log(forceLayout);
 
+        // console.log(datasets2);
+
         createSimpleForcedLayout(datasets2, widthHalf, heightHalf);
 
+        pCube.updatePC = function (datasets) {
 
-        var testElem = d3.selectAll('.map-div')
-            .data(datasets2).enter()
-            .append("div")
-            .attr("class", "map-div")
-            .each(function (d, i) {
-                var image = document.createElement('div');
+            //clear all pc on the scene
+            //clear all d3 elements in DOM
+            //clean up labels
 
-                if (d.scale) {
-                    image.style.width = (pointScale(d.scale)) + "px";
-                    image.style.height = (pointScale(d.scale)) + "px";
-                } else {
-                    image.style.width = 10 + "px";
-                    image.style.height = 10 + "px";
-                }
+            pointCloud.children = [];
+            labelCloud.children = [];
+            linksCloud.children = [];
+            // lineList = [];
 
-                image.style.backgroundColor = d.color || "blue";
-                // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
-                image.style.border = "solid " + config.pointoutline || "#000000 1px";
-                image.className = "pointCloud";
+            // glbox.children = [];
 
-                var object = new THREE.CSS3DSprite(image.cloneNode());
-                // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
-                object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
+            d3.selectAll('.pointCloud').remove();
+            d3.selectAll('.set-label').classed('hide', true);
 
-                object.position.z = d._x;
-                object.position.x = d._y;
+            var testElem = d3.selectAll('.pointCloud')
+                .data(datasets).enter()
+                // .append("div")
+                // .attr("class", "map-div")
+                .each(function (d, i) {
+                    var image = document.createElement('div');
+                    if (d.scale) {
+                        image.style.width = (pointScale(d.scale)) + "px";
+                        image.style.height = (pointScale(d.scale)) + "px";
+                    } else {
+                        image.style.width = 10 + "px";
+                        image.style.height = 10 + "px";
+                    }
 
+                    image.style.backgroundColor = d.color || "blue";
+                    // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
+                    image.style.border = "solid " + config.pointoutline || "#000000 1px";
+                    image.className = "pointCloud";
 
-                if (config.auto_layout === 'TRUE' || config.auto_layout === 'true') {
-                    object.position.z = d.x;
-                    object.position.x = d.y;
-                }
+                    var object = new THREE.CSS3DSprite(image.cloneNode());
+                    // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
+                    object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
 
-                object.name = "pointCloud"; //todo: remove later
-                object.element.onmouseover = function () {
-                    //clean func
-                    d3.selectAll('.highlighted').classed('highlighted', false);
-
-                    let self = d3.select(this).classed('highlighted', true);
-
-                    console.log(d);
-                    d3.select("#textTitle")
-                        .html("<span></span>" + moment(d.fullDate).format() + "<br>" +
-                            d.description + "<br>" + "<br>" +
-                            `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
-                            // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
-                        );
+                    object.position.z = d._x;
+                    object.position.x = d._y;
 
 
-                };
-                object.userData = d;
+                    if (config.auto_layout === 'TRUE' || config.auto_layout === 'true') {
+                        object.position.z = d.x;
+                        object.position.x = d.y;
+                    }
 
-                //add label
-                if (d.label) {
-                    let nodelabel = pointLabel(d.label, {fontsize: 10});
-                    nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
-                }
+                    object.name = "pointCloud"; //todo: remove later
+                    object.element.onmouseover = function () {
+                        //clean func
+                        d3.selectAll('.highlighted').classed('highlighted', false);
+                        let self = d3.select(this).classed('highlighted', true);
 
-                /**
-                 * populate line list
-                 * split the target links
-                 */
-                lineList.push(object);
+                        // console.log(d);
+                        d3.select("#textTitle")
+                            .html("<span></span>" + moment(d.fullDate).format() + "<br>" +
+                                d.description + "<br>" + "<br>" +
+                                `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
+                                // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
+                            );
 
-                pointCloud.add(object);
-                // }
 
-            });
+                    };
+                    object.userData = d;
+
+                    //add label
+                    if (d.label) {
+                        let nodelabel = pointLabel(d.label, {fontsize: 10});
+                        nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
+                    }
+
+                    /**
+                     * populate line list
+                     * split the target links
+                     */
+                    lineList.push(object);
+                    pointCloud.add(object);
+                    // }
+
+                });
+
+        };
+        pCube.updatePC(datasets2);
+        
+        // setTimeout(function () {
+        //     pCube.updatePC(datasets2)
+        // }, 2000);
+        
 
         function addtoScene(d, i) {
 
@@ -406,6 +428,38 @@
             //add new object test
         }
 
+        function createSimpleForcedLayout(group_list, widthHalf, heightHalf) {
+
+            let center_force = d3.forceCenter(0, 0);
+            let radius = 10;
+
+            group_list.reverse();
+
+            let simulation = d3.forceSimulation()
+                .force('charge_force', d3.forceManyBody())
+                .force('center_force', center_force)
+                .force('box_force', box_force)
+                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+                    return radius
+                }).iterations(2))
+                .nodes(group_list)
+                .on("end", computeReadability);
+
+            function box_force() {
+                for (let i = 0, n = group_list.length; i < n; ++i) {
+                    curr_node = group_list[i];
+                    curr_node.x = Math.max(radius, Math.min(widthHalf - radius, curr_node.x));
+                    curr_node.y = Math.max(radius, Math.min(heightHalf - radius, curr_node.y));
+                }
+            }
+            // simulation.nodes(group_list);
+            function computeReadability () {
+                let nodes = simulation.nodes();
+                sceneUpdate(nodes);
+            }
+
+            return group_list;
+        }
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
@@ -474,6 +528,16 @@
         pCube.render();
     };
 
+    //scene update
+    function sceneUpdate(data) {
+
+        lineList = [];
+
+        pCube.updatePC(data)
+        pCube.drawLines();
+
+    }
+    
     /**
      * Default STC Layout Fallback function
      *
@@ -484,7 +548,7 @@
 
         var segments = defaultData.length;
 
-        var interval = height / segments; //height/segments
+        var interval = height / dataSlices;
 
         var duration = 2500;
         TWEEN.removeAll();
@@ -527,8 +591,6 @@
 
                 segCounter++;
 
-                console.log(interval);
-
                 var posTween = new TWEEN.Tween(object.position)
                     .to({
                         x: 0,
@@ -537,7 +599,6 @@
                     }, duration)
                     .easing(TWEEN.Easing.Sinusoidal.InOut)
                     .start();
-
 
                 var rotate = new TWEEN.Tween(object.rotation)
                     .to({x: rot[2][0], y: rot[2][1], z: rot[2][2]}, duration)
@@ -679,6 +740,8 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        WGLRenderer.setSize(window.innerWidth, window.innerHeight);
+
         pCube.render()
     };
 
@@ -851,7 +914,7 @@
 
         lineList.forEach(function (data) {
             if (data.userData.target) {
-                let targets = data.userData.target.split(',');
+                let targets = data.userData.target.split(';') || data.userData.target.split(',');
                 let source = data.userData.id;
                 // console.log(targets)
                 targets.forEach(function (d) {
@@ -877,7 +940,6 @@
             // console.log(d);
             addLineToScene(d)
         });
-
 
         function addLineToScene(data) {
 

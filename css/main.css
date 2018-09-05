@@ -238,15 +238,15 @@ input:focus {
 }
 
 button.button  {
-    background-color: #999a9a; /* Green */
-    border: none;
-    color: white;
-    width: 150px;
-    /*padding: 15px 32px;*/
-    /*text-align: center;*/
-    /*text-decoration: none;*/
-    /*display: inline-block;*/
-    font-size: 12px;
+    /*background-color: #999a9a; !* Green *!*/
+    /*border: none;*/
+    /*color: white;*/
+    /*width: 150px;*/
+    /*!*padding: 15px 32px;*!*/
+    /*!*text-align: center;*!*/
+    /*!*text-decoration: none;*!*/
+    /*!*display: inline-block;*!*/
+    /*font-size: 12px;*/
 
     position: relative;
     top: 10px;

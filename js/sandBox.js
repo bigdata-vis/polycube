@@ -68,6 +68,7 @@
 
     //clipping
     let clipPlane1, clipPlane2;
+    let groupofLabelGroups = new THREE.Group();
 
     pCube.fixedSetCoordinates = function (datasets) {
 
@@ -127,7 +128,11 @@
 
             // console.log(+format2(parse4(d.Date)));
 
-            d.time = parse4(d.Date);
+            d.time = moment(d.Date)._d;
+
+            // d.time = parse4(d.Date);
+            // console.log(d.fullDate)
+            // console.log(d.time)
 
             //get full date
             let full_date = d.time;
@@ -136,7 +141,6 @@
 
             //get unix
             d.unix = +(full_date / 1000).toFixed(0);
-
 
             //data segmentation
             /**
@@ -197,7 +201,6 @@
         var timeLinear = d3.scaleLinear().domain(dateTestEx).range([-heightHalf, heightHalf]);
 
         let timeLinearUnix = d3.scaleLinear().domain(dateUnixEx).range([-heightHalf, heightHalf]);
-
 
         timeLinearG = timeLinear;
 
@@ -265,7 +268,6 @@
         // WGLRenderer.domElement.style.zIndex = 1;
         WGLRenderer.domElement.style.top = 0;
         document.body.appendChild(WGLRenderer.domElement);
-
 
         /**CSS renderer
          *
@@ -405,7 +407,7 @@
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
 
-       let segTest = d3.nest()
+        let segTest = d3.nest()
             .key(function (d) {
                 return timeRage(d.time, dateTestEx[0], dateTestEx[1], 5);
                 // return d.ts;
@@ -418,21 +420,6 @@
             .sort(function (a, b) {
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
-
-
-       console.log(segTest);
-       console.log(dataBySeg);
-
-
-        // console.log(segDataGroups);
-
-        // /**
-        //  * push segmented data to global variable
-        //  * @type {any}
-        //  */
-        // segmentedData = dataBySeg;
-
-        // console.log(segDataGroups);
 
         /**
          *Create Div holders for the segments
@@ -496,20 +483,6 @@
                 .each(function (data, i) { //time layers :ral
                     simulation.nodes(data.values);
 
-                    // push first set of largest array layers position to the origposition to be used by the rest of the cube
-                    // let maxArray = segDataGroups.map(function (a) {
-                    //     return a.values.length;
-                    // }).indexOf(Math.max.apply(Math, segDataGroups.map(function (a) {
-                    //     return a.values.length;
-                    // })));
-                    //
-                    // maxArray = segDataGroups[maxArray].values;
-                    //
-                    // if (i === 0) {
-                    //     // console.log(maxArray);
-                    //     originalPositions.push(maxArray);
-                    // }
-
                     data.values.forEach(function (data) { // data groups :ral
                         colorList.push(data.key);
                         allGroups.push(data);
@@ -535,12 +508,7 @@
                         circle.position.x = data.y * getRadScale(7);
                         circle.position.z = data.x * getRadScale(7);
 
-                        // circle.position.y = (interval * i) - interval - interval;
                         circle.position.y = (interval * i) - heightHalf;
-                        // circle.position.y = (interval * i);
-                        // circle.position.y = (interval * i < 0) ? (interval * i) - heightHalf :(interval * i) + heightHalf;
-                        // let value = (((interval * i) - heightHalf) === 0) ? (interval * i) + heightHalf : (interval * i) - heightHalf;
-                        // console.log((interval * i) - heightHalf);
 
                         circle.updateMatrixWorld();
 
@@ -561,7 +529,6 @@
 
                         newData.forEach(function (d) { //points
 
-                            // console.log(d);
 
                             var image = document.createElement('div');
                             var min = -50;
@@ -596,11 +563,12 @@
                                 d3.select("#textTitle")
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
                                         "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
-                                        "<span class='location'>Date : " + d.data.time + "</span> <br>"
-                                        // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                                        "<span class='location'>Date : " + d.data.time + "</span> <br>" +
+                                            `<object style='max-width:240px' data='${d.data.Image_URL}'> </object>` + "<br>"
                                     );
-                                d3.select("#dataImage")
-                                    .attr("src", d.data.Image_URL);
+
+                                // d3.select("#dataImage")
+                                //     .attr("src", d.data.Image_URL);
                             };
                             object.element.onmouseout = function () {
                                 tooltip.transition()
@@ -1030,7 +998,6 @@
 
         let segmentLayers = elements.selectAll('svg');
         let offSetCounter = 0;
-        let groupofLabelGroups = new THREE.Group();
         segmentLayers.each(function (d) {
             //console.log(d);
             // let elm = this;
@@ -1045,9 +1012,6 @@
                 let key = data;
 
                 superLayerPos.forEach(data => { //todo: fix array length issues
-
-                    // let layers =  d3.select(elm)
-                    //      .append('g');
 
                     if (key.key === data.key) {
                         let label = createNewSpriteLabel(data.key);
@@ -1074,6 +1038,7 @@
                             .style("fill", '#dcdcdc')
                             .style("stroke", '#dcdcdc')
                             .style("transform", 'translateY(100px)');
+
                         elm.append("circle")
                             .attr("cx", function (d, i) {
                                 key.x = (data.x * 15) + widthHalf;
@@ -1087,8 +1052,7 @@
                                 return key.values.length / 1.7;
                             })
                             // .attr("fill", colorScale(key.key))
-                            // .attr("fill", '#dcdcdc')
-                            .attr("fill", '#d9d9d9')
+                            .attr("fill", '#ffffff')
                             .each(function (d) {
                                 let circle = d3.select(this).append('g');
                                 // let cx = circle.attr('cx')
@@ -1121,24 +1085,28 @@
                                         })
                                 })
 
-                                //
-                                // key.values.forEach(d =>{
-                                //
-                                //     elm.append("circle")
-                                //         .attr("cx", function (d, i) {
-                                //             return cx;
-                                //             // return randomSpherePoint(cx,cy,0,rad)[0];
-                                //         })
-                                //         .attr("cy", function (d, i) {
-                                //             return cy;
-                                //             // return randomSpherePoint(cx,cy,0,rad)[1];
-                                //         })
-                                //         .attr("r", function (d, i) {
-                                //             return 5;
-                                //         })
-                                //         .attr("fill", 'blue')
-                                // })
                             });
+
+
+                        elm.append('text')
+                            .attr("x", function (d, i) {
+                                key.x = (data.x * 15) + widthHalf;
+                                return key.x - 20;
+                            })
+                            .attr("y", function (d, i) {
+                                key.y = (data.y * 15) + heightHalf;
+                                return key.y - 20;
+                            })
+                            .text(function (d) {
+                                // console.log(data.key);
+                                return data.key;
+                            })
+                            .style("font-size", '15px')
+                            .attr("font-family", "Georgia")
+                            .style("fill", '#c5c6c6')
+                            .style("stroke", '#c5c6c6')
+
+                        // fontsize: 32, fontface: "Georgia",
 
                     }
                 });
@@ -1149,20 +1117,19 @@
             //append circle from values to each element
         });
 
-        let gap = 100;
-        groupofLabelGroups.children.forEach((labelGroup, i) => {
-            if (i !== 0) {
-                labelGroup.children.forEach(label => {
-                    label.translateX(gap);
-                });
-                gap += 50;
-            }
-        });
-        groupofLabelGroups.translateX(-1000);
-        setTimeout(function () {
-            scene.add(groupofLabelGroups);
-        }, 2750);
-
+        // let gap = 100;
+        // groupofLabelGroups.children.forEach((labelGroup, i) => {
+        //     if (i !== 0) {
+        //         labelGroup.children.forEach(label => {
+        //             label.translateX(gap);
+        //         });
+        //         gap += 50;
+        //     }
+        // });
+        // groupofLabelGroups.translateX(-1000);
+        // setTimeout(function () {
+        //     scene.add(groupofLabelGroups);
+        // }, 2750);
 
         //camera movement
         var tween = new TWEEN.Tween({
@@ -1202,13 +1169,16 @@
         var duration = 2500;
         TWEEN.removeAll();
 
-
         /**Clean func section
          * group points
          */
         // hide groups
         d3.selectAll(".circle_elements")
             .classed("hide", true);
+
+        //hide labels in JP
+        groupofLabelGroups.visible = false;
+        console.log(groupofLabelGroups);
 
         //show glbox
         WGLScene.getObjectByName("glbox").visible = true;
@@ -1935,7 +1905,7 @@
         //     {x: 585.8514470770385, y: -500, z: 462.63485180047155}
         //     ];
 
-       let points = [
+        let points = [
             {x: 1.6832052564318825, y: -750, z: 745.7610455207309},
             {x: 22.525934655511637, y: -625, z: 817.2658513593152},
             {x: 10.926396352265327, y: -500, z: 768.2735165078444},
@@ -1946,11 +1916,11 @@
             {x: -3.352625995710384, y: 125, z: 756.2029992547223},
             {x: 9.198981461862266, y: 250, z: 755.2344637184763},
             {x: 5.696166308535539, y: 375, z: 782.2515003713079}
-            ];
+        ];
 
-        for (let i=0; i<points.length; i++) {
+        for (let i = 0; i < points.length; i++) {
 
-            setTimeout( function timer(){
+            setTimeout(function timer() {
                 var tween = new TWEEN.Tween({
                     x: camera.position.x,
                     y: camera.position.y,
@@ -1973,7 +1943,7 @@
 
                 // alert("point reached");
 
-            }, i*3000 );
+            }, i * 3000);
 
         }
 
