@@ -991,7 +991,6 @@
                 //target
                 geometry.vertices.push(new THREE.Vector3(data.target.position.x, data.target.position.y, data.target.position.z));
             }
-
             var line = new THREE.Line(geometry, material);
 
             //directed lines only
