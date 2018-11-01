@@ -10,8 +10,7 @@
     <script src="lib/three.js/CSS3DRenderer.js"></script>
     <script src="lib/three.js/QuickHull.js"></script>
     <script src="lib/three.js/ConvexGeometry.js"></script>
-    <!--<script src="lib/csg.js"></script>-->
-    <!--<script src="lib/ThreeCSG.js"></script>-->
+    <script src="lib/three.js/LineGeometry.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <style>
         .tooltip {
@@ -65,10 +64,10 @@
     space-time cube
 </button>
 
-<button class="button" type="button"
-        onclick="polyCube.juxstaPose()">
-    juxtaposition
-</button>
+<!--<button class="button" type="button"-->
+<!--onclick="polyCube.juxstaPose()">-->
+<!--juxtaposition-->
+<!--</button>-->
 
 <button class="button" type="button"
         onclick="polyCube.superImpose()"> superimposition
@@ -106,6 +105,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
 <script src="lib/d3/topojson.min.js"></script>
 <!--<script src="lib/moment.js"></script>-->
+<script src="lib/moment/min/moment.min.js"></script>
+
 <!--<script src="lib/moment-range.js"></script>-->
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
@@ -129,7 +130,8 @@
 
             //check to remove lat and long data
 
-            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
+//            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
+            var newData = data.slice(0, 1000); //todo: slice arrray according to date range
 //            var newData = data;
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -260,8 +262,9 @@
         });
 
         gui.add(params, 'setsLayout', ['force', 'diagonal', 'circle', 'matrix']).onChange(d => {
-            console.log(d);
+//            console.log(d);
             polyCube.updateSupelayer(d);
+
         }).name("Sets Layouts");
 
         var f1 = gui.addFolder('Theme');
@@ -297,6 +300,38 @@
             }
         });
 
+        //label actions
+//        d3.selectAll(".set-label").on('mouseover', function () {
+////            console.log(this.innerHTML);
+////            polyCube.setsUnion(this.innerHTML)
+//
+//        }).on('mouseout', function () {
+//            //show all data
+//            d3.selectAll(".pointCloud")
+//                .style("display", "");
+//        });
+
+        let clicksCount = 0,
+        listCont = [];
+
+        d3.selectAll(".set-label").on('click', function (selectionsCount = 2) {
+
+            //increase click count
+            clicksCount++;
+            listCont.push(this.innerHTML);
+
+            if (clicksCount === selectionsCount) {
+                console.log(this.innerHTML);
+                console.log(listCont);
+
+//                polyCube.setsUnion(this.innerHTML)
+                polyCube.setsUnion(listCont)
+
+                //reverse click count
+                clicksCount = 0;
+                listCont = []
+            }
+        })
     }
 
 </script>

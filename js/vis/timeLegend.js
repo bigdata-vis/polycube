@@ -21,9 +21,10 @@
         // .domain([0, 300]);
             .domain(window.dateTimeEx);
 
-        var legendheight = 400,
-            legendwidth = 80,
-            margin = {top: 10, right: 60, bottom: 10, left: 2};
+        // var legendheight = 400,
+        var margin = {top: 10, right: 60, bottom: 10, left: 2},
+            legendheight = window.innerHeight - (margin.top *2),
+            legendwidth = 80;
 
         var canvas = d3.select(selector_id)
             .style("height", legendheight + "px")

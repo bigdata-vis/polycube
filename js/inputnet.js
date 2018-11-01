@@ -406,11 +406,11 @@
 
         };
         pCube.updatePC(datasets2);
-        
+
         // setTimeout(function () {
         //     pCube.updatePC(datasets2)
         // }, 2000);
-        
+
 
         function addtoScene(d, i) {
 
@@ -435,11 +435,12 @@
 
             group_list.reverse();
 
+
             let simulation = d3.forceSimulation()
-                .force('charge_force', d3.forceManyBody())
+                .force('charge_force', d3.forceManyBody().strength(40))
                 .force('center_force', center_force)
                 .force('box_force', box_force)
-                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
+                .force('collision', d3.forceCollide().strength(40).radius(function (d) {
                     return radius
                 }).iterations(2))
                 .nodes(group_list)
@@ -452,14 +453,16 @@
                     curr_node.y = Math.max(radius, Math.min(heightHalf - radius, curr_node.y));
                 }
             }
+
             // simulation.nodes(group_list);
-            function computeReadability () {
+            function computeReadability() {
                 let nodes = simulation.nodes();
                 sceneUpdate(nodes);
             }
 
             return group_list;
         }
+
         /**
          * Draw Timeline and Labels
          * todo: Redo timeLine
@@ -480,7 +483,6 @@
 
             // var startDate = parameters["startDate"] || dateTestEx[1].toString();
             // var endDate = parameters["endDate"] || dateTestEx[0].toString();
-
             var startDate = parameters["startDate"] || timeExt[1].toString();
             var endDate = parameters["endDate"] || timeExt[0].toString();
 
@@ -533,11 +535,11 @@
 
         lineList = [];
 
-        pCube.updatePC(data)
+        pCube.updatePC(data);
         pCube.drawLines();
 
     }
-    
+
     /**
      * Default STC Layout Fallback function
      *
@@ -918,9 +920,11 @@
                 let source = data.userData.id;
                 // console.log(targets)
                 targets.forEach(function (d) {
+                    // console.log(data.userData);
                     tempArr.push({
                         source: {position: data.position, id: source},
-                        target: {position: getTargetPos(d, lineList), id: d}
+                        target: {position: getTargetPos(d, lineList), id: d},
+                        directed: data.userData.directed
                     })
                 });
             }
@@ -946,14 +950,29 @@
             /** Threejs Material decl to be used later for lines implementation
              *
              * @type {any}
+             * https://github.com/spite/THREE.MeshLine
              */
             var material = new THREE.LineBasicMaterial({
-                color: globalConfig.linecolour || "#d0d0d0",
-                linewidth: +globalConfig.linewidth || 2,
+                // color: globalConfig.linecolour || "0x0000ff",
+                linewidth: +globalConfig.linewidth || 5,
+                needsUpdate: true,
+                vertexColors: THREE.VertexColors,
                 linecap: 'round', //ignored by WebGLRenderer
                 linejoin: 'round' //ignored by WebGLRenderer
             });
-            material.blending = THREE.NoBlending;
+
+            var directedMat = new THREE.LineBasicMaterial({
+                color: globalConfig.linecolour || "0x0000ff",
+                linewidth: +globalConfig.linewidth || 5,
+                needsUpdate: true,
+                vertexColors: THREE.VertexColors,
+                linecap: 'round', //ignored by WebGLRenderer
+                linejoin: 'round' //ignored by WebGLRenderer
+            });
+
+            // material.vertexColors = THREE.VertexColors;
+            // material.needsUpdate = true;
+
 
             /**
              * WebGl Scene
@@ -961,21 +980,31 @@
              * @type {any}
              */
             var geometry = new THREE.Geometry();
+            geometry.colors = [new THREE.Color(), new THREE.Color(), new THREE.Color(), new THREE.Color()];
+            geometry.colors[0] = new THREE.Color('blue')
+            geometry.colorsNeedUpdate = true;
 
-            // console.log(data);
-
+            // console.log(geometry);
             if (data.source.position && data.target.position) {
                 //source
                 geometry.vertices.push(new THREE.Vector3(data.source.position.x, data.source.position.y, data.source.position.z));
-
                 //target
                 geometry.vertices.push(new THREE.Vector3(data.target.position.x, data.target.position.y, data.target.position.z));
             }
 
             var line = new THREE.Line(geometry, material);
+
+            //directed lines only
+            if (data.directed === 'TRUE' || data.directed === 'true') {
+                // material.color = globalConfig.linecolour;
+                line = new THREE.Line(geometry, directedMat);
+            }
+
+
             // glbox.add(line);
             linksCloud.add(line);
         }
+
     };
 
     /**

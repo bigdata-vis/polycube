@@ -564,7 +564,7 @@
                                     .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
                                         "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
                                         "<span class='location'>Date : " + d.data.time + "</span> <br>" +
-                                        `<object style='max-width:240px' data='${d.data.Image_URL}'> </object>` + "<br>"
+                                            `<object style='max-width:240px' data='${d.data.Image_URL}'> </object>` + "<br>"
                                     );
 
                                 // d3.select("#dataImage")
@@ -591,13 +591,6 @@
                             stc.position.z = object.position.z;
                             object['STC'] = stc;
 
-                            //set sets
-                            if (d.set){
-                                let sets = [];
-                                sets.push(d.set)
-                                circle.userData.sets = sets;
-                            }
-
                             //add object to group
                             group.add(object);
 
@@ -611,6 +604,74 @@
                             pointCloud.add(object);
                         })
 
+                        // data.values.forEach(function (d) { //points
+                        //     var image = document.createElement('div');
+                        //     var min = -50;
+                        //     image.style.width = 8 + "px";
+                        //     image.style.height = 8 + "px";
+                        //     image.className = "pointCloud";
+                        //     const stc = new THREE.Object3D();
+                        //
+                        //     var object = new THREE.CSS3DSprite(image);
+                        //     // var object = new THREE.CSS3DObject(image);
+                        //     // object.position.y = timeLinear(d.time); //for unix date
+                        //     // object.position.y = (interval * i) - interval - interval; //todo: height + scale + time to determine y axis
+                        //     // object.position.z = Math.random() * (data.values.length / 3 - (-90)) + (-90);
+                        //     // object.position.x = Math.random() * (data.values.length / 3 - (min)) + (min);
+                        //
+                        //     const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius, d.Genre_1);
+                        //     // console.log(randomSpherePoint(group.position.x,group.position.y,group.position.z, group.radius));
+                        //     object.position.x = objPos[0];
+                        //     object.position.y = objPos[1];
+                        //     // object.position.y = timeLinearUnix(d.unix);
+                        //     // object.position.y = timeLinear(d.time);
+                        //     object.position.z = objPos[2];
+                        //
+                        //     // console.log(d);
+                        //
+                        //     object.name = "pointCloud"; //todo: remove later
+                        //
+                        //     // object.element.onclick = function () {
+                        //     object.element.onmouseover = function () {
+                        //
+                        //         //clean point hull data
+                        //         // console.log(hullGroup)
+                        //
+                        //         // console.log(d.Genre_1);
+                        //         d3.select("#textTitle")
+                        //             .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                        //                 "<span class='date'>Group : " + d.Genre_1 + " </span> <br>" +
+                        //                 "<span class='location'>Date : " + d.time + "</span> <br>"
+                        //                 // "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                        //             );
+                        //         d3.select("#dataImage")
+                        //             .attr("src", d.Image_URL);
+                        //     };
+                        //
+                        //     object.element.ondblclick = (() => {
+                        //         console.log(d);
+                        //
+                        //         polyCube.drawHull(d.Genre_1); //draw each group on click
+                        //     });
+                        //
+                        //     object["newData"] = d;
+                        //     stc.position.x = object.position.x;
+                        //     stc.position.y = object.position.y; // for unix
+                        //     stc.position.z = object.position.z;
+                        //     object['STC'] = stc;
+                        //
+                        //     //add object to group
+                        //     group.add(object);
+                        //
+                        //     lineList.push(object.position);
+                        //
+                        //     //onlick object
+                        //
+                        //     /**
+                        //      * Add point clouds to pointCloud object created not scene so we can modify and display its rotation and position
+                        //      */
+                        //     pointCloud.add(object);
+                        // })
                     });
 
                 });
@@ -659,6 +720,7 @@
                     });
                 });
             });
+
             pCube.updatePC(segDataGroups);
         };
         pCube.updateSupelayer();
@@ -814,6 +876,9 @@
         pCube.render()
     };
 
+    // requestAnimationFrame(function () {
+    //     console.log('completed scene')
+    // });
 
     /**
      * Juxtaposition function
@@ -1698,13 +1763,18 @@
 
     //hull implementation
     pCube.drawHull = function (group = "Identification photographs") {
+
         //clean func
         tempArr = [];
         //get hall data
         let count = 0;
+
         groupSets.children.forEach(d => {
+            // console.log(d.name);
+            // console.log(group);
             if (d.name === group) {
                 let object = d.getObjectByName(group);
+                // console.log(object);
 
                 //add geometry points to points vertices
                 var array_aux = [];
@@ -1719,9 +1789,15 @@
 
         tempArr.forEach((d, i) => {
             let meshData;
+
             if (i !== tempArr.length - 1) { //if to deal with last component structure
                 meshData = tempArr[i].concat(tempArr[i + 1]);
                 addMeshToScene(meshData)
+            } else { //to show the cone ontop of the structure
+                // meshData = tempArr[i].concat(new THREE.Vector3(tempArr[i][0].x, (heightHalf / 1.5), tempArr[i][0].z));
+                // addMeshToScene(meshData);
+                // console.log(tempArr[i][0].x);
+                // console.log(tempArr[i]);
             }
         });
 
@@ -1761,47 +1837,6 @@
             pCube.drawHull(d.key)
         })
     };
-
-    pCube.setsUnion = function (selected) {
-        let groupList = [];
-        let unionList = [];
-
-        // groupList.push("Identification photographs");
-        // groupList.push("Landscape photographs");
-        // groupList.push(selected);
-        groupList = selected;
-
-        pointCloud.children.forEach(d => {
-            d.element.style.display = 'none';
-
-            groupList.forEach(function (group) {
-                if (d.newData.data.Genre_1 === group || d.newData.data.Genre_2 === group) {
-                // if (d.newData.data.Genre_2 === group) {
-                    d.element.style.display = '';
-                    // console.log(d);
-                }
-            });
-        });
-
-         // console.log(d3.selectAll(".set-label").data())
-
-        // Point Based Sets function
-        // console.log(pointCloud);
-
-        // pCube.drawHull();
-
-        //on click add new group list
-        // keyword search for set1 and set2 nodes
-        // remove all mesh
-        //add set1 and set2 nodes in array
-        //draw new mesh with set1 and set2 array
-        //redraw input
-    };
-
-    // setTimeout(function () {
-    //     pCube.setsUnion();
-    // }, 1000);
-
 
     pCube.hideAllHull = function () {
         hullGroup.visible = false;
