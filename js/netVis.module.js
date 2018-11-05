@@ -4,6 +4,7 @@ let _camera, _scene,_renderer, _controls;
 let _raycaster;
 let _mouse;
 let _objects = [];
+let _objects_map = [];
 
 let _data;
 let _data_map = new Map();
@@ -119,6 +120,8 @@ function init() {
     //distributeRandomCubes();
     //distributeCubesByData();
     distributeCubesInTubeByData(false);
+    AddObjectsToMap();
+    distributeEdges();
 
     _raycaster = new THREE.Raycaster();
     _mouse = new THREE.Vector2();
@@ -217,6 +220,48 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
         _scene.add(object);
         _objects.push(object);
     });//end for
+}
+
+/*
+    Edge Bundles are using "spline curves":
+    paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4015425
+    spline curve doc: https://threejs.org/docs/#api/en/extras/curves/SplineCurve
+*/
+function distributeEdges(){
+    
+    //TODO
+    
+    // _objects.forEach(o=>{
+    //     console.log(o.info);
+    // });    
+    //console.log(_objects[0].info.target_nodes);    
+
+    //console.log(_objects_map[ +_objects[0].info.target_nodes[0] ].position);
+    // console.log(+_objects[0].info.target_nodes[0]);
+    // console.log(_objects);
+    
+
+    // let temp_first_edge_from_object0_target_position = _objects_map[ +_objects[0].info.target_nodes[0] ].position;
+    // let positions = [_objects[0].position, temp_first_edge_from_object0_target_position];
+
+    // var geometry = new THREE.BufferGeometry();
+    // var curve = new THREE.CatmullRomCurve3( positions );
+    // curve.curveType = 'catmullrom';
+    // curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
+    //     color: 0xff0000,
+    //     opacity: 0.35
+    // } ) );
+
+    // let splines = {}
+    // splines.uniform = curve;
+
+    // _scene.add(curve);
+}
+
+function AddObjectsToMap(){
+    _objects.forEach(o=>{
+        _objects_map[o.info.id] = o;
+    });
 }
 
 function getBiggestLayerAmount(distribution_count){
