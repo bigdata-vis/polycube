@@ -117,7 +117,8 @@ function init() {
     _scene.background = new THREE.Color( 0xf0f0f0 );
 
     //distributeRandomCubes();
-    distributeCubesByData();
+    //distributeCubesByData();
+    distributeCubesInTubeByData(false);
 
     _raycaster = new THREE.Raycaster();
     _mouse = new THREE.Vector2();
@@ -152,7 +153,7 @@ function distributeRandomCubes(){
 }
 
 
-function distributeCubesByData(date){
+function distributeCubesByData(){
     let cube_size = 10;
     let geometry = new THREE.BoxBufferGeometry( cube_size, cube_size, cube_size );
     let distribution_count = [];
@@ -167,15 +168,63 @@ function distributeCubesByData(date){
 
         object.position.x = pos_x * cube_size;        
         object.position.z = 0;
-
         object.position.y = dist_pos * cube_size;
-
         object.info = e;
 
         distribution_count[dist_pos]++;
         _scene.add(object);
         _objects.push(object);
     });//end for
+}
+
+function distributeCubesInTubeByData(isUniformlyDistributed){
+    let cube_size = 10;
+    let geometry = new THREE.BoxBufferGeometry( cube_size, cube_size, cube_size );
+    let distribution_count = [];
+    for(let i=0; i<_amount_of_layers; i++){ distribution_count[i]=0; }    
+
+    //count positions according to amount of layers
+    _data.forEach(e => {              
+        distribution_count[getPositionInDistribution(e)]++;
+    });//end for
+
+    let biggest_layer_amount = getBiggestLayerAmount(distribution_count);
+
+    //distribute elements in a circular layout
+    let saved_distribution_count = distribution_count.slice(0);//copy array
+    for(let i=0; i<_amount_of_layers; i++){ distribution_count[i]=0; }  
+    let r = biggest_layer_amount*cube_size/4;
+    let current_pos = 0;
+    let fraction = (2* Math.PI)/biggest_layer_amount;
+
+    _data.forEach(e => { 
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getColorByCategory(e.category_1),
+                                                                              opacity: 0.5 } ) );
+        
+        let dist_pos = getPositionInDistribution(e);        
+        let order_in_layer_pos = distribution_count[dist_pos];//get id
+        
+        if(isUniformlyDistributed){fraction = (2* Math.PI)/saved_distribution_count[dist_pos];} //uniform circular distribution
+        else{ fraction = (2* Math.PI)/biggest_layer_amount; } //sequential circular distribution        
+        current_pos = order_in_layer_pos * fraction;
+
+        object.position.x = r*Math.cos(current_pos);        
+        object.position.z = r*Math.sin(current_pos);
+        object.position.y = dist_pos * cube_size;
+        object.info = e;
+
+        distribution_count[dist_pos]++;
+        _scene.add(object);
+        _objects.push(object);
+    });//end for
+}
+
+function getBiggestLayerAmount(distribution_count){
+    let biggest_amount = 0;
+    distribution_count.forEach(e=>{
+        if(e>biggest_amount) biggest_amount = e;
+    });
+    return biggest_amount;
 }
 
 function onWindowResize() {
