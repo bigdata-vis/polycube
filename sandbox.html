@@ -564,17 +564,17 @@
 //        console.log(window.data);
 
         let arrayGrp;
-        window.segDataGroups.forEach(function (key) {
-            if(key.key === currentDate){
-//                console.log(key.values);
-                key.values.forEach(function (grp) {
-                    if(grp.key === currentGrp){
-//                        console.log(grp.values)
-                        arrayGrp = grp.values;
-                    }
-                })
-            }
-        });
+//        window.segDataGroups.forEach(function (key) {
+//            if(key.key === currentDate){
+////                console.log(key.values);
+//                key.values.forEach(function (grp) {
+//                    if(grp.key === currentGrp){
+////                        console.log(grp.values)
+//                        arrayGrp = grp.values;
+//                    }
+//                })
+//            }
+//        });
         //update preview
 
         //highlight selection id
@@ -591,6 +591,10 @@
                     <span class='location'>Date : ${moment(highlight.Date).format('DD - MMMM - YYYY')}  </span> <br>
                     <object data-date="${highlight.Date}" data-group="${highlight.Genre_1}" data-id="${highlight.IU_Archives_Number}"   class='dataImage' style='max-width:240px' data='${highlight.Image_URL}'> </object> <br>`
             );
+
+
+        //move camera
+        polyCube.pointOfInterest(currentId)
     }
 
 

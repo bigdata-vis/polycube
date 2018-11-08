@@ -1937,56 +1937,85 @@
         // });
     };
 
-    pCube.pointOfInterest = function () {
+    pCube.pointOfInterest = function (id='7841') {
 
         //camera movement
+        let pointClouds = scene.getObjectByName("pointCloud").children;
+        //
+        pointClouds.forEach(function (d) {
+            // console.log(d.newData.data.IU_Archives_Number);
+            // console.log(d);
+            let point;
+
+            if (id === d.newData.data.IU_Archives_Number) {
+                point = d.position;
+
+                // console.log(point.x)
+
+                    var tween = new TWEEN.Tween({
+                        x: camera.position.x,
+                        y: camera.position.y,
+                        z: camera.position.z
+                    })
+                        .to({
+                            x: point.x,
+                            y: point.y,
+                            z: point.z + 200
+                        }, 1600)
+                        .easing(TWEEN.Easing.Linear.None)
+                        .onUpdate(function () {
+                            camera.position.set(this.x, this.y, this.z);
+                            camera.lookAt(new THREE.Vector3(0, 0, 0));
+                        })
+                        .onComplete(function () {
+                            camera.lookAt(new THREE.Vector3(0, 0, 0));
+                        })
+                        .start();
+                // d3.select(d.element).classed("highlighted", true);
+            }
+        });
+
         // let points = [
-        //     {x: 326.7414254330702, y: 375, z: -672.6003278088973},
-        //     {x: 583.8985337520141, y: 0, z: 465.3804953821567},
-        //     {x: 585.8514470770385, y: -500, z: 462.63485180047155}
-        //     ];
-
-        let points = [
-            {x: 1.6832052564318825, y: -750, z: 745.7610455207309},
-            {x: 22.525934655511637, y: -625, z: 817.2658513593152},
-            {x: 10.926396352265327, y: -500, z: 768.2735165078444},
-            {x: -3.35098031894727, y: -375, z: 756.2034779736116},
-            {x: 5.697622899159063, y: -250, z: 782.2512795056107},
-            {x: 22.525680718394977, y: -125, z: 817.265930165343},
-            {x: 5.696507781098516, y: 125, z: 782.2514485983365},
-            {x: -3.352625995710384, y: 125, z: 756.2029992547223},
-            {x: 9.198981461862266, y: 250, z: 755.2344637184763},
-            {x: 5.696166308535539, y: 375, z: 782.2515003713079}
-        ];
-
-        for (let i = 0; i < points.length; i++) {
-
-            setTimeout(function timer() {
-                var tween = new TWEEN.Tween({
-                    x: camera.position.x,
-                    y: camera.position.y,
-                    z: camera.position.z
-                })
-                    .to({
-                        x: points[i].x,
-                        y: points[i].y,
-                        z: points[i].z
-                    }, 1600)
-                    .easing(TWEEN.Easing.Linear.None)
-                    .onUpdate(function () {
-                        camera.position.set(this.x, this.y, this.z);
-                        camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    })
-                    .onComplete(function () {
-                        camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    })
-                    .start();
-
-                // alert("point reached");
-
-            }, i * 3000);
-
-        }
+        //     {x: 1.6832052564318825, y: -750, z: 745.7610455207309},
+        //     {x: 22.525934655511637, y: -625, z: 817.2658513593152},
+        //     {x: 10.926396352265327, y: -500, z: 768.2735165078444},
+        //     {x: -3.35098031894727, y: -375, z: 756.2034779736116},
+        //     {x: 5.697622899159063, y: -250, z: 782.2512795056107},
+        //     {x: 22.525680718394977, y: -125, z: 817.265930165343},
+        //     {x: 5.696507781098516, y: 125, z: 782.2514485983365},
+        //     {x: -3.352625995710384, y: 125, z: 756.2029992547223},
+        //     {x: 9.198981461862266, y: 250, z: 755.2344637184763},
+        //     {x: 5.696166308535539, y: 375, z: 782.2515003713079}
+        // ];
+        //
+        //
+        // for (let i = 0; i < points.length; i++) {
+        //
+        //     setTimeout(function timer() {
+        //         var tween = new TWEEN.Tween({
+        //             x: camera.position.x,
+        //             y: camera.position.y,
+        //             z: camera.position.z
+        //         })
+        //             .to({
+        //                 x: points[i].x,
+        //                 y: points[i].y,
+        //                 z: points[i].z
+        //             }, 1600)
+        //             .easing(TWEEN.Easing.Linear.None)
+        //             .onUpdate(function () {
+        //                 camera.position.set(this.x, this.y, this.z);
+        //                 camera.lookAt(new THREE.Vector3(0, 0, 0));
+        //             })
+        //             .onComplete(function () {
+        //                 camera.lookAt(new THREE.Vector3(0, 0, 0));
+        //             })
+        //             .start();
+        //
+        //         // alert("point reached");
+        //
+        //     }, i * 3000);
+        // }
 
         // points.forEach(function (p) {
         //     console.log(p);
