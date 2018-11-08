@@ -392,6 +392,8 @@
             });
         //add one more array for top cap layer
 
+
+
         /**
          * convert category data into a time and group hierarchy
          */
@@ -407,19 +409,23 @@
                 return a.key == b.key ? 0 : +(a.key > b.key) || -1;
             });
 
-        let segTest = d3.nest()
-            .key(function (d) {
-                return timeRage(d.time, dateTestEx[0], dateTestEx[1], 5);
-                // return d.ts;
-                // return d.Genre_1;
-            })
-            .key(function (d) {
-                return d.Genre_1;
-            })
-            .entries(datasets)
-            .sort(function (a, b) {
-                return a.key == b.key ? 0 : +(a.key > b.key) || -1;
-            });
+        // let segTest = d3.nest()
+        //     .key(function (d) {
+        //         return timeRage(d.time, dateTestEx[0], dateTestEx[1], 5);
+        //         // return d.ts;
+        //         // return d.Genre_1;
+        //     })
+        //     .key(function (d) {
+        //         return d.Genre_1;
+        //     })
+        //     .entries(datasets)
+        //     .sort(function (a, b) {
+        //         return a.key == b.key ? 0 : +(a.key > b.key) || -1;
+        //     });
+
+
+        //export for exploration
+        window.segDataGroups = segDataGroups;
 
         /**
          *Create Div holders for the segments
@@ -455,10 +461,8 @@
         let allGroups = [];
 
         let firstSlice = null;
-        // .range(d3.schemePaired);
 
         // let simulation =
-
         pCube.updatePC = function (segDataGroups) {
 
             //clear all pc on the scene
@@ -498,6 +502,7 @@
                             opacity: 0.7
                         });
                         const circle = new THREE.Mesh(geometry, material);
+                        const circleStc = new THREE.Object3D();
 
                         circle.matrixWorldNeedsUpdate = true;
                         circle.name = data.key;
@@ -509,6 +514,12 @@
                         circle.position.z = data.x * getRadScale(7);
 
                         circle.position.y = (interval * i) - heightHalf;
+
+                        //save circle position
+                        circleStc.position.x = circle.position.x;
+                        circleStc.position.y = circle.position.y; // for unix
+                        circleStc.position.z = circle.position.z;
+                        circle['STC'] = circleStc;
 
                         circle.updateMatrixWorld();
 
@@ -529,14 +540,17 @@
 
                         newData.forEach(function (d) { //points
 
-
                             var image = document.createElement('div');
                             var min = -50;
                             image.style.width = 7 + "px";
                             image.style.height = 7 + "px";
                             image.className = "pointCloud";
-                            const stc = new THREE.Object3D();
 
+                            if (layout === "SI") {
+                                image.style.backgroundColor = colour(d.data.unix);
+                            }
+
+                            const stc = new THREE.Object3D();
                             var object = new THREE.CSS3DSprite(image);
 
                             // const objPos = randomSpherePoint(group.position.x, group.position.y, group.position.z, group.radius, d.Genre_1);
@@ -545,30 +559,31 @@
                             object.position.y = group.position.y;
                             object.position.z = d.y;
 
-
                             object.name = "pointCloud"; //todo: remove later
 
                             // object.element.onclick = function () {
                             object.element.onmouseover = function ($event) { //todo: fix the event
 
-                                //clean point hull data
-                                // console.log(hullGroup)
+                                //tool tip
                                 tooltip.transition()
                                     .duration(200)
                                     .style("opacity", .9);
-                                tooltip.html(`${d.data.time}<br/>${d.data.Genre_1}`)
+                                tooltip.html(`${moment(d.data.Date).format('DD - MMMM - YYYY')}<br/>${d.data.Genre_1}`)
                                     .style("left", ($event.x) + "px")
                                     .style("top", ($event.y - 28) + "px");
-                                // console.log(d.Genre_1);
-                                d3.select("#textTitle")
-                                    .html("<strong<p>" + d.data.Description_from_Slide_Mount + "</p>" +
-                                        "<span class='date'>Group : " + d.data.Genre_1 + " </span> <br>" +
-                                        "<span class='location'>Date : " + d.data.time + "</span> <br>" +
-                                        `<object style='max-width:240px' data='${d.data.Image_URL}'> </object>` + "<br>"
-                                    );
 
-                                // d3.select("#dataImage")
-                                //     .attr("src", d.data.Image_URL);
+                                //preview
+                                // console.log(d.data)
+                                d3.select("#previewElem").html(`<strong<p>  ${d.data.Description_from_Slide_Mount} </p> 
+                                    <span class='date'>Group : ${d.data.Genre_1}  </span> <br>
+                                    <span class='location'>Date : ${moment(d.data.Date).format('DD - MMMM - YYYY')}  </span> <br>
+                                    <object data-group="${d.data.Genre_1}" data-id="${d.data.IU_Archives_Number}"  class='dataImage' style='max-width:240px' data='${d.data.Image_URL}'> </object> <br>`
+                                    )
+
+                                //highlight selection
+                                d3.selectAll('.highlighted').classed('highlighted', false);
+                                let self = d3.select(this).classed('highlighted', true);
+
                             };
                             object.element.onmouseout = function () {
                                 tooltip.transition()
@@ -578,21 +593,21 @@
                             object.element.ondblclick = (() => {
 
                                 // polyCube.drawHull(d.data.Genre_1); //draw each group on click
-
-                                console.log(object.localToWorld(object.position));
+                                // console.log(object.localToWorld(object.position));
 
                                 // console.log(camera.position);
 
                             });
 
                             object["newData"] = d;
+
                             stc.position.x = object.position.x;
                             stc.position.y = object.position.y; // for unix
                             stc.position.z = object.position.z;
                             object['STC'] = stc;
 
                             //set sets
-                            if (d.set){
+                            if (d.set) {
                                 let sets = [];
                                 sets.push(d.set)
                                 circle.userData.sets = sets;
@@ -612,11 +627,22 @@
                         })
 
                     });
-
                 });
             // getSuperLayer(allGroups);
 
-        };
+            //highlight one image
+            let highlight = segDataGroups[Math.floor(Math.random() * 10) + 1].values[0].values[0];
+            d3.select("#previewElem")
+                .html(`<strong<p>  ${highlight.Description_from_Slide_Mount} </p> 
+                    <span class='date'>Group : ${highlight.Genre_1}  </span> <br>
+                    <span class='location'>Date : ${moment(highlight.Date).format('DD - MMMM - YYYY')}  </span> <br>
+                    <object data-date="${highlight.Date}" data-group="${highlight.Genre_1}" data-id="${highlight.IU_Archives_Number}"   class='dataImage' style='max-width:240px' data='${highlight.Image_URL}'> </object> <br>`
+                );
+
+            //default highlight
+            polyCube.highlightNodes(highlight.IU_Archives_Number)
+
+        }
         pCube.updatePC(segDataGroups);
 
         //super layer test
@@ -660,6 +686,7 @@
                 });
             });
             pCube.updatePC(segDataGroups);
+
         };
         pCube.updateSupelayer();
 
@@ -772,7 +799,6 @@
         if (document.getElementById("loading")) {
             document.getElementById("loading").style.display = "none"
         }
-        // document.getElementById("loading").style.display = "none"
     };
 
     function createPoint(a) {
@@ -1113,7 +1139,6 @@
 
         //hide labels in JP
         groupofLabelGroups.visible = false;
-        console.log(groupofLabelGroups);
 
         //show glbox
         WGLScene.getObjectByName("glbox").visible = true;
@@ -1166,16 +1191,30 @@
             // console.log(d)
         });
 
-
         /**
          * Reverse array to show last segment first
          * Only show
          */
 
-
-        if (layout !== "STC") {
-            // scene.children[0].children.reverse(); //on
-        }
+        /**
+         * Sets reverse flattening
+         */
+        let sets = WGLScene.getObjectByName("groupSets");
+        // sets.visible = false;
+        sets.children.forEach(function (d) {
+            // update matrix true on entry
+            // d.matrixAutoUpdate = true;
+            // d.updateMatrix();
+            //unflatten sets
+            let unFlattenSets = new TWEEN.Tween(d.position)
+                .to({
+                    y: d.STC.position.y,
+                    x: d.STC.position.x,
+                    z: d.STC.position.z
+                }, duration)
+                .easing(TWEEN.Easing.Sinusoidal.InOut)
+                .start();
+        });
 
 
         d3.selectAll(".elements_child")
@@ -1241,7 +1280,7 @@
         }).to({
             x: 600,
             y: 400,
-            z: 800
+            z: 1800
         }, 1600)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate(function () {
@@ -1316,10 +1355,13 @@
 
 
         /**
-         * Reverse array to show last segment first
+         * Sets flattening
+         * hide sets
+         * hide hull
          */
-        // scene.children[0].children.reverse(); //on
-        // console.log(scene.children[0].children);
+
+        // console.log(sets)
+        // console.log(superLayerPos);
 
         /**
          * Point Cloud Flattening
@@ -1390,12 +1432,10 @@
                 return d.newData.data.Genre_1;
             }) //group sets distribution
             .entries(pointClouds);
+
         segDataByGenre.forEach(function (points) {
             superLayerPos.forEach(layer => {
                 if (points.key === layer.key) {
-                    // points.x = layer.x;
-                    // points.y = layer.y;
-
                     let centerX = layer.x * 27,
                         centerY = layer.y * 27,
                         rad = points.values.length / 3;
@@ -1405,30 +1445,44 @@
 
                     newLayout.forEach(function (d) {
                         let threePoint = d.data;
-
                         threePoint.position.z = d.x;
                         threePoint.position.x = d.y;
-
                     })
                 }
             });
         });
 
         /**
-         * Sets flattening
-         * hide sets
-         * hide hull
+         * Sets flattening todo: use css div and radius of the main object
          */
         let sets = WGLScene.getObjectByName("groupSets");
-        sets.visible = false;
+        // sets.visible = false;
+        sets.children.forEach(function (d) {
+            // update matrix true on entry
+            d.matrixAutoUpdate = true;
+            d.updateMatrix();
+
+            superLayerPos.forEach(layer => {
+                if (d.name === layer.key) {
+                    let centerX = layer.x * 27,
+                        centerZ = layer.y * 27;
+
+                    let flattenPoints = new TWEEN.Tween(d.position)
+                        .to({
+                            y: 0.5,
+                            z: centerX,
+                            x: centerZ
+                        }, duration)
+                        .easing(TWEEN.Easing.Sinusoidal.InOut)
+                        .start();
+                }
+            });
+
+        });
 
         WGLScene.getObjectByName("hullGroup").visible = false;
-
-        // console.log(superFlattenedLayer);
-
         //change camera view
         //camera position
-
         //if juxtapos = false
         /**
          * Smoothing the camera transition
@@ -1478,7 +1532,7 @@
                 z: camera.position.z
             }).to({
                 x: 0, //todo: fix rotation of camera axis
-                y: 1077.0329614263626,
+                y: 2077.0329614263626,
                 z: 0
             }, duration)
                 .easing(TWEEN.Easing.Sinusoidal.Out)
@@ -1776,14 +1830,14 @@
 
             groupList.forEach(function (group) {
                 if (d.newData.data.Genre_1 === group || d.newData.data.Genre_2 === group) {
-                // if (d.newData.data.Genre_2 === group) {
+                    // if (d.newData.data.Genre_2 === group) {
                     d.element.style.display = '';
                     // console.log(d);
                 }
             });
         });
 
-         // console.log(d3.selectAll(".set-label").data())
+        // console.log(d3.selectAll(".set-label").data())
 
         // Point Based Sets function
         // console.log(pointCloud);
@@ -1808,6 +1862,28 @@
         // console.log(hullGroup);
     };
 
+    pCube.highlightNodes = function (point) {
+        TWEEN.removeAll();
+
+        let pointClouds = scene.getObjectByName("pointCloud").children;
+
+        // console.log(point);
+
+        d3.selectAll(".highlighted").classed("highlighted", false);
+
+
+        // console.log(point);
+        // point.forEach(function (point) {
+            pointClouds.forEach(function (d) {
+                // console.log(d);
+                if (point === d.newData.data.IU_Archives_Number) {
+                    // console.log(d);
+                    d3.select(d.element).classed("highlighted", true);
+                }
+            });
+        // });
+
+    };
 
     /**
      * Morphing controls accross data layers

@@ -10,8 +10,10 @@
     <script src="lib/three.js/CSS3DRenderer.js"></script>
     <script src="lib/three.js/QuickHull.js"></script>
     <script src="lib/three.js/ConvexGeometry.js"></script>
-    <script src="lib/three.js/LineGeometry.js"></script>
+    <!--<script src="lib/three.js/LineGeometry.js"></script>-->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
         .tooltip {
             position: absolute;
@@ -52,53 +54,226 @@
             pointer-events: none;
             z-index: -1;
         }
+
+        #previewElem {
+            color: #7b7b7b;
+        }
+
+        #previewElem, .date, .location {
+            font-size: smaller;
+        }
+
+        #previewElem {
+            /*width: 200px;*/
+            /*color: white;*/
+            position: relative;
+            top: 180px;
+            /*left: 60px;*/
+            z-index: 99;
+            margin-bottom: 40px;
+            float: right;
+            margin-right: 15px;
+            overflow-x: hidden;
+            max-width: 246px;
+            width: 246px;
+            text-align: left;
+        }
+
+        #previewElem {
+            max-width: 246px;
+            width: 246px;
+            text-align: left;
+        }
+
+        /*.explore_next{*/
+        /*max-width: 246px;*/
+        /*width: 246px;*/
+        /*position: absolute;*/
+        /*top: 180px;*/
+        /*}*/
+
+        /* Style the Image Used to Trigger the Modal */
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #myImg:hover {
+            opacity: 0.7;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            /*height: 100%; !* Full height *!*/
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+            /*height:auto !important; !* real browsers *!*/
+            height: 1000px; /* IE6: treaded as min-height*/
+            min-height: 100%; /* real browsers */
+        }
+
+        /* Modal Content (Image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            /*max-width: 100%;*/
+            max-height: 500px;
+            width: inherit;
+        }
+
+        .modal-content {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: initial !important;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, .2);
+            border-radius: .3rem;
+            outline: 0;
+        }
+
+        /* Caption of Modal Image (Image Text) - Same Width as the Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation - Zoom in the Modal */
+        .modal-content, #caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
+
+
+<!-- Trigger the Modal -->
+<!--<img id="myImg" src="/texture/ball2_dark.png" alt="Snow" style="width:100%;max-width:300px">-->
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+
+<p style="z-index: 999" class="previewElem" id="previewElem">i
+    <object></object>
+</p>
+
+<!--&lt;!&ndash; The Modal &ndash;&gt;-->
+<!--<div id="myModal" class="modal">-->
+<!--&lt;!&ndash; The Close Button &ndash;&gt;-->
+<!--<span class="close">&times;</span>-->
+
+<!--&lt;!&ndash; Modal Content (The Image) &ndash;&gt;-->
+<!--<img class="modal-content" id="img01">-->
+<!--&lt;!&ndash; Modal Caption (Image Text) &ndash;&gt;-->
+<!--<div id="caption"></div>-->
+<!--</div>-->
 
 <div hidden style="position: relative; top: 200px; left: 1000px; z-index: 999">
     <input type="range" max="250" min="-250" id="cube-morphing" value="-50">
 </div>
 
-<button class="button" type="button" onclick="polyCube.default()">
+<button class="button" type="button" onclick="STC()">
     space-time cube
 </button>
 
-<!--<button class="button" type="button"-->
-<!--onclick="polyCube.juxstaPose()">-->
-<!--juxtaposition-->
-<!--</button>-->
-
 <button class="button" type="button"
-        onclick="polyCube.superImpose()"> superimposition
+        onclick="SI()"> superimposition
 </button>
 
 <button class="button" type="button"
         onclick="polyCube.pointOfInterest()"> Point Camera
 </button>
 
-<!--<button class="button" type="button"-->
-<!--onclick="polyCube.updateScene()"> update scene-->
-<!--</button>-->
+<button type="button" id="explore_next" class=" button explore_next ">Explore</button>
 
-<!--<br>-->
-<!--<button style="position: relative; top: 200px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.setsDraw()"> Show Sets-->
-<!--</button>-->
-<br>
-<div class="tooltip-preview">
-    <p id="textTitle"></p>
-    <img id="dataImage" src="">
-</div>
-<!--<button id="test" style="position: relative; top: 250px; left: 150px; z-index: 999" type="button"-->
-<!--onclick="polyCube.test()">test-->
-<!--</button>-->
+
+<!--<div class="tooltip-preview">-->
+<!--<p id="textTitle"></p>-->
+<!--<img id="dataImage" src="">-->
+<!--<a style="cursor: pointer" class="close-info">&times;</a>-->
+<!--</div>-->
+
+
+<div class="timeline" id="timeLine"></div>
+
 
 <br>
 
-<div id="timeLine"></div>
 
-<br>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
 <!--<script src="lib/d3/d3.js"></script>-->
 <script src='https://d3js.org/d3.v4.min.js'></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -106,15 +281,39 @@
 <script src="lib/d3/topojson.min.js"></script>
 <!--<script src="lib/moment.js"></script>-->
 <script src="lib/moment/min/moment.min.js"></script>
-
 <!--<script src="lib/moment-range.js"></script>-->
 <script type='text/javascript' src='lib/dat.gui/dat.gui.min.js'></script>
 <script src="js/core.js"></script>
 <script src="js/sandBox.js"></script>
-
 <!--<script src="js/vis/brushSet.js"></script>-->
-<!--<script src="js/vis/timeLegend.js"></script>-->
+<script src="js/vis/timeLegend.js"></script>
 <script>
+
+    //hide timeline default
+    d3.selectAll(".timeline")
+        .classed("hide", true);
+
+    function SI() {
+        d3.selectAll(".timeline")
+            .classed("hide", false);
+
+        polyCube.superImpose();
+
+        d3.selectAll(".elements")
+            .classed("hide", true);
+    }
+
+    function STC() {
+
+        d3.selectAll(".timeline")
+            .classed("hide", true);
+
+
+        d3.selectAll(".elements")
+            .classed("hide", false);
+
+        polyCube.default()
+    }
 
     d3.queue()
         .defer(d3.csv, "data/Cushman-Collection.csv")
@@ -172,7 +371,7 @@
 
         var params = {
             Project: "Cushman Data",
-            Morphing: -250,
+//            Morphing: -250,
             showData: true,
             showNodes: false,
             nodeSize: 15,
@@ -206,10 +405,10 @@
         gui.add(params, 'Project').onFinishChange(function () {
         }).name("PolyCube ©");
 
-        gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
-            var value = params.Morphing;
-            polyCube.morphing({axis: +value})
-        });
+//        gui.add(params, 'Morphing').min(-250).max(250).onChange(function () {
+//            var value = params.Morphing;
+//            polyCube.morphing({axis: +value})
+//        });
 
         gui.add(params, "showData").onChange(function () {
             var value = params.showData;
@@ -267,53 +466,41 @@
 
         }).name("Sets Layouts");
 
-        var f1 = gui.addFolder('Theme');
-        f1.add(params, "light").onChange(function () {
-            var value = params.light;
-            if (value) {
-//                d3.select("body")
-//                //                        .style("background-color", "aliceblue");
-////                    .style("background-color", "rgb(202, 198, 186)");
-//                    .style("background-color", "#ffffff");
-//                d3.select("canvas")
-//                    .style("background", "transparent");
-//                d3.selectAll(".pointCloud")
-//                    .attr("src", "texture/ball2.png");
+//        var f1 = gui.addFolder('Theme');
+//        f1.add(params, "light").onChange(function () {
+//            var value = params.light;
+//            if (value) {
+////                d3.select("body")
+////                //                        .style("background-color", "aliceblue");
+//////                    .style("background-color", "rgb(202, 198, 186)");
+////                    .style("background-color", "#ffffff");
+////                d3.select("canvas")
+////                    .style("background", "transparent");
+////                d3.selectAll(".pointCloud")
+////                    .attr("src", "texture/ball2.png");
+////
+////                d3.selectAll(".side")
+////                    .style("border", "0.5px dotted rgb(10, 10, 10)")
+////                    .style("background", "white");
+////
+////                d3.selectAll(".screen_dots")
+////                    .style("fill", "rgb(16, 49, 21)");
+////
+////                d3.selectAll(".elements_child")
+////                    .style("background-color", "#8fa7b9");
+////
+////                d3.selectAll(".elements_child").selectAll(".subunit")
+////                //                    .style("fill", "#0050af");
+////                    .style("fill", "black");
 //
-//                d3.selectAll(".side")
-//                    .style("border", "0.5px dotted rgb(10, 10, 10)")
-//                    .style("background", "white");
-//
-//                d3.selectAll(".screen_dots")
-//                    .style("fill", "rgb(16, 49, 21)");
-//
-//                d3.selectAll(".elements_child")
-//                    .style("background-color", "#8fa7b9");
-//
-//                d3.selectAll(".elements_child").selectAll(".subunit")
-//                //                    .style("fill", "#0050af");
-//                    .style("fill", "black");
-
-            } else {
-//            d3.selectAll(".pointCloud")
-//                    .classed("hide", true)
-            }
-        });
-
-        //label actions
-//        d3.selectAll(".set-label").on('mouseover', function () {
-////            console.log(this.innerHTML);
-////            polyCube.setsUnion(this.innerHTML)
-//
-//        }).on('mouseout', function () {
-//            //show all data
-//            d3.selectAll(".pointCloud")
-//                .style("display", "");
+//            } else {
+////            d3.selectAll(".pointCloud")
+////                    .classed("hide", true)
+//            }
 //        });
 
         let clicksCount = 0,
-        listCont = [];
-
+            listCont = [];
         d3.selectAll(".set-label").on('click', function (selectionsCount = 2) {
 
             //increase click count
@@ -321,8 +508,8 @@
             listCont.push(this.innerHTML);
 
             if (clicksCount === selectionsCount) {
-                console.log(this.innerHTML);
-                console.log(listCont);
+//                console.log(this.innerHTML);
+//                console.log(listCont);
 
 //                polyCube.setsUnion(this.innerHTML)
                 polyCube.setsUnion(listCont)
@@ -333,30 +520,80 @@
             }
         })
     }
-
 </script>
 
-<!--edmPlaceLatitude-->
-<!--edmPlaceLongitude-->
-<!--score-->
-<!--dcCreator-->
-<!--country-->
+<script>
 
-<!--<script>-->
-<!--//    code perfomance-->
-<!--(function () {-->
-<!--var script = document.createElement('script');-->
-<!--script.onload = function () {-->
-<!--var stats = new Stats();-->
-<!--document.body.appendChild(stats.dom);-->
-<!--requestAnimationFrame(function loop() {-->
-<!--stats.update();-->
-<!--requestAnimationFrame(loop)-->
-<!--});-->
-<!--};-->
-<!--script.src = '//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';-->
-<!--document.head.appendChild(script);-->
-<!--})()-->
-<!--</script>-->
+    // Get the modal
+    var modal = document.getElementById('myModal');
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('previewElem');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    var dataImage = document.getElementsByClassName("dataImage");
+    let nextBtn = document.getElementById("explore_next");
+
+    img.onclick = function () {
+//        console.log(img.innerText);
+        modal.style.display = "block";
+//        modalImg.src = this.src;
+        modalImg.src = dataImage[0].getAttribute('data');
+        captionText.innerHTML = this.textContent;
+    };
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    modal.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    //exploration
+    nextBtn.onclick = function () {
+        let currentId = dataImage[0].getAttribute('data-id'),
+            currentGrp = dataImage[0].getAttribute('data-group'),
+            currentDate = moment(dataImage[0].getAttribute('data-date')).format('YYYY') //only year
+
+//        console.log(currentDate);
+        //show arrays of group
+//        console.log(window.data);
+
+        let arrayGrp;
+        window.segDataGroups.forEach(function (key) {
+            if(key.key === currentDate){
+//                console.log(key.values);
+                key.values.forEach(function (grp) {
+                    if(grp.key === currentGrp){
+//                        console.log(grp.values)
+                        arrayGrp = grp.values;
+                    }
+                })
+            }
+        });
+        //update preview
+
+        //highlight selection id
+        polyCube.highlightNodes(currentId)
+
+//        //animate to next selection
+        let index = window.data.findIndex(x => x.IU_Archives_Number === currentId);
+//        console.log(window.data[index + 1]);
+
+        let highlight = window.data[index + 1]
+        d3.select("#previewElem")
+            .html(`<strong<p>  ${highlight.Description_from_Slide_Mount} </p>
+                    <span class='date'>Group : ${highlight.Genre_1}  </span> <br>
+                    <span class='location'>Date : ${moment(highlight.Date).format('DD - MMMM - YYYY')}  </span> <br>
+                    <object data-date="${highlight.Date}" data-group="${highlight.Genre_1}" data-id="${highlight.IU_Archives_Number}"   class='dataImage' style='max-width:240px' data='${highlight.Image_URL}'> </object> <br>`
+            );
+    }
+
+
+</script>
 </body>
 </html>

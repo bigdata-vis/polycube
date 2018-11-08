@@ -373,6 +373,8 @@
                     object.name = "pointCloud"; //todo: remove later
                     object.element.onmouseover = function () {
                         //clean func
+
+                        //highlight function
                         d3.selectAll('.highlighted').classed('highlighted', false);
                         let self = d3.select(this).classed('highlighted', true);
 
@@ -973,7 +975,6 @@
             // material.vertexColors = THREE.VertexColors;
             // material.needsUpdate = true;
 
-
             /**
              * WebGl Scene
              * Temporary Web Gl Scene implementation for line testing
@@ -981,7 +982,7 @@
              */
             var geometry = new THREE.Geometry();
             geometry.colors = [new THREE.Color(), new THREE.Color(), new THREE.Color(), new THREE.Color()];
-            geometry.colors[0] = new THREE.Color('blue')
+            geometry.colors[0] = new THREE.Color( globalConfig.linecolour || 'blue');
             geometry.colorsNeedUpdate = true;
 
             // console.log(geometry);

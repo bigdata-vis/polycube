@@ -23,7 +23,7 @@
 
         // var legendheight = 400,
         var margin = {top: 10, right: 60, bottom: 10, left: 2},
-            legendheight = window.innerHeight - (margin.top *2),
+            legendheight = window.innerHeight - (margin.top *5),
             legendwidth = 80;
 
         var canvas = d3.select(selector_id)

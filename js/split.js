@@ -1970,7 +1970,6 @@
         }).attr("cy", function (d) {
             return d.cy;
         });
-
     };
 
     pCube.highlightNodes = function (point) {
