@@ -373,10 +373,12 @@
             Project: "Cushman Data",
 //            Morphing: -250,
             showData: true,
+            resetBtn: function() {},
             showNodes: false,
             nodeSize: 15,
             light: false,
-            setsLayout: []
+            setsLayout: [],
+
         };
 
 
@@ -410,12 +412,14 @@
 //            polyCube.morphing({axis: +value})
 //        });
 
-        gui.add(params, "showData").onChange(function () {
+        gui.add(params, "resetBtn").onChange(function () {
             var value = params.showData;
-            if (value) {
+            console.log("clicked")
+
                 d3.selectAll(".pointCloud")
                     .classed("hide", false)
-                    .style("pointer-events", "visible");
+                    .style("pointer-events", "visible")
+                    .style("display", "");
 
                 d3.selectAll("#textTitle")
                     .classed("hide", false);
@@ -423,19 +427,36 @@
                 d3.selectAll("#dataImage")
                     .classed("hide", false)
 
-            } else {
-                d3.selectAll(".pointCloud")
-                    .classed("hide", true)
-                    .style("pointer-events", "none");
+        }).name("Reset");
 
-                d3.selectAll("#textTitle")
-                    .classed("hide", true);
 
-                d3.selectAll("#dataImage")
-                    .classed("hide", true);
-            }
 
-        }).name("Show PC Data");
+//        gui.add(params, "showData").onChange(function () {
+//            var value = params.showData;
+//            if (value) {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", false)
+//                    .style("pointer-events", "visible");
+//
+//                d3.selectAll("#textTitle")
+//                    .classed("hide", false);
+//
+//                d3.selectAll("#dataImage")
+//                    .classed("hide", false)
+//
+//            } else {
+//                d3.selectAll(".pointCloud")
+//                    .classed("hide", true)
+//                    .style("pointer-events", "none");
+//
+//                d3.selectAll("#textTitle")
+//                    .classed("hide", true);
+//
+//                d3.selectAll("#dataImage")
+//                    .classed("hide", true);
+//            }
+//
+//        }).name("Show PC Data");
 
         gui.add(params, "showNodes").onChange(function () {
             const value = params.showNodes;

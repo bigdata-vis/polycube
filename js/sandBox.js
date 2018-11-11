@@ -1467,6 +1467,10 @@
                     let centerX = layer.x * 27,
                         centerZ = layer.y * 27;
 
+                    // console.log(d);
+
+                    d.scale.set(1.2,1.2,1.2);
+
                     let flattenPoints = new TWEEN.Tween(d.position)
                         .to({
                             y: 0.5,
@@ -1475,6 +1479,7 @@
                         }, duration)
                         .easing(TWEEN.Easing.Sinusoidal.InOut)
                         .start();
+
                 }
             });
 
