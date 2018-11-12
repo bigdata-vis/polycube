@@ -249,7 +249,7 @@
 </button>
 
 <button class="btn btn-outline-secondary button" type="button"
-        onclick="SI()"> superimposition <i class="fa fa-clone"></i>
+        onclick="SI()"> superimposition <i class="fa fa-object-group"></i>
 </button>
 
 <!--<button class="button" type="button"-->
@@ -439,7 +439,7 @@
                 d3.selectAll("#dataImage")
                     .classed("hide", false)
 
-        }).name("Reset");
+        }).name("Reset <i class=\"fa fa-refresh\"></i>");
 
 
 
@@ -483,7 +483,7 @@
                 polyCube.hideAllHull();
             }
 
-        }).name("Show Hull");
+        }).name("Show Hull <i class=\"fa fa-tree\"></i>");
 
         gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
             var value = params.nodeSize;
@@ -497,7 +497,7 @@
 //            console.log(d);
             polyCube.updateSupelayer(d);
 
-        }).name("Sets Layouts");
+        }).name("Sets Layouts <i class=\"fa fa-cogs\"></i>");
 
 //        var f1 = gui.addFolder('Theme');
 //        f1.add(params, "light").onChange(function () {
