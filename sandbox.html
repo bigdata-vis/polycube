@@ -57,20 +57,21 @@
 
         #previewElem {
             color: #7b7b7b;
+            margin-bottom: 0px;
         }
 
-        #previewElem, .date, .location {
+        .previewElem, .date, .location {
             font-size: smaller;
         }
 
-        #previewElem {
+        .previewElem {
             /*width: 200px;*/
             /*color: white;*/
             position: relative;
             top: 180px;
             /*left: 60px;*/
             z-index: 99;
-            margin-bottom: 40px;
+            margin-bottom: 0 !important;
             float: right;
             margin-right: 15px;
             overflow-x: hidden;
@@ -79,7 +80,7 @@
             text-align: left;
         }
 
-        #previewElem {
+        .previewElem {
             max-width: 246px;
             width: 246px;
             text-align: left;
@@ -217,9 +218,12 @@
     <div id="caption"></div>
 </div>
 
-<p style="z-index: 999" class="previewElem" id="previewElem">i
-    <object></object>
-</p>
+<div class="previewElem">
+    <p style="z-index: 999" class="" id="previewElem">i
+    </p>
+    <button id="explore_next"  type="button" class="btn btn-light btn-sm btn-block">Next</button>
+</div>
+
 
 <!--&lt;!&ndash; The Modal &ndash;&gt;-->
 <!--<div id="myModal" class="modal">-->
@@ -248,7 +252,7 @@
         <!--onclick="polyCube.pointOfInterest()"> Point Camera-->
 <!--</button>-->
 
-<button type="button" id="explore_next" class=" button explore_next ">Explore</button>
+<!--<button type="button" id="explore_next" class=" button explore_next ">Next</button>-->
 
 
 <!--<div class="tooltip-preview">-->

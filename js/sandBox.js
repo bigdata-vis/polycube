@@ -625,7 +625,6 @@
                              */
                             pointCloud.add(object);
                         })
-
                     });
                 });
             // getSuperLayer(allGroups);
@@ -636,7 +635,8 @@
                 .html(`<strong<p>  ${highlight.Description_from_Slide_Mount} </p> 
                     <span class='date'>Group : ${highlight.Genre_1}  </span> <br>
                     <span class='location'>Date : ${moment(highlight.Date).format('DD - MMMM - YYYY')}  </span> <br>
-                    <object data-date="${highlight.Date}" data-group="${highlight.Genre_1}" data-id="${highlight.IU_Archives_Number}"   class='dataImage' style='max-width:240px' data='${highlight.Image_URL}'> </object> <br>`
+                    <object data-date="${highlight.Date}" data-group="${highlight.Genre_1}" data-id="${highlight.IU_Archives_Number}"  class='dataImage' style='max-width:240px' data='${highlight.Image_URL}'> </object> <br>`
+                    // <button  type="button" class="btn btn-primary btn-sm btn-block">Next</button>`
                 );
 
             //default highlight
