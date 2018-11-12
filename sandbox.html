@@ -343,9 +343,13 @@
             /**
              * Sort the data according to ascending dates to help with line drawing
              * */
+//            newData.sort(function (x, y) {
+//                return d3.ascending(x.Archive_Date, y.Archive_Date);
+//            });
+//            console.log(newData)
 
-            newData.sort(function (x, y) {
-                return d3.ascending(x.Archive_Date, y.Archive_Date);
+            newData.sort(function (a, b) {
+                return a.Date == b.Date ? 0 : +(a.Date > b.Date) || -1;
             });
 
             window.data = newData;

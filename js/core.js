@@ -326,13 +326,16 @@ function createCircularLayout(group_list) {
 }
 
 function createSpiralLayout(centerX, centerY, radius, group_list) {
+
     let sides = group_list.length,
         coils = 2,
         rotation = 2 * (Math.PI/180);
     // How far to step away from center for each side.
     let awayStep = radius / sides;
+
 // How far to rotate around center for each side.
     let aroundStep = coils / sides;// 0 to 1 based.
+
 // Convert aroundStep to radians.
     let aroundRadians = aroundStep * (Math.PI/180);
     let new_time = [];
