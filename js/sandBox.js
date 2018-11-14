@@ -1142,7 +1142,7 @@
 
         //hide SICircle
 
-        console.log(SICircleGroups);
+        // console.log(SICircleGroups);
         SICircleGroups.visible = false;
 
         //show glbox
@@ -1444,7 +1444,6 @@
                 return d.newData.data.Genre_1;
             }) //group sets distribution
             .entries(pointClouds);
-
         segDataByGenre.forEach(function (points) {
             superLayerPos.forEach(layer => {
                 if (points.key === layer.key) {
@@ -1495,33 +1494,33 @@
          */
         let sets = WGLScene.getObjectByName("groupSets");
         sets.visible = false;
-        sets.children.forEach(function (d) {
-            // update matrix true on entry
-            d.matrixAutoUpdate = true;
-            d.updateMatrix();
-
-            superLayerPos.forEach(layer => {
-                if (d.name === layer.key) {
-                    let centerX = layer.x * 27,
-                        centerZ = layer.y * 27;
-
-                    // console.log(d);
-
-                    // d.scale.set(1.2,1.2,1.2);
-
-                    let flattenPoints = new TWEEN.Tween(d.position)
-                        .to({
-                            y: 0.5,
-                            z: centerX,
-                            x: centerZ
-                        }, duration)
-                        .easing(TWEEN.Easing.Sinusoidal.InOut)
-                        .start();
-
-                }
-            });
-
-        });
+        // sets.children.forEach(function (d) {
+        //     // update matrix true on entry
+        //     d.matrixAutoUpdate = true;
+        //     d.updateMatrix();
+        //
+        //     superLayerPos.forEach(layer => {
+        //         if (d.name === layer.key) {
+        //             let centerX = layer.x * 27,
+        //                 centerZ = layer.y * 27;
+        //
+        //             // console.log(d);
+        //
+        //             // d.scale.set(1.2,1.2,1.2);
+        //
+        //             let flattenPoints = new TWEEN.Tween(d.position)
+        //                 .to({
+        //                     y: 0.5,
+        //                     z: centerX,
+        //                     x: centerZ
+        //                 }, duration)
+        //                 .easing(TWEEN.Easing.Sinusoidal.InOut)
+        //                 .start();
+        //
+        //         }
+        //     });
+        //
+        // });
 
         WGLScene.getObjectByName("hullGroup").visible = false;
         //change camera view
