@@ -68,7 +68,8 @@
 
     //clipping
     let clipPlane1, clipPlane2;
-    let groupofLabelGroups = new THREE.Group();
+    let groupofLabelGroups = new THREE.Group(),
+        SICircleGroups = new THREE.Group();
 
     pCube.fixedSetCoordinates = function (datasets) {
 
@@ -393,7 +394,6 @@
         //add one more array for top cap layer
 
 
-
         /**
          * convert category data into a time and group hierarchy
          */
@@ -578,7 +578,7 @@
                                     <span class='date'>Group : ${d.data.Genre_1}  </span> <br>
                                     <span class='location'>Date : ${moment(d.data.Date).format('DD - MMMM - YYYY')}  </span> <br>
                                     <object data-group="${d.data.Genre_1}" data-id="${d.data.IU_Archives_Number}"  class='dataImage' style='max-width:240px' data='${d.data.Image_URL}'> </object> <br>`
-                                    )
+                                )
 
                                 //highlight selection
                                 d3.selectAll('.highlighted').classed('highlighted', false);
@@ -1140,9 +1140,16 @@
         //hide labels in JP
         groupofLabelGroups.visible = false;
 
+        //hide SICircle
+
+        console.log(SICircleGroups);
+        SICircleGroups.visible = false;
+
         //show glbox
         WGLScene.getObjectByName("glbox").visible = true;
         hullGroup.visible = true;
+
+
 
         /**
          * show all time panels
@@ -1332,6 +1339,11 @@
          */
         controls.noRotate = true;
 
+
+        //show SICircle
+        SICircleGroups.visible = true;
+
+
         //hide all time panels
         d3.selectAll(".textTitle")
             .classed("hide", true);
@@ -1440,9 +1452,32 @@
                         centerY = layer.y * 27,
                         rad = points.values.length / 3;
 
-                    let newLayout = createSpiralLayout(centerX, centerY, rad, points.values);
-                    // console.log(newLayout);
+                    // console.log(points);
 
+                    //add circle overlay
+                    const geometry = new THREE.CircleGeometry(rad, 32);//hull resolution
+                    const material = new THREE.MeshBasicMaterial({
+                        color: '#dedede',
+                        // color: colorScale(data.key),
+                        side: THREE.DoubleSide,
+                        transparent: true,
+                        opacity: 0.7
+                    });
+                    const circle = new THREE.Mesh(geometry, material);
+
+                    // circle.matrixWorldNeedsUpdate = true;
+                    circle.name = 'SICircle';
+                    circle.rotation.x = Math.PI / 2;
+
+                    //apply force layout
+                    circle.position.x = centerY;
+                    circle.position.z = centerX;
+                    circle.position.y = 0;
+
+                    // circle.updateMatrixWorld();
+                    SICircleGroups.add(circle);
+
+                    let newLayout = createSpiralLayout(centerX, centerY, rad, points.values);
                     newLayout.forEach(function (d) {
                         let threePoint = d.data;
                         threePoint.position.z = d.x;
@@ -1452,11 +1487,14 @@
             });
         });
 
+
+        glbox.add(SICircleGroups);
+
         /**
          * Sets flattening todo: use css div and radius of the main object
          */
         let sets = WGLScene.getObjectByName("groupSets");
-        // sets.visible = false;
+        sets.visible = false;
         sets.children.forEach(function (d) {
             // update matrix true on entry
             d.matrixAutoUpdate = true;
@@ -1469,7 +1507,7 @@
 
                     // console.log(d);
 
-                    d.scale.set(1.2,1.2,1.2);
+                    // d.scale.set(1.2,1.2,1.2);
 
                     let flattenPoints = new TWEEN.Tween(d.position)
                         .to({
@@ -1879,13 +1917,13 @@
 
         // console.log(point);
         // point.forEach(function (point) {
-            pointClouds.forEach(function (d) {
+        pointClouds.forEach(function (d) {
+            // console.log(d);
+            if (point === d.newData.data.IU_Archives_Number) {
                 // console.log(d);
-                if (point === d.newData.data.IU_Archives_Number) {
-                    // console.log(d);
-                    d3.select(d.element).classed("highlighted", true);
-                }
-            });
+                d3.select(d.element).classed("highlighted", true);
+            }
+        });
         // });
 
     };
@@ -1942,7 +1980,7 @@
         // });
     };
 
-    pCube.pointOfInterest = function (id='7841') {
+    pCube.pointOfInterest = function (id = '7841') {
 
         //camera movement
         let pointClouds = scene.getObjectByName("pointCloud").children;
@@ -1957,25 +1995,25 @@
 
                 // console.log(point.x)
 
-                    var tween = new TWEEN.Tween({
-                        x: camera.position.x,
-                        y: camera.position.y,
-                        z: camera.position.z
+                var tween = new TWEEN.Tween({
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z
+                })
+                    .to({
+                        x: point.x,
+                        y: point.y,
+                        z: point.z + 200
+                    }, 1600)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .onUpdate(function () {
+                        camera.position.set(this.x, this.y, this.z);
+                        camera.lookAt(new THREE.Vector3(0, 0, 0));
                     })
-                        .to({
-                            x: point.x,
-                            y: point.y,
-                            z: point.z + 200
-                        }, 1600)
-                        .easing(TWEEN.Easing.Linear.None)
-                        .onUpdate(function () {
-                            camera.position.set(this.x, this.y, this.z);
-                            camera.lookAt(new THREE.Vector3(0, 0, 0));
-                        })
-                        .onComplete(function () {
-                            camera.lookAt(new THREE.Vector3(0, 0, 0));
-                        })
-                        .start();
+                    .onComplete(function () {
+                        camera.lookAt(new THREE.Vector3(0, 0, 0));
+                    })
+                    .start();
                 // d3.select(d.element).classed("highlighted", true);
             }
         });
