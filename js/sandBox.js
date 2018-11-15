@@ -650,6 +650,9 @@
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
             superFlattenedLayer = getFlattenedLayer(allGroups); //flattened combined layers of all sets
 
+            // console.log(superLayerPos);
+
+
             if (layout === 'force') {
                 /* Forced Layout */
                 createForcedLayout(superLayerPos, widthHalf, heightHalf);
@@ -658,7 +661,7 @@
                 superLayerPos = createDiagonalLayout(superFlattenedLayer, superLayerPos);
             } else if (layout === 'circle') {
                 /* Forced Circular */
-                createCircularLayout(superLayerPos);
+                createCircularLayout(superLayerPos, superFlattenedLayer);
             }
             else if (layout === 'matrix') {
                 /* Forced Circular */

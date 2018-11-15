@@ -164,7 +164,18 @@ function getFlattenedLayer(allGroups) {
     flattenedLayer.forEach( (value, key) => {
       result.push({ key: key, values: value});
     });
-    return result;
+
+    // console.log(result);
+    let sorted_categories = result.sort(function (one, other) {
+        //a - b is
+        //   0 when elements are the same
+        //  >0 when a > b
+        //  <0 when a < b
+        return one.values.length - other.values.length;
+    });
+    // console.log(sorted_categories);
+
+    return sorted_categories;
 }
 
 function getSuperLayer(allGroups) {
@@ -305,28 +316,56 @@ function createMatrixLayout(group_list, asc = false) {
     return group_list;
 }
 
-function createCircularLayout(group_list) {
+function createCircularLayout(group_list, superlayer) {
+
+    // console.log(group_list);
+    // console.log(superlayer);
+
+    group_list.forEach(function (d) {
+        superlayer.forEach(function (sd) {
+            if(d.key === sd.key){
+                d.values = sd.values;
+            }
+        })
+    });
+
+    group_list.sort(function (one, other) {
+        //a - b is
+        //   0 when elements are the same
+        //  >0 when a > b
+        //  <0 when a < b
+        return one.values.length - other.values.length;
+    });
+
     let fraction = (2 * Math.PI) / group_list.length;
     let current_pos = 0;
     let r = 20;
     let posX = r * Math.cos(current_pos);
     let posY = r * Math.sin(current_pos);
 
-    // console.log(fraction);
+    // for (var i = 0; i < group_list.length; i++) {
+    //     group_list[i].x = posX;
+    //     group_list[i].y = posY;
+    //
+    //     current_pos += fraction;
+    //     posX = r * Math.cos(current_pos);
+    //     posY = r * Math.sin(current_pos);
+    // }
 
-    for (var i = 0; i < group_list.length; i++) {
-        group_list[i].x = posX;
-        group_list[i].y = posY;
+    group_list.forEach(function (d) {
+        d.x = posX;
+        d.y = posY;
 
         current_pos += fraction;
         posX = r * Math.cos(current_pos);
         posY = r * Math.sin(current_pos);
-    }
+    })
+
+    // console.log(group_list);
 
 }
 
 function createSpiralLayout(centerX, centerY, radius, group_list) {
-
     let sides = group_list.length,
         coils = 2,
         rotation = 2 * (Math.PI/180);
