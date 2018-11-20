@@ -120,7 +120,6 @@ function init() {
     //distributeRandomCubes();
     //distributeCubesByData();
     distributeCubesInTubeByData(false);
-    AddObjectsToMap();
     distributeEdges();
 
     _raycaster = new THREE.Raycaster();
@@ -220,6 +219,8 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
         _scene.add(object);
         _objects.push(object);
     });//end for
+
+    updateObjectsToMap();
 }
 
 /*
@@ -229,61 +230,28 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
 */
 function distributeEdges(){
     
-    //TODO
-    
-    // _objects.forEach(o=>{
-    //     console.log(o.info);
-    // });    
-    //console.log(_objects[0].info.target_nodes);    
+    _objects.forEach(o=>{
+        let target = {id:"",location:""};
+        target.id = o.info.target_nodes[0];//get only first node related
+        
+        if(_objects_map[target.id]){
+            target.location = _objects_map[target.id].position;
 
-    //console.log(_objects_map[ +_objects[0].info.target_nodes[0] ].position);
-    // console.log(+_objects[0].info.target_nodes[0]);
-    // console.log(_objects);
-    
-
-     let temp_first_edge_from_object0_target_position = _objects_map[ +_objects[0].info.target_nodes[0] ].position;
-    // let positions = [_objects[0].position, temp_first_edge_from_object0_target_position];
-
-    // console.log(positions);
-
-    // var curve = new THREE.LineCurve( _objects[0].position, temp_first_edge_from_object0_target_position );
-
-    // var geometry = new THREE.BufferGeometry();
-    // var curve = new THREE.CatmullRomCurve3( positions );
-    // curve.curveType = 'catmullrom';
-    // curve.mesh = new THREE.Line( geometry.clone(), new THREE.LineBasicMaterial( {
-    //     color: 0xff0000,
-    //     opacity: 0.35
-    // } ) );
-
-    // let splines = {}
-    // splines.uniform = curve;
-
-    // _scene.add(curve);
-
-    // Create a sine-like wave
-    // var curve = new THREE.SplineCurve( [
-    //     new THREE.Vector2( -10, 0 ),
-    //     new THREE.Vector2( -5, 5 ),
-    //     new THREE.Vector2( 0, 0 ),
-    //     new THREE.Vector2( 5, -5 ),
-    //     new THREE.Vector2( 10, 0 )
-    // ] );
-    var curve = new THREE.LineCurve( _objects[0].position, temp_first_edge_from_object0_target_position );
-
-    var points = curve.getPoints( 50 );
-    var geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-    var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-
-    // Create the final object to add to the scene
-    var splineObject = new THREE.Line( geometry, material );
-
-    _scene.add(splineObject);
+            //specify curve/line features
+            var curve = new THREE.LineCurve3( o.position, target.location );
+            var points = curve.getPoints( 50 );
+            var geometry = new THREE.BufferGeometry().setFromPoints( points );    
+            var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );    
+            // Create the final object to add to the scene
+            var splineObject = new THREE.Line( geometry, material );    
+            _scene.add(splineObject);
+        }        
+    });
 
 }
 
-function AddObjectsToMap(){
+function updateObjectsToMap(){
+    _objects_map = [];
     _objects.forEach(o=>{
         _objects_map[o.info.id] = o;
     });
@@ -308,8 +276,7 @@ function onDocumentTouchStart( event ) {
     event.clientY = event.touches[0].clientY;
     onDocumentMouseDown( event );
 }
-function onDocumentMouseDown( event ) {
-    
+function onDocumentMouseDown( event ) {    
     event.preventDefault();
     _mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
     _mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
@@ -317,7 +284,6 @@ function onDocumentMouseDown( event ) {
     var intersects = _raycaster.intersectObjects( _objects );
     if ( intersects.length > 0 ) {
         console.log(intersects[0].object.info);
-        //console.log(_camera);
         intersects[0].object.material.color.setHex( Math.random() * 0xffffff );
     }//end if
 }
