@@ -241,8 +241,12 @@ function distributeEdges(){
     // console.log(_objects);
     
 
-    // let temp_first_edge_from_object0_target_position = _objects_map[ +_objects[0].info.target_nodes[0] ].position;
+     let temp_first_edge_from_object0_target_position = _objects_map[ +_objects[0].info.target_nodes[0] ].position;
     // let positions = [_objects[0].position, temp_first_edge_from_object0_target_position];
+
+    // console.log(positions);
+
+    // var curve = new THREE.LineCurve( _objects[0].position, temp_first_edge_from_object0_target_position );
 
     // var geometry = new THREE.BufferGeometry();
     // var curve = new THREE.CatmullRomCurve3( positions );
@@ -256,6 +260,27 @@ function distributeEdges(){
     // splines.uniform = curve;
 
     // _scene.add(curve);
+
+    // Create a sine-like wave
+    // var curve = new THREE.SplineCurve( [
+    //     new THREE.Vector2( -10, 0 ),
+    //     new THREE.Vector2( -5, 5 ),
+    //     new THREE.Vector2( 0, 0 ),
+    //     new THREE.Vector2( 5, -5 ),
+    //     new THREE.Vector2( 10, 0 )
+    // ] );
+    var curve = new THREE.LineCurve( _objects[0].position, temp_first_edge_from_object0_target_position );
+
+    var points = curve.getPoints( 50 );
+    var geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+    var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+
+    // Create the final object to add to the scene
+    var splineObject = new THREE.Line( geometry, material );
+
+    _scene.add(splineObject);
+
 }
 
 function AddObjectsToMap(){
