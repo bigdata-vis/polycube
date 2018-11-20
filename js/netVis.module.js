@@ -4,6 +4,7 @@ let _camera, _scene,_renderer, _controls;
 let _raycaster;
 let _mouse;
 let _objects = [];
+let _objects_map = [];
 
 let _data;
 let _data_map = new Map();
@@ -119,6 +120,8 @@ function init() {
     //distributeRandomCubes();
     //distributeCubesByData();
     distributeCubesInTubeByData(false);
+    AddObjectsToMap();
+    distributeEdges();
 
     _raycaster = new THREE.Raycaster();
     _mouse = new THREE.Vector2();
@@ -219,7 +222,6 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
     });//end for
 }
 
-<<<<<<< HEAD
 /*
     Edge Bundles are using "spline curves":
     paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4015425
@@ -287,8 +289,6 @@ function AddObjectsToMap(){
     });
 }
 
-=======
->>>>>>> parent of 2f66ad8... Starting Edges distribution
 function getBiggestLayerAmount(distribution_count){
     let biggest_amount = 0;
     distribution_count.forEach(e=>{
