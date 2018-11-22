@@ -161,8 +161,8 @@ function getFlattenedLayer(allGroups) {
     // convert to array of object so it works with other functions
     let result = [];
 
-    flattenedLayer.forEach( (value, key) => {
-      result.push({ key: key, values: value});
+    flattenedLayer.forEach((value, key) => {
+        result.push({key: key, values: value});
     });
 
     // console.log(result);
@@ -268,9 +268,9 @@ function createDiagonalLayout(group_list, originalSizes = null) {
         group_list[i].y = posY;
 
         rad = useOriginalSize ? originalSizes[i].values.length : group_list[i].values.length;
-        if(rad < 40) rad = 40;
-        posX = posX - rad/12.5;
-        posY = posY - rad/12.5;
+        if (rad < 40) rad = 40;
+        posX = posX - rad / 12.5;
+        posY = posY - rad / 12.5;
     }
     return group_list;
 }
@@ -299,7 +299,7 @@ function createMatrixLayout(group_list, asc = false) {
         {x: 7.333333333333334, y: -22}
     );
     // group_list = shuffle(group_list);
-    group_list = group_list.sort( asc ? compareArrayBySizeAsc : compareArrayBySizeDesc);
+    group_list = group_list.sort(asc ? compareArrayBySizeAsc : compareArrayBySizeDesc);
 
     for (var i = 0; i < group_list.length; i++) {
         group_list[i].x = gridPositionArray[i].x;
@@ -323,7 +323,7 @@ function createCircularLayout(group_list, superlayer) {
 
     group_list.forEach(function (d) {
         superlayer.forEach(function (sd) {
-            if(d.key === sd.key){
+            if (d.key === sd.key) {
                 d.values = sd.values;
             }
         })
@@ -368,17 +368,18 @@ function createCircularLayout(group_list, superlayer) {
 function createSpiralLayout(centerX, centerY, radius, group_list) {
     let sides = group_list.length,
         coils = 2,
-        rotation = 2 * (Math.PI/180);
+        rotation = 2 * (Math.PI / 180);
+
     // How far to step away from center for each side.
     let awayStep = radius / sides;
+    // let awayStep = 1.2;
 
 // How far to rotate around center for each side.
     let aroundStep = coils / sides;// 0 to 1 based.
 
 // Convert aroundStep to radians.
-    let aroundRadians = aroundStep * (Math.PI/180);
+    let aroundRadians = aroundStep * (Math.PI / 180);
     let new_time = [];
-
 
     // sort group by years
     group_list.sort(function (a, b) {
@@ -387,9 +388,10 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
 
 
     // For every side, step around and away from center.
-    for(let i=0; i<sides; i++){
+    for (let i = 0; i < sides; i++) {
         // How far away from center
         let away = (i * awayStep);
+        // let away = (i + 0.1);
 
         // How far around the center.
         let around = i + aroundRadians * rotation;
@@ -455,14 +457,14 @@ function createNewSpriteLabel(message, parameters) {
     return object;
 }
 
-function documentReady(callback){
+function documentReady(callback) {
     // in case the document is already rendered
-    if (document.readyState!='loading') callback();
+    if (document.readyState != 'loading') callback();
     // modern browsers
     else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
     // IE <= 8
-    else document.attachEvent('onreadystatechange', function(){
-            if (document.readyState=='complete') callback();
+    else document.attachEvent('onreadystatechange', function () {
+            if (document.readyState == 'complete') callback();
         });
 }
 
@@ -477,16 +479,16 @@ function getUrlQueryByName(name, url) {
 }
 
 Object.defineProperty(Array.prototype, 'chunk', {
-    value: function(chunkSize) {
+    value: function (chunkSize) {
         var R = [];
-        for (var i=0; i<this.length; i+=chunkSize)
-            R.push(this.slice(i,i+chunkSize));
+        for (var i = 0; i < this.length; i += chunkSize)
+            R.push(this.slice(i, i + chunkSize));
         return R;
     }
 });
 
 
-function getDynamicTimeAxis(start,end,labelCount) {
+function getDynamicTimeAxis(start, end, labelCount) {
     //check if the start and end is day, month, or year
 
     let dateArray = d3.scaleTime()
@@ -497,7 +499,7 @@ function getDynamicTimeAxis(start,end,labelCount) {
 
 }
 
-function randomIntFromInterval(min,max) // min and max included
+function randomIntFromInterval(min, max) // min and max included
 {
-    return Math.floor(Math.random()*(max-min+1)+min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }

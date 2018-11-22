@@ -338,7 +338,7 @@
             //check to remove lat and long data
 
 //            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
-            var newData = data.slice(0, 1000); //todo: slice arrray according to date range
+            var newData = data.slice(0, 1200); //todo: slice arrray according to date range
 //            var newData = data;
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -485,7 +485,7 @@
 
         }).name("Show Hull <i class=\"fa fa-tree\"></i>");
 
-        gui.add(params, "nodeSize").min(5).max(80).onChange(function () {
+        gui.add(params, "nodeSize").min(1).max(80).onChange(function () {
             var value = params.nodeSize;
 //        console.log(value);
             d3.selectAll(".pointCloud")
@@ -628,7 +628,7 @@
 
 
         //move camera
-//        polyCube.pointOfInterest(currentId)
+        polyCube.pointOfInterest(currentId)
     }
 
     prevBtn.onclick = function () {
@@ -654,7 +654,7 @@
             );
 
         //move camera
-//        polyCube.pointOfInterest(currentId)
+        polyCube.pointOfInterest(currentId)
     }
 
 </script>

@@ -2003,16 +2003,19 @@
                     z: camera.position.z
                 })
                     .to({
-                        x: point.x,
-                        y: point.y,
+                        x: point.x + 200,
+                        y: point.y + 200,
                         z: point.z + 200
                     }, 1600)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate(function () {
+                        camera.up = new THREE.Vector3(0,0,1);
                         camera.position.set(this.x, this.y, this.z);
                         camera.lookAt(new THREE.Vector3(0, 0, 0));
                     })
                     .onComplete(function () {
+                        camera.up = new THREE.Vector3(0,0,1);
+                        camera.position.set(this.x, this.y, this.z);
                         camera.lookAt(new THREE.Vector3(0, 0, 0));
                     })
                     .start();
