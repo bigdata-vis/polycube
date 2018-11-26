@@ -104,7 +104,7 @@ function init() {
     _camera.rotation.set( -0.44, -0.85, -0.34 );
 
     
-    _renderer = new THREE.CanvasRenderer();
+    _renderer = new THREE.WebGLRenderer();
     _renderer.setPixelRatio( window.devicePixelRatio );
     _renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -142,7 +142,7 @@ function getColorByCategory(category){
 function distributeRandomCubes(){
     var geometry = new THREE.BoxBufferGeometry( 50, 50, 50 );
     for ( var i = 0; i < 10; i ++ ) {
-        var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
+        var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } ) ); //, opacity: 0.5
         object.position.x = Math.random() * 800 - 400;
         object.position.y = Math.random() * 800 - 400;
         object.position.z = Math.random() * 800 - 400;
@@ -156,14 +156,13 @@ function distributeRandomCubes(){
 
 
 function distributeCubesByData(){
-    let cube_size = 10;
+    let cube_size = 5;
     let geometry = new THREE.BoxBufferGeometry( cube_size, cube_size, cube_size );
     let distribution_count = [];
     for(let i=0; i<_amount_of_layers; i++){ distribution_count[i]=0; }
 
     _data.forEach(e => { 
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getColorByCategory(e.category_1),
-                                                                              opacity: 0.5 } ) );
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getColorByCategory(e.category_1) } ) ); // ,opacity: 0.5
         
         let dist_pos = getPositionInDistribution(e);        
         let pos_x = distribution_count[dist_pos];
@@ -200,8 +199,7 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
     let fraction = (2* Math.PI)/biggest_layer_amount;
 
     _data.forEach(e => { 
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getColorByCategory(e.category_1),
-                                                                              opacity: 0.5 } ) );
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getColorByCategory(e.category_1) } ) ); // ,opacity: 0.5
         
         let dist_pos = getPositionInDistribution(e);        
         let order_in_layer_pos = distribution_count[dist_pos];//get id
