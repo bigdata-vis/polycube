@@ -1995,7 +1995,7 @@
             if (id === d.newData.data.IU_Archives_Number) {
                 point = d.position;
 
-                // console.log(point.x)
+                console.log(camera)
 
                 var tween = new TWEEN.Tween({
                     x: camera.position.x,
@@ -2003,20 +2003,23 @@
                     z: camera.position.z
                 })
                     .to({
-                        x: point.x + 200,
-                        y: point.y + 200,
-                        z: point.z + 200
+                        x: point.x,
+                        y: point.y,
+                        z: point.z + 300
                     }, 1600)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate(function () {
-                        camera.up = new THREE.Vector3(0,0,1);
+                        // camera.up = new THREE.Vector3(0,0,1);
                         camera.position.set(this.x, this.y, this.z);
-                        camera.lookAt(new THREE.Vector3(0, 0, 0));
+                        // camera.lookAt(new THREE.Vector3(0, 0, 0));
+                        camera.lookAt(new THREE.Vector3(point.x, point.y, point.z));
                     })
                     .onComplete(function () {
-                        camera.up = new THREE.Vector3(0,0,1);
-                        camera.position.set(this.x, this.y, this.z);
+                        // camera.up = new THREE.Vector3(0,0,1);
+                        // camera.position.set(this.x, this.y, this.z);
                         camera.lookAt(new THREE.Vector3(0, 0, 0));
+                        camera.lookAt(new THREE.Vector3(point.x, point.y, point.z));
+
                     })
                     .start();
                 // d3.select(d.element).classed("highlighted", true);

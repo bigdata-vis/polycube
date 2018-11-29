@@ -266,10 +266,25 @@
 <!--</div>-->
 
 
+
 <div class="timeline" id="timeLine"></div>
 
 
 <br>
+
+<div class="modal hide fade" id="myModal2">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn">Close</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -296,6 +311,8 @@
 <!--<script src="js/vis/brushSet.js"></script>-->
 <script src="js/vis/timeLegend.js"></script>
 <script>
+
+
 
     //hide timeline default
     d3.selectAll(".timeline")
@@ -337,8 +354,8 @@
 
             //check to remove lat and long data
 
-//            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
-            var newData = data.slice(0, 1200); //todo: slice arrray according to date range
+            var newData = data.slice(0, 1700); //todo: slice arrray according to date range
+//            var newData = data.slice(0, 1200); //todo: slice arrray according to date range
 //            var newData = data;
             /**
              * Sort the data according to ascending dates to help with line drawing
@@ -545,7 +562,7 @@
 //                console.log(listCont);
 
 //                polyCube.setsUnion(this.innerHTML)
-                polyCube.setsUnion(listCont)
+                polyCube.setsUnion(listCont);
 
                 //reverse click count
                 clicksCount = 0;
@@ -628,7 +645,7 @@
 
 
         //move camera
-        polyCube.pointOfInterest(currentId)
+//        polyCube.pointOfInterest(currentId)
     }
 
     prevBtn.onclick = function () {
@@ -654,7 +671,7 @@
             );
 
         //move camera
-        polyCube.pointOfInterest(currentId)
+//        polyCube.pointOfInterest(currentId)
     }
 
 </script>
