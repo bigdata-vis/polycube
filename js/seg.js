@@ -717,7 +717,7 @@
 
             // console.log(new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000));
 
-            console.warn(dateArray);
+            // console.warn(dateArray);
 
             dateArray.forEach(function (d) {
                 // console.log(d);
@@ -1819,10 +1819,17 @@
             .on('click', function (d, i) {
                 // update elements
 
+                // d3.select("#textTitle")
+                //     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
+                //         "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
+                //         "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                //     );
+
                 d3.select("#textTitle")
                     .html("<strong<p>" + d.Description_from_Slide_Mount + "</p>" +
                         "<span class='date'>Date : " + formatDate(parse4(d.Date)) + " </span> <br>" +
-                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>"
+                        "<span class='location'>Location : " + d.City_and_State + "</span> <br>" +
+                        `<object style='max-width:240px' data='${d.Image_URL}'> </object>` + "<br>"
                     );
 
                 // d3.select("#searchLink")

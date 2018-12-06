@@ -666,6 +666,8 @@
             else if (layout === 'matrix') {
                 /* Forced Circular */
                 let order = ordering === 'ascending' ? true : false;
+                order = false;
+
                 createMatrixLayout(superLayerPos, order);
             }
 

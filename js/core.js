@@ -301,6 +301,8 @@ function createMatrixLayout(group_list, asc = false) {
     // group_list = shuffle(group_list);
     group_list = group_list.sort(asc ? compareArrayBySizeAsc : compareArrayBySizeDesc);
 
+    console.log(group_list)
+
     for (var i = 0; i < group_list.length; i++) {
         group_list[i].x = gridPositionArray[i].x;
         group_list[i].y = gridPositionArray[i].y;
@@ -388,6 +390,29 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
 
 
     // For every side, step around and away from center.
+    // for (let i = 0; i < sides; i++) {
+    //     // How far away from center
+    //     let away = (i * awayStep);
+    //     // let away = (i + 0.1);
+    //
+    //     // How far around the center.
+    //     let around = i + aroundRadians * rotation;
+    //
+    //     // console.log(away/);
+    //
+    //     // Convert 'around' and 'away' to X and Y.
+    //     let x = centerX + Math.sin(around) * (Math.sqrt(away) * 6);
+    //     let y = centerY + Math.cos(around) * (Math.sqrt(away) * 6);
+    //
+    //     new_time.push({x: x, y: y, data: group_list[i]});
+    //
+    //     // console.log(group_list[i]);
+    //     // group_list[i].x = x;
+    //     // group_list[i].y = y;
+    // }
+
+
+    // // For every side, step around and away from center.
     for (let i = 0; i < sides; i++) {
         // How far away from center
         let away = (i * awayStep);
@@ -406,6 +431,32 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
         // group_list[i].x = x;
         // group_list[i].y = y;
     }
+
+
+    // for (let i = 0; i < sides; i++) {
+    //     // // How far away from center
+    //     // let away = (i * awayStep);
+    //     var theta = 2.39998131 * i;
+    //     // let away = (i + 0.1);
+    //     //
+    //     // // How far around the center.
+    //     // let around = i + aroundRadians * rotation;
+    //     //
+    //     // // Convert 'around' and 'away' to X and Y.
+    //     // let x = centerX + Math.sin(around) * away;
+    //     // let y = centerY + Math.cos(around) * away;
+    //
+    //     let away = 3.5 * Math.sqrt(theta);
+    //
+    //     let x = centerX + Math.cos(theta) * away;
+    //     let y = centerY + Math.sin(theta) * away;
+    //
+    //     //
+    //     new_time.push({x: x, y: y, data: group_list[i]});
+    //
+    // }
+
+
     // console.log(x0);
     return new_time;
 }
