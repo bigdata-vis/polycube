@@ -494,7 +494,13 @@
                 //polyCube.showNodes()
 //                polyCube.create3DShape()
 //                polyCube.drawHull("Architectural photographs")
-                polyCube.drawCompleteHull();
+
+                if(!window.hallDrawn){
+                    polyCube.drawCompleteHull();
+                }else {
+                    polyCube.unhideAllHull()
+                }
+
             } else {
 //                console.log(value);
                 polyCube.hideAllHull();

@@ -1907,6 +1907,18 @@
     pCube.hideAllHull = function () {
         hullGroup.visible = false;
         // console.log(hullGroup);
+
+        //hall drawn variable
+        window.hallDrawn = true;
+    };
+
+
+    pCube.unhideAllHull = function () {
+        hullGroup.visible = true;
+        // console.log(hullGroup);
+
+        //hall drawn variable
+        window.hallDrawn = false;
     };
 
     pCube.highlightNodes = function (point) {
