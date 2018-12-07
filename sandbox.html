@@ -518,7 +518,11 @@
 
         gui.add(params, 'setsLayout', ['force', 'diagonal', 'circle', 'matrix']).onChange(d => {
 //            console.log(d);
-            polyCube.updateSupelayer(d);
+
+            //only on STC
+            if(window.layout === "STC" || window.layout === undefined){
+                polyCube.updateSupelayer(d);
+            }
 
         }).name("Sets Layouts <i class=\"fa fa-cogs\"></i>");
 
