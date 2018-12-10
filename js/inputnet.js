@@ -439,10 +439,10 @@
 
 
             let simulation = d3.forceSimulation()
-                .force('charge_force', d3.forceManyBody().strength(40))
+                .force('charge_force', d3.forceManyBody().strength(1))
                 .force('center_force', center_force)
                 .force('box_force', box_force)
-                .force('collision', d3.forceCollide().strength(40).radius(function (d) {
+                .force('collision', d3.forceCollide().strength(1).radius(function (d) {
                     return radius
                 }).iterations(2))
                 .nodes(group_list)
