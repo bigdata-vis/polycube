@@ -650,7 +650,10 @@
             superLayerPos = getSuperLayer(allGroups); //original position from the superlayer
             superFlattenedLayer = getFlattenedLayer(allGroups); //flattened combined layers of all sets
 
-            // console.log(superLayerPos);
+
+            // window.hallDrawn = true;
+
+            console.log(window.hallDrawn);
 
 
             if (layout === 'force') {
