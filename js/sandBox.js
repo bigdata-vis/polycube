@@ -143,6 +143,9 @@
             //get unix
             d.unix = +(full_date / 1000).toFixed(0);
 
+            //fix img url error
+            d.Image_URL.replace("http://", "https://")
+
             //data segmentation
             /**
              * Group dataSets by intervals and sum of the intervals date range,
