@@ -144,8 +144,9 @@
             d.unix = +(full_date / 1000).toFixed(0);
 
             //fix img url error
-            d.Image_URL.replace("http://", "https://")
+            d.Image_URL = d.Image_URL.replace("http", "https");
 
+            // console.log(d)
             //data segmentation
             /**
              * Group dataSets by intervals and sum of the intervals date range,
