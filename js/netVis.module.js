@@ -19,10 +19,14 @@ _uniq_categories = [];
 //TODO: define collor palette
 _uniq_colors = [0x8dd3c7,0xffffb3,0xbebada,0xfb8072,0x80b1d3,0xfdb462,0xb3de69,0xfccde5,0xd9d9d9,0xbc80bd,0xccebc5,0xffed6f,
                 0x8dd3c7,0xffffb3,0xbebada,0xfb8072,0x80b1d3,0xfdb462,0xb3de69,0xfccde5,0xd9d9d9,0xbc80bd,0xccebc5,0xffed6f];
+//#################
+//##### MAIN CALLS
+//#################
 
-loadData();
+//loadDataCushmanRelationships();
+loadDataCountriesRelationships();
 
-function loadData() {
+function loadDataCushmanRelationships() {
     let xhr = new XMLHttpRequest();
     xhr.overrideMimeType('application/json');
     xhr.open('GET', './data/cushman_relationships.json');
@@ -36,7 +40,34 @@ function loadData() {
                 _data_map.set(element.id, element);
             });            
             
-            init();
+            init_cushman();
+            animate();
+        } 
+    }
+}
+
+function loadDataCountriesRelationships() {
+    let xhr = new XMLHttpRequest();
+    xhr.overrideMimeType('application/json');
+    xhr.open('GET', './data/countries/001_countries_events.json');
+    xhr.send();
+    xhr.onreadystatechange = function() {    
+        if(this.readyState == 4 && this.status == '200') {
+            _data = JSON.parse(xhr.responseText);
+            
+            //data cleaner (remove countries without events)
+            for(var i = _data.length - 1; i >= 0; i--) {
+                if(_data[i].events_id_list.length === 0) {
+                    _data.splice(i, 1);
+                }
+            }//end for
+
+            //map constructor
+            _data.forEach(element => {
+                _data_map.set(element.country, element);
+            });            
+            
+            init_countries();
             animate();
         } 
     }
@@ -46,6 +77,12 @@ function sortArrayByDate(a,b){
     let c = new Date(a.date_time);
     let d = new Date(b.date_time);
     return c-d;
+}
+
+function sortArrayByEvents(a,b){
+    let c = a.events_id_list.length;
+    let d = b.events_id_list.length;
+    return d-c;
 }
 
 function getDataCategories(){
@@ -87,8 +124,49 @@ function getDistribution(){
     return distribution_result;
 }
 
+function init_countries() {
 
-function init() {
+    _data = _data.sort(sortArrayByEvents);
+    
+    console.log(_data);
+
+    _container = document.createElement('div');
+    document.body.appendChild( _container );
+    
+    _camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+    _camera.position.set( 0, 300, 500 );
+    _camera.rotation.set( -0.44, -0.85, -0.34 );
+
+    
+    _renderer = new THREE.WebGLRenderer();
+    _renderer.setPixelRatio( window.devicePixelRatio );
+    _renderer.setSize( window.innerWidth, window.innerHeight );
+
+    // Setup controls
+    _controls = new THREE.OrbitControls(_camera, _renderer.domElement);
+    _controls.target = new THREE.Vector3(0, 0, 0);
+    _controls.enableDampening = true;
+    _controls.enableZoom = true;
+
+    _scene = new THREE.Scene();
+    _scene.background = new THREE.Color( 0xf0f0f0 );
+
+    distributeCountriesCubesInTube();
+    //distributeEdges();
+
+    _raycaster = new THREE.Raycaster();
+    _mouse = new THREE.Vector2();
+    _container.appendChild( _renderer.domElement );
+    _stats = new Stats();
+    _container.appendChild(_stats.dom );
+
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+    document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+    //
+    window.addEventListener( 'resize', onWindowResize, false );
+}
+
+function init_cushman() {
 
     _data = _data.sort(sortArrayByDate);
     _date_range = getDataRangeInDays();
@@ -134,6 +212,11 @@ function init() {
     window.addEventListener( 'resize', onWindowResize, false );
 }
 
+function getRandomColor(){
+    let idx = Math.floor(Math.random() * 12);
+    return _uniq_colors[idx];
+}
+
 function getColorByCategory(category){
     let idx = _uniq_categories.indexOf(category);
     return _uniq_colors[idx];
@@ -173,6 +256,30 @@ function distributeCubesByData(){
         object.info = e;
 
         distribution_count[dist_pos]++;
+        _scene.add(object);
+        _objects.push(object);
+    });//end for
+}
+
+function distributeCountriesCubesInTube(){
+    let cube_size = 5;
+    let geometry = new THREE.BoxBufferGeometry( cube_size, cube_size, cube_size );    
+    let r = _data.length*cube_size/4;
+    let fraction = (2* Math.PI)/_data.length
+
+    _data.forEach((e,i) => { 
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        
+        let pos = i*fraction;
+
+        object.position.x = r*Math.cos(pos);        
+        object.position.z = r*Math.sin(pos);
+        object.position.y = i;
+        object.info = e;
+
+        console.log(object.position);
+        console.log(object.info);
+
         _scene.add(object);
         _objects.push(object);
     });//end for
