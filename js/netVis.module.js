@@ -88,6 +88,12 @@ function sortArrayByEvents(a,b){
     return d-c;
 }
 
+function sortArrayByAge(a,b){
+    let c = a.overall_end - a.overall_start;
+    let d = b.overall_end - b.overall_start;
+    return d-c;
+}
+
 function getDataCategories(){
     let c = [];
 
@@ -131,7 +137,7 @@ function getDistribution(){
 
 function init_countries() {
 
-    _data = _data.sort(sortArrayByEvents);
+    
     
     //console.log(_data);
 
@@ -157,6 +163,8 @@ function init_countries() {
     _scene.background = new THREE.Color( 0xf0f0f0 );
 
     generateCountriesMetaInfo();
+    _data = _data.sort(sortArrayByAge);
+    
     distributeCountriesCubesInTube();
     distributeCountriesEdges();
 
