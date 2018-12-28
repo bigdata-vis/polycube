@@ -14,6 +14,9 @@ let _date_range = 0; //year(s)
 let _amount_of_layers = 100;
 let _distribution = [];
 
+let _first_event_year = 3000;
+let _last_event_year = 0;
+
 //cushman_relationships presents 14 categories
 _uniq_categories = [];
 //TODO: define collor palette
@@ -184,6 +187,7 @@ function createCountriesLinkById(id){
     if(event){        
         let position_source = _data_map.get(event.state_name1).position;
         let position_target = _data_map.get(event.state_name2).position;
+      
 
         //specify curve/line features
         var curve = new THREE.LineCurve3( position_source, position_target );
@@ -325,6 +329,9 @@ function generateCountriesMetaInfo(){
         c.overall_start = overall_start;
         c.overall_end = overall_end;       
 
+        if(_first_event_year > overall_start) _first_event_year = overall_start;
+        if(_last_event_year < overall_end) _last_event_year = overall_end;
+        
     });
 }
 
@@ -332,7 +339,10 @@ function distributeCountriesCubesInTube(){
     let cube_size = 5;
       
     let r = _data.length*cube_size/4;
-    let fraction = (2* Math.PI)/_data.length
+    let fraction = (2* Math.PI)/_data.length;
+
+    console.log(_first_event_year);
+    console.log(_last_event_year);
 
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
@@ -343,7 +353,8 @@ function distributeCountriesCubesInTube(){
 
         object.position.x = r*Math.cos(pos);        
         object.position.z = r*Math.sin(pos);
-        object.position.y = -cube_height/2;
+        object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
+        console.log((e.overall_start - _first_event_year));//+ (e.overall_start - _first_event_year);
         object.info = e;
 
         //update respectiove element position in map
