@@ -66,7 +66,7 @@ function loadDataCountriesRelationships() {
             _data.forEach(element => {
                 _data_map.set(element.country, element);
             });            
-            
+
             init_countries();
             animate();
         } 
@@ -124,11 +124,13 @@ function getDistribution(){
     return distribution_result;
 }
 
+
+
 function init_countries() {
 
     _data = _data.sort(sortArrayByEvents);
     
-    console.log(_data);
+    //console.log(_data);
 
     _container = document.createElement('div');
     document.body.appendChild( _container );
@@ -151,8 +153,9 @@ function init_countries() {
     _scene = new THREE.Scene();
     _scene.background = new THREE.Color( 0xf0f0f0 );
 
+    generateCountriesMetaInfo();
     distributeCountriesCubesInTube();
-    //distributeEdges();
+    distributeCountriesEdges();
 
     _raycaster = new THREE.Raycaster();
     _mouse = new THREE.Vector2();
@@ -165,6 +168,50 @@ function init_countries() {
     //
     window.addEventListener( 'resize', onWindowResize, false );
 }
+
+function distributeCountriesEdges(){
+
+    _data.forEach((e,i) => { 
+        e.events_id_list.forEach(id=>{
+                createCountriesLinkById(id);
+        });
+    });//end for
+
+}
+
+function createCountriesLinkById(id){
+    let event = _events_map.get(id);
+    if(event){        
+        let position_source = _data_map.get(event.state_name1).position;
+        let position_target = _data_map.get(event.state_name2).position;
+
+        //specify curve/line features
+        var curve = new THREE.LineCurve3( position_source, position_target );
+        var points = curve.getPoints( 50 );
+        var geometry = new THREE.BufferGeometry().setFromPoints( points );    
+        var material = getCountriesEdgeColorByAgreement(event);
+        // Create the final object to add to the scene
+        var splineObject = new THREE.Line( geometry, material );    
+        _scene.add(splineObject);
+    }
+}
+
+function getCountriesEdgeColorByAgreement(event){
+    if(event.defense) return new THREE.LineBasicMaterial( { color : 0xe41a1c } );  
+    else if (event.entente) return new THREE.LineBasicMaterial( { color : 0x377eb8 } );  
+    else if (event.neutrality) return new THREE.LineBasicMaterial( { color : 0x4daf4a } );  
+    else { // if event.nonaggression
+        return new THREE.LineBasicMaterial( { color : 0x984ea3 } );    
+    }
+
+    // if(event.defense) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
+    // else if (event.entente) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
+    // else if (event.neutrality) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
+    // else { // if event.nonaggression
+    //     return new THREE.LineBasicMaterial( { color : 0x984ea3 } );    
+    // }
+}
+
 
 function init_cushman() {
 
@@ -197,8 +244,8 @@ function init_cushman() {
 
     //distributeRandomCubes();
     //distributeCubesByData();
-    distributeCubesInTubeByData(false);
-    distributeEdges();
+    distributeCushmanCubesInTubeByData(false);
+    distributeCushmanEdges();
 
     _raycaster = new THREE.Raycaster();
     _mouse = new THREE.Vector2();
@@ -261,13 +308,35 @@ function distributeCubesByData(){
     });//end for
 }
 
+/*
+ This function find and add overall_start & overall_end to countries data based on its events_id_list
+*/
+function generateCountriesMetaInfo(){
+    _data.forEach((c,i) => { 
+        let overall_start = 3000;
+        let overall_end = 0;
+
+        c.events_id_list.forEach(id=>{
+            let event = _events_map.get(id);
+            if(overall_start > event.start) overall_start = event.start;
+            if(overall_end < event.end) overall_end = event.end;
+        });
+
+        c.overall_start = overall_start;
+        c.overall_end = overall_end;       
+
+    });
+}
+
 function distributeCountriesCubesInTube(){
     let cube_size = 5;
-    let geometry = new THREE.BoxBufferGeometry( cube_size, cube_size, cube_size );    
+      
     let r = _data.length*cube_size/4;
     let fraction = (2* Math.PI)/_data.length
 
     _data.forEach((e,i) => { 
+        let cube_height = getCubeHeightByCountryName(e.country);
+        let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
         let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
         
         let pos = i*fraction;
@@ -277,12 +346,17 @@ function distributeCountriesCubesInTube(){
         object.position.y = i;
         object.info = e;
 
-        console.log(object.position);
-        console.log(object.info);
+        //update respectiove element position in map
+        _data_map.get(e.country).position = object.position;
 
         _scene.add(object);
         _objects.push(object);
     });//end for
+
+}
+
+function getCubeHeightByCountryName(country){
+    return _data_map.get(country).overall_start - _data_map.get(country).overall_end;
 }
 
 function distributeCubesInTubeByData(isUniformlyDistributed){
@@ -333,7 +407,7 @@ function distributeCubesInTubeByData(isUniformlyDistributed){
     paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4015425
     spline curve doc: https://threejs.org/docs/#api/en/extras/curves/SplineCurve
 */
-function distributeEdges(){
+function distributeCushmanEdges(){
     
     _objects.forEach(o=>{
         let target = {id:"",location:""};
