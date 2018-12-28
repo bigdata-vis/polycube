@@ -343,7 +343,7 @@ function distributeCountriesCubesInTube(){
 
         object.position.x = r*Math.cos(pos);        
         object.position.z = r*Math.sin(pos);
-        object.position.y = i;
+        object.position.y = -cube_height/2;
         object.info = e;
 
         //update respectiove element position in map
