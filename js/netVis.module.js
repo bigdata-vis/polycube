@@ -185,9 +185,18 @@ function distributeCountriesEdges(){
 function createCountriesLinkById(id){
     let event = _events_map.get(id);
     if(event){        
-        let position_source = _data_map.get(event.state_name1).position;
-        let position_target = _data_map.get(event.state_name2).position;
+        console.log(_data_map.get(event.state_name1).position);
+
+        let pos_source_x = _data_map.get(event.state_name1).position.x;
+        let pos_source_z = _data_map.get(event.state_name1).position.z;
+        let pos_target_x = _data_map.get(event.state_name2).position.x;
+        let pos_target_z = _data_map.get(event.state_name2).position.z;
       
+        let pos_y = getCountryEdgePositionYByYear(event.start);
+        let position_source = new THREE.Vector3( pos_source_x, pos_y, pos_source_z );;
+        let position_target = new THREE.Vector3( pos_target_x, pos_y, pos_target_z );;
+        console.log(_data_map.get(event.state_name1).position);
+        console.log("-------------");
 
         //specify curve/line features
         var curve = new THREE.LineCurve3( position_source, position_target );
@@ -198,6 +207,10 @@ function createCountriesLinkById(id){
         var splineObject = new THREE.Line( geometry, material );    
         _scene.add(splineObject);
     }
+}
+
+function getCountryEdgePositionYByYear(year){
+    return year - _first_event_year;
 }
 
 function getCountriesEdgeColorByAgreement(event){
@@ -354,7 +367,6 @@ function distributeCountriesCubesInTube(){
         object.position.x = r*Math.cos(pos);        
         object.position.z = r*Math.sin(pos);
         object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
-        console.log((e.overall_start - _first_event_year));//+ (e.overall_start - _first_event_year);
         object.info = e;
 
         //update respectiove element position in map
