@@ -137,10 +137,6 @@ function getDistribution(){
 
 function init_countries() {
 
-    
-    
-    //console.log(_data);
-
     _container = document.createElement('div');
     document.body.appendChild( _container );
     
@@ -164,8 +160,9 @@ function init_countries() {
 
     generateCountriesMetaInfo();
     _data = _data.sort(sortArrayByAge);
-    
-    distributeCountriesCubesInTube();
+
+    //distributeCountriesCubesInTube();
+    distributeCountriesCubesInForcedLayout();
     distributeCountriesEdges();
 
     _raycaster = new THREE.Raycaster();
@@ -193,7 +190,7 @@ function distributeCountriesEdges(){
 function createCountriesLinkById(id){
     let event = _events_map.get(id);
     if(event){        
-        console.log(_data_map.get(event.state_name1).position);
+        //console.log(_data_map.get(event.state_name1).position);
 
         let pos_source_x = _data_map.get(event.state_name1).position.x;
         let pos_source_z = _data_map.get(event.state_name1).position.z;
@@ -203,8 +200,8 @@ function createCountriesLinkById(id){
         let pos_y = getCountryEdgePositionYByYear(event.start);
         let position_source = new THREE.Vector3( pos_source_x, pos_y, pos_source_z );;
         let position_target = new THREE.Vector3( pos_target_x, pos_y, pos_target_z );;
-        console.log(_data_map.get(event.state_name1).position);
-        console.log("-------------");
+        //console.log(_data_map.get(event.state_name1).position);
+        //console.log("-------------");
 
         //specify curve/line features
         var curve = new THREE.LineCurve3( position_source, position_target );
@@ -374,6 +371,29 @@ function distributeCountriesCubesInTube(){
 
         object.position.x = r*Math.cos(pos);        
         object.position.z = r*Math.sin(pos);
+        object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
+        object.info = e;
+
+        //update respectiove element position in map
+        _data_map.get(e.country).position = object.position;
+
+        _scene.add(object);
+        _objects.push(object);
+    });//end for
+
+}
+
+function distributeCountriesCubesInForcedLayout(){
+    let cube_size = 5;
+
+    _data.forEach((e,i) => { 
+        let cube_height = getCubeHeightByCountryName(e.country);
+        let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        
+        
+        object.position.x = _countries_position_map.get(e.country).x/2;        
+        object.position.z = _countries_position_map.get(e.country).y/2;  
         object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
         object.info = e;
 
