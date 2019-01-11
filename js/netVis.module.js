@@ -6,6 +6,8 @@ let _mouse;
 let _objects = [];
 let _objects_map = [];
 
+let _spline_objects = [];
+
 let _data;
 let _data_map = new Map();
 
@@ -317,7 +319,9 @@ function createCountriesLinkById(id){
         var geometry = new THREE.BufferGeometry().setFromPoints( points );    
         var material = getCountriesEdgeColorByAgreement(event);
         // Create the final object to add to the scene
-        var splineObject = new THREE.Line( geometry, material );    
+        var splineObject = new THREE.Line( geometry, material );
+        splineObject.info = event;    
+        _spline_objects.push(splineObject);
         _scene.add(splineObject);
     }
 }
@@ -333,13 +337,6 @@ function getCountriesEdgeColorByAgreement(event){
     else { // if event.nonaggression
         return new THREE.LineBasicMaterial( { color : 0x984ea3 } );    
     }
-
-    // if(event.defense) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
-    // else if (event.entente) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
-    // else if (event.neutrality) return new THREE.LineBasicMaterial( { color : 0xFFFFFF } );  
-    // else { // if event.nonaggression
-    //     return new THREE.LineBasicMaterial( { color : 0x984ea3 } );    
-    // }
 }
 
 
@@ -633,20 +630,52 @@ function onDocumentMouseDown( event ) {
     if ( intersects.length > 0 ) {
         //pinta todos objetos de branco
         paintAllNodes(0xffffff);
-        console.log(intersects[0].object.info);        
+        let selected_obj = intersects[0].object;
+        console.log(selected_obj.info);        
         
-        intersects[0].object.material.color.setHex( 0xadd8e6 );
-        let related_countries = getAllRelatedCountries(intersects[0].object.info.country,
-                                                       intersects[0].object.info.events_id_list);       
-        
-        paintNodesList(related_countries)
+        //paint selected node
+        selected_obj.material.color.setHex( 0xadd8e6 );
+        let related_countries = getAllRelatedCountries(selected_obj.info.country,
+                                                       selected_obj.info.events_id_list);       
+                                                              
+        paintNodesList(related_countries, 0x000000)
+
+        highlightCountryEdges(selected_obj.info.country);
     }//end if
     else{
         paintAllNodes(0xadd8e6);
+        paintAllEdges();
     }
+
+    
 }
 
+function paintAllEdges(){
+    _spline_objects.forEach(line=>{
+        let color = getCountriesEdgeColorByAgreement(line.info).color;        
+        line.material.color = color ;
+    });
+}
 
+function highlightCountryEdges(country){
+    _spline_objects.forEach(line=>{
+        if(verifyLineEvent(line, country)){
+            let color = getCountriesEdgeColorByAgreement(line.info).color;
+            line.material.color = color;
+        }
+        else{            
+            line.material.color.setHex( 0xffffff );
+        }
+    });
+}
+
+function verifyLineEvent(line, selected_country){
+    if(line.info.state_name1 == selected_country ||
+       line.info.state_name2 == selected_country){
+        return true
+    }
+    return false;
+}
 
 function getAllRelatedCountries(source_country, event_list){
     let related_countries_list = [];
@@ -661,15 +690,12 @@ function getAllRelatedCountries(source_country, event_list){
 }
 
 function paintNodesList(list, color){
-    console.log(list);
     _objects.forEach(o=>{
         //if contains
         if(list.indexOf(o.info.country) > -1){
-            console.log("painted "+o.info.country);
             o.material.color.setHex( color );
         }
     });
-    console.log("---------");
 }
 
 function paintAllNodes(color){
