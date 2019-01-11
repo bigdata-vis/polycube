@@ -169,7 +169,7 @@ function init_countries() {
     distributeCountriesCubesInTube();
     //distributeCountriesCubesInForcedLayout();
     distributeCountriesEdges();
-    distributeTextLabels();
+    //distributeTextLabels();
 
    
     //////////////////////////////////////////
@@ -473,7 +473,8 @@ function distributeCountriesCubesInTube(){
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
         let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
         
         let pos = i*fraction;
 
@@ -594,6 +595,7 @@ function distributeCushmanEdges(){
 function updateObjectsToMap(){
     _objects_map = [];
     _objects.forEach(o=>{
+        console.log(o.info.id);
         _objects_map[o.info.id] = o;
     });
 }
@@ -617,16 +619,63 @@ function onDocumentTouchStart( event ) {
     event.clientY = event.touches[0].clientY;
     onDocumentMouseDown( event );
 }
+
+
+//CLICK
 function onDocumentMouseDown( event ) {    
     event.preventDefault();
     _mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
     _mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
     _raycaster.setFromCamera( _mouse, _camera );
     var intersects = _raycaster.intersectObjects( _objects );
+    
+
     if ( intersects.length > 0 ) {
-        console.log(intersects[0].object.info);
-        intersects[0].object.material.color.setHex( Math.random() * 0xffffff );
+        //pinta todos objetos de branco
+        paintAllNodes(0xffffff);
+        console.log(intersects[0].object.info);        
+        
+        intersects[0].object.material.color.setHex( 0xadd8e6 );
+        let related_countries = getAllRelatedCountries(intersects[0].object.info.country,
+                                                       intersects[0].object.info.events_id_list);       
+        
+        paintNodesList(related_countries)
     }//end if
+    else{
+        paintAllNodes(0xadd8e6);
+    }
+}
+
+
+
+function getAllRelatedCountries(source_country, event_list){
+    let related_countries_list = [];
+    event_list.forEach(id=>{
+        let event = _events_map.get(id);
+        if(event.state_name1==source_country) related_countries_list.push(event.state_name2);
+        else related_countries_list.push(event.state_name1)
+    });
+
+    //return list of uniques
+    return [...new Set(related_countries_list)];
+}
+
+function paintNodesList(list, color){
+    console.log(list);
+    _objects.forEach(o=>{
+        //if contains
+        if(list.indexOf(o.info.country) > -1){
+            console.log("painted "+o.info.country);
+            o.material.color.setHex( color );
+        }
+    });
+    console.log("---------");
+}
+
+function paintAllNodes(color){
+    _objects.forEach(o=>{
+        o.material.color.setHex( color );
+    });
 }
 //
 function animate() {
