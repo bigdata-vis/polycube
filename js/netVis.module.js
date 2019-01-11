@@ -634,12 +634,11 @@ function onDocumentMouseDown( event ) {
         console.log(selected_obj.info);        
         
         //paint selected node
-        selected_obj.material.color.setHex( 0xadd8e6 );
+        selected_obj.material.color.setHex( 0x000000 );
         let related_countries = getAllRelatedCountries(selected_obj.info.country,
                                                        selected_obj.info.events_id_list);       
                                                               
-        paintNodesList(related_countries, 0x000000)
-
+        paintNodesList(related_countries, 0xadd8e6)
         highlightCountryEdges(selected_obj.info.country);
     }//end if
     else{
