@@ -170,9 +170,10 @@ function init_countries() {
     // FIRST CALL
     //////////////////////////////////////////
     distributeCountriesCubesInTube();
-    //distributeCountriesCubesInForcedLayout();
+    ////distributeCountriesCubesInForcedLayout();
     distributeCountriesEdges();
     distributeNodeTextLabels();
+    createAxisLabels();
 
    
     //////////////////////////////////////////
@@ -187,6 +188,48 @@ function init_countries() {
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     //
     window.addEventListener( 'resize', onWindowResize, false );
+}
+
+function createAxisLabels(){
+
+    let right = 250;
+    let left = -230;
+
+    var spritey_first_1 = makeTextSprite( ""+_first_event_year, 
+        { fontsize: 25,fontface: "Georgia",
+          borderColor: {r:0, g:0, b:255, a:1.0} } );
+
+        spritey_first_1.position.set(right, 
+                                   -25,
+                                   0);
+
+    var spritey_first_2 = makeTextSprite( ""+_first_event_year, 
+        { fontsize: 25,fontface: "Georgia",
+            borderColor: {r:0, g:0, b:255, a:1.0} } );
+
+        spritey_first_2.position.set(left, 
+                                    -25,
+                                    0);
+
+    var spritey_last_1 = makeTextSprite( ""+_last_event_year, 
+        { fontsize: 25,fontface: "Georgia",
+            borderColor: {r:0, g:0, b:255, a:1.0} } );
+
+        spritey_last_1.position.set(right, 
+                                  _last_event_year-_first_event_year-10,
+                                  0);
+    var spritey_last_2 = makeTextSprite( ""+_last_event_year, 
+        { fontsize: 25,fontface: "Georgia",
+            borderColor: {r:0, g:0, b:255, a:1.0} } );
+
+        spritey_last_2.position.set(left, 
+                                  _last_event_year-_first_event_year-10,
+                                  0);
+
+        _scene.add( spritey_first_1 );
+        _scene.add( spritey_first_2 );
+        _scene.add( spritey_last_1 );
+        _scene.add( spritey_last_2 );
 }
 
 function distributeNodeTextLabels(){
@@ -208,7 +251,7 @@ function distributeNodeTextLabels(){
     });//end for
 }
 
-
+//DEPRECATED
 function calc_size(end, start){
     let size = end-start;
     if(size<25) size = 25;
