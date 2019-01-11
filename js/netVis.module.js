@@ -8,6 +8,7 @@ let _objects_map = [];
 
 let _spline_objects = [];
 
+
 let _data;
 let _data_map = new Map();
 
@@ -171,7 +172,7 @@ function init_countries() {
     distributeCountriesCubesInTube();
     //distributeCountriesCubesInForcedLayout();
     distributeCountriesEdges();
-    //distributeTextLabels();
+    distributeNodeTextLabels();
 
    
     //////////////////////////////////////////
@@ -188,21 +189,22 @@ function init_countries() {
     window.addEventListener( 'resize', onWindowResize, false );
 }
 
-function distributeTextLabels(){
-
-    // var text = this._createTextLabel(new THREE.Vector3(0,0,0));
-    // text.setHTML("Labadssadsadsadasdadasdadel");
-    // _textlabels.push(text);
-    // _container.appendChild(text.element);
-
+function distributeNodeTextLabels(){
     _objects.forEach((e,i) => { 
-        console.log(e.info);
-        let size = calc_size(e.info.overall_end, e.info.overall_start);
-
+        let font_size = 23;//calc_size(e.info.overall_end, e.info.overall_start);
+        let cube_height = getCubeHeightByCountryName(e.info.country);
+        let pos_y = -cube_height +  (e.info.overall_start - _first_event_year);
+        
         var spritey = makeTextSprite( e.info.country, 
-		{ fontsize: size, fontface: "Georgia", borderColor: {r:0, g:0, b:0, a:1.0} } );
-	    spritey.position.set(e.position.x, e.position.y, e.position.z);
-	    _scene.add( spritey );
+		{ fontsize: font_size, fontface: "Georgia", borderColor: {r:0, g:0, b:0, a:1.0} } );
+        spritey.position.set(e.position.x, 
+                             pos_y,
+                             e.position.z);
+        //spritey.scale.set(0.1,0.1,0.1);//hides it //0,0,0 makes matrix error
+        spritey.name = e.info.country;
+        spritey.visible = false;
+        _textlabels.push( spritey );
+        _scene.add( spritey );
     });//end for
 }
 
@@ -640,13 +642,36 @@ function onDocumentMouseDown( event ) {
                                                               
         paintNodesList(related_countries, 0xadd8e6)
         highlightCountryEdges(selected_obj.info.country);
+        showTextLabels(selected_obj.info.country, related_countries);
     }//end if
     else{
+        //reset
         paintAllNodes(0xadd8e6);
         paintAllEdges();
-    }
+        hideAllLabels();
+    }    
+}
 
-    
+function showTextLabels(country, related_countries){
+    let show_list = related_countries;
+    show_list.push(country);
+    console.log(show_list);
+
+    _textlabels.forEach(label=>{
+        //if show_list contains label`s name
+        if(show_list.indexOf(label.name) > -1){
+            label.visible = true;
+        }
+        else{
+            label.visible = false;
+        }
+    });
+}
+
+function hideAllLabels(){
+    _textlabels.forEach(label=>{
+        label.visible = false;
+    });
 }
 
 function paintAllEdges(){
