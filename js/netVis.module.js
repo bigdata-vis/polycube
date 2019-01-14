@@ -169,8 +169,8 @@ function init_countries() {
     //////////////////////////////////////////
     // FIRST CALL
     //////////////////////////////////////////
-    //distributeCountriesCubesInTube();
-    distributeCountriesCubesInForcedLayout();
+    distributeCountriesCubesInTube();
+    //distributeCountriesCubesInForcedLayout();
     
     distributeCountriesEdges();
     distributeNodeTextLabels();
@@ -554,7 +554,7 @@ function distributeCountriesCubesInForcedLayout(){
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
         let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
         
         
         object.position.x = _countries_position_map.get(e.country).x/1.5;        
