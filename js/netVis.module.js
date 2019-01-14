@@ -169,8 +169,9 @@ function init_countries() {
     //////////////////////////////////////////
     // FIRST CALL
     //////////////////////////////////////////
-    distributeCountriesCubesInTube();
-    ////distributeCountriesCubesInForcedLayout();
+    //distributeCountriesCubesInTube();
+    distributeCountriesCubesInForcedLayout();
+    
     distributeCountriesEdges();
     distributeNodeTextLabels();
     createAxisLabels();
@@ -186,6 +187,7 @@ function init_countries() {
 
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+    document.addEventListener('dblclick', onDocumentDoubleClick, false);
     //
     window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -555,8 +557,8 @@ function distributeCountriesCubesInForcedLayout(){
         let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
         
         
-        object.position.x = _countries_position_map.get(e.country).x/2;        
-        object.position.z = _countries_position_map.get(e.country).y/2;  
+        object.position.x = _countries_position_map.get(e.country).x/1.5;        
+        object.position.z = _countries_position_map.get(e.country).y/1.5;  
         object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
         object.info = e;
 
@@ -671,9 +673,8 @@ function onDocumentTouchStart( event ) {
     onDocumentMouseDown( event );
 }
 
-
-//CLICK
-function onDocumentMouseDown( event ) {    
+//DOUBLE CLICK
+function onDocumentDoubleClick( event ) { 
     event.preventDefault();
     //DEPRECATED
     //_mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
@@ -681,9 +682,7 @@ function onDocumentMouseDown( event ) {
     _mouse.x = ( ( event.clientX - _renderer.domElement.offsetLeft ) / _renderer.domElement.clientWidth ) * 2 - 1;
     _mouse.y = - ( ( event.clientY - _renderer.domElement.offsetTop ) / _renderer.domElement.clientHeight ) * 2 + 1;
   
-    _raycaster.setFromCamera( _mouse, _camera );
-    var intersects = _raycaster.intersectObjects( _objects );
-    
+    var intersects = _raycaster.intersectObjects( _objects );    
 
     if ( intersects.length > 0 ) {
         //pinta todos objetos de branco
@@ -706,6 +705,19 @@ function onDocumentMouseDown( event ) {
         paintAllEdges();
         hideAllLabels();
     }    
+}
+
+
+//CLICK
+function onDocumentMouseDown( event ) {    
+    event.preventDefault();
+    //DEPRECATED
+    //_mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
+    //_mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
+    _mouse.x = ( ( event.clientX - _renderer.domElement.offsetLeft ) / _renderer.domElement.clientWidth ) * 2 - 1;
+    _mouse.y = - ( ( event.clientY - _renderer.domElement.offsetTop ) / _renderer.domElement.clientHeight ) * 2 + 1;
+  
+    _raycaster.setFromCamera( _mouse, _camera );  
 }
 
 function showTextLabels(country, related_countries){
