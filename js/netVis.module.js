@@ -190,6 +190,9 @@ function init_countries() {
     window.addEventListener( 'resize', onWindowResize, false );
 }
 
+
+
+
 function createAxisLabels(){
 
     let right = 250;
@@ -518,6 +521,12 @@ function distributeCountriesCubesInTube(){
         //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
         let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
         
+
+        // let object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial({ 
+		// 	color: args.color || '#5b2160',
+		// 	emissive: '#200000'
+		// }));
+
         let pos = i*fraction;
 
         object.position.x = r*Math.cos(pos);        
@@ -666,8 +675,12 @@ function onDocumentTouchStart( event ) {
 //CLICK
 function onDocumentMouseDown( event ) {    
     event.preventDefault();
-    _mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
-    _mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
+    //DEPRECATED
+    //_mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
+    //_mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
+    _mouse.x = ( ( event.clientX - _renderer.domElement.offsetLeft ) / _renderer.domElement.clientWidth ) * 2 - 1;
+    _mouse.y = - ( ( event.clientY - _renderer.domElement.offsetTop ) / _renderer.domElement.clientHeight ) * 2 + 1;
+  
     _raycaster.setFromCamera( _mouse, _camera );
     var intersects = _raycaster.intersectObjects( _objects );
     

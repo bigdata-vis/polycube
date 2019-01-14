@@ -35,3 +35,21 @@ body {
     bottom: 10px;
     left: 10px;
 }
+
+.legend1 {
+    margin-left:20px;
+}
+
+.defense { background: #e41a1c;}
+.entente { background: #377eb8;}
+.neutrality { background: #4daf4a;}
+.nonaggression { background: #984ea3;}
+
+
+span {
+    height: 15px;
+    width: 15px;
+    background: url(img/logo.png);
+    /* If I take out this it would give my span 0x0px size */
+    float: left;
+}
