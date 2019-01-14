@@ -508,7 +508,38 @@ function generateCountriesMetaInfo(){
     });
 }
 
+function addLightToScene(){
+    // LIGHT
+    var ambientLight = new THREE.AmbientLight( 0x444444 );
+    _scene.add( ambientLight );
+
+    var directionalLight_1 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_2 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_3 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_4 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_5 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_6 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+
+    directionalLight_1.position.set( 0, 0, 50 );
+    directionalLight_2.position.set( 0, 0, -50 );
+    directionalLight_3.position.set( 50, 0, 0 );
+    directionalLight_4.position.set( -50, 0, 0 );
+    directionalLight_5.position.set( 0, 100, 0 );//top
+    directionalLight_6.position.set( 0, -100, 0 );//bottom
+
+    _scene.add( directionalLight_1 );
+    _scene.add( directionalLight_2 );
+    _scene.add( directionalLight_3 );
+    _scene.add( directionalLight_4 );
+    //_scene.add( directionalLight_5 );
+    //_scene.add( directionalLight_6 );
+}
+
 function distributeCountriesCubesInTube(){
+
+    addLightToScene();    
+
+    // NODES
     let cube_size = 5;
       
     let r = _data.length*cube_size/4;
@@ -520,14 +551,16 @@ function distributeCountriesCubesInTube(){
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
         let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
-        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
+        let material = new THREE.MeshLambertMaterial( {
+            //side: THREE.DoubleSide,
+            color: 0xadd8e6,
+            //vertexColors: THREE.VertexColors
+        } );
         
-
-        // let object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial({ 
-		// 	color: args.color || '#5b2160',
-		// 	emissive: '#200000'
-		// }));
+        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
+        let object = new THREE.Mesh( geometry, material ); // ,opacity: 0.5
+        
 
         let pos = i*fraction;
 
