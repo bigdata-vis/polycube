@@ -29,6 +29,8 @@
         dataSlices;
     var svg;
 
+    let WGpoints = [];
+
     // console.log(googleSheetName)
 
     var formatTime = d3.timeFormat("%Y");
@@ -198,48 +200,46 @@
         //hold points group
         scene.add(pointCloud);
 
-
         //hold points label group
         scene.add(labelCloud);
 
         //holds link group
         WGLScene.add(linksCloud);
         WGLScene.add(glbox);
-        WGLScene.add(WGpointCloud);
 
         /**CSS3D Scene
          * Cube Sides
          *6 sided cube creation with CSS3D, div and then added to cube group object
          */
-        for (var i = 0; i < 6; i++) {
-            var element = document.createElement('div');
-
-            /**
-             * Cube Width and height
-             * @type {string}
-             */
-            element.style.width = width + 'px';
-            element.style.height = height + 'px';
-
-            /**
-             *
-             * @type {string}
-             */
-            element.style.opacity = '0.1';
-            element.style.border = "0.5px dotted #FFF";
-            element.className = "side";
-
-            /**
-             * Create new CSS3D object side and add it to the cube group
-             * get position from array of predefined cube rotation and position css3d matrix
-             * @type {THREE.CSS3DObject}
-             */
-            var object = new THREE.CSS3DObject(element);
-            object.position.fromArray(pos[i]);
-            object.rotation.fromArray(rot[i]);
-            object.name = "side";
-            cube.add(object);
-        }
+        // for (var i = 0; i < 6; i++) {
+        //     var element = document.createElement('div');
+        //
+        //     /**
+        //      * Cube Width and height
+        //      * @type {string}
+        //      */
+        //     element.style.width = width + 'px';
+        //     element.style.height = height + 'px';
+        //
+        //     /**
+        //      *
+        //      * @type {string}
+        //      */
+        //     element.style.opacity = '0.1';
+        //     element.style.border = "0.5px dotted #FFF";
+        //     element.className = "side";
+        //
+        //     /**
+        //      * Create new CSS3D object side and add it to the cube group
+        //      * get position from array of predefined cube rotation and position css3d matrix
+        //      * @type {THREE.CSS3DObject}
+        //      */
+        //     var object = new THREE.CSS3DObject(element);
+        //     object.position.fromArray(pos[i]);
+        //     object.rotation.fromArray(rot[i]);
+        //     object.name = "side";
+        //     cube.add(object);
+        // }
 
         /**
          * Segments
@@ -324,6 +324,7 @@
 
         createSimpleForcedLayout(datasets2, widthHalf, heightHalf);
 
+
         pCube.updatePC = function (datasets) {
 
             //clear all pc on the scene
@@ -333,23 +334,20 @@
             pointCloud.children = [];
             labelCloud.children = [];
             linksCloud.children = [];
-            WGpointCloud.children = [];
-            // lineList = [];
+            glbox.children = [];
 
             // glbox.children = [];
 
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
-            var starsGeometry = new THREE.Geometry();
-            var image = document.createElement('div');
-
-
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 // .append("div")
                 // .attr("class", "map-div")
                 .each(function (d, i) {
+
+                    // var image = document.createElement('div');
                     // if (d.scale) {
                     //     image.style.width = (pointScale(d.scale)) + "px";
                     //     image.style.height = (pointScale(d.scale)) + "px";
@@ -357,17 +355,17 @@
                     //     image.style.width = 10 + "px";
                     //     image.style.height = 10 + "px";
                     // }
-                    //
                     // image.style.backgroundColor = d.color || "blue";
                     // // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
                     // image.style.border = "solid " + config.pointoutline || "#000000 1px";
                     // image.className = "pointCloud";
 
                     // var object = new THREE.CSS3DSprite(image.cloneNode());
-                    var object = new THREE.Object3D();
+
+
+                    let object = new THREE.Object3D();
                     // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                     object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
-
                     object.position.z = d._x;
                     object.position.x = d._y;
 
@@ -376,7 +374,7 @@
                         object.position.x = d.y;
                     }
 
-                    // object.name = "pointCloud"; //todo: remove later
+                    object.name = "pointCloud"; //todo: remove later
                     // object.element.onmouseover = function () {
                     //     //clean func
                     //
@@ -397,24 +395,10 @@
                     object.userData = d;
 
                     //add label
-                    if (d.label) {
-                        let nodelabel = pointLabel(d.label, {fontsize: 10});
-                        nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
-                    }
-
-                    // console.log(d.No_ref)
-
-                    // WGL
-                    var starsMaterial = new THREE.PointsMaterial( { color: 0x888888, size:1} );
-
-                    var star = new THREE.Vector3();
-                    star.x = object.position.x;
-                    star.y = object.position.y;
-                    star.z = object.position.z;
-
-                    starsGeometry.vertices.push( star );
-                    var starField = new THREE.Points( starsGeometry, starsMaterial );
-                    WGpointCloud.add( starField );
+                    // if (d.label) {
+                    //     let nodelabel = pointLabel(d.label, {fontsize: 10});
+                    //     nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
+                    // }
 
                     /**
                      * populate line list
@@ -422,35 +406,25 @@
                      */
                     lineList.push(object);
                     // pointCloud.add(object);
-                    // }
-                });
+
+                    var geometry = new THREE.BoxBufferGeometry( d.scale || 1, d.scale || 1, d.scale || 1 );
+                    var material = new THREE.MeshBasicMaterial( { color: "green" } );
+                    var mesh = new THREE.Mesh( geometry, material );
+
+                    mesh.position.x = object.position.x;
+                    mesh.position.y = object.position.y;
+                    mesh.position.z = object.position.z;
+
+                    glbox.add(mesh)
+
+                })
 
         };
         pCube.updatePC(datasets2);
 
-        //
-        // function addWGPoints() {
-        //
-        //     var starsGeometry = new THREE.Geometry();
-        //
-        //     for ( var i = 0; i < 10000; i ++ ) {
-        //
-        //         var star = new THREE.Vector3();
-        //         star.x = THREE.Math.randFloatSpread( 2000 );
-        //         star.y = THREE.Math.randFloatSpread( 2000 );
-        //         star.z = THREE.Math.randFloatSpread( 2000 );
-        //
-        //         starsGeometry.vertices.push( star );
-        //
-        //     }
-        //
-        //     var starsMaterial = new THREE.PointsMaterial( { color: 0x888888 } );
-        //
-        //     var starField = new THREE.Points( starsGeometry, starsMaterial );
-        //
-        //     WGLScene.add( starField );
-        // }
-        // addWGPoints();
+        // setTimeout(function () {
+        //     pCube.updatePC(datasets2)
+        // }, 2000);
 
 
         function addtoScene(d, i) {
@@ -477,12 +451,12 @@
             group_list.reverse();
 
             let simulation = d3.forceSimulation()
-                .force('charge_force', d3.forceManyBody().strength(4))
+                .force('charge_force', d3.forceManyBody().strength(1))
                 .force('center_force', center_force)
                 .force('box_force', box_force)
                 .force('collision', d3.forceCollide().strength(1).radius(function (d) {
                     return radius
-                }).iterations(1))
+                }).iterations(2))
                 .nodes(group_list)
                 .on("end", computeReadability);
 
@@ -1152,9 +1126,6 @@
 
     let pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
-
-    let WGpointCloud = new THREE.Object3D();
-    WGpointCloud.name = "WGpointCloud";
 
     let nodeCloud = new THREE.Object3D();
     nodeCloud.name = "nodeCloud";

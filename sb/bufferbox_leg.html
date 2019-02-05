@@ -86,7 +86,6 @@
     let publicSpreadsheetUrl = query || 'https://docs.google.com/spreadsheets/d/1kGPNFZ-PbabG5MeRfZRrIWfy7gScFdmowgu2GTOGrIQ/edit?usp=sharing';
     let googleSheetName,
         globalBg;
-    let Gdata;
 
     //if external source, use that fro iframe
     if (query) {
@@ -149,8 +148,6 @@
 
     function init(data) {
 
-        Gdata = data;
-
         //clean func
         data.forEach(function (d, i) {
             d.fullDate = moment(d.time)._d;
@@ -206,18 +203,17 @@
         particles = new THREE.BufferGeometry();
         particlePositions = new Float32Array(maxParticleCount * 3);
 
+
         //force layout
         createSimpleForcedLayout(data, rHalf, rHalf)
 
         for (var i = 0; i < maxParticleCount; i++) {
 
 //            var x = Math.random() * r - r / 2;
-//            var y = Math.random() * r - r / 2;
-//            var z = Math.random() * r - r / 2;
-
-
             var x = data[i].x;
-            var y = yAxis(data[i].fullDate);
+//            var y = Math.random() * r - r / 2;
+            var y = yAxis(data[i].fullDate)
+//            var z = Math.random() * r - r / 2;
             var z = data[i].y;
 
 //            console.log(data[i]);
@@ -229,19 +225,16 @@
             // add it to the geometry
             particlesData.push({
                 velocity: new THREE.Vector3(-1 + Math.random() * 2, -1 + Math.random() * 2, -1 + Math.random() * 2),
-                numConnections: 0,
-                data: data[i]
+                numConnections: 0
             });
-        }
 
-//        console.log(particlePositions)
-//        console.log(particles)
-//        console.log(data)
-//        console.log(particlesData)
+        }
 
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2();
+
+//        console.log(positions)
 
 
         particles.setDrawRange(0, particleCount);
@@ -286,41 +279,14 @@
 
         window.addEventListener('resize', onWindowResize, false);
 
-
-
-        function loop(){
-
-            // render the scene
-            renderer.render(scene, camera);
-
-//            // Check the object's X position
-//            if (object.position.x <= targetPositionX) {
-//                object.position.x += 0.001; // You decide on the increment, higher value will mean the objects moves faster
-//            }
-
-            Gdata.forEach(function (d,i) {
-//                particlePositions[i * 3] += 0.02;
-//                particlePositions[i * 3 + 1] = y;
-//                particlePositions[i * 3 + 2] += 0.02;
-            });
-
-            // call the loop function again
-            requestAnimationFrame(loop);
-        }
-
-//        loop()
-
-
     }
 
     function createSimpleForcedLayout(group_list, widthHalf, heightHalf) {
 
-
-
         let center_force = d3.forceCenter(0, 0);
         let radius = 10;
 
-//        group_list.reverse();
+        group_list.reverse();
 
         let simulation = d3.forceSimulation()
             .force('charge_force', d3.forceManyBody().strength(4))
@@ -330,7 +296,6 @@
                 return radius
             }).iterations(1))
             .nodes(group_list)
-//            .on("tick", computeReadability);
             .on("end", computeReadability);
 
         function box_force() {
@@ -343,26 +308,9 @@
 
         // simulation.nodes(group_list);
         function computeReadability() {
-
-            // render the scene
-            renderer.render(scene, camera);
-
-
             let nodes = simulation.nodes();
+//            sceneUpdate(nodes);
 //            console.log(nodes)
-
-            nodes.forEach(function (d,i) {
-                var x = d.x;
-                var z = d.y;
-
-                particlePositions[i * 3] = x;
-//                particlePositions[i * 3 + 1] = y;
-                particlePositions[i * 3 + 2] = z;
-
-            });
-
-            // call the loop function again
-            requestAnimationFrame(computeReadability);
         }
 
         return group_list;
@@ -383,85 +331,82 @@
         var colorpos = 0;
         var numConnected = 0;
 
-//        console.log(particlesData)
+        for (var i = 0; i < particleCount; i++)
+            particlesData[i].numConnections = 0;
 
-//        for (var i = 0; i < particleCount; i++)
-//            particlesData[i].numConnections = 0;
+        for (var i = 0; i < particleCount; i++) {
 
-//        for (var i = 0; i < particleCount; i++) {
+            // get the particle
+            var particleData = particlesData[i];
+
+            particlePositions[i * 3] += particleData.velocity.x;
+//					particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
+            particlePositions[i * 3 + 2] += particleData.velocity.z;
 //
-//            // get the particle
-//            var particleData = particlesData[i];
-//
-////            particlePositions[i * 3] += particleData.velocity.x;
-////					particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
-////            particlePositions[i * 3 + 2] += particleData.velocity.z;
-////
-//
-//            if (particlePositions[i * 3 + 1] < -rHalf || particlePositions[i * 3 + 1] > rHalf)
-//                particleData.velocity.y = -particleData.velocity.y;
-//
-//            if (particlePositions[i * 3] < -rHalf || particlePositions[i * 3] > rHalf)
-//                particleData.velocity.x = -particleData.velocity.x;
-//
-//            if (particlePositions[i * 3 + 2] < -rHalf || particlePositions[i * 3 + 2] > rHalf)
-//                particleData.velocity.z = -particleData.velocity.z;
-//
-//
-//
-//            if (effectController.limitConnections && particleData.numConnections >= effectController.maxConnections)
-//                continue;
-//
-//            // Check collision
+
+            if (particlePositions[i * 3 + 1] < -rHalf || particlePositions[i * 3 + 1] > rHalf)
+                particleData.velocity.y = -particleData.velocity.y;
+
+            if (particlePositions[i * 3] < -rHalf || particlePositions[i * 3] > rHalf)
+                particleData.velocity.x = -particleData.velocity.x;
+
+            if (particlePositions[i * 3 + 2] < -rHalf || particlePositions[i * 3 + 2] > rHalf)
+                particleData.velocity.z = -particleData.velocity.z;
+
+
+
+            if (effectController.limitConnections && particleData.numConnections >= effectController.maxConnections)
+                continue;
+
+            // Check collision
 //            for (var j = i + 1; j < particleCount; j++) {
-////            for (var j = i + 1; j < 100; j++) {
-//
-//                var particleDataB = particlesData[j];
-//                if (effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections)
-//                    continue;
-////
-//                //check how close before drawing a link
-//                var dx = particlePositions[i * 3] - particlePositions[j * 3];
-//                var dy = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
-//                var dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
-//                var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-////
-//
-//
-//
-//                if (dist < effectController.minDistance) {
-//
-//                    particleData.numConnections++;
-//                    particleDataB.numConnections++;
-//
-//                    var alpha = 1.0 - dist / effectController.minDistance;
-//
-//
-////                    console.log(positions)
-//
-//                    positions[vertexpos++] = particlePositions[i * 3];
-//                    positions[vertexpos++] = particlePositions[i * 3 + 1];
-//                    positions[vertexpos++] = particlePositions[i * 3 + 2];
-//
-//
-//                    positions[vertexpos++] = particlePositions[j * 3];
-//                    positions[vertexpos++] = particlePositions[j * 3 + 1];
-//                    positions[vertexpos++] = particlePositions[j * 3 + 2];
-//
-//                    colors[colorpos++] = alpha;
-//                    colors[colorpos++] = alpha;
-//                    colors[colorpos++] = alpha;
-//
-//                    colors[colorpos++] = alpha;
-//                    colors[colorpos++] = alpha;
-//                    colors[colorpos++] = alpha;
-//
-//                    numConnected++;
-//                }
-//            }
-//        }
+            for (var j = i + 1; j < 100; j++) {
 
-//        createSimpleForcedLayout(Gdata, rHalf, rHalf)
+                var particleDataB = particlesData[j];
+                if (effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections)
+                    continue;
+//
+                //check how close before drawing a link
+                var dx = particlePositions[i * 3] - particlePositions[j * 3];
+                var dy = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
+                var dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
+                var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+//
+
+
+
+                if (dist < effectController.minDistance) {
+
+                    particleData.numConnections++;
+                    particleDataB.numConnections++;
+
+                    var alpha = 1.0 - dist / effectController.minDistance;
+
+
+//                    console.log(positions)
+
+                    positions[vertexpos++] = particlePositions[i * 3];
+                    positions[vertexpos++] = particlePositions[i * 3 + 1];
+                    positions[vertexpos++] = particlePositions[i * 3 + 2];
+
+
+                    positions[vertexpos++] = particlePositions[j * 3];
+                    positions[vertexpos++] = particlePositions[j * 3 + 1];
+                    positions[vertexpos++] = particlePositions[j * 3 + 2];
+
+                    colors[colorpos++] = alpha;
+                    colors[colorpos++] = alpha;
+                    colors[colorpos++] = alpha;
+
+                    colors[colorpos++] = alpha;
+                    colors[colorpos++] = alpha;
+                    colors[colorpos++] = alpha;
+
+                    numConnected++;
+                }
+            }
+        }
+
 
         //line mesh drawing
         linesMesh.geometry.setDrawRange(0, numConnected * 2);
@@ -533,8 +478,6 @@
 
         renderer.render(scene, camera);
     }
-
-
 
 </script>
 </body>

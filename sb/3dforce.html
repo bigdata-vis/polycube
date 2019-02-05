@@ -1,0 +1,159 @@
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/qwest/4.4.5/qwest.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.4/papaparse.min.js"></script>
+    <script src="//unpkg.com/3d-force-graph@1"></script>
+
+    <!--<script src="data-set-loader.js"></script>-->
+
+    <!--<link rel="stylesheet" href="style.css">-->
+    <style>
+        body {
+            text-align: center;
+            font-family: Sans-serif;
+            margin: 0;
+        }
+
+        .dimensions-selector, .graph-data {
+            position: absolute;
+            top: 0;
+            padding: 5px;
+            color: slategrey;
+        }
+
+        .dimensions-selector {
+            left: 0;
+        }
+
+        .graph-data {
+            right: 0;
+        }
+
+        .toggle-data-btn {
+            cursor: pointer;
+            opacity: 0.85;
+        }
+
+        .toggle-data-btn:hover {
+            opacity: 1;
+        }
+
+        #graph-data-description {
+            font-size: 12px;
+            color: slategrey;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="3d-graph"></div>
+
+<div class="dimensions-selector">
+    Dimensions:
+    <input type="radio" name="num-dimensions" onChange="toggleDimensions(1)"> 1D
+    <input type="radio" name="num-dimensions" onChange="toggleDimensions(2)" checked> 2D
+    <input type="radio" name="num-dimensions" onChange="toggleDimensions(3)"> 3D
+</div>
+<div class="graph-data">
+    <span id="graph-data-description"></span>
+    <button class="toggle-data-btn" onClick="toggleData()">Show me something else</button>
+</div>
+
+<!--<script src="index.js"></script>-->
+<script>
+    function getGraphDataSets() {
+
+        const loadMiserables = function(Graph) {
+            Graph
+                .nodeLabel('id')
+                .nodeAutoColorBy('group')
+//                .jsonUrl('.miserables.json');
+                .jsonUrl('https://gist.githubusercontent.com/mbostock/4062045/raw/5916d145c8c048a6e3086915a6be464467391c62/miserables.json');
+        };
+
+        loadMiserables.description = "<em>Les Miserables</em> data (<a href='https://bl.ocks.org/mbostock/4062045'>4062045</a>)";
+
+//        let data = d3.json("https://gist.githubusercontent.com/mbostock/4062045/raw/5916d145c8c048a6e3086915a6be464467391c62/miserables.json")
+
+        //
+
+        const loadBlocks = function(Graph) {
+            Graph
+                .nodeLabel(node => `${node.user?node.user+': ':''}${node.description || node.id}`)
+                .nodeAutoColorBy('user')
+                .jsonUrl('.blocks.json');
+        };
+
+        loadBlocks.description = "<em>Blocks</em> data (<a href='https://bl.ocks.org/mbostock/afecf1ce04644ad9036ca146d2084895'>afecf1ce04644ad9036ca146d2084895</a>)";
+
+        //
+        const loadD3Dependencies = function(Graph) {
+            qwest.get('.d3.csv').then((_, csvData) => {
+                const { data: [, ...data] } = Papa.parse(csvData); // Parse csv
+                data.pop(); // Remove last empty row
+
+                const nodes = [], links = [];
+                data.forEach(([size, path]) => {
+                    const levels = path.split('/'),
+                        module = levels.length > 1 ? levels[1] : null,
+                        leaf = levels.pop(),
+                        parent = levels.join('/');
+
+                    nodes.push({
+                        path,
+                        leaf,
+                        module,
+                        size: +size || 1
+                    });
+
+                    if (parent) {
+                        links.push({ source: parent, target: path});
+                    }
+                });
+
+                Graph
+                    .nodeRelSize(0.5)
+                    .nodeId('path')
+                    .nodeVal('size')
+                    .nodeLabel('path')
+                    .nodeAutoColorBy('module')
+                    .graphData({ nodes, links });
+            });
+        };
+        loadD3Dependencies.description = "<em>D3 dependencies</em> data (<a href='https://bl.ocks.org/mbostock/9a8124ccde3a4e9625bc413b48f14b30'>9a8124ccde3a4e9625bc413b48f14b30</a>)";
+        //
+        return [loadMiserables, loadBlocks, loadD3Dependencies];
+    }
+</script>
+<script>
+    const Graph = ForceGraph3D()
+    (document.getElementById("3d-graph"));
+
+    let curDataSetIdx,
+        numDim = 2;
+
+    const dataSets = getGraphDataSets();
+
+
+
+    let toggleData;
+    (toggleData = function() {
+        curDataSetIdx = curDataSetIdx === undefined ? 0 : (curDataSetIdx+1)%dataSets.length;
+
+        const dataSet = dataSets[curDataSetIdx];
+
+        document.getElementById('graph-data-description').innerHTML = dataSet.description ? `Viewing ${dataSet.description}` : '';
+
+        dataSet(Graph
+            .resetProps()
+            .enableNodeDrag(false)
+            .numDimensions(numDim)
+        );
+    })(); // IIFE init
+
+    const toggleDimensions = function(numDimensions) {
+        numDim = numDimensions;
+        Graph.numDimensions(numDim);
+    };
+</script>
+</body>

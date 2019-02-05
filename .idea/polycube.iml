@@ -5,5 +5,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 2.7.10 (/usr/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="tabletop" level="application" />
   </component>
 </module>

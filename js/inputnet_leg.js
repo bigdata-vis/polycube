@@ -198,14 +198,12 @@
         //hold points group
         scene.add(pointCloud);
 
-
         //hold points label group
         scene.add(labelCloud);
 
         //holds link group
         WGLScene.add(linksCloud);
         WGLScene.add(glbox);
-        WGLScene.add(WGpointCloud);
 
         /**CSS3D Scene
          * Cube Sides
@@ -333,7 +331,6 @@
             pointCloud.children = [];
             labelCloud.children = [];
             linksCloud.children = [];
-            WGpointCloud.children = [];
             // lineList = [];
 
             // glbox.children = [];
@@ -341,59 +338,56 @@
             d3.selectAll('.pointCloud').remove();
             d3.selectAll('.set-label').classed('hide', true);
 
-            var starsGeometry = new THREE.Geometry();
-            var image = document.createElement('div');
-
-
             var testElem = d3.selectAll('.pointCloud')
                 .data(datasets).enter()
                 // .append("div")
                 // .attr("class", "map-div")
                 .each(function (d, i) {
-                    // if (d.scale) {
-                    //     image.style.width = (pointScale(d.scale)) + "px";
-                    //     image.style.height = (pointScale(d.scale)) + "px";
-                    // } else {
-                    //     image.style.width = 10 + "px";
-                    //     image.style.height = 10 + "px";
-                    // }
-                    //
-                    // image.style.backgroundColor = d.color || "blue";
-                    // // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
-                    // image.style.border = "solid " + config.pointoutline || "#000000 1px";
-                    // image.className = "pointCloud";
+                    var image = document.createElement('div');
+                    if (d.scale) {
+                        image.style.width = (pointScale(d.scale)) + "px";
+                        image.style.height = (pointScale(d.scale)) + "px";
+                    } else {
+                        image.style.width = 10 + "px";
+                        image.style.height = 10 + "px";
+                    }
 
-                    // var object = new THREE.CSS3DSprite(image.cloneNode());
-                    var object = new THREE.Object3D();
+                    image.style.backgroundColor = d.color || "blue";
+                    // image.style.border = "solid " + config.pointoutlinecolour || "#000000" + " 1px";
+                    image.style.border = "solid " + config.pointoutline || "#000000 1px";
+                    image.className = "pointCloud";
+
+                    var object = new THREE.CSS3DSprite(image.cloneNode());
                     // object.position.y = timeLinear(d.time); //todo: height + scale + time to determine y axis
                     object.position.y = yAxis(d.fullDate); //todo: height + scale + time to determine y axis
 
                     object.position.z = d._x;
                     object.position.x = d._y;
 
+
                     if (config.auto_layout === 'TRUE' || config.auto_layout === 'true') {
                         object.position.z = d.x;
                         object.position.x = d.y;
                     }
 
-                    // object.name = "pointCloud"; //todo: remove later
-                    // object.element.onmouseover = function () {
-                    //     //clean func
-                    //
-                    //     //highlight function
-                    //     d3.selectAll('.highlighted').classed('highlighted', false);
-                    //     let self = d3.select(this).classed('highlighted', true);
-                    //
-                    //     // console.log(d);
-                    //     d3.select("#textTitle")
-                    //         .html("<span></span>" + moment(d.fullDate).format() + "<br>" +
-                    //             d.description + "<br>" + "<br>" +
-                    //             `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
-                    //             // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
-                    //         );
-                    //
-                    //
-                    // };
+                    object.name = "pointCloud"; //todo: remove later
+                    object.element.onmouseover = function () {
+                        //clean func
+
+                        //highlight function
+                        d3.selectAll('.highlighted').classed('highlighted', false);
+                        let self = d3.select(this).classed('highlighted', true);
+
+                        // console.log(d);
+                        d3.select("#textTitle")
+                            .html("<span></span>" + moment(d.fullDate).format() + "<br>" +
+                                d.description + "<br>" + "<br>" +
+                                `<object style='max-width:240px' data='${d.media_url}'> </object>` + "<br>"
+                                // `<img style='max-width: 240px' src='${d.image_url}'>` + "<br>"
+                            );
+
+
+                    };
                     object.userData = d;
 
                     //add label
@@ -402,55 +396,22 @@
                         nodelabel.position.set(object.position.x, object.position.y + 12, object.position.z);
                     }
 
-                    // console.log(d.No_ref)
-
-                    // WGL
-                    var starsMaterial = new THREE.PointsMaterial( { color: 0x888888, size:1} );
-
-                    var star = new THREE.Vector3();
-                    star.x = object.position.x;
-                    star.y = object.position.y;
-                    star.z = object.position.z;
-
-                    starsGeometry.vertices.push( star );
-                    var starField = new THREE.Points( starsGeometry, starsMaterial );
-                    WGpointCloud.add( starField );
-
                     /**
                      * populate line list
                      * split the target links
                      */
                     lineList.push(object);
-                    // pointCloud.add(object);
+                    pointCloud.add(object);
                     // }
+
                 });
 
         };
         pCube.updatePC(datasets2);
 
-        //
-        // function addWGPoints() {
-        //
-        //     var starsGeometry = new THREE.Geometry();
-        //
-        //     for ( var i = 0; i < 10000; i ++ ) {
-        //
-        //         var star = new THREE.Vector3();
-        //         star.x = THREE.Math.randFloatSpread( 2000 );
-        //         star.y = THREE.Math.randFloatSpread( 2000 );
-        //         star.z = THREE.Math.randFloatSpread( 2000 );
-        //
-        //         starsGeometry.vertices.push( star );
-        //
-        //     }
-        //
-        //     var starsMaterial = new THREE.PointsMaterial( { color: 0x888888 } );
-        //
-        //     var starField = new THREE.Points( starsGeometry, starsMaterial );
-        //
-        //     WGLScene.add( starField );
-        // }
-        // addWGPoints();
+        // setTimeout(function () {
+        //     pCube.updatePC(datasets2)
+        // }, 2000);
 
 
         function addtoScene(d, i) {
@@ -477,12 +438,12 @@
             group_list.reverse();
 
             let simulation = d3.forceSimulation()
-                .force('charge_force', d3.forceManyBody().strength(4))
+                .force('charge_force', d3.forceManyBody().strength(1))
                 .force('center_force', center_force)
                 .force('box_force', box_force)
                 .force('collision', d3.forceCollide().strength(1).radius(function (d) {
                     return radius
-                }).iterations(1))
+                }).iterations(2))
                 .nodes(group_list)
                 .on("end", computeReadability);
 
@@ -1152,9 +1113,6 @@
 
     let pointCloud = new THREE.Object3D();
     pointCloud.name = "pointCloud";
-
-    let WGpointCloud = new THREE.Object3D();
-    WGpointCloud.name = "WGpointCloud";
 
     let nodeCloud = new THREE.Object3D();
     nodeCloud.name = "nodeCloud";

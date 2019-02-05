@@ -1,0 +1,218 @@
+<head>
+
+    <script src="//unpkg.com/3d-force-graph@1"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/qwest/4.4.5/qwest.min.js"></script>-->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Sans-serif;
+            margin: 0;
+        }
+
+        .full-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            opacity: 0.4;
+        }
+
+        .full-btn:hover {
+            opacity: 1;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div id="3d-graph"></div>
+<button class="full-btn" onClick="useFull()">Full</button>
+
+<script>
+    //handle image loading
+    let query = getUrlQueryByName('url');
+
+    let publicSpreadsheetUrl = query || 'https://docs.google.com/spreadsheets/d/1kGPNFZ-PbabG5MeRfZRrIWfy7gScFdmowgu2GTOGrIQ/edit?usp=sharing';
+    let googleSheetName,
+        globalBg;
+
+    documentReady(function () {
+        init_table();
+    });
+
+    function init_table() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            callback: consume_table,
+            simpleSheet: false
+        });
+    }
+
+    function consume_table(data, tabletop) {
+        googleSheetName = tabletop.googleSheetName;
+
+        //data sheet
+        let newdata = data.data.elements;
+
+        //config sheet
+        let config = data.config.elements[0];
+
+        //set user bg color
+        globalBg = config.bgcolour;
+
+        if (newdata){
+            init(newdata, config)
+        } else {
+            d3.csv('/data/IEEE_data.csv', function (data) {
+                console.log(data)
+            })
+        }
+
+    }
+
+    function init(data) {
+
+//        console.log(data)
+        //data cleaning IEEE
+
+        let links = [];
+
+        data.forEach(function (d) {
+//            let numbers = d.id.match(/\d+/g).map(Number);
+//            d.source = +`${numbers[2]}${numbers[3]}`
+
+            var txt = d.id;
+            var numb = txt.match(/\d/g);
+            numb = numb.join("");
+            d.source = +numb;
+            let source = d.source;
+
+            //target
+            if (d.target) {
+                let targets = d.target.split(';');
+                let _tempArr = [];
+
+                targets.forEach(function (d) {
+                    if (d.match(/\d/g)) {
+                        var numb = d.match(/\d/g);
+                        numb = numb.join("");
+                        links.push({
+                            source: source,
+                            target: +numb,
+                            direction: source + " > " + numb
+                        });
+
+                        // update the temp arr
+                        _tempArr.push(+numb)
+                    }
+                });
+                d.targets = _tempArr;
+            }
+        });
+
+//        console.log(data);
+
+        const newGdata = {
+            nodes: data.map((d, i) => ({
+                id: d.source,
+                Conference: d.Conference,
+                nSize: +d.scale,
+                title: ( d.time + " " + d.Author_Names)
+            })),
+            links: links
+        };
+
+        const elem = document.getElementById("3d-graph");
+
+        const Graph = ForceGraph3D()(elem)
+            .forceEngine('ngraph')
+            .nodeAutoColorBy('Conference')
+            .nodeRelSize('nSize')
+            .nodeLabel('title')
+            .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+            .onNodeClick(removeNode)
+            .graphData(newGdata);
+
+
+        function removeNode(node) {
+            let {nodes, links} = Graph.graphData();
+
+//            console.log(links);
+            console.log(node);
+
+            links = links.filter(l => l.source !== node && l.target !== node); // Remove links attached to node
+//            nodes.splice(node.id, 1); // Remove node
+//            nodes.forEach((n, idx) => {
+//                n.id = idx;
+//            }); // Reset node ids to array index
+
+            Graph.graphData({nodes, links});
+        }
+
+    }
+
+    function getUrlQueryByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function documentReady(callback) {
+        // in case the document is already rendered
+        if (document.readyState != 'loading') callback();
+        // modern browsers
+        else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+        // IE <= 8
+        else document.attachEvent('onreadystatechange', function () {
+                if (document.readyState == 'complete') callback();
+            });
+    }
+</script>
+
+<!--<script>-->
+<!--const Graph = ForceGraph3D()-->
+<!--.nodeId('asn')-->
+<!--.nodeVal('customerConeSize')-->
+<!--.linkSource('src')-->
+<!--.linkTarget('dst')-->
+<!--.nodeAutoColorBy('country')-->
+<!--.warmupTicks(200)-->
+<!--.cooldownTicks(0) // Don't animate-in, jump to final state-->
+<!--.nodeRelSize(1)-->
+<!--.linkOpacity(0.07)-->
+<!--.forceEngine('ngraph')-->
+<!--(document.getElementById("3d-graph"));-->
+
+<!--loadData('internet-topology-subset.json'); // Init-->
+
+<!--//-->
+
+<!--function useFull() {-->
+<!--Graph.linkOpacity(0.03)-->
+<!--.nodeResolution(3);-->
+
+<!--loadData('internet-topology-full.json');-->
+<!--}-->
+
+<!--function loadData(url) {-->
+<!--qwest.get(url).then((_, data) => {-->
+<!--data.ases.forEach(as => {-->
+<!--as.name = `AS${as.asn} - ${as.orgName} (${as.country})`-->
+<!--}); // Add label-->
+<!--Graph.graphData({-->
+<!--nodes: data.ases,-->
+<!--links: data.relationships-->
+<!--});-->
+<!--});-->
+<!--}-->
+
+<!--</script>-->
+</body>
