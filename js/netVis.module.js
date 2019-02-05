@@ -170,7 +170,8 @@ function init_countries() {
     // FIRST CALL
     //////////////////////////////////////////
     distributeCountriesCubesInTube();
-    ////distributeCountriesCubesInForcedLayout();
+    //distributeCountriesCubesInForcedLayout();
+    
     distributeCountriesEdges();
     distributeNodeTextLabels();
     createAxisLabels();
@@ -186,9 +187,13 @@ function init_countries() {
 
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+    document.addEventListener('dblclick', onDocumentDoubleClick, false);
     //
     window.addEventListener( 'resize', onWindowResize, false );
 }
+
+
+
 
 function createAxisLabels(){
 
@@ -503,7 +508,38 @@ function generateCountriesMetaInfo(){
     });
 }
 
+function addLightToScene(){
+    // LIGHT
+    var ambientLight = new THREE.AmbientLight( 0x444444 );
+    _scene.add( ambientLight );
+
+    var directionalLight_1 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_2 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_3 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_4 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_5 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+    var directionalLight_6 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+
+    directionalLight_1.position.set( 0, 0, 50 );
+    directionalLight_2.position.set( 0, 0, -50 );
+    directionalLight_3.position.set( 50, 0, 0 );
+    directionalLight_4.position.set( -50, 0, 0 );
+    directionalLight_5.position.set( 0, 100, 0 );//top
+    directionalLight_6.position.set( 0, -100, 0 );//bottom
+
+    _scene.add( directionalLight_1 );
+    _scene.add( directionalLight_2 );
+    _scene.add( directionalLight_3 );
+    _scene.add( directionalLight_4 );
+    //_scene.add( directionalLight_5 );
+    //_scene.add( directionalLight_6 );
+}
+
 function distributeCountriesCubesInTube(){
+
+    addLightToScene();    
+
+    // NODES
     let cube_size = 5;
       
     let r = _data.length*cube_size/4;
@@ -515,9 +551,17 @@ function distributeCountriesCubesInTube(){
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
         let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
-        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
+        let material = new THREE.MeshLambertMaterial( {
+            //side: THREE.DoubleSide,
+            color: 0xadd8e6,
+            //vertexColors: THREE.VertexColors
+        } );
         
+        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        //let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
+        let object = new THREE.Mesh( geometry, material ); // ,opacity: 0.5
+        
+
         let pos = i*fraction;
 
         object.position.x = r*Math.cos(pos);        
@@ -543,11 +587,11 @@ function distributeCountriesCubesInForcedLayout(){
     _data.forEach((e,i) => { 
         let cube_height = getCubeHeightByCountryName(e.country);
         let geometry = new THREE.BoxBufferGeometry( cube_size, cube_height, cube_size );  
-        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: getRandomColor() } ) ); // ,opacity: 0.5
+        let object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0xadd8e6 } ) ); // ,opacity: 0.5
         
         
-        object.position.x = _countries_position_map.get(e.country).x/2;        
-        object.position.z = _countries_position_map.get(e.country).y/2;  
+        object.position.x = _countries_position_map.get(e.country).x/1.5;        
+        object.position.z = _countries_position_map.get(e.country).y/1.5;  
         object.position.y = -cube_height/2 +  (e.overall_start - _first_event_year);
         object.info = e;
 
@@ -662,15 +706,16 @@ function onDocumentTouchStart( event ) {
     onDocumentMouseDown( event );
 }
 
-
-//CLICK
-function onDocumentMouseDown( event ) {    
+//DOUBLE CLICK
+function onDocumentDoubleClick( event ) { 
     event.preventDefault();
-    _mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
-    _mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
-    _raycaster.setFromCamera( _mouse, _camera );
-    var intersects = _raycaster.intersectObjects( _objects );
-    
+    //DEPRECATED
+    //_mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
+    //_mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
+    _mouse.x = ( ( event.clientX - _renderer.domElement.offsetLeft ) / _renderer.domElement.clientWidth ) * 2 - 1;
+    _mouse.y = - ( ( event.clientY - _renderer.domElement.offsetTop ) / _renderer.domElement.clientHeight ) * 2 + 1;
+  
+    var intersects = _raycaster.intersectObjects( _objects );    
 
     if ( intersects.length > 0 ) {
         //pinta todos objetos de branco
@@ -693,6 +738,19 @@ function onDocumentMouseDown( event ) {
         paintAllEdges();
         hideAllLabels();
     }    
+}
+
+
+//CLICK
+function onDocumentMouseDown( event ) {    
+    event.preventDefault();
+    //DEPRECATED
+    //_mouse.x = ( event.clientX / _renderer.domElement.clientWidth ) * 2 - 1;
+    //_mouse.y = - ( event.clientY / _renderer.domElement.clientHeight ) * 2 + 1;
+    _mouse.x = ( ( event.clientX - _renderer.domElement.offsetLeft ) / _renderer.domElement.clientWidth ) * 2 - 1;
+    _mouse.y = - ( ( event.clientY - _renderer.domElement.offsetTop ) / _renderer.domElement.clientHeight ) * 2 + 1;
+  
+    _raycaster.setFromCamera( _mouse, _camera );  
 }
 
 function showTextLabels(country, related_countries){
