@@ -3,6 +3,7 @@
     <script src="//unpkg.com/3d-force-graph@1"></script>
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/qwest/4.4.5/qwest.min.js"></script>-->
     <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="http://unpkg.com/dat.gui"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
     <style>
@@ -24,7 +25,6 @@
             opacity: 1;
         }
     </style>
-
 
 </head>
 
@@ -64,7 +64,7 @@
         //set user bg color
         globalBg = config.bgcolour;
 
-        if (newdata){
+        if (newdata) {
             init(newdata, config)
         } else {
             d3.csv('/data/IEEE_data.csv', function (data) {
@@ -77,10 +77,11 @@
     function init(data) {
 
 //        console.log(data)
-        //data cleaning IEEE
-
         let links = [];
+        var r = 1800;
+        var rHalf = r / 2;
 
+        //clean func
         data.forEach(function (d) {
 //            let numbers = d.id.match(/\d+/g).map(Number);
 //            d.source = +`${numbers[2]}${numbers[3]}`
@@ -90,6 +91,7 @@
             numb = numb.join("");
             d.source = +numb;
             let source = d.source;
+            d.fullDate = moment(d.time)._d;
 
             //target
             if (d.target) {
@@ -114,12 +116,21 @@
             }
         });
 
+
+        let timeExt = d3.extent(data, function (d) {
+            return d.fullDate;
+        });
+        let yAxis = d3.scaleTime().range([-rHalf, rHalf]).domain(timeExt);
+
 //        console.log(data);
+
 
         const newGdata = {
             nodes: data.map((d, i) => ({
                 id: d.source,
+                fy: yAxis(d.fullDate),
                 Conference: d.Conference,
+                time: d.fullDate,
                 nSize: +d.scale,
                 title: ( d.time + " " + d.Author_Names)
             })),
@@ -129,28 +140,70 @@
         const elem = document.getElementById("3d-graph");
 
         const Graph = ForceGraph3D()(elem)
-            .forceEngine('ngraph')
+//            .width(r)
+//            .height(r)
+//            .forceEngine('d3')
+            .forceEngine('nGraph')
             .nodeAutoColorBy('Conference')
             .nodeRelSize('nSize')
             .nodeLabel('title')
             .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
-            .onNodeClick(removeNode)
+            .onNodeClick(filterNode)
+            .onEngineStop(updateNodeY)
             .graphData(newGdata);
 
+//        Graph.d3Force('charge').strength(-100);
 
-        function removeNode(node) {
+
+        function filterNode(node) {
             let {nodes, links} = Graph.graphData();
+            let index = nodes.findIndex(i => i.id === node.id);
+            let group = node.Conference;
+
+            //clean func
+
+//            console.log(nodes)
+
+//            nodes.forEach(function (node) {
+////                console.log(d)
+//                if(node.Conference !== group){
+//                    node.__threeObj.visible = false;
+//                }
+//            });
 
 //            console.log(links);
-            console.log(node);
 
-            links = links.filter(l => l.source !== node && l.target !== node); // Remove links attached to node
+//            links = links.filter(l => l.source !== node.id && l.target !== node.id); // Remove links attached to node
+
+            links.forEach(function (l) {
+                l.__lineObj.visible = true;
+
+                if (l.source.id !== node.id && l.target.id !== node.id) {
+                    l.__lineObj.visible = false;
+                }
+            })
+
+
 //            nodes.splice(node.id, 1); // Remove node
 //            nodes.forEach((n, idx) => {
 //                n.id = idx;
 //            }); // Reset node ids to array index
 
-            Graph.graphData({nodes, links});
+//            Graph.graphData({nodes, links});
+        }
+
+        function updateNodeY(node) {
+            let {nodes, links} = Graph.graphData();
+
+            console.log(nodes);
+
+            nodes.forEach(function (node) {
+//                console.log(node);
+//                var y = yAxis(data[i].fullDate);
+
+//                node.fy = yAxis(node.time)
+//                    node.__threeObj.position.y += 10
+            });
         }
 
     }
@@ -175,44 +228,243 @@
                 if (document.readyState == 'complete') callback();
             });
     }
+
+
+    //Define GUI
+    // Define Settings
+    //    var Settings = function () {
+    //        this.redDistance = 20;
+    //        this.greenDistance = 20;
+    //    };
+
+//    let Settings = {
+//        redDistance: 20,
+//        greenDistance: 20
+//    };
+//
+//    //    var settings = new Settings;
+//    var gui = new dat.GUI();
+//
+//    var controllerOne = gui.add(Settings, 'redDistance', 0, 100);
+//    var controllerTwo = gui.add(Settings, 'greenDistance', 0, 100);
+
 </script>
 
 <!--<script>-->
-<!--const Graph = ForceGraph3D()-->
-<!--.nodeId('asn')-->
-<!--.nodeVal('customerConeSize')-->
-<!--.linkSource('src')-->
-<!--.linkTarget('dst')-->
-<!--.nodeAutoColorBy('country')-->
-<!--.warmupTicks(200)-->
-<!--.cooldownTicks(0) // Don't animate-in, jump to final state-->
-<!--.nodeRelSize(1)-->
-<!--.linkOpacity(0.07)-->
-<!--.forceEngine('ngraph')-->
-<!--(document.getElementById("3d-graph"));-->
+    <!--//handle image loading-->
+    <!--let query = getUrlQueryByName('url');-->
 
-<!--loadData('internet-topology-subset.json'); // Init-->
+    <!--let publicSpreadsheetUrl = query || 'https://docs.google.com/spreadsheets/d/1kGPNFZ-PbabG5MeRfZRrIWfy7gScFdmowgu2GTOGrIQ/edit?usp=sharing';-->
+    <!--let googleSheetName,-->
+        <!--globalBg;-->
 
-<!--//-->
+    <!--documentReady(function () {-->
+        <!--init_table();-->
+    <!--});-->
 
-<!--function useFull() {-->
-<!--Graph.linkOpacity(0.03)-->
-<!--.nodeResolution(3);-->
+    <!--function init_table() {-->
+        <!--Tabletop.init({-->
+            <!--key: publicSpreadsheetUrl,-->
+            <!--callback: consume_table,-->
+            <!--simpleSheet: false-->
+        <!--});-->
+    <!--}-->
 
-<!--loadData('internet-topology-full.json');-->
-<!--}-->
+    <!--function consume_table(data, tabletop) {-->
+        <!--googleSheetName = tabletop.googleSheetName;-->
 
-<!--function loadData(url) {-->
-<!--qwest.get(url).then((_, data) => {-->
-<!--data.ases.forEach(as => {-->
-<!--as.name = `AS${as.asn} - ${as.orgName} (${as.country})`-->
-<!--}); // Add label-->
-<!--Graph.graphData({-->
-<!--nodes: data.ases,-->
-<!--links: data.relationships-->
-<!--});-->
-<!--});-->
-<!--}-->
+        <!--//data sheet-->
+        <!--let newdata = data.data.elements;-->
+
+        <!--//config sheet-->
+        <!--let config = data.config.elements[0];-->
+
+        <!--//set user bg color-->
+        <!--globalBg = config.bgcolour;-->
+
+        <!--if (newdata) {-->
+            <!--init(newdata, config)-->
+        <!--} else {-->
+            <!--d3.csv('/data/IEEE_data.csv', function (data) {-->
+                <!--console.log(data)-->
+            <!--})-->
+        <!--}-->
+
+    <!--}-->
+
+    <!--function init(data) {-->
+
+<!--//        console.log(data)-->
+        <!--let links = [];-->
+        <!--var r = 1800;-->
+        <!--var rHalf = r / 2;-->
+
+        <!--//clean func-->
+        <!--data.forEach(function (d) {-->
+<!--//            let numbers = d.id.match(/\d+/g).map(Number);-->
+<!--//            d.source = +`${numbers[2]}${numbers[3]}`-->
+
+            <!--var txt = d.id;-->
+            <!--var numb = txt.match(/\d/g);-->
+            <!--numb = numb.join("");-->
+            <!--d.source = +numb;-->
+            <!--let source = d.source;-->
+            <!--d.fullDate = moment(d.time)._d;-->
+
+            <!--//target-->
+            <!--if (d.target) {-->
+                <!--let targets = d.target.split(';');-->
+                <!--let _tempArr = [];-->
+
+                <!--targets.forEach(function (d) {-->
+                    <!--if (d.match(/\d/g)) {-->
+                        <!--var numb = d.match(/\d/g);-->
+                        <!--numb = numb.join("");-->
+                        <!--links.push({-->
+                            <!--source: source,-->
+                            <!--target: +numb,-->
+                            <!--direction: source + " > " + numb-->
+                        <!--});-->
+
+                        <!--// update the temp arr-->
+                        <!--_tempArr.push(+numb)-->
+                    <!--}-->
+                <!--});-->
+                <!--d.targets = _tempArr;-->
+            <!--}-->
+        <!--});-->
+
+
+        <!--let timeExt = d3.extent(data, function (d) {-->
+            <!--return d.fullDate;-->
+        <!--});-->
+        <!--let yAxis = d3.scaleTime().range([-rHalf, rHalf]).domain(timeExt);-->
+
+<!--//        console.log(data);-->
+
+
+        <!--const newGdata = {-->
+            <!--nodes: data.map((d, i) => ({-->
+                <!--id: d.source,-->
+                <!--fy: yAxis(d.fullDate),-->
+                <!--Conference: d.Conference,-->
+                <!--time: d.fullDate,-->
+                <!--nSize: +d.scale,-->
+                <!--title: ( d.time + " " + d.Author_Names)-->
+            <!--})),-->
+            <!--links: links-->
+        <!--};-->
+
+        <!--const elem = document.getElementById("3d-graph");-->
+
+        <!--const Graph = ForceGraph3D()(elem)-->
+        <!--//            .width(r)-->
+        <!--//            .height(r)-->
+        <!--//            .forceEngine('d3')-->
+            <!--.forceEngine('nGraph')-->
+            <!--.nodeAutoColorBy('Conference')-->
+            <!--.nodeRelSize('nSize')-->
+            <!--.nodeLabel('title')-->
+            <!--.onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)-->
+            <!--.onNodeClick(filterNode)-->
+            <!--.onEngineStop(updateNodeY)-->
+            <!--.graphData(newGdata);-->
+
+<!--//        Graph.d3Force('charge').strength(-100);-->
+
+
+        <!--function filterNode(node) {-->
+            <!--let {nodes, links} = Graph.graphData();-->
+            <!--let index = nodes.findIndex(i => i.id === node.id);-->
+            <!--let group = node.Conference;-->
+
+            <!--//clean func-->
+
+<!--//            console.log(nodes)-->
+
+<!--//            nodes.forEach(function (node) {-->
+<!--////                console.log(d)-->
+<!--//                if(node.Conference !== group){-->
+<!--//                    node.__threeObj.visible = false;-->
+<!--//                }-->
+<!--//            });-->
+
+<!--//            console.log(links);-->
+
+<!--//            links = links.filter(l => l.source !== node.id && l.target !== node.id); // Remove links attached to node-->
+
+            <!--links.forEach(function (l) {-->
+                <!--l.__lineObj.visible = true;-->
+
+                <!--if (l.source.id !== node.id && l.target.id !== node.id) {-->
+                    <!--l.__lineObj.visible = false;-->
+                <!--}-->
+            <!--})-->
+
+
+<!--//            nodes.splice(node.id, 1); // Remove node-->
+<!--//            nodes.forEach((n, idx) => {-->
+<!--//                n.id = idx;-->
+<!--//            }); // Reset node ids to array index-->
+
+<!--//            Graph.graphData({nodes, links});-->
+        <!--}-->
+
+        <!--function updateNodeY(node) {-->
+            <!--let {nodes, links} = Graph.graphData();-->
+
+            <!--console.log(nodes);-->
+
+            <!--nodes.forEach(function (node) {-->
+<!--//                console.log(node);-->
+<!--//                var y = yAxis(data[i].fullDate);-->
+
+<!--//                node.fy = yAxis(node.time)-->
+<!--//                    node.__threeObj.position.y += 10-->
+            <!--});-->
+        <!--}-->
+
+    <!--}-->
+
+    <!--function getUrlQueryByName(name, url) {-->
+        <!--if (!url) url = window.location.href;-->
+        <!--name = name.replace(/[\[\]]/g, '\\$&');-->
+        <!--var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),-->
+            <!--results = regex.exec(url);-->
+        <!--if (!results) return null;-->
+        <!--if (!results[2]) return '';-->
+        <!--return decodeURIComponent(results[2].replace(/\+/g, ' '));-->
+    <!--}-->
+
+    <!--function documentReady(callback) {-->
+        <!--// in case the document is already rendered-->
+        <!--if (document.readyState != 'loading') callback();-->
+        <!--// modern browsers-->
+        <!--else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);-->
+        <!--// IE <= 8-->
+        <!--else document.attachEvent('onreadystatechange', function () {-->
+                <!--if (document.readyState == 'complete') callback();-->
+            <!--});-->
+    <!--}-->
+
+
+    <!--//Define GUI-->
+    <!--// Define Settings-->
+    <!--//    var Settings = function () {-->
+    <!--//        this.redDistance = 20;-->
+    <!--//        this.greenDistance = 20;-->
+    <!--//    };-->
+
+    <!--//    let Settings = {-->
+    <!--//        redDistance: 20,-->
+    <!--//        greenDistance: 20-->
+    <!--//    };-->
+    <!--//-->
+    <!--//    //    var settings = new Settings;-->
+    <!--//    var gui = new dat.GUI();-->
+    <!--//-->
+    <!--//    var controllerOne = gui.add(Settings, 'redDistance', 0, 100);-->
+    <!--//    var controllerTwo = gui.add(Settings, 'greenDistance', 0, 100);-->
 
 <!--</script>-->
 </body>
