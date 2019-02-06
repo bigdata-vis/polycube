@@ -92,6 +92,8 @@
             d.source = +numb;
             let source = d.source;
             d.fullDate = moment(d.time)._d;
+            d.scale = +d.scale
+            console.log(d.scale)
 
             //target
             if (d.target) {
@@ -122,16 +124,13 @@
         });
         let yAxis = d3.scaleTime().range([-rHalf, rHalf]).domain(timeExt);
 
-//        console.log(data);
-
-
         const newGdata = {
             nodes: data.map((d, i) => ({
                 id: d.source,
                 fy: yAxis(d.fullDate),
                 Conference: d.Conference,
                 time: d.fullDate,
-                nSize: +d.scale,
+                nSize: d.scale,
                 title: ( d.time + " " + d.Author_Names)
             })),
             links: links
@@ -140,12 +139,11 @@
         const elem = document.getElementById("3d-graph");
 
         const Graph = ForceGraph3D()(elem)
-//            .width(r)
-//            .height(r)
 //            .forceEngine('d3')
             .forceEngine('nGraph')
             .nodeAutoColorBy('Conference')
-            .nodeRelSize('nSize')
+            .nodeVal('nSize')
+//            .nodeRelSize('nSize')
             .nodeLabel('title')
             .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
             .onNodeClick(filterNode)
@@ -154,7 +152,6 @@
 
 //        Graph.d3Force('charge').strength(-100);
 
-
         function filterNode(node) {
             let {nodes, links} = Graph.graphData();
             let index = nodes.findIndex(i => i.id === node.id);
@@ -162,7 +159,7 @@
 
             //clean func
 
-//            console.log(nodes)
+            console.log(node)
 
 //            nodes.forEach(function (node) {
 ////                console.log(d)
@@ -176,10 +173,10 @@
 //            links = links.filter(l => l.source !== node.id && l.target !== node.id); // Remove links attached to node
 
             links.forEach(function (l) {
-                l.__lineObj.visible = true;
+                l.__lineObj.visible = false;
 
-                if (l.source.id !== node.id && l.target.id !== node.id) {
-                    l.__lineObj.visible = false;
+                if (l.source.id === node.id || l.target.id === node.id) {
+                    l.__lineObj.visible = true;
                 }
             })
 
@@ -195,7 +192,7 @@
         function updateNodeY(node) {
             let {nodes, links} = Graph.graphData();
 
-            console.log(nodes);
+//            console.log(nodes);
 
             nodes.forEach(function (node) {
 //                console.log(node);
