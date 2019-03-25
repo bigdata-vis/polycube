@@ -180,6 +180,9 @@ function getFlattenedLayer(allGroups) {
 
 function getSuperLayer(allGroups) {
 
+    console.log(allGroups);
+
+
     //1 = sorting all groups
     allGroups.sort(compareArrayBySizeDesc);
 
@@ -255,7 +258,6 @@ function createForcedLayout(group_list, widthHalf, heightHalf) {
 //
 //     return group_list;
 // }
-
 
 function createDiagonalLayout(group_list, originalSizes = null) {
     let posX = 25;
@@ -410,7 +412,6 @@ function createSpiralLayout(centerX, centerY, radius, group_list) {
     //     // group_list[i].x = x;
     //     // group_list[i].y = y;
     // }
-
 
     // // For every side, step around and away from center.
     for (let i = 0; i < sides; i++) {

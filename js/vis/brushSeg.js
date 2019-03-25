@@ -9,7 +9,7 @@
     let timeBrush = {};
     let parse5 = d3.timeParse("%Y");
     let format2 = d3.timeFormat("%Y");
-    var genre;
+    let genre;
     let chosenData;
     let checkSelect = false;
 
@@ -27,12 +27,6 @@
     };
 
     function init() {
-        // console.log(window.dateTestEx);
-        // console.log(window.dateExUnix);
-        // console.log(new Date(window.dateExUnix[0] * 1000));
-
-        // let dateRange = [new Date(1977, 1, 1), new Date(1938, 1, 1) - 1]; //Cushman Todo: Manual Change
-        // let dateRange = [new Date(window.dateTestEx[0], 1, 1), new Date(window.dateTestEx[1], 1, 1) - 1]; //Cushman Todo: Manual Change
         let dateRange = [new Date(window.dateExUnix[0] * 1000), new Date(window.dateExUnix[1] * 1000)]; //Cushman Todo: Manual Change
 
         let margin = {top: 40, right: 40, bottom: 140, left: 40},
@@ -47,11 +41,11 @@
             .range([0, width - 10]);
 
         let data = window.data;
+
         x.domain([0, d3.max(count(), function (d) {
             return d.val;
         })]);
 
-        // console.log(count())
 
         // define the area
         let area = d3.area()
@@ -99,7 +93,6 @@
             .attr("transform", "translate(" + 0 + "," + margin.top + ")")
             .call(d3.axisLeft(y)
                 .ticks(d3.timeMonth)
-                // .ticks(d3.timeYear) //khm
                 .tickSize(-width)
                 .tickFormat(function () {
                     return null;
@@ -109,20 +102,19 @@
                 return d.getYear();
             });
 
+
         //axis
         svg.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(d3.axisLeft(y)
-                    .tickFormat(function (date) {
-                        if (d3.timeYear(date) < date) {
-                            return d3.timeFormat('%b')(date);
-                        } else {
-                            return d3.timeFormat('%b%Y')(date);
-                        }
-                    })
-                // .ticks(d3.timeMonth)
-                // .tickPadding(6)
+                .tickFormat(function (date) {
+                    if (d3.timeYear(date) < date) {
+                        return d3.timeFormat('%b')(date);
+                    } else {
+                        return d3.timeFormat('%b%Y')(date);
+                    }
+                })
             )
             .attr("text-anchor", null)
             .selectAll("text")
@@ -224,6 +216,9 @@
 
         function brushened() {
 
+            // console.log(this);
+
+
             if (!d3.event.sourceEvent) return; // Only transition after input.
             if (!d3.event.selection) return; // Ignore empty selections.
 
@@ -235,6 +230,8 @@
 
             let range = d3.brushSelection(this)
                 .map(y.invert);
+
+            // console.log(range)
 
             /**
              * TODO:Function to determine what data to use from the start and end date
@@ -423,7 +420,7 @@
                 defaultData = chosenData;
             }
 
-            while (z < times){
+            while (z < times) {
                 setTimeout(function () {
 
                     //for brush labels only

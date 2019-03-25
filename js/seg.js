@@ -1342,6 +1342,7 @@
             //rotate the pointclouds thesame way and position as the camera
 
         } else {
+
             //camera rotation
             var tween = new TWEEN.Tween({
                 x: camera.position.x,

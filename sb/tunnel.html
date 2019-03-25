@@ -1,0 +1,164 @@
+<head>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Sans-serif;
+            margin: 0;
+        }
+
+        .full-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            opacity: 0.4;
+        }
+
+        .full-btn:hover {
+            opacity: 1;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="webgl-tunnel"></div>
+<button class="full-btn" onClick="useFull()">Full</button>
+<script>
+    $(function () {
+        var main = new Main();
+
+        $(window).resize(function() {
+            main.resize();
+        });
+
+    });
+
+    function Main()
+    {
+        // Distance travelled in the tunnel by the camera
+        this.cameraTravelledStep = 1;
+
+        // Camera rotation around its z-axis (moving through the tunnel)
+        this.cameraRotationStep = 0.0;
+
+        // Creating the renderer
+        this.webGLRenderer = new THREE.WebGLRenderer();
+        this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        $("#webgl-tunnel").append(this.webGLRenderer.domElement);
+
+        // Creating the scene
+        this.scene = new THREE.Scene();
+        // Setting up the camera
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // Creating the tunnel and adding it to the scene
+        this.geom = this.createTunnelGeometry(30, 512, 30, 80);
+        this.tunnel = this.createTunnelMesh(this.geom);
+        this.scene.add(this.tunnel);
+
+        this.render();
+    }
+
+    // Declaring constants
+    Main.cameraTravelIncrement   = 0.0002;
+    Main.cameraRotationIncrement = 0.0025;
+
+    Main.prototype.createTunnelGeometry = function(nbPoints, segments, radius, radiusSegments)
+    {
+        // Creating an array of points that we'll use for the spline creation
+        var points = [];
+        var previousPoint = new THREE.Vector3(0, 0, 0);
+        for (var i = 0; i < nbPoints; i++)
+        {
+            var randomX = previousPoint.x + 5 + Math.round(Math.random() * 500);
+            var randomY = previousPoint.y + 5 + Math.round(Math.random() * 500);
+            var randomZ = previousPoint.z + 5 + Math.round(Math.random() * 500);
+
+            previousPoint.x = randomX;
+            previousPoint.y = randomY;
+            previousPoint.z = randomZ;
+
+            points.push(new THREE.Vector3(randomX, randomY, randomZ));
+        }
+
+        // Creating a smooth 3d spline curve from our serie of points
+        spline = new THREE.SplineCurve3(points);
+
+        // Generating geometry for the tube using our spline
+        return new THREE.TubeGeometry(spline, segments, radius, radiusSegments, false);
+    };
+
+    Main.prototype.createTunnelMesh = function(geom)
+    {
+        var material = new THREE.MeshBasicMaterial({transparent: false, opacity: 1, side:THREE.DoubleSide, wireframe: true});
+
+        // MULTICOLOR TUNNEL : decomment above and comment the upper comment
+        //var material = new THREE.MeshNormalMaterial({transparent: false, opacity: 1, side:THREE.DoubleSide, wireframe: true});
+
+        return new THREE.Mesh(geom, material);
+    }
+
+    Main.prototype.render = function()
+    {
+        if (this.cameraTravelledStep > 1 - Main.cameraTravelIncrement)
+        {
+            this.cameraTravelledStep = 0.0;
+        }
+
+        var pos1 = spline.getPointAt(this.cameraTravelledStep);
+        var pos2 = spline.getPointAt(this.cameraTravelledStep + Main.cameraTravelIncrement);
+        this.camera.position.set(pos1.x, pos1.y, pos1.z);
+        this.camera.lookAt(pos2);
+
+        this.camera.rotation.z = -Math.PI/2 + (Math.sin(this.cameraRotationStep) * Math.PI);
+
+        // movement - please calibrate these values
+        var xSpeed = 0.0001;
+        var ySpeed = 0.0001;
+//
+
+//        document.addEventListener("keydown", onDocumentKeyDown, false);
+//        function onDocumentKeyDown(event) {
+//            var keyCode = event.which;
+//            if (keyCode == 87) {
+////                cube.position.y += ySpeed;
+//            } else if (keyCode == 83) {
+////                cube.position.y -= ySpeed;
+//            } else if (keyCode == 65) {
+////                cube.position.x -= xSpeed;
+//            } else if (keyCode == 68) {
+////                cube.position.x += xSpeed;
+//            } else if (keyCode == 32) {
+////                cube.position.set(0, 0, 0);
+//            }
+//
+//            console.log("up")
+//
+//        this.cameraTravelledStep += Main.cameraTravelIncrement;
+//        this.cameraRotationStep += Main.cameraRotationIncrement;
+//
+//        };
+
+
+//        this.cameraTravelledStep += Main.cameraTravelIncrement;
+//        this.cameraRotationStep += Main.cameraRotationIncrement;
+
+        requestAnimationFrame(this.render.bind(this));
+        this.webGLRenderer.render(this.scene, this.camera);
+    }
+
+    Main.prototype.resize = function()
+    {
+        this.webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+    }
+
+
+
+</script>
+</body>

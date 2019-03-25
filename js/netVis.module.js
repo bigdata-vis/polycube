@@ -193,8 +193,6 @@ function init_countries() {
 }
 
 
-
-
 function createAxisLabels(){
 
     let right = 250;

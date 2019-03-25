@@ -90,25 +90,35 @@
             var numb = txt.match(/\d/g);
             numb = numb.join("");
             d.source = +numb;
-            let source = d.source;
+            let source = +numb;
+            d.source = source; //fix this issue
             d.fullDate = moment(d.time)._d;
-            d.scale = +d.scale
-            console.log(d.scale)
-
-            //target
-            if (d.target) {
+            d.scale = +d.scale;
+            //targets
+            if (d.target !== '') {
                 let targets = d.target.split(';');
                 let _tempArr = [];
 
+//                console.log(targets)
                 targets.forEach(function (d) {
                     if (d.match(/\d/g)) {
                         var numb = d.match(/\d/g);
                         numb = numb.join("");
+
+//                        console.log(d)
+//                        console.log(numb)
+
                         links.push({
-                            source: source,
+                            source: +source,
                             target: +numb,
                             direction: source + " > " + numb
                         });
+
+//                        links.push({
+//                            source: {id:source},
+//                            target: {id:+numb},
+//                            direction: source + " > " + numb
+//                        });
 
                         // update the temp arr
                         _tempArr.push(+numb)
@@ -116,7 +126,31 @@
                 });
                 d.targets = _tempArr;
             }
+//            else{
+//                links.push({
+//                    source: source,
+////                    target: ,
+//                    direction: source + " > " + numb
+//                })
+//            }
         });
+
+//        console.log(data);
+
+
+//        const N = 300;
+//        const gData = {
+//            nodes: [...Array(N).keys()].map(i => ({ id: i })),
+//            links: [...Array(N).keys()]
+//                .filter(id => id)
+//                .map(id => ({
+//                    source: id,
+//                    target: Math.round(Math.random() * (id-1))
+//                }))
+//        };
+//
+//        console.log(gData.links)
+//        console.log(links)
 
 
         let timeExt = d3.extent(data, function (d) {
@@ -133,17 +167,17 @@
                 nSize: d.scale,
                 title: ( d.time + " " + d.Author_Names)
             })),
-            links: links
+            links: links //merge the data building with map and create linking here
         };
+
 
         const elem = document.getElementById("3d-graph");
 
         const Graph = ForceGraph3D()(elem)
-//            .forceEngine('d3')
-            .forceEngine('nGraph')
+            .forceEngine('d3')
+//            .forceEngine('nGraph')
             .nodeAutoColorBy('Conference')
             .nodeVal('nSize')
-//            .nodeRelSize('nSize')
             .nodeLabel('title')
             .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
             .onNodeClick(filterNode)

@@ -516,7 +516,6 @@
                         //apply force layout
                         circle.position.x = data.y * getRadScale(7);
                         circle.position.z = data.x * getRadScale(7);
-
                         circle.position.y = (interval * i) - heightHalf;
 
                         //save circle position
@@ -1160,7 +1159,6 @@
         //show glbox
         WGLScene.getObjectByName("glbox").visible = true;
         hullGroup.visible = true;
-
 
 
         /**
