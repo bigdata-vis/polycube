@@ -1577,6 +1577,8 @@
             //rotate the pointclouds thesame way and position as the camera
 
         } else {
+
+
             //camera rotation
             var tween = new TWEEN.Tween({
                 x: camera.position.x,
@@ -1591,11 +1593,9 @@
                 .onUpdate(function () {
                     camera.position.set(this.x, this.y, this.z);
                     camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    //camera.fov = 8; todo: add a new fov to change perspective
                 })
                 .onComplete(function () {
                     camera.lookAt(new THREE.Vector3(0, 0, 0));
-                    // camera.lookAt(scene.position);
                 })
                 .start();
 
@@ -1609,11 +1609,6 @@
                 z: -0.005531219681680428
             }, duration)
                 .easing(TWEEN.Easing.Elastic.InOut)
-                // .onUpdate(function () {
-                //     // camera.rotation.set(this.x, this.y, this.z);
-                //     // // camera.lookAt(new THREE.Vector3(0, 0, 0));
-                //     // //camera.fov = 8; todo: add a new fov to change perspective
-                // })
                 .onComplete(function () {
 
                 })
@@ -1860,6 +1855,7 @@
             // glbox.add(hullMesh);
         }
     };
+
     pCube.drawCompleteHull = function () {
         hullGroup.children = [];
         hullGroup.visible = true;

@@ -1381,7 +1381,6 @@
                 //     // //camera.fov = 8; todo: add a new fov to change perspective
                 // })
                 .onComplete(function () {
-
                 })
                 .start();
 
