@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 75vw;\n    height: inherit;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(75vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n.gui {\n    padding: 1em;\n    width: 25vw;\n    height: inherit;\n    box-sizing: border-box;\n    border-right: 2px dashed #f3f3f3;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    max-width: calc(25vw - 2em);\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n.btn-group-xs > .btn, .btn-xs {\n    padding  : .25rem .4rem;\n    font-size  : .875rem;\n    line-height  : .5;\n    border-radius : .2rem;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxxQkFBcUI7SUFDckIsd0JBQXdCO0lBQ3hCLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLFlBQVk7SUFDWixXQUFXO0lBQ1gsZUFBZTtJQUNmLHNCQUFzQjtJQUN0QixnQ0FBZ0M7QUFDcEM7O0FBRUE7SUFDSSw2QkFBNkI7SUFDN0IsV0FBVztJQUNYLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLHNCQUFzQjtBQUMxQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixVQUFVO0lBQ1YsWUFBWTtJQUNaLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsYUFBYTtJQUNiLGtCQUFrQjtJQUNsQixNQUFNO0lBQ04sT0FBTztJQUNQLGlDQUFpQztBQUNyQzs7QUFFQTtJQUNJLGVBQWU7SUFDZiwyQkFBMkI7QUFDL0I7O0FBRUE7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBQ0E7SUFDSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLFdBQVc7QUFDZjs7QUFDQTtJQUNJLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsaUNBQWlDO0FBQ3JDOztBQUVBO0lBQ0ksdUJBQXVCO0lBQ3ZCLG9CQUFvQjtJQUNwQixpQkFBaUI7SUFDakIscUJBQXFCO0FBQ3pCOztBQUVBOztJQUVJLGVBQWU7QUFDbkIiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDc1dnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4jd2ViZ2wtY2FudmFzLFxuI2Nzcy1jYW52YXMge1xuICAgIC8qIGF2b2lkIHNjcm9sbGJhcnMgKi9cbiAgICB3aWR0aDogY2FsYyg3NXZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuLmd1aSB7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIHdpZHRoOiAyNXZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbiAgICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xufVxuXG4uZXJyb3Ige1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50OyBcbiAgICBib3R0b206IDBlbTtcbiAgICBtYXgtd2lkdGg6IDUxMnB4O1xuICAgIG1hcmdpbjogMC41ZW07XG4gICAgei1pbmRleDogMTAwMDtcbn1cblxuLmVycm9yIHAge1xuICAgIHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQ7XG59XG5cbi5wYy10b29sdGlwIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgb3BhY2l0eTogMDtcbiAgICB3aWR0aDogMjUwcHg7XG4gICAgaGVpZ2h0OiBhdXRvO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuICAgIHBhZGRpbmc6IDI1cHg7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIHRvcDogMDtcbiAgICBsZWZ0OiAwO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuLnByZXZpZXctaXRlbSB7XG4gICAgbWFyZ2luLXRvcDogMmVtO1xuICAgIG1heC13aWR0aDogY2FsYygyNXZ3IC0gMmVtKTtcbn1cblxuLnByZXZpZXctdGl0bGUge1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctcGljdHVyZSB7XG4gICAgbWF4LXdpZHRoOiBpbmhlcml0O1xufVxuLnByZXZpZXctbWV0YWluZm8ge1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbiAgICBmb250LXNpemU6IDE4cHg7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1kZXNjcmlwdGlvbiB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeTtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG59XG5cbjo6bmctZGVlcCAudGltZS1zbGljZS1sYWJlbCB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbi5idG4tZ3JvdXAteHMgPiAuYnRuLCAuYnRuLXhzIHtcbiAgICBwYWRkaW5nICA6IC4yNXJlbSAuNHJlbTtcbiAgICBmb250LXNpemUgIDogLjg3NXJlbTtcbiAgICBsaW5lLWhlaWdodCAgOiAuNTtcbiAgICBib3JkZXItcmFkaXVzIDogLjJyZW07XG59XG5cbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbixcbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */"
+module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 75vw;\n    height: inherit;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(75vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n.gui {\n    position: relative;\n    z-index: 1000;\n    padding: 1em;\n    width: 25vw;\n    height: inherit;\n    box-sizing: border-box;\n    border-right: 2px dashed #f3f3f3;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    display: flex;\n    top: 1em;\n    width: 100vw;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n    margin: auto;\n    z-index: 999;\n}\n\n.category-legend > div {\n    margin: .25em;\n}\n\n.category-legend > div > span {\n    cursor: pointer;\n    border-radius: 50%;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    max-width: calc(25vw - 2em);\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n.btn-group-xs > .btn, .btn-xs {\n    padding  : .25rem .4rem;\n    font-size  : .875rem;\n    line-height  : .5;\n    border-radius : .2rem;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxxQkFBcUI7SUFDckIsd0JBQXdCO0lBQ3hCLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsWUFBWTtJQUNaLFdBQVc7SUFDWCxlQUFlO0lBQ2Ysc0JBQXNCO0lBQ3RCLGdDQUFnQztBQUNwQzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsYUFBYTtJQUNiLFFBQVE7SUFDUixZQUFZO0lBQ1osbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsWUFBWTtJQUNaLFlBQVk7QUFDaEI7O0FBRUE7SUFDSSxhQUFhO0FBQ2pCOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztBQUNmOztBQUVBO0lBQ0ksNkJBQTZCO0lBQzdCLFdBQVc7SUFDWCxnQkFBZ0I7SUFDaEIsYUFBYTtJQUNiLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxzQkFBc0I7QUFDMUI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsTUFBTTtJQUNOLE9BQU87SUFDUCxpQ0FBaUM7QUFDckM7O0FBRUE7SUFDSSxlQUFlO0lBQ2YsMkJBQTJCO0FBQy9COztBQUVBO0lBQ0ksV0FBVztBQUNmOztBQUNBO0lBQ0ksa0JBQWtCO0FBQ3RCOztBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLGVBQWU7SUFDZixXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxtQkFBbUI7SUFDbkIsa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksVUFBVTtJQUNWLGlDQUFpQztBQUNyQzs7QUFFQTtJQUNJLHVCQUF1QjtJQUN2QixvQkFBb0I7SUFDcEIsaUJBQWlCO0lBQ2pCLHFCQUFxQjtBQUN6Qjs7QUFFQTs7SUFFSSxlQUFlO0FBQ25COztBQUdBLFVBQVU7O0FBQ1Y7SUFDSSx3QkFBd0I7QUFDNUIiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDc1dnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4jd2ViZ2wtY2FudmFzLFxuI2Nzcy1jYW52YXMge1xuICAgIC8qIGF2b2lkIHNjcm9sbGJhcnMgKi9cbiAgICB3aWR0aDogY2FsYyg3NXZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuLmd1aSB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHotaW5kZXg6IDEwMDA7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIHdpZHRoOiAyNXZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbiAgICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIHRvcDogMWVtO1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgei1pbmRleDogOTk5O1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kID4gZGl2IHtcbiAgICBtYXJnaW46IC4yNWVtO1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4ucHJldmlldy1pdGVtIHtcbiAgICBtYXJnaW4tdG9wOiAyZW07XG4gICAgbWF4LXdpZHRoOiBjYWxjKDI1dncgLSAyZW0pO1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LWRlc2NyaXB0aW9uIHtcbiAgICB0ZXh0LWFsaWduOiBqdXN0aWZ5O1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbn1cblxuOjpuZy1kZWVwIC50aW1lLXNsaWNlLWxhYmVsIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuLmJ0bi1ncm91cC14cyA+IC5idG4sIC5idG4teHMge1xuICAgIHBhZGRpbmcgIDogLjI1cmVtIC40cmVtO1xuICAgIGZvbnQtc2l6ZSAgOiAuODc1cmVtO1xuICAgIGxpbmUtaGVpZ2h0ICA6IC41O1xuICAgIGJvcmRlci1yYWRpdXMgOiAuMnJlbTtcbn1cblxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uLFxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuXG4vKkRBVCBHVUkqL1xuOjpuZy1kZWVwIC5kZy5hYyB7XG4gICAgei1pbmRleDogMTAwMCAhaW1wb3J0YW50O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -328,7 +328,7 @@ module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary \" id=\"geo-view-button\">GeoCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n                <div class=\"input-group-append\">\n                    <div *ngIf=\"!loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                    </div>\n                    <div *ngIf=\"loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                            <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                            Loading...\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <h2 class=\"preview-title\">{{ previewItem.title }} </h2>\n                <img class=\"preview-picture\" [src]=\"previewItem.mediaURL\">\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More info...</a>\n            </div>\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\" \n                [height]=\"getWindowInnerHeight()\"\n                (onSelect)=\"filterDataWithTimeSlider($event)\"\n            ></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong> \n    <p>{{ errorMessage }}</p>\n</div>\n"
+module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary \" id=\"geo-view-button\">GeoCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n                <div class=\"input-group-append\">\n                    <div *ngIf=\"!loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                    </div>\n                    <div *ngIf=\"loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                            <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                            Loading...\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <h2 class=\"preview-title\">{{ previewItem.title }} </h2>\n                <img class=\"preview-picture\" [src]=\"previewItem.mediaURL\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More info...</a>\n            </div>\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\" \n                [height]=\"getWindowInnerHeight()\"\n                (onSelect)=\"filterDataWithTimeSlider($event)\"\n            ></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\" *ngIf=\"showColorCodingLegend\">\n    <label>Clickable Legend:</label>\n    <div *ngFor=\"let c of categories\">\n        <span class=\"badge badge-secondary\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\" (click)=\"filterDataByCategory(c)\" [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n    </div>\n    <div>\n            <span class=\"badge badge-secondary\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\" (click)=\"clearCategoryFilter()\" [ngStyle]=\"{ 'background-color' : '#424242' }\">&nbsp;</span>\n    </div> \n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong> \n    <p>{{ errorMessage }}</p>\n</div>\n"
 
 /***/ }),
 
@@ -379,9 +379,10 @@ var AppComponent = /** @class */ (function () {
         this.title = 'polycubeViews';
         // set default view to display all cubes
         this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
-        this.loadingDataset = false;
+        this.loadingDataset = true;
         this.dataLoaded = false;
         this.errorOccurred = false;
+        this.showColorCodingLegend = true;
         /**
          * Initializes the THREEJS scene
          * - creating renderers
@@ -440,7 +441,8 @@ var AppComponent = /** @class */ (function () {
                         date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
                         location: foundItem.location_name,
                         description: foundItem.description,
-                        externalURL: foundItem.media_url
+                        externalURL: foundItem.media_url,
+                        categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
                     };
                 }
                 else {
@@ -492,6 +494,7 @@ var AppComponent = /** @class */ (function () {
                     _this.nCube.updateNodeSize(change.nodeSize);
                 }
                 if (change.nodeColor) {
+                    _this.showColorCodingLegend = change.nodeColor !== 'categorical' ? false : true;
                     _this.gCube.updateNodeColor(change.nodeColor);
                     _this.sCube.updateNodeColor(change.nodeColor);
                     _this.nCube.updateNodeColor(change.nodeColor);
@@ -601,6 +604,8 @@ var AppComponent = /** @class */ (function () {
             _this.render();
         };
         this.previewItem = null;
+        this.categories = new Array();
+        this.categoriesAndColors = new Map();
         this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION : 2000;
     }
     /**
@@ -627,6 +632,8 @@ var AppComponent = /** @class */ (function () {
             _this.dataManager.data = success;
             _this.loadingDataset = false;
             _this.dataLoaded = true;
+            _this.categories = Array.from(_this.dataManager.categories.keys());
+            _this.categoriesAndColors = _this.dataManager.categories;
             _this.initScene();
             _this.initCubes();
             _this.initGUI();
@@ -656,6 +663,16 @@ var AppComponent = /** @class */ (function () {
             _this.errorOccurred = true;
             _this.errorMessage = err;
         });
+    };
+    AppComponent.prototype.clearCategoryFilter = function () {
+        this.gCube.resetCateogrySelection();
+        this.sCube.resetCateogrySelection();
+        this.nCube.resetCateogrySelection();
+    };
+    AppComponent.prototype.filterDataByCategory = function (cat) {
+        this.gCube.filterDataByCategory(cat);
+        this.sCube.filterDataByCategory(cat);
+        this.nCube.filterDataByCategory(cat);
     };
     /**
      * Function called each iteration of the rendering loop
@@ -822,6 +839,8 @@ var DataManager = /** @class */ (function () {
         this._cushman_pos = new _data_cushman_nodes_position__WEBPACK_IMPORTED_MODULE_3__["CushmanForcedDirected"]();
         this._numSlices = 10;
         this._timeRange = new Array();
+        this._categories = new Map();
+        this._colors = d3__WEBPACK_IMPORTED_MODULE_0__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_0__["schemePaired"]);
     }
     Object.defineProperty(DataManager.prototype, "dataMap", {
         get: function () {
@@ -847,6 +866,7 @@ var DataManager = /** @class */ (function () {
                 .domain([this.MIN_DATE, this.MAX_DATE])
                 .range([-_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2]);
             this.createDataMap();
+            this.createCategories();
         },
         enumerable: true,
         configurable: true
@@ -858,6 +878,33 @@ var DataManager = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DataManager.prototype, "categories", {
+        get: function () {
+            return this._categories;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataManager.prototype, "colors", {
+        get: function () {
+            return this._colors;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DataManager.prototype.getNodeById = function (id) {
+        return this._data.find(function (d) {
+            return d.id == id;
+        });
+    };
+    DataManager.prototype.createCategories = function () {
+        var _this = this;
+        this._data.forEach(function (d) {
+            if (_this._categories.has(d.category_1))
+                return;
+            _this._categories.set(d.category_1, _this._colors(d.category_1));
+        });
+    };
     DataManager.prototype.createDataMap = function () {
         var _this = this;
         if (this._data) {
@@ -1062,7 +1109,7 @@ var GeoCube = /** @class */ (function () {
         var _this = this;
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
-        this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemePaired"]);
+        this.colors = this.dm.colors;
         this.slices = new Array();
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
@@ -1226,7 +1273,7 @@ var GeoCube = /** @class */ (function () {
         this.colorCoding = encoding;
         switch (encoding) {
             case 'categorical':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_5__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
@@ -1235,7 +1282,7 @@ var GeoCube = /** @class */ (function () {
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemeSet2"]);
                 break;
             default:
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
         }
     };
@@ -1354,6 +1401,19 @@ var GeoCube = /** @class */ (function () {
                         grandChild.position.z = sourceCoords.z;
                 })
                     .start();
+            });
+        });
+    };
+    GeoCube.prototype.filterDataByCategory = function (cat) {
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+                if (grandChild.data.category_1 !== cat)
+                    grandChild.visible = false;
             });
         });
     };
@@ -1540,6 +1600,18 @@ var GeoCube = /** @class */ (function () {
             case 'monochrome': return '#b5b5b5';
             default: return this.colors(object.data.category_1);
         }
+    };
+    GeoCube.prototype.resetCateogrySelection = function (gray) {
+        if (gray === void 0) { gray = false; }
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+            });
+        });
     };
     /**
      * Iterates through all timeslices and all data points
@@ -1806,7 +1878,7 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.createObjects = function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
-        this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+        this.colors = this.dm.colors;
         this.createSlices();
         this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_0__["Raycaster"]();
         this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector2"]();
@@ -1871,7 +1943,7 @@ var NetCube = /** @class */ (function () {
         this.colorCoding = encoding;
         switch (encoding) {
             case 'categorical':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
@@ -1880,7 +1952,7 @@ var NetCube = /** @class */ (function () {
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
                 break;
             default:
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
         }
     };
@@ -1949,6 +2021,27 @@ var NetCube = /** @class */ (function () {
         var isFirstDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
         var isSecondDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
         return isFirstDate && isSecondDate;
+    };
+    NetCube.prototype.filterDataByCategory = function (cat) {
+        var _this = this;
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+                if (grandChild.data.category_1 !== cat)
+                    grandChild.visible = false;
+            });
+        });
+        this.links.children.forEach(function (e) {
+            e.visible = true;
+            var source = _this.dm.dataMap[e.name.split('_')[0]];
+            var target = _this.dm.dataMap[e.name.split('_')[1]];
+            if (source.category_1 !== cat || target.category_1 !== cat)
+                e.visible = false;
+        });
     };
     NetCube.prototype.filterDataByDatePeriod = function (startDate, endDate) {
         this.hideNodesByDatePeriod(startDate, endDate);
@@ -2100,6 +2193,19 @@ var NetCube = /** @class */ (function () {
             case 'monochrome': return '#b5b5b5';
             default: return this.colors(object.data.category_1);
         }
+    };
+    NetCube.prototype.resetCateogrySelection = function (gray) {
+        if (gray === void 0) { gray = false; }
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+            });
+        });
+        this.links.children.forEach(function (e) { e.visible = true; });
     };
     /**
     * Iterates through all timeslices and all data points
@@ -2404,7 +2510,7 @@ var SetCube = /** @class */ (function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS.position.set(this.cubeLeftBoarder, 0, 0);
-        this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+        this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
         this.slices = new Array();
         this.pointGroup = new Array();
         // this.pointGroup.name = 'pointGroup'
@@ -2549,7 +2655,7 @@ var SetCube = /** @class */ (function () {
         });
         var layout = d3__WEBPACK_IMPORTED_MODULE_4__["forceSimulation"]()
             .nodes(d3Nodes)
-            .force('charge', d3__WEBPACK_IMPORTED_MODULE_4__["forceManyBody"]().strength(0.7))
+            .force('charge', d3__WEBPACK_IMPORTED_MODULE_4__["forceManyBody"]().strength(20))
             .force('center', d3__WEBPACK_IMPORTED_MODULE_4__["forceCenter"](0, 0))
             // cluster by section
             .force('cluster', Object(d3_force_cluster__WEBPACK_IMPORTED_MODULE_6__["forceCluster"])().centers(function (d) { return clusters[d.cluster]; }))
@@ -2571,9 +2677,9 @@ var SetCube = /** @class */ (function () {
                 // sphere.position.x = node.x || 0;
                 // // sphere.position.y = node.y || 0;
                 // sphere.position.z = node.y || 0;
-                sphere.position.x = node.x || 0;
+                sphere.position.x = node.x * 20 || 0;
                 // sphere.position.y = node.y || 0;
-                sphere.position.z = node.y || 0;
+                sphere.position.z = node.y * 20 || 0;
             });
             // requestAnimationFrame(layoutTick);
         }
@@ -2649,7 +2755,7 @@ var SetCube = /** @class */ (function () {
         this.colorCoding = encoding;
         switch (encoding) {
             case 'categorical':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
@@ -2658,7 +2764,7 @@ var SetCube = /** @class */ (function () {
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
                 break;
             default:
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemePaired"]);
+                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
         }
     };
@@ -2722,6 +2828,19 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.dateWithinInterval = function (startDate, endDate, pointDate) {
         return moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
+    };
+    SetCube.prototype.filterDataByCategory = function (cat) {
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+                if (grandChild.data.category_1 !== cat)
+                    grandChild.visible = false;
+            });
+        });
     };
     SetCube.prototype.filterDataByDatePeriod = function (startDate, endDate) {
         var _this = this;
@@ -2856,6 +2975,18 @@ var SetCube = /** @class */ (function () {
             case 'monochrome': return '#b5b5b5';
             default: return this.colors(object.data.category_1);
         }
+    };
+    SetCube.prototype.resetCateogrySelection = function (gray) {
+        if (gray === void 0) { gray = false; }
+        this.cubeGroupGL.children.forEach(function (child) {
+            if (child.type !== 'Group')
+                return;
+            child.children.forEach(function (grandChild) {
+                if (grandChild.type !== 'DATA_POINT')
+                    return;
+                grandChild.visible = true;
+            });
+        });
     };
     /**
    * Iterates through all timeslices and all data points
@@ -3022,7 +3153,7 @@ var VIEW_STATES;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".time-slider {\n    position: absolute;\n    z-index: 999;\n    top: 0em;\n    left: 25vw; /* this is offset defined by gui class in app.component.css */\n}\n\n::ng-deep .time-slider svg {\n    overflow: visible;\n}\n\n/*time slider*/\n\n.axis--grid .domain {\n    /*fill: #ddd;*/\n    stroke: none;\n}\n\n.axis--x .domain,\n.axis--grid .tick line {\n    stroke: #353636;\n}\n\n/*.axis--y .domain,*/\n\n.tick text {\n    /*fill: #EDCA3A;*/\n    /*fill: #462015;*/\n    /*fill: #c83409;*/\n    fill: #2d2d2d;\n}\n\n/*.axis--y .domain,*/\n\n.notick text {\n    /*fill: #353636 !important;*/\n    stroke: #525252;\n    stroke-width: 0.3px;\n    font-size: 120%;\n    font-weight: bold;\n}\n\n.axis--grid .tick--minor line {\n    stroke-opacity: .5;\n}\n\n.axis2,\n.axis--y2 line {\n    stroke: #8a8a8a;\n    stroke-opacity: .5;\n}\n\n.axis,\n.axis--chart {\n    /*fill: #3f3f3f;*/\n    fill: #353636;\n    stroke-width: 0;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osUUFBUTtJQUNSLFVBQVUsRUFBRSw2REFBNkQ7QUFDN0U7O0FBRUE7SUFDSSxpQkFBaUI7QUFDckI7O0FBR0EsY0FBYzs7QUFDZDtJQUNJLGNBQWM7SUFDZCxZQUFZO0FBQ2hCOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLGlCQUFpQjtJQUNqQixpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLGFBQWE7QUFDakI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLDRCQUE0QjtJQUM1QixlQUFlO0lBQ2YsbUJBQW1CO0lBQ25CLGVBQWU7SUFDZixpQkFBaUI7QUFDckI7O0FBR0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsYUFBYTtJQUNiLGVBQWU7QUFDbkIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3RpbWVzbGlkZXIuY29tcG9uZW50L3RpbWVzbGlkZXIuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRpbWUtc2xpZGVyIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgei1pbmRleDogOTk5O1xuICAgIHRvcDogMGVtO1xuICAgIGxlZnQ6IDI1dnc7IC8qIHRoaXMgaXMgb2Zmc2V0IGRlZmluZWQgYnkgZ3VpIGNsYXNzIGluIGFwcC5jb21wb25lbnQuY3NzICovXG59XG5cbjo6bmctZGVlcCAudGltZS1zbGlkZXIgc3ZnIHtcbiAgICBvdmVyZmxvdzogdmlzaWJsZTtcbn1cblxuXG4vKnRpbWUgc2xpZGVyKi9cbi5heGlzLS1ncmlkIC5kb21haW4ge1xuICAgIC8qZmlsbDogI2RkZDsqL1xuICAgIHN0cm9rZTogbm9uZTtcbn1cblxuLmF4aXMtLXggLmRvbWFpbixcbi5heGlzLS1ncmlkIC50aWNrIGxpbmUge1xuICAgIHN0cm9rZTogIzM1MzYzNjtcbn1cblxuLyouYXhpcy0teSAuZG9tYWluLCovXG4udGljayB0ZXh0IHtcbiAgICAvKmZpbGw6ICNFRENBM0E7Ki9cbiAgICAvKmZpbGw6ICM0NjIwMTU7Ki9cbiAgICAvKmZpbGw6ICNjODM0MDk7Ki9cbiAgICBmaWxsOiAjMmQyZDJkO1xufVxuXG4vKi5heGlzLS15IC5kb21haW4sKi9cbi5ub3RpY2sgdGV4dCB7XG4gICAgLypmaWxsOiAjMzUzNjM2ICFpbXBvcnRhbnQ7Ki9cbiAgICBzdHJva2U6ICM1MjUyNTI7XG4gICAgc3Ryb2tlLXdpZHRoOiAwLjNweDtcbiAgICBmb250LXNpemU6IDEyMCU7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG59XG5cblxuLmF4aXMtLWdyaWQgLnRpY2stLW1pbm9yIGxpbmUge1xuICAgIHN0cm9rZS1vcGFjaXR5OiAuNTtcbn1cblxuLmF4aXMyLFxuLmF4aXMtLXkyIGxpbmUge1xuICAgIHN0cm9rZTogIzhhOGE4YTtcbiAgICBzdHJva2Utb3BhY2l0eTogLjU7XG59XG5cbi5heGlzLFxuLmF4aXMtLWNoYXJ0IHtcbiAgICAvKmZpbGw6ICMzZjNmM2Y7Ki9cbiAgICBmaWxsOiAjMzUzNjM2O1xuICAgIHN0cm9rZS13aWR0aDogMDtcbn1cbiJdfQ== */"
+module.exports = ".time-slider {\n    position: absolute;\n    z-index: 999;\n    top: 0em;\n    left: 25vw; /* this is offset defined by gui class in app.component.css */\n}\n\n::ng-deep .time-slider svg {\n    overflow: visible;\n}\n\n/*time slider*/\n\n.axis--grid .domain {\n    /*fill: #ddd;*/\n    stroke: none;\n}\n\n.axis--x .domain,\n.axis--grid .tick line {\n    stroke: #353636;\n}\n\n/*.axis--y .domain,*/\n\n.tick text {\n    /*fill: #EDCA3A;*/\n    /*fill: #462015;*/\n    /*fill: #c83409;*/\n    fill: #2d2d2d;\n}\n\n/*.axis--y .domain,*/\n\n.notick text {\n    /*fill: #353636 !important;*/\n    stroke: #525252;\n    stroke-width: 0.3px;\n    font-size: 120%;\n    font-weight: bold;\n}\n\n.axis--grid .tick--minor line {\n    stroke-opacity: .5;\n}\n\n.axis2,\n.axis--y2 line {\n    stroke: #8a8a8a;\n    stroke-opacity: .5;\n}\n\n.axis,\n.axis--chart {\n    /*fill: #3f3f3f;*/\n    fill: #353636;\n    stroke-width: 0;\n}\n\n::ng-deep .brush rect.selection {\n    fill: steelblue;\n    fill-opacity: .125;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osUUFBUTtJQUNSLFVBQVUsRUFBRSw2REFBNkQ7QUFDN0U7O0FBRUE7SUFDSSxpQkFBaUI7QUFDckI7O0FBR0EsY0FBYzs7QUFDZDtJQUNJLGNBQWM7SUFDZCxZQUFZO0FBQ2hCOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLGlCQUFpQjtJQUNqQixpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLGFBQWE7QUFDakI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLDRCQUE0QjtJQUM1QixlQUFlO0lBQ2YsbUJBQW1CO0lBQ25CLGVBQWU7SUFDZixpQkFBaUI7QUFDckI7O0FBR0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsYUFBYTtJQUNiLGVBQWU7QUFDbkI7O0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0FBQ3RCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aW1lLXNsaWRlciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHotaW5kZXg6IDk5OTtcbiAgICB0b3A6IDBlbTtcbiAgICBsZWZ0OiAyNXZ3OyAvKiB0aGlzIGlzIG9mZnNldCBkZWZpbmVkIGJ5IGd1aSBjbGFzcyBpbiBhcHAuY29tcG9uZW50LmNzcyAqL1xufVxuXG46Om5nLWRlZXAgLnRpbWUtc2xpZGVyIHN2ZyB7XG4gICAgb3ZlcmZsb3c6IHZpc2libGU7XG59XG5cblxuLyp0aW1lIHNsaWRlciovXG4uYXhpcy0tZ3JpZCAuZG9tYWluIHtcbiAgICAvKmZpbGw6ICNkZGQ7Ki9cbiAgICBzdHJva2U6IG5vbmU7XG59XG5cbi5heGlzLS14IC5kb21haW4sXG4uYXhpcy0tZ3JpZCAudGljayBsaW5lIHtcbiAgICBzdHJva2U6ICMzNTM2MzY7XG59XG5cbi8qLmF4aXMtLXkgLmRvbWFpbiwqL1xuLnRpY2sgdGV4dCB7XG4gICAgLypmaWxsOiAjRURDQTNBOyovXG4gICAgLypmaWxsOiAjNDYyMDE1OyovXG4gICAgLypmaWxsOiAjYzgzNDA5OyovXG4gICAgZmlsbDogIzJkMmQyZDtcbn1cblxuLyouYXhpcy0teSAuZG9tYWluLCovXG4ubm90aWNrIHRleHQge1xuICAgIC8qZmlsbDogIzM1MzYzNiAhaW1wb3J0YW50OyovXG4gICAgc3Ryb2tlOiAjNTI1MjUyO1xuICAgIHN0cm9rZS13aWR0aDogMC4zcHg7XG4gICAgZm9udC1zaXplOiAxMjAlO1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuXG5cbi5heGlzLS1ncmlkIC50aWNrLS1taW5vciBsaW5lIHtcbiAgICBzdHJva2Utb3BhY2l0eTogLjU7XG59XG5cbi5heGlzMixcbi5heGlzLS15MiBsaW5lIHtcbiAgICBzdHJva2U6ICM4YThhOGE7XG4gICAgc3Ryb2tlLW9wYWNpdHk6IC41O1xufVxuXG4uYXhpcyxcbi5heGlzLS1jaGFydCB7XG4gICAgLypmaWxsOiAjM2YzZjNmOyovXG4gICAgZmlsbDogIzM1MzYzNjtcbiAgICBzdHJva2Utd2lkdGg6IDA7XG59XG5cbjo6bmctZGVlcCAuYnJ1c2ggcmVjdC5zZWxlY3Rpb24ge1xuICAgIGZpbGw6IHN0ZWVsYmx1ZTtcbiAgICBmaWxsLW9wYWNpdHk6IC4xMjU7XG59XG4iXX0= */"
 
 /***/ }),
 
@@ -3086,24 +3217,13 @@ var TimeSliderComponent = /** @class */ (function () {
         this._svg.append('g')
             .attr('class', 'axis2 axis--y2')
             .attr('transform', "translate(0, " + margin.top + ")")
-            .call(d3__WEBPACK_IMPORTED_MODULE_2__["axisLeft"](this.yScale)
-            .ticks(d3__WEBPACK_IMPORTED_MODULE_2__["timeMonth"])
-            .tickSize(-this.width)
-            .tickFormat(function () {
-            return null;
+            .call(d3__WEBPACK_IMPORTED_MODULE_2__["axisRight"](this.yScale)
+            .ticks(d3__WEBPACK_IMPORTED_MODULE_2__["timeYear"].every(1))
+            .tickSize(10)
+            .tickFormat(function (d) {
+            return d3__WEBPACK_IMPORTED_MODULE_2__["timeFormat"]('%Y')(d);
         }))
             .selectAll('.tick');
-        this._svg.append('g')
-            .attr('class', 'axis axis--y')
-            .attr('transform', "translate(0, " + margin.top + ")")
-            .call(d3__WEBPACK_IMPORTED_MODULE_2__["axisLeft"](this.yScale)
-            .tickFormat(function (d) {
-            return d3__WEBPACK_IMPORTED_MODULE_2__["timeYear"](d) < d ? d3__WEBPACK_IMPORTED_MODULE_2__["timeFormat"]('%b')(d) : d3__WEBPACK_IMPORTED_MODULE_2__["timeFormat"]('%b%Y')(d);
-        }))
-            .attr('text-anchor', null)
-            .selectAll('text')
-            .attr('x', 70)
-            .attr('fill', 'black'); // TODO: change colorcoding later according to timer
         //animate button
         var button = this._svg.append('g')
             .attr('transform', 'translate(' + 0 + ',' + (this.height) + ')')
