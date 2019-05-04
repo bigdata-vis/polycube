@@ -2907,6 +2907,8 @@ var SetCube = /** @class */ (function () {
         else {
             this.updateSetCube(segs, true, layout);
         }
+        //update hull 
+        this.hullState = false;
     };
     SetCube.prototype.getLayouts = function (layout, category, circle) {
         var circleLayout = this.getCircleLayout(this.setMap, 0, 0, 180);
