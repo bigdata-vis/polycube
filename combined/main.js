@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 75vw;\n    height: inherit;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(75vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n.gui {\n    position: relative;\n    z-index: 1000;\n    padding: 1em;\n    width: 25vw;\n    height: inherit;\n    box-sizing: border-box;\n    border-right: 2px dashed #f3f3f3;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    display: flex;\n    top: 1em;\n    width: 100vw;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n    margin: auto;\n    z-index: 999;\n}\n\n.category-legend > div {\n    margin: .25em;\n}\n\n.category-legend > div > span {\n    cursor: pointer;\n    border-radius: 50%;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    max-width: calc(25vw - 2em);\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n.btn-group-xs > .btn, .btn-xs {\n    padding  : .25rem .4rem;\n    font-size  : .875rem;\n    line-height  : .5;\n    border-radius : .2rem;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxxQkFBcUI7SUFDckIsd0JBQXdCO0lBQ3hCLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsWUFBWTtJQUNaLFdBQVc7SUFDWCxlQUFlO0lBQ2Ysc0JBQXNCO0lBQ3RCLGdDQUFnQztBQUNwQzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsYUFBYTtJQUNiLFFBQVE7SUFDUixZQUFZO0lBQ1osbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsWUFBWTtJQUNaLFlBQVk7QUFDaEI7O0FBRUE7SUFDSSxhQUFhO0FBQ2pCOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztBQUNmOztBQUVBO0lBQ0ksNkJBQTZCO0lBQzdCLFdBQVc7SUFDWCxnQkFBZ0I7SUFDaEIsYUFBYTtJQUNiLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxzQkFBc0I7QUFDMUI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsTUFBTTtJQUNOLE9BQU87SUFDUCxpQ0FBaUM7QUFDckM7O0FBRUE7SUFDSSxlQUFlO0lBQ2YsMkJBQTJCO0FBQy9COztBQUVBO0lBQ0ksV0FBVztBQUNmOztBQUNBO0lBQ0ksa0JBQWtCO0FBQ3RCOztBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLGVBQWU7SUFDZixXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxtQkFBbUI7SUFDbkIsa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksVUFBVTtJQUNWLGlDQUFpQztBQUNyQzs7QUFFQTtJQUNJLHVCQUF1QjtJQUN2QixvQkFBb0I7SUFDcEIsaUJBQWlCO0lBQ2pCLHFCQUFxQjtBQUN6Qjs7QUFFQTs7SUFFSSxlQUFlO0FBQ25COztBQUdBLFVBQVU7O0FBQ1Y7SUFDSSx3QkFBd0I7QUFDNUIiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDc1dnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4jd2ViZ2wtY2FudmFzLFxuI2Nzcy1jYW52YXMge1xuICAgIC8qIGF2b2lkIHNjcm9sbGJhcnMgKi9cbiAgICB3aWR0aDogY2FsYyg3NXZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuLmd1aSB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHotaW5kZXg6IDEwMDA7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIHdpZHRoOiAyNXZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbiAgICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIHRvcDogMWVtO1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgei1pbmRleDogOTk5O1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kID4gZGl2IHtcbiAgICBtYXJnaW46IC4yNWVtO1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4ucHJldmlldy1pdGVtIHtcbiAgICBtYXJnaW4tdG9wOiAyZW07XG4gICAgbWF4LXdpZHRoOiBjYWxjKDI1dncgLSAyZW0pO1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LWRlc2NyaXB0aW9uIHtcbiAgICB0ZXh0LWFsaWduOiBqdXN0aWZ5O1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbn1cblxuOjpuZy1kZWVwIC50aW1lLXNsaWNlLWxhYmVsIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuLmJ0bi1ncm91cC14cyA+IC5idG4sIC5idG4teHMge1xuICAgIHBhZGRpbmcgIDogLjI1cmVtIC40cmVtO1xuICAgIGZvbnQtc2l6ZSAgOiAuODc1cmVtO1xuICAgIGxpbmUtaGVpZ2h0ICA6IC41O1xuICAgIGJvcmRlci1yYWRpdXMgOiAuMnJlbTtcbn1cblxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uLFxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuXG4vKkRBVCBHVUkqL1xuOjpuZy1kZWVwIC5kZy5hYyB7XG4gICAgei1pbmRleDogMTAwMCAhaW1wb3J0YW50O1xufSJdfQ== */"
+module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 75vw;\n    height: inherit;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(75vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n.gui {\n    position: relative;\n    z-index: 1000;\n    padding: 1em;\n    width: 25vw;\n    height: inherit;\n    box-sizing: border-box;\n    border-right: 2px dashed #f3f3f3;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    top: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper > div {\n    margin: .25em;\n}\n\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    max-width: calc(25vw - 2em);\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n.btn-group-xs > .btn, .btn-xs {\n    padding  : .25rem .4rem;\n    font-size  : .875rem;\n    line-height  : .5;\n    border-radius : .2rem;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n\n/*MODAL CSS*/\n\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n\n/* Modal Content (Image) */\n\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n\n/* Add Animation - Zoom in the Modal */\n\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n/* The Close Button */\n\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n\n/* 100% Image Width on Smaller Screens */\n\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n\n/* Processing spinner */\n\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n\n.processing-change p {\n    color: white;\n}\n\n/*overlay*/\n\n.overlay {\n    position: absolute;\n    width: 100%;\n    bottom: 0em;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    font-size: 48px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxxQkFBcUI7SUFDckIsd0JBQXdCO0lBQ3hCLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsWUFBWTtJQUNaLFdBQVc7SUFDWCxlQUFlO0lBQ2Ysc0JBQXNCO0lBQ3RCLGdDQUFnQztBQUNwQzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsUUFBUTtJQUNSLFlBQVk7SUFDWixZQUFZO0lBQ1osWUFBWTtJQUNaLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixXQUFXO0FBQ2Y7O0FBRUE7SUFDSSw2QkFBNkI7SUFDN0IsV0FBVztJQUNYLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLHNCQUFzQjtBQUMxQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixVQUFVO0lBQ1YsWUFBWTtJQUNaLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsYUFBYTtJQUNiLGtCQUFrQjtJQUNsQixNQUFNO0lBQ04sT0FBTztJQUNQLGlDQUFpQztBQUNyQzs7QUFFQTtJQUNJLGVBQWU7SUFDZiwyQkFBMkI7QUFDL0I7O0FBRUE7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBQ0E7SUFDSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLFdBQVc7QUFDZjs7QUFDQTtJQUNJLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsaUNBQWlDO0FBQ3JDOztBQUVBO0lBQ0ksdUJBQXVCO0lBQ3ZCLG9CQUFvQjtJQUNwQixpQkFBaUI7SUFDakIscUJBQXFCO0FBQ3pCOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBR0EsVUFBVTs7QUFDVjtJQUNJLHdCQUF3QjtBQUM1Qjs7QUFFQSxZQUFZOztBQUNaO0lBQ0ksYUFBYSxFQUFFLHNCQUFzQjtJQUNyQyxlQUFlLEVBQUUsa0JBQWtCO0lBQ25DLFVBQVUsRUFBRSxlQUFlO0lBQzNCLGtCQUFrQixFQUFFLHdCQUF3QjtJQUM1QyxPQUFPO0lBQ1AsTUFBTTtJQUNOLFdBQVcsRUFBRSxlQUFlO0lBQzVCLFlBQVksRUFBRSxnQkFBZ0I7SUFDOUIsY0FBYyxFQUFFLDRCQUE0QjtJQUM1Qyw0QkFBNEIsRUFBRSxtQkFBbUI7SUFDakQsaUNBQWlDLEVBQUUscUJBQXFCO0VBQzFEOztBQUVBLDBCQUEwQjs7QUFDMUI7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLHNCQUFzQjtJQUN0QixlQUFlO0lBQ2YsZUFBZTtFQUNqQjs7QUFFQSxrRUFBa0U7O0FBQ2xFO0lBQ0UsWUFBWTtJQUNaLGNBQWM7SUFDZCxVQUFVO0lBQ1YsZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsZUFBZTtJQUNmLGFBQWE7RUFDZjs7QUFFQSxzQ0FBc0M7O0FBQ3RDO0lBQ0UsNEJBQW9CO1lBQXBCLG9CQUFvQjtJQUNwQixnQ0FBd0I7WUFBeEIsd0JBQXdCO0VBQzFCOztBQUVBO0lBQ0UsTUFBTSwwQkFBaUIsQ0FBakIsa0JBQWtCO0lBQ3hCLElBQUksMEJBQWlCLENBQWpCLGtCQUFrQjtFQUN4Qjs7QUFIQTtJQUNFLE1BQU0sMEJBQWlCLENBQWpCLGtCQUFrQjtJQUN4QixJQUFJLDBCQUFpQixDQUFqQixrQkFBa0I7RUFDeEI7O0FBRUEscUJBQXFCOztBQUNyQjtJQUNFLGtCQUFrQjtJQUNsQixTQUFTO0lBQ1QsV0FBVztJQUNYLHlCQUF5QjtJQUN6QixlQUFlO0lBQ2YsaUJBQWlCO0lBQ2pCLGdCQUFnQjtFQUNsQjs7QUFFQTs7SUFFRSxXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGVBQWU7RUFDakI7O0FBRUEsd0NBQXdDOztBQUN4QztJQUNFO01BQ0UsV0FBVztJQUNiO0VBQ0Y7O0FBRUYsdUJBQXVCOztBQUN2QjtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsU0FBUztJQUNULFVBQVU7SUFDVixXQUFXO0lBQ1gsYUFBYTtJQUNiLHNCQUFzQjtJQUN0Qix1QkFBdUI7SUFDdkIscUJBQXFCO0lBQ3JCLG1CQUFtQjtJQUNuQix3Q0FBZ0M7WUFBaEMsZ0NBQWdDO0lBQ2hDLHNCQUFzQjtJQUN0QixXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUdBLFVBQVU7O0FBQ1Y7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLFdBQVc7SUFDWCxhQUFhO0lBQ2Isc0JBQXNCO0lBQ3RCLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDc1dnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4jd2ViZ2wtY2FudmFzLFxuI2Nzcy1jYW52YXMge1xuICAgIC8qIGF2b2lkIHNjcm9sbGJhcnMgKi9cbiAgICB3aWR0aDogY2FsYyg3NXZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuLmd1aSB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHotaW5kZXg6IDEwMDA7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIHdpZHRoOiAyNXZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbiAgICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDFlbTtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIHotaW5kZXg6IDk5OTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYge1xuICAgIG1hcmdpbjogLjI1ZW07XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4ucHJldmlldy1pdGVtIHtcbiAgICBtYXJnaW4tdG9wOiAyZW07XG4gICAgbWF4LXdpZHRoOiBjYWxjKDI1dncgLSAyZW0pO1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LWRlc2NyaXB0aW9uIHtcbiAgICB0ZXh0LWFsaWduOiBqdXN0aWZ5O1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbn1cblxuOjpuZy1kZWVwIC50aW1lLXNsaWNlLWxhYmVsIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuLmJ0bi1ncm91cC14cyA+IC5idG4sIC5idG4teHMge1xuICAgIHBhZGRpbmcgIDogLjI1cmVtIC40cmVtO1xuICAgIGZvbnQtc2l6ZSAgOiAuODc1cmVtO1xuICAgIGxpbmUtaGVpZ2h0ICA6IC41O1xuICAgIGJvcmRlci1yYWRpdXMgOiAuMnJlbTtcbn1cblxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uLFxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuXG4vKkRBVCBHVUkqL1xuOjpuZy1kZWVwIC5kZy5hYyB7XG4gICAgei1pbmRleDogMTAwMCAhaW1wb3J0YW50O1xufVxuXG4vKk1PREFMIENTUyovXG4ubW9kYWwge1xuICAgIGRpc3BsYXk6IG5vbmU7IC8qIEhpZGRlbiBieSBkZWZhdWx0ICovXG4gICAgcG9zaXRpb246IGZpeGVkOyAvKiBTdGF5IGluIHBsYWNlICovXG4gICAgei1pbmRleDogMTsgLyogU2l0IG9uIHRvcCAqL1xuICAgIHBhZGRpbmctdG9wOiAxMDBweDsgLyogTG9jYXRpb24gb2YgdGhlIGJveCAqL1xuICAgIGxlZnQ6IDA7XG4gICAgdG9wOiAwO1xuICAgIHdpZHRoOiAxMDAlOyAvKiBGdWxsIHdpZHRoICovXG4gICAgaGVpZ2h0OiAxMDAlOyAvKiBGdWxsIGhlaWdodCAqL1xuICAgIG92ZXJmbG93OiBhdXRvOyAvKiBFbmFibGUgc2Nyb2xsIGlmIG5lZWRlZCAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigwLDAsMCk7IC8qIEZhbGxiYWNrIGNvbG9yICovXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgwLDAsMCwwLjkpOyAvKiBCbGFjayB3LyBvcGFjaXR5ICovXG4gIH1cbiAgXG4gIC8qIE1vZGFsIENvbnRlbnQgKEltYWdlKSAqL1xuICAubW9kYWwtY29udGVudCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiBhdXRvICFpbXBvcnRhbnQ7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIG1heC1oZWlnaHQ6IDgwJTtcbiAgfVxuICBcbiAgLyogQ2FwdGlvbiBvZiBNb2RhbCBJbWFnZSAoSW1hZ2UgVGV4dCkgLSBTYW1lIFdpZHRoIGFzIHRoZSBJbWFnZSAqL1xuICAjY2FwdGlvbiB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiA4MCU7XG4gICAgbWF4LXdpZHRoOiA3MDBweDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgY29sb3I6ICNjY2M7XG4gICAgcGFkZGluZzogMTBweCAwO1xuICAgIGhlaWdodDogMTUwcHg7XG4gIH1cbiAgXG4gIC8qIEFkZCBBbmltYXRpb24gLSBab29tIGluIHRoZSBNb2RhbCAqL1xuICAubW9kYWwtY29udGVudCwgI2NhcHRpb24geyBcbiAgICBhbmltYXRpb24tbmFtZTogem9vbTtcbiAgICBhbmltYXRpb24tZHVyYXRpb246IDAuNnM7XG4gIH1cbiAgXG4gIEBrZXlmcmFtZXMgem9vbSB7XG4gICAgZnJvbSB7dHJhbnNmb3JtOnNjYWxlKDApfSBcbiAgICB0byB7dHJhbnNmb3JtOnNjYWxlKDEpfVxuICB9XG4gIFxuICAvKiBUaGUgQ2xvc2UgQnV0dG9uICovXG4gIC5jbG9zZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMTVweDtcbiAgICByaWdodDogMzVweDtcbiAgICBjb2xvcjogI2YxZjFmMSAhaW1wb3J0YW50O1xuICAgIGZvbnQtc2l6ZTogNDBweDtcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgICB0cmFuc2l0aW9uOiAwLjNzO1xuICB9XG4gIFxuICAuY2xvc2U6aG92ZXIsXG4gIC5jbG9zZTpmb2N1cyB7XG4gICAgY29sb3I6ICNiYmI7XG4gICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgfVxuICBcbiAgLyogMTAwJSBJbWFnZSBXaWR0aCBvbiBTbWFsbGVyIFNjcmVlbnMgKi9cbiAgQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA3MDBweCl7XG4gICAgLm1vZGFsLWNvbnRlbnQge1xuICAgICAgd2lkdGg6IDEwMCU7XG4gICAgfVxuICB9XG5cbi8qIFByb2Nlc3Npbmcgc3Bpbm5lciAqL1xuLnByb2Nlc3NpbmctY2hhbmdlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiA1MCU7XG4gICAgbGVmdDogNTAlO1xuICAgIHdpZHRoOiAyNSU7XG4gICAgaGVpZ2h0OiAyNSU7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlKC01MCUsIC01MCUpO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMwMDA7XG4gICAgb3BhY2l0eTogLjU7XG4gICAgYm9yZGVyLXJhZGl1czogLjI1cmVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5wcm9jZXNzaW5nLWNoYW5nZSBwIHtcbiAgICBjb2xvcjogd2hpdGU7XG59XG5cblxuLypvdmVybGF5Ki9cbi5vdmVybGF5IHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYm90dG9tOiAwZW07XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgZm9udC1zaXplOiA0OHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -328,7 +328,7 @@ module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary \" id=\"geo-view-button\">GeoCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n            </div>\n            <div class=\"btn-group btn-group-xs\" role=\"group\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n                <div class=\"input-group-append\">\n                    <div *ngIf=\"!loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                    </div>\n                    <div *ngIf=\"loadingDataset\">\n                        <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                            <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                            Loading...\n                        </button>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <h2 class=\"preview-title\">{{ previewItem.title }} </h2>\n                <img class=\"preview-picture\" [src]=\"previewItem.mediaURL\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More info...</a>\n            </div>\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\" \n                [height]=\"getWindowInnerHeight()\"\n                (onSelect)=\"filterDataWithTimeSlider($event)\"\n            ></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\" *ngIf=\"showColorCodingLegend\">\n    <label>Clickable Legend:</label>\n    <div *ngFor=\"let c of categories\">\n        <span class=\"badge badge-secondary\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\" (click)=\"filterDataByCategory(c)\" [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n    </div>\n    <div>\n            <span class=\"badge badge-secondary\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\" (click)=\"clearCategoryFilter()\" [ngStyle]=\"{ 'background-color' : '#424242' }\">&nbsp;</span>\n    </div> \n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong> \n    <p>{{ errorMessage }}</p>\n</div>\n"
+module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n        <div class=\"pc-tooltip\" #tooltip></div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"geo-view-button\">GeoCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n        </div>\n        <div class=\"btn-grop\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"usePerspectiveCamera()\">Perspective</button>\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"useOrthographicCamera()\">Orthographic</button>\n        </div>\n        <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n            <div class=\"input-group-append\">\n                <div *ngIf=\"!loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                </div>\n                <div *ngIf=\"loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                        <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                        Loading...\n                    </button>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"preview-item\" *ngIf=\"previewItem\">\n            <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n            <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                [src]=\"previewItem.mediaURL\">\n            <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                <span class=\"badge badge-secondary\">{{ cat }}</span>\n            </div>\n            <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n            <br>\n            <p class=\"preview-description\">{{ previewItem.description }}</p>\n            <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n        </div>\n        <app-timeslider *ngIf=\"dataLoaded\" [minDate]=\"getMinDate()\" [maxDate]=\"getMaxDate()\" [width]=\"60\"\n            [height]=\"getWindowInnerHeight()\" (onSelect)=\"filterDataWithTimeSlider($event)\"></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\">\n    <!-- <label>Clickable Legend:</label> -->\n    <p>Selected: {{ currentlySelectedCategory }}</p>\n    <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n        <div *ngFor=\"let c of categories\">\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                (click)=\"filterDataByCategory(c)\"\n                [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n        </div>\n    </div>\n    <div class=\"category-wrapper\">\n        <div>\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                (click)=\"clearCategoryFilter()\" style=\"background-color:#424242; font-size: 15px;\">&times;</span>\n        </div>\n    </div>\n</div>\n<div class=\"overlay\">\n    <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n</div>\n<div class=\"modal\" #modal>\n    <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n    <img class=\"modal-content\" id=\"img01\" #img>\n    <div id=\"caption\" #caption></div>\n</div>\n\n<div class=\"processing-change\" *ngIf=\"processingChange\">\n    <div class=\"spinner-border text-info\" role=\"status\">\n        <span class=\"sr-only\"></span>\n    </div>\n    <p>Processing new configuration...</p>\n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong>\n    <p>{{ errorMessage }}</p>\n</div>"
 
 /***/ }),
 
@@ -377,6 +377,7 @@ var AppComponent = /** @class */ (function () {
         this.google = google;
         this.compRef = compRef;
         this.title = 'polycubeViews';
+        this.processingChange = false;
         // set default view to display all cubes
         this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
         this.loadingDataset = true;
@@ -403,8 +404,9 @@ var AppComponent = /** @class */ (function () {
             _this.css3DRenderer = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DRenderer"]();
             _this.css3DRenderer.setSize(WIDTH, HEIGHT);
             _this.cssContainer.nativeElement.appendChild(_this.css3DRenderer.domElement);
-            _this.camera = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrthographicCamera"](WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, -10000, 10000);
-            // this.camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 1, 100000);
+            _this.orthographicCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrthographicCamera"](WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, -10000, 10000);
+            _this.perspectiveCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["PerspectiveCamera"](60, WIDTH / HEIGHT, 1, 100000);
+            _this.camera = _this.orthographicCamera;
             _this.camera.up.set(0, 1, 0);
             _this.camera.position.set(0, 0, 1000);
             _this.camera.lookAt(_this.webGLScene.position.x, _this.webGLScene.position.y, _this.webGLScene.position.z);
@@ -435,6 +437,7 @@ var AppComponent = /** @class */ (function () {
                 $event.preventDefault();
                 var foundItem = _this.getClickedItem($event);
                 if (foundItem) {
+                    console.log(foundItem);
                     _this.previewItem = {
                         title: "Picture #" + foundItem.id,
                         mediaURL: foundItem.external_url,
@@ -473,20 +476,24 @@ var AppComponent = /** @class */ (function () {
         this.initGUI = function () {
             _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_9__["GUI"]();
             // general settings
+            _this.gui.pCubeConfigEmitter.on('processing', function (change) {
+                _this.processingChange = change;
+            });
             _this.gui.pCubeConfigEmitter.on('change', function (change) {
                 if (change.backgroundColor) {
                     _this.compRef.nativeElement.ownerDocument.body.style.backgroundColor = change.backgroundColor;
                 }
                 if (change.time) {
                     _this.gCube.updateTime(change.time);
-                    _this.gCube.updateTime(change.time);
-                    _this.gCube.updateTime(change.time);
+                    _this.sCube.updateTime(change.time);
+                    _this.nCube.updateTime(change.time);
                 }
                 if (change.numSlices) {
                     _this.dataManager.numSlices = change.numSlices;
                     _this.gCube.updateNumSlices(change.numSlices);
                     _this.sCube.updateNumSlices(change.numSlices);
                     _this.nCube.updateNumSlices(change.numSlices);
+                    // this.processingChange = false;
                 }
                 if (change.nodeSize) {
                     _this.gCube.updateNodeSize(change.nodeSize);
@@ -501,6 +508,8 @@ var AppComponent = /** @class */ (function () {
                 }
                 if (change.dataSet) {
                 }
+                // we should be done processing changes
+                _this.processingChange = false;
             });
             // geocube settings
             _this.gui.gCubeConfigEmitter.on('change', function (change) {
@@ -514,6 +523,18 @@ var AppComponent = /** @class */ (function () {
                     // (this.gCube as GeoCube).updateJitter(change.jitter)
                     // console.log('layout change')
                     _this.sCube.updateLayout(change.sLayout);
+                }
+                //hull button
+                if (change.hull == true) {
+                    if (!_this.sCube.getHullState()) {
+                        _this.sCube.drawHull();
+                    }
+                    else {
+                        _this.sCube.showHull();
+                    }
+                }
+                else {
+                    _this.sCube.hideHull();
                 }
             });
             // button event listeners
@@ -532,6 +553,9 @@ var AppComponent = /** @class */ (function () {
                 _this.nCube.transitionJP();
             });
             _this.gui.siBtn.addEventListener('click', function () {
+                _this.gCube.updateNodeColor('temporal');
+                _this.sCube.updateNodeColor('temporal');
+                _this.nCube.updateNodeColor('temporal');
                 _this.gCube.transitionSI();
                 _this.sCube.transitionSI();
                 _this.nCube.transitionSI();
@@ -607,6 +631,8 @@ var AppComponent = /** @class */ (function () {
         this.categories = new Array();
         this.categoriesAndColors = new Map();
         this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION : 2000;
+        this.currentlySelectedCategory = '';
+        this.currentlySelectedDateExtent = new Array();
     }
     /**
      * Lifecycle hook called when the DOM is initialized
@@ -632,6 +658,9 @@ var AppComponent = /** @class */ (function () {
             _this.dataManager.data = success;
             _this.loadingDataset = false;
             _this.dataLoaded = true;
+            // default date extent for filtering
+            _this.currentlySelectedDateExtent.push(_this.dataManager.getMinDate());
+            _this.currentlySelectedDateExtent.push(_this.dataManager.getMaxDate());
             _this.categories = Array.from(_this.dataManager.categories.keys());
             _this.categoriesAndColors = _this.dataManager.categories;
             _this.initScene();
@@ -664,15 +693,35 @@ var AppComponent = /** @class */ (function () {
             _this.errorMessage = err;
         });
     };
-    AppComponent.prototype.clearCategoryFilter = function () {
-        this.gCube.resetCateogrySelection();
-        this.sCube.resetCateogrySelection();
-        this.nCube.resetCateogrySelection();
+    AppComponent.prototype.usePerspectiveCamera = function () {
+        var cameraPosition = this.orthographicCamera.position.clone();
+        var cameraZoom = this.orthographicCamera.zoom;
+        this.camera = this.perspectiveCamera;
+        this.camera.zoom = cameraZoom;
+        this.camera.position.copy(cameraPosition);
+        this.camera.updateProjectionMatrix();
+        this.controls.object = this.camera;
     };
-    AppComponent.prototype.filterDataByCategory = function (cat) {
-        this.gCube.filterDataByCategory(cat);
-        this.sCube.filterDataByCategory(cat);
-        this.nCube.filterDataByCategory(cat);
+    AppComponent.prototype.useOrthographicCamera = function () {
+        var cameraPosition = this.perspectiveCamera.position.clone();
+        var cameraZoom = this.perspectiveCamera.zoom;
+        this.camera = this.orthographicCamera;
+        this.camera.zoom = cameraZoom;
+        this.camera.position.copy(cameraPosition);
+        this.camera.updateProjectionMatrix();
+        this.controls.object = this.camera;
+    };
+    AppComponent.prototype.closePicture = function () {
+        this.modalContainer.nativeElement.style.display = 'none';
+        this.imgContainer.nativeElement.style.display = 'none';
+        this.imgContainer.nativeElement.src = '';
+        this.captionContainer.nativeElement.innerHTML = '';
+    };
+    AppComponent.prototype.openPicture = function (url, desc) {
+        this.modalContainer.nativeElement.style.display = 'block';
+        this.imgContainer.nativeElement.style.display = 'block';
+        this.imgContainer.nativeElement.src = url;
+        this.captionContainer.nativeElement.innerHTML = desc;
     };
     /**
      * Function called each iteration of the rendering loop
@@ -708,9 +757,26 @@ var AppComponent = /** @class */ (function () {
         this.updateCubesView();
     };
     AppComponent.prototype.filterDataWithTimeSlider = function ($event) {
-        this.gCube.filterDataByDatePeriod($event[0], $event[1]);
-        this.sCube.filterDataByDatePeriod($event[0], $event[1]);
-        this.nCube.filterDataByDatePeriod($event[0], $event[1]);
+        this.currentlySelectedDateExtent[0] = $event[0];
+        this.currentlySelectedDateExtent[1] = $event[1];
+        this.applyFilter();
+    };
+    AppComponent.prototype.clearCategoryFilter = function () {
+        this.gCube.resetCateogrySelection();
+        this.sCube.resetCateogrySelection();
+        this.nCube.resetCateogrySelection();
+    };
+    AppComponent.prototype.filterDataByCategory = function (cat) {
+        this.currentlySelectedCategory = cat;
+        this.applyFilter();
+    };
+    AppComponent.prototype.applyFilter = function () {
+        this.gCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+        this.sCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+        this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+    };
+    AppComponent.prototype.formatDate = function (date) {
+        return moment__WEBPACK_IMPORTED_MODULE_12__(date).format('DD/MM/YYYY');
     };
     /**
      *
@@ -736,6 +802,18 @@ var AppComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('cssCanvas'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AppComponent.prototype, "cssContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('modal'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "modalContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('img'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "imgContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('caption'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "captionContainer", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('tooltip'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
@@ -1404,20 +1482,7 @@ var GeoCube = /** @class */ (function () {
             });
         });
     };
-    GeoCube.prototype.filterDataByCategory = function (cat) {
-        this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
-                return;
-            child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
-                    return;
-                grandChild.visible = true;
-                if (grandChild.data.category_1 !== cat)
-                    grandChild.visible = false;
-            });
-        });
-    };
-    GeoCube.prototype.filterDataByDatePeriod = function (startDate, endDate) {
+    GeoCube.prototype.filterData = function (cat, start, end) {
         var _this = this;
         this.cubeGroupGL.children.forEach(function (child) {
             if (child.type !== 'Group')
@@ -1426,8 +1491,9 @@ var GeoCube = /** @class */ (function () {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
                 grandChild.visible = true;
-                if (!_this.dateWithinInterval(startDate, endDate, grandChild.data.date_time))
+                if (!(_this.dateWithinInterval(start, end, grandChild.data.date_time) && (cat === "" ? true : grandChild.data.category_1 === cat))) {
                     grandChild.visible = false;
+                }
             });
         });
     };
@@ -1649,11 +1715,15 @@ var GeoCube = /** @class */ (function () {
                 continue;
             // got intersect 
             // setup tootlip and return object
-            tooltip.nativeElement.style.display = 'block';
-            tooltip.nativeElement.style.opacity = '.9';
-            tooltip.nativeElement.style.top = $event.pageY + "px";
-            tooltip.nativeElement.style.left = $event.pageX + "px";
-            tooltip.nativeElement.innerHTML = "\n                                                <h2>" + selectedObject.data.id + "</h2>\n                                                <p>" + selectedObject.data.description + "</p>\n                                                <p>Photo taken on " + moment__WEBPACK_IMPORTED_MODULE_7__(selectedObject.data.date_time).format('DD/MM/YYYY') + " @ " + selectedObject.data.location_name + "</p>\n                                              ";
+            // tooltip.nativeElement.style.display = 'block';
+            // tooltip.nativeElement.style.opacity = '.9';
+            // tooltip.nativeElement.style.top = `${$event.pageY}px`;
+            // tooltip.nativeElement.style.left = `${$event.pageX}px`;
+            // tooltip.nativeElement.innerHTML = `
+            //                                     <h2>${selectedObject.data.id}</h2>
+            //                                     <p>${selectedObject.data.description}</p>
+            //                                     <p>Photo taken on ${moment(selectedObject.data.date_time).format('DD/MM/YYYY')} @ ${selectedObject.data.location_name}</p>
+            //                                   `;
             return selectedObject.data;
         }
         this.clearGuideline();
@@ -1777,7 +1847,11 @@ var GUI = /** @class */ (function () {
             dataSet: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].DATA_SET.name
         };
         var pCubeFolder = this.gui.addFolder('Global Settings');
-        pCubeFolder.add(pCubeParams, 'numSlices').min(1).max(50).step(1).onFinishChange(function () {
+        pCubeFolder.add(pCubeParams, 'numSlices').min(1).max(50).step(1)
+            .onChange(function () {
+            _this.pCubeConfigEmitter.emit('processing', true);
+        })
+            .onFinishChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 numSlices: Math.floor(pCubeParams.numSlices)
             });
@@ -1820,11 +1894,17 @@ var GUI = /** @class */ (function () {
         // SetCube settings
         var sCubeParams = {
             layout: ['circle'],
+            hull: false
         };
         var sCubeFolder = this.gui.addFolder('SetCube');
         sCubeFolder.add(sCubeParams, 'layout', ['circle', 'pack', 'cluster']).onChange(function () {
             _this.sCubeConfigEmitter.emit('change', {
                 sLayout: sCubeParams.layout
+            });
+        });
+        sCubeFolder.add(sCubeParams, 'hull').onChange(function () {
+            _this.sCubeConfigEmitter.emit('change', {
+                hull: sCubeParams.hull
             });
         });
         // NetCube settings
@@ -1847,14 +1927,16 @@ var GUI = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NetCube", function() { return NetCube; });
-/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
-/* harmony import */ var _viewStates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
+/* harmony import */ var _viewStates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewStates */ "./src/app/classes/viewStates.ts");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -1863,6 +1945,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var NetCube = /** @class */ (function () {
     function NetCube(dm, camera, webGLScene, cssScene) {
+        this.linksPerNode = 1;
         this.colorCoding = 'categorical';
         this.dm = dm;
         this.webGLScene = webGLScene;
@@ -1870,18 +1953,18 @@ var NetCube = /** @class */ (function () {
             this.cssScene = cssScene;
         this.setMap = new Set();
         this.camera = camera;
-        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER) * 2;
+        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].GUTTER) * 2;
         this.createObjects();
         this.assembleData();
         this.render();
     }
     NetCube.prototype.createObjects = function () {
-        this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
-        this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
+        this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
+        this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
         this.colors = this.dm.colors;
         this.createSlices();
-        this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_0__["Raycaster"]();
-        this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector2"]();
+        this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_1__["Raycaster"]();
+        this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector2"]();
         this.createBoundingBox();
     };
     NetCube.prototype.assembleData = function () {
@@ -1891,6 +1974,7 @@ var NetCube = /** @class */ (function () {
         this.timeLinearScale = this.dm.getTimeLinearScale();
         this.createNodes();
         this.createLinks();
+        this.showCubeLinks();
     };
     NetCube.prototype.clearLabels = function () {
         var _this = this;
@@ -1919,12 +2003,13 @@ var NetCube = /** @class */ (function () {
             child.children.forEach(function (grandChild) {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
-                grandChild.position.y = time === 'aggregated' ? _this.findTimeSlice(grandChild.date_time).position.y : _this.timeLinearScale(grandChild.data.date_time);
+                var sliceOffsetY = child.position.y;
+                grandChild.position.y = time === 'aggregated' ? 0 : _this.timeLinearScale(grandChild.data.date_time) - sliceOffsetY;
             });
         });
     };
     NetCube.prototype.updateView = function (currentViewState) {
-        if (currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_1__["VIEW_STATES"].NET_CUBE || currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_1__["VIEW_STATES"].POLY_CUBE) {
+        if (currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].NET_CUBE || currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].POLY_CUBE) {
             this.webGLScene.add(this.cubeGroupGL);
             this.cssScene.add(this.cubeGroupCSS);
             this.showBottomLayer();
@@ -1946,10 +2031,10 @@ var NetCube = /** @class */ (function () {
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_5__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
                 break;
             case 'monochrome':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemeSet2"]);
                 break;
             default:
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
@@ -2000,9 +2085,9 @@ var NetCube = /** @class */ (function () {
                     y: grandChild.scale.y,
                     z: grandChild.scale.z,
                 };
-                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceScale)
+                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceScale)
                     .to(targetScale, 250)
-                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
+                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
                     .onUpdate(function () {
                     grandChild.scale.x = sourceScale.x;
                     grandChild.scale.y = sourceScale.y;
@@ -2015,14 +2100,14 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.updateData = function () {
     };
     NetCube.prototype.isDateWithinInterval = function (startDate, endDate, pointDate) {
-        return moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
+        return moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
     };
     NetCube.prototype.areBothDatesWithinInterval = function (startDate, endDate, dates) {
-        var isFirstDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
-        var isSecondDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
+        var isFirstDate = moment__WEBPACK_IMPORTED_MODULE_6__(dates[0]) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(dates[0]) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
+        var isSecondDate = moment__WEBPACK_IMPORTED_MODULE_6__(dates[1]) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(dates[1]) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
         return isFirstDate && isSecondDate;
     };
-    NetCube.prototype.filterDataByCategory = function (cat) {
+    NetCube.prototype.filterData = function (cat, start, end) {
         var _this = this;
         this.cubeGroupGL.children.forEach(function (child) {
             if (child.type !== 'Group')
@@ -2031,16 +2116,10 @@ var NetCube = /** @class */ (function () {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
                 grandChild.visible = true;
-                if (grandChild.data.category_1 !== cat)
+                if (!(_this.isDateWithinInterval(start, end, grandChild.data.date_time) && (cat === "" ? true : grandChild.data.category_1 === cat))) {
                     grandChild.visible = false;
+                }
             });
-        });
-        this.links.children.forEach(function (e) {
-            e.visible = true;
-            var source = _this.dm.dataMap[e.name.split('_')[0]];
-            var target = _this.dm.dataMap[e.name.split('_')[1]];
-            if (source.category_1 !== cat || target.category_1 !== cat)
-                e.visible = false;
         });
     };
     NetCube.prototype.filterDataByDatePeriod = function (startDate, endDate) {
@@ -2063,7 +2142,7 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.hideLinksByDatePeriod = function (startDate, endDate) {
         var _this = this;
-        this.links.children.forEach(function (e) {
+        this.links_stc.children.forEach(function (e) {
             var bothNodeDates = _this.getLinkDates(e);
             e.visible = true;
             if (!_this.areBothDatesWithinInterval(startDate, endDate, bothNodeDates)) {
@@ -2079,110 +2158,117 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.transitionSTC = function () {
         var _this = this;
-        this.showLinks();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        this.showCubeLinks();
         this.boundingBox.visible = true;
         this.slices.forEach(function (slice, i) {
-            //slice.position.set(CUBE_CONFIG.WIDTH/2, (i*vertOffset) - (CUBE_CONFIG.WIDTH/2), CUBE_CONFIG.WIDTH/2);
-            var sourceCoords = {
-                x: slice.position.x,
-                y: slice.position.y,
-                z: slice.position.z
-            };
-            var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
-                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2),
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
-            };
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
-            label.position.y = targetCoords.y;
-            label.position.z = targetCoords.z;
-            label.rotation.set(0, 0, 0);
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
-                .to(targetCoords, 1000)
-                .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
-                .onUpdate(function () {
-                slice.position.x = sourceCoords.x;
-                slice.position.y = sourceCoords.y,
-                    slice.position.z = sourceCoords.z;
-            })
-                .onComplete(function () {
-                //something if needed
-            })
-                .start();
+            _this.transitionAnimationSTC(slice, i);
         }); //end forEach
+    };
+    NetCube.prototype.transitionAnimationSTC = function (slice, index) {
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        var sourceCoords = {
+            x: slice.position.x,
+            y: slice.position.y,
+            z: slice.position.z
+        };
+        var targetCoords = {
+            x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
+            y: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2),
+            z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+        };
+        var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
+        d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
+        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 - 22;
+        label.position.y = targetCoords.y;
+        label.position.z = targetCoords.z;
+        label.rotation.set(0, 0, 0);
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            .to(targetCoords, 1000)
+            .delay(index * 300)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .onUpdate(function () {
+            slice.position.x = sourceCoords.x;
+            slice.position.y = sourceCoords.y,
+                slice.position.z = sourceCoords.z;
+        })
+            .onComplete(function () {
+            //something if needed
+        })
+            .start();
     };
     NetCube.prototype.transitionJP = function () {
         var _this = this;
-        this.hideLinks();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 20;
+        this.hideAllLinks();
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
-            //slice.position.z = (i*vertOffset) - (CUBE_CONFIG.WIDTH/2);
-            //slice.position.y = 0;
-            var sourceCoords = {
-                x: slice.position.x,
-                y: slice.position.y,
-                z: slice.position.z
-            };
-            var targetCoords = {
-                x: slice.position.x,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
-                z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2)
-            };
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
-            label.position.y = targetCoords.y;
-            label.position.z = targetCoords.z;
-            label.rotation.set(-Math.PI / 2, 0, 0);
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
-                .to(targetCoords, 1000)
-                .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
-                .onUpdate(function () {
-                slice.position.x = sourceCoords.x;
-                slice.position.y = sourceCoords.y,
-                    slice.position.z = sourceCoords.z;
-            })
-                .start();
+            _this.transitionAnimationJP(slice, i);
         });
     };
+    NetCube.prototype.transitionAnimationJP = function (slice, index) {
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT + 20;
+        var sourceCoords = {
+            x: slice.position.x,
+            y: slice.position.y,
+            z: slice.position.z
+        };
+        var targetCoords = {
+            x: slice.position.x,
+            y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
+            z: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2)
+        };
+        var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
+        d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
+        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 - 22;
+        label.position.y = targetCoords.y;
+        label.position.z = targetCoords.z;
+        label.rotation.set(-Math.PI / 2, 0, 0);
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            .to(targetCoords, 1000)
+            .delay(index * 300)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .onUpdate(function () {
+            slice.position.x = sourceCoords.x;
+            slice.position.y = sourceCoords.y,
+                slice.position.z = sourceCoords.z;
+        })
+            .start();
+    };
     NetCube.prototype.transitionSI = function () {
-        this.hideLinks();
+        var _this = this;
+        this.showSILinks();
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
-            var sourceCoords = {
-                x: slice.position.x,
-                y: slice.position.y,
-                z: slice.position.z
-            };
-            var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
-            };
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
-                .to(targetCoords, 1000)
-                .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
-                .onUpdate(function () {
-                slice.position.x = sourceCoords.x;
-                slice.position.y = sourceCoords.y,
-                    slice.position.z = sourceCoords.z;
-            })
-                .onComplete(function () {
-                d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
-            })
-                .start();
+            _this.transitionAnimationSI(slice, i);
         });
+    };
+    NetCube.prototype.transitionAnimationSI = function (slice, index) {
+        var sourceCoords = {
+            x: slice.position.x,
+            y: slice.position.y,
+            z: slice.position.z
+        };
+        var targetCoords = {
+            x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
+            y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
+            z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+        };
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            .to(targetCoords, 1000)
+            .delay(index * 300)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .onUpdate(function () {
+            slice.position.x = sourceCoords.x;
+            slice.position.y = sourceCoords.y,
+                slice.position.z = sourceCoords.z;
+        })
+            .onComplete(function () {
+            d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '0');
+        })
+            .start();
     };
     NetCube.prototype.transitionANI = function () { };
     NetCube.prototype.getCubePosition = function () {
-        var positionInWorld = new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+        var positionInWorld = new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"]();
         this.cubeGroupGL.getWorldPosition(positionInWorld);
         return positionInWorld;
     };
@@ -2205,7 +2291,7 @@ var NetCube = /** @class */ (function () {
                 grandChild.visible = true;
             });
         });
-        this.links.children.forEach(function (e) { e.visible = true; });
+        this.links_stc.children.forEach(function (e) { e.visible = true; });
     };
     /**
     * Iterates through all timeslices and all data points
@@ -2236,11 +2322,11 @@ var NetCube = /** @class */ (function () {
             if (selectedObject.type !== 'DATA_POINT')
                 continue;
             // get first intersect that is a data point
-            tooltip.nativeElement.style.display = 'block';
-            tooltip.nativeElement.style.opacity = '.9';
-            tooltip.nativeElement.style.top = $event.pageY + "px";
-            tooltip.nativeElement.style.left = $event.pageX + "px";
-            tooltip.nativeElement.innerHTML = selectedObject.data.description;
+            // tooltip.nativeElement.style.display = 'block';
+            // tooltip.nativeElement.style.opacity = '.9';
+            // tooltip.nativeElement.style.top = `${$event.pageY}px`;
+            // tooltip.nativeElement.style.left = `${$event.pageX}px`;
+            // tooltip.nativeElement.innerHTML = selectedObject.data.description;
             return selectedObject.data;
         }
         this.resetSelection();
@@ -2248,13 +2334,28 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.highlightObject = function (id) {
         this.resetSelection(true);
-        var highlighted = this.cubeGroupGL.getObjectByName(id);
-        if (highlighted) {
-            highlighted.material.color.setHex(0xff0000);
-            highlighted.scale.set(2, 2, 2);
+        var highlighted_source = this.cubeGroupGL.getObjectByName(id);
+        if (highlighted_source) {
+            highlighted_source.material.color.setHex(0xff0000);
+            highlighted_source.scale.set(2, 2, 2);
+            var highlighted_target = this.cubeGroupGL.getObjectByName(highlighted_source.data.target_nodes[0]);
+            highlighted_target.material.color.setHex(0xff6666);
+            highlighted_target.scale.set(2, 2, 2);
         }
     };
-    NetCube.prototype.findTimeSlice = function (date) {
+    NetCube.prototype.getTimeSliceById = function (id) {
+        var _this = this;
+        var date = this.dm.getNodeById(id).date_time;
+        var correspondingSlice;
+        this.slices.forEach(function (slice) {
+            if (slice.name === _this.dm.getTimeQuantile(date)) {
+                correspondingSlice = slice;
+                return;
+            }
+        });
+        return correspondingSlice;
+    };
+    NetCube.prototype.getTimeSliceByDate = function (date) {
         var _this = this;
         var correspondingSlice;
         this.slices.forEach(function (slice) {
@@ -2273,8 +2374,8 @@ var NetCube = /** @class */ (function () {
         var normalized_x = null;
         var normalized_z = null;
         if (pos_map[id]) {
-            normalized_x = pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
-            normalized_z = pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
+            normalized_x = pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
+            normalized_z = pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
         }
         if (normalized_x)
             return { x: normalized_x, y: null, z: normalized_z };
@@ -2283,11 +2384,11 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.updateDataPoints = function () {
         // TODO: clear previous geometries from scene / cubeGroupGL
-        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
-            var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
+            var point = new three_full__WEBPACK_IMPORTED_MODULE_1__["Mesh"](geometry, material);
             var position = this.getNormalizedPositionById(dataItem.id);
             if (position) {
                 point.position.x = position.x;
@@ -2297,70 +2398,136 @@ var NetCube = /** @class */ (function () {
                 point.data = dataItem;
                 point.type = 'DATA_POINT';
                 //console.log(this.findTimeSlice(dataItem.date_time));
-                this.findTimeSlice(dataItem.date_time).add(point);
+                this.getTimeSliceByDate(dataItem.date_time).add(point);
             }
         }
     };
     NetCube.prototype.createNodes = function () {
-        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
-            var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
+            var point = new three_full__WEBPACK_IMPORTED_MODULE_1__["Mesh"](geometry, material);
             var position = this.getNormalizedPositionById(dataItem.id);
             if (position) {
                 point.position.x = position.x;
                 point.position.z = position.z;
-                //sphere.position.y = this.timeLinearScale(dataItem.date_time);
                 point.name = dataItem.id;
                 point.data = dataItem;
                 point.type = 'DATA_POINT';
-                //console.log(this.findTimeSlice(dataItem.date_time));
-                this.findTimeSlice(dataItem.date_time).add(point);
+                this.getTimeSliceByDate(dataItem.date_time).add(point);
             } //end if            
         } //end for
     };
     NetCube.prototype.createLinks = function () {
-        this.links = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
-        var lineMaterial = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: '#b5b5b5', transparent: true, opacity: 0.75 });
-        var linksPerNode = 1;
+        this.links_stc = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
+        this.links_si = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
             var sourceNode_position = this.getNormalizedPositionById(dataItem.id);
-            sourceNode_position.y = this.findTimeSlice(dataItem.date_time).position.y;
-            for (var a = 0; a < linksPerNode; a++) { //3 links for each nodes
-                var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["Geometry"]();
+            sourceNode_position.y = this.getTimeSliceByDate(dataItem.date_time).position.y;
+            for (var a = 0; a < this.linksPerNode; a++) {
                 var targetId = dataItem.target_nodes[a];
-                var targetNode_position = this.getNormalizedPositionById(targetId);
-                if (targetNode_position) {
-                    var position_fix = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
-                    targetNode_position.y = this.findTimeSlice(this.dm.dataMap[targetId].date_time).position.y;
-                    lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"](sourceNode_position.x + position_fix, sourceNode_position.y, sourceNode_position.z + position_fix));
-                    lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"](targetNode_position.x + position_fix, targetNode_position.y, targetNode_position.z + position_fix));
-                    var line = new three_full__WEBPACK_IMPORTED_MODULE_0__["Line"](lineGeometry, lineMaterial);
-                    line.name = dataItem.id + "_" + targetId;
-                    this.links.add(line);
+                if (this.doesTargetNodeHasPosition(targetId)) {
+                    //STC                    
+                    var line_forSTC = this.createLineForSTC(dataItem, sourceNode_position, a);
+                    this.links_stc.add(line_forSTC);
+                    //SI
+                    var line_forSI = this.createLineForSI(dataItem, sourceNode_position, a);
+                    this.links_si.add(line_forSI);
+                    //JP
+                    var line_forJP = this.createLineForJP(dataItem, sourceNode_position, a);
+                    if (line_forJP) {
+                        this.getTimeSliceByDate(dataItem.date_time).add(line_forJP);
+                    }
                 } //end if
             } //end for     
         } //end for
-        this.cubeGroupGL.add(this.links);
+        this.cubeGroupGL.add(this.links_stc);
+        this.cubeGroupGL.add(this.links_si);
+    };
+    NetCube.prototype.createLineForJP = function (dataItem, sourceNode_position, targetIndex) {
+        var targetId = dataItem.target_nodes[targetIndex];
+        var targetNode_position = this.getNormalizedPositionById(targetId);
+        targetNode_position.y = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
+        if (this.areSourceAndTargetInTheSameSlice(dataItem.id, targetId)) {
+            targetNode_position.y = 0;
+            sourceNode_position.y = 0;
+            targetNode_position.x = this.parsePositionForJP(targetNode_position.x);
+            sourceNode_position.x = this.parsePositionForJP(sourceNode_position.x);
+            targetNode_position.z = this.parsePositionForJP(targetNode_position.z);
+            sourceNode_position.z = this.parsePositionForJP(sourceNode_position.z);
+            var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
+            var line = new three_full__WEBPACK_IMPORTED_MODULE_1__["Line"](lineGeometry, this.getLineMaterial());
+            line.name = this.getLineName(dataItem, targetId);
+            return line;
+        }
+        return null;
+    };
+    NetCube.prototype.areSourceAndTargetInTheSameSlice = function (sourceId, targetId) {
+        if (this.getTimeSliceById(sourceId).name === this.getTimeSliceById(targetId).name)
+            return true;
+        return false;
+    };
+    NetCube.prototype.parsePositionForJP = function (coordinate) {
+        return coordinate - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
+    };
+    NetCube.prototype.createLineForSI = function (dataItem, sourceNode_position, targetIndex) {
+        var targetId = dataItem.target_nodes[targetIndex];
+        var targetNode_position = this.getNormalizedPositionById(targetId);
+        sourceNode_position.y = this.getYValueWhenFlatVis();
+        targetNode_position.y = this.getYValueWhenFlatVis();
+        var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
+        var line = new three_full__WEBPACK_IMPORTED_MODULE_1__["Line"](lineGeometry, this.getLineMaterial());
+        line.name = this.getLineName(dataItem, targetId);
+        return line;
+    };
+    NetCube.prototype.getYValueWhenFlatVis = function () {
+        return -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2;
+    };
+    NetCube.prototype.createLineForSTC = function (dataItem, sourceNode_position, targetIndex) {
+        var targetId = dataItem.target_nodes[targetIndex];
+        var targetNode_position = this.getNormalizedPositionById(targetId);
+        targetNode_position.y = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
+        var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
+        var line = new three_full__WEBPACK_IMPORTED_MODULE_1__["Line"](lineGeometry, this.getLineMaterial());
+        line.name = this.getLineName(dataItem, targetId);
+        return line;
+    };
+    NetCube.prototype.getLineName = function (dataItem, targetId) {
+        return dataItem.id + "_" + targetId;
+    };
+    NetCube.prototype.doesTargetNodeHasPosition = function (targetId) {
+        if (this.getNormalizedPositionById(targetId))
+            return true;
+        return false;
+    };
+    NetCube.prototype.getLineMaterial = function () {
+        return new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: '#b5b5b5', transparent: true, opacity: 0.75 });
+    };
+    NetCube.prototype.createLineGeometry = function (sourceNode_position, targetNode_position) {
+        var position_fix = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
+        var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["Geometry"]();
+        lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](sourceNode_position.x + position_fix, sourceNode_position.y, sourceNode_position.z + position_fix));
+        lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](targetNode_position.x + position_fix, targetNode_position.y, targetNode_position.z + position_fix));
+        return lineGeometry;
     };
     NetCube.prototype.updateSlices = function () {
         var _this = this;
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
-            var slice = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
+            var slice = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
-            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["EdgesGeometry"](geometry);
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: '#b5b5b5' });
-            var plane = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
+            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["EdgesGeometry"](geometry);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: '#b5b5b5' });
+            var plane = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineSegments"](edgeGeometry, material);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -2370,8 +2537,8 @@ var NetCube = /** @class */ (function () {
             element.innerHTML = slice.name;
             element.className = 'time-slice-label';
             //CSS Object
-            var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
@@ -2380,18 +2547,18 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.createSlices = function () {
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
-            var slice = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
+            var slice = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
-            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["EdgesGeometry"](geometry);
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: 0xb5b5b5 });
-            var plane = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
+            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["EdgesGeometry"](geometry);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: 0xb5b5b5 });
+            var plane = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineSegments"](edgeGeometry, material);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -2402,28 +2569,52 @@ var NetCube = /** @class */ (function () {
             element.innerHTML = slice.name;
             element.className = 'time-slice-label';
             // CSS Object
-            var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             this.cubeGroupCSS.add(label);
         } //end for
     };
     NetCube.prototype.createBoundingBox = function () {
         var _this = this;
-        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x00ff00 }));
-        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
-        this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxHelper"](placeholderBox, '#b5b5b5');
+        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_1__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_1__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: 0x00ff00 }));
+        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+        this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_1__["BoxHelper"](placeholderBox, '#b5b5b5');
         this.boundingBox.name = 'BOX_HELPER';
         this.cubeGroupGL.add(this.boundingBox);
         this.slices.forEach(function (slice) { _this.cubeGroupGL.add(slice); });
     };
     NetCube.prototype.showBottomLayer = function () { };
     NetCube.prototype.hideBottomLayer = function () { };
-    NetCube.prototype.showLinks = function () {
-        this.links.visible = true;
+    NetCube.prototype.hideAllLinks = function () {
+        this.hideCubeLinks();
+        this.hideSILinks();
     };
-    NetCube.prototype.hideLinks = function () {
-        this.links.visible = false;
+    NetCube.prototype.showCubeLinks = function () {
+        this.hideAllLinks();
+        this.links_stc.visible = true;
+    };
+    NetCube.prototype.hideCubeLinks = function () {
+        this.links_stc.visible = false;
+    };
+    NetCube.prototype.showSILinks = function () {
+        this.hideAllLinks();
+        this.links_si.visible = true;
+    };
+    NetCube.prototype.hideSILinks = function () {
+        this.links_si.visible = false;
+    };
+    NetCube.prototype.delay = function (ms) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(function () { return resolve(); }, ms); })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     //saving useful scripts for future usage
     NetCube.prototype.parsingCushmanPositionData = function () {
@@ -2513,8 +2704,12 @@ var SetCube = /** @class */ (function () {
         this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
         this.slices = new Array();
         this.pointGroup = new Array();
+        this.circleGroup = new Array();
         // this.pointGroup.name = 'pointGroup'
         this.cubeGroupGL.pointGroup = this.pointGroup;
+        //hull
+        this.hullGroup = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
+        this.hullState = false;
         this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_0__["Raycaster"]();
         this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector2"]();
         var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x00ff00 }));
@@ -2522,6 +2717,7 @@ var SetCube = /** @class */ (function () {
         this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxHelper"](placeholderBox, '#b5b5b5');
         this.boundingBox.name = 'BOX_HELPER';
         this.cubeGroupGL.add(this.boundingBox);
+        this.cubeGroupGL.add(this.hullGroup);
     };
     SetCube.prototype.assembleData = function () {
         this.updateSetCube(this.dm.timeRange.length, true);
@@ -2533,6 +2729,7 @@ var SetCube = /** @class */ (function () {
         if (initial === void 0) { initial = false; }
         if (layout === void 0) { layout = 'circle'; }
         //clean function
+        this.circleGroup = [];
         //clear scene of old objects
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
         this.slices = new Array();
@@ -2595,23 +2792,24 @@ var SetCube = /** @class */ (function () {
                     opacity: 0.7
                 });
                 var circle = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
-                var circleStc = new three_full__WEBPACK_IMPORTED_MODULE_0__["Object3D"]();
                 circle.matrixWorldNeedsUpdate = true;
                 circle.name = category.key;
                 circle.rotation.x = Math.PI / 2;
-                circle.name = timeLayer.key + category.key;
+                // circle.name = timeLayer.key + category.key;
                 //apply group positions
                 _this.getLayouts(layout, category, circle);
-                // this.cubeGroupGL.add(circle)
+                circle.updateMatrixWorld();
+                //get circles into one group to use for hull later
+                _this.circleGroup.push(circle);
                 slice.add(circle);
                 //add points after each category
-                var parentPos = circle.position;
                 //get this category points positions
-                var spiralCategory = _this.getSpiralPosition(parentPos.x, parentPos.z, rad, category.values);
-                spiralCategory.forEach(function (points) {
+                // let spiralCategory = this.getSpiralPosition(parentPos.x, parentPos.z, rad, category.values)
+                var phyllotaxis = _this.getPhyllotaxis(circle.position.x, circle.position.z, rad, category.values);
+                phyllotaxis.forEach(function (points) {
                     var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.colors(points.data.category_1) });
                     var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](pointGeometry, material);
-                    point.position.y = parentPos.y;
+                    point.position.y = circle.position.y;
                     point.position.x = points.x;
                     point.position.z = points.y;
                     point.name = points.data.id;
@@ -2738,7 +2936,8 @@ var SetCube = /** @class */ (function () {
             child.children.forEach(function (grandChild) {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
-                grandChild.position.y = time === 'aggregated' ? _this.findTimeSlice(grandChild.date_time).position.y : _this.timeLinearScale(grandChild.data.date_time);
+                var sliceOffsetY = child.position.y;
+                grandChild.position.y = time === 'aggregated' ? 0 : _this.timeLinearScale(grandChild.data.date_time) - sliceOffsetY;
             });
         });
     };
@@ -2750,6 +2949,8 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateNumSlices = function () {
         var segs = this.dm.timeRange.length;
         this.updateSetCube(segs, true);
+        //update hull 
+        this.hullState = false;
     };
     SetCube.prototype.updateColorCoding = function (encoding) {
         this.colorCoding = encoding;
@@ -2827,22 +3028,13 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateData = function () {
     };
     SetCube.prototype.dateWithinInterval = function (startDate, endDate, pointDate) {
+        if (!startDate)
+            startDate = this.dm.getMinDate();
+        if (!endDate)
+            endDate = this.dm.getMaxDate();
         return moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
     };
-    SetCube.prototype.filterDataByCategory = function (cat) {
-        this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
-                return;
-            child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
-                    return;
-                grandChild.visible = true;
-                if (grandChild.data.category_1 !== cat)
-                    grandChild.visible = false;
-            });
-        });
-    };
-    SetCube.prototype.filterDataByDatePeriod = function (startDate, endDate) {
+    SetCube.prototype.filterData = function (cat, start, end) {
         var _this = this;
         this.cubeGroupGL.children.forEach(function (child) {
             if (child.type !== 'Group')
@@ -2851,8 +3043,9 @@ var SetCube = /** @class */ (function () {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
                 grandChild.visible = true;
-                if (!_this.dateWithinInterval(startDate, endDate, grandChild.data.date_time))
+                if (!(_this.dateWithinInterval(start, end, grandChild.data.date_time) && (cat === "" ? true : grandChild.data.category_1 === cat))) {
                     grandChild.visible = false;
+                }
             });
         });
     };
@@ -2894,9 +3087,13 @@ var SetCube = /** @class */ (function () {
             })
                 .start();
         }); //end forEach
+        // show hull
+        this.showHull();
     };
     SetCube.prototype.transitionJP = function () {
         var _this = this;
+        // hide hull
+        this.hideHull();
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT + 20;
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
@@ -2932,6 +3129,8 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.transitionSI = function () {
         var _this = this;
+        // hide hull
+        this.hideHull();
         this.boundingBox.visible = false;
         var duration = 1000, tween;
         this.slices.forEach(function (slice, i) {
@@ -3023,11 +3222,11 @@ var SetCube = /** @class */ (function () {
             if (selectedObject.type !== 'DATA_POINT')
                 continue;
             // get first intersect that is a data point
-            tooltip.nativeElement.style.display = 'block';
-            tooltip.nativeElement.style.opacity = '.9';
-            tooltip.nativeElement.style.top = $event.pageY + "px";
-            tooltip.nativeElement.style.left = $event.pageX + "px";
-            tooltip.nativeElement.innerHTML = selectedObject.data.description;
+            // tooltip.nativeElement.style.display = 'block';
+            // tooltip.nativeElement.style.opacity = '.9';
+            // tooltip.nativeElement.style.top = `${$event.pageY}px`;
+            // tooltip.nativeElement.style.left = `${$event.pageX}px`;
+            // tooltip.nativeElement.innerHTML = selectedObject.data.description;
             return selectedObject.data;
         }
         this.resetSelection();
@@ -3100,6 +3299,74 @@ var SetCube = /** @class */ (function () {
         }
         return new_time;
     };
+    SetCube.prototype.getPhyllotaxis = function (centerX, centerY, radius, data) {
+        data.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.date_time).getTime() + new Date(a.date_time).getTime();
+        });
+        var theta = Math.PI * (3 - Math.sqrt(5)), spacing = 5, size = spacing - 1, speed = 1, index = 0, total = (radius * radius) / (spacing * spacing);
+        var new_time = [];
+        // For every side, step around and away from center.
+        for (var i = 0; i < data.length; i++) {
+            var radius = spacing * Math.sqrt(++index), angle = index * theta;
+            var x = centerX + radius * Math.cos(angle);
+            var y = centerY + radius * Math.sin(angle);
+            new_time.push({ x: x, y: y, data: data[i] });
+        }
+        return new_time;
+    };
+    SetCube.prototype.drawHull = function () {
+        var _this = this;
+        //empty hull group
+        this.hullGroup.children = [];
+        var categories = Array.from(this.setMap);
+        categories.forEach(function (d) {
+            _this.geometryConvex(d);
+        });
+        //hull state
+        this.hullState = true;
+    };
+    SetCube.prototype.geometryConvex = function (group) {
+        var _this = this;
+        if (group === void 0) { group = "Identification photographs"; }
+        var vertices = [];
+        this.circleGroup.forEach(function (child) {
+            if (child.name === group) {
+                var array_aux = [];
+                child.geometry.vertices.forEach(function (d) {
+                    array_aux.push(child.localToWorld(d));
+                });
+                vertices.push(array_aux);
+            }
+        });
+        // console.log(vertices2[0]);
+        vertices.forEach(function (d, i) {
+            var meshData;
+            if (i !== vertices.length - 1) { //if to deal with last component structure
+                meshData = vertices[i].concat(vertices[i + 1]);
+                _this.addHullToScene(meshData);
+            }
+        });
+    };
+    SetCube.prototype.addHullToScene = function (vertices) {
+        var wireFrameMat = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+            color: '#a2a2a2', transparent: true, opacity: 0.3,
+            // ***** Clipping setup (material): *****
+            clippingPlanes: [],
+            clipShadows: true
+        });
+        wireFrameMat.wireframe = true;
+        var meshGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["ConvexBufferGeometry"](vertices);
+        var mesh = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](meshGeometry, wireFrameMat);
+        //calibrate the cubleft border
+        mesh.position.set(-this.cubeLeftBoarder, 0, 0);
+        // this.cubeGroupGL.add(mesh);
+        this.hullGroup.add(mesh);
+    };
+    SetCube.prototype.getHullState = function () {
+        return this.hullState;
+    };
     /**
  * Returns the corresponding timeslice to a given objects date (date_time property)
  * @param date Date object
@@ -3117,6 +3384,14 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.hideBottomLayer = function () { };
     SetCube.prototype.showBottomLayer = function () { };
+    SetCube.prototype.hideHull = function () {
+        // hide hull
+        this.hullGroup.visible = false;
+    };
+    SetCube.prototype.showHull = function () {
+        // show hull
+        this.hullGroup.visible = true;
+    };
     return SetCube;
 }());
 
@@ -3470,6 +3745,7 @@ var GoogleDriveProvider = /** @class */ (function () {
                     data.forEach(function (item) {
                         item.date_time = moment__WEBPACK_IMPORTED_MODULE_3__(item.date_time).toDate();
                         item.target_nodes = item.target_nodes.split(';').map(Number);
+                        item.category_1 = item.category_1 === "" ? "No Category" : item.category_1;
                         item.label = item.label.split(';').map(Number);
                         // TODO: data.date_range, data.range
                     });

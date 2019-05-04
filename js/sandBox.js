@@ -1950,51 +1950,6 @@
      * @param parameters
      */
     pCube.morphing = function (parameters) {
-
-        //create plane and material
-
-//          clipPlane1 = new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 1);
-//          console.log(clipPlane1);
-//
-//         // Geometry
-//         var material = new THREE.MeshBasicMaterial( {
-//             color: 0x80ee10,
-//             // shininess: 100,
-//             side: THREE.DoubleSide,
-//             // ***** Clipping setup (material): *****
-//             clippingPlanes: [ clipPlane1 ],
-//             clipShadows: true,
-//             clipIntersection: true
-//         } );
-//
-//         let boxgeometry = new THREE.BoxBufferGeometry( 150, 150, 150 );
-//         box = new THREE.Mesh( boxgeometry, material );
-// //        box.position(THREE.Vector3(0,0,0));
-//         box.position.x = 0.5;
-//         box.position.y = 0;
-//         box.position.z = 0;
-//
-//         WGLScene.add(box);
-
-        // if (parameters === undefined) parameters = {};
-        //
-        // var segCounter = 0; //keep list of the segment counters
-        // var duration = 5500;
-        // var yMorph = parameters["axis"] || 50; // todo: create
-        // scene.children[0].children.forEach(function (object, i) {
-        //     //show only segments
-        //     if (object.name == "seg") {
-        //
-        //         segCounter++;
-        //         // console.log(segCounter);
-        //         if (segCounter == 1) {
-        //             object.element.firstChild.lastChild.style.display = "none"; //remove red circle
-        //             object.position.y = yMorph; //todo:for the control
-        //             object.position.x = 0; //todo:for the control
-        //             object.position.z = 0; //todo:for the control
-        //         }
-        //     }
-        // });
     };
 
     pCube.pointOfInterest = function (id = '7841') {
@@ -2041,73 +1996,6 @@
             }
         });
 
-        // let points = [
-        //     {x: 1.6832052564318825, y: -750, z: 745.7610455207309},
-        //     {x: 22.525934655511637, y: -625, z: 817.2658513593152},
-        //     {x: 10.926396352265327, y: -500, z: 768.2735165078444},
-        //     {x: -3.35098031894727, y: -375, z: 756.2034779736116},
-        //     {x: 5.697622899159063, y: -250, z: 782.2512795056107},
-        //     {x: 22.525680718394977, y: -125, z: 817.265930165343},
-        //     {x: 5.696507781098516, y: 125, z: 782.2514485983365},
-        //     {x: -3.352625995710384, y: 125, z: 756.2029992547223},
-        //     {x: 9.198981461862266, y: 250, z: 755.2344637184763},
-        //     {x: 5.696166308535539, y: 375, z: 782.2515003713079}
-        // ];
-        //
-        //
-        // for (let i = 0; i < points.length; i++) {
-        //
-        //     setTimeout(function timer() {
-        //         var tween = new TWEEN.Tween({
-        //             x: camera.position.x,
-        //             y: camera.position.y,
-        //             z: camera.position.z
-        //         })
-        //             .to({
-        //                 x: points[i].x,
-        //                 y: points[i].y,
-        //                 z: points[i].z
-        //             }, 1600)
-        //             .easing(TWEEN.Easing.Linear.None)
-        //             .onUpdate(function () {
-        //                 camera.position.set(this.x, this.y, this.z);
-        //                 camera.lookAt(new THREE.Vector3(0, 0, 0));
-        //             })
-        //             .onComplete(function () {
-        //                 camera.lookAt(new THREE.Vector3(0, 0, 0));
-        //             })
-        //             .start();
-        //
-        //         // alert("point reached");
-        //
-        //     }, i * 3000);
-        // }
-
-        // points.forEach(function (p) {
-        //     console.log(p);
-        //
-        //     var tween = new TWEEN.Tween({
-        //         x: camera.position.x,
-        //         y: camera.position.y,
-        //         z: camera.position.z
-        //     })
-        //         .to({
-        //             x: p.x,
-        //             y: p.y,
-        //             z: p.z + 200
-        //         }, 1600)
-        //         .easing(TWEEN.Easing.Linear.None)
-        //         .onUpdate(function () {
-        //             camera.position.set(this.x, this.y, this.z);
-        //             camera.lookAt(new THREE.Vector3(0, 0, 0));
-        //         })
-        //         .onComplete(function () {
-        //             camera.lookAt(new THREE.Vector3(0, 0, 0));
-        //         })
-        //         .start();
-        //
-        //
-        // });
 
     };
 
