@@ -1752,7 +1752,7 @@ var GeoCube = /** @class */ (function () {
             var lineMaterial = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineBasicMaterial"]({ color: 0xff0000 });
             var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["Geometry"]();
             lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, this.findTimeSlice(highlighted.data.date_time).position.y, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2));
-            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2));
+            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2));
             var line = new three_full__WEBPACK_IMPORTED_MODULE_3__["Line"](lineGeometry, lineMaterial);
             line.name = 'GUIDE_LINE';
             var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
