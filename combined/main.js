@@ -2729,7 +2729,7 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         if (segs === void 0) { segs = this.dm.timeRange.length; }
         if (initial === void 0) { initial = false; }
-        if (layout === void 0) { layout = 'circle'; }
+        if (layout === void 0) { layout = 'pack'; }
         //clean function
         this.circleGroup = [];
         //clear scene of old objects
@@ -3694,7 +3694,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CUBE_CONFIG", function() { return CUBE_CONFIG; });
 const CUBE_CONFIG = {
     WIDTH: 500,
-    HEIGHT: 1000,
+    HEIGHT: 500,
     GUTTER: 200,
     NODE_SIZE: 2,
     DATA_SET: {
