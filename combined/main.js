@@ -328,7 +328,7 @@ module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n        <div class=\"pc-tooltip\" #tooltip></div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"geo-view-button\">GeoCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n        </div>\n        <div class=\"btn-grop\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"usePerspectiveCamera()\">Perspective</button>\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"useOrthographicCamera()\">Orthographic</button>\n        </div>\n        <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n            <div class=\"input-group-append\">\n                <div *ngIf=\"!loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                </div>\n                <div *ngIf=\"loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                        <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                        Loading...\n                    </button>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"preview-item\" *ngIf=\"previewItem\">\n            <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n            <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                [src]=\"previewItem.mediaURL\">\n            <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                <span class=\"badge badge-secondary\">{{ cat }}</span>\n            </div>\n            <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n            <br>\n            <p class=\"preview-description\">{{ previewItem.description }}</p>\n            <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n        </div>\n        <app-timeslider *ngIf=\"dataLoaded\" [minDate]=\"getMinDate()\" [maxDate]=\"getMaxDate()\" [width]=\"60\"\n            [height]=\"getWindowInnerHeight()\" (onSelect)=\"filterDataWithTimeSlider($event)\"></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\">\n    <!-- <label>Clickable Legend:</label> -->\n    <p>Selected: {{ currentlySelectedCategory }}</p>\n    <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n        <div *ngFor=\"let c of categories\">\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                (click)=\"filterDataByCategory(c)\"\n                [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n        </div>\n    </div>\n    <div class=\"category-wrapper\">\n        <div>\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                (click)=\"clearCategoryFilter()\" style=\"background-color:#424242; font-size: 15px;\">&times;</span>\n        </div>\n    </div>\n</div>\n<div class=\"overlay\">\n    <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n</div>\n<div class=\"modal\" #modal>\n    <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n    <img class=\"modal-content\" id=\"img01\" #img>\n    <div id=\"caption\" #caption></div>\n</div>\n\n<div class=\"processing-change\" *ngIf=\"processingChange\">\n    <div class=\"spinner-border text-info\" role=\"status\">\n        <span class=\"sr-only\"></span>\n    </div>\n    <p>Processing new configuration...</p>\n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong>\n    <p>{{ errorMessage }}</p>\n</div>"
+module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n        <div class=\"pc-tooltip\" #tooltip></div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"geo-view-button\">GeoCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">SetCube</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">NetCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n        </div>\n        <div class=\"btn-grop\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"usePerspectiveCamera()\">Perspective</button>\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"useOrthographicCamera()\">Orthographic</button>\n        </div>\n        <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n            <div class=\"input-group-append\">\n                <div *ngIf=\"!loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                </div>\n                <div *ngIf=\"loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                        <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                        Loading...\n                    </button>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"preview-item\" *ngIf=\"previewItem\">\n            <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n            <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                [src]=\"previewItem.mediaURL\">\n            <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                <span class=\"badge badge-secondary\">{{ cat }}</span>\n            </div>\n            <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n            <br>\n            <p class=\"preview-description\">{{ previewItem.description }}</p>\n            <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n        </div>\n        <app-timeslider *ngIf=\"dataLoaded\" [minDate]=\"getMinDate()\" [maxDate]=\"getMaxDate()\" [width]=\"60\"\n            [height]=\"getWindowInnerHeight()\" (onSelect)=\"filterDataWithTimeSlider($event)\"></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\">\n    <!-- <label>Clickable Legend:</label> -->\n    <p>Selected: {{ currentlySelectedCategory }}</p>\n    <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n        <div *ngFor=\"let c of categories\">\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                (click)=\"filterDataByCategory(c)\"\n                [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n        </div>\n    </div>\n    <div class=\"category-wrapper\">\n        <div>\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                (click)=\"clearCategoryFilter()\" style=\"background-color:#424242; font-size: 12px;\">&times;</span>\n        </div>\n    </div>\n</div>\n<div class=\"overlay\">\n    <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n</div>\n<div class=\"modal\" #modal>\n    <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n    <img class=\"modal-content\" id=\"img01\" #img>\n    <div id=\"caption\" #caption></div>\n</div>\n\n<div class=\"processing-change\" *ngIf=\"processingChange\">\n    <div class=\"spinner-border text-info\" role=\"status\">\n        <span class=\"sr-only\"></span>\n    </div>\n    <p>Processing new configuration...</p>\n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong>\n    <p>{{ errorMessage }}</p>\n</div>"
 
 /***/ }),
 
@@ -347,16 +347,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
-/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
-/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
-/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
-/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
-/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
+/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
+/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
+/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -379,7 +381,7 @@ var AppComponent = /** @class */ (function () {
         this.title = 'polycubeViews';
         this.processingChange = false;
         // set default view to display all cubes
-        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
+        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
         this.loadingDataset = true;
         this.dataLoaded = false;
         this.errorOccurred = false;
@@ -421,9 +423,9 @@ var AppComponent = /** @class */ (function () {
          * and append themselves to the scene
          */
         this.initCubes = function () {
-            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_4__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_5__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_6__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_5__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_6__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_7__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
         };
         /**
          * This function is called when the dataset has been changed
@@ -445,7 +447,7 @@ var AppComponent = /** @class */ (function () {
                     _this.previewItem = {
                         title: "Picture #" + foundItem.id,
                         mediaURL: foundItem.external_url,
-                        date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
+                        date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
                         location: foundItem.location_name,
                         description: foundItem.description,
                         externalURL: foundItem.media_url,
@@ -478,7 +480,7 @@ var AppComponent = /** @class */ (function () {
          * Initializes the GUI elements including button event listeners
          */
         this.initGUI = function () {
-            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_9__["GUI"]();
+            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_10__["GUI"]();
             // general settings
             _this.gui.pCubeConfigEmitter.on('processing', function (change) {
                 _this.processingChange = change;
@@ -509,6 +511,13 @@ var AppComponent = /** @class */ (function () {
                     _this.gCube.updateNodeColor(change.nodeColor);
                     _this.sCube.updateNodeColor(change.nodeColor);
                     _this.nCube.updateNodeColor(change.nodeColor);
+                    //update timeline color
+                    if (change.nodeColor === 'temporal') {
+                        _this.timelineColor(true);
+                    }
+                    else {
+                        _this.timelineColor(false);
+                    }
                 }
                 if (change.dataSet) {
                 }
@@ -542,27 +551,33 @@ var AppComponent = /** @class */ (function () {
                 }
             });
             // button event listeners
-            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].GEO_CUBE); });
-            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].SET_CUBE); });
-            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].NET_CUBE); });
-            _this.gui.polyBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE); });
+            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE); });
+            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE); });
+            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE); });
+            _this.gui.polyBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE); });
             _this.gui.stcBtn.addEventListener('click', function () {
                 _this.gCube.transitionSTC();
                 _this.sCube.transitionSTC();
                 _this.nCube.transitionSTC();
+                //update timeline color 
+                _this.timelineColor(false);
             });
             _this.gui.jpBtn.addEventListener('click', function () {
                 _this.gCube.transitionJP();
                 _this.sCube.transitionJP();
                 _this.nCube.transitionJP();
+                //update timeline color 
+                _this.timelineColor(false);
             });
             _this.gui.siBtn.addEventListener('click', function () {
                 _this.gCube.updateNodeColor('temporal');
-                _this.sCube.updateNodeColor('temporal');
                 _this.nCube.updateNodeColor('temporal');
                 _this.gCube.transitionSI();
                 _this.sCube.transitionSI();
                 _this.nCube.transitionSI();
+                //this.sCube.updateNodeColor('temporal'); //FIXME: need to be called after SI is finished in SCUBE
+                //update timeline color 
+                _this.timelineColor(true);
             });
         };
         /**
@@ -603,7 +618,7 @@ var AppComponent = /** @class */ (function () {
                     break;
                 default: break;
             }
-            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
+            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
             tweenPos.to(targetVector, 250);
             tweenLookAt.to(cubePos, 250);
             // FIXME: lookAt still buggy -> find how to fix or consider first person action cam
@@ -634,7 +649,7 @@ var AppComponent = /** @class */ (function () {
         this.previewItem = null;
         this.categories = new Array();
         this.categoriesAndColors = new Map();
-        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION : 2000;
+        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION : 2000;
         this.currentlySelectedCategory = '';
         this.currentlySelectedDateExtent = new Array();
     }
@@ -654,8 +669,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.initDataset = function () {
         var _this = this;
         this.loadingDataset = true;
-        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
-        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__["DataManager"]();
+        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
+        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__["DataManager"]();
         // perform request to get spreadsheet json 
         // parse it when done and pass to datamanager
         this.google.load(_id).then(function (success) {
@@ -695,6 +710,19 @@ var AppComponent = /** @class */ (function () {
         }).catch(function (err) {
             _this.errorOccurred = true;
             _this.errorMessage = err;
+        });
+    };
+    AppComponent.prototype.timelineColor = function (visible) {
+        var colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dataManager.getMinDate(), this.dataManager.getMaxDate()]);
+        var labels = d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.tick');
+        labels.nodes().forEach(function (d, i) {
+            var label = d3__WEBPACK_IMPORTED_MODULE_4__["select"](d), date = d3__WEBPACK_IMPORTED_MODULE_4__["select"](d).data()[0];
+            if (visible == true) {
+                label.select('text').attr('fill', colors(+date));
+            }
+            else {
+                label.select('text').attr('fill', 'grey');
+            }
         });
     };
     AppComponent.prototype.usePerspectiveCamera = function () {
@@ -744,16 +772,16 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.setCubeView = function (view) {
         switch (view) {
             case 'GEO_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].GEO_CUBE;
+                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE;
                 break;
             case 'SET_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].SET_CUBE;
+                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE;
                 break;
             case 'NET_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].NET_CUBE;
+                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE;
                 break;
             case 'POLY_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
+                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
                 break;
             default:
                 return;
@@ -779,7 +807,7 @@ var AppComponent = /** @class */ (function () {
         this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
     };
     AppComponent.prototype.formatDate = function (date) {
-        return moment__WEBPACK_IMPORTED_MODULE_12__(date).format('DD/MM/YYYY');
+        return moment__WEBPACK_IMPORTED_MODULE_13__(date).format('DD/MM/YYYY');
     };
     /**
      *
@@ -827,7 +855,7 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css"), __webpack_require__(/*! ./bootstrap.min.css */ "./src/app/bootstrap.min.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -2798,10 +2826,7 @@ var SetCube = /** @class */ (function () {
             .key(function (d) { return moment__WEBPACK_IMPORTED_MODULE_5__(d.groupDate).format('YYYY'); })
             .key(function (d) { return d.category_1; })
             .entries(this.dm.data)
-            // .sort((a: any, b: any) => { return a.key == b.key ? 0 : +(a.key > b.key) || -1; })
-            .sort(function (a, b) {
-            return new Date(b.date_time).getTime() + new Date(a.date_time).getTime();
-        });
+            .sort(function (a, b) { return a.key == b.key ? 0 : +(a.key > b.key) || -1; });
         //add geometry points
         var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
@@ -2812,6 +2837,11 @@ var SetCube = /** @class */ (function () {
             return d.Value;
         });
         var radScale = d3__WEBPACK_IMPORTED_MODULE_4__["scaleLinear"]().domain(radExtent).range([5, 80]);
+        // When its SI
+        if (segs == 1) {
+            console.log('SI View');
+            // change color based on selection
+        }
         groupedData.forEach(function (timeLayer, i) {
             // flat planes for JP
             var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
@@ -2862,15 +2892,12 @@ var SetCube = /** @class */ (function () {
                 slice.add(circle);
                 //add circle label
                 // console.log(circle.position)
-                // if(i===0){
-                //     this.getSetLabel(category.key, [circle.position.x, circle.position.z])
-                // }
                 //add points after each category
                 //get this category points positions
                 // let spiralCategory = this.getSpiralPosition(parentPos.x, parentPos.z, rad, category.values)
                 var phyllotaxis = _this.getPhyllotaxis(circle.position.x, circle.position.z, rad, category.values);
                 phyllotaxis.forEach(function (points) {
-                    // console.log(points.data.category_1)
+                    // this.updateColorCoding('temporal');
                     var material2 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.colors(points.data.category_1) }); //FIXME: Color not found on SI
                     var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](pointGeometry, material2);
                     point.material.needsUpdate = true;
@@ -3149,6 +3176,7 @@ var SetCube = /** @class */ (function () {
         //TODO:on STC, update setcube with stacked layers
         this.updateSetCube();
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length; // FIXME: value is aways divided by 1
+        var duration = 1000, tween;
         this.slices.forEach(function (slice, i) {
             var sourceCoords = {
                 x: slice.position.x,
@@ -3168,8 +3196,8 @@ var SetCube = /** @class */ (function () {
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
             label.rotation.set(0, 0, 0);
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__["Tween"](sourceCoords)
-                .to(targetCoords, 1000)
+            tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__["Tween"](sourceCoords)
+                .to(targetCoords, duration)
                 .delay(i * 300)
                 .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__["Easing"].Cubic.InOut)
                 .onUpdate(function () {
@@ -3177,11 +3205,12 @@ var SetCube = /** @class */ (function () {
                 slice.position.y = sourceCoords.y,
                     slice.position.z = sourceCoords.z;
             })
-                .onComplete(function () {
-                //something if needed
-            })
                 .start();
         }); //end forEach
+        tween.onComplete(function () {
+            //update nodecolor to categorical
+            _this.updateNodeColor('categorical');
+        });
         // show hull
         this.showHull();
     };
@@ -3263,7 +3292,8 @@ var SetCube = /** @class */ (function () {
             _this.updateSetCube(1);
             d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
             d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.set-label').style('opacity', '0');
-            // this.clearLabels()
+            //update node colors to temporal
+            _this.updateNodeColor('temporal');
         });
         this.clearLabels();
     };
@@ -3408,11 +3438,15 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.getPhyllotaxis = function (centerX, centerY, radius, data) {
         data.sort(function (a, b) {
-            // Turn your strings into dates, and then subtract them
-            // to get a value that is either negative, positive, or zero.
-            return new Date(b.date_time).getTime() + new Date(a.date_time).getTime();
+            a = Date.parse(a.date_time),
+                b = Date.parse(b.date_time);
+            return a == b ? 0 : +(a > b) || -1;
         });
-        var theta = Math.PI * (3 - Math.sqrt(5)), spacing = 3, size = spacing - 1, speed = 1, index = 0, total = (radius * radius) / (spacing * spacing);
+        var theta = Math.PI * (3 - Math.sqrt(5)), spacing = 3, 
+        // size = spacing - 1,
+        // speed = 1,
+        index = 0;
+        // total = (radius * radius) / (spacing * spacing);
         var new_time = [];
         // For every side, step around and away from center.
         for (var i = 0; i < data.length; i++) {
@@ -3657,6 +3691,9 @@ var TimeSliderComponent = /** @class */ (function () {
         return new Array(startDate, endDate);
     };
     TimeSliderComponent.prototype.resetTimeFilter = function () {
+        if (this.isAnimationPlaying())
+            this.pauseAnimation();
+        this.drawBrushBasedOnPixelsCoordinates(null);
         this.onSelect.emit([this.minDate, this.maxDate]);
     };
     TimeSliderComponent.prototype.getWholeTimePeriod = function () {
@@ -3666,36 +3703,29 @@ var TimeSliderComponent = /** @class */ (function () {
         return d3__WEBPACK_IMPORTED_MODULE_2__["select"]('text.playButton').text() === 'pause';
     };
     TimeSliderComponent.prototype.animateBasedOnPeriod = function () {
-        if (!this._brushMemory) {
-            alert('Missing period - An animation will be played with standard brush. HOWEVER, the brush is FLEXIBLE and you can change its intervals the way you want it!!');
-            this._brushMemory = [new Date(1939, 1, 1), new Date(1941, 1, 1)];
-            this.showBrushAccordingToDateInterval();
-            this.animateBasedOnPeriod();
-        }
-        else {
+        if (this.hasBrushMemory()) {
             if (!this.isAnimationPlaying())
                 this.animate();
             else
                 this.pauseAnimation();
         }
+        else {
+            var standardPeriod = [new Date(1939, 1, 1), new Date(1941, 1, 1)];
+            this.saveAndEmitFilterSelection(standardPeriod);
+            this.drawBrushBasedOnTimePeriod(standardPeriod);
+            this.animateBasedOnPeriod();
+        }
     };
-    TimeSliderComponent.prototype.showBrushAccordingToDateInterval = function () {
-        //TODO
-        //this.brush.move(this._brushMemory);
-        // call(brush.move,this._brushMemory.map(this.yScale));
-        // // north border
-        // let currentY: any = D3.select('g.brush rect.handle--n').attr('y');
-        // currentY = this.yScale(this._brushMemory[1]);
-        // D3.select('g.brush rect.handle--n').attr('y',currentY).attr('style','');    
-        // // center
-        // let height = (this.yScale(this._brushMemory[0]) - this.yScale(this._brushMemory[1]));
-        // currentY = D3.select('g.brush rect.selection').attr('y');        
-        // currentY = (height/2) + this.yScale(this._brushMemory[0]);        
-        // D3.select('g.brush rect.selection').attr('y',currentY).attr('height',height).attr('style','');        
-        // // south border
-        // currentY = D3.select('g.brush rect.handle--s').attr('y');
-        // currentY = this.yScale(this._brushMemory[0]);
-        // D3.select('g.brush rect.handle--s').attr('y',currentY).attr('style','');    
+    TimeSliderComponent.prototype.drawBrushBasedOnTimePeriod = function (timePeriod) {
+        var y0 = this.yScale(timePeriod[1]);
+        var y1 = this.yScale(timePeriod[0]);
+        this.drawBrushBasedOnPixelsCoordinates([y0, y1]);
+    };
+    TimeSliderComponent.prototype.drawBrushBasedOnPixelsCoordinates = function (pixelCoordinates) {
+        this._svg.select("g.brush").call(this.brush.move, pixelCoordinates);
+    };
+    TimeSliderComponent.prototype.hasBrushMemory = function () {
+        return (this._brushMemory && this._brushMemory.length > 1);
     };
     TimeSliderComponent.prototype.animate = function () {
         var _this = this;
@@ -3710,8 +3740,16 @@ var TimeSliderComponent = /** @class */ (function () {
     };
     TimeSliderComponent.prototype.filterPeriodAccordingToNewBrushPositions = function () {
         var timePeriod = this.getTimePeriodFromSlider();
+        this.saveAndEmitFilterSelection(timePeriod);
+    };
+    TimeSliderComponent.prototype.saveAndEmitFilterSelection = function (timePeriod) {
         this.saveLastBrush(timePeriod);
         this.onSelect.emit(timePeriod);
+    };
+    TimeSliderComponent.prototype.isBrushNull = function () {
+        if (d3__WEBPACK_IMPORTED_MODULE_2__["select"]('g.brush rect.handle--n').attr('y'))
+            return true;
+        return false;
     };
     TimeSliderComponent.prototype.moveBrushPieces = function (step) {
         if (this.isBrushInUpLimit(step))
@@ -3736,10 +3774,6 @@ var TimeSliderComponent = /** @class */ (function () {
         var currentY = d3__WEBPACK_IMPORTED_MODULE_2__["select"]('g.brush rect.handle--n').attr('y');
         return currentY < step;
     };
-    TimeSliderComponent.prototype.saveAndEmitSelection = function (timePeriod) {
-        this.saveLastBrush(timePeriod);
-        this.onSelect.emit(timePeriod);
-    };
     TimeSliderComponent.prototype.pauseAnimation = function () {
         this.setPlayButtonLabel('play');
         clearInterval(this._interval);
@@ -3754,15 +3788,6 @@ var TimeSliderComponent = /** @class */ (function () {
     };
     TimeSliderComponent.prototype.setPlayButtonLabel = function (str) {
         d3__WEBPACK_IMPORTED_MODULE_2__["select"]('text.playButton').text(str);
-    };
-    //DEPRICATED
-    TimeSliderComponent.prototype.switchPlayButtonLabel = function () {
-        var newLabel = '';
-        if (!this.isAnimationPlaying())
-            newLabel = 'pause';
-        else
-            newLabel = 'play';
-        d3__WEBPACK_IMPORTED_MODULE_2__["select"]('text.playButton').text(newLabel);
     };
     TimeSliderComponent.prototype.brushEnd = function () {
         if (this.isEventNotActive())
