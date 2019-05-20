@@ -408,12 +408,14 @@ var AppComponent = /** @class */ (function () {
             _this.cssContainer.nativeElement.appendChild(_this.css3DRenderer.domElement);
             _this.orthographicCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrthographicCamera"](WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, -10000, 10000);
             _this.perspectiveCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["PerspectiveCamera"](20, WIDTH / HEIGHT, 1, 100000);
-            _this.camera = _this.orthographicCamera;
+            _this.camera = _this.perspectiveCamera;
+            // this.camera = this.orthographicCamera;
             _this.camera.up.set(0, 1, 0);
-            // this.camera.position.set(200, 200, 4800);
-            _this.camera.position.set(1298, 450, 4744);
+            // this.camera.position.set(200, 200, 4800); // for orthocamera
+            _this.camera.position.set(803, 912, 4755);
             _this.camera.lookAt(_this.webGLScene.position.x, _this.webGLScene.position.y, _this.webGLScene.position.z);
             _this.controls = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrbitControls"](_this.camera, _this.webGLRenderer.domElement);
+            _this.controls.target = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1000, 0, 0);
             _this.controls.enableZoom = true;
             _this.controls.zoomSpeed = 1.2;
         };
@@ -443,6 +445,7 @@ var AppComponent = /** @class */ (function () {
                 var foundItem = _this.getClickedItem($event);
                 if (foundItem) {
                     console.log(_this.camera.position);
+                    console.log(_this.controls);
                     // console.log(foundItem);
                     _this.previewItem = {
                         title: "Picture #" + foundItem.id,
@@ -559,15 +562,19 @@ var AppComponent = /** @class */ (function () {
                 _this.gCube.transitionSTC();
                 _this.sCube.transitionSTC();
                 _this.nCube.transitionSTC();
-                //update timeline color 
+                //update timeline color as false
                 _this.timelineColor(false);
+                //rotate camera to STC
+                _this.transitionSTCCamera();
             });
             _this.gui.jpBtn.addEventListener('click', function () {
                 _this.gCube.transitionJP();
                 _this.sCube.transitionJP();
                 _this.nCube.transitionJP();
-                //update timeline color 
+                //update timeline color as false 
                 _this.timelineColor(false);
+                //rotate camera to JP
+                _this.transitionJPCamera();
             });
             _this.gui.siBtn.addEventListener('click', function () {
                 _this.gCube.updateNodeColor('temporal');
@@ -576,8 +583,10 @@ var AppComponent = /** @class */ (function () {
                 _this.sCube.transitionSI();
                 _this.nCube.transitionSI();
                 //this.sCube.updateNodeColor('temporal'); //FIXME: need to be called after SI is finished in SCUBE
-                //update timeline color 
+                //update timeline color as true
                 _this.timelineColor(true);
+                //rotate camera to SI
+                _this.transitionSICamera();
             });
         };
         /**
@@ -712,6 +721,48 @@ var AppComponent = /** @class */ (function () {
             _this.errorMessage = err;
         });
     };
+    /**
+      * Rotate Camera to SI view
+      */
+    AppComponent.prototype.transitionSICamera = function () {
+        //stop rotation
+        this.controls.noRotate = true;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        targetVector.set(1006, 4826, 428);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+        });
+    };
+    /**
+     * Rotate Camera to STC view
+     */
+    AppComponent.prototype.transitionSTCCamera = function () {
+        //allow rotation
+        this.controls.noRotate = false;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        targetVector.set(800, 912, 4755);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+        });
+    };
+    AppComponent.prototype.transitionJPCamera = function () {
+        //stop rotation
+        this.controls.noRotate = true;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        targetVector.set(1006, 4826, 428);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+        });
+    };
+    /**
+     * This function is used to update brush timeline color
+     */
     AppComponent.prototype.timelineColor = function (visible) {
         var colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dataManager.getMinDate(), this.dataManager.getMaxDate()]);
         var labels = d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.tick');
