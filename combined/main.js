@@ -2076,8 +2076,8 @@ var NetCube = /** @class */ (function () {
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
         this.timeLinearScale = this.dm.getTimeLinearScale();
         this.createNodes();
-        // this.createLinks();
-        // this.showCubeLinks();
+        this.createLinks();
+        this.showCubeLinks();
     };
     NetCube.prototype.resetCubeGroupCSS = function () {
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
@@ -2639,8 +2639,6 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.createLineForSTC = function (dataItem, sourceNode_position, targetIndex) {
         var targetId = dataItem.target_nodes[targetIndex];
         var targetNode_position = this.getNormalizedPositionById(targetId);
-        // console.log(this.dm.data)
-        // console.log(targetId)
         targetNode_position.y = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
         var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
         var line = new three_full__WEBPACK_IMPORTED_MODULE_1__["Line"](lineGeometry, this.getLineMaterial());
@@ -3943,8 +3941,7 @@ const CUBE_CONFIG = {
     GUTTER: 200,
     NODE_SIZE: 2,
     DATA_SET: {
-        // id: '1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY',
-        id: '1HLjB2soptO8PGLgGmQ7kOYkHQhEx18KJknWp6nMU31w',
+        id: '1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY',
         name: 'Cushman'
     }
 }
