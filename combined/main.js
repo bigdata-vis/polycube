@@ -2852,13 +2852,13 @@ var SetCube = /** @class */ (function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS.position.set(this.cubeLeftBoarder, 0, 0);
-        this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
+        this.colors = this.dm.colors; // D3.scaleOrdinal(D3.schemePaired);
         this.slices = new Array();
         this.pointGroup = new Array();
         this.circleGroup = new Array();
         // this.pointGroup.name = 'pointGroup'
         this.cubeGroupGL.pointGroup = this.pointGroup;
-        //hull
+        // hull
         this.hullGroup = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.hullState = false;
         this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_0__["Raycaster"]();
@@ -2879,9 +2879,9 @@ var SetCube = /** @class */ (function () {
         if (segs === void 0) { segs = this.dm.timeRange.length; }
         if (initial === void 0) { initial = false; }
         if (layout === void 0) { layout = 'pack'; }
-        //clean function
+        // clean function
         this.circleGroup = [];
-        //clear scene of old objects
+        // clear scene of old objects
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
         this.slices = new Array();
         this.clearLabels();
@@ -3244,7 +3244,7 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.transitionSTC = function () {
         var _this = this;
         this.boundingBox.visible = true;
-        //TODO:on STC, update setcube with stacked layers
+        // TODO:on STC, update setcube with stacked layers
         this.updateSetCube();
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length; // FIXME: value is aways divided by 1
         var duration = 1000, tween;
@@ -3530,33 +3530,36 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.drawHull = function () {
         var _this = this;
-        //empty hull group
+        // empty hull group
         this.hullGroup.children = [];
         var categories = Array.from(this.setMap);
         categories.forEach(function (d) {
             _this.geometryConvex(d);
         });
-        //hull state
+        // hull state
         this.hullState = true;
+        this.uncertainHull();
     };
     SetCube.prototype.geometryConvex = function (group) {
         var _this = this;
-        if (group === void 0) { group = "Identification photographs"; }
+        if (group === void 0) { group = 'Identification photographs'; }
         var vertices = [];
         this.circleGroup.forEach(function (child) {
             if (child.name === group) {
-                var array_aux = [];
+                var array_aux_1 = [];
                 child.geometry.vertices.forEach(function (d) {
-                    array_aux.push(child.localToWorld(d));
+                    array_aux_1.push(child.localToWorld(d));
                 });
-                vertices.push(array_aux);
+                vertices.push(array_aux_1);
             }
         });
-        // console.log(vertices2[0]);
         vertices.forEach(function (d, i) {
             var meshData;
-            if (i !== vertices.length - 1) { //if to deal with last component structure
+            if (i !== vertices.length - 1) { // if to deal with last component structure
                 meshData = vertices[i].concat(vertices[i + 1]);
+                // const top = Math.abs(meshData[0].y);
+                // const bottom = Math.abs(meshData[meshData.length - 1].y);
+                // const gap = Math.abs(top - bottom);
                 _this.addHullToScene(meshData);
             }
         });
@@ -3566,12 +3569,12 @@ var SetCube = /** @class */ (function () {
             color: '#a2a2a2', transparent: true, opacity: 0.3,
             // ***** Clipping setup (material): *****
             clippingPlanes: [],
-            clipShadows: true
+            clipShadows: true,
+            wireframe: true
         });
-        wireFrameMat.wireframe = true;
         var meshGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["ConvexBufferGeometry"](vertices);
         var mesh = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](meshGeometry, wireFrameMat);
-        //calibrate the cubleft border
+        // calibrate the cubleft border
         mesh.position.set(-this.cubeLeftBoarder, 0, 0);
         // this.cubeGroupGL.add(mesh);
         this.hullGroup.add(mesh);
@@ -3603,6 +3606,17 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.showHull = function () {
         // show hull
         this.hullGroup.visible = true;
+    };
+    SetCube.prototype.uncertainHull = function () {
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        this.hullGroup.children.forEach(function (mesh) {
+            var box = new three_full__WEBPACK_IMPORTED_MODULE_0__["Box3"]().setFromObject(mesh);
+            var size = box.getSize(new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"]());
+            // console.log( mesh);
+            if (size.y > (vertOffset + 5)) {
+                mesh.visible = false;
+            }
+        });
     };
     SetCube.prototype.getSetScale = function () {
         var groupedData = d3__WEBPACK_IMPORTED_MODULE_4__["nest"]()
@@ -3942,6 +3956,7 @@ const CUBE_CONFIG = {
     NODE_SIZE: 2,
     DATA_SET: {
         id: '1j-FnypM3zD2fjWWoZUa_X6ENh4LosKF627fZoXKSxpY',
+        // id: '1HLjB2soptO8PGLgGmQ7kOYkHQhEx18KJknWp6nMU31w',
         name: 'Cushman'
     }
 }
