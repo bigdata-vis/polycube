@@ -606,15 +606,9 @@ var AppComponent = /** @class */ (function () {
          * Clears the current (webGL) scene from all cube groups
          */
         this.removeAllCubeViews = function () {
-            _this.webGLScene.remove(_this.webGLScene.getObjectByName('GEO_CUBE'));
-            _this.cssScene.remove(_this.cssScene.getObjectByName('GEO_CUBE_CSS'));
-            _this.gCube.hideBottomLayer();
-            _this.webGLScene.remove(_this.webGLScene.getObjectByName('SET_CUBE'));
-            _this.cssScene.remove(_this.cssScene.getObjectByName('SET_CUBE_CSS'));
-            _this.sCube.hideBottomLayer();
-            _this.webGLScene.remove(_this.webGLScene.getObjectByName('NET_CUBE'));
-            _this.cssScene.remove(_this.cssScene.getObjectByName('NET_CUBE_CSS'));
-            _this.nCube.hideBottomLayer();
+            _this.gCube.hideCube();
+            _this.sCube.hideCube();
+            _this.nCube.hideCube();
         };
         /**
          * This function is used to position the camera
@@ -1306,6 +1300,7 @@ var GeoCube = /** @class */ (function () {
         if (cssScene) {
             this.cssScene = cssScene;
         }
+        this.hiddenLabels = new Array();
         this.setMap = new Set();
         this.mapBounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLatBounds"]();
         this.camera = camera;
@@ -1322,6 +1317,12 @@ var GeoCube = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    GeoCube.prototype.hideCube = function () {
+        this.webGLScene.remove(this.webGLScene.getObjectByName('GEO_CUBE'));
+        this.cssScene.remove(this.cssScene.getObjectByName('GEO_CUBE_CSS'));
+        this.hideBottomLayer();
+        this.hideLabels();
+    };
     GeoCube.prototype.updateSlices = function () {
         var _this = this;
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
@@ -1349,7 +1350,7 @@ var GeoCube = /** @class */ (function () {
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
-            label.name = "LABEL_" + i;
+            label.name = "GEO_LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
         }
@@ -1381,6 +1382,24 @@ var GeoCube = /** @class */ (function () {
                 removed.push(child);
         });
         removed.forEach(function (r) { return _this.cubeGroupCSS.remove(r); });
+    };
+    GeoCube.prototype.hideLabels = function () {
+        var _this = this;
+        this.cubeGroupCSS.traverse(function (object) {
+            if (object.name.includes('GEO_LABEL')) {
+                _this.hiddenLabels.push(object);
+            }
+        });
+        this.hiddenLabels.forEach(function (r) {
+            _this.cubeGroupCSS.remove(r);
+        });
+    };
+    GeoCube.prototype.showLabels = function () {
+        var _this = this;
+        this.hiddenLabels.forEach(function (object) {
+            _this.cubeGroupCSS.add(object);
+        });
+        this.hiddenLabels = new Array();
     };
     /**
      * Initialize all group objects
@@ -1414,7 +1433,7 @@ var GeoCube = /** @class */ (function () {
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
-            label.name = "LABEL_" + i;
+            label.name = "GEO_LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
         }
@@ -1546,6 +1565,7 @@ var GeoCube = /** @class */ (function () {
         if (this._cubeToggle) {
             this.webGLScene.add(this.cubeGroupGL);
             this.cssScene.add(this.cubeGroupCSS);
+            this.showLabels();
             this.showBottomLayer();
         }
     };
@@ -1721,7 +1741,7 @@ var GeoCube = /** @class */ (function () {
                 y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2),
                 z: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2
             };
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
+            var label = _this.cubeGroupCSS.getObjectByName("GEO_LABEL_" + i);
             d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
@@ -1781,7 +1801,7 @@ var GeoCube = /** @class */ (function () {
                 y: -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / 2,
                 z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2)
             };
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
+            var label = _this.cubeGroupCSS.getObjectByName("GEO_LABEL_" + i);
             d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
@@ -2072,11 +2092,6 @@ var GUI = /** @class */ (function () {
                 time: pCubeParams.time
             });
         });
-        pCubeFolder.addColor(pCubeParams, 'backgroundColor').onChange(function () {
-            _this.pCubeConfigEmitter.emit('change', {
-                backgroundColor: pCubeParams.backgroundColor
-            });
-        });
         pCubeFolder.add(pCubeParams, 'nodeColor', ['categorical', 'temporal', 'monochrome']).onChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 nodeColor: pCubeParams.nodeColor
@@ -2090,6 +2105,11 @@ var GUI = /** @class */ (function () {
         pCubeFolder.add(pCubeParams, 'cameraType', ['Perspective', 'Orthographic']).onChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 cameraType: pCubeParams.cameraType
+            });
+        });
+        pCubeFolder.addColor(pCubeParams, 'backgroundColor').onChange(function () {
+            _this.pCubeConfigEmitter.emit('change', {
+                backgroundColor: pCubeParams.backgroundColor
             });
         });
         // GeoCube settings
@@ -2162,6 +2182,7 @@ var NetCube = /** @class */ (function () {
         this.webGLScene = webGLScene;
         if (cssScene)
             this.cssScene = cssScene;
+        this.hiddenLabels = new Array();
         this.setMap = new Set();
         this.camera = camera;
         this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER) * 2;
@@ -2205,14 +2226,38 @@ var NetCube = /** @class */ (function () {
         this.cubeGroupGL.name = this.cube_id;
         this.cubeGroupGL.position.set(this.cubeLeftBoarder, 0, 0);
     };
+    NetCube.prototype.hideCube = function () {
+        this.webGLScene.remove(this.webGLScene.getObjectByName('NET_CUBE'));
+        this.cssScene.remove(this.cssScene.getObjectByName('NET_CUBE_CSS'));
+        this.hideBottomLayer();
+        this.hideLabels();
+    };
     NetCube.prototype.clearLabels = function () {
         var _this = this;
         var removed = new Array();
         this.cubeGroupCSS.children.forEach(function (child) {
-            if (child.name.includes('LABEL'))
+            if (child.name.includes('NET_LABEL'))
                 removed.push(child);
         });
         removed.forEach(function (r) { return _this.cubeGroupCSS.remove(r); });
+    };
+    NetCube.prototype.hideLabels = function () {
+        var _this = this;
+        this.cubeGroupCSS.traverse(function (object) {
+            if (object.name.includes('NET_LABEL')) {
+                _this.hiddenLabels.push(object);
+            }
+        });
+        this.hiddenLabels.forEach(function (r) {
+            _this.cubeGroupCSS.remove(r);
+        });
+    };
+    NetCube.prototype.showLabels = function () {
+        var _this = this;
+        this.hiddenLabels.forEach(function (object) {
+            _this.cubeGroupCSS.add(object);
+        });
+        this.hiddenLabels = new Array();
     };
     NetCube.prototype.render = function () {
         this.webGLScene.add(this.cubeGroupGL);
@@ -2236,6 +2281,7 @@ var NetCube = /** @class */ (function () {
             this.webGLScene.add(this.cubeGroupGL);
             this.cssScene.add(this.cubeGroupCSS);
             this.showBottomLayer();
+            this.showLabels();
         }
     };
     NetCube.prototype.updateNumSlices = function () {
@@ -2473,7 +2519,7 @@ var NetCube = /** @class */ (function () {
             y: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2),
             z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
         };
-        var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
+        var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
         label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
         label.position.y = targetCoords.y;
@@ -2513,7 +2559,7 @@ var NetCube = /** @class */ (function () {
             y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
             z: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2)
         };
-        var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
+        var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
         label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
         label.position.y = targetCoords.y;
@@ -2812,7 +2858,7 @@ var NetCube = /** @class */ (function () {
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
-            label.name = "LABEL_" + i;
+            label.name = "NET_LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
         }
@@ -2844,7 +2890,7 @@ var NetCube = /** @class */ (function () {
             // CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
-            label.name = "LABEL_" + i;
+            label.name = "NET_LABEL_" + i;
             this.cubeGroupCSS.add(label);
         } //end for
     };
@@ -2954,6 +3000,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var SetCube = /** @class */ (function () {
     function SetCube(dm, camera, webGLScene, cssScene) {
+        var _this = this;
         this.colorCoding = 'categorical';
         this._cubeToggle = true;
         this.dm = dm;
@@ -2961,12 +3008,18 @@ var SetCube = /** @class */ (function () {
         if (cssScene) {
             this.cssScene = cssScene;
         }
-        this.data = new Array();
+        this.hiddenLabels = new Array();
         this.setMap = new Set();
         this.camera = camera;
         this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER) * 1;
         this.createObjects();
         this.assembleData();
+        // artificial timeout to process all data before drawing hull
+        // TODO: Could be improved using promises, callbacks, or after the layout completes
+        setTimeout(function () {
+            _this.drawHull();
+            _this.showHull();
+        }, 1000);
         this.render();
     }
     Object.defineProperty(SetCube.prototype, "cubeToggle", {
@@ -2976,6 +3029,12 @@ var SetCube = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    SetCube.prototype.hideCube = function () {
+        this.webGLScene.remove(this.webGLScene.getObjectByName('SET_CUBE'));
+        this.cssScene.remove(this.cssScene.getObjectByName('SET_CUBE_CSS'));
+        this.hideBottomLayer();
+        this.hideLabels();
+    };
     SetCube.prototype.createObjects = function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
@@ -3059,7 +3118,7 @@ var SetCube = /** @class */ (function () {
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
-            label.name = "LABEL_" + i;
+            label.name = "SET_LABEL_" + i;
             _this.cubeGroupCSS.add(label);
             // each category inside each time slice
             timeLayer.values.forEach(function (category) {
@@ -3108,6 +3167,8 @@ var SetCube = /** @class */ (function () {
         }); //complete group end
     };
     SetCube.prototype.getSetLabel = function (group, position) {
+        // FIXME: This function duplicates the label construction in the constructor and is never called
+        // Can we safely remove it ?
         // CSS 3D SET LABELS
         var element = document.createElement('div');
         element.innerHTML = group;
@@ -3197,14 +3258,32 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         var removed = new Array();
         this.cubeGroupCSS.children.forEach(function (child) {
-            if (child.name.includes('LABEL'))
+            if (child.name.includes('SET_LABEL'))
                 removed.push(child);
         });
         removed.forEach(function (r) { return _this.cubeGroupCSS.remove(r); });
     };
+    SetCube.prototype.hideLabels = function () {
+        var _this = this;
+        this.cubeGroupCSS.traverse(function (object) {
+            if (object.name.includes('SET_LABEL')) {
+                _this.hiddenLabels.push(object);
+            }
+        });
+        this.hiddenLabels.forEach(function (r) {
+            _this.cubeGroupCSS.remove(r);
+        });
+    };
+    SetCube.prototype.showLabels = function () {
+        var _this = this;
+        this.hiddenLabels.forEach(function (object) {
+            _this.cubeGroupCSS.add(object);
+        });
+        this.hiddenLabels = new Array();
+    };
     SetCube.prototype.clearSetLabels = function () {
         this.cubeGroupCSS.children.forEach(function (child) {
-            if (child.name.includes('LABEL')) {
+            if (child.name.includes('SET_LABEL')) {
                 child.visible = false;
             }
         });
@@ -3262,6 +3341,8 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateView = function (currentViewState) {
         if (this._cubeToggle) {
             this.webGLScene.add(this.cubeGroupGL);
+            this.showBottomLayer();
+            this.showLabels();
         }
     };
     SetCube.prototype.updateNumSlices = function () {
@@ -3387,9 +3468,9 @@ var SetCube = /** @class */ (function () {
                 z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
             };
             //labels
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
+            var label = _this.cubeGroupCSS.getObjectByName("SET_LABEL_" + i);
             d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '1');
-            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '1');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '1'); // FIXME: This selection is empty because we have no elements with .set-label class
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -3413,9 +3494,9 @@ var SetCube = /** @class */ (function () {
         this.showHull();
     };
     SetCube.prototype.transitionJP = function () {
-        // hide hull
-        // this.hideHull()
         var _this = this;
+        // hide hull
+        this.hideHull();
         //rerun scene and transition to JP
         var segs = this.dm.timeRange.length;
         this.updateSetCube(segs, true);
@@ -3436,10 +3517,10 @@ var SetCube = /** @class */ (function () {
                 z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2)
             };
             // label
-            var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
+            var label = _this.cubeGroupCSS.getObjectByName("SET_LABEL_" + i);
             // console.log(label);
             d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '1');
-            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0'); // FIXME: This selection is empty because we have no elements with the set-label class
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -3455,7 +3536,7 @@ var SetCube = /** @class */ (function () {
             })
                 .start();
         });
-        this.clearLabels();
+        this.hideLabels();
     };
     SetCube.prototype.transitionSI = function () {
         var _this = this;
@@ -3489,11 +3570,11 @@ var SetCube = /** @class */ (function () {
         tween.onComplete(function () {
             _this.updateSetCube(1);
             d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '0');
-            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0'); // FIXME: Doesnt exist
             //update node colors to temporal
             _this.updateNodeColor('temporal');
         });
-        this.clearLabels();
+        this.hideLabels();
     };
     SetCube.prototype.transitionANI = function () { };
     SetCube.prototype.getCubePosition = function () {
