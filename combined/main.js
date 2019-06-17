@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 80vw;\n    height: inherit;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(75vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n.gui {\n    position: relative;\n    z-index: 1000;\n    padding: 1em;\n    width: 20vw;\n    height: inherit;\n    box-sizing: border-box;\n    border-right: 2px dashed #f3f3f3;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    top: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper > div {\n    margin: .25em;\n}\n\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    max-width: calc(25vw - 2em);\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n.btn-group-xs > .btn, .btn-xs {\n    padding  : .25rem .4rem;\n    font-size  : .875rem;\n    line-height  : .5;\n    border-radius : .2rem;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n\n/*MODAL CSS*/\n\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n\n/* Modal Content (Image) */\n\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n\n/* Add Animation - Zoom in the Modal */\n\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n/* The Close Button */\n\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n\n/* 100% Image Width on Smaller Screens */\n\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n\n/* Processing spinner */\n\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n\n.processing-change p {\n    color: white;\n}\n\n/*overlay*/\n\n.overlay {\n    position: absolute;\n    width: 100%;\n    bottom: 0em;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxxQkFBcUI7SUFDckIsd0JBQXdCO0lBQ3hCLDBCQUEwQjtBQUM5Qjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsWUFBWTtJQUNaLFdBQVc7SUFDWCxlQUFlO0lBQ2Ysc0JBQXNCO0lBQ3RCLGdDQUFnQztBQUNwQzs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsUUFBUTtJQUNSLFlBQVk7SUFDWixZQUFZO0lBQ1osWUFBWTtJQUNaLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixXQUFXO0FBQ2Y7O0FBRUE7SUFDSSw2QkFBNkI7SUFDN0IsV0FBVztJQUNYLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLHNCQUFzQjtBQUMxQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixVQUFVO0lBQ1YsWUFBWTtJQUNaLFlBQVk7SUFDWix1QkFBdUI7SUFDdkIsYUFBYTtJQUNiLGtCQUFrQjtJQUNsQixNQUFNO0lBQ04sT0FBTztJQUNQLGlDQUFpQztBQUNyQzs7QUFFQTtJQUNJLGVBQWU7SUFDZiwyQkFBMkI7QUFDL0I7O0FBRUE7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBQ0E7SUFDSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLFdBQVc7QUFDZjs7QUFDQTtJQUNJLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsaUNBQWlDO0FBQ3JDOztBQUVBO0lBQ0ksdUJBQXVCO0lBQ3ZCLG9CQUFvQjtJQUNwQixpQkFBaUI7SUFDakIscUJBQXFCO0FBQ3pCOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUE7O0lBRUksZUFBZTtBQUNuQjs7QUFFQSxVQUFVOztBQUNWO0lBQ0ksd0JBQXdCO0FBQzVCOztBQUVBLFlBQVk7O0FBQ1o7SUFDSSxhQUFhLEVBQUUsc0JBQXNCO0lBQ3JDLGVBQWUsRUFBRSxrQkFBa0I7SUFDbkMsVUFBVSxFQUFFLGVBQWU7SUFDM0Isa0JBQWtCLEVBQUUsd0JBQXdCO0lBQzVDLE9BQU87SUFDUCxNQUFNO0lBQ04sV0FBVyxFQUFFLGVBQWU7SUFDNUIsWUFBWSxFQUFFLGdCQUFnQjtJQUM5QixjQUFjLEVBQUUsNEJBQTRCO0lBQzVDLDRCQUE0QixFQUFFLG1CQUFtQjtJQUNqRCxpQ0FBaUMsRUFBRSxxQkFBcUI7RUFDMUQ7O0FBRUEsMEJBQTBCOztBQUMxQjtJQUNFLFlBQVk7SUFDWixjQUFjO0lBQ2Qsc0JBQXNCO0lBQ3RCLGVBQWU7SUFDZixlQUFlO0VBQ2pCOztBQUVBLGtFQUFrRTs7QUFDbEU7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxlQUFlO0lBQ2YsYUFBYTtFQUNmOztBQUVBLHNDQUFzQzs7QUFDdEM7SUFDRSw0QkFBb0I7WUFBcEIsb0JBQW9CO0lBQ3BCLGdDQUF3QjtZQUF4Qix3QkFBd0I7RUFDMUI7O0FBRUE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCOztBQUhBO0lBQ0UsTUFBTSwwQkFBaUIsQ0FBakIsa0JBQWtCO0lBQ3hCLElBQUksMEJBQWlCLENBQWpCLGtCQUFrQjtFQUN4Qjs7QUFFQSxxQkFBcUI7O0FBQ3JCO0lBQ0Usa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gseUJBQXlCO0lBQ3pCLGVBQWU7SUFDZixpQkFBaUI7SUFDakIsZ0JBQWdCO0VBQ2xCOztBQUVBOztJQUVFLFdBQVc7SUFDWCxxQkFBcUI7SUFDckIsZUFBZTtFQUNqQjs7QUFFQSx3Q0FBd0M7O0FBQ3hDO0lBQ0U7TUFDRSxXQUFXO0lBQ2I7RUFDRjs7QUFFRix1QkFBdUI7O0FBQ3ZCO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixTQUFTO0lBQ1QsVUFBVTtJQUNWLFdBQVc7SUFDWCxhQUFhO0lBQ2Isc0JBQXNCO0lBQ3RCLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsbUJBQW1CO0lBQ25CLHdDQUFnQztZQUFoQyxnQ0FBZ0M7SUFDaEMsc0JBQXNCO0lBQ3RCLFdBQVc7SUFDWCxxQkFBcUI7SUFDckIsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLFlBQVk7QUFDaEI7O0FBR0EsVUFBVTs7QUFDVjtJQUNJLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsV0FBVztJQUNYLGFBQWE7SUFDYixzQkFBc0I7SUFDdEIsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixlQUFlO0lBQ2YsY0FBYztJQUNkLFdBQVc7QUFDZiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLndyYXBwZXIge1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBoZWlnaHQ6IDEwMHZoO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbn1cblxuLmNhbnZhc2VzIHtcbiAgICB3aWR0aDogODB2dztcbiAgICBoZWlnaHQ6IGluaGVyaXQ7XG59XG5cbiN3ZWJnbC1jYW52YXMsXG4jY3NzLWNhbnZhcyB7XG4gICAgLyogYXZvaWQgc2Nyb2xsYmFycyAqL1xuICAgIHdpZHRoOiBjYWxjKDc1dncgLSAuMmVtKTtcbiAgICBoZWlnaHQ6IGNhbGMoMTAwdmggLSAuMmVtKTtcbn1cblxuI2Nzcy1jYW52YXMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDBlbTtcbiAgICB6LWluZGV4OiAtOTk5O1xufVxuXG4uZ3VpIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgei1pbmRleDogMTAwMDtcbiAgICBwYWRkaW5nOiAxZW07XG4gICAgd2lkdGg6IDIwdnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xuICAgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG4gICAgYm9yZGVyLXJpZ2h0OiAycHggZGFzaGVkICNmM2YzZjM7XG59XG5cbi5jYXRlZ29yaWVzIHtcbiAgICBtYXJnaW4tdG9wOiAwLjVlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAwLjVlbTtcbn1cblxuLmNhdGVnb3J5LWxlZ2VuZCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMWVtO1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBtYXJnaW46IGF1dG87XG4gICAgei1pbmRleDogOTk5O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciA+IGRpdiB7XG4gICAgbWFyZ2luOiAuMjVlbTtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYgPiBzcGFuIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIGhlaWdodDogMjBweDtcbiAgICB3aWR0aDogMjBweDtcbn1cblxuLmVycm9yIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGUgIWltcG9ydGFudDsgXG4gICAgYm90dG9tOiAwZW07XG4gICAgbWF4LXdpZHRoOiA1MTJweDtcbiAgICBtYXJnaW46IDAuNWVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5lcnJvciBwIHtcbiAgICB3b3JkLWJyZWFrOiBicmVhay13b3JkO1xufVxuXG4ucGMtdG9vbHRpcCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG9wYWNpdHk6IDA7XG4gICAgd2lkdGg6IDI1MHB4O1xuICAgIGhlaWdodDogYXV0bztcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICBwYWRkaW5nOiAyNXB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICB0b3A6IDA7XG4gICAgbGVmdDogMDtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbi5wcmV2aWV3LWl0ZW0ge1xuICAgIG1hcmdpbi10b3A6IDJlbTtcbiAgICBtYXgtd2lkdGg6IGNhbGMoMjV2dyAtIDJlbSk7XG59XG5cbi5wcmV2aWV3LXRpdGxlIHtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LXBpY3R1cmUge1xuICAgIG1heC13aWR0aDogaW5oZXJpdDtcbn1cbi5wcmV2aWV3LW1ldGFpbmZvIHtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG4gICAgZm9udC1zaXplOiAxOHB4O1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctZGVzY3JpcHRpb24ge1xuICAgIHRleHQtYWxpZ246IGp1c3RpZnk7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xufVxuXG46Om5nLWRlZXAgLnRpbWUtc2xpY2UtbGFiZWwge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4uYnRuLWdyb3VwLXhzID4gLmJ0biwgLmJ0bi14cyB7XG4gICAgcGFkZGluZyAgOiAuMjVyZW0gLjRyZW07XG4gICAgZm9udC1zaXplICA6IC44NzVyZW07XG4gICAgbGluZS1oZWlnaHQgIDogLjU7XG4gICAgYm9yZGVyLXJhZGl1cyA6IC4ycmVtO1xufVxuXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24sXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24gdGV4dCB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uLFxuOjpuZy1kZWVwIC5yZXNldEJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi8qREFUIEdVSSovXG46Om5nLWRlZXAgLmRnLmFjIHtcbiAgICB6LWluZGV4OiAxMDAwICFpbXBvcnRhbnQ7XG59XG5cbi8qTU9EQUwgQ1NTKi9cbi5tb2RhbCB7XG4gICAgZGlzcGxheTogbm9uZTsgLyogSGlkZGVuIGJ5IGRlZmF1bHQgKi9cbiAgICBwb3NpdGlvbjogZml4ZWQ7IC8qIFN0YXkgaW4gcGxhY2UgKi9cbiAgICB6LWluZGV4OiAxOyAvKiBTaXQgb24gdG9wICovXG4gICAgcGFkZGluZy10b3A6IDEwMHB4OyAvKiBMb2NhdGlvbiBvZiB0aGUgYm94ICovXG4gICAgbGVmdDogMDtcbiAgICB0b3A6IDA7XG4gICAgd2lkdGg6IDEwMCU7IC8qIEZ1bGwgd2lkdGggKi9cbiAgICBoZWlnaHQ6IDEwMCU7IC8qIEZ1bGwgaGVpZ2h0ICovXG4gICAgb3ZlcmZsb3c6IGF1dG87IC8qIEVuYWJsZSBzY3JvbGwgaWYgbmVlZGVkICovXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDAsMCwwKTsgLyogRmFsbGJhY2sgY29sb3IgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsMCwwLDAuOSk7IC8qIEJsYWNrIHcvIG9wYWNpdHkgKi9cbiAgfVxuICBcbiAgLyogTW9kYWwgQ29udGVudCAoSW1hZ2UpICovXG4gIC5tb2RhbC1jb250ZW50IHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IGF1dG8gIWltcG9ydGFudDtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG4gICAgbWF4LWhlaWdodDogODAlO1xuICB9XG4gIFxuICAvKiBDYXB0aW9uIG9mIE1vZGFsIEltYWdlIChJbWFnZSBUZXh0KSAtIFNhbWUgV2lkdGggYXMgdGhlIEltYWdlICovXG4gICNjYXB0aW9uIHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBtYXgtd2lkdGg6IDcwMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBjb2xvcjogI2NjYztcbiAgICBwYWRkaW5nOiAxMHB4IDA7XG4gICAgaGVpZ2h0OiAxNTBweDtcbiAgfVxuICBcbiAgLyogQWRkIEFuaW1hdGlvbiAtIFpvb20gaW4gdGhlIE1vZGFsICovXG4gIC5tb2RhbC1jb250ZW50LCAjY2FwdGlvbiB7IFxuICAgIGFuaW1hdGlvbi1uYW1lOiB6b29tO1xuICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMC42cztcbiAgfVxuICBcbiAgQGtleWZyYW1lcyB6b29tIHtcbiAgICBmcm9tIHt0cmFuc2Zvcm06c2NhbGUoMCl9IFxuICAgIHRvIHt0cmFuc2Zvcm06c2NhbGUoMSl9XG4gIH1cbiAgXG4gIC8qIFRoZSBDbG9zZSBCdXR0b24gKi9cbiAgLmNsb3NlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxNXB4O1xuICAgIHJpZ2h0OiAzNXB4O1xuICAgIGNvbG9yOiAjZjFmMWYxICFpbXBvcnRhbnQ7XG4gICAgZm9udC1zaXplOiA0MHB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgIHRyYW5zaXRpb246IDAuM3M7XG4gIH1cbiAgXG4gIC5jbG9zZTpob3ZlcixcbiAgLmNsb3NlOmZvY3VzIHtcbiAgICBjb2xvcjogI2JiYjtcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICB9XG4gIFxuICAvKiAxMDAlIEltYWdlIFdpZHRoIG9uIFNtYWxsZXIgU2NyZWVucyAqL1xuICBAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDcwMHB4KXtcbiAgICAubW9kYWwtY29udGVudCB7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICB9XG4gIH1cblxuLyogUHJvY2Vzc2luZyBzcGlubmVyICovXG4ucHJvY2Vzc2luZy1jaGFuZ2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDUwJTtcbiAgICBsZWZ0OiA1MCU7XG4gICAgd2lkdGg6IDI1JTtcbiAgICBoZWlnaHQ6IDI1JTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzAwMDtcbiAgICBvcGFjaXR5OiAuNTtcbiAgICBib3JkZXItcmFkaXVzOiAuMjVyZW07XG4gICAgei1pbmRleDogMTAwMDtcbn1cblxuLnByb2Nlc3NpbmctY2hhbmdlIHAge1xuICAgIGNvbG9yOiB3aGl0ZTtcbn1cblxuXG4vKm92ZXJsYXkqL1xuLm92ZXJsYXkge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBib3R0b206IDBlbTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBmb250LXNpemU6IDI4cHg7XG4gICAgY29sb3I6ICM2Yzc1N2Q7XG4gICAgb3BhY2l0eTogLjU7XG59Il19 */"
+module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 1em;\n    left: 5em;\n}\n\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\n\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    top: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-legend > p {\n    margin-top: .4 rem !important; /* vertically */\n}\n\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper > div {\n    margin: .25em;\n}\n\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n\n/*MODAL CSS*/\n\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n\n/* Modal Content (Image) */\n\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n\n/* Add Animation - Zoom in the Modal */\n\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n/* The Close Button */\n\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n\n/* 100% Image Width on Smaller Screens */\n\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n\n/* Processing spinner */\n\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n\n.processing-change p {\n    color: white;\n}\n\n/*navigation buttons*/\n\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n\n/*overlay*/\n\n.overlay {\n    position: absolute;\n    width: 100%;\n    bottom: 0em;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxZQUFZO0lBQ1osZUFBZTtBQUNuQjs7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFNBQVM7QUFDYjs7QUFFQTtJQUNJLFlBQVk7SUFDWixzQkFBc0I7SUFDdEIsZ0NBQWdDO0lBQ2hDLHdCQUF3QjtBQUM1Qjs7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCOztBQUVBOztJQUVJLHFCQUFxQjtJQUNyQix5QkFBeUI7SUFDekIsMEJBQTBCO0FBQzlCOztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixhQUFhO0FBQ2pCOztBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDs7QUFFQTs7SUFFSSxxQkFBcUI7QUFDekI7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsb0JBQW9CO0FBQ3hCOztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixZQUFZO0lBQ1osWUFBWTtJQUNaLFlBQVk7SUFDWixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7O0FBRUE7SUFDSSw2QkFBNkIsRUFBRSxlQUFlO0FBQ2xEOztBQUVBO0lBQ0ksYUFBYTtJQUNiLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIscUJBQXFCO0FBQ3pCOztBQUVBO0lBQ0ksYUFBYTtBQUNqQjs7QUFFQTtJQUNJLGVBQWU7SUFDZixrQkFBa0I7SUFDbEIsWUFBWTtJQUNaLFdBQVc7QUFDZjs7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixXQUFXO0lBQ1gsZ0JBQWdCO0lBQ2hCLGFBQWE7SUFDYixhQUFhO0FBQ2pCOztBQUVBO0lBQ0ksc0JBQXNCO0FBQzFCOztBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixZQUFZO0lBQ1osWUFBWTtJQUNaLHVCQUF1QjtJQUN2QixhQUFhO0lBQ2Isa0JBQWtCO0lBQ2xCLE1BQU07SUFDTixPQUFPO0lBQ1AsaUNBQWlDO0FBQ3JDOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixlQUFlO0FBQ25COztBQUVBO0lBQ0ksV0FBVztBQUNmOztBQUNBO0lBQ0ksa0JBQWtCO0FBQ3RCOztBQUNBO0lBQ0ksa0JBQWtCO0lBQ2xCLGVBQWU7SUFDZixXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxtQkFBbUI7SUFDbkIsa0JBQWtCO0FBQ3RCOztBQUVBO0lBQ0ksVUFBVTtJQUNWLGlDQUFpQztBQUNyQzs7QUFFQTs7SUFFSSxlQUFlO0FBQ25COztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUEsVUFBVTs7QUFDVjtJQUNJLHdCQUF3QjtBQUM1Qjs7QUFFQSxZQUFZOztBQUNaO0lBQ0ksYUFBYSxFQUFFLHNCQUFzQjtJQUNyQyxlQUFlLEVBQUUsa0JBQWtCO0lBQ25DLFVBQVUsRUFBRSxlQUFlO0lBQzNCLGtCQUFrQixFQUFFLHdCQUF3QjtJQUM1QyxPQUFPO0lBQ1AsTUFBTTtJQUNOLFdBQVcsRUFBRSxlQUFlO0lBQzVCLFlBQVksRUFBRSxnQkFBZ0I7SUFDOUIsY0FBYyxFQUFFLDRCQUE0QjtJQUM1Qyw0QkFBNEIsRUFBRSxtQkFBbUI7SUFDakQsaUNBQWlDLEVBQUUscUJBQXFCO0VBQzFEOztBQUVBLDBCQUEwQjs7QUFDMUI7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLHNCQUFzQjtJQUN0QixlQUFlO0lBQ2YsZUFBZTtFQUNqQjs7QUFFQSxrRUFBa0U7O0FBQ2xFO0lBQ0UsWUFBWTtJQUNaLGNBQWM7SUFDZCxVQUFVO0lBQ1YsZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsZUFBZTtJQUNmLGFBQWE7RUFDZjs7QUFFQSxzQ0FBc0M7O0FBQ3RDO0lBQ0UsNEJBQW9CO1lBQXBCLG9CQUFvQjtJQUNwQixnQ0FBd0I7WUFBeEIsd0JBQXdCO0VBQzFCOztBQUVBO0lBQ0UsTUFBTSwwQkFBaUIsQ0FBakIsa0JBQWtCO0lBQ3hCLElBQUksMEJBQWlCLENBQWpCLGtCQUFrQjtFQUN4Qjs7QUFIQTtJQUNFLE1BQU0sMEJBQWlCLENBQWpCLGtCQUFrQjtJQUN4QixJQUFJLDBCQUFpQixDQUFqQixrQkFBa0I7RUFDeEI7O0FBRUEscUJBQXFCOztBQUNyQjtJQUNFLGtCQUFrQjtJQUNsQixTQUFTO0lBQ1QsV0FBVztJQUNYLHlCQUF5QjtJQUN6QixlQUFlO0lBQ2YsaUJBQWlCO0lBQ2pCLGdCQUFnQjtFQUNsQjs7QUFFQTs7SUFFRSxXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGVBQWU7RUFDakI7O0FBRUEsd0NBQXdDOztBQUN4QztJQUNFO01BQ0UsV0FBVztJQUNiO0VBQ0Y7O0FBRUYsdUJBQXVCOztBQUN2QjtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsU0FBUztJQUNULFVBQVU7SUFDVixXQUFXO0lBQ1gsYUFBYTtJQUNiLHNCQUFzQjtJQUN0Qix1QkFBdUI7SUFDdkIscUJBQXFCO0lBQ3JCLG1CQUFtQjtJQUNuQix3Q0FBZ0M7WUFBaEMsZ0NBQWdDO0lBQ2hDLHNCQUFzQjtJQUN0QixXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBLHFCQUFxQjs7QUFFckI7O0lBRUksa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxjQUFjO0lBQ2QsWUFBWTtJQUNaLHlCQUF5QjtJQUN6QixXQUFXO0lBQ1gsZUFBZTtBQUNuQjs7QUFFQTtJQUNJLFlBQVk7SUFDWixpQkFBaUI7QUFDckI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gsZ0JBQWdCO0FBQ3BCOztBQUdBLFVBQVU7O0FBQ1Y7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLFdBQVc7SUFDWCxhQUFhO0lBQ2Isc0JBQXNCO0lBQ3RCLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbn1cblxuLm9wdGlvbnMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICAgIHotaW5kZXg6IDEwNDg7XG4gICAgYm90dG9tOiAxZW07XG4gICAgbGVmdDogNWVtO1xufVxuXG46Om5nLWRlZXAgLnNpZGUtYmFyIHtcbiAgICBwYWRkaW5nOiAxZW07XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2ZmZjtcbiAgICBib3JkZXItcmlnaHQ6IDJweCBkYXNoZWQgI2YzZjNmMztcbiAgICB6LWluZGV4OiAxMDQ5ICFpbXBvcnRhbnQ7XG59XG5cbjo6bmctZGVlcCAuc2lkZS1iYXItY29udGVudCB7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICBtYXgtaGVpZ2h0OiAxMDB2aDtcbiAgICBtYXgtd2lkdGg6IDEwMHZ3O1xufVxuXG4jd2ViZ2wtY2FudmFzLFxuI2Nzcy1jYW52YXMge1xuICAgIC8qIGF2b2lkIHNjcm9sbGJhcnMgKi9cbiAgICB3aWR0aDogY2FsYygxMDB2dyAtIC4yZW0pO1xuICAgIGhlaWdodDogY2FsYygxMDB2aCAtIC4yZW0pO1xufVxuXG4jY3NzLWNhbnZhcyB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMGVtO1xuICAgIHotaW5kZXg6IC05OTk7XG59XG5cbiNjbG9zZS1wcmV2aWV3IHtcbiAgICBjb2xvcjogIzZjNzU3ZCAhaW1wb3J0YW50OyBcbiAgICBvdXRsaW5lOiAwO1xufVxuXG5idXR0b24sXG5idXR0b246Zm9jdXMge1xuICAgIG91dGxpbmU6IDAgIWltcG9ydGFudDtcbn1cblxuLmNhdGVnb3JpZXMge1xuICAgIG1hcmdpbi10b3A6IDAuNWVtO1xuICAgIG1hcmdpbi1ib3R0b206IDAuNWVtO1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxZW07XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIG1hcmdpbjogYXV0bztcbiAgICB6LWluZGV4OiA5OTk7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLmNhdGVnb3J5LWxlZ2VuZCA+IHAge1xuICAgIG1hcmdpbi10b3A6IC40IHJlbSAhaW1wb3J0YW50OyAvKiB2ZXJ0aWNhbGx5ICovXG59XG5cbi5jYXRlZ29yeS13cmFwcGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciA+IGRpdiB7XG4gICAgbWFyZ2luOiAuMjVlbTtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYgPiBzcGFuIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIGhlaWdodDogMjBweDtcbiAgICB3aWR0aDogMjBweDtcbn1cblxuLmVycm9yIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGUgIWltcG9ydGFudDsgXG4gICAgYm90dG9tOiAwZW07XG4gICAgbWF4LXdpZHRoOiA1MTJweDtcbiAgICBtYXJnaW46IDAuNWVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5lcnJvciBwIHtcbiAgICB3b3JkLWJyZWFrOiBicmVhay13b3JkO1xufVxuXG4ucGMtdG9vbHRpcCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG9wYWNpdHk6IDA7XG4gICAgd2lkdGg6IDI1MHB4O1xuICAgIGhlaWdodDogYXV0bztcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICBwYWRkaW5nOiAyNXB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICB0b3A6IDA7XG4gICAgbGVmdDogMDtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbi5wcmV2aWV3LWl0ZW0ge1xuICAgIG1hcmdpbi10b3A6IDJlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAyZW07XG4gICAgbWF4LXdpZHRoOiAyNXZ3O1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LWRlc2NyaXB0aW9uIHtcbiAgICB0ZXh0LWFsaWduOiBqdXN0aWZ5O1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbn1cblxuOjpuZy1kZWVwIC50aW1lLXNsaWNlLWxhYmVsIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uLFxuOjpuZy1kZWVwIC5hbmltYXRlQnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuOjpuZy1kZWVwIC5yZXNldEJ1dHRvbixcbjo6bmctZGVlcCAucmVzZXRCdXR0b24gdGV4dCB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4vKkRBVCBHVUkqL1xuOjpuZy1kZWVwIC5kZy5hYyB7XG4gICAgei1pbmRleDogMTAwMCAhaW1wb3J0YW50O1xufVxuXG4vKk1PREFMIENTUyovXG4ubW9kYWwge1xuICAgIGRpc3BsYXk6IG5vbmU7IC8qIEhpZGRlbiBieSBkZWZhdWx0ICovXG4gICAgcG9zaXRpb246IGZpeGVkOyAvKiBTdGF5IGluIHBsYWNlICovXG4gICAgei1pbmRleDogMTsgLyogU2l0IG9uIHRvcCAqL1xuICAgIHBhZGRpbmctdG9wOiAxMDBweDsgLyogTG9jYXRpb24gb2YgdGhlIGJveCAqL1xuICAgIGxlZnQ6IDA7XG4gICAgdG9wOiAwO1xuICAgIHdpZHRoOiAxMDAlOyAvKiBGdWxsIHdpZHRoICovXG4gICAgaGVpZ2h0OiAxMDAlOyAvKiBGdWxsIGhlaWdodCAqL1xuICAgIG92ZXJmbG93OiBhdXRvOyAvKiBFbmFibGUgc2Nyb2xsIGlmIG5lZWRlZCAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYigwLDAsMCk7IC8qIEZhbGxiYWNrIGNvbG9yICovXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgwLDAsMCwwLjkpOyAvKiBCbGFjayB3LyBvcGFjaXR5ICovXG4gIH1cbiAgXG4gIC8qIE1vZGFsIENvbnRlbnQgKEltYWdlKSAqL1xuICAubW9kYWwtY29udGVudCB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiBhdXRvICFpbXBvcnRhbnQ7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIG1heC1oZWlnaHQ6IDgwJTtcbiAgfVxuICBcbiAgLyogQ2FwdGlvbiBvZiBNb2RhbCBJbWFnZSAoSW1hZ2UgVGV4dCkgLSBTYW1lIFdpZHRoIGFzIHRoZSBJbWFnZSAqL1xuICAjY2FwdGlvbiB7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIHdpZHRoOiA4MCU7XG4gICAgbWF4LXdpZHRoOiA3MDBweDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgY29sb3I6ICNjY2M7XG4gICAgcGFkZGluZzogMTBweCAwO1xuICAgIGhlaWdodDogMTUwcHg7XG4gIH1cbiAgXG4gIC8qIEFkZCBBbmltYXRpb24gLSBab29tIGluIHRoZSBNb2RhbCAqL1xuICAubW9kYWwtY29udGVudCwgI2NhcHRpb24geyBcbiAgICBhbmltYXRpb24tbmFtZTogem9vbTtcbiAgICBhbmltYXRpb24tZHVyYXRpb246IDAuNnM7XG4gIH1cbiAgXG4gIEBrZXlmcmFtZXMgem9vbSB7XG4gICAgZnJvbSB7dHJhbnNmb3JtOnNjYWxlKDApfSBcbiAgICB0byB7dHJhbnNmb3JtOnNjYWxlKDEpfVxuICB9XG4gIFxuICAvKiBUaGUgQ2xvc2UgQnV0dG9uICovXG4gIC5jbG9zZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMTVweDtcbiAgICByaWdodDogMzVweDtcbiAgICBjb2xvcjogI2YxZjFmMSAhaW1wb3J0YW50O1xuICAgIGZvbnQtc2l6ZTogNDBweDtcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgICB0cmFuc2l0aW9uOiAwLjNzO1xuICB9XG4gIFxuICAuY2xvc2U6aG92ZXIsXG4gIC5jbG9zZTpmb2N1cyB7XG4gICAgY29sb3I6ICNiYmI7XG4gICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgfVxuICBcbiAgLyogMTAwJSBJbWFnZSBXaWR0aCBvbiBTbWFsbGVyIFNjcmVlbnMgKi9cbiAgQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA3MDBweCl7XG4gICAgLm1vZGFsLWNvbnRlbnQge1xuICAgICAgd2lkdGg6IDEwMCU7XG4gICAgfVxuICB9XG5cbi8qIFByb2Nlc3Npbmcgc3Bpbm5lciAqL1xuLnByb2Nlc3NpbmctY2hhbmdlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiA1MCU7XG4gICAgbGVmdDogNTAlO1xuICAgIHdpZHRoOiAyNSU7XG4gICAgaGVpZ2h0OiAyNSU7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlKC01MCUsIC01MCUpO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMwMDA7XG4gICAgb3BhY2l0eTogLjU7XG4gICAgYm9yZGVyLXJhZGl1czogLjI1cmVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5wcm9jZXNzaW5nLWNoYW5nZSBwIHtcbiAgICBjb2xvcjogd2hpdGU7XG59XG5cbi8qbmF2aWdhdGlvbiBidXR0b25zKi9cblxuI25leHQsXG4jcHJldmlvdXMge1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB0b3A6IC01NSU7XG4gICAgZm9udC1zaXplOiAyZW07XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIHRleHQtc2hhZG93OiAwIDFweCAwICNmZmY7XG4gICAgb3BhY2l0eTogLjU7XG4gICAgZGlzcGxheTogaW5saW5lO1xufVxuXG4jbmV4dCB7XG4gICAgZmxvYXQ6IHJpZ2h0OyAgIFxuICAgIG1hcmdpbi1yaWdodDogNWVtO1xufVxuXG4jcHJldmlvdXMge1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIG1hcmdpbi1sZWZ0OiA1ZW07XG59XG5cblxuLypvdmVybGF5Ki9cbi5vdmVybGF5IHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYm90dG9tOiAwZW07XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgZm9udC1zaXplOiAyOHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -328,7 +328,7 @@ module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n    <div class=\"gui\">\n        <div class=\"pc-tooltip\" #tooltip></div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"poly-view-button\">PolyCube</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"geo-view-button\">Geo</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"set-view-button\">Set</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"net-view-button\">Net</button>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"stc-view-button\">STC</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"jp-view-button\">JP</button>\n            <button type=\"button\" class=\"btn btn-secondary\" id=\"si-view-button\">SI</button>\n        </div>\n        <!-- <div class=\"btn-grop\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"usePerspectiveCamera()\">Perspective</button>\n            <button type=\"button\" class=\"btn btn-secondary\" (click)=\"useOrthographicCamera()\">Orthographic</button>\n        </div> -->\n\n        <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Spreadsheet Id\" #spreadsheetInput>\n            <div class=\"input-group-append\">\n                <div *ngIf=\"!loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" (click)=\"updateDataset()\">Load</button>\n                </div>\n                <div *ngIf=\"loadingDataset\">\n                    <button class=\"btn btn-secondary\" type=\"button\" disabled>\n                        <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n                        Loading...\n                    </button>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"preview-item\" *ngIf=\"previewItem\">\n            <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n            <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                [src]=\"previewItem.mediaURL\">\n            <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                <span class=\"badge badge-secondary\">{{ cat }}</span>\n            </div>\n            <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n            <br>\n            <p class=\"preview-description\">{{ previewItem.description }}</p>\n            <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n        </div>\n        <app-timeslider *ngIf=\"dataLoaded\" [minDate]=\"getMinDate()\" [maxDate]=\"getMaxDate()\" [width]=\"60\"\n            [height]=\"getWindowInnerHeight()\" (onSelect)=\"filterDataWithTimeSlider($event)\"></app-timeslider>\n    </div>\n    <div class=\"canvases\">\n        <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n        <div id=\"css-canvas\" #cssCanvas></div>\n    </div>\n</div>\n\n<div class=\"category-legend\">\n    <!-- <label>Clickable Legend:</label> -->\n    <p>Selected: {{ currentlySelectedCategory }}</p>\n    <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n        <div *ngFor=\"let c of categories\">\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                (click)=\"filterDataByCategory(c)\"\n                [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n        </div>\n    </div>\n    <div class=\"category-wrapper\">\n        <div>\n            <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                (click)=\"clearCategoryFilter()\" style=\"background-color:#424242; font-size: 12px;\">&times;</span>\n        </div>\n    </div>\n</div>\n<div class=\"overlay\">\n    <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n</div>\n<div class=\"modal\" #modal>\n    <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n    <img class=\"modal-content\" id=\"img01\" #img>\n    <div id=\"caption\" #caption></div>\n</div>\n\n<div class=\"processing-change\" *ngIf=\"processingChange\">\n    <div class=\"spinner-border text-info\" role=\"status\">\n        <span class=\"sr-only\"></span>\n    </div>\n    <p>Processing new configuration...</p>\n</div>\n\n<div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n    <strong>Error</strong>\n    <p>{{ errorMessage }}</p>\n</div>"
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"push\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">{{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }}</a>\n                        </li>\n                    </ul>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <p [ngStyle]=\"{ 'color' : categoriesAndColors.get(currentlySelectedCategory) }\">\n                    Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}\n                </p>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#424242; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn>Geo</button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn>Set</button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn>Net</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -378,12 +378,17 @@ var AppComponent = /** @class */ (function () {
         var _this = this;
         this.google = google;
         this.compRef = compRef;
-        this.title = 'polycubeViews';
-        this.processingChange = false;
+        this.title = 'PolyCube';
+        // processing & updating
+        this.processingChange = true;
+        this.processingMessage = 'Loading dataset...';
+        this.previewPanel = false;
         // set default view to display all cubes
         this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
+        // data management
         this.loadingDataset = true;
         this.dataLoaded = false;
+        // error management
         this.errorOccurred = false;
         this.showColorCodingLegend = true;
         /**
@@ -444,23 +449,24 @@ var AppComponent = /** @class */ (function () {
                 $event.preventDefault();
                 var foundItem = _this.getClickedItem($event);
                 if (foundItem) {
-                    console.log(_this.camera.position);
-                    console.log(_this.controls);
-                    // console.log(foundItem);
                     _this.previewItem = {
                         title: "Picture #" + foundItem.id,
+                        id: foundItem.id,
                         mediaURL: foundItem.external_url,
                         date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
                         location: foundItem.location_name,
                         description: foundItem.description,
                         externalURL: foundItem.media_url,
+                        related: foundItem.target_nodes,
                         categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
                     };
+                    _this.openPreview();
                 }
                 else {
                     _this.previewItem = null;
                     _this.tooltip.nativeElement.style.display = 'none';
                     _this.tooltip.nativeElement.style.opacity = '0';
+                    _this.closePreview();
                 }
             });
         };
@@ -485,6 +491,7 @@ var AppComponent = /** @class */ (function () {
         this.initGUI = function () {
             _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_10__["GUI"]();
             // general settings
+            _this.processingMessage = 'Processing new configuration...';
             _this.gui.pCubeConfigEmitter.on('processing', function (change) {
                 _this.processingChange = change;
             });
@@ -564,7 +571,6 @@ var AppComponent = /** @class */ (function () {
             _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE); });
             _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE); });
             _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE); });
-            _this.gui.polyBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE); });
             _this.gui.stcBtn.addEventListener('click', function () {
                 _this.gCube.transitionSTC();
                 _this.sCube.transitionSTC();
@@ -674,6 +680,10 @@ var AppComponent = /** @class */ (function () {
      */
     AppComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
+        // set initial classses
+        this.gBtn.nativeElement.className = 'btn  btn-secondary';
+        this.sBtn.nativeElement.className = 'btn  btn-secondary';
+        this.nBtn.nativeElement.className = 'btn  btn-secondary';
         setTimeout(function () {
             _this.initDataset();
         });
@@ -691,6 +701,8 @@ var AppComponent = /** @class */ (function () {
         // parse it when done and pass to datamanager
         this.google.load(_id).then(function (success) {
             _this.dataManager.data = success;
+            _this.processingChange = false;
+            _this.processingMessage = '';
             _this.loadingDataset = false;
             _this.dataLoaded = true;
             // default date extent for filtering
@@ -727,6 +739,71 @@ var AppComponent = /** @class */ (function () {
             _this.errorOccurred = true;
             _this.errorMessage = err;
         });
+    };
+    /**
+     * Open / Close the preview panel (details on the side)
+     */
+    AppComponent.prototype.openPreview = function () {
+        this.previewPanel = true;
+    };
+    AppComponent.prototype.closePreview = function () {
+        this.previewPanel = false;
+    };
+    /**
+     * Return details about related nodes
+     * @param id Node ID
+     */
+    AppComponent.prototype.getRelatedNode = function (id) {
+        var found = this.dataManager.data.find(function (d) {
+            return d.id === id;
+        });
+        return found;
+    };
+    AppComponent.prototype.selectNode = function (id) {
+        console.log('clicked ' + id);
+    };
+    AppComponent.prototype.getPrevious = function () {
+        this.processingChange = true;
+        this.processingMessage = 'Loading image...';
+        var currentItem = this.previewItem;
+        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
+        var foundItem = this.dataManager.data[(foundIdx - 1) % this.dataManager.data.length];
+        this.previewItem = {
+            title: "Picture #" + foundItem.id,
+            id: foundItem.id,
+            mediaURL: foundItem.external_url,
+            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
+            location: foundItem.location_name,
+            description: foundItem.description,
+            externalURL: foundItem.media_url,
+            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
+        };
+        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
+        this.captionContainer.nativeElement.innerHTML = this.previewItem.description;
+    };
+    AppComponent.prototype.getNext = function () {
+        this.processingChange = true;
+        this.processingMessage = 'Loading image...';
+        var currentItem = this.previewItem;
+        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
+        var foundItem = this.dataManager.data[(foundIdx + 1) % this.dataManager.data.length];
+        this.previewItem = {
+            title: "Picture #" + foundItem.id,
+            id: foundItem.id,
+            mediaURL: foundItem.external_url,
+            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
+            location: foundItem.location_name,
+            description: foundItem.description,
+            externalURL: foundItem.media_url,
+            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
+        };
+        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
+        this.captionContainer.nativeElement.innerHTML = this.previewItem.description;
+    };
+    AppComponent.prototype.imageLoaded = function () {
+        this.processingChange = false;
+        this.processingMessage = '';
+        console.log('image loaded');
     };
     /**
       * Rotate Camera to SI view
@@ -836,17 +913,18 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.setCubeView = function (view) {
         switch (view) {
             case 'GEO_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE;
+                this.gCube.toggleDisplayCube();
+                this.gBtn.nativeElement.className = this.gCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
                 break;
             case 'SET_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE;
+                this.sCube.toggleDisplayCube();
+                this.sBtn.nativeElement.className = this.sCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
                 break;
             case 'NET_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE;
+                this.nCube.toggleDisplayCube();
+                this.nBtn.nativeElement.className = this.nCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
                 break;
-            case 'POLY_CUBE':
-                this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
-                break;
+            // case 'POLY_CUBE': this.currentViewState = VIEW_STATES.POLY_CUBE; break; -- doesn't exist
             default:
                 return;
         }
@@ -886,10 +964,6 @@ var AppComponent = /** @class */ (function () {
      */
     AppComponent.prototype.getWindowInnerHeight = function () { return window.innerHeight; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('spreadsheetInput'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "spreadsheetId", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('webGLCanvas'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AppComponent.prototype, "webGLContainer", void 0);
@@ -897,6 +971,10 @@ var AppComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('cssCanvas'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AppComponent.prototype, "cssContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('spreadsheetInput'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "spreadsheetId", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('modal'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
@@ -910,6 +988,18 @@ var AppComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AppComponent.prototype, "captionContainer", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('geobtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "gBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('setbtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "sBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('netbtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], AppComponent.prototype, "nBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('tooltip'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
     ], AppComponent.prototype, "tooltip", void 0);
@@ -918,7 +1008,14 @@ var AppComponent = /** @class */ (function () {
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css"), __webpack_require__(/*! ./bootstrap.min.css */ "./src/app/bootstrap.min.css")]
-        }),
+        })
+        /**
+         * PolyCube main controller
+         * - loads and parses data
+         * - initializes threejs scene
+         * - initializes cube components
+         */
+        ,
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
     ], AppComponent);
     return AppComponent;
@@ -945,6 +1042,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _components_timeslider_component_timeslider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/timeslider.component/timeslider */ "./src/app/components/timeslider.component/timeslider.ts");
+/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng-sidebar */ "./node_modules/ng-sidebar/lib/index.js");
+/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(ng_sidebar__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -963,6 +1063,7 @@ var AppModule = /** @class */ (function () {
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
+                ng_sidebar__WEBPACK_IMPORTED_MODULE_7__["SidebarModule"].forRoot(),
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
             ],
             providers: [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__["GoogleDriveProvider"]],
@@ -1172,17 +1273,15 @@ var DataManager = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GeoCube", function() { return GeoCube; });
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var _viewStates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
-
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -1201,36 +1300,44 @@ var GeoCube = /** @class */ (function () {
     function GeoCube(dm, camera, webGLScene, cssScene) {
         this._jitter = 0;
         this.colorCoding = 'categorical';
+        this._cubeToggle = true;
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene) {
             this.cssScene = cssScene;
         }
         this.setMap = new Set();
-        this.mapBounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["LngLatBounds"]();
+        this.mapBounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLatBounds"]();
         this.camera = camera;
         // https://stackoverflow.com/questions/44332290/mapbox-gl-typing-wont-allow-accesstoken-assignment
-        mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["accessToken"] = _environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].MAPBOX_KEY;
+        mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["accessToken"] = _environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].MAPBOX_KEY;
         this.createObjects();
         this.assembleData();
         this.render();
     }
+    Object.defineProperty(GeoCube.prototype, "cubeToggle", {
+        get: function () {
+            return this._cubeToggle;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GeoCube.prototype.updateSlices = function () {
         var _this = this;
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
-            var slice = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
+            var slice = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
-            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["EdgesGeometry"](geometry);
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineBasicMaterial"]({ color: '#b5b5b5' });
-            var plane = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT, 32);
+            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["EdgesGeometry"](geometry);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineBasicMaterial"]({ color: '#b5b5b5' });
+            var plane = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineSegments"](edgeGeometry, material);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -1240,8 +1347,8 @@ var GeoCube = /** @class */ (function () {
             element.innerHTML = slice.name;
             element.className = 'time-slice-label';
             //CSS Object
-            var label = new three_full__WEBPACK_IMPORTED_MODULE_3__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var label = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](element);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
@@ -1250,16 +1357,16 @@ var GeoCube = /** @class */ (function () {
     };
     GeoCube.prototype.updateDataPoints = function () {
         // TODO: clear previous geometries from scene / cubeGroupGL
-        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_3__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
-            var cubeCoords = this.map.project(new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["LngLat"](dataItem.longitude, dataItem.latitude));
-            var point = new three_full__WEBPACK_IMPORTED_MODULE_3__["Mesh"](geometry, material);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_2__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
+            var cubeCoords = this.map.project(new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLat"](dataItem.longitude, dataItem.latitude));
+            var point = new three_full__WEBPACK_IMPORTED_MODULE_2__["Mesh"](geometry, material);
             // need to offset the x,z coordinate so they overlap with cube
-            point.position.x = cubeCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+            point.position.x = cubeCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2;
             // sphere.position.y = correspondingSlice.position.y; -- y coordinate is inherited from the slice positioning
-            point.position.z = cubeCoords.y - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2;
+            point.position.z = cubeCoords.y - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / 2;
             point.name = dataItem.id;
             point.data = dataItem;
             point.type = 'DATA_POINT';
@@ -1280,22 +1387,22 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.createObjects = function () {
         var _this = this;
-        this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
-        this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
+        this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
+        this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
         this.colors = this.dm.colors;
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
-            var slice = new three_full__WEBPACK_IMPORTED_MODULE_3__["Group"]();
+            var slice = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
-            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["EdgesGeometry"](geometry);
-            var material = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineBasicMaterial"]({ color: '#b5b5b5' });
-            var plane = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT, 32);
+            var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["EdgesGeometry"](geometry);
+            var material = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineBasicMaterial"]({ color: '#b5b5b5' });
+            var plane = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineSegments"](edgeGeometry, material);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -1305,17 +1412,17 @@ var GeoCube = /** @class */ (function () {
             element.innerHTML = slice.name;
             element.className = 'time-slice-label';
             //CSS Object
-            var label = new three_full__WEBPACK_IMPORTED_MODULE_3__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var label = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](element);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
         }
-        this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_3__["Raycaster"]();
-        this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector2"]();
-        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_3__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_3__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_3__["MeshBasicMaterial"]({ color: 0x00ff00 }));
-        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
-        this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_3__["BoxHelper"](placeholderBox, '#b5b5b5');
+        this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_2__["Raycaster"]();
+        this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector2"]();
+        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_2__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_2__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_2__["MeshBasicMaterial"]({ color: 0x00ff00 }));
+        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
+        this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_2__["BoxHelper"](placeholderBox, '#b5b5b5');
         this.boundingBox.name = 'BOX_HELPER';
         this.cubeGroupGL.add(this.boundingBox);
         this.slices.forEach(function (slice) { _this.cubeGroupGL.add(slice); });
@@ -1339,8 +1446,8 @@ var GeoCube = /** @class */ (function () {
         this.cubeGroupCSS.add(this.createMap());
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
         this.timeLinearScale = this.dm.getTimeLinearScale();
-        var bounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["LngLatBounds"]();
-        this.dm.data.forEach(function (d) { bounds.extend(new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["LngLat"](d.longitude, d.latitude)); });
+        var bounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLatBounds"]();
+        this.dm.data.forEach(function (d) { bounds.extend(new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLat"](d.longitude, d.latitude)); });
         this.map.fitBounds(bounds);
         this.mapBounds = bounds;
         this.map.on('moveend', function () {
@@ -1351,16 +1458,16 @@ var GeoCube = /** @class */ (function () {
             };
             // TODO: Consider adding an outline to the data points - makes them easier to separate 
             // https://stemkoski.github.io/Three.js/Outline.html 
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
             for (var i = 0; i < _this.dm.data.length; i++) {
                 var dataItem = _this.dm.data[i];
-                var material = new three_full__WEBPACK_IMPORTED_MODULE_3__["MeshBasicMaterial"]({ color: _this.colors(dataItem.category_1) });
-                var cubeCoords = _this.map.project(new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["LngLat"](dataItem.longitude, dataItem.latitude));
-                var point = new three_full__WEBPACK_IMPORTED_MODULE_3__["Mesh"](geometry, material);
+                var material = new three_full__WEBPACK_IMPORTED_MODULE_2__["MeshBasicMaterial"]({ color: _this.colors(dataItem.category_1) });
+                var cubeCoords = _this.map.project(new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLat"](dataItem.longitude, dataItem.latitude));
+                var point = new three_full__WEBPACK_IMPORTED_MODULE_2__["Mesh"](geometry, material);
                 // need to offset the x,z coordinate so they overlap with cube
-                point.position.x = cubeCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+                point.position.x = cubeCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2;
                 // sphere.position.y = correspondingSlice.position.y; -- y coordinate is inherited from the slice positioning
-                point.position.z = cubeCoords.y - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2;
+                point.position.z = cubeCoords.y - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / 2;
                 point.name = dataItem.id;
                 point.data = dataItem;
                 point.type = 'DATA_POINT';
@@ -1379,11 +1486,11 @@ var GeoCube = /** @class */ (function () {
         // Bottomside of cube
         var mapContainer = document.createElement('div');
         mapContainer.id = name ? name.toLowerCase() : 'map_container';
-        mapContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + "px";
-        mapContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + "px";
+        mapContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH + "px";
+        mapContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH + "px";
         // need to add it to the DOM so mapbox can hook onto it
         document.getElementById('css-canvas').appendChild(mapContainer);
-        this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_6__["Map"]({
+        this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["Map"]({
             container: name ? name.toLowerCase() : 'map_container',
             style: 'mapbox://styles/velitchko/cjefo9eu118qd2rodaoq3cpj1',
             zoom: 13,
@@ -1393,10 +1500,10 @@ var GeoCube = /** @class */ (function () {
         if (bounds)
             this.map.fitBounds(bounds);
         // CSS Object
-        var mapObject = new three_full__WEBPACK_IMPORTED_MODULE_3__["CSS3DObject"](mapContainer);
+        var mapObject = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](mapContainer);
         mapObject.name = name ? name : 'MAP_CONTAINER';
         if (!position) {
-            mapObject.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            mapObject.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
         }
         else {
             mapObject.position.set(position.x, position.y, position.z);
@@ -1436,11 +1543,14 @@ var GeoCube = /** @class */ (function () {
      * @param currentViewState
      */
     GeoCube.prototype.updateView = function (currentViewState) {
-        if (currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_1__["VIEW_STATES"].GEO_CUBE || currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_1__["VIEW_STATES"].POLY_CUBE) {
+        if (this._cubeToggle) {
             this.webGLScene.add(this.cubeGroupGL);
             this.cssScene.add(this.cubeGroupCSS);
             this.showBottomLayer();
         }
+    };
+    GeoCube.prototype.toggleDisplayCube = function () {
+        this._cubeToggle = !this._cubeToggle;
     };
     GeoCube.prototype.updateColorCoding = function (encoding) {
         this.colorCoding = encoding;
@@ -1449,10 +1559,10 @@ var GeoCube = /** @class */ (function () {
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_5__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
                 break;
             case 'monochrome':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemeSet2"]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
                 break;
             default:
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
@@ -1516,9 +1626,9 @@ var GeoCube = /** @class */ (function () {
                     y: grandChild.scale.y,
                     z: grandChild.scale.z,
                 };
-                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceScale)
+                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceScale)
                     .to(targetScale, 250)
-                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                     .onUpdate(function () {
                     grandChild.scale.x = sourceScale.x;
                     grandChild.scale.y = sourceScale.y;
@@ -1538,7 +1648,7 @@ var GeoCube = /** @class */ (function () {
         this.updateDataPoints();
     };
     GeoCube.prototype.dateWithinInterval = function (startDate, endDate, pointDate) {
-        return moment__WEBPACK_IMPORTED_MODULE_7__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_7__(startDate) && moment__WEBPACK_IMPORTED_MODULE_7__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_7__(endDate);
+        return moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
     };
     GeoCube.prototype.getRandomInteger = function (min, max) {
         return Math.floor((Math.random() * (max - min + 1)) + min);
@@ -1564,10 +1674,10 @@ var GeoCube = /** @class */ (function () {
                     z: grandChild.originalCoordinates ? grandChild.originalCoordinates.z + zJitter : grandChild.position.z + zJitter,
                 };
                 if (!grandChild.originalCoordinates)
-                    grandChild.originalCoordinates = new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](sourceCoords.x, sourceCoords.y, sourceCoords.z);
-                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+                    grandChild.originalCoordinates = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](sourceCoords.x, sourceCoords.y, sourceCoords.z);
+                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
                     .to(targetCoords, 250)
-                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                     .onUpdate(function () {
                     grandChild.position.x = sourceCoords.x;
                     grandChild.position.y = sourceCoords.y,
@@ -1597,7 +1707,7 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.transitionSTC = function () {
         var _this = this;
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
         this.boundingBox.visible = true;
         this.slices.forEach(function (slice, i) {
             var mapClone = _this.cubeGroupCSS.getObjectByName("MAP_CONTAINER_" + i);
@@ -1607,21 +1717,21 @@ var GeoCube = /** @class */ (function () {
                 z: slice.position.z
             };
             var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
-                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2),
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
+                x: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2,
+                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2),
+                z: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2
             };
             var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
-            d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
             label.rotation.set(0, 0, 0);
             // label.position.set(-20, (i*vertOffset) - (CUBE_CONFIG.WIDTH/2), CUBE_CONFIG.WIDTH/2);
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
                 .to(targetCoords, 1000)
                 .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                 .onUpdate(function () {
                 slice.position.x = sourceCoords.x;
                 slice.position.y = sourceCoords.y,
@@ -1647,19 +1757,19 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.transitionJP = function () {
         var _this = this;
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 20;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT + 20;
         var mapPic = this.map.getCanvas().toDataURL();
         var mapElem = document.createElement('img');
         this.boundingBox.visible = false;
         mapElem.className = 'map-object';
-        mapElem.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
-        mapElem.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
+        mapElem.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH + 'px';
+        mapElem.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH + 'px';
         mapElem.src = mapPic;
         this.hideBottomLayer();
         this.slices.forEach(function (slice, i) {
-            var mapClone = new three_full__WEBPACK_IMPORTED_MODULE_3__["CSS3DObject"](mapElem.cloneNode());
+            var mapClone = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](mapElem.cloneNode());
             mapClone.name = "MAP_CONTAINER_" + i;
-            mapClone.position.set(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](slice.position.x, slice.position.y, slice.position.z));
+            mapClone.position.set(new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](slice.position.x, slice.position.y, slice.position.z));
             mapClone.rotation.set(-Math.PI / 2, 0, 0);
             var sourceCoords = {
                 x: slice.position.x,
@@ -1668,19 +1778,19 @@ var GeoCube = /** @class */ (function () {
             };
             var targetCoords = {
                 x: slice.position.x,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
-                z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2)
+                y: -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / 2,
+                z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2)
             };
             var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
-            d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
             label.rotation.set(-Math.PI / 2, 0, 0);
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
                 .to(targetCoords, 1000)
                 .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                 .onUpdate(function () {
                 slice.position.x = sourceCoords.x;
                 slice.position.y = sourceCoords.y,
@@ -1708,14 +1818,14 @@ var GeoCube = /** @class */ (function () {
                 z: slice.position.z
             };
             var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
+                x: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2,
+                y: -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / 2,
+                z: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2
             };
-            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+            var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
                 .to(targetCoords, 1000)
                 .delay(i * 300)
-                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                 .onUpdate(function () {
                 slice.position.x = sourceCoords.x;
                 slice.position.y = sourceCoords.y,
@@ -1731,7 +1841,7 @@ var GeoCube = /** @class */ (function () {
                     mapClone.visible = false;
                     _this.cubeGroupCSS.remove(mapClone);
                 }
-                d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '0');
+                d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
                 _this.showBottomLayer();
             })
                 .start();
@@ -1750,7 +1860,7 @@ var GeoCube = /** @class */ (function () {
      * Returns cube position in *world* coordinates
      */
     GeoCube.prototype.getCubePosition = function () {
-        var positionInWorld = new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"]();
+        var positionInWorld = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         this.cubeGroupGL.getWorldPosition(positionInWorld);
         return positionInWorld;
     };
@@ -1840,16 +1950,16 @@ var GeoCube = /** @class */ (function () {
         if (highlighted) {
             highlighted.material.color.setHex(0xff0000);
             highlighted.scale.set(2, 2, 2);
-            var lineMaterial = new three_full__WEBPACK_IMPORTED_MODULE_3__["LineBasicMaterial"]({ color: 0xff0000 });
-            var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["Geometry"]();
-            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, this.findTimeSlice(highlighted.data.date_time).position.y, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2));
-            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_3__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2));
-            var line = new three_full__WEBPACK_IMPORTED_MODULE_3__["Line"](lineGeometry, lineMaterial);
+            var lineMaterial = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineBasicMaterial"]({ color: 0xff0000 });
+            var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["Geometry"]();
+            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, this.findTimeSlice(highlighted.data.date_time).position.y, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2));
+            lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2));
+            var line = new three_full__WEBPACK_IMPORTED_MODULE_2__["Line"](lineGeometry, lineMaterial);
             line.name = 'GUIDE_LINE';
-            var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_3__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
-            var pointMaterial = new three_full__WEBPACK_IMPORTED_MODULE_3__["MeshBasicMaterial"]({ color: 0xff0000 });
-            var point = new three_full__WEBPACK_IMPORTED_MODULE_3__["Mesh"](pointGeometry, pointMaterial);
-            point.position.set(highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+            var pointMaterial = new three_full__WEBPACK_IMPORTED_MODULE_2__["MeshBasicMaterial"]({ color: 0xff0000 });
+            var point = new three_full__WEBPACK_IMPORTED_MODULE_2__["Mesh"](pointGeometry, pointMaterial);
+            point.position.set(highlighted.position.x + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, highlighted.position.z + _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             point.name = 'GUIDE_POINT';
             this.cubeGroupGL.add(line);
             this.cubeGroupGL.add(point);
@@ -1923,7 +2033,6 @@ var GUI = /** @class */ (function () {
         this.geoBtn = document.getElementById('geo-view-button');
         this.setBtn = document.getElementById('set-view-button');
         this.netBtn = document.getElementById('net-view-button');
-        this.polyBtn = document.getElementById('poly-view-button');
         this.stcBtn = document.getElementById('stc-view-button');
         this.jpBtn = document.getElementById('jp-view-button');
         this.siBtn = document.getElementById('si-view-button');
@@ -2031,14 +2140,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NetCube", function() { return NetCube; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
-/* harmony import */ var _viewStates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
-
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -2050,17 +2157,25 @@ var NetCube = /** @class */ (function () {
         this.cube_id = 'NET_CUBE';
         this.linksPerNode = 1;
         this.colorCoding = 'categorical';
+        this._cubeToggle = true;
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene)
             this.cssScene = cssScene;
         this.setMap = new Set();
         this.camera = camera;
-        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].GUTTER) * 2;
+        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER) * 2;
         this.createObjects();
         this.assembleData();
         this.render();
     }
+    Object.defineProperty(NetCube.prototype, "cubeToggle", {
+        get: function () {
+            return this._cubeToggle;
+        },
+        enumerable: true,
+        configurable: true
+    });
     NetCube.prototype.createObjects = function () {
         this.resetCubeGroupGL();
         this.resetCubeGroupCSS();
@@ -2117,7 +2232,7 @@ var NetCube = /** @class */ (function () {
         });
     };
     NetCube.prototype.updateView = function (currentViewState) {
-        if (currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].NET_CUBE || currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].POLY_CUBE) {
+        if (this._cubeToggle) {
             this.webGLScene.add(this.cubeGroupGL);
             this.cssScene.add(this.cubeGroupCSS);
             this.showBottomLayer();
@@ -2134,7 +2249,6 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.updateNetCubeFromScene = function () {
         this.deleteNetCubeFromScene();
         this.webGLScene.add(this.cubeGroupGL);
-        console.log(this.webGLScene);
     };
     NetCube.prototype.deleteNetCubeFromScene = function () {
         var _this = this;
@@ -2144,6 +2258,9 @@ var NetCube = /** @class */ (function () {
             }
         });
     };
+    NetCube.prototype.toggleDisplayCube = function () {
+        this._cubeToggle = !this._cubeToggle;
+    };
     NetCube.prototype.updateColorCoding = function (encoding) {
         this.colorCoding = encoding;
         switch (encoding) {
@@ -2151,10 +2268,10 @@ var NetCube = /** @class */ (function () {
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_5__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
                 break;
             case 'monochrome':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_5__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_5__["schemeSet2"]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
                 break;
             default:
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
@@ -2199,9 +2316,9 @@ var NetCube = /** @class */ (function () {
                     y: grandChild.scale.y,
                     z: grandChild.scale.z,
                 };
-                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceScale)
+                var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceScale)
                     .to(targetScale, 250)
-                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+                    .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
                     .onUpdate(function () {
                     grandChild.scale.x = sourceScale.x;
                     grandChild.scale.y = sourceScale.y;
@@ -2214,8 +2331,8 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.updateData = function () {
     };
     NetCube.prototype.areBothDatesWithinDateInterval = function (startDate, endDate, dates) {
-        var isFirstDate = moment__WEBPACK_IMPORTED_MODULE_6__(dates[0]) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(dates[0]) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
-        var isSecondDate = moment__WEBPACK_IMPORTED_MODULE_6__(dates[1]) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(dates[1]) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
+        var isFirstDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[0]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
+        var isSecondDate = moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(dates[1]) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
         return isFirstDate && isSecondDate;
     };
     NetCube.prototype.filterData = function (category, start, end) {
@@ -2315,7 +2432,7 @@ var NetCube = /** @class */ (function () {
             startDate = this.dm.getMinDate();
         if (!endDate)
             endDate = this.dm.getMaxDate();
-        return moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_6__(startDate) && moment__WEBPACK_IMPORTED_MODULE_6__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_6__(endDate);
+        return moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
     };
     NetCube.prototype.getLinkDates = function (link_name) {
         var couple_ids = link_name.name.split("_", 2);
@@ -2345,27 +2462,27 @@ var NetCube = /** @class */ (function () {
         }); //end forEach
     };
     NetCube.prototype.transitionAnimationSTC = function (slice, index) {
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
         var sourceCoords = {
             x: slice.position.x,
             y: slice.position.y,
             z: slice.position.z
         };
         var targetCoords = {
-            x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
-            y: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2),
-            z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+            x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
+            y: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2),
+            z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
         };
         var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
-        d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
-        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 - 22;
+        d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
         label.position.y = targetCoords.y;
         label.position.z = targetCoords.z;
         label.rotation.set(0, 0, 0);
-        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
             .to(targetCoords, 1000)
             .delay(index * 300)
-            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
             .onUpdate(function () {
             slice.position.x = sourceCoords.x;
             slice.position.y = sourceCoords.y,
@@ -2385,7 +2502,7 @@ var NetCube = /** @class */ (function () {
         });
     };
     NetCube.prototype.transitionAnimationJP = function (slice, index) {
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT + 20;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 20;
         var sourceCoords = {
             x: slice.position.x,
             y: slice.position.y,
@@ -2393,19 +2510,19 @@ var NetCube = /** @class */ (function () {
         };
         var targetCoords = {
             x: slice.position.x,
-            y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
-            z: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2)
+            y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
+            z: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2)
         };
         var label = this.cubeGroupCSS.getObjectByName("LABEL_" + index);
-        d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '1');
-        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 - 22;
+        d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
         label.position.y = targetCoords.y;
         label.position.z = targetCoords.z;
         label.rotation.set(-Math.PI / 2, 0, 0);
-        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
             .to(targetCoords, 1000)
             .delay(index * 300)
-            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
             .onUpdate(function () {
             slice.position.x = sourceCoords.x;
             slice.position.y = sourceCoords.y,
@@ -2428,21 +2545,21 @@ var NetCube = /** @class */ (function () {
             z: slice.position.z
         };
         var targetCoords = {
-            x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
-            y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
-            z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+            x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
+            y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
+            z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
         };
-        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Tween"](sourceCoords)
+        var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
             .to(targetCoords, 1000)
             .delay(index * 300)
-            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_4__["Easing"].Cubic.InOut)
+            .easing(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Easing"].Cubic.InOut)
             .onUpdate(function () {
             slice.position.x = sourceCoords.x;
             slice.position.y = sourceCoords.y,
                 slice.position.z = sourceCoords.z;
         })
             .onComplete(function () {
-            d3__WEBPACK_IMPORTED_MODULE_5__["selectAll"]('.time-slice-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
         })
             .start();
     };
@@ -2545,8 +2662,8 @@ var NetCube = /** @class */ (function () {
         var normalized_x = null;
         var normalized_z = null;
         if (pos_map[id]) {
-            normalized_x = pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
-            normalized_z = pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
+            normalized_x = pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
+            normalized_z = pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
         }
         if (normalized_x)
             return { x: normalized_x, y: null, z: normalized_z };
@@ -2554,7 +2671,7 @@ var NetCube = /** @class */ (function () {
             return null;
     };
     NetCube.prototype.createNodes = function () {
-        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
             var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: this.colors(dataItem.category_1) });
@@ -2582,15 +2699,16 @@ var NetCube = /** @class */ (function () {
                 if (this.doesTargetNodeHasPosition(targetId)) {
                     //STC                    
                     var line_forSTC = this.createLineForSTC(dataItem, sourceNode_position, a);
-                    this.links_stc.add(line_forSTC);
+                    if (line_forSTC)
+                        this.links_stc.add(line_forSTC);
                     //SI
                     var line_forSI = this.createLineForSI(dataItem, sourceNode_position, a);
-                    this.links_si.add(line_forSI);
+                    if (line_forSI)
+                        this.links_si.add(line_forSI);
                     //JP
                     var line_forJP = this.createLineForJP(dataItem, sourceNode_position, a);
-                    if (line_forJP) {
+                    if (line_forJP)
                         this.getTimeSliceByDate(dataItem.date_time).add(line_forJP);
-                    }
                 } //end if
             } //end for     
         } //end for
@@ -2599,6 +2717,8 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.createLineForJP = function (dataItem, sourceNode_position, targetIndex) {
         var targetId = dataItem.target_nodes[targetIndex];
+        if (!this.dm.dataMap[targetId])
+            return;
         var targetNode_position = this.getNormalizedPositionById(targetId);
         targetNode_position.y = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
         if (this.areSourceAndTargetInTheSameSlice(dataItem.id, targetId)) {
@@ -2621,7 +2741,7 @@ var NetCube = /** @class */ (function () {
         return false;
     };
     NetCube.prototype.parsePositionForJP = function (coordinate) {
-        return coordinate - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
+        return coordinate - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
     };
     NetCube.prototype.createLineForSI = function (dataItem, sourceNode_position, targetIndex) {
         var targetId = dataItem.target_nodes[targetIndex];
@@ -2634,10 +2754,12 @@ var NetCube = /** @class */ (function () {
         return line;
     };
     NetCube.prototype.getYValueWhenFlatVis = function () {
-        return -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2;
+        return -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2;
     };
     NetCube.prototype.createLineForSTC = function (dataItem, sourceNode_position, targetIndex) {
         var targetId = dataItem.target_nodes[targetIndex];
+        if (!this.dm.dataMap[targetId])
+            return;
         var targetNode_position = this.getNormalizedPositionById(targetId);
         targetNode_position.y = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
         var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
@@ -2657,7 +2779,7 @@ var NetCube = /** @class */ (function () {
         return new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: '#b5b5b5', transparent: true, opacity: 0.75 });
     };
     NetCube.prototype.createLineGeometry = function (sourceNode_position, targetNode_position) {
-        var position_fix = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
+        var position_fix = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
         var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["Geometry"]();
         lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](sourceNode_position.x + position_fix, sourceNode_position.y, sourceNode_position.z + position_fix));
         lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](targetNode_position.x + position_fix, targetNode_position.y, targetNode_position.z + position_fix));
@@ -2667,18 +2789,18 @@ var NetCube = /** @class */ (function () {
         var _this = this;
         this.slices.forEach(function (slice) { _this.cubeGroupGL.remove(slice); });
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
             var slice = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
             var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["EdgesGeometry"](geometry);
             var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: '#b5b5b5' });
             var plane = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -2689,7 +2811,7 @@ var NetCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
@@ -2698,18 +2820,18 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.createSlices = function () {
         this.slices = new Array();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
             // TIME SLICES
             var slice = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
             // name set to year -> we can now map objects to certain layers by checking their
             // this.dm.getTimeQuantile(date) and the slices name.
             slice.name = this.dm.timeRange[i].getFullYear();
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, 32);
             var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["EdgesGeometry"](geometry);
             var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: 0xb5b5b5 });
             var plane = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -2721,15 +2843,15 @@ var NetCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             // CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             this.cubeGroupCSS.add(label);
         } //end for
     };
     NetCube.prototype.createBoundingBox = function () {
         var _this = this;
-        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_1__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_1__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: 0x00ff00 }));
-        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_1__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_1__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_1__["MeshBasicMaterial"]({ color: 0x00ff00 }));
+        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
         this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_1__["BoxHelper"](placeholderBox, '#b5b5b5');
         this.boundingBox.name = 'BOX_HELPER';
         this.cubeGroupGL.add(this.boundingBox);
@@ -2819,13 +2941,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _viewStates__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var d3_force_cluster__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! d3-force-cluster */ "./node_modules/d3-force-cluster/dist/d3-force-cluster.mjs");
-
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var d3_force_cluster__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3-force-cluster */ "./node_modules/d3-force-cluster/dist/d3-force-cluster.mjs");
 
 
 
@@ -2835,6 +2955,7 @@ __webpack_require__.r(__webpack_exports__);
 var SetCube = /** @class */ (function () {
     function SetCube(dm, camera, webGLScene, cssScene) {
         this.colorCoding = 'categorical';
+        this._cubeToggle = true;
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene) {
@@ -2843,11 +2964,18 @@ var SetCube = /** @class */ (function () {
         this.data = new Array();
         this.setMap = new Set();
         this.camera = camera;
-        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].GUTTER) * 1;
+        this.cubeLeftBoarder = (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER) * 1;
         this.createObjects();
         this.assembleData();
         this.render();
     }
+    Object.defineProperty(SetCube.prototype, "cubeToggle", {
+        get: function () {
+            return this._cubeToggle;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SetCube.prototype.createObjects = function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
@@ -2863,8 +2991,8 @@ var SetCube = /** @class */ (function () {
         this.hullState = false;
         this.raycaster = new three_full__WEBPACK_IMPORTED_MODULE_0__["Raycaster"]();
         this.mouse = new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector2"]();
-        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x00ff00 }));
-        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+        var placeholderBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH), new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: 0x00ff00 }));
+        placeholderBox.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, 0, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
         this.boundingBox = new three_full__WEBPACK_IMPORTED_MODULE_0__["BoxHelper"](placeholderBox, '#b5b5b5');
         this.boundingBox.name = 'BOX_HELPER';
         this.cubeGroupGL.add(this.boundingBox);
@@ -2888,34 +3016,29 @@ var SetCube = /** @class */ (function () {
         this.dm.data.forEach(function (d) {
             _this.setMap.add(d.category_1); //TODO: pass the count size of each category
             //store quantized time 
-            d.groupDate = moment__WEBPACK_IMPORTED_MODULE_5__((_this.dm.getCustomTimeQuantile(d.date_time, segs)), 'YYYY').toDate();
+            d.groupDate = moment__WEBPACK_IMPORTED_MODULE_4__((_this.dm.getCustomTimeQuantile(d.date_time, segs)), 'YYYY').toDate();
         });
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
         this.timeLinearScale = this.dm.getTimeLinearScale();
         //group by time and then category
-        var groupedData = d3__WEBPACK_IMPORTED_MODULE_4__["nest"]()
-            .key(function (d) { return moment__WEBPACK_IMPORTED_MODULE_5__(d.groupDate).format('YYYY'); })
+        var groupedData = d3__WEBPACK_IMPORTED_MODULE_3__["nest"]()
+            .key(function (d) { return moment__WEBPACK_IMPORTED_MODULE_4__(d.groupDate).format('YYYY'); })
             .key(function (d) { return d.category_1; })
             .entries(this.dm.data)
             .sort(function (a, b) { return a.key == b.key ? 0 : +(a.key > b.key) || -1; });
         //add geometry points
-        var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
+        var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
         //layouts
         var circleLayout = this.getCircleLayout(this.setMap, 0, 0, 180);
         var packLayout = this.getPackLayout();
-        var radExtent = d3__WEBPACK_IMPORTED_MODULE_4__["extent"](this.getSetScale(), function (d) {
+        var radExtent = d3__WEBPACK_IMPORTED_MODULE_3__["extent"](this.getSetScale(), function (d) {
             return d.Value;
         });
-        var radScale = d3__WEBPACK_IMPORTED_MODULE_4__["scaleLinear"]().domain(radExtent).range([5, 80]);
-        // When its SI
-        if (segs == 1) {
-            console.log('SI View');
-            // change color based on selection
-        }
+        var radScale = d3__WEBPACK_IMPORTED_MODULE_3__["scaleLinear"]().domain(radExtent).range([5, 80]);
         groupedData.forEach(function (timeLayer, i) {
             // flat planes for JP
-            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT, 32);
+            var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["PlaneGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, 32);
             var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["EdgesGeometry"](geometry);
             var material = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]({ color: '#b5b5b5' });
             var plane = new three_full__WEBPACK_IMPORTED_MODULE_0__["LineSegments"](edgeGeometry, material);
@@ -2925,7 +3048,7 @@ var SetCube = /** @class */ (function () {
             var slice = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
             slice.name = timeLayer.key; // we need to decide either to use full date or
             slice.add(plane);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, initial ? (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2) : -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2); // for initial run
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, initial ? (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2) : -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2); // for initial run
             // slice.position.set(CUBE_CONFIG.WIDTH / 2, - (CUBE_CONFIG.WIDTH / 2), CUBE_CONFIG.WIDTH / 2); // for updates
             _this.slices.push(slice);
             _this.cubeGroupGL.add(slice);
@@ -2935,7 +3058,7 @@ var SetCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "LABEL_" + i;
             _this.cubeGroupCSS.add(label);
             // each category inside each time slice
@@ -2969,7 +3092,7 @@ var SetCube = /** @class */ (function () {
                 var phyllotaxis = _this.getPhyllotaxis(circle.position.x, circle.position.z, rad, category.values);
                 phyllotaxis.forEach(function (points) {
                     // this.updateColorCoding('temporal');
-                    var material2 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.colors(points.data.category_1) }); //FIXME: Color not found on SI
+                    var material2 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.getCurrentColor(points) }); //FIXME: Color not found on SI
                     var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](pointGeometry, material2);
                     point.material.needsUpdate = true;
                     point.position.y = circle.position.y;
@@ -2995,9 +3118,9 @@ var SetCube = /** @class */ (function () {
         // let label = new THREE.CSS3DObject(element);
         var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DSprite"](element);
         // label.position.set(position[1], CUBE_CONFIG.HEIGHT, position[2]);
-        label.position.x = position[0] + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
-        label.position.y = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2 + 20;
-        label.position.z = position[1] + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2;
+        label.position.x = position[0] + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+        label.position.y = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2 + 20;
+        label.position.z = position[1] + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
         // label.rotation.set(Math.PI);
         label.name = "LABEL_" + group;
         this.cubeGroupCSS.add(label);
@@ -3025,19 +3148,19 @@ var SetCube = /** @class */ (function () {
             var i = data.cluster, r = 2, d = {
                 cluster: data.cluster,
                 radius: r,
-                x: Math.cos(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 + Math.random(),
-                y: Math.sin(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2 + Math.random()
+                x: Math.cos(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 + Math.random(),
+                y: Math.sin(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2 + Math.random()
             };
             if (!clusters[i] || (r > clusters[i].radius))
                 clusters[i] = d;
             return d;
         });
-        var layout = d3__WEBPACK_IMPORTED_MODULE_4__["forceSimulation"]()
+        var layout = d3__WEBPACK_IMPORTED_MODULE_3__["forceSimulation"]()
             .nodes(d3Nodes)
-            .force('charge', d3__WEBPACK_IMPORTED_MODULE_4__["forceManyBody"]().strength(20))
-            .force('center', d3__WEBPACK_IMPORTED_MODULE_4__["forceCenter"](0, 0))
+            .force('charge', d3__WEBPACK_IMPORTED_MODULE_3__["forceManyBody"]().strength(20))
+            .force('center', d3__WEBPACK_IMPORTED_MODULE_3__["forceCenter"](0, 0))
             // cluster by section
-            .force('cluster', Object(d3_force_cluster__WEBPACK_IMPORTED_MODULE_6__["forceCluster"])().centers(function (d) { return clusters[d.cluster]; }))
+            .force('cluster', Object(d3_force_cluster__WEBPACK_IMPORTED_MODULE_5__["forceCluster"])().centers(function (d) { return clusters[d.cluster]; }))
             .stop();
         for (var i = 0; i < state.warmUpTicks; i++) {
             layout.tick();
@@ -3066,7 +3189,7 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.render = function () {
         // create a box and add it to the scene
         this.cubeGroupGL.name = 'SET_CUBE';
-        this.cubeGroupGL.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].GUTTER, 0, 0);
+        this.cubeGroupGL.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].GUTTER, 0, 0);
         this.webGLScene.add(this.cubeGroupGL);
         this.cssScene.add(this.cubeGroupCSS); // add css group to css scene
     };
@@ -3085,7 +3208,7 @@ var SetCube = /** @class */ (function () {
                 child.visible = false;
             }
         });
-        d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.set-label')
+        d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label')
             .style('display', 'none');
     };
     SetCube.prototype.updateLayout = function (layout) {
@@ -3133,8 +3256,11 @@ var SetCube = /** @class */ (function () {
             });
         });
     };
+    SetCube.prototype.toggleDisplayCube = function () {
+        this._cubeToggle = !this._cubeToggle;
+    };
     SetCube.prototype.updateView = function (currentViewState) {
-        if (currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].SET_CUBE || currentViewState.valueOf() === _viewStates__WEBPACK_IMPORTED_MODULE_2__["VIEW_STATES"].POLY_CUBE) {
+        if (this._cubeToggle) {
             this.webGLScene.add(this.cubeGroupGL);
         }
     };
@@ -3151,10 +3277,10 @@ var SetCube = /** @class */ (function () {
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_3__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_3__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
                 break;
             case 'monochrome':
-                this.colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_4__["schemeSet2"]);
+                this.colors = d3__WEBPACK_IMPORTED_MODULE_3__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_3__["schemeSet2"]);
                 break;
             default:
                 this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
@@ -3224,7 +3350,7 @@ var SetCube = /** @class */ (function () {
             startDate = this.dm.getMinDate();
         if (!endDate)
             endDate = this.dm.getMaxDate();
-        return moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_5__(startDate) && moment__WEBPACK_IMPORTED_MODULE_5__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_5__(endDate);
+        return moment__WEBPACK_IMPORTED_MODULE_4__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_4__(startDate) && moment__WEBPACK_IMPORTED_MODULE_4__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_4__(endDate);
     };
     SetCube.prototype.filterData = function (cat, start, end) {
         var _this = this;
@@ -3245,8 +3371,9 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         this.boundingBox.visible = true;
         // TODO:on STC, update setcube with stacked layers
+        this.updateColorCoding('categorical');
         this.updateSetCube();
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length; // FIXME: value is aways divided by 1
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length; // FIXME: value is aways divided by 1
         var duration = 1000, tween;
         this.slices.forEach(function (slice, i) {
             var sourceCoords = {
@@ -3255,15 +3382,15 @@ var SetCube = /** @class */ (function () {
                 z: slice.position.z
             };
             var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
-                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2),
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
+                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2),
+                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
             };
             //labels
             var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.set-label').style('opacity', '1');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2 - 22;
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '1');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '1');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
             label.rotation.set(0, 0, 0);
@@ -3295,7 +3422,7 @@ var SetCube = /** @class */ (function () {
         //update hull 
         this.hullState = false;
         // re run updateSet
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT + 20;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 20;
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
             var sourceCoords = {
@@ -3305,15 +3432,15 @@ var SetCube = /** @class */ (function () {
             };
             var targetCoords = {
                 x: slice.position.x,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
-                z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2)
+                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
+                z: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2)
             };
             // label
             var label = _this.cubeGroupCSS.getObjectByName("LABEL_" + i);
             // console.log(label);
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.set-label').style('opacity', '0');
-            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2 - 22;
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '1');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
             label.rotation.set(-Math.PI / 2, 0, 0);
@@ -3343,9 +3470,9 @@ var SetCube = /** @class */ (function () {
                 z: slice.position.z
             };
             var targetCoords = {
-                x: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2,
-                y: -_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2,
-                z: _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2
+                x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
+                y: -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2,
+                z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
             };
             tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_1__["Tween"](sourceCoords)
                 .to(targetCoords, duration)
@@ -3361,8 +3488,8 @@ var SetCube = /** @class */ (function () {
         //on complete tweening, update setcube with flattened layers
         tween.onComplete(function () {
             _this.updateSetCube(1);
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.set-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '0');
             //update node colors to temporal
             _this.updateNodeColor('temporal');
         });
@@ -3464,19 +3591,19 @@ var SetCube = /** @class */ (function () {
         return circleLayout;
     };
     SetCube.prototype.getPackLayout = function () {
-        var groupedData = d3__WEBPACK_IMPORTED_MODULE_4__["nest"]()
+        var groupedData = d3__WEBPACK_IMPORTED_MODULE_3__["nest"]()
             .key(function (d) { return d.category_1; })
             .entries(this.dm.data)
             .map(function (d) {
             return { Category: d.key, Value: d.values.length };
         });
         var data = { name: "groups", children: groupedData };
-        var vLayout = d3__WEBPACK_IMPORTED_MODULE_4__["pack"]().size([_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT]);
-        var vRoot = d3__WEBPACK_IMPORTED_MODULE_4__["hierarchy"](data).sum(function (d) { return d.Value; }).sort(function (a, b) { return b.value - a.value; });
+        var vLayout = d3__WEBPACK_IMPORTED_MODULE_3__["pack"]().size([_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT]);
+        var vRoot = d3__WEBPACK_IMPORTED_MODULE_3__["hierarchy"](data).sum(function (d) { return d.Value; }).sort(function (a, b) { return b.value - a.value; });
         ;
         var vNodes = vRoot.descendants();
         var layout = vLayout(vRoot).children.map(function (d) {
-            return { cat: d.data.Category, x: d.x - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, y: d.y - _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / 2, count: d.value, r: d.r };
+            return { cat: d.data.Category, x: d.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, y: d.y - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2, count: d.value, r: d.r };
         });
         return layout;
     };
@@ -3608,7 +3735,7 @@ var SetCube = /** @class */ (function () {
         this.hullGroup.visible = true;
     };
     SetCube.prototype.uncertainHull = function () {
-        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
+        var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
         this.hullGroup.children.forEach(function (mesh) {
             var box = new three_full__WEBPACK_IMPORTED_MODULE_0__["Box3"]().setFromObject(mesh);
             var size = box.getSize(new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"]());
@@ -3619,7 +3746,7 @@ var SetCube = /** @class */ (function () {
         });
     };
     SetCube.prototype.getSetScale = function () {
-        var groupedData = d3__WEBPACK_IMPORTED_MODULE_4__["nest"]()
+        var groupedData = d3__WEBPACK_IMPORTED_MODULE_3__["nest"]()
             .key(function (d) { return d.category_1; })
             .entries(this.dm.data)
             .map(function (d) {
@@ -3663,7 +3790,7 @@ var VIEW_STATES;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".time-slider {\n    position: absolute;\n    z-index: 999;\n    top: 0em;\n    left: 25vw; /* this is offset defined by gui class in app.component.css */\n}\n\n::ng-deep .time-slider svg {\n    overflow: visible;\n}\n\n/*time slider*/\n\n.axis--grid .domain {\n    /*fill: #ddd;*/\n    stroke: none;\n}\n\n.axis--x .domain,\n.axis--grid .tick line {\n    stroke: #353636;\n}\n\n/*.axis--y .domain,*/\n\n.tick text {\n    /*fill: #EDCA3A;*/\n    /*fill: #462015;*/\n    /*fill: #c83409;*/\n    fill: #2d2d2d;\n}\n\n/*.axis--y .domain,*/\n\n.notick text {\n    /*fill: #353636 !important;*/\n    stroke: #525252;\n    stroke-width: 0.3px;\n    font-size: 120%;\n    font-weight: bold;\n}\n\n.axis--grid .tick--minor line {\n    stroke-opacity: .5;\n}\n\n.axis2,\n.axis--y2 line {\n    stroke: #8a8a8a;\n    stroke-opacity: .5;\n}\n\n.axis,\n.axis--chart {\n    /*fill: #3f3f3f;*/\n    fill: #353636;\n    stroke-width: 0;\n}\n\n::ng-deep .brush rect.selection {\n    fill: steelblue;\n    fill-opacity: .125;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osUUFBUTtJQUNSLFVBQVUsRUFBRSw2REFBNkQ7QUFDN0U7O0FBRUE7SUFDSSxpQkFBaUI7QUFDckI7O0FBR0EsY0FBYzs7QUFDZDtJQUNJLGNBQWM7SUFDZCxZQUFZO0FBQ2hCOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLGlCQUFpQjtJQUNqQixpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLGFBQWE7QUFDakI7O0FBRUEsb0JBQW9COztBQUNwQjtJQUNJLDRCQUE0QjtJQUM1QixlQUFlO0lBQ2YsbUJBQW1CO0lBQ25CLGVBQWU7SUFDZixpQkFBaUI7QUFDckI7O0FBR0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsYUFBYTtJQUNiLGVBQWU7QUFDbkI7O0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0FBQ3RCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi50aW1lLXNsaWRlciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHotaW5kZXg6IDk5OTtcbiAgICB0b3A6IDBlbTtcbiAgICBsZWZ0OiAyNXZ3OyAvKiB0aGlzIGlzIG9mZnNldCBkZWZpbmVkIGJ5IGd1aSBjbGFzcyBpbiBhcHAuY29tcG9uZW50LmNzcyAqL1xufVxuXG46Om5nLWRlZXAgLnRpbWUtc2xpZGVyIHN2ZyB7XG4gICAgb3ZlcmZsb3c6IHZpc2libGU7XG59XG5cblxuLyp0aW1lIHNsaWRlciovXG4uYXhpcy0tZ3JpZCAuZG9tYWluIHtcbiAgICAvKmZpbGw6ICNkZGQ7Ki9cbiAgICBzdHJva2U6IG5vbmU7XG59XG5cbi5heGlzLS14IC5kb21haW4sXG4uYXhpcy0tZ3JpZCAudGljayBsaW5lIHtcbiAgICBzdHJva2U6ICMzNTM2MzY7XG59XG5cbi8qLmF4aXMtLXkgLmRvbWFpbiwqL1xuLnRpY2sgdGV4dCB7XG4gICAgLypmaWxsOiAjRURDQTNBOyovXG4gICAgLypmaWxsOiAjNDYyMDE1OyovXG4gICAgLypmaWxsOiAjYzgzNDA5OyovXG4gICAgZmlsbDogIzJkMmQyZDtcbn1cblxuLyouYXhpcy0teSAuZG9tYWluLCovXG4ubm90aWNrIHRleHQge1xuICAgIC8qZmlsbDogIzM1MzYzNiAhaW1wb3J0YW50OyovXG4gICAgc3Ryb2tlOiAjNTI1MjUyO1xuICAgIHN0cm9rZS13aWR0aDogMC4zcHg7XG4gICAgZm9udC1zaXplOiAxMjAlO1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuXG5cbi5heGlzLS1ncmlkIC50aWNrLS1taW5vciBsaW5lIHtcbiAgICBzdHJva2Utb3BhY2l0eTogLjU7XG59XG5cbi5heGlzMixcbi5heGlzLS15MiBsaW5lIHtcbiAgICBzdHJva2U6ICM4YThhOGE7XG4gICAgc3Ryb2tlLW9wYWNpdHk6IC41O1xufVxuXG4uYXhpcyxcbi5heGlzLS1jaGFydCB7XG4gICAgLypmaWxsOiAjM2YzZjNmOyovXG4gICAgZmlsbDogIzM1MzYzNjtcbiAgICBzdHJva2Utd2lkdGg6IDA7XG59XG5cbjo6bmctZGVlcCAuYnJ1c2ggcmVjdC5zZWxlY3Rpb24ge1xuICAgIGZpbGw6IHN0ZWVsYmx1ZTtcbiAgICBmaWxsLW9wYWNpdHk6IC4xMjU7XG59XG4iXX0= */"
+module.exports = ".time-slider {\n    position: absolute;\n    z-index: 999;\n    top: 0em;\n    /* left: 25vw; this is offset defined by gui class in app.component.css */\n}\n\n::ng-deep .time-slider svg {\n    overflow: visible;\n}\n\n/*time slider*/\n\n.axis--grid .domain {\n    /*fill: #ddd;*/\n    stroke: none;\n}\n\n.axis--x .domain,\n.axis--grid .tick line {\n    stroke: #353636;\n}\n\n/*.axis--y .domain,*/\n\n.tick text {\n    /*fill: #EDCA3A;*/\n    /*fill: #462015;*/\n    /*fill: #c83409;*/\n    fill: #2d2d2d;\n}\n\n/*.axis--y .domain,*/\n\n.notick text {\n    /*fill: #353636 !important;*/\n    stroke: #525252;\n    stroke-width: 0.3px;\n    font-size: 120%;\n    font-weight: bold;\n}\n\n.axis--grid .tick--minor line {\n    stroke-opacity: .5;\n}\n\n.axis2,\n.axis--y2 line {\n    stroke: #8a8a8a;\n    stroke-opacity: .5;\n}\n\n.axis,\n.axis--chart {\n    /*fill: #3f3f3f;*/\n    fill: #353636;\n    stroke-width: 0;\n}\n\n::ng-deep .brush rect.selection {\n    fill: steelblue;\n    fill-opacity: .125;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy90aW1lc2xpZGVyLmNvbXBvbmVudC90aW1lc2xpZGVyLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osUUFBUTtJQUNSLHlFQUF5RTtBQUM3RTs7QUFFQTtJQUNJLGlCQUFpQjtBQUNyQjs7QUFHQSxjQUFjOztBQUNkO0lBQ0ksY0FBYztJQUNkLFlBQVk7QUFDaEI7O0FBRUE7O0lBRUksZUFBZTtBQUNuQjs7QUFFQSxvQkFBb0I7O0FBQ3BCO0lBQ0ksaUJBQWlCO0lBQ2pCLGlCQUFpQjtJQUNqQixpQkFBaUI7SUFDakIsYUFBYTtBQUNqQjs7QUFFQSxvQkFBb0I7O0FBQ3BCO0lBQ0ksNEJBQTRCO0lBQzVCLGVBQWU7SUFDZixtQkFBbUI7SUFDbkIsZUFBZTtJQUNmLGlCQUFpQjtBQUNyQjs7QUFHQTtJQUNJLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxlQUFlO0lBQ2Ysa0JBQWtCO0FBQ3RCOztBQUVBOztJQUVJLGlCQUFpQjtJQUNqQixhQUFhO0lBQ2IsZUFBZTtBQUNuQjs7QUFFQTtJQUNJLGVBQWU7SUFDZixrQkFBa0I7QUFDdEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3RpbWVzbGlkZXIuY29tcG9uZW50L3RpbWVzbGlkZXIuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRpbWUtc2xpZGVyIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgei1pbmRleDogOTk5O1xuICAgIHRvcDogMGVtO1xuICAgIC8qIGxlZnQ6IDI1dnc7IHRoaXMgaXMgb2Zmc2V0IGRlZmluZWQgYnkgZ3VpIGNsYXNzIGluIGFwcC5jb21wb25lbnQuY3NzICovXG59XG5cbjo6bmctZGVlcCAudGltZS1zbGlkZXIgc3ZnIHtcbiAgICBvdmVyZmxvdzogdmlzaWJsZTtcbn1cblxuXG4vKnRpbWUgc2xpZGVyKi9cbi5heGlzLS1ncmlkIC5kb21haW4ge1xuICAgIC8qZmlsbDogI2RkZDsqL1xuICAgIHN0cm9rZTogbm9uZTtcbn1cblxuLmF4aXMtLXggLmRvbWFpbixcbi5heGlzLS1ncmlkIC50aWNrIGxpbmUge1xuICAgIHN0cm9rZTogIzM1MzYzNjtcbn1cblxuLyouYXhpcy0teSAuZG9tYWluLCovXG4udGljayB0ZXh0IHtcbiAgICAvKmZpbGw6ICNFRENBM0E7Ki9cbiAgICAvKmZpbGw6ICM0NjIwMTU7Ki9cbiAgICAvKmZpbGw6ICNjODM0MDk7Ki9cbiAgICBmaWxsOiAjMmQyZDJkO1xufVxuXG4vKi5heGlzLS15IC5kb21haW4sKi9cbi5ub3RpY2sgdGV4dCB7XG4gICAgLypmaWxsOiAjMzUzNjM2ICFpbXBvcnRhbnQ7Ki9cbiAgICBzdHJva2U6ICM1MjUyNTI7XG4gICAgc3Ryb2tlLXdpZHRoOiAwLjNweDtcbiAgICBmb250LXNpemU6IDEyMCU7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG59XG5cblxuLmF4aXMtLWdyaWQgLnRpY2stLW1pbm9yIGxpbmUge1xuICAgIHN0cm9rZS1vcGFjaXR5OiAuNTtcbn1cblxuLmF4aXMyLFxuLmF4aXMtLXkyIGxpbmUge1xuICAgIHN0cm9rZTogIzhhOGE4YTtcbiAgICBzdHJva2Utb3BhY2l0eTogLjU7XG59XG5cbi5heGlzLFxuLmF4aXMtLWNoYXJ0IHtcbiAgICAvKmZpbGw6ICMzZjNmM2Y7Ki9cbiAgICBmaWxsOiAjMzUzNjM2O1xuICAgIHN0cm9rZS13aWR0aDogMDtcbn1cblxuOjpuZy1kZWVwIC5icnVzaCByZWN0LnNlbGVjdGlvbiB7XG4gICAgZmlsbDogc3RlZWxibHVlO1xuICAgIGZpbGwtb3BhY2l0eTogLjEyNTtcbn1cbiJdfQ== */"
 
 /***/ }),
 
