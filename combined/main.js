@@ -819,9 +819,9 @@ var AppComponent = /** @class */ (function () {
      * Rotate Camera to STC view
      */
     AppComponent.prototype.transitionSTCCamera = function () {
-        //allow rotation
-        // this.controls.noRotate = false;
         var _this = this;
+        //allow rotation
+        this.controls.noRotate = false;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
@@ -832,9 +832,9 @@ var AppComponent = /** @class */ (function () {
         });
     };
     AppComponent.prototype.transitionJPCamera = function () {
-        //stop rotation
-        // this.controls.noRotate = true;
         var _this = this;
+        //stop rotation
+        this.controls.noRotate = true;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
@@ -2672,9 +2672,9 @@ var NetCube = /** @class */ (function () {
         if (highlighted_source) {
             highlighted_source.material.color.setHex(0xff0000);
             highlighted_source.scale.set(2, 2, 2);
-            var highlighted_target = this.cubeGroupGL.getObjectByName(highlighted_source.data.target_nodes[0]);
-            highlighted_target.material.color.setHex(0xff6666);
-            highlighted_target.scale.set(2, 2, 2);
+            // let highlighted_target = this.cubeGroupGL.getObjectByName(highlighted_source.data.target_nodes[0]);
+            // highlighted_target.material.color.setHex(0xff6666);
+            // highlighted_target.scale.set(2, 2, 2);            
         }
     };
     NetCube.prototype.getTimeSliceById = function (id) {
