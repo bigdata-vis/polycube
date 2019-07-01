@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="lib/d3/d3.js"></script>
+</head>
+<body>
+<script>
+    d3.queue()
+        .defer(d3.json, "data/painting_gallery_clean3.json")
+        .defer(d3.json, "data/json.json")
+        .defer(d3.csv, "data/DU.csv")
+        .await(init);
+
+    let allPaint = [],
+        count = 0;
+
+    function init(error, data, lido, du) {
+        if (error) console.log(error);
+
+       let newLido = lido.map(function (d, i) {
+
+
+           if (d.data.location_data) {
+               d.long = parseFloat(d.data.location_data['lat-cou']);
+               d.lat = parseFloat(d.data.location_data['lon-cou']);
+               d.location = d.data.location_data.placename;
+           }
+
+           if(d.data.related_work){
+//               d.target_nodes = d.data.related_work.replace(/(,[^,]*),/g, '$1;')
+               d.target_nodes = d.data.related_work.join(";")
+//               console.log(d.target_nodes)
+           }
+
+           let long = d.long,
+               lat = d.lat,
+               location = d.location,
+               target_nodes = d.target_nodes;
+
+           return {
+                ID: d.data.lidoRecID,
+                description:d.property.descriptiveMetadata[0].objectIdentificationWrap[0].objectDescriptionWrap[0].objectDescriptionSet[0].descriptiveNoteValue[0]._ || "",
+                title: d.data.title,
+                media_url: d.data.preview,
+                external_url: d.property.administrativeMetadata[0].resourceWrap[0].resourceSet[0].resourceRepresentation[0].linkResource[0],
+                year: +d.data.dateRange.earliestDate[0],
+                year_range: +d.data.dateRange.latestDate[0],
+                date_time: new Date(+d.data.dateRange.earliestDate[0], 0, 1),
+                date_time_uncert: new Date(+d.data.dateRange.latestDate[0], 0, 1),
+//                location_name: d.data.location || d.data.location_data.placename || d.data.location_data.country || d.data.location_data.continent,
+                location_name: location,
+                longitude:long,
+                latitude: lat,
+                category_1: d.data.physical_location,
+                rightsHolder: d.property.administrativeMetadata[0].rightsWorkWrap[0].rightsWorkSet[0].rightsHolder[0].legalBodyName[0].appellationValue[0],
+                rightsType: d.property.administrativeMetadata[0].rightsWorkWrap[0].rightsWorkSet[0].rightsType[0].term[0],
+//                classification: d.property.descriptiveMetadata[0].objectClassificationWrap[0].classificationWrap[0].classification[1]
+                displayMaterialsTech:d.property.descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventMaterialsTech[0].displayMaterialsTech[0] || "",
+                eventType:d.property.descriptiveMetadata[0].eventWrap[0].eventSet[0].event[0].eventType[0].term[0]._  || "",
+//                target_nodes: d.data.related_work.replace(/(,[^,]*),/g, '$1;') || ""
+                target_nodes: target_nodes || "",
+                displayActor: d.data.displayActor,
+           }
+        });
+
+//       console.log(lido)
+//       console.log(newLido)
+
+//        console.log(lido);
+//        console.log(newLido)
+
+//        lido.forEach(function (d) {
+//
+//            console.log(d)
+//
+////            let relationship = d.property.descriptiveMetadata[0].objectRelationWrap;
+////
+////            if(relationship){
+////                let relatedWork = relationship[0].relatedWorksWrap[0].relatedWorkSet;
+////                let tranArr = [];
+////                relatedWork.forEach(function (dat) {
+////                    tranArr.push(dat.relatedWork[0].displayObject[0])
+//////                    dat.relatedWork[0].displayObject
+////                });
+////
+////                d.data.related_work = tranArr;
+////            }
+//        });
+
+
+//        lido.map(function (d) {
+//
+//            let id = d.data.conceptID[0];
+//
+////            console.log(d.data.conceptID[0])
+//
+//            du.forEach(function (data) {
+//                if(data.ObjectNumber === id && data.ObjectNumber !== ''){
+////                    console.log(data)
+//                    d.data.physical_location = data.Location;
+//                }
+//            })
+//        });
+
+
+//        du.forEach(function (d) {
+//            console.log(d.Location)
+//        })
+
+//        lido.forEach(function (d) {
+//
+//            var placename = d.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"];
+//
+//            if (placename !== undefined) {
+//
+//                if (placename.eventPlace) {
+////
+//                    if (placename.eventPlace["0"].displayPlace) {
+//
+//                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
+//                        var placeName = placename.eventPlace["0"].displayPlace["0"],
+//                            lidoRecID = d.lidoRecID["0"]._;
+//
+//                        if (collections === "Kunsthistorisches Museum Wien, Gemäldegalerie") {
+////                            console.log(placeName);
+////                            console.log(lidoRecID);
+////                            console.log(d);
+////                            allPaint.push(d)
+//
+////                            data.forEach(function (data) {
+////                                let id = data.lidoRecID;
+////                                if(lidoRecID === id){
+////                                        allPaint.push({data:data,property:d});
+////                                }
+////                            })
+//                        }
+//
+////                        if (typeof placename.eventPlace["0"].displayPlace["0"] !== 'object') { //check for object in music collection
+////
+//////                            console.log(placeName)
+////
+////                            khmplaces.forEach(function (d) {
+////
+////                                if(d.placename === placeName){
+////                                    console.log({place: placeName, loc_data:d})
+////                                }
+////                            })
+//////                            console.log(placeName);
+////
+//////                            placeNames.push("Collections" + collections); //collections
+//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
+////                            //for items in the collection places
+////                        } else {
+////
+//////                            placeNames.push("Collections " + collections); //collections
+//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
+//////
+//////                            console.log(collections)
+////                        }
+//
+//                    }
+//                }
+//            } else {
+//                console.log("no place name")
+//            }
+//        });
+//
+
+        setTimeout(function () {
+//            console.log(lido);
+            let jsonData = JSON.stringify(newLido);
+            download(jsonData, 'final.json', 'text/plain');
+        }, 3000)
+
+
+//        allPaint.forEach(function (d) {
+//            console.log(d)
+//        })
+
+//        data.forEach(function (d) {
+//            let id = d.lidoRecID;
+//
+//            console.log(id)
+//        })
+    }
+
+    function download(content, fileName, contentType) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+</script>
+</body>
+</html>

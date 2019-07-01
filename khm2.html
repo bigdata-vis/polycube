@@ -175,8 +175,6 @@
         polyCube.superImpose();
 
         window.layout = "AN";
-
-
     }
 
     /**Merge the cut section into a mega structure
@@ -193,10 +191,10 @@
         //        .defer(d3.json, "data/lido-output.json")
         //        .defer(d3.json, "data/painting_gallery_clean2.json")
         //        .defer(d3.json, "data/painting_gallery.json")
-        //        .defer(d3.json, "data/lido-output.json")
+                .defer(d3.json, "data/lido-output.json")
         .await(init);
 
-    function init(error, data, geoMap) {
+    function init(error, data, geoMap, lido) {
         if (error) console.log(error);
 
         let seg1 = 1500, seg2 = 1600, seg3 = 1900, seg4 = 2000;
@@ -451,55 +449,60 @@
 
         const response = [];
 
-//        lido.forEach(function (d) {
+        lido.forEach(function (d) {
+
+            var placename = d.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"];
+
+            if (placename !== undefined) {
+
+                if (placename.eventPlace) {
 //
-//            var placename = d.descriptiveMetadata["0"].eventWrap["0"].eventSet["0"].event["0"];
-//
-//            if (placename !== undefined) {
-//
-//                if (placename.eventPlace) {
-////
-//                    if (placename.eventPlace["0"].displayPlace) {
-//
-//                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
-//                        var placeName = placename.eventPlace["0"].displayPlace["0"],
-//                            lidoRecID = d.lidoRecID["0"]._;
-//
-//
-//                        if (collections === "Kunsthistorisches Museum Wien, Gemäldegalerie") {
+                    if (placename.eventPlace["0"].displayPlace) {
+
+                        var collections = d.administrativeMetadata["0"].recordWrap["0"].recordSource["0"].legalBodyID["0"]._;
+                        var placeName = placename.eventPlace["0"].displayPlace["0"],
+                            lidoRecID = d.lidoRecID["0"]._;
+
+
+                        if (collections === "Kunsthistorisches Museum Wien, Gemäldegalerie") {
+//                            console.log(placeName);
+                            console.log(lidoRecID);
 //                            console.log(d);
+                        }
+
+//                        if (typeof placename.eventPlace["0"].displayPlace["0"] !== 'object') { //check for object in music collection
+//
+////                            console.log(placeName)
+//
+//                            khmplaces.forEach(function (d) {
+//
+//                                if(d.placename === placeName){
+//                                    console.log({place: placeName, loc_data:d})
+//                                }
+//                            })
+////                            console.log(placeName);
+//
+////                            placeNames.push("Collections" + collections); //collections
+////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
+//                            //for items in the collection places
+//                        } else {
+//
+////                            placeNames.push("Collections " + collections); //collections
+////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
+////
+////                            console.log(collections)
 //                        }
-//
-//
-////                        if (typeof placename.eventPlace["0"].displayPlace["0"] !== 'object') { //check for object in music collection
-////
-//////                            console.log(placeName)
-////
-////                            khmplaces.forEach(function (d) {
-////
-////                                if(d.placename === placeName){
-////                                    console.log({place: placeName, loc_data:d})
-////                                }
-////                            })
-//////                            console.log(placeName);
-////
-//////                            placeNames.push("Collections" + collections); //collections
-//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]["_"]); //
-////                            //for items in the collection places
-////                        } else {
-////
-//////                            placeNames.push("Collections " + collections); //collections
-//////                            placeNames.push(placename.eventPlace["0"].displayPlace["0"]);
-//////
-//////                            console.log(collections)
-////                        }
-//
-//                    }
-//                }
-//            } else {
-//                console.log("no place name")
-//            }
-//        });
+
+                    }
+                }
+            } else {
+                console.log("no place name")
+            }
+        });
+
+        data.forEach(function () {
+
+        })
 
         /**
          * Toggle PointCloud Data UI
