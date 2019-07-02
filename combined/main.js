@@ -347,18 +347,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
-/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
-/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
-/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
-/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
-/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_13__);
-
+/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
+/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
+/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
+/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -384,7 +382,7 @@ var AppComponent = /** @class */ (function () {
         this.processingMessage = 'Loading dataset...';
         this.previewPanel = false;
         // set default view to display all cubes
-        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
+        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
         // data management
         this.loadingDataset = true;
         this.dataLoaded = false;
@@ -423,6 +421,11 @@ var AppComponent = /** @class */ (function () {
             _this.controls.target = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1000, 0, 0);
             _this.controls.enableZoom = true;
             _this.controls.zoomSpeed = 1.2;
+            //hold initial camera and position values
+            _this.camToSave = {};
+            _this.camToSave.position = _this.camera.position.clone();
+            _this.camToSave.rotation = _this.camera.rotation.clone();
+            _this.camToSave.controlCenter = _this.controls.target.clone();
         };
         /**
          * Initializes the cubes, assigns the data manager and passes the
@@ -430,9 +433,9 @@ var AppComponent = /** @class */ (function () {
          * and append themselves to the scene
          */
         this.initCubes = function () {
-            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_5__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_6__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_7__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_4__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_5__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_6__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
         };
         /**
          * This function is called when the dataset has been changed
@@ -453,7 +456,7 @@ var AppComponent = /** @class */ (function () {
                         title: "Picture #" + foundItem.id,
                         id: foundItem.id,
                         mediaURL: foundItem.external_url,
-                        date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
+                        date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
                         location: foundItem.location_name,
                         description: foundItem.description,
                         externalURL: foundItem.media_url,
@@ -489,7 +492,7 @@ var AppComponent = /** @class */ (function () {
          * Initializes the GUI elements including button event listeners
          */
         this.initGUI = function () {
-            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_10__["GUI"]();
+            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_9__["GUI"]();
             // general settings
             _this.processingMessage = 'Processing new configuration...';
             _this.gui.pCubeConfigEmitter.on('processing', function (change) {
@@ -538,6 +541,10 @@ var AppComponent = /** @class */ (function () {
                         _this.useOrthographicCamera();
                     }
                 }
+                // reset scene
+                if (change.reset) {
+                    _this.resetScene();
+                }
                 // we should be done processing changes
                 _this.processingChange = false;
             });
@@ -568,9 +575,9 @@ var AppComponent = /** @class */ (function () {
                 }
             });
             // button event listeners
-            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE); });
-            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE); });
-            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE); });
+            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].GEO_CUBE); });
+            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].SET_CUBE); });
+            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].NET_CUBE); });
             _this.gui.stcBtn.addEventListener('click', function () {
                 _this.gCube.transitionSTC();
                 _this.sCube.transitionSTC();
@@ -634,7 +641,7 @@ var AppComponent = /** @class */ (function () {
                     break;
                 default: break;
             }
-            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
+            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
             tweenPos.to(targetVector, 250);
             tweenLookAt.to(cubePos, 250);
             // FIXME: lookAt still buggy -> find how to fix or consider first person action cam
@@ -665,7 +672,7 @@ var AppComponent = /** @class */ (function () {
         this.previewItem = null;
         this.categories = new Array();
         this.categoriesAndColors = new Map();
-        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION : 2000;
+        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION : 2000;
         this.currentlySelectedCategory = '';
         this.currentlySelectedDateExtent = new Array();
     }
@@ -689,8 +696,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.initDataset = function () {
         var _this = this;
         this.loadingDataset = true;
-        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
-        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__["DataManager"]();
+        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
+        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__["DataManager"]();
         // perform request to get spreadsheet json 
         // parse it when done and pass to datamanager
         this.google.load(_id).then(function (success) {
@@ -762,7 +769,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + selected.id,
             id: selected.id,
             mediaURL: selected.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(selected.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_12__(selected.date_time).format('DD-MM-YYYY'),
             related: selected.target_nodes,
             location: selected.location_name,
             description: selected.description,
@@ -784,7 +791,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + foundItem.id,
             id: foundItem.id,
             mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
             location: foundItem.location_name,
             related: foundItem.target_nodes,
             description: foundItem.description,
@@ -804,7 +811,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + foundItem.id,
             id: foundItem.id,
             mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
             related: foundItem.target_nodes,
             location: foundItem.location_name,
             description: foundItem.description,
@@ -823,9 +830,10 @@ var AppComponent = /** @class */ (function () {
       * Rotate Camera to SI view
       */
     AppComponent.prototype.transitionSICamera = function () {
-        //stop rotation
-        // this.controls.enableRotate = true;
         var _this = this;
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        //stop rotation
+        this.controls.enableRotate = false;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
@@ -833,6 +841,7 @@ var AppComponent = /** @class */ (function () {
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
+            _this.camera.lookAt(targetVector);
         });
     };
     /**
@@ -840,8 +849,9 @@ var AppComponent = /** @class */ (function () {
      */
     AppComponent.prototype.transitionSTCCamera = function () {
         var _this = this;
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //allow rotation
-        this.controls.enableRotate = false;
+        this.controls.enableRotate = true;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
@@ -849,12 +859,14 @@ var AppComponent = /** @class */ (function () {
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
+            _this.camera.lookAt(targetVector);
         });
     };
     AppComponent.prototype.transitionJPCamera = function () {
         var _this = this;
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //stop rotation
-        this.controls.enableRotate = true;
+        this.controls.enableRotate = false;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
@@ -862,23 +874,40 @@ var AppComponent = /** @class */ (function () {
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
+            _this.camera.lookAt(targetVector);
         });
+    };
+    AppComponent.prototype.resetScene = function () {
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        this.gCube.transitionSTC();
+        this.sCube.transitionSTC();
+        this.nCube.transitionSTC();
+        //rotate camera to STC
+        this.transitionSTCCamera();
+    };
+    AppComponent.prototype.restoreCamera = function (position, rotation, controlCenter) {
+        this.camera.position.set(position.x, position.y, position.z);
+        this.camera.rotation.set(rotation.x, rotation.y, rotation.z);
+        this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+        this.controls.update();
     };
     /**
      * This function is used to update brush timeline color
      */
     AppComponent.prototype.timelineColor = function (visible) {
-        var colors = d3__WEBPACK_IMPORTED_MODULE_4__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_4__["interpolateViridis"]).domain([this.dataManager.getMinDate(), this.dataManager.getMaxDate()]);
-        var labels = d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.tick');
-        labels.nodes().forEach(function (d, i) {
-            var label = d3__WEBPACK_IMPORTED_MODULE_4__["select"](d), date = d3__WEBPACK_IMPORTED_MODULE_4__["select"](d).data()[0];
-            if (visible == true) {
-                label.select('text').attr('fill', colors(+date));
-            }
-            else {
-                label.select('text').attr('fill', 'grey');
-            }
-        });
+        // hide or show the side color legend
+        //    let colors = D3.scaleSequential(D3.interpolateViridis).domain([this.dataManager.getMinDate(), this.dataManager.getMaxDate()]);
+        //    let labels =  D3.selectAll('.tick')
+        //    labels.nodes().forEach(function(d,i) {
+        //       let label = D3.select(d),
+        //       date = D3.select(d).data()[0];
+        //       if(visible == true){
+        //          label.select('text').attr('fill', colors(+date))
+        //       }
+        //       else{
+        //          label.select('text').attr('fill', 'grey')
+        //       }
+        //   })
     };
     AppComponent.prototype.usePerspectiveCamera = function () {
         var cameraPosition = this.orthographicCamera.position.clone();
@@ -963,7 +992,7 @@ var AppComponent = /** @class */ (function () {
         this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
     };
     AppComponent.prototype.formatDate = function (date) {
-        return moment__WEBPACK_IMPORTED_MODULE_13__(date).format('DD/MM/YYYY');
+        return moment__WEBPACK_IMPORTED_MODULE_12__(date).format('DD/MM/YYYY');
     };
     /**
      *
@@ -1030,7 +1059,7 @@ var AppComponent = /** @class */ (function () {
          * - initializes cube components
          */
         ,
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -2113,13 +2142,15 @@ var GUI = /** @class */ (function () {
         var _this = this;
         // polycube
         var pCubeParams = {
+            reset: function () {
+            },
             numSlices: 10,
             backgroundColor: '#ffffff',
             nodeColor: 'categorical',
             time: 'aggregated',
             nodeSize: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].NODE_SIZE,
             dataSet: _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].DATA_SET.name,
-            cameraType: 'Perspective',
+            cameraType: 'Perspective'
         };
         var pCubeFolder = this.gui.addFolder('Global Settings');
         pCubeFolder.add(pCubeParams, 'numSlices').min(1).max(50).step(1)
@@ -2159,6 +2190,11 @@ var GUI = /** @class */ (function () {
         pCubeFolder.addColor(pCubeParams, 'backgroundColor').onChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 backgroundColor: pCubeParams.backgroundColor
+            });
+        });
+        pCubeFolder.add(pCubeParams, 'reset').onChange(function () {
+            _this.pCubeConfigEmitter.emit('change', {
+                reset: pCubeParams.reset
             });
         });
         // GeoCube settings
