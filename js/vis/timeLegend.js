@@ -21,6 +21,8 @@
         // .domain([0, 300]);
             .domain(window.dateTimeEx);
 
+        console.log(window.dateTimeEx)
+
         // var legendheight = 400,
         var margin = {top: 10, right: 60, bottom: 10, left: 2},
             legendheight = window.innerHeight - (margin.top *5),

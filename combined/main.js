@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\n\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-legend > p {\n    margin-top: .4 rem !important; /* vertically */\n}\n\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n\n.category-wrapper > div {\n    margin: .25em;\n}\n\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n\n.error p {\n    word-break: break-word;\n}\n\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n\n.preview-title {\n    color: gray;\n}\n\n.preview-picture {\n    max-width: inherit;\n}\n\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n\n/*DAT GUI*/\n\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n\n/*MODAL CSS*/\n\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n\n/* Modal Content (Image) */\n\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n\n/* Add Animation - Zoom in the Modal */\n\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n\n/* The Close Button */\n\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n\n/* 100% Image Width on Smaller Screens */\n\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n\n/* Processing spinner */\n\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n\n.processing-change p {\n    color: white;\n}\n\n/*navigation buttons*/\n\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n\n/*overlay*/\n\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxZQUFZO0lBQ1osYUFBYTtJQUNiLGFBQWE7SUFDYixtQkFBbUI7QUFDdkI7O0FBRUE7SUFDSSxZQUFZO0lBQ1osZUFBZTtBQUNuQjs7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25COztBQUVBO0lBQ0ksWUFBWTtJQUNaLHNCQUFzQjtJQUN0QixnQ0FBZ0M7SUFDaEMsd0JBQXdCO0FBQzVCOztBQUVBO0lBQ0ksZ0JBQWdCO0lBQ2hCLGlCQUFpQjtJQUNqQixnQkFBZ0I7QUFDcEI7O0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsUUFBUTtJQUNSLGFBQWE7QUFDakI7O0FBRUE7SUFDSSx5QkFBeUI7SUFDekIsVUFBVTtBQUNkOztBQUVBOztJQUVJLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLGlCQUFpQjtJQUNqQixvQkFBb0I7QUFDeEI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsV0FBVztJQUNYLFlBQVk7SUFDWixZQUFZO0lBQ1osWUFBWTtJQUNaLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6Qjs7QUFFQTtJQUNJLDZCQUE2QixFQUFFLGVBQWU7QUFDbEQ7O0FBRUE7SUFDSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7O0FBRUE7SUFDSSxhQUFhO0FBQ2pCOztBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztBQUNmOztBQUVBO0lBQ0ksNkJBQTZCO0lBQzdCLFdBQVc7SUFDWCxnQkFBZ0I7SUFDaEIsYUFBYTtJQUNiLGFBQWE7QUFDakI7O0FBRUE7SUFDSSxzQkFBc0I7QUFDMUI7O0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsTUFBTTtJQUNOLE9BQU87SUFDUCxpQ0FBaUM7QUFDckM7O0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLGVBQWU7QUFDbkI7O0FBRUE7SUFDSSxXQUFXO0FBQ2Y7O0FBQ0E7SUFDSSxrQkFBa0I7QUFDdEI7O0FBQ0E7SUFDSSxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLFdBQVc7QUFDZjs7QUFDQTtJQUNJLG1CQUFtQjtJQUNuQixrQkFBa0I7QUFDdEI7O0FBRUE7SUFDSSxVQUFVO0lBQ1YsaUNBQWlDO0FBQ3JDOztBQUVBOztJQUVJLGVBQWU7QUFDbkI7O0FBRUE7O0lBRUksZUFBZTtBQUNuQjs7QUFFQSxVQUFVOztBQUNWO0lBQ0ksd0JBQXdCO0FBQzVCOztBQUVBLFlBQVk7O0FBQ1o7SUFDSSxhQUFhLEVBQUUsc0JBQXNCO0lBQ3JDLGVBQWUsRUFBRSxrQkFBa0I7SUFDbkMsVUFBVSxFQUFFLGVBQWU7SUFDM0Isa0JBQWtCLEVBQUUsd0JBQXdCO0lBQzVDLE9BQU87SUFDUCxNQUFNO0lBQ04sV0FBVyxFQUFFLGVBQWU7SUFDNUIsWUFBWSxFQUFFLGdCQUFnQjtJQUM5QixjQUFjLEVBQUUsNEJBQTRCO0lBQzVDLDRCQUE0QixFQUFFLG1CQUFtQjtJQUNqRCxpQ0FBaUMsRUFBRSxxQkFBcUI7RUFDMUQ7O0FBRUEsMEJBQTBCOztBQUMxQjtJQUNFLFlBQVk7SUFDWixjQUFjO0lBQ2Qsc0JBQXNCO0lBQ3RCLGVBQWU7SUFDZixlQUFlO0VBQ2pCOztBQUVBLGtFQUFrRTs7QUFDbEU7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxlQUFlO0lBQ2YsYUFBYTtFQUNmOztBQUVBLHNDQUFzQzs7QUFDdEM7SUFDRSw0QkFBb0I7WUFBcEIsb0JBQW9CO0lBQ3BCLGdDQUF3QjtZQUF4Qix3QkFBd0I7RUFDMUI7O0FBRUE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCOztBQUhBO0lBQ0UsTUFBTSwwQkFBaUIsQ0FBakIsa0JBQWtCO0lBQ3hCLElBQUksMEJBQWlCLENBQWpCLGtCQUFrQjtFQUN4Qjs7QUFFQSxxQkFBcUI7O0FBQ3JCO0lBQ0Usa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gseUJBQXlCO0lBQ3pCLGVBQWU7SUFDZixpQkFBaUI7SUFDakIsZ0JBQWdCO0VBQ2xCOztBQUVBOztJQUVFLFdBQVc7SUFDWCxxQkFBcUI7SUFDckIsZUFBZTtFQUNqQjs7QUFFQSx3Q0FBd0M7O0FBQ3hDO0lBQ0U7TUFDRSxXQUFXO0lBQ2I7RUFDRjs7QUFFRix1QkFBdUI7O0FBQ3ZCO0lBQ0ksa0JBQWtCO0lBQ2xCLFFBQVE7SUFDUixTQUFTO0lBQ1QsVUFBVTtJQUNWLFdBQVc7SUFDWCxhQUFhO0lBQ2Isc0JBQXNCO0lBQ3RCLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsbUJBQW1CO0lBQ25CLHdDQUFnQztZQUFoQyxnQ0FBZ0M7SUFDaEMsc0JBQXNCO0lBQ3RCLFdBQVc7SUFDWCxxQkFBcUI7SUFDckIsYUFBYTtBQUNqQjs7QUFFQTtJQUNJLFlBQVk7QUFDaEI7O0FBRUEscUJBQXFCOztBQUVyQjs7SUFFSSxrQkFBa0I7SUFDbEIsU0FBUztJQUNULGNBQWM7SUFDZCxZQUFZO0lBQ1oseUJBQXlCO0lBQ3pCLFdBQVc7SUFDWCxlQUFlO0FBQ25COztBQUVBO0lBQ0ksWUFBWTtJQUNaLGlCQUFpQjtBQUNyQjs7QUFFQTtJQUNJLFdBQVc7SUFDWCxnQkFBZ0I7QUFDcEI7O0FBR0EsVUFBVTs7QUFDVjtJQUNJLGtCQUFrQjtJQUNsQixpQkFBaUI7SUFDakIsV0FBVztJQUNYLFVBQVU7SUFDVixtQkFBbUI7SUFDbkIsNEJBQTRCO0lBQzVCLHlCQUF5QjtJQUN6Qiw2QkFBNkI7SUFDN0IsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbn1cblxuLm9wdGlvbnMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICAgIHotaW5kZXg6IDEwNDg7XG4gICAgYm90dG9tOiA0ZW07XG4gICAgcmlnaHQ6IDRlbTtcbiAgICAvKiBsZWZ0OiA1ZW07ICovXG59XG5cbjo6bmctZGVlcCAuc2lkZS1iYXIge1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xuICAgIHotaW5kZXg6IDEwNDkgIWltcG9ydGFudDtcbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhci1jb250ZW50IHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgIG1heC1oZWlnaHQ6IDEwMHZoO1xuICAgIG1heC13aWR0aDogMTAwdnc7XG59XG5cbiN3ZWJnbC1jYW52YXMsXG4jY3NzLWNhbnZhcyB7XG4gICAgLyogYXZvaWQgc2Nyb2xsYmFycyAqL1xuICAgIHdpZHRoOiBjYWxjKDEwMHZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuI2Nsb3NlLXByZXZpZXcge1xuICAgIGNvbG9yOiAjNmM3NTdkICFpbXBvcnRhbnQ7IFxuICAgIG91dGxpbmU6IDA7XG59XG5cbmJ1dHRvbixcbmJ1dHRvbjpmb2N1cyB7XG4gICAgb3V0bGluZTogMCAhaW1wb3J0YW50O1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBib3R0b206IDFlbTtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIHotaW5kZXg6IDk5OTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kID4gcCB7XG4gICAgbWFyZ2luLXRvcDogLjQgcmVtICFpbXBvcnRhbnQ7IC8qIHZlcnRpY2FsbHkgKi9cbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyID4gZGl2IHtcbiAgICBtYXJnaW46IC4yNWVtO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciA+IGRpdiA+IHNwYW4ge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgaGVpZ2h0OiAyMHB4O1xuICAgIHdpZHRoOiAyMHB4O1xufVxuXG4uZXJyb3Ige1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50OyBcbiAgICBib3R0b206IDBlbTtcbiAgICBtYXgtd2lkdGg6IDUxMnB4O1xuICAgIG1hcmdpbjogMC41ZW07XG4gICAgei1pbmRleDogMTAwMDtcbn1cblxuLmVycm9yIHAge1xuICAgIHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQ7XG59XG5cbi5wYy10b29sdGlwIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgb3BhY2l0eTogMDtcbiAgICB3aWR0aDogMjUwcHg7XG4gICAgaGVpZ2h0OiBhdXRvO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuICAgIHBhZGRpbmc6IDI1cHg7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIHRvcDogMDtcbiAgICBsZWZ0OiAwO1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjI1cyBlYXNlLWluLW91dDtcbn1cblxuLnByZXZpZXctaXRlbSB7XG4gICAgbWFyZ2luLXRvcDogMmVtO1xuICAgIG1hcmdpbi1ib3R0b206IDJlbTtcbiAgICBtYXgtd2lkdGg6IDI1dnc7XG59XG5cbi5wcmV2aWV3LXRpdGxlIHtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LXBpY3R1cmUge1xuICAgIG1heC13aWR0aDogaW5oZXJpdDtcbn1cbi5wcmV2aWV3LW1ldGFpbmZvIHtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG4gICAgZm9udC1zaXplOiAxOHB4O1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctZGVzY3JpcHRpb24ge1xuICAgIHRleHQtYWxpZ246IGp1c3RpZnk7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xufVxuXG46Om5nLWRlZXAgLnRpbWUtc2xpY2UtbGFiZWwge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24sXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24gdGV4dCB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uLFxuOjpuZy1kZWVwIC5yZXNldEJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi8qREFUIEdVSSovXG46Om5nLWRlZXAgLmRnLmFjIHtcbiAgICB6LWluZGV4OiAxMDAwICFpbXBvcnRhbnQ7XG59XG5cbi8qTU9EQUwgQ1NTKi9cbi5tb2RhbCB7XG4gICAgZGlzcGxheTogbm9uZTsgLyogSGlkZGVuIGJ5IGRlZmF1bHQgKi9cbiAgICBwb3NpdGlvbjogZml4ZWQ7IC8qIFN0YXkgaW4gcGxhY2UgKi9cbiAgICB6LWluZGV4OiAxOyAvKiBTaXQgb24gdG9wICovXG4gICAgcGFkZGluZy10b3A6IDEwMHB4OyAvKiBMb2NhdGlvbiBvZiB0aGUgYm94ICovXG4gICAgbGVmdDogMDtcbiAgICB0b3A6IDA7XG4gICAgd2lkdGg6IDEwMCU7IC8qIEZ1bGwgd2lkdGggKi9cbiAgICBoZWlnaHQ6IDEwMCU7IC8qIEZ1bGwgaGVpZ2h0ICovXG4gICAgb3ZlcmZsb3c6IGF1dG87IC8qIEVuYWJsZSBzY3JvbGwgaWYgbmVlZGVkICovXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDAsMCwwKTsgLyogRmFsbGJhY2sgY29sb3IgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsMCwwLDAuOSk7IC8qIEJsYWNrIHcvIG9wYWNpdHkgKi9cbiAgfVxuICBcbiAgLyogTW9kYWwgQ29udGVudCAoSW1hZ2UpICovXG4gIC5tb2RhbC1jb250ZW50IHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IGF1dG8gIWltcG9ydGFudDtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG4gICAgbWF4LWhlaWdodDogODAlO1xuICB9XG4gIFxuICAvKiBDYXB0aW9uIG9mIE1vZGFsIEltYWdlIChJbWFnZSBUZXh0KSAtIFNhbWUgV2lkdGggYXMgdGhlIEltYWdlICovXG4gICNjYXB0aW9uIHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBtYXgtd2lkdGg6IDcwMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBjb2xvcjogI2NjYztcbiAgICBwYWRkaW5nOiAxMHB4IDA7XG4gICAgaGVpZ2h0OiAxNTBweDtcbiAgfVxuICBcbiAgLyogQWRkIEFuaW1hdGlvbiAtIFpvb20gaW4gdGhlIE1vZGFsICovXG4gIC5tb2RhbC1jb250ZW50LCAjY2FwdGlvbiB7IFxuICAgIGFuaW1hdGlvbi1uYW1lOiB6b29tO1xuICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMC42cztcbiAgfVxuICBcbiAgQGtleWZyYW1lcyB6b29tIHtcbiAgICBmcm9tIHt0cmFuc2Zvcm06c2NhbGUoMCl9IFxuICAgIHRvIHt0cmFuc2Zvcm06c2NhbGUoMSl9XG4gIH1cbiAgXG4gIC8qIFRoZSBDbG9zZSBCdXR0b24gKi9cbiAgLmNsb3NlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxNXB4O1xuICAgIHJpZ2h0OiAzNXB4O1xuICAgIGNvbG9yOiAjZjFmMWYxICFpbXBvcnRhbnQ7XG4gICAgZm9udC1zaXplOiA0MHB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgIHRyYW5zaXRpb246IDAuM3M7XG4gIH1cbiAgXG4gIC5jbG9zZTpob3ZlcixcbiAgLmNsb3NlOmZvY3VzIHtcbiAgICBjb2xvcjogI2JiYjtcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICB9XG4gIFxuICAvKiAxMDAlIEltYWdlIFdpZHRoIG9uIFNtYWxsZXIgU2NyZWVucyAqL1xuICBAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDcwMHB4KXtcbiAgICAubW9kYWwtY29udGVudCB7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICB9XG4gIH1cblxuLyogUHJvY2Vzc2luZyBzcGlubmVyICovXG4ucHJvY2Vzc2luZy1jaGFuZ2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDUwJTtcbiAgICBsZWZ0OiA1MCU7XG4gICAgd2lkdGg6IDI1JTtcbiAgICBoZWlnaHQ6IDI1JTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzAwMDtcbiAgICBvcGFjaXR5OiAuNTtcbiAgICBib3JkZXItcmFkaXVzOiAuMjVyZW07XG4gICAgei1pbmRleDogMTAwMDtcbn1cblxuLnByb2Nlc3NpbmctY2hhbmdlIHAge1xuICAgIGNvbG9yOiB3aGl0ZTtcbn1cblxuLypuYXZpZ2F0aW9uIGJ1dHRvbnMqL1xuXG4jbmV4dCxcbiNwcmV2aW91cyB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRvcDogLTU1JTtcbiAgICBmb250LXNpemU6IDJlbTtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgdGV4dC1zaGFkb3c6IDAgMXB4IDAgI2ZmZjtcbiAgICBvcGFjaXR5OiAuNTtcbiAgICBkaXNwbGF5OiBpbmxpbmU7XG59XG5cbiNuZXh0IHtcbiAgICBmbG9hdDogcmlnaHQ7ICAgXG4gICAgbWFyZ2luLXJpZ2h0OiA1ZW07XG59XG5cbiNwcmV2aW91cyB7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgbWFyZ2luLWxlZnQ6IDVlbTtcbn1cblxuXG4vKm92ZXJsYXkqL1xuLm92ZXJsYXkge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICAvKiB3aWR0aDogMTAwJTsgKi9cbiAgICBib3R0b206IDBlbTtcbiAgICByaWdodDogMmVtO1xuICAgIC8qIGRpc3BsYXk6IGZsZXg7ICovXG4gICAgLyogZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgKi9cbiAgICAvKiBhbGlnbi1pdGVtczogY2VudGVyOyAqL1xuICAgIC8qIGp1c3RpZnktY29udGVudDogY2VudGVyOyAqL1xuICAgIGZvbnQtc2l6ZTogMjhweDtcbiAgICBjb2xvcjogIzZjNzU3ZDtcbiAgICBvcGFjaXR5OiAuNTtcbn0iXX0= */"
+module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-legend > p {\n    margin-top: .4 rem !important; /* vertically */\n}\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-wrapper > div {\n    margin: .25em;\n}\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n.error p {\n    word-break: break-word;\n}\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n.preview-title {\n    color: gray;\n}\n.preview-picture {\n    max-width: inherit;\n}\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n/*DAT GUI*/\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*MODAL CSS*/\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n/* Modal Content (Image) */\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n/* Add Animation - Zoom in the Modal */\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n/* The Close Button */\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n/* 100% Image Width on Smaller Screens */\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n/* Processing spinner */\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n.processing-change p {\n    color: white;\n}\n/*navigation buttons*/\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n/*overlay*/\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSx3QkFBd0I7QUFDNUI7QUFDQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsYUFBYTtJQUNiLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGVBQWU7QUFDbkI7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25CO0FBRUE7SUFDSSxZQUFZO0lBQ1osc0JBQXNCO0lBQ3RCLGdDQUFnQztJQUNoQyx3QkFBd0I7QUFDNUI7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCO0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjtBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDtBQUVBOztJQUVJLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLFlBQVk7SUFDWixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7QUFFQTtJQUNJLDZCQUE2QixFQUFFLGVBQWU7QUFDbEQ7QUFFQTtJQUNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksYUFBYTtBQUNqQjtBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztBQUNmO0FBRUE7SUFDSSw2QkFBNkI7SUFDN0IsV0FBVztJQUNYLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsYUFBYTtBQUNqQjtBQUVBO0lBQ0ksc0JB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ZiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmhpZGV7XG4gICAgZGlzcGxheTogbm9uZSAhaW1wb3J0YW50O1xufVxuLndyYXBwZXIge1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBoZWlnaHQ6IDEwMHZoO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbn1cblxuLmNhbnZhc2VzIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4ub3B0aW9ucyB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7XG4gICAgei1pbmRleDogMTA0ODtcbiAgICBib3R0b206IDRlbTtcbiAgICByaWdodDogNGVtO1xuICAgIC8qIGxlZnQ6IDVlbTsgKi9cbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhciB7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XG4gICAgYm9yZGVyLXJpZ2h0OiAycHggZGFzaGVkICNmM2YzZjM7XG4gICAgei1pbmRleDogMTA0OSAhaW1wb3J0YW50O1xufVxuXG46Om5nLWRlZXAgLnNpZGUtYmFyLWNvbnRlbnQge1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgbWF4LWhlaWdodDogMTAwdmg7XG4gICAgbWF4LXdpZHRoOiAxMDB2dztcbn1cblxuI3dlYmdsLWNhbnZhcyxcbiNjc3MtY2FudmFzIHtcbiAgICAvKiBhdm9pZCBzY3JvbGxiYXJzICovXG4gICAgd2lkdGg6IGNhbGMoMTAwdncgLSAuMmVtKTtcbiAgICBoZWlnaHQ6IGNhbGMoMTAwdmggLSAuMmVtKTtcbn1cblxuI2Nzcy1jYW52YXMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDBlbTtcbiAgICB6LWluZGV4OiAtOTk5O1xufVxuXG4jY2xvc2UtcHJldmlldyB7XG4gICAgY29sb3I6ICM2Yzc1N2QgIWltcG9ydGFudDsgXG4gICAgb3V0bGluZTogMDtcbn1cblxuYnV0dG9uLFxuYnV0dG9uOmZvY3VzIHtcbiAgICBvdXRsaW5lOiAwICFpbXBvcnRhbnQ7XG59XG5cbi5jYXRlZ29yaWVzIHtcbiAgICBtYXJnaW4tdG9wOiAwLjVlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAwLjVlbTtcbn1cblxuLmNhdGVnb3J5LWxlZ2VuZCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGJvdHRvbTogMWVtO1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBtYXJnaW46IGF1dG87XG4gICAgei1pbmRleDogOTk5O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQgPiBwIHtcbiAgICBtYXJnaW4tdG9wOiAuNCByZW0gIWltcG9ydGFudDsgLyogdmVydGljYWxseSAqL1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYge1xuICAgIG1hcmdpbjogLjI1ZW07XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4ucHJldmlldy1pdGVtIHtcbiAgICBtYXJnaW4tdG9wOiAyZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMmVtO1xuICAgIG1heC13aWR0aDogMjV2dztcbn1cblxuLnByZXZpZXctdGl0bGUge1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctcGljdHVyZSB7XG4gICAgbWF4LXdpZHRoOiBpbmhlcml0O1xufVxuLnByZXZpZXctbWV0YWluZm8ge1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbiAgICBmb250LXNpemU6IDE4cHg7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1kZXNjcmlwdGlvbiB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeTtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG59XG5cbjo6bmctZGVlcCAudGltZS1zbGljZS1sYWJlbCB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbixcbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbjo6bmctZGVlcCAucmVzZXRCdXR0b24sXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLypEQVQgR1VJKi9cbjo6bmctZGVlcCAuZGcuYWMge1xuICAgIHotaW5kZXg6IDEwMDAgIWltcG9ydGFudDtcbn1cblxuLypNT0RBTCBDU1MqL1xuLm1vZGFsIHtcbiAgICBkaXNwbGF5OiBub25lOyAvKiBIaWRkZW4gYnkgZGVmYXVsdCAqL1xuICAgIHBvc2l0aW9uOiBmaXhlZDsgLyogU3RheSBpbiBwbGFjZSAqL1xuICAgIHotaW5kZXg6IDE7IC8qIFNpdCBvbiB0b3AgKi9cbiAgICBwYWRkaW5nLXRvcDogMTAwcHg7IC8qIExvY2F0aW9uIG9mIHRoZSBib3ggKi9cbiAgICBsZWZ0OiAwO1xuICAgIHRvcDogMDtcbiAgICB3aWR0aDogMTAwJTsgLyogRnVsbCB3aWR0aCAqL1xuICAgIGhlaWdodDogMTAwJTsgLyogRnVsbCBoZWlnaHQgKi9cbiAgICBvdmVyZmxvdzogYXV0bzsgLyogRW5hYmxlIHNjcm9sbCBpZiBuZWVkZWQgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApOyAvKiBGYWxsYmFjayBjb2xvciAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwwLDAsMC45KTsgLyogQmxhY2sgdy8gb3BhY2l0eSAqL1xuICB9XG4gIFxuICAvKiBNb2RhbCBDb250ZW50IChJbWFnZSkgKi9cbiAgLm1vZGFsLWNvbnRlbnQge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogYXV0byAhaW1wb3J0YW50O1xuICAgIG1heC13aWR0aDogMTAwJTtcbiAgICBtYXgtaGVpZ2h0OiA4MCU7XG4gIH1cbiAgXG4gIC8qIENhcHRpb24gb2YgTW9kYWwgSW1hZ2UgKEltYWdlIFRleHQpIC0gU2FtZSBXaWR0aCBhcyB0aGUgSW1hZ2UgKi9cbiAgI2NhcHRpb24ge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogODAlO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGNvbG9yOiAjY2NjO1xuICAgIHBhZGRpbmc6IDEwcHggMDtcbiAgICBoZWlnaHQ6IDE1MHB4O1xuICB9XG4gIFxuICAvKiBBZGQgQW5pbWF0aW9uIC0gWm9vbSBpbiB0aGUgTW9kYWwgKi9cbiAgLm1vZGFsLWNvbnRlbnQsICNjYXB0aW9uIHsgXG4gICAgYW5pbWF0aW9uLW5hbWU6IHpvb207XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjZzO1xuICB9XG4gIFxuICBAa2V5ZnJhbWVzIHpvb20ge1xuICAgIGZyb20ge3RyYW5zZm9ybTpzY2FsZSgwKX0gXG4gICAgdG8ge3RyYW5zZm9ybTpzY2FsZSgxKX1cbiAgfVxuICBcbiAgLyogVGhlIENsb3NlIEJ1dHRvbiAqL1xuICAuY2xvc2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDE1cHg7XG4gICAgcmlnaHQ6IDM1cHg7XG4gICAgY29sb3I6ICNmMWYxZjEgIWltcG9ydGFudDtcbiAgICBmb250LXNpemU6IDQwcHg7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgdHJhbnNpdGlvbjogMC4zcztcbiAgfVxuICBcbiAgLmNsb3NlOmhvdmVyLFxuICAuY2xvc2U6Zm9jdXMge1xuICAgIGNvbG9yOiAjYmJiO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbiAgXG4gIC8qIDEwMCUgSW1hZ2UgV2lkdGggb24gU21hbGxlciBTY3JlZW5zICovXG4gIEBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzAwcHgpe1xuICAgIC5tb2RhbC1jb250ZW50IHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgIH1cbiAgfVxuXG4vKiBQcm9jZXNzaW5nIHNwaW5uZXIgKi9cbi5wcm9jZXNzaW5nLWNoYW5nZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB3aWR0aDogMjUlO1xuICAgIGhlaWdodDogMjUlO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGJvcmRlci1yYWRpdXM6IC4yNXJlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4ucHJvY2Vzc2luZy1jaGFuZ2UgcCB7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG4vKm5hdmlnYXRpb24gYnV0dG9ucyovXG5cbiNuZXh0LFxuI3ByZXZpb3VzIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgdG9wOiAtNTUlO1xuICAgIGZvbnQtc2l6ZTogMmVtO1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICB0ZXh0LXNoYWRvdzogMCAxcHggMCAjZmZmO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGRpc3BsYXk6IGlubGluZTtcbn1cblxuI25leHQge1xuICAgIGZsb2F0OiByaWdodDsgICBcbiAgICBtYXJnaW4tcmlnaHQ6IDVlbTtcbn1cblxuI3ByZXZpb3VzIHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBtYXJnaW4tbGVmdDogNWVtO1xufVxuXG5cbi8qb3ZlcmxheSovXG4ub3ZlcmxheSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIC8qIHdpZHRoOiAxMDAlOyAqL1xuICAgIGJvdHRvbTogMGVtO1xuICAgIHJpZ2h0OiAyZW07XG4gICAgLyogZGlzcGxheTogZmxleDsgKi9cbiAgICAvKiBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyAqL1xuICAgIC8qIGFsaWduLWl0ZW1zOiBjZW50ZXI7ICovXG4gICAgLyoganVzdGlmeS1jb250ZW50OiBjZW50ZXI7ICovXG4gICAgZm9udC1zaXplOiAyOHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -347,16 +347,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
 /* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
-/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
-/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
-/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
-/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
-/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
+/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
+/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
+/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -382,7 +384,7 @@ var AppComponent = /** @class */ (function () {
         this.processingMessage = 'Loading dataset...';
         this.previewPanel = false;
         // set default view to display all cubes
-        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].POLY_CUBE;
+        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
         // data management
         this.loadingDataset = true;
         this.dataLoaded = false;
@@ -433,9 +435,9 @@ var AppComponent = /** @class */ (function () {
          * and append themselves to the scene
          */
         this.initCubes = function () {
-            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_4__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_5__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_6__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_5__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_6__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_7__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
         };
         /**
          * This function is called when the dataset has been changed
@@ -456,7 +458,7 @@ var AppComponent = /** @class */ (function () {
                         title: "Picture #" + foundItem.id,
                         id: foundItem.id,
                         mediaURL: foundItem.external_url,
-                        date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
+                        date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
                         location: foundItem.location_name,
                         description: foundItem.description,
                         externalURL: foundItem.media_url,
@@ -492,7 +494,7 @@ var AppComponent = /** @class */ (function () {
          * Initializes the GUI elements including button event listeners
          */
         this.initGUI = function () {
-            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_9__["GUI"]();
+            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_10__["GUI"]();
             // general settings
             _this.processingMessage = 'Processing new configuration...';
             _this.gui.pCubeConfigEmitter.on('processing', function (change) {
@@ -575,15 +577,13 @@ var AppComponent = /** @class */ (function () {
                 }
             });
             // button event listeners
-            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].GEO_CUBE); });
-            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].SET_CUBE); });
-            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_8__["VIEW_STATES"].NET_CUBE); });
+            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE); });
+            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE); });
+            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE); });
             _this.gui.stcBtn.addEventListener('click', function () {
                 _this.gCube.transitionSTC();
                 _this.sCube.transitionSTC();
                 _this.nCube.transitionSTC();
-                //update timeline color as false
-                _this.timelineColor(false);
                 //rotate camera to STC
                 _this.transitionSTCCamera();
             });
@@ -591,8 +591,6 @@ var AppComponent = /** @class */ (function () {
                 _this.gCube.transitionJP();
                 _this.sCube.transitionJP();
                 _this.nCube.transitionJP();
-                //update timeline color as false 
-                _this.timelineColor(false);
                 //rotate camera to JP
                 _this.transitionJPCamera();
             });
@@ -603,8 +601,6 @@ var AppComponent = /** @class */ (function () {
                 _this.sCube.transitionSI();
                 _this.nCube.transitionSI();
                 //this.sCube.updateNodeColor('temporal'); //FIXME: need to be called after SI is finished in SCUBE
-                //update timeline color as true
-                _this.timelineColor(true);
                 //rotate camera to SI
                 _this.transitionSICamera();
             });
@@ -641,7 +637,7 @@ var AppComponent = /** @class */ (function () {
                     break;
                 default: break;
             }
-            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
+            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
             tweenPos.to(targetVector, 250);
             tweenLookAt.to(cubePos, 250);
             // FIXME: lookAt still buggy -> find how to fix or consider first person action cam
@@ -672,7 +668,7 @@ var AppComponent = /** @class */ (function () {
         this.previewItem = null;
         this.categories = new Array();
         this.categoriesAndColors = new Map();
-        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DURATION : 2000;
+        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION : 2000;
         this.currentlySelectedCategory = '';
         this.currentlySelectedDateExtent = new Array();
     }
@@ -696,8 +692,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.initDataset = function () {
         var _this = this;
         this.loadingDataset = true;
-        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_11__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
-        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_10__["DataManager"]();
+        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
+        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__["DataManager"]();
         // perform request to get spreadsheet json 
         // parse it when done and pass to datamanager
         this.google.load(_id).then(function (success) {
@@ -769,7 +765,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + selected.id,
             id: selected.id,
             mediaURL: selected.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_12__(selected.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_13__(selected.date_time).format('DD-MM-YYYY'),
             related: selected.target_nodes,
             location: selected.location_name,
             description: selected.description,
@@ -791,7 +787,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + foundItem.id,
             id: foundItem.id,
             mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
             location: foundItem.location_name,
             related: foundItem.target_nodes,
             description: foundItem.description,
@@ -811,7 +807,7 @@ var AppComponent = /** @class */ (function () {
             title: "Picture #" + foundItem.id,
             id: foundItem.id,
             mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_12__(foundItem.date_time).format('DD-MM-YYYY'),
+            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
             related: foundItem.target_nodes,
             location: foundItem.location_name,
             description: foundItem.description,
@@ -831,6 +827,8 @@ var AppComponent = /** @class */ (function () {
       */
     AppComponent.prototype.transitionSICamera = function () {
         var _this = this;
+        //update timeline color as true
+        this.timelineColor(true);
         this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //stop rotation
         this.controls.enableRotate = false;
@@ -849,6 +847,8 @@ var AppComponent = /** @class */ (function () {
      */
     AppComponent.prototype.transitionSTCCamera = function () {
         var _this = this;
+        //update timeline color as false
+        this.timelineColor(false);
         this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //allow rotation
         this.controls.enableRotate = true;
@@ -864,6 +864,8 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.transitionJPCamera = function () {
         var _this = this;
+        //update timeline color
+        this.timelineColor(false);
         this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //stop rotation
         this.controls.enableRotate = false;
@@ -895,19 +897,14 @@ var AppComponent = /** @class */ (function () {
      * This function is used to update brush timeline color
      */
     AppComponent.prototype.timelineColor = function (visible) {
-        // hide or show the side color legend
-        //    let colors = D3.scaleSequential(D3.interpolateViridis).domain([this.dataManager.getMinDate(), this.dataManager.getMaxDate()]);
-        //    let labels =  D3.selectAll('.tick')
-        //    labels.nodes().forEach(function(d,i) {
-        //       let label = D3.select(d),
-        //       date = D3.select(d).data()[0];
-        //       if(visible == true){
-        //          label.select('text').attr('fill', colors(+date))
-        //       }
-        //       else{
-        //          label.select('text').attr('fill', 'grey')
-        //       }
-        //   })
+        if (visible == true) {
+            // D3.select('#timeLegend').classed('hide', false)
+            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'block');
+        }
+        else {
+            // D3.select('#timeLegend').classed('hide', true)
+            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'none');
+        }
     };
     AppComponent.prototype.usePerspectiveCamera = function () {
         var cameraPosition = this.orthographicCamera.position.clone();
@@ -992,7 +989,7 @@ var AppComponent = /** @class */ (function () {
         this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
     };
     AppComponent.prototype.formatDate = function (date) {
-        return moment__WEBPACK_IMPORTED_MODULE_12__(date).format('DD/MM/YYYY');
+        return moment__WEBPACK_IMPORTED_MODULE_13__(date).format('DD/MM/YYYY');
     };
     /**
      *
@@ -1059,7 +1056,7 @@ var AppComponent = /** @class */ (function () {
          * - initializes cube components
          */
         ,
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_7__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -3221,6 +3218,8 @@ var SetCube = /** @class */ (function () {
                 circle.matrixWorldNeedsUpdate = true;
                 circle.name = category.key;
                 circle.rotation.x = Math.PI / 2;
+                //hide the circle layer in SI view
+                (segs == 1) ? circle.visible = false : circle.visible = true;
                 // circle.name = timeLayer.key + category.key;
                 //apply group positions
                 _this.getLayouts(layout, category, circle);
@@ -3985,6 +3984,7 @@ var TimeSliderComponent = /** @class */ (function () {
         this._brushMemory = new Array();
     }
     TimeSliderComponent.prototype.ngAfterViewInit = function () {
+        // console.log(this.minDate)
         // define margin for timeline
         var margin = {
             top: 0, bottom: 0,
@@ -4002,6 +4002,7 @@ var TimeSliderComponent = /** @class */ (function () {
             .on('end', this.brushEnd.bind(this));
         this._svg = d3__WEBPACK_IMPORTED_MODULE_2__["select"](this.timeSlider.nativeElement)
             .append('svg')
+            .attr('transform', 'translate(' + 20 + ', 0 )')
             .attr('width', this.width)
             .attr('height', this.height)
             .append('g');
@@ -4015,6 +4016,44 @@ var TimeSliderComponent = /** @class */ (function () {
             return d3__WEBPACK_IMPORTED_MODULE_2__["timeFormat"]('%Y')(d);
         }))
             .selectAll('.tick');
+        //Legend
+        var defs = this._svg.append("defs");
+        var linearGradient = defs.append("linearGradient")
+            .attr("id", "linear-gradient");
+        //Vertical gradient
+        linearGradient
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "0%")
+            .attr("y2", "100%");
+        //A color scale
+        var colorScale = d3__WEBPACK_IMPORTED_MODULE_2__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_2__["interpolateViridis"])
+            .domain([this.height, 0]);
+        linearGradient.selectAll("stop")
+            .data([
+            { offset: "0%", color: "#440154" },
+            { offset: "12.5%", color: "#472775" },
+            { offset: "25%", color: "#3c4f8a" },
+            { offset: "37.5%", color: "#2d6d8e" },
+            { offset: "50%", color: "#218f8d" },
+            { offset: "62.5%", color: "#5cc763" },
+            { offset: "75%", color: "#5cc763" },
+            { offset: "87.5%", color: "#a8db35" },
+            { offset: "100%", color: "#fde725" }
+        ])
+            .enter().append("stop")
+            .attr("offset", function (d) { return d.offset; })
+            .attr("stop-color", function (d) { return d.color; });
+        //legend
+        var legend = this._svg.append('g')
+            .attr('class', 'timeLegend')
+            .append('rect')
+            .attr('id', 'timeLegend')
+            .style('display', 'none')
+            .attr('width', 20 + 'px')
+            .attr('height', this.height)
+            .attr('transform', 'translate(' + -20 + ', 0 )')
+            .attr('fill', "url(#linear-gradient)");
         //animate button
         var playButton = this._svg.append('g')
             .attr('transform', 'translate(' + 0 + ',' + (this.height + buttonYSize) + ')')
