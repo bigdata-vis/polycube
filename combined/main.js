@@ -4031,15 +4031,15 @@ var TimeSliderComponent = /** @class */ (function () {
             .domain([this.height, 0]);
         linearGradient.selectAll("stop")
             .data([
-            { offset: "0%", color: "#440154" },
-            { offset: "12.5%", color: "#472775" },
-            { offset: "25%", color: "#3c4f8a" },
-            { offset: "37.5%", color: "#2d6d8e" },
+            { offset: "0%", color: "#fde725" },
+            { offset: "12.5%", color: "#a8db35" },
+            { offset: "25%", color: "#5cc763" },
+            { offset: "37.5%", color: "#5cc763" },
             { offset: "50%", color: "#218f8d" },
-            { offset: "62.5%", color: "#5cc763" },
-            { offset: "75%", color: "#5cc763" },
-            { offset: "87.5%", color: "#a8db35" },
-            { offset: "100%", color: "#fde725" }
+            { offset: "62.5%", color: "#2d6d8e" },
+            { offset: "75%", color: "#3c4f8a" },
+            { offset: "87.5%", color: "#472775" },
+            { offset: "100%", color: "#440154" }
         ])
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })
