@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-legend > p {\n    margin-top: .4 rem !important; /* vertically */\n}\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-wrapper > div {\n    margin: .25em;\n}\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n.error p {\n    word-break: break-word;\n}\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n.preview-title {\n    color: gray;\n}\n.preview-picture {\n    max-width: inherit;\n}\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n/*DAT GUI*/\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*MODAL CSS*/\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n/* Modal Content (Image) */\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n/* Add Animation - Zoom in the Modal */\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n/* The Close Button */\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n/* 100% Image Width on Smaller Screens */\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n/* Processing spinner */\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n.processing-change p {\n    color: white;\n}\n/*navigation buttons*/\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n/*overlay*/\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSx3QkFBd0I7QUFDNUI7QUFDQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsYUFBYTtJQUNiLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGVBQWU7QUFDbkI7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25CO0FBRUE7SUFDSSxZQUFZO0lBQ1osc0JBQXNCO0lBQ3RCLGdDQUFnQztJQUNoQyx3QkFBd0I7QUFDNUI7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCO0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjtBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDtBQUVBOztJQUVJLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLFlBQVk7SUFDWixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7QUFFQTtJQUNJLDZCQUE2QixFQUFFLGVBQWU7QUFDbEQ7QUFFQTtJQUNJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksYUFBYTtBQUNqQjtBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztBQUNmO0FBRUE7SUFDSSw2QkFBNkI7SUFDN0IsV0FBVztJQUNYLGdCQUFnQjtJQUNoQixhQUFhO0lBQ2IsYUFBYTtBQUNqQjtBQUVBO0lBQ0ksc0JB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ZiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmhpZGV7XG4gICAgZGlzcGxheTogbm9uZSAhaW1wb3J0YW50O1xufVxuLndyYXBwZXIge1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBoZWlnaHQ6IDEwMHZoO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbn1cblxuLmNhbnZhc2VzIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiBpbmhlcml0O1xufVxuXG4ub3B0aW9ucyB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7XG4gICAgei1pbmRleDogMTA0ODtcbiAgICBib3R0b206IDRlbTtcbiAgICByaWdodDogNGVtO1xuICAgIC8qIGxlZnQ6IDVlbTsgKi9cbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhciB7XG4gICAgcGFkZGluZzogMWVtO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XG4gICAgYm9yZGVyLXJpZ2h0OiAycHggZGFzaGVkICNmM2YzZjM7XG4gICAgei1pbmRleDogMTA0OSAhaW1wb3J0YW50O1xufVxuXG46Om5nLWRlZXAgLnNpZGUtYmFyLWNvbnRlbnQge1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgbWF4LWhlaWdodDogMTAwdmg7XG4gICAgbWF4LXdpZHRoOiAxMDB2dztcbn1cblxuI3dlYmdsLWNhbnZhcyxcbiNjc3MtY2FudmFzIHtcbiAgICAvKiBhdm9pZCBzY3JvbGxiYXJzICovXG4gICAgd2lkdGg6IGNhbGMoMTAwdncgLSAuMmVtKTtcbiAgICBoZWlnaHQ6IGNhbGMoMTAwdmggLSAuMmVtKTtcbn1cblxuI2Nzcy1jYW52YXMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDBlbTtcbiAgICB6LWluZGV4OiAtOTk5O1xufVxuXG4jY2xvc2UtcHJldmlldyB7XG4gICAgY29sb3I6ICM2Yzc1N2QgIWltcG9ydGFudDsgXG4gICAgb3V0bGluZTogMDtcbn1cblxuYnV0dG9uLFxuYnV0dG9uOmZvY3VzIHtcbiAgICBvdXRsaW5lOiAwICFpbXBvcnRhbnQ7XG59XG5cbi5jYXRlZ29yaWVzIHtcbiAgICBtYXJnaW4tdG9wOiAwLjVlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAwLjVlbTtcbn1cblxuLmNhdGVnb3J5LWxlZ2VuZCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGJvdHRvbTogMWVtO1xuICAgIHdpZHRoOiAxMDB2dztcbiAgICBtYXJnaW46IGF1dG87XG4gICAgei1pbmRleDogOTk5O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQgPiBwIHtcbiAgICBtYXJnaW4tdG9wOiAuNCByZW0gIWltcG9ydGFudDsgLyogdmVydGljYWxseSAqL1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYge1xuICAgIG1hcmdpbjogLjI1ZW07XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4ucHJldmlldy1pdGVtIHtcbiAgICBtYXJnaW4tdG9wOiAyZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMmVtO1xuICAgIG1heC13aWR0aDogMjV2dztcbn1cblxuLnByZXZpZXctdGl0bGUge1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctcGljdHVyZSB7XG4gICAgbWF4LXdpZHRoOiBpbmhlcml0O1xufVxuLnByZXZpZXctbWV0YWluZm8ge1xuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbiAgICBmb250LXNpemU6IDE4cHg7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1kZXNjcmlwdGlvbiB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeTtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG59XG5cbjo6bmctZGVlcCAudGltZS1zbGljZS1sYWJlbCB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbixcbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbjo6bmctZGVlcCAucmVzZXRCdXR0b24sXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLypEQVQgR1VJKi9cbjo6bmctZGVlcCAuZGcuYWMge1xuICAgIHotaW5kZXg6IDEwMDAgIWltcG9ydGFudDtcbn1cblxuLypNT0RBTCBDU1MqL1xuLm1vZGFsIHtcbiAgICBkaXNwbGF5OiBub25lOyAvKiBIaWRkZW4gYnkgZGVmYXVsdCAqL1xuICAgIHBvc2l0aW9uOiBmaXhlZDsgLyogU3RheSBpbiBwbGFjZSAqL1xuICAgIHotaW5kZXg6IDE7IC8qIFNpdCBvbiB0b3AgKi9cbiAgICBwYWRkaW5nLXRvcDogMTAwcHg7IC8qIExvY2F0aW9uIG9mIHRoZSBib3ggKi9cbiAgICBsZWZ0OiAwO1xuICAgIHRvcDogMDtcbiAgICB3aWR0aDogMTAwJTsgLyogRnVsbCB3aWR0aCAqL1xuICAgIGhlaWdodDogMTAwJTsgLyogRnVsbCBoZWlnaHQgKi9cbiAgICBvdmVyZmxvdzogYXV0bzsgLyogRW5hYmxlIHNjcm9sbCBpZiBuZWVkZWQgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApOyAvKiBGYWxsYmFjayBjb2xvciAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwwLDAsMC45KTsgLyogQmxhY2sgdy8gb3BhY2l0eSAqL1xuICB9XG4gIFxuICAvKiBNb2RhbCBDb250ZW50IChJbWFnZSkgKi9cbiAgLm1vZGFsLWNvbnRlbnQge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogYXV0byAhaW1wb3J0YW50O1xuICAgIG1heC13aWR0aDogMTAwJTtcbiAgICBtYXgtaGVpZ2h0OiA4MCU7XG4gIH1cbiAgXG4gIC8qIENhcHRpb24gb2YgTW9kYWwgSW1hZ2UgKEltYWdlIFRleHQpIC0gU2FtZSBXaWR0aCBhcyB0aGUgSW1hZ2UgKi9cbiAgI2NhcHRpb24ge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogODAlO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGNvbG9yOiAjY2NjO1xuICAgIHBhZGRpbmc6IDEwcHggMDtcbiAgICBoZWlnaHQ6IDE1MHB4O1xuICB9XG4gIFxuICAvKiBBZGQgQW5pbWF0aW9uIC0gWm9vbSBpbiB0aGUgTW9kYWwgKi9cbiAgLm1vZGFsLWNvbnRlbnQsICNjYXB0aW9uIHsgXG4gICAgYW5pbWF0aW9uLW5hbWU6IHpvb207XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjZzO1xuICB9XG4gIFxuICBAa2V5ZnJhbWVzIHpvb20ge1xuICAgIGZyb20ge3RyYW5zZm9ybTpzY2FsZSgwKX0gXG4gICAgdG8ge3RyYW5zZm9ybTpzY2FsZSgxKX1cbiAgfVxuICBcbiAgLyogVGhlIENsb3NlIEJ1dHRvbiAqL1xuICAuY2xvc2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDE1cHg7XG4gICAgcmlnaHQ6IDM1cHg7XG4gICAgY29sb3I6ICNmMWYxZjEgIWltcG9ydGFudDtcbiAgICBmb250LXNpemU6IDQwcHg7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgdHJhbnNpdGlvbjogMC4zcztcbiAgfVxuICBcbiAgLmNsb3NlOmhvdmVyLFxuICAuY2xvc2U6Zm9jdXMge1xuICAgIGNvbG9yOiAjYmJiO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbiAgXG4gIC8qIDEwMCUgSW1hZ2UgV2lkdGggb24gU21hbGxlciBTY3JlZW5zICovXG4gIEBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzAwcHgpe1xuICAgIC5tb2RhbC1jb250ZW50IHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgIH1cbiAgfVxuXG4vKiBQcm9jZXNzaW5nIHNwaW5uZXIgKi9cbi5wcm9jZXNzaW5nLWNoYW5nZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB3aWR0aDogMjUlO1xuICAgIGhlaWdodDogMjUlO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGJvcmRlci1yYWRpdXM6IC4yNXJlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4ucHJvY2Vzc2luZy1jaGFuZ2UgcCB7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG4vKm5hdmlnYXRpb24gYnV0dG9ucyovXG5cbiNuZXh0LFxuI3ByZXZpb3VzIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgdG9wOiAtNTUlO1xuICAgIGZvbnQtc2l6ZTogMmVtO1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICB0ZXh0LXNoYWRvdzogMCAxcHggMCAjZmZmO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGRpc3BsYXk6IGlubGluZTtcbn1cblxuI25leHQge1xuICAgIGZsb2F0OiByaWdodDsgICBcbiAgICBtYXJnaW4tcmlnaHQ6IDVlbTtcbn1cblxuI3ByZXZpb3VzIHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBtYXJnaW4tbGVmdDogNWVtO1xufVxuXG5cbi8qb3ZlcmxheSovXG4ub3ZlcmxheSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIC8qIHdpZHRoOiAxMDAlOyAqL1xuICAgIGJvdHRvbTogMGVtO1xuICAgIHJpZ2h0OiAyZW07XG4gICAgLyogZGlzcGxheTogZmxleDsgKi9cbiAgICAvKiBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyAqL1xuICAgIC8qIGFsaWduLWl0ZW1zOiBjZW50ZXI7ICovXG4gICAgLyoganVzdGlmeS1jb250ZW50OiBjZW50ZXI7ICovXG4gICAgZm9udC1zaXplOiAyOHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
+module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    z-index: 999;\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-legend span {\n    margin-top: 1em; /* vertically */\n}\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-wrapper > div {\n    margin: .25em;\n}\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n.active {\n    border: 4px solid rgba(128,128,128, .75);\n}\n.inactive {\n    border: 4px solid transparent;\n}\n.error p {\n    word-break: break-word;\n}\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n/** Image grid for related pics **/\n.image-grid {\n    display: flex;\n    flex-wrap: wrap;\n    flex-direction: row;\n}\n.image-grid-cell {\n    width: 50%;\n    /* margin: .125em; */\n}\n.image-grid-image {\n    max-width: 100%;\n}\n.list-group-item-thumbnail {\n    max-width: 50%;\n}\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n.preview-title {\n    color: gray;\n}\n.preview-picture {\n    max-width: inherit;\n}\n.preview-metainfo {\n    font-style: italic;\n    font-size: 18px;\n    color: gray;\n}\n.preview-description {\n    text-align: justify;\n    font-style: italic;\n}\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n/*DAT GUI*/\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*MODAL CSS*/\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n/* Modal Content (Image) */\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n/* Add Animation - Zoom in the Modal */\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n/* The Close Button */\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n/* 100% Image Width on Smaller Screens */\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n/* Processing spinner */\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n.processing-change p {\n    color: white;\n}\n/*navigation buttons*/\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n/*overlay*/\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSx3QkFBd0I7QUFDNUI7QUFDQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsYUFBYTtJQUNiLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGVBQWU7QUFDbkI7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25CO0FBRUE7SUFDSSxZQUFZO0lBQ1osc0JBQXNCO0lBQ3RCLGdDQUFnQztJQUNoQyx3QkFBd0I7QUFDNUI7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCO0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjtBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDtBQUVBOztJQUVJLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLFlBQVk7SUFDWixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7QUFFQTtJQUNJLGVBQWUsRUFBRSxlQUFlO0FBQ3BDO0FBRUE7SUFDSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7QUFDekI7QUFFQTtJQUNJLGFBQWE7QUFDakI7QUFFQTtJQUNJLGVBQWU7SUFDZixrQkFBa0I7SUFDbEIsWUFBWTtJQUNaLFdBQVc7QUFDZjtBQUVBO0lBQ0ksNkJBQTZCO0lBQzdCLFdBQVc7SUFDWCxnQkFBZ0I7SUFDaEIsYUFBYTtJQUNiLGFBQWE7QUFDakI7QUFFQTtJQUNJLHdDQUF3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O0lBQ0ksV0FBVztJQUNYLGdCQUFnQjtBQUNwQjtBQUdBLFVBQVU7QUFDVjtJQUNJLGtCQUFrQjtJQUNsQixpQkFBaUI7SUFDakIsV0FBVztJQUNYLFVBQVU7SUFDVixtQkFBbUI7SUFDbkIsNEJBQTRCO0lBQzVCLHlCQUF5QjtJQUN6Qiw2QkFBNkI7SUFDN0IsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5oaWRle1xuICAgIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDtcbn1cbi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbn1cblxuLm9wdGlvbnMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICAgIHotaW5kZXg6IDEwNDg7XG4gICAgYm90dG9tOiA0ZW07XG4gICAgcmlnaHQ6IDRlbTtcbiAgICAvKiBsZWZ0OiA1ZW07ICovXG59XG5cbjo6bmctZGVlcCAuc2lkZS1iYXIge1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xuICAgIHotaW5kZXg6IDEwNDkgIWltcG9ydGFudDtcbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhci1jb250ZW50IHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgIG1heC1oZWlnaHQ6IDEwMHZoO1xuICAgIG1heC13aWR0aDogMTAwdnc7XG59XG5cbiN3ZWJnbC1jYW52YXMsXG4jY3NzLWNhbnZhcyB7XG4gICAgLyogYXZvaWQgc2Nyb2xsYmFycyAqL1xuICAgIHdpZHRoOiBjYWxjKDEwMHZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuI2Nsb3NlLXByZXZpZXcge1xuICAgIGNvbG9yOiAjNmM3NTdkICFpbXBvcnRhbnQ7IFxuICAgIG91dGxpbmU6IDA7XG59XG5cbmJ1dHRvbixcbmJ1dHRvbjpmb2N1cyB7XG4gICAgb3V0bGluZTogMCAhaW1wb3J0YW50O1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBib3R0b206IDFlbTtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIHotaW5kZXg6IDk5OTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktbGVnZW5kIHNwYW4ge1xuICAgIG1hcmdpbi10b3A6IDFlbTsgLyogdmVydGljYWxseSAqL1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYge1xuICAgIG1hcmdpbjogLjI1ZW07XG59XG5cbi5jYXRlZ29yeS13cmFwcGVyID4gZGl2ID4gc3BhbiB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICBoZWlnaHQ6IDIwcHg7XG4gICAgd2lkdGg6IDIwcHg7XG59XG5cbi5lcnJvciB7XG4gICAgcG9zaXRpb246IGFic29sdXRlICFpbXBvcnRhbnQ7IFxuICAgIGJvdHRvbTogMGVtO1xuICAgIG1heC13aWR0aDogNTEycHg7XG4gICAgbWFyZ2luOiAwLjVlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4uYWN0aXZlIHtcbiAgICBib3JkZXI6IDRweCBzb2xpZCByZ2JhKDEyOCwxMjgsMTI4LCAuNzUpO1xufVxuXG4uaW5hY3RpdmUge1xuICAgIGJvcmRlcjogNHB4IHNvbGlkIHRyYW5zcGFyZW50O1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4vKiogSW1hZ2UgZ3JpZCBmb3IgcmVsYXRlZCBwaWNzICoqL1xuLmltYWdlLWdyaWQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC13cmFwOiB3cmFwO1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5pbWFnZS1ncmlkLWNlbGwge1xuICAgIHdpZHRoOiA1MCU7XG4gICAgLyogbWFyZ2luOiAuMTI1ZW07ICovXG59XG5cbi5pbWFnZS1ncmlkLWltYWdlIHtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG59XG5cbi5saXN0LWdyb3VwLWl0ZW0tdGh1bWJuYWlsIHtcbiAgICBtYXgtd2lkdGg6IDUwJTtcbn1cblxuLnByZXZpZXctaXRlbSB7XG4gICAgbWFyZ2luLXRvcDogMmVtO1xuICAgIG1hcmdpbi1ib3R0b206IDJlbTtcbiAgICBtYXgtd2lkdGg6IDI1dnc7XG59XG5cbi5wcmV2aWV3LXRpdGxlIHtcbiAgICBjb2xvcjogZ3JheTtcbn1cbi5wcmV2aWV3LXBpY3R1cmUge1xuICAgIG1heC13aWR0aDogaW5oZXJpdDtcbn1cbi5wcmV2aWV3LW1ldGFpbmZvIHtcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG4gICAgZm9udC1zaXplOiAxOHB4O1xuICAgIGNvbG9yOiBncmF5O1xufVxuLnByZXZpZXctZGVzY3JpcHRpb24ge1xuICAgIHRleHQtYWxpZ246IGp1c3RpZnk7XG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xufVxuXG46Om5nLWRlZXAgLnRpbWUtc2xpY2UtbGFiZWwge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24sXG46Om5nLWRlZXAgLmFuaW1hdGVCdXR0b24gdGV4dCB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uLFxuOjpuZy1kZWVwIC5yZXNldEJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi8qREFUIEdVSSovXG46Om5nLWRlZXAgLmRnLmFjIHtcbiAgICB6LWluZGV4OiAxMDAwICFpbXBvcnRhbnQ7XG59XG5cbi8qTU9EQUwgQ1NTKi9cbi5tb2RhbCB7XG4gICAgZGlzcGxheTogbm9uZTsgLyogSGlkZGVuIGJ5IGRlZmF1bHQgKi9cbiAgICBwb3NpdGlvbjogZml4ZWQ7IC8qIFN0YXkgaW4gcGxhY2UgKi9cbiAgICB6LWluZGV4OiAxOyAvKiBTaXQgb24gdG9wICovXG4gICAgcGFkZGluZy10b3A6IDEwMHB4OyAvKiBMb2NhdGlvbiBvZiB0aGUgYm94ICovXG4gICAgbGVmdDogMDtcbiAgICB0b3A6IDA7XG4gICAgd2lkdGg6IDEwMCU7IC8qIEZ1bGwgd2lkdGggKi9cbiAgICBoZWlnaHQ6IDEwMCU7IC8qIEZ1bGwgaGVpZ2h0ICovXG4gICAgb3ZlcmZsb3c6IGF1dG87IC8qIEVuYWJsZSBzY3JvbGwgaWYgbmVlZGVkICovXG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDAsMCwwKTsgLyogRmFsbGJhY2sgY29sb3IgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsMCwwLDAuOSk7IC8qIEJsYWNrIHcvIG9wYWNpdHkgKi9cbiAgfVxuICBcbiAgLyogTW9kYWwgQ29udGVudCAoSW1hZ2UpICovXG4gIC5tb2RhbC1jb250ZW50IHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IGF1dG8gIWltcG9ydGFudDtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG4gICAgbWF4LWhlaWdodDogODAlO1xuICB9XG4gIFxuICAvKiBDYXB0aW9uIG9mIE1vZGFsIEltYWdlIChJbWFnZSBUZXh0KSAtIFNhbWUgV2lkdGggYXMgdGhlIEltYWdlICovXG4gICNjYXB0aW9uIHtcbiAgICBtYXJnaW46IGF1dG87XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBtYXgtd2lkdGg6IDcwMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBjb2xvcjogI2NjYztcbiAgICBwYWRkaW5nOiAxMHB4IDA7XG4gICAgaGVpZ2h0OiAxNTBweDtcbiAgfVxuICBcbiAgLyogQWRkIEFuaW1hdGlvbiAtIFpvb20gaW4gdGhlIE1vZGFsICovXG4gIC5tb2RhbC1jb250ZW50LCAjY2FwdGlvbiB7IFxuICAgIGFuaW1hdGlvbi1uYW1lOiB6b29tO1xuICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMC42cztcbiAgfVxuICBcbiAgQGtleWZyYW1lcyB6b29tIHtcbiAgICBmcm9tIHt0cmFuc2Zvcm06c2NhbGUoMCl9IFxuICAgIHRvIHt0cmFuc2Zvcm06c2NhbGUoMSl9XG4gIH1cbiAgXG4gIC8qIFRoZSBDbG9zZSBCdXR0b24gKi9cbiAgLmNsb3NlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxNXB4O1xuICAgIHJpZ2h0OiAzNXB4O1xuICAgIGNvbG9yOiAjZjFmMWYxICFpbXBvcnRhbnQ7XG4gICAgZm9udC1zaXplOiA0MHB4O1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgIHRyYW5zaXRpb246IDAuM3M7XG4gIH1cbiAgXG4gIC5jbG9zZTpob3ZlcixcbiAgLmNsb3NlOmZvY3VzIHtcbiAgICBjb2xvcjogI2JiYjtcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICB9XG4gIFxuICAvKiAxMDAlIEltYWdlIFdpZHRoIG9uIFNtYWxsZXIgU2NyZWVucyAqL1xuICBAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDcwMHB4KXtcbiAgICAubW9kYWwtY29udGVudCB7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICB9XG4gIH1cblxuLyogUHJvY2Vzc2luZyBzcGlubmVyICovXG4ucHJvY2Vzc2luZy1jaGFuZ2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDUwJTtcbiAgICBsZWZ0OiA1MCU7XG4gICAgd2lkdGg6IDI1JTtcbiAgICBoZWlnaHQ6IDI1JTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzAwMDtcbiAgICBvcGFjaXR5OiAuNTtcbiAgICBib3JkZXItcmFkaXVzOiAuMjVyZW07XG4gICAgei1pbmRleDogMTAwMDtcbn1cblxuLnByb2Nlc3NpbmctY2hhbmdlIHAge1xuICAgIGNvbG9yOiB3aGl0ZTtcbn1cblxuLypuYXZpZ2F0aW9uIGJ1dHRvbnMqL1xuXG4jbmV4dCxcbiNwcmV2aW91cyB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRvcDogLTU1JTtcbiAgICBmb250LXNpemU6IDJlbTtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgdGV4dC1zaGFkb3c6IDAgMXB4IDAgI2ZmZjtcbiAgICBvcGFjaXR5OiAuNTtcbiAgICBkaXNwbGF5OiBpbmxpbmU7XG59XG5cbiNuZXh0IHtcbiAgICBmbG9hdDogcmlnaHQ7ICAgXG4gICAgbWFyZ2luLXJpZ2h0OiA1ZW07XG59XG5cbiNwcmV2aW91cyB7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgbWFyZ2luLWxlZnQ6IDVlbTtcbn1cblxuXG4vKm92ZXJsYXkqL1xuLm92ZXJsYXkge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICAvKiB3aWR0aDogMTAwJTsgKi9cbiAgICBib3R0b206IDBlbTtcbiAgICByaWdodDogMmVtO1xuICAgIC8qIGRpc3BsYXk6IGZsZXg7ICovXG4gICAgLyogZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgKi9cbiAgICAvKiBhbGlnbi1pdGVtczogY2VudGVyOyAqL1xuICAgIC8qIGp1c3RpZnktY29udGVudDogY2VudGVyOyAqL1xuICAgIGZvbnQtc2l6ZTogMjhweDtcbiAgICBjb2xvcjogIzZjNzU3ZDtcbiAgICBvcGFjaXR5OiAuNTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -328,7 +328,7 @@ module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">{{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }}</a>\n                        </li>\n                    </ul>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <p [ngStyle]=\"{ 'color' : categoriesAndColors.get(currentlySelectedCategory) }\">\n                    Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}\n                </p>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn>Geo</button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn>Set</button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn>Net</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                            </a>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn>Geo</button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn>Set</button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn>Net</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -637,10 +637,25 @@ var AppComponent = /** @class */ (function () {
                     break;
                 default: break;
             }
+            var currentXPos = 0;
+            if (_this.gCube.cubeToggle) {
+                // pos gCube
+                _this.gCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.gCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].GUTTER;
+            }
+            if (_this.sCube.cubeToggle) {
+                _this.sCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.sCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].GUTTER;
+            }
+            if (_this.nCube) {
+                _this.nCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.nCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+            }
             targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
             tweenPos.to(targetVector, 250);
             tweenLookAt.to(cubePos, 250);
-            // FIXME: lookAt still buggy -> find how to fix or consider first person action cam
             tweenPos.start().onComplete(function () {
                 tweenLookAt.start().onUpdate(function (target) {
                     _this.camera.lookAt(target);
@@ -1798,6 +1813,9 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.transitionSTC = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
+        this.updateNodeColor('categorical');
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
         this.boundingBox.visible = true;
         this.slices.forEach(function (slice, i) {
@@ -1848,6 +1866,8 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.transitionJP = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].HEIGHT + 20;
         var mapPic = this.map.getCanvas().toDataURL();
         var mapElem = document.createElement('img');
@@ -1900,6 +1920,8 @@ var GeoCube = /** @class */ (function () {
      */
     GeoCube.prototype.transitionSI = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
             var mapClone = _this.cubeGroupCSS.getObjectByName("MAP_CONTAINER_" + i);
@@ -2293,9 +2315,23 @@ var NetCube = /** @class */ (function () {
         this.dm.data.forEach(function (d) { _this.setMap.add(d.category_1); });
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
         this.timeLinearScale = this.dm.getTimeLinearScale();
+        this.cubeGroupCSS.add(this.createBottomLayer());
         this.createNodes();
         this.createLinks();
         this.showCubeLinks();
+    };
+    NetCube.prototype.createBottomLayer = function (color) {
+        var divContainer = document.createElement('div');
+        divContainer.id = 'div_container_netcube';
+        divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
+        divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
+        divContainer.style.backgroundColor = color ? color : '#d3d3d3';
+        document.getElementById('css-canvas').appendChild(divContainer);
+        var divObject = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](divContainer);
+        divObject.name = 'DIV_CONTAINER_NETCUBE';
+        divObject.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+        divObject.rotation.set(-Math.PI / 2, 0, 0);
+        return divObject;
     };
     NetCube.prototype.resetCubeGroupCSS = function () {
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
@@ -2519,7 +2555,12 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.hideOutSlicerLinks = function (nodes) {
         var _this = this;
+        //stc links (cube)
         this.links_stc.children.forEach(function (link) {
+            link.visible = _this.areBothSidesOfTheLinkSelected(link, nodes);
+        });
+        //SI links
+        this.links_si.children.forEach(function (link) {
             link.visible = _this.areBothSidesOfTheLinkSelected(link, nodes);
         });
     };
@@ -2583,7 +2624,11 @@ var NetCube = /** @class */ (function () {
     //TRANSITIONS
     NetCube.prototype.transitionSTC = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
+        this.updateNodeColor('categorical');
         this.showCubeLinks();
+        this.showBottomLayer();
         this.boundingBox.visible = true;
         this.slices.forEach(function (slice, i) {
             _this.transitionAnimationSTC(slice, i);
@@ -2602,11 +2647,13 @@ var NetCube = /** @class */ (function () {
             z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
-        d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
-        label.position.y = targetCoords.y;
-        label.position.z = targetCoords.z;
-        label.rotation.set(0, 0, 0);
+        if (label) {
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
+            label.position.y = targetCoords.y;
+            label.position.z = targetCoords.z;
+            label.rotation.set(0, 0, 0);
+        }
         var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
             .to(targetCoords, 1000)
             .delay(index * 300)
@@ -2623,10 +2670,13 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.transitionJP = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
         this.hideAllLinks();
+        this.hideBottomLayer();
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
-            _this.transitionAnimationJP(slice, i);
+            _this, _this.transitionAnimationJP(slice, i);
         });
     };
     NetCube.prototype.transitionAnimationJP = function (slice, index) {
@@ -2642,11 +2692,13 @@ var NetCube = /** @class */ (function () {
             z: (index * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2)
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
-        d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
-        label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
-        label.position.y = targetCoords.y;
-        label.position.z = targetCoords.z;
-        label.rotation.set(-Math.PI / 2, 0, 0);
+        if (label) {
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
+            label.position.y = targetCoords.y;
+            label.position.z = targetCoords.z;
+            label.rotation.set(-Math.PI / 2, 0, 0);
+        }
         var tween = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](sourceCoords)
             .to(targetCoords, 1000)
             .delay(index * 300)
@@ -2660,7 +2712,10 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.transitionSI = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
         this.showSILinks();
+        this.hideBottomLayer();
         this.boundingBox.visible = false;
         this.slices.forEach(function (slice, i) {
             _this.transitionAnimationSI(slice, i);
@@ -2692,6 +2747,7 @@ var NetCube = /** @class */ (function () {
             .start();
     };
     NetCube.prototype.transitionANI = function () { };
+    /////////
     NetCube.prototype.getCubePosition = function () {
         var positionInWorld = new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"]();
         this.cubeGroupGL.getWorldPosition(positionInWorld);
@@ -2737,12 +2793,6 @@ var NetCube = /** @class */ (function () {
             var selectedObject = intersections[i].object;
             if (selectedObject.type !== 'DATA_POINT')
                 continue;
-            // get first intersect that is a data point
-            // tooltip.nativeElement.style.display = 'block';
-            // tooltip.nativeElement.style.opacity = '.9';
-            // tooltip.nativeElement.style.top = `${$event.pageY}px`;
-            // tooltip.nativeElement.style.left = `${$event.pageX}px`;
-            // tooltip.nativeElement.innerHTML = selectedObject.data.description;
             return selectedObject.data;
         }
         this.resetSelection();
@@ -2754,9 +2804,6 @@ var NetCube = /** @class */ (function () {
         if (highlighted_source) {
             highlighted_source.material.color.setHex(0xff0000);
             highlighted_source.scale.set(2, 2, 2);
-            // let highlighted_target = this.cubeGroupGL.getObjectByName(highlighted_source.data.target_nodes[0]);
-            // highlighted_target.material.color.setHex(0xff6666);
-            // highlighted_target.scale.set(2, 2, 2);            
         }
     };
     NetCube.prototype.getTimeSliceById = function (id) {
@@ -2941,7 +2988,6 @@ var NetCube = /** @class */ (function () {
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
             label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "NET_LABEL_" + i;
-            // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
         }
         this.slices.forEach(function (slice) { _this.cubeGroupGL.add(slice); });
@@ -2985,8 +3031,16 @@ var NetCube = /** @class */ (function () {
         this.cubeGroupGL.add(this.boundingBox);
         this.slices.forEach(function (slice) { _this.cubeGroupGL.add(slice); });
     };
-    NetCube.prototype.showBottomLayer = function () { };
-    NetCube.prototype.hideBottomLayer = function () { };
+    NetCube.prototype.hideBottomLayer = function () {
+        var bottomLayer = document.getElementById('div_container_netcube');
+        if (bottomLayer)
+            bottomLayer.style.opacity = '0';
+    };
+    NetCube.prototype.showBottomLayer = function () {
+        var bottomLayer = document.getElementById('div_container_netcube');
+        if (bottomLayer)
+            bottomLayer.style.opacity = '1';
+    };
     NetCube.prototype.hideAllLinks = function () {
         this.hideCubeLinks();
         this.hideSILinks();
@@ -3141,6 +3195,20 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.assembleData = function () {
         this.updateSetCube(this.dm.timeRange.length, true);
+        this.cubeGroupCSS.add(this.createBottomLayer());
+    };
+    SetCube.prototype.createBottomLayer = function (color) {
+        var divContainer = document.createElement('div');
+        divContainer.id = 'div_container_setcube';
+        divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
+        divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
+        divContainer.style.backgroundColor = color ? color : '#d3d3d3';
+        document.getElementById('css-canvas').appendChild(divContainer);
+        var divObject = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](divContainer);
+        divObject.name = 'DIV_CONTAINER_SETCUBE';
+        divObject.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+        divObject.rotation.set(-Math.PI / 2, 0, 0);
+        return divObject;
     };
     //pass new slices numer and run the simulation again
     SetCube.prototype.updateSetCube = function (segs, initial, layout) {
@@ -3531,6 +3599,9 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.transitionSTC = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
+        this.showBottomLayer();
         this.boundingBox.visible = true;
         // TODO:on STC, update setcube with stacked layers
         this.updateColorCoding('categorical');
@@ -3576,8 +3647,11 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.transitionJP = function () {
         var _this = this;
+        if (!this._cubeToggle)
+            return;
         // hide hull
         this.hideHull();
+        this.hideBottomLayer();
         //rerun scene and transition to JP
         var segs = this.dm.timeRange.length;
         this.updateSetCube(segs, true);
@@ -3618,7 +3692,10 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.transitionSI = function () {
         var _this = this;
         // hide hull
+        if (!this._cubeToggle)
+            return;
         this.hideHull();
+        this.hideBottomLayer();
         this.boundingBox.visible = false;
         var duration = 1000, tween;
         this.slices.forEach(function (slice, i) {
@@ -3880,8 +3957,16 @@ var SetCube = /** @class */ (function () {
         });
         return correspondingSlice;
     };
-    SetCube.prototype.hideBottomLayer = function () { };
-    SetCube.prototype.showBottomLayer = function () { };
+    SetCube.prototype.hideBottomLayer = function () {
+        var bottomLayer = document.getElementById('div_container_setcube');
+        if (bottomLayer)
+            bottomLayer.style.opacity = '0';
+    };
+    SetCube.prototype.showBottomLayer = function () {
+        var bottomLayer = document.getElementById('div_container_setcube');
+        if (bottomLayer)
+            bottomLayer.style.opacity = '1';
+    };
     SetCube.prototype.hideHull = function () {
         // hide hull
         this.hullGroup.visible = false;
