@@ -850,7 +850,7 @@ var AppComponent = /** @class */ (function () {
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        targetVector.set(1006, 4826, 428);
+        targetVector.set(1000, 4826, 428);
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
