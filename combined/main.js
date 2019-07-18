@@ -2232,7 +2232,7 @@ var GUI = /** @class */ (function () {
             hull: false
         };
         var sCubeFolder = this.gui.addFolder('SetCube');
-        sCubeFolder.add(sCubeParams, 'layout', ['circle', 'pack', 'cluster']).onChange(function () {
+        sCubeFolder.add(sCubeParams, 'layout', ['circle', 'pack']).onChange(function () {
             _this.sCubeConfigEmitter.emit('change', {
                 sLayout: sCubeParams.layout
             });
@@ -3980,9 +3980,14 @@ var SetCube = /** @class */ (function () {
         this.hullGroup.children.forEach(function (mesh) {
             var box = new three_full__WEBPACK_IMPORTED_MODULE_0__["Box3"]().setFromObject(mesh);
             var size = box.getSize(new three_full__WEBPACK_IMPORTED_MODULE_0__["Vector3"]());
-            // console.log( mesh);
             if (size.y > (vertOffset + 5)) {
-                mesh.visible = false;
+                // console.log( mesh);
+                mesh.material.color.setHex('0x2194ce');
+                mesh.material.opacity = 0.1;
+                mesh.material.wireframe = false;
+                mesh.material.wireframeLinewidth = 6;
+                // mesh.material.vertexColors = THREE.vertexColors;
+                // mesh.visible = false;
             }
         });
     };
