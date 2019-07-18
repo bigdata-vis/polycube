@@ -856,6 +856,8 @@ var AppComponent = /** @class */ (function () {
             _this.controls.update();
             _this.camera.lookAt(targetVector);
         });
+        this.camera.zoom = 1;
+        this.camera.updateProjectionMatrix();
     };
     /**
      * Rotate Camera to STC view
@@ -876,6 +878,8 @@ var AppComponent = /** @class */ (function () {
             _this.controls.update();
             _this.camera.lookAt(targetVector);
         });
+        this.camera.zoom = 1;
+        this.camera.updateProjectionMatrix();
     };
     AppComponent.prototype.transitionJPCamera = function () {
         var _this = this;
@@ -887,12 +891,16 @@ var AppComponent = /** @class */ (function () {
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        targetVector.set(1000, 4826, 428);
+        // targetVector.set(1000, 4826, 428);
+        targetVector.set(1000, 10826, 428);
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
             _this.camera.lookAt(targetVector);
         });
+        //
+        this.camera.zoom = 0.4;
+        this.camera.updateProjectionMatrix();
     };
     AppComponent.prototype.resetScene = function () {
         this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
