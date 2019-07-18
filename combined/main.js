@@ -653,15 +653,15 @@ var AppComponent = /** @class */ (function () {
                 _this.nCube.cubeGroupGL.position.set(currentXPos, 0, 0);
                 _this.nCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
             }
-            targetVector.set(cubePos.x + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH / 2, _this.camera.position.y, _this.camera.position.z);
-            tweenPos.to(targetVector, 250);
-            tweenLookAt.to(cubePos, 250);
-            tweenPos.start().onComplete(function () {
-                tweenLookAt.start().onUpdate(function (target) {
-                    _this.camera.lookAt(target);
-                    _this.controls.update();
-                });
-            });
+            // targetVector.set(cubePos.x + CUBE_CONFIG.WIDTH/2, this.camera.position.y, this.camera.position.z);
+            // tweenPos.to(targetVector, 250);
+            // tweenLookAt.to(cubePos, 250);
+            // tweenPos.start().onComplete(() => {
+            //    tweenLookAt.start().onUpdate((target: THREE.Vector3) => {
+            //       this.camera.lookAt(target);
+            //       this.controls.update();
+            //    });
+            // });
         };
         /**
          * Updates which cubes are shown based on user selection
@@ -1170,11 +1170,10 @@ var DataManager = /** @class */ (function () {
         this._timeRange = new Array();
         this._categories = new Map();
         this._colors = d3__WEBPACK_IMPORTED_MODULE_0__["scaleOrdinal"]([
-            '#e6194b', '#3cb44b', '#ffe119', '#4363d8',
-            '#f58231', '#911eb4', '#46f0f0', '#bcf60c',
-            '#fabebe', '#008080', '#e6beff', '#9a6324',
-            '#800000', '#aaffc3', '#808000', '#ffd8b1',
-            '#808080'
+            '#e6194b', '#f58231', '#ffe119', '#bfef45', '#3cb44b',
+            '#808000', '#42d4f4', '#4363d8', '#911eb4', '#f032e6',
+            '#fabebe', '#ffd8b1', '#9a6324', '#800000', '#e6beff',
+            '#aaffc3', '#469990', '#000075', '#808080', '#000000',
         ]);
     }
     Object.defineProperty(DataManager.prototype, "dataMap", {
