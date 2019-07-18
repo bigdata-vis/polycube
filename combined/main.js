@@ -883,11 +883,11 @@ var AppComponent = /** @class */ (function () {
         this.timelineColor(false);
         this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
         //stop rotation
-        this.controls.enableRotate = false;
+        this.controls.enableRotate = true;
         var duration = 1000;
         var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
         var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        targetVector.set(1006, 4826, 428);
+        targetVector.set(1000, 4826, 428);
         tweenPos.to(targetVector, duration);
         tweenPos.start().onComplete(function () {
             _this.controls.update();
@@ -903,10 +903,27 @@ var AppComponent = /** @class */ (function () {
         this.transitionSTCCamera();
     };
     AppComponent.prototype.restoreCamera = function (position, rotation, controlCenter) {
-        this.camera.position.set(position.x, position.y, position.z);
-        this.camera.rotation.set(rotation.x, rotation.y, rotation.z);
-        this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
-        this.controls.update();
+        var _this = this;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var targetVector2 = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        var tweenRot = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        // this.camera.position.set(position.x, position.y, position.z);
+        targetVector.set(position.x, position.y, position.z);
+        tweenPos.to(targetVector, 1000);
+        tweenPos.start().onComplete(function () {
+            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+            _this.controls.update();
+        });
+        // this.camera.rotation.set(rotation.x, rotation.y, rotation.z);
+        targetVector2.set(rotation.x, rotation.y, rotation.z);
+        tweenRot.to(targetVector2, 1000);
+        tweenRot.start().onComplete(function () {
+            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+            _this.controls.update();
+        });
+        // this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+        // this.controls.update();  
     };
     /**
      * This function is used to update brush timeline color
