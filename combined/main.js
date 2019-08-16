@@ -2290,7 +2290,7 @@ var GUI = /** @class */ (function () {
             charge: 25
         };
         var nCubeFolder = this.gui.addFolder('NetCube');
-        nCubeFolder.add(nCubeParams, 'node_size', ['overall_degree', 'in_degree', 'out_degree']).onChange(function () {
+        nCubeFolder.add(nCubeParams, 'node_size', ['overall_degree', 'in_degree', 'out_degree', 'non_degree']).onChange(function () {
             _this.nCubeConfigEmitter.emit('change', {
                 nNodeSize: nCubeParams.node_size
             });
@@ -3015,6 +3015,9 @@ var NetCube = /** @class */ (function () {
                 break;
             case 'out_degree':
                 result = dataItem.network_degree_out;
+                break;
+            case 'non_degree':
+                result = 1;
                 break;
         }
         if (result < 1)
