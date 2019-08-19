@@ -2243,11 +2243,11 @@ var GUI = /** @class */ (function () {
                 dataSet: pCubeParams.dataSet
             });
         });
-        pCubeFolder.add(pCubeParams, 'cameraType', ['Perspective', 'Orthographic']).onChange(function () {
-            _this.pCubeConfigEmitter.emit('change', {
-                cameraType: pCubeParams.cameraType
-            });
-        });
+        // pCubeFolder.add(pCubeParams, 'cameraType', ['Perspective', 'Orthographic']).onChange(() => {
+        //     this.pCubeConfigEmitter.emit('change', {
+        //         cameraType: pCubeParams.cameraType
+        //     });
+        // });
         pCubeFolder.addColor(pCubeParams, 'backgroundColor').onChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 backgroundColor: pCubeParams.backgroundColor
@@ -2274,11 +2274,11 @@ var GUI = /** @class */ (function () {
             hull: false
         };
         var sCubeFolder = this.gui.addFolder('SetCube');
-        sCubeFolder.add(sCubeParams, 'layout', ['circle', 'pack']).onChange(function () {
-            _this.sCubeConfigEmitter.emit('change', {
-                sLayout: sCubeParams.layout
-            });
-        });
+        // sCubeFolder.add(sCubeParams, 'layout', ['circle', 'pack']).onChange(() => {
+        //     this.sCubeConfigEmitter.emit('change', {
+        //         sLayout: sCubeParams.layout
+        //     });
+        // });
         sCubeFolder.add(sCubeParams, 'hull').onChange(function () {
             _this.sCubeConfigEmitter.emit('change', {
                 hull: sCubeParams.hull
@@ -4303,7 +4303,7 @@ var TimeSliderComponent = /** @class */ (function () {
         // timeline 1 y axis (not labels)
         this._svg.append('g')
             .attr('class', 'axis2 axis--y2')
-            .attr('transform', 'translate(' + 50 + ', 0 )')
+            // .attr('transform', 'translate(' + 50 + ', 0 )')
             .call(d3__WEBPACK_IMPORTED_MODULE_2__["axisRight"](this.yScale)
             .ticks(d3__WEBPACK_IMPORTED_MODULE_2__["timeYear"].every(1))
             .tickSize(10)
@@ -4312,16 +4312,17 @@ var TimeSliderComponent = /** @class */ (function () {
         }))
             .selectAll('.tick');
         // timeline 2
-        this._svg.append('g')
-            .attr('class', 'axis2 axis--y2')
-            .call(d3__WEBPACK_IMPORTED_MODULE_2__["axisRight"](this.yScale2)
-            // .ticks(D3.timeYear.every(1))
-            .tickSize(10)
-        // .tickFormat((d: Date) => {
-        //     return D3.timeFormat('%Y')(d);
-        // })
-        )
-            .selectAll('.tick');
+        // this._svg.append('g')
+        //     .attr('class', 'axis2 axis--y2')
+        //     .call(
+        //         D3.axisRight(this.yScale2)
+        //             // .ticks(D3.timeYear.every(1))
+        //             .tickSize(10)
+        //             // .tickFormat((d: Date) => {
+        //             //     return D3.timeFormat('%Y')(d);
+        //             // })
+        //     )
+        //     .selectAll('.tick');
         // Legend
         var defs = this._svg.append('defs');
         var linearGradient = defs.append('linearGradient')
@@ -4392,16 +4393,16 @@ var TimeSliderComponent = /** @class */ (function () {
         // brush 1
         this._svg.append('g')
             .attr('class', 'brush')
-            // .attr('transform', `translate(0, ${margin.top})`)
-            .attr('transform', 'translate(' + 50 + ', 0 )')
+            .attr('transform', "translate(0, " + margin.top + ")")
+            // .attr('transform', 'translate(' + 50 + ', 0 )')
             .attr('fill', 'black')
             .call(this.brush);
-        // brush 2
-        this._svg.append('g')
-            .attr('class', 'brush2')
-            .attr('transform', "translate(0, " + margin.top + ")")
-            .attr('fill', 'black')
-            .call(this.brush2);
+        //     // brush 2
+        // this._svg.append('g')
+        //     .attr('class', 'brush2')
+        //     .attr('transform', `translate(0, ${margin.top})`)
+        //     .attr('fill', 'black')
+        //     .call(this.brush2);
         this._svg.select('g.brush').select('rect.selection').attr('fill-opacity', 0.8);
     };
     TimeSliderComponent.prototype.getTimePeriodFromSlider = function () {
