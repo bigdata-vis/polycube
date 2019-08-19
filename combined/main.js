@@ -2237,7 +2237,7 @@ var GUI = /** @class */ (function () {
             _this.pCubeConfigEmitter.emit('change', {
                 nodeColor: pCubeParams.nodeColor
             });
-        }).name('Glyph Color');
+        }).name('Point Color');
         pCubeFolder.add(pCubeParams, 'dataSet', ['Cushman', 'Alliances', '?']).onChange(function () {
             _this.pCubeConfigEmitter.emit('change', {
                 dataSet: pCubeParams.dataSet
@@ -2342,6 +2342,7 @@ var NetCube = /** @class */ (function () {
         this.nodeSizeEncodeFactor = "overall_degree";
         this.chargeFactor = 1;
         this.areSlicesSaved = false;
+        this.areLinksSaved = false;
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene)
@@ -2407,7 +2408,7 @@ var NetCube = /** @class */ (function () {
         divContainer.id = 'div_container_netcube';
         divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
         divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
-        divContainer.style.backgroundColor = color ? color : '#F4F8FB';
+        divContainer.style.backgroundColor = color ? color : '#d3d3d3';
         document.getElementById('css-canvas').appendChild(divContainer);
         var divObject = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](divContainer);
         divObject.name = 'DIV_CONTAINER_NETCUBE';
@@ -2752,7 +2753,7 @@ var NetCube = /** @class */ (function () {
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         if (label) {
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            // D3.selectAll('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -2797,7 +2798,7 @@ var NetCube = /** @class */ (function () {
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         if (label) {
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
+            // D3.selectAll('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -2846,7 +2847,7 @@ var NetCube = /** @class */ (function () {
                 slice.position.z = sourceCoords.z;
         })
             .onComplete(function () {
-            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
+            // D3.selectAll('.time-slice-label').style('opacity', '0');
         })
             .start();
     };
@@ -2902,11 +2903,35 @@ var NetCube = /** @class */ (function () {
         return null;
     };
     NetCube.prototype.highlightObject = function (id) {
+        var _this = this;
         this.resetSelection(true);
         var highlighted_source = this.cubeGroupGL.getObjectByName(id);
         if (highlighted_source) {
             highlighted_source.material.color.setHex(0xff0000);
+            //highlight targetBy
+            highlighted_source.data.targetBy.forEach(function (n_id) {
+                var related = _this.getNodesInSceneById(n_id);
+                related.material.color.setHex(0xEF9A9A);
+            });
+            //highlight targets            
+            for (var a = 0; a < this.linksPerNode; a++) {
+                var target_id = highlighted_source.data.target_nodes[a];
+                if (target_id) {
+                    var related = this.getNodesInSceneById(target_id);
+                    related.material.color.setHex(0x000000);
+                }
+            }
         }
+    };
+    NetCube.prototype.getNodesInSceneById = function (id) {
+        var _node = null;
+        this.slices.forEach(function (slice) {
+            slice.children.forEach(function (node) {
+                if (node.name == id)
+                    _node = node;
+            });
+        });
+        return _node;
     };
     NetCube.prototype.getTimeSliceById = function (id) {
         var _this = this;
@@ -2936,28 +2961,68 @@ var NetCube = /** @class */ (function () {
         });
         return correspondingSlice;
     };
-    NetCube.prototype.applyChargeFactor = function () {
+    NetCube.prototype.applyChargeFactorInNodes = function () {
         var _this = this;
         if (!this.areSlicesSaved)
             this.saveSliceRecords();
         this.slices.forEach(function (s, i) {
+            s.updateMatrixWorld();
             s.children.forEach(function (c, ii) {
                 c.position.x = c.original_position_x * _this.chargeFactor;
                 c.position.z = c.original_position_z * _this.chargeFactor;
-                // if(i==1 && ii==5) console.log(c.original_position_x)
+                var vector = new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"]();
+                vector.setFromMatrixPosition(c.matrixWorld);
             });
         });
-        //change links
-        // this.links_stc_aggregated.children.forEach((link: THREE.Group) => {
-        //     console.log(link);
-        // });
-        // this.links_stc_aggregated.forEach((l)=>{
-        //     console.log(l);
-        // })
-        // this.links_stc_absolute.forEach((l)=>{
-        // })
-        // this.links_si.forEach((l)=>{
-        // })
+    };
+    NetCube.prototype.applyChargeFactorInInternalSliceLinks = function () {
+        var _this = this;
+        if (!this.areSlicesSaved)
+            this.saveSliceRecords();
+        this.slices.forEach(function (s, i) {
+            s.updateMatrixWorld();
+            s.children.forEach(function (l) {
+                if (l.type !== 'Line')
+                    return;
+                l = _this.scaleLink(l);
+            });
+        });
+    };
+    NetCube.prototype.scaleLink = function (link) {
+        var source = link.name.split("_")[0];
+        var target = link.name.split("_")[1];
+        var source_pos = this.getNormalizedPositionById(source);
+        var target_pos = this.getNormalizedPositionById(target);
+        link.geometry.vertices[0].x = source_pos.x * this.chargeFactor;
+        link.geometry.vertices[0].z = source_pos.z * this.chargeFactor;
+        link.geometry.vertices[1].x = target_pos.x * this.chargeFactor;
+        link.geometry.vertices[1].z = target_pos.z * this.chargeFactor;
+        link.geometry.verticesNeedUpdate = true;
+        return link;
+    };
+    NetCube.prototype.scaleLinkNormalizing = function (link) {
+        var source = link.name.split("_")[0];
+        var target = link.name.split("_")[1];
+        var source_pos = this.getNormalizedPositionWithChargeById(source);
+        var target_pos = this.getNormalizedPositionWithChargeById(target);
+        link.geometry.vertices[0].x = source_pos.x;
+        link.geometry.vertices[0].z = source_pos.z;
+        link.geometry.vertices[1].x = target_pos.x;
+        link.geometry.vertices[1].z = target_pos.z;
+        link.geometry.verticesNeedUpdate = true;
+        return link;
+    };
+    NetCube.prototype.applyChargeFactorInLinks = function () {
+        var _this = this;
+        this.links_stc_aggregated.children.forEach(function (l) {
+            l = _this.scaleLinkNormalizing(l);
+        });
+        this.links_stc_absolute.children.forEach(function (l) {
+            l = _this.scaleLinkNormalizing(l);
+        });
+        this.links_si.children.forEach(function (l) {
+            l = _this.scaleLinkNormalizing(l);
+        });
     };
     NetCube.prototype.saveSliceRecords = function () {
         this.slices.forEach(function (s) {
@@ -2969,6 +3034,20 @@ var NetCube = /** @class */ (function () {
         this.areSlicesSaved = true;
     };
     NetCube.prototype.onDblClick = function ($event) {
+    };
+    NetCube.prototype.getNormalizedPositionWithChargeById = function (id) {
+        var pos_map = this.dm.getForcedDirectedCushmanPositionMap();
+        var pos_dim = this.dm.getDataPositionDimensions();
+        var normalized_x = null;
+        var normalized_z = null;
+        if (pos_map[id]) {
+            normalized_x = ((pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+            normalized_z = ((pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+        }
+        if (normalized_x)
+            return { x: normalized_x, y: null, z: normalized_z };
+        else
+            return null;
     };
     NetCube.prototype.getNormalizedPositionById = function (id) {
         var pos_map = this.dm.getForcedDirectedCushmanPositionMap();
@@ -2984,9 +3063,31 @@ var NetCube = /** @class */ (function () {
         else
             return null;
     };
+    NetCube.prototype.addTargetByInformationInDataItems = function () {
+        var targetBy_map = [];
+        //create empty map
+        for (var i = 0; i < this.dm.data.length; i++) {
+            var dataItem = this.dm.data[i];
+            targetBy_map[dataItem.id] = [];
+        }
+        //fill map with relations
+        for (var i = 0; i < this.dm.data.length; i++) {
+            var dataItem = this.dm.data[i];
+            for (var a = 0; a < this.linksPerNode; a++) {
+                var targetId = dataItem.target_nodes[a];
+                targetBy_map[targetId].push(dataItem.id);
+            }
+        }
+        //add targetBy information to data items
+        for (var i = 0; i < this.dm.data.length; i++) {
+            var dataItem = this.dm.data[i];
+            this.dm.data[i].targetBy = targetBy_map[dataItem.id];
+        }
+    };
     NetCube.prototype.createNodes = function () {
         this.resetNodesInTimeSlices();
         var geometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
+        this.addTargetByInformationInDataItems();
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
             var networkDegreeFactor = this.getNetworkDegreeFactor(dataItem);
@@ -3020,10 +3121,10 @@ var NetCube = /** @class */ (function () {
                 result = 1;
                 break;
         }
+        result = Math.log2(result);
         if (result < 1)
             result = 1;
-        else if (result > 3)
-            result = 3;
+        // else if(result>3) result = 3; 
         return result;
     };
     NetCube.prototype.createLinks = function () {
@@ -3140,6 +3241,7 @@ var NetCube = /** @class */ (function () {
         var lineGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["Geometry"]();
         lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](sourceNode_position.x + position_fix, sourceNode_position.y, sourceNode_position.z + position_fix));
         lineGeometry.vertices.push(new three_full__WEBPACK_IMPORTED_MODULE_1__["Vector3"](targetNode_position.x + position_fix, targetNode_position.y, targetNode_position.z + position_fix));
+        lineGeometry.verticesNeedUpdate = true;
         return lineGeometry;
     };
     NetCube.prototype.updateSlices = function () {
@@ -3256,7 +3358,9 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.changeChargeFactor = function (factor) {
         this.chargeFactor = factor / 25;
-        this.applyChargeFactor();
+        this.applyChargeFactorInNodes();
+        this.applyChargeFactorInLinks();
+        this.applyChargeFactorInInternalSliceLinks();
     };
     NetCube.prototype.delay = function (ms) {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -3401,7 +3505,7 @@ var SetCube = /** @class */ (function () {
         divContainer.id = 'div_container_setcube';
         divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
         divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
-        divContainer.style.backgroundColor = color ? color : '#F4F8FB';
+        divContainer.style.backgroundColor = color ? color : '#d3d3d3';
         document.getElementById('css-canvas').appendChild(divContainer);
         var divObject = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](divContainer);
         divObject.name = 'DIV_CONTAINER_SETCUBE';
