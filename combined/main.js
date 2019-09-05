@@ -328,7 +328,7 @@ module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                \n                <!--\n                <span id=\"previous\" type=\"button\" class=\"\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n                    <i class=\"fa fa-chevron-left\"></i>\n                </span>\n                <span id=\"next\" type=\"button\" class=\"\" aria-label=\"Right Align\" (click)=\"getNext()\">\n                    <i class=\"fa fa-chevron-right\"></i>\n                </span>\n                -->\n\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn>Geo</button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn>Set</button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn>Net</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn>Geo</button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn>Set</button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn>Net</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\">STC</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\">JP</button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\">SI</button>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -2374,7 +2374,6 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.assembleData = function () {
         var _this = this;
         this.dm.data.forEach(function (d) { _this.setMap.add(d.category_1); });
-        // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
         this.timeLinearScale = this.dm.getTimeLinearScale();
         this.addNetworkDegreeToNodes();
         this.cubeGroupCSS.add(this.createBottomLayer());
@@ -2408,7 +2407,7 @@ var NetCube = /** @class */ (function () {
         divContainer.id = 'div_container_netcube';
         divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
         divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
-        divContainer.style.backgroundColor = color ? color : '#F2EEE8';
+        divContainer.style.backgroundColor = color ? color : '#F4F8FB';
         document.getElementById('css-canvas').appendChild(divContainer);
         var divObject = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](divContainer);
         divObject.name = 'DIV_CONTAINER_NETCUBE';
@@ -2753,7 +2752,7 @@ var NetCube = /** @class */ (function () {
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         if (label) {
-            // D3.selectAll('.time-slice-label').style('opacity', '1');
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -2798,7 +2797,7 @@ var NetCube = /** @class */ (function () {
         };
         var label = this.cubeGroupCSS.getObjectByName("NET_LABEL_" + index);
         if (label) {
-            // D3.selectAll('.time-slice-label').style('opacity', '1');
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '1');
             label.position.x = targetCoords.x - _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 - 22;
             label.position.y = targetCoords.y;
             label.position.z = targetCoords.z;
@@ -2847,7 +2846,7 @@ var NetCube = /** @class */ (function () {
                 slice.position.z = sourceCoords.z;
         })
             .onComplete(function () {
-            // D3.selectAll('.time-slice-label').style('opacity', '0');
+            d3__WEBPACK_IMPORTED_MODULE_4__["selectAll"]('.time-slice-label').style('opacity', '0');
         })
             .start();
     };
@@ -2946,8 +2945,22 @@ var NetCube = /** @class */ (function () {
         return correspondingSlice;
     };
     NetCube.prototype.resetNodesInTimeSlices = function () {
+        var save_nonNodes_slice_content = [];
+        //create slices saving conditions
         this.slices.forEach(function (slice) {
-            slice.children = [];
+            save_nonNodes_slice_content.push([]);
+        });
+        //save the non-nodes elements from the slices
+        this.slices.forEach(function (slice, i) {
+            slice.children.forEach(function (c) {
+                if (c.type != "DATA_POINT") {
+                    save_nonNodes_slice_content[i].push(c);
+                }
+            });
+        });
+        //fulfil slices with non-nodes elements
+        this.slices.forEach(function (slice, i) {
+            slice.children = save_nonNodes_slice_content[i];
         });
     };
     NetCube.prototype.getTimeSliceByDate = function (date) {
@@ -3110,9 +3123,11 @@ var NetCube = /** @class */ (function () {
         switch (this.nodeSizeEncodeFactor) {
             case 'overall_degree':
                 result = dataItem.network_degree_overall;
+                result = Math.log2(result);
                 break;
             case 'in_degree':
                 result = dataItem.network_degree_in;
+                result = Math.log2(result);
                 break;
             case 'out_degree':
                 result = dataItem.network_degree_out;
@@ -3121,10 +3136,10 @@ var NetCube = /** @class */ (function () {
                 result = 1;
                 break;
         }
-        result = Math.log2(result);
         if (result < 1)
             result = 1;
-        // else if(result>3) result = 3; 
+        else if (result > 5)
+            result = 5;
         return result;
     };
     NetCube.prototype.createLinks = function () {
@@ -3505,7 +3520,7 @@ var SetCube = /** @class */ (function () {
         divContainer.id = 'div_container_setcube';
         divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
         divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
-        divContainer.style.backgroundColor = color ? color : '#F2EEE8';
+        divContainer.style.backgroundColor = color ? color : '#F4F8FB';
         document.getElementById('css-canvas').appendChild(divContainer);
         var divObject = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](divContainer);
         divObject.name = 'DIV_CONTAINER_SETCUBE';
