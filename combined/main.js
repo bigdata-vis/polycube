@@ -2407,7 +2407,7 @@ var NetCube = /** @class */ (function () {
         divContainer.id = 'div_container_netcube';
         divContainer.style.width = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + 'px';
         divContainer.style.height = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 'px';
-        divContainer.style.backgroundColor = color ? color : '#F4F8FB';
+        divContainer.style.backgroundColor = color ? color : '#F2EEE8';
         document.getElementById('css-canvas').appendChild(divContainer);
         var divObject = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](divContainer);
         divObject.name = 'DIV_CONTAINER_NETCUBE';
