@@ -509,8 +509,8 @@ var AppComponent = /** @class */ (function () {
                 }
                 if (change.time) {
                     _this.gCube.updateTime(change.time);
-                    _this.sCube.updateTime(change.time);
-                    _this.nCube.updateTime(change.time);
+                    // this.sCube.updateTime(change.time);
+                    // this.nCube.updateTime(change.time);
                 }
                 if (change.numSlices) {
                     _this.dataManager.numSlices = change.numSlices;
