@@ -328,7 +328,7 @@ module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <!--\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                -->\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-connectdevelop\"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <!--\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                -->\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-share-alt\"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1536,6 +1536,7 @@ var GeoCube = /** @class */ (function () {
         this.cubeGroupGL = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
         this.cubeGroupCSS = new three_full__WEBPACK_IMPORTED_MODULE_2__["Group"]();
         this.colors = this.dm.colors;
+        this.timeLinearScale = this.dm.getTimeLinearScale();
         this.slices = new Array();
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / this.dm.timeRange.length;
         for (var i = 0; i < this.dm.timeRange.length; i++) {
@@ -1548,7 +1549,7 @@ var GeoCube = /** @class */ (function () {
             var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_2__["EdgesGeometry"](geometry);
             var material = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineBasicMaterial"]({ color: '#b5b5b5' });
             var plane = new three_full__WEBPACK_IMPORTED_MODULE_2__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2, this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_6__("" + slice.name).toDate()), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
             slice.add(plane);
@@ -1559,7 +1560,7 @@ var GeoCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_6__("" + slice.name).toDate()), _cube_config__WEBPACK_IMPORTED_MODULE_1__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "GEO_LABEL_" + i;
             // label.rotation.set(Math.PI);
             this.cubeGroupCSS.add(label);
@@ -1591,7 +1592,6 @@ var GeoCube = /** @class */ (function () {
         this.dm.data.forEach(function (d) { _this.setMap.add(d.category_1); });
         this.cubeGroupCSS.add(this.createMap());
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
-        this.timeLinearScale = this.dm.getTimeLinearScale();
         var bounds = new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLatBounds"]();
         this.dm.data.forEach(function (d) { bounds.extend(new mapbox_gl__WEBPACK_IMPORTED_MODULE_5__["LngLat"](d.longitude, d.latitude)); });
         this.map.fitBounds(bounds);
@@ -1680,6 +1680,8 @@ var GeoCube = /** @class */ (function () {
                 if (grandChild.type !== 'DATA_POINT')
                     return;
                 var sliceOffsetY = child.position.y;
+                // console.log(sliceOffsetY);
+                // console.log(grandChild.data.date_time, this.timeLinearScale(grandChild.data.date_time))
                 grandChild.position.y = time === 'aggregated' ? 0 : _this.timeLinearScale(grandChild.data.date_time) - sliceOffsetY;
             });
         });
@@ -2343,6 +2345,7 @@ var NetCube = /** @class */ (function () {
         this.chargeFactor = 1;
         this.areSlicesSaved = false;
         this.areLinksSaved = false;
+        this.currentTimeSetting = 'aggregated'; // aggregated time by default 
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene)
@@ -2363,6 +2366,7 @@ var NetCube = /** @class */ (function () {
         configurable: true
     });
     NetCube.prototype.createObjects = function () {
+        this.timeLinearScale = this.dm.getTimeLinearScale();
         this.resetCubeGroupGL();
         this.resetCubeGroupCSS();
         this.colors = this.dm.colors;
@@ -2374,7 +2378,6 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.assembleData = function () {
         var _this = this;
         this.dm.data.forEach(function (d) { _this.setMap.add(d.category_1); });
-        this.timeLinearScale = this.dm.getTimeLinearScale();
         this.addNetworkDegreeToNodes();
         this.cubeGroupCSS.add(this.createBottomLayer());
         this.createNodes();
@@ -2465,7 +2468,7 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.updateTime = function (time) {
         var _this = this;
-        var distance_between_layers = this.countDistanceBetweenLayersToFixAbsolutePositionBug() / 2;
+        this.currentTimeSetting = time;
         this.cubeGroupGL.children.forEach(function (child, i) {
             if (child.type !== 'Group')
                 return;
@@ -2476,7 +2479,7 @@ var NetCube = /** @class */ (function () {
                 grandChild.position.y = time === 'aggregated' ? 0 : (_this.timeLinearScale(grandChild.data.date_time) - sliceOffsetY);
             });
         });
-        time === 'aggregated' ? this.showCubeLinks_aggregated() : this.showCubeLinks_absolute();
+        this.currentTimeSetting === 'aggregated' ? this.showCubeLinks_aggregated() : this.showCubeLinks_absolute();
     };
     NetCube.prototype.countDistanceBetweenLayersToFixAbsolutePositionBug = function () {
         var layers = [];
@@ -2731,7 +2734,7 @@ var NetCube = /** @class */ (function () {
         if (!this._cubeToggle)
             return;
         this.updateNodeColor('categorical');
-        this.showCubeLinks_aggregated();
+        this.currentTimeSetting === 'aggregated' ? this.showCubeLinks_aggregated() : this.showCubeLinks_absolute(); // get back setting
         this.showBottomLayer();
         this.boundingBox.visible = true;
         this.slices.forEach(function (slice, i) {
@@ -3232,10 +3235,18 @@ var NetCube = /** @class */ (function () {
         var targetId = dataItem.target_nodes[targetIndex];
         if (!this.dm.dataMap[targetId])
             return;
-        var targetNode_position = this.getNormalizedPositionById(targetId);
-        // let sliceOffsetY = this.getTimeSliceByDate(this.dm.dataMap[targetId].date_time).position.y;
-        targetNode_position.y = this.timeLinearScale(this.dm.dataMap[targetId].date_time); // - sliceOffsetY;
-        var lineGeometry = this.createLineGeometry(sourceNode_position, targetNode_position);
+        var sourcePosition = {
+            x: sourceNode_position.x,
+            y: this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_5__("" + dataItem.date_time).toDate()),
+            z: sourceNode_position.z
+        };
+        var targetNode = this.getNormalizedPositionById(targetId);
+        var targetPosition = {
+            x: targetNode.x,
+            y: this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_5__("" + this.dm.dataMap[targetId].date_time).toDate()),
+            z: targetNode.z
+        };
+        var lineGeometry = this.createLineGeometry(sourcePosition, targetPosition);
         var line = new three_full__WEBPACK_IMPORTED_MODULE_1__["Line"](lineGeometry, this.getLineMaterial());
         line.name = this.getLineName(dataItem, targetId);
         return line;
@@ -3304,7 +3315,7 @@ var NetCube = /** @class */ (function () {
             var edgeGeometry = new three_full__WEBPACK_IMPORTED_MODULE_1__["EdgesGeometry"](geometry);
             var material = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineBasicMaterial"]({ color: 0xb5b5b5 });
             var plane = new three_full__WEBPACK_IMPORTED_MODULE_1__["LineSegments"](edgeGeometry, material);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_5__("" + slice.name).toDate()), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             slice.index = i;
             plane.position.set(0, 0, 0);
             plane.rotation.set(Math.PI / 2, 0, 0);
@@ -3317,7 +3328,7 @@ var NetCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             // CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_1__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_5__("" + slice.name).toDate()), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "NET_LABEL_" + i;
             this.cubeGroupCSS.add(label);
         } //end for
@@ -3348,11 +3359,13 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.showCubeLinks_absolute = function () {
         this.hideAllLinks();
+        this.hideCubeLinks_aggregated();
         this.links_stc_absolute.visible = true;
     };
     NetCube.prototype.showCubeLinks_aggregated = function () {
         this.hideAllLinks();
         this.links_stc_aggregated.visible = true;
+        this.cubeGroupGL.add(this.links_stc_aggregated);
     };
     NetCube.prototype.showSILinks = function () {
         this.hideAllLinks();
@@ -3360,6 +3373,7 @@ var NetCube = /** @class */ (function () {
     };
     NetCube.prototype.hideCubeLinks_aggregated = function () {
         this.links_stc_aggregated.visible = false;
+        this.cubeGroupGL.remove(this.links_stc_aggregated);
     };
     NetCube.prototype.hideCubeLinks_absolute = function () {
         this.links_stc_absolute.visible = false;
@@ -3457,6 +3471,7 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         this.colorCoding = 'categorical';
         this._cubeToggle = true;
+        this.filterCat = '';
         this.dm = dm;
         this.webGLScene = webGLScene;
         if (cssScene) {
@@ -3499,6 +3514,7 @@ var SetCube = /** @class */ (function () {
         this.circleGroup = new Array();
         // this.pointGroup.name = 'pointGroup'
         this.cubeGroupGL.pointGroup = this.pointGroup;
+        this.timeLinearScale = this.dm.getTimeLinearScale();
         // hull
         this.hullGroup = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         this.hullState = false;
@@ -3528,7 +3544,7 @@ var SetCube = /** @class */ (function () {
         divObject.rotation.set(-Math.PI / 2, 0, 0);
         return divObject;
     };
-    //pass new slices numer and run the simulation again
+    // pass new slices numer and run the simulation again
     SetCube.prototype.updateSetCube = function (segs, initial, layout) {
         var _this = this;
         if (segs === void 0) { segs = this.dm.timeRange.length; }
@@ -3541,22 +3557,21 @@ var SetCube = /** @class */ (function () {
         this.slices = new Array();
         this.clearLabels();
         this.dm.data.forEach(function (d) {
-            _this.setMap.add(d.category_1); //TODO: pass the count size of each category
-            //store quantized time 
+            _this.setMap.add(d.category_1); // TODO: pass the count size of each category
+            // store quantized time
             d.groupDate = moment__WEBPACK_IMPORTED_MODULE_4__((_this.dm.getCustomTimeQuantile(d.date_time, segs)), 'YYYY').toDate();
         });
         // this.timeLinearScale(some_date) gives us the vertical axis coordinate of the point
-        this.timeLinearScale = this.dm.getTimeLinearScale();
-        //group by time and then category
+        // group by time and then category
         var groupedData = d3__WEBPACK_IMPORTED_MODULE_3__["nest"]()
             .key(function (d) { return moment__WEBPACK_IMPORTED_MODULE_4__(d.groupDate).format('YYYY'); })
             .key(function (d) { return d.category_1; })
             .entries(this.dm.data)
             .sort(function (a, b) { return a.key == b.key ? 0 : +(a.key > b.key) || -1; });
-        //add geometry points
+        // add geometry points
         var pointGeometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].NODE_SIZE, 32, 32);
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / this.dm.timeRange.length;
-        //layouts
+        // layouts
         var circleLayout = this.getCircleLayout(this.setMap, 0, 0, 180);
         var packLayout = this.getPackLayout();
         var radExtent = d3__WEBPACK_IMPORTED_MODULE_3__["extent"](this.getSetScale(), function (d) {
@@ -3575,7 +3590,7 @@ var SetCube = /** @class */ (function () {
             var slice = new three_full__WEBPACK_IMPORTED_MODULE_0__["Group"]();
             slice.name = timeLayer.key; // we need to decide either to use full date or
             slice.add(plane);
-            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, initial ? (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2) : -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2); // for initial run
+            slice.position.set(_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, initial ? _this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_4__("" + slice.name).toDate()) : -_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2); // for initial run
             // slice.position.set(CUBE_CONFIG.WIDTH / 2, - (CUBE_CONFIG.WIDTH / 2), CUBE_CONFIG.WIDTH / 2); // for updates
             _this.slices.push(slice);
             _this.cubeGroupGL.add(slice);
@@ -3585,15 +3600,15 @@ var SetCube = /** @class */ (function () {
             element.className = 'time-slice-label';
             //CSS Object
             var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DObject"](element);
-            label.position.set(-20, (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
+            label.position.set(-20, _this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_4__("" + slice.name).toDate()), _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2);
             label.name = "SET_LABEL_" + i;
             _this.cubeGroupCSS.add(label);
             // each category inside each time slice
             timeLayer.values.forEach(function (category) {
-                //circle geometry
+                // circle geometry
                 // const rad = category.values.length / 2;//ral: size of the big circles
                 var rad = radScale(category.values.length);
-                var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["CircleGeometry"](rad, 32); //hull resolution
+                var geometry = new three_full__WEBPACK_IMPORTED_MODULE_0__["CircleGeometry"](rad, 32); // hull resolution
                 var material1 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
                     color: '#d0d0d0',
                     side: three_full__WEBPACK_IMPORTED_MODULE_0__["DoubleSide"],
@@ -3604,24 +3619,24 @@ var SetCube = /** @class */ (function () {
                 circle.matrixWorldNeedsUpdate = true;
                 circle.name = category.key;
                 circle.rotation.x = Math.PI / 2;
-                //hide the circle layer in SI view
+                // hide the circle layer in SI view
                 (segs == 1) ? circle.visible = false : circle.visible = true;
                 // circle.name = timeLayer.key + category.key;
-                //apply group positions
+                // apply group positions
                 _this.getLayouts(layout, category, circle);
                 circle.updateMatrixWorld();
-                //get circles into one group to use for hull later
+                // get circles into one group to use for hull later
                 _this.circleGroup.push(circle);
                 slice.add(circle);
-                //add circle label
+                // add circle label
                 // console.log(circle.position)
-                //add points after each category
-                //get this category points positions
+                // add points after each category
+                // get this category points positions
                 // let spiralCategory = this.getSpiralPosition(parentPos.x, parentPos.z, rad, category.values)
                 var phyllotaxis = _this.getPhyllotaxis(circle.position.x, circle.position.z, rad, category.values);
                 phyllotaxis.forEach(function (points) {
                     // this.updateColorCoding('temporal');
-                    var material2 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.getCurrentColor(points) }); //FIXME: Color not found on SI
+                    var material2 = new three_full__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ color: _this.getCurrentColor(points) }); // FIXME: Color not found on SI
                     var point = new three_full__WEBPACK_IMPORTED_MODULE_0__["Mesh"](pointGeometry, material2);
                     point.material.needsUpdate = true;
                     point.position.y = circle.position.y;
@@ -3629,12 +3644,14 @@ var SetCube = /** @class */ (function () {
                     point.position.z = points.y;
                     point.name = points.data.id;
                     point.data = points.data;
-                    point.type = 'DATA_POINT'; //data point identifier
+                    point.type = 'DATA_POINT'; // data point identifier
                     _this.pointGroup.push(point);
                     slice.add(point);
-                }); //points groups end
-            }); //slices group end
-        }); //complete group end
+                }); // points groups end
+            }); // slices group end
+        }); // complete group end
+        // cube filter update
+        this.filterData(this.filterCat, this.dm.getMinDate(), this.dm.getMaxDate());
     };
     SetCube.prototype.getSetLabel = function (group, position) {
         // FIXME: This function duplicates the label construction in the constructor and is never called
@@ -3645,7 +3662,7 @@ var SetCube = /** @class */ (function () {
         element.className = 'set-label';
         element.style.fontSize = 'smaller';
         element.style.color = 'grey';
-        //CSS Object
+        // CSS Object
         // let label = new THREE.CSS3DObject(element);
         var label = new three_full__WEBPACK_IMPORTED_MODULE_0__["CSS3DSprite"](element);
         // label.position.set(position[1], CUBE_CONFIG.HEIGHT, position[2]);
@@ -3682,8 +3699,9 @@ var SetCube = /** @class */ (function () {
                 x: Math.cos(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2 + Math.random(),
                 y: Math.sin(i / m * 2 * Math.PI) * 150 + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2 + Math.random()
             };
-            if (!clusters[i] || (r > clusters[i].radius))
+            if (!clusters[i] || (r > clusters[i].radius)) {
                 clusters[i] = d;
+            }
             return d;
         });
         var layout = d3__WEBPACK_IMPORTED_MODULE_3__["forceSimulation"]()
@@ -3698,7 +3716,7 @@ var SetCube = /** @class */ (function () {
         } // Initial ticks before starting to render
         var cntTicks = 0;
         var startTickTime = new Date().getTime();
-        layout.on("tick", layoutTick).restart();
+        layout.on('tick', layoutTick).restart();
         function layoutTick() {
             if (cntTicks++ > state.coolDownTicks || (new Date().getTime()) - startTickTime > state.coolDownTime) {
                 layout.stop(); // Stop ticking graph
@@ -3728,16 +3746,18 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         var removed = new Array();
         this.cubeGroupCSS.children.forEach(function (child) {
-            if (child.name.includes('SET_LABEL'))
+            if (child.name.includes('SET_LABEL')) {
                 removed.push(child);
+            }
         });
         removed.forEach(function (r) { _this.cubeGroupCSS.remove(r); });
     };
     SetCube.prototype.hideLabels = function () {
         var _this = this;
         this.cubeGroupCSS.traverse(function (object) {
-            if (object.name.includes('SET_LABEL'))
+            if (object.name.includes('SET_LABEL')) {
                 _this.hiddenLabels.push(object);
+            }
         });
         this.hiddenLabels.forEach(function (r) { _this.cubeGroupCSS.remove(r); });
     };
@@ -3759,14 +3779,14 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.updateLayout = function (layout) {
         var segs = this.dm.timeRange.length;
-        if (layout === 'cluster') { //just for testing cluster force in UI
+        if (layout === 'cluster') { // just for testing cluster force in UI
             // console.log('cluster')
             this.forceClusterGraph();
         }
         else {
             this.updateSetCube(segs, true, layout);
         }
-        //update hull 
+        // update hull
         this.hullState = false;
     };
     SetCube.prototype.getLayouts = function (layout, category, circle) {
@@ -3792,11 +3812,13 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateTime = function (time) {
         var _this = this;
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 var sliceOffsetY = child.position.y;
                 grandChild.position.y = time === 'aggregated' ? 0 : _this.timeLinearScale(grandChild.data.date_time) - sliceOffsetY;
             });
@@ -3815,14 +3837,14 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateNumSlices = function () {
         var segs = this.dm.timeRange.length;
         this.updateSetCube(segs, true);
-        //update hull 
+        // update hull
         this.hullState = false;
     };
     SetCube.prototype.updateColorCoding = function (encoding) {
         this.colorCoding = encoding;
         switch (encoding) {
             case 'categorical':
-                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
+                this.colors = this.dm.colors; // D3.scaleOrdinal(D3.schemePaired);
                 break;
             case 'temporal':
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_3__["scaleSequential"](d3__WEBPACK_IMPORTED_MODULE_3__["interpolateViridis"]).domain([this.dm.getMinDate(), this.dm.getMaxDate()]);
@@ -3831,7 +3853,7 @@ var SetCube = /** @class */ (function () {
                 this.colors = d3__WEBPACK_IMPORTED_MODULE_3__["scaleOrdinal"](d3__WEBPACK_IMPORTED_MODULE_3__["schemeSet2"]);
                 break;
             default:
-                this.colors = this.dm.colors; //D3.scaleOrdinal(D3.schemePaired);
+                this.colors = this.dm.colors; // D3.scaleOrdinal(D3.schemePaired);
                 break;
         }
     };
@@ -3839,11 +3861,13 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         this.updateColorCoding(encoding);
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 switch (encoding) {
                     case 'categorical':
                         grandChild.material.color.set(_this.colors(grandChild.data.category_1));
@@ -3869,11 +3893,13 @@ var SetCube = /** @class */ (function () {
             z: scale
         };
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 var sourceScale = {
                     x: grandChild.scale.x,
                     y: grandChild.scale.y,
@@ -3894,31 +3920,38 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.updateData = function () {
     };
     SetCube.prototype.dateWithinInterval = function (startDate, endDate, pointDate) {
-        if (!startDate)
+        if (!startDate) {
             startDate = this.dm.getMinDate();
-        if (!endDate)
+        }
+        if (!endDate) {
             endDate = this.dm.getMaxDate();
+        }
         return moment__WEBPACK_IMPORTED_MODULE_4__(pointDate) >= moment__WEBPACK_IMPORTED_MODULE_4__(startDate) && moment__WEBPACK_IMPORTED_MODULE_4__(pointDate) <= moment__WEBPACK_IMPORTED_MODULE_4__(endDate);
     };
     SetCube.prototype.filterData = function (cat, start, end) {
         var _this = this;
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 grandChild.visible = true;
-                if (!(_this.dateWithinInterval(start, end, grandChild.data.date_time) && (cat === "" ? true : grandChild.data.category_1 === cat))) {
+                if (!(_this.dateWithinInterval(start, end, grandChild.data.date_time) && (cat === '' ? true : grandChild.data.category_1 === cat))) {
                     grandChild.visible = false;
                 }
             });
         });
+        // update global category
+        this.filterCat = cat;
     };
     SetCube.prototype.transitionSTC = function () {
         var _this = this;
-        if (!this._cubeToggle)
+        if (!this._cubeToggle) {
             return;
+        }
         this.showBottomLayer();
         this.boundingBox.visible = true;
         // TODO:on STC, update setcube with stacked layers
@@ -3934,10 +3967,10 @@ var SetCube = /** @class */ (function () {
             };
             var targetCoords = {
                 x: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2,
-                y: (i * vertOffset) - (_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT / 2),
+                y: _this.timeLinearScale(moment__WEBPACK_IMPORTED_MODULE_4__("" + slice.name).toDate()),
                 z: _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2
             };
-            //labels
+            // labels
             var label = _this.cubeGroupCSS.getObjectByName("SET_LABEL_" + i);
             d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.time-slice-label').style('opacity', '1');
             d3__WEBPACK_IMPORTED_MODULE_3__["selectAll"]('.set-label').style('opacity', '1'); // FIXME: This selection is empty because we have no elements with .set-label class
@@ -3955,9 +3988,9 @@ var SetCube = /** @class */ (function () {
                     slice.position.z = sourceCoords.z;
             })
                 .start();
-        }); //end forEach
+        }); // end forEach
         tween.onComplete(function () {
-            //update nodecolor to categorical
+            // update nodecolor to categorical
             // this.updateNodeColor('categorical');
         });
         // show hull
@@ -3966,14 +3999,15 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.transitionJP = function () {
         var _this = this;
         this.hideBottomLayer();
-        if (!this._cubeToggle)
+        if (!this._cubeToggle) {
             return;
+        }
         // hide hull
         this.hideHull();
-        //rerun scene and transition to JP
+        // rerun scene and transition to JP
         var segs = this.dm.timeRange.length;
         this.updateSetCube(segs, true);
-        //update hull 
+        // update hull
         this.hullState = false;
         // re run updateSet
         var vertOffset = _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT + 20;
@@ -4010,8 +4044,9 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.transitionSI = function () {
         var _this = this;
         // hide hull
-        if (!this._cubeToggle)
+        if (!this._cubeToggle) {
             return;
+        }
         this.hideHull();
         this.hideBottomLayer();
         this.boundingBox.visible = false;
@@ -4038,10 +4073,10 @@ var SetCube = /** @class */ (function () {
             })
                 .start();
         });
-        //on complete tweening, update setcube with flattened layers
+        // on complete tweening, update setcube with flattened layers
         tween.onComplete(function () {
             _this.updateSetCube(1);
-            //update node colors to temporal
+            // update node colors to temporal
             _this.updateNodeColor('temporal');
             _this.hideLabels();
         });
@@ -4063,11 +4098,13 @@ var SetCube = /** @class */ (function () {
     SetCube.prototype.resetCategorySelection = function (gray) {
         if (gray === void 0) { gray = false; }
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 grandChild.visible = true;
             });
         });
@@ -4080,11 +4117,13 @@ var SetCube = /** @class */ (function () {
         var _this = this;
         if (gray === void 0) { gray = false; }
         this.cubeGroupGL.children.forEach(function (child) {
-            if (child.type !== 'Group')
+            if (child.type !== 'Group') {
                 return;
+            }
             child.children.forEach(function (grandChild) {
-                if (grandChild.type !== 'DATA_POINT')
+                if (grandChild.type !== 'DATA_POINT') {
                     return;
+                }
                 grandChild.scale.set(1, 1, 1);
                 grandChild.material.color.set(gray ? '#b5b5b5' : _this.getCurrentColor(grandChild));
             });
@@ -4104,8 +4143,9 @@ var SetCube = /** @class */ (function () {
         var intersections = this.raycaster.intersectObjects(this.cubeGroupGL.children, true);
         for (var i = 0; i < intersections.length; i++) {
             var selectedObject = intersections[i].object;
-            if (selectedObject.type !== 'DATA_POINT')
+            if (selectedObject.type !== 'DATA_POINT') {
                 continue;
+            }
             // get first intersect that is a data point
             // tooltip.nativeElement.style.display = 'block';
             // tooltip.nativeElement.style.opacity = '.9';
@@ -4132,7 +4172,7 @@ var SetCube = /** @class */ (function () {
         if (x0 === void 0) { x0 = 0; }
         if (y0 === void 0) { y0 = 0; }
         if (r === void 0) { r = 20; }
-        var items = Array.from(group_list).slice();
+        var items = Array.from(group_list);
         var circleLayout = [];
         for (var i = 0; i < items.length; i++) {
             var x = x0 + r * Math.cos(2 * Math.PI * i / items.length);
@@ -4148,7 +4188,7 @@ var SetCube = /** @class */ (function () {
             .map(function (d) {
             return { Category: d.key, Value: d.values.length };
         });
-        var data = { name: "groups", children: groupedData };
+        var data = { name: 'groups', children: groupedData };
         var vLayout = d3__WEBPACK_IMPORTED_MODULE_3__["pack"]().size([_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT]);
         var vRoot = d3__WEBPACK_IMPORTED_MODULE_3__["hierarchy"](data).sum(function (d) { return d.Value; }).sort(function (a, b) { return b.value - a.value; });
         ;
@@ -4199,9 +4239,9 @@ var SetCube = /** @class */ (function () {
         var new_time = [];
         // For every side, step around and away from center.
         for (var i = 0; i < data.length; i++) {
-            var radius = spacing * Math.sqrt(++index), angle = index * theta;
-            var x = centerX + radius * Math.cos(angle);
-            var y = centerY + radius * Math.sin(angle);
+            var radius_1 = spacing * Math.sqrt(++index), angle = index * theta;
+            var x = centerX + radius_1 * Math.cos(angle);
+            var y = centerY + radius_1 * Math.sin(angle);
             new_time.push({ x: x, y: y, data: data[i] });
         }
         return new_time;
@@ -4277,13 +4317,15 @@ var SetCube = /** @class */ (function () {
     };
     SetCube.prototype.hideBottomLayer = function () {
         var bottomLayer = document.getElementById('div_container_setcube');
-        if (bottomLayer)
+        if (bottomLayer) {
             bottomLayer.style.opacity = '0';
+        }
     };
     SetCube.prototype.showBottomLayer = function () {
         var bottomLayer = document.getElementById('div_container_setcube');
-        if (bottomLayer)
+        if (bottomLayer) {
             bottomLayer.style.opacity = '1';
+        }
     };
     SetCube.prototype.hideHull = function () {
         // hide hull
