@@ -317,7 +317,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    /* z-index: 999; */\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n    z-index: 1;\n}\n.category-legend span {\n    margin-top: 1em; /* vertically */\n}\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-wrapper > div {\n    margin: .25em;\n}\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n.active {\n    border: 4px solid black;\n}\n.inactive {\n    border: 4px solid transparent;\n}\n.error p {\n    word-break: break-word;\n}\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n/** Image grid for related pics **/\n.image-grid {\n    display: flex;\n    flex-wrap: wrap;\n    flex-direction: row;\n}\n.image-grid-cell {\n    width: 15%;\n    /* margin: .125em; */\n}\n.image-grid-image {\n    max-width: 100%;\n}\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n.preview-title {\n    color: gray;\n}\n.preview-picture {\n    max-width: inherit;\n}\n.preview-metainfo {\n    /* font-style: italic; */\n    font-size: 16px;\n    color: gray;\n    margin-bottom: 0px;\n}\n.related {\n    font-size: small;\n    color: gray;\n}\n.preview-description {\n    text-align: justify;\n    font-size: larger;\n    /* font-style: italic; */\n}\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n/*DAT GUI*/\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*MODAL CSS*/\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n/* Modal Content (Image) */\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n/* Add Animation - Zoom in the Modal */\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n/* The Close Button */\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n/* 100% Image Width on Smaller Screens */\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n/* Processing spinner */\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n.processing-change p {\n    color: white;\n}\n/*navigation buttons*/\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n/*overlay*/\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSx3QkFBd0I7QUFDNUI7QUFDQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsYUFBYTtJQUNiLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGVBQWU7QUFDbkI7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25CO0FBRUE7SUFDSSxZQUFZO0lBQ1osc0JBQXNCO0lBQ3RCLGdDQUFnQztJQUNoQyx3QkFBd0I7QUFDNUI7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCO0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjtBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDtBQUVBOztJQUVJLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsVUFBVTtBQUNkO0FBRUE7SUFDSSxlQUFlLEVBQUUsZUFBZTtBQUNwQztBQUVBO0lBQ0ksYUFBYTtJQUNiLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIscUJBQXFCO0FBQ3pCO0FBRUE7SUFDSSxhQUFhO0FBQ2pCO0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixXQUFXO0FBQ2Y7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixXQUFXO0lBQ1gsZ0JBQWdCO0lBQ2hCLGFBQWE7SUFDYixhQUFhO0FBQ2pCO0FBRUE7SUFDSSx1QkFBdUI7QUFDM0I7QUFFQTtJQUNJLDZCQUE2QjtBQUNqQztBQUVBO0lBQ0ksc0JBQXNCO0FBQzFCO0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsTUFBTTtJQUNOLE9BQU87SUFDUCxpQ0FBaUM7QUFDckM7QUFFQSxrQ0FBa0M7QUFDbEM7SUFDSSxhQUFhO0lBQ2IsZUFBZTtJQUNmLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksVUFBVTtJQUNWLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksZUFBZTtBQUNuQjtBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixlQUFlO0FBQ25CO0FBRUE7SUFDSSxXQUFXO0FBQ2Y7QUFDQTtJQUNJLGtCQUFrQjtBQUN0QjtBQUNBO0lBQ0ksd0JBQXdCO0lBQ3hCLGVBQWU7SUFDZixXQUFXO0lBQ1gsa0JBQWtCO0FBQ3RCO0FBRUE7SUFDSSxnQkFBZ0I7SUFDaEIsV0FBVztBQUNmO0FBRUE7SUFDSSxtQkFBbUI7SUFDbkIsaUJBQWlCO0lBQ2pCLHdCQUF3QjtBQUM1QjtBQUVBO0lBQ0ksVUFBVTtJQUNWLGlDQUFpQztBQUNyQztBQUVBOztJQUVJLGVBQWU7QUFDbkI7QUFFQTs7SUFFSSxlQUFlO0FBQ25CO0FBRUEsVUFBVTtBQUNWO0lBQ0ksd0JBQXdCO0FBQzVCO0FBRUEsWUFBWTtBQUNaO0lBQ0ksYUFBYSxFQUFFLHNCQUFzQjtJQUNyQyxlQUFlLEVBQUUsa0JBQWtCO0lBQ25DLFVBQVUsRUFBRSxlQUFlO0lBQzNCLGtCQUFrQixFQUFFLHdCQUF3QjtJQUM1QyxPQUFPO0lBQ1AsTUFBTTtJQUNOLFdBQVcsRUFBRSxlQUFlO0lBQzVCLFlBQVksRUFBRSxnQkFBZ0I7SUFDOUIsY0FBYyxFQUFFLDRCQUE0QjtJQUM1Qyw0QkFBNEIsRUFBRSxtQkFBbUI7SUFDakQsaUNBQWlDLEVBQUUscUJBQXFCO0VBQzFEO0FBRUEsMEJBQTBCO0FBQzFCO0lBQ0UsWUFBWTtJQUNaLGNBQWM7SUFDZCxzQkFBc0I7SUFDdEIsZUFBZTtJQUNmLGVBQWU7RUFDakI7QUFFQSxrRUFBa0U7QUFDbEU7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxlQUFlO0lBQ2YsYUFBYTtFQUNmO0FBRUEsc0NBQXNDO0FBQ3RDO0lBQ0UsNEJBQW9CO1lBQXBCLG9CQUFvQjtJQUNwQixnQ0FBd0I7WUFBeEIsd0JBQXdCO0VBQzFCO0FBRUE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCO0FBSEE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCO0FBRUEscUJBQXFCO0FBQ3JCO0lBQ0Usa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gseUJBQXlCO0lBQ3pCLGVBQWU7SUFDZixpQkFBaUI7SUFDakIsZ0JBQWdCO0VBQ2xCO0FBRUE7O0lBRUUsV0FBVztJQUNYLHFCQUFxQjtJQUNyQixlQUFlO0VBQ2pCO0FBRUEsd0NBQXdDO0FBQ3hDO0lBQ0U7TUFDRSxXQUFXO0lBQ2I7RUFDRjtBQUVGLHVCQUF1QjtBQUN2QjtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsU0FBUztJQUNULFVBQVU7SUFDVixXQUFXO0lBQ1gsYUFBYTtJQUNiLHNCQUFzQjtJQUN0Qix1QkFBdUI7SUFDdkIscUJBQXFCO0lBQ3JCLG1CQUFtQjtJQUNuQix3Q0FBZ0M7WUFBaEMsZ0NBQWdDO0lBQ2hDLHNCQUFzQjtJQUN0QixXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGFBQWE7QUFDakI7QUFFQTtJQUNJLFlBQVk7QUFDaEI7QUFFQSxxQkFBcUI7QUFFckI7O0lBRUksa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxjQUFjO0lBQ2QsWUFBWTtJQUNaLHlCQUF5QjtJQUN6QixXQUFXO0lBQ1gsZUFBZTtBQUNuQjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGlCQUFpQjtBQUNyQjtBQUVBO0lBQ0ksV0FBVztJQUNYLGdCQUFnQjtBQUNwQjtBQUdBLFVBQVU7QUFDVjtJQUNJLGtCQUFrQjtJQUNsQixpQkFBaUI7SUFDakIsV0FBVztJQUNYLFVBQVU7SUFDVixtQkFBbUI7SUFDbkIsNEJBQTRCO0lBQzVCLHlCQUF5QjtJQUN6Qiw2QkFBNkI7SUFDN0IsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5oaWRle1xuICAgIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDtcbn1cbi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbn1cblxuLm9wdGlvbnMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICAgIHotaW5kZXg6IDEwNDg7XG4gICAgYm90dG9tOiA0ZW07XG4gICAgcmlnaHQ6IDRlbTtcbiAgICAvKiBsZWZ0OiA1ZW07ICovXG59XG5cbjo6bmctZGVlcCAuc2lkZS1iYXIge1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xuICAgIHotaW5kZXg6IDEwNDkgIWltcG9ydGFudDtcbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhci1jb250ZW50IHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgIG1heC1oZWlnaHQ6IDEwMHZoO1xuICAgIG1heC13aWR0aDogMTAwdnc7XG59XG5cbiN3ZWJnbC1jYW52YXMsXG4jY3NzLWNhbnZhcyB7XG4gICAgLyogYXZvaWQgc2Nyb2xsYmFycyAqL1xuICAgIHdpZHRoOiBjYWxjKDEwMHZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuI2Nsb3NlLXByZXZpZXcge1xuICAgIGNvbG9yOiAjNmM3NTdkICFpbXBvcnRhbnQ7IFxuICAgIG91dGxpbmU6IDA7XG59XG5cbmJ1dHRvbixcbmJ1dHRvbjpmb2N1cyB7XG4gICAgb3V0bGluZTogMCAhaW1wb3J0YW50O1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBib3R0b206IDFlbTtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIC8qIHotaW5kZXg6IDk5OTsgKi9cbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIHotaW5kZXg6IDE7XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQgc3BhbiB7XG4gICAgbWFyZ2luLXRvcDogMWVtOyAvKiB2ZXJ0aWNhbGx5ICovXG59XG5cbi5jYXRlZ29yeS13cmFwcGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciA+IGRpdiB7XG4gICAgbWFyZ2luOiAuMjVlbTtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYgPiBzcGFuIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIGhlaWdodDogMjBweDtcbiAgICB3aWR0aDogMjBweDtcbn1cblxuLmVycm9yIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGUgIWltcG9ydGFudDsgXG4gICAgYm90dG9tOiAwZW07XG4gICAgbWF4LXdpZHRoOiA1MTJweDtcbiAgICBtYXJnaW46IDAuNWVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5hY3RpdmUge1xuICAgIGJvcmRlcjogNHB4IHNvbGlkIGJsYWNrO1xufVxuXG4uaW5hY3RpdmUge1xuICAgIGJvcmRlcjogNHB4IHNvbGlkIHRyYW5zcGFyZW50O1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4vKiogSW1hZ2UgZ3JpZCBmb3IgcmVsYXRlZCBwaWNzICoqL1xuLmltYWdlLWdyaWQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC13cmFwOiB3cmFwO1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5pbWFnZS1ncmlkLWNlbGwge1xuICAgIHdpZHRoOiAxNSU7XG4gICAgLyogbWFyZ2luOiAuMTI1ZW07ICovXG59XG5cbi5pbWFnZS1ncmlkLWltYWdlIHtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG59XG5cbi5wcmV2aWV3LWl0ZW0ge1xuICAgIG1hcmdpbi10b3A6IDJlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAyZW07XG4gICAgbWF4LXdpZHRoOiAyNXZ3O1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgLyogZm9udC1zdHlsZTogaXRhbGljOyAqL1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICBjb2xvcjogZ3JheTtcbiAgICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi5yZWxhdGVkIHtcbiAgICBmb250LXNpemU6IHNtYWxsO1xuICAgIGNvbG9yOiBncmF5O1xufVxuXG4ucHJldmlldy1kZXNjcmlwdGlvbiB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeTtcbiAgICBmb250LXNpemU6IGxhcmdlcjtcbiAgICAvKiBmb250LXN0eWxlOiBpdGFsaWM7ICovXG59XG5cbjo6bmctZGVlcCAudGltZS1zbGljZS1sYWJlbCB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbixcbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbjo6bmctZGVlcCAucmVzZXRCdXR0b24sXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLypEQVQgR1VJKi9cbjo6bmctZGVlcCAuZGcuYWMge1xuICAgIHotaW5kZXg6IDEwMDAgIWltcG9ydGFudDtcbn1cblxuLypNT0RBTCBDU1MqL1xuLm1vZGFsIHtcbiAgICBkaXNwbGF5OiBub25lOyAvKiBIaWRkZW4gYnkgZGVmYXVsdCAqL1xuICAgIHBvc2l0aW9uOiBmaXhlZDsgLyogU3RheSBpbiBwbGFjZSAqL1xuICAgIHotaW5kZXg6IDE7IC8qIFNpdCBvbiB0b3AgKi9cbiAgICBwYWRkaW5nLXRvcDogMTAwcHg7IC8qIExvY2F0aW9uIG9mIHRoZSBib3ggKi9cbiAgICBsZWZ0OiAwO1xuICAgIHRvcDogMDtcbiAgICB3aWR0aDogMTAwJTsgLyogRnVsbCB3aWR0aCAqL1xuICAgIGhlaWdodDogMTAwJTsgLyogRnVsbCBoZWlnaHQgKi9cbiAgICBvdmVyZmxvdzogYXV0bzsgLyogRW5hYmxlIHNjcm9sbCBpZiBuZWVkZWQgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApOyAvKiBGYWxsYmFjayBjb2xvciAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwwLDAsMC45KTsgLyogQmxhY2sgdy8gb3BhY2l0eSAqL1xuICB9XG4gIFxuICAvKiBNb2RhbCBDb250ZW50IChJbWFnZSkgKi9cbiAgLm1vZGFsLWNvbnRlbnQge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogYXV0byAhaW1wb3J0YW50O1xuICAgIG1heC13aWR0aDogMTAwJTtcbiAgICBtYXgtaGVpZ2h0OiA4MCU7XG4gIH1cbiAgXG4gIC8qIENhcHRpb24gb2YgTW9kYWwgSW1hZ2UgKEltYWdlIFRleHQpIC0gU2FtZSBXaWR0aCBhcyB0aGUgSW1hZ2UgKi9cbiAgI2NhcHRpb24ge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogODAlO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGNvbG9yOiAjY2NjO1xuICAgIHBhZGRpbmc6IDEwcHggMDtcbiAgICBoZWlnaHQ6IDE1MHB4O1xuICB9XG4gIFxuICAvKiBBZGQgQW5pbWF0aW9uIC0gWm9vbSBpbiB0aGUgTW9kYWwgKi9cbiAgLm1vZGFsLWNvbnRlbnQsICNjYXB0aW9uIHsgXG4gICAgYW5pbWF0aW9uLW5hbWU6IHpvb207XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjZzO1xuICB9XG4gIFxuICBAa2V5ZnJhbWVzIHpvb20ge1xuICAgIGZyb20ge3RyYW5zZm9ybTpzY2FsZSgwKX0gXG4gICAgdG8ge3RyYW5zZm9ybTpzY2FsZSgxKX1cbiAgfVxuICBcbiAgLyogVGhlIENsb3NlIEJ1dHRvbiAqL1xuICAuY2xvc2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDE1cHg7XG4gICAgcmlnaHQ6IDM1cHg7XG4gICAgY29sb3I6ICNmMWYxZjEgIWltcG9ydGFudDtcbiAgICBmb250LXNpemU6IDQwcHg7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgdHJhbnNpdGlvbjogMC4zcztcbiAgfVxuICBcbiAgLmNsb3NlOmhvdmVyLFxuICAuY2xvc2U6Zm9jdXMge1xuICAgIGNvbG9yOiAjYmJiO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbiAgXG4gIC8qIDEwMCUgSW1hZ2UgV2lkdGggb24gU21hbGxlciBTY3JlZW5zICovXG4gIEBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzAwcHgpe1xuICAgIC5tb2RhbC1jb250ZW50IHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgIH1cbiAgfVxuXG4vKiBQcm9jZXNzaW5nIHNwaW5uZXIgKi9cbi5wcm9jZXNzaW5nLWNoYW5nZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB3aWR0aDogMjUlO1xuICAgIGhlaWdodDogMjUlO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGJvcmRlci1yYWRpdXM6IC4yNXJlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4ucHJvY2Vzc2luZy1jaGFuZ2UgcCB7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG4vKm5hdmlnYXRpb24gYnV0dG9ucyovXG5cbiNuZXh0LFxuI3ByZXZpb3VzIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgdG9wOiAtNTUlO1xuICAgIGZvbnQtc2l6ZTogMmVtO1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICB0ZXh0LXNoYWRvdzogMCAxcHggMCAjZmZmO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGRpc3BsYXk6IGlubGluZTtcbn1cblxuI25leHQge1xuICAgIGZsb2F0OiByaWdodDsgICBcbiAgICBtYXJnaW4tcmlnaHQ6IDVlbTtcbn1cblxuI3ByZXZpb3VzIHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBtYXJnaW4tbGVmdDogNWVtO1xufVxuXG5cbi8qb3ZlcmxheSovXG4ub3ZlcmxheSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIC8qIHdpZHRoOiAxMDAlOyAqL1xuICAgIGJvdHRvbTogMGVtO1xuICAgIHJpZ2h0OiAyZW07XG4gICAgLyogZGlzcGxheTogZmxleDsgKi9cbiAgICAvKiBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyAqL1xuICAgIC8qIGFsaWduLWl0ZW1zOiBjZW50ZXI7ICovXG4gICAgLyoganVzdGlmeS1jb250ZW50OiBjZW50ZXI7ICovXG4gICAgZm9udC1zaXplOiAyOHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -328,7 +328,7 @@ module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <!--\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                -->\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-connectdevelop \"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -344,777 +344,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
-/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./classes/geocube */ "./src/app/classes/geocube.ts");
-/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/setcube */ "./src/app/classes/setcube.ts");
-/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./classes/netcube */ "./src/app/classes/netcube.ts");
-/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
-/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./classes/viewStates */ "./src/app/classes/viewStates.ts");
-/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./classes/gui */ "./src/app/classes/gui.ts");
-/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_13__);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 var AppComponent = /** @class */ (function () {
-    // inject google
-    function AppComponent(google, compRef) {
-        var _this = this;
-        this.google = google;
-        this.compRef = compRef;
+    function AppComponent(changeDetectorRef) {
         this.title = 'PolyCube';
-        // processing & updating
-        this.processingChange = true;
-        this.processingMessage = 'Loading dataset...';
-        this.previewPanel = false;
-        // set default view to display all cubes
-        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].POLY_CUBE;
-        // data management
-        this.loadingDataset = true;
-        this.dataLoaded = false;
-        // error management
-        this.errorOccurred = false;
-        this.showColorCodingLegend = true;
-        /**
-         * Initializes the THREEJS scene
-         * - creating renderers
-         * - creating camera
-         * - creating scenes
-         * - creating controls
-         * - creating lighting
-         * - call the animation loop
-         */
-        this.initScene = function () {
-            _this.webGLScene = new three_full__WEBPACK_IMPORTED_MODULE_2__["Scene"]();
-            _this.cssScene = new three_full__WEBPACK_IMPORTED_MODULE_2__["Scene"]();
-            var WIDTH = _this.webGLContainer.nativeElement.offsetWidth;
-            var HEIGHT = _this.webGLContainer.nativeElement.offsetHeight;
-            _this.webGLRenderer = new three_full__WEBPACK_IMPORTED_MODULE_2__["WebGLRenderer"]({ canvas: _this.webGLContainer.nativeElement, alpha: true });
-            _this.webGLRenderer.setSize(WIDTH, HEIGHT);
-            _this.webGLRenderer.setClearColor(0xffffff, 0);
-            _this.css3DRenderer = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DRenderer"]();
-            _this.css3DRenderer.setSize(WIDTH, HEIGHT);
-            _this.cssContainer.nativeElement.appendChild(_this.css3DRenderer.domElement);
-            _this.orthographicCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrthographicCamera"](WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, -10000, 10000);
-            _this.perspectiveCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["PerspectiveCamera"](20, WIDTH / HEIGHT, 1, 100000);
-            _this.camera = _this.perspectiveCamera;
-            // this.camera = this.orthographicCamera;
-            _this.camera.up.set(0, 1, 0);
-            // this.camera.position.set(200, 200, 4800); // for orthocamera
-            _this.camera.position.set(803, 912, 4755);
-            _this.camera.lookAt(_this.webGLScene.position.x, _this.webGLScene.position.y, _this.webGLScene.position.z);
-            _this.controls = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrbitControls"](_this.camera, _this.webGLRenderer.domElement);
-            _this.controls.target = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1000, 0, 0);
-            _this.controls.enableZoom = true;
-            _this.controls.zoomSpeed = 1.2;
-            //hold initial camera and position values
-            _this.camToSave = {};
-            _this.camToSave.position = _this.camera.position.clone();
-            _this.camToSave.rotation = _this.camera.rotation.clone();
-            _this.camToSave.controlCenter = _this.controls.target.clone();
-        };
-        /**
-         * Initializes the cubes, assigns the data manager and passes the
-         * webGL and css3D scenes so that the cubes can create their objects
-         * and append themselves to the scene
-         */
-        this.initCubes = function () {
-            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_5__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_6__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_7__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
-        };
-        /**
-         * This function is called when the dataset has been changed
-         * to notify the cubes that they should update the dataset
-         * and re-initialize themselves
-         */
-        this.updateCubes = function () {
-            _this.gCube.updateData();
-            _this.sCube.updateData();
-            _this.nCube.updateData();
-        };
-        this.addEventListeners = function () {
-            _this.webGLContainer.nativeElement.addEventListener('click', function ($event) {
-                $event.preventDefault();
-                var foundItem = _this.getClickedItem($event);
-                if (foundItem) {
-                    _this.previewItem = {
-                        title: "Picture #" + foundItem.id,
-                        id: foundItem.id,
-                        mediaURL: foundItem.external_url,
-                        date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
-                        location: foundItem.location_name,
-                        description: foundItem.description,
-                        externalURL: foundItem.media_url,
-                        related: foundItem.target_nodes,
-                        categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5],
-                        network_degree_in: foundItem.network_degree_in,
-                        network_degree_out: foundItem.network_degree_out,
-                        network_degree_overall: foundItem.network_degree_overall,
-                    };
-                    _this.openPreview();
-                }
-                else {
-                    _this.previewItem = null;
-                    _this.tooltip.nativeElement.style.display = 'none';
-                    _this.tooltip.nativeElement.style.opacity = '0';
-                    _this.closePreview();
-                }
-            });
-        };
-        this.getClickedItem = function ($event) {
-            // look for item across cubes
-            var foundItem = _this.gCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
-            if (!foundItem)
-                foundItem = _this.sCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
-            if (!foundItem)
-                foundItem = _this.nCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
-            // if item clicked highlight accross cubes
-            if (foundItem) {
-                _this.gCube.highlightObject(foundItem.id);
-                _this.sCube.highlightObject(foundItem.id);
-                _this.nCube.highlightObject(foundItem.id);
-            }
-            return foundItem;
-        };
-        /**
-         * Initializes the GUI elements including button event listeners
-         */
-        this.initGUI = function () {
-            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_10__["GUI"]();
-            // general settings
-            _this.processingMessage = 'Processing new configuration...';
-            _this.gui.pCubeConfigEmitter.on('processing', function (change) {
-                _this.processingChange = change;
-            });
-            _this.gui.pCubeConfigEmitter.on('change', function (change) {
-                if (change.backgroundColor) {
-                    _this.compRef.nativeElement.ownerDocument.body.style.backgroundColor = change.backgroundColor;
-                }
-                if (change.time) {
-                    _this.gCube.updateTime(change.time);
-                    _this.sCube.updateTime(change.time);
-                    _this.nCube.updateTime(change.time);
-                }
-                if (change.numSlices) {
-                    _this.dataManager.numSlices = change.numSlices;
-                    _this.gCube.updateNumSlices(change.numSlices);
-                    _this.sCube.updateNumSlices(change.numSlices);
-                    _this.nCube.updateNumSlices(change.numSlices);
-                    // this.processingChange = false;
-                }
-                if (change.nodeSize) {
-                    _this.gCube.updateNodeSize(change.nodeSize);
-                    _this.sCube.updateNodeSize(change.nodeSize);
-                    _this.nCube.updateNodeSize(change.nodeSize);
-                }
-                if (change.nodeColor) {
-                    _this.showColorCodingLegend = change.nodeColor !== 'categorical' ? false : true;
-                    _this.gCube.updateNodeColor(change.nodeColor);
-                    _this.sCube.updateNodeColor(change.nodeColor);
-                    _this.nCube.updateNodeColor(change.nodeColor);
-                    //update timeline color
-                    if (change.nodeColor === 'temporal') {
-                        _this.timelineColor(true);
-                    }
-                    else {
-                        _this.timelineColor(false);
-                    }
-                }
-                // camera switch 
-                if (change.cameraType) {
-                    if (change.cameraType === 'Perspective') {
-                        _this.usePerspectiveCamera();
-                    }
-                    else if (change.cameraType === 'Orthographic') {
-                        _this.useOrthographicCamera();
-                    }
-                }
-                // reset scene
-                if (change.reset) {
-                    _this.resetScene();
-                }
-                // we should be done processing changes
-                _this.processingChange = false;
-            });
-            // geocube settings
-            _this.gui.gCubeConfigEmitter.on('change', function (change) {
-                if (change.jitter) {
-                    _this.gCube.updateJitter(change.jitter);
-                }
-            });
-            // setcube settings
-            _this.gui.sCubeConfigEmitter.on('change', function (change) {
-                if (change.sLayout) {
-                    _this.sCube.updateLayout(change.sLayout);
-                }
-                //hull button
-                if (change.hull == true) {
-                    if (!_this.sCube.getHullState()) {
-                        _this.sCube.drawHull();
-                    }
-                    else {
-                        _this.sCube.showHull();
-                    }
-                }
-                else {
-                    _this.sCube.hideHull();
-                }
-            });
-            // netcube settings
-            _this.gui.nCubeConfigEmitter.on('change', function (change) {
-                if (change.nNodeSize) {
-                    _this.nCube.changeNodeSizeEncode(change.nNodeSize);
-                }
-                if (change.nCharge) {
-                    _this.nCube.changeChargeFactor(change.nCharge);
-                }
-            });
-            // button event listeners
-            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].GEO_CUBE); });
-            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].SET_CUBE); });
-            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_9__["VIEW_STATES"].NET_CUBE); });
-            _this.gui.stcBtn.addEventListener('click', function () {
-                _this.gCube.transitionSTC();
-                _this.sCube.transitionSTC();
-                _this.nCube.transitionSTC();
-                //rotate camera to STC
-                _this.transitionSTCCamera();
-            });
-            _this.gui.jpBtn.addEventListener('click', function () {
-                _this.gCube.transitionJP();
-                _this.sCube.transitionJP();
-                _this.nCube.transitionJP();
-                //rotate camera to JP
-                _this.transitionJPCamera();
-            });
-            _this.gui.siBtn.addEventListener('click', function () {
-                _this.gCube.updateNodeColor('temporal');
-                _this.nCube.updateNodeColor('temporal');
-                _this.gCube.transitionSI();
-                _this.sCube.transitionSI();
-                _this.nCube.transitionSI();
-                //this.sCube.updateNodeColor('temporal'); //FIXME: need to be called after SI is finished in SCUBE
-                //rotate camera to SI
-                _this.transitionSICamera();
-            });
-        };
-        /**
-         * Clears the current (webGL) scene from all cube groups
-         */
-        this.removeAllCubeViews = function () {
-            _this.gCube.hideCube();
-            _this.sCube.hideCube();
-            _this.nCube.hideCube();
-        };
-        /**
-         * This function is used to position the camera
-         */
-        this.positionCamera = function () {
-            var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-            var camLookAt = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](0, 0, -1);
-            var cubePos;
-            var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](_this.camera.position);
-            var tweenLookAt = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](camLookAt.applyQuaternion(_this.camera.quaternion));
-            switch (_this.currentViewState) {
-                case 'GEO_CUBE':
-                    cubePos = _this.gCube.getCubePosition();
-                    break;
-                case 'SET_CUBE':
-                    cubePos = _this.sCube.getCubePosition();
-                    break;
-                case 'NET_CUBE':
-                    cubePos = _this.nCube.getCubePosition();
-                    break;
-                case 'POLY_CUBE':
-                    cubePos = _this.sCube.getCubePosition();
-                    break;
-                default: break;
-            }
-            var currentXPos = 0;
-            if (_this.gCube.cubeToggle) {
-                // pos gCube
-                _this.gCube.cubeGroupGL.position.set(currentXPos, 0, 0);
-                _this.gCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
-                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].GUTTER;
-            }
-            if (_this.sCube.cubeToggle) {
-                _this.sCube.cubeGroupGL.position.set(currentXPos, 0, 0);
-                _this.sCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
-                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].GUTTER;
-            }
-            if (_this.nCube) {
-                _this.nCube.cubeGroupGL.position.set(currentXPos, 0, 0);
-                _this.nCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
-            }
-            // targetVector.set(cubePos.x + CUBE_CONFIG.WIDTH/2, this.camera.position.y, this.camera.position.z);
-            // tweenPos.to(targetVector, 250);
-            // tweenLookAt.to(cubePos, 250);
-            // tweenPos.start().onComplete(() => {
-            //    tweenLookAt.start().onUpdate((target: THREE.Vector3) => {
-            //       this.camera.lookAt(target);
-            //       this.controls.update();
-            //    });
-            // });
-        };
-        /**
-         * Updates which cubes are shown based on user selection
-         */
-        this.updateCubesView = function () {
-            _this.removeAllCubeViews();
-            _this.gCube.updateView(_this.currentViewState);
-            _this.sCube.updateView(_this.currentViewState);
-            _this.nCube.updateView(_this.currentViewState);
-            _this.positionCamera();
-        };
-        /**
-         * Starts the animation (rendering) loop
-         */
-        this.animate = function () {
-            requestAnimationFrame(_this.animate);
-            _this.render();
-        };
-        this.previewItem = null;
-        this.categories = new Array();
-        this.categoriesAndColors = new Map();
-        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DURATION : 2000;
-        this.currentlySelectedCategory = '';
-        this.currentlySelectedDateExtent = new Array();
     }
-    /**
-     * Lifecycle hook called when the DOM is initialized
-     */
-    AppComponent.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        // set initial classses
-        this.gBtn.nativeElement.className = 'btn  btn-secondary';
-        this.sBtn.nativeElement.className = 'btn  btn-secondary';
-        this.nBtn.nativeElement.className = 'btn  btn-secondary';
-        setTimeout(function () {
-            _this.initDataset();
-        });
-    };
-    /**
-     * Initializes the component with the default (Cushman) dataset
-     * Once data is loaded initializes the scene, cubes, and GUI
-     */
-    AppComponent.prototype.initDataset = function () {
-        var _this = this;
-        this.loadingDataset = true;
-        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_12__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
-        this.dataManager = new _classes_datamanager__WEBPACK_IMPORTED_MODULE_11__["DataManager"]();
-        // perform request to get spreadsheet json 
-        // parse it when done and pass to datamanager
-        this.google.load(_id).then(function (success) {
-            _this.dataManager.data = success;
-            _this.processingChange = false;
-            _this.processingMessage = '';
-            _this.loadingDataset = false;
-            _this.dataLoaded = true;
-            // default date extent for filtering
-            _this.currentlySelectedDateExtent.push(_this.dataManager.getMinDate());
-            _this.currentlySelectedDateExtent.push(_this.dataManager.getMaxDate());
-            _this.categories = Array.from(_this.dataManager.categories.keys());
-            _this.categoriesAndColors = _this.dataManager.categories;
-            _this.initScene();
-            _this.initCubes();
-            _this.initGUI();
-            _this.addEventListeners();
-            _this.animate();
-        });
-    };
-    /**
-     * Updates the data set with a new dataset
-     * We get the ID from the text input
-     */
-    AppComponent.prototype.updateDataset = function () {
-        var _this = this;
-        this.loadingDataset = true;
-        var id = this.spreadsheetId.nativeElement.value;
-        if (!id) {
-            console.error('No spredsheet id provided.');
-            this.loadingDataset = false;
-            this.errorOccurred = true;
-            this.errorMessage = 'No spreadsheet id provided.';
-            return;
-        }
-        this.google.load(id).then(function (success) {
-            _this.dataManager.data = success;
-            _this.loadingDataset = false;
-        }).catch(function (err) {
-            _this.errorOccurred = true;
-            _this.errorMessage = err;
-        });
-    };
-    /**
-     * Open / Close the preview panel (details on the side)
-     */
-    AppComponent.prototype.openPreview = function () {
-        this.previewPanel = true;
-    };
-    AppComponent.prototype.closePreview = function () {
-        this.previewPanel = false;
-    };
-    /**
-     * Return details about related nodes
-     * @param id Node ID
-     */
-    AppComponent.prototype.getRelatedNode = function (id) {
-        var found = this.dataManager.data.find(function (d) {
-            return d.id === id;
-        });
-        return found;
-    };
-    AppComponent.prototype.selectNode = function (id) {
-        var selected = this.dataManager.data.find(function (d) {
-            return d.id === id;
-        });
-        // update this.preview
-        this.previewItem = {
-            title: "Picture #" + selected.id,
-            id: selected.id,
-            mediaURL: selected.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(selected.date_time).format('DD-MM-YYYY'),
-            related: selected.target_nodes,
-            location: selected.location_name,
-            description: selected.description,
-            externalURL: selected.media_url,
-            categories: [selected.category_1, selected.category_2, selected.category_3, selected.category_4, selected.category_5]
-        };
-        // highlight in cubes
-        this.gCube.highlightObject(selected.id);
-        this.sCube.highlightObject(selected.id);
-        this.nCube.highlightObject(selected.id);
-    };
-    AppComponent.prototype.getPrevious = function () {
-        this.processingChange = true;
-        this.processingMessage = 'Loading image...';
-        var currentItem = this.previewItem;
-        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
-        var foundItem = this.dataManager.data[(foundIdx - 1) % this.dataManager.data.length];
-        this.previewItem = {
-            title: "Picture #" + foundItem.id,
-            id: foundItem.id,
-            mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
-            location: foundItem.location_name,
-            related: foundItem.target_nodes,
-            description: foundItem.description,
-            externalURL: foundItem.media_url,
-            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
-        };
-        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
-        this.captionContainer.nativeElement.innerHTML = this.previewItem.description + " , " + this.previewItem.date;
-    };
-    AppComponent.prototype.getNext = function () {
-        this.processingChange = true;
-        this.processingMessage = 'Loading image...';
-        var currentItem = this.previewItem;
-        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
-        var foundItem = this.dataManager.data[(foundIdx + 1) % this.dataManager.data.length];
-        this.previewItem = {
-            title: "Picture #" + foundItem.id,
-            id: foundItem.id,
-            mediaURL: foundItem.external_url,
-            date: moment__WEBPACK_IMPORTED_MODULE_13__(foundItem.date_time).format('DD-MM-YYYY'),
-            related: foundItem.target_nodes,
-            location: foundItem.location_name,
-            description: foundItem.description,
-            externalURL: foundItem.media_url,
-            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
-        };
-        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
-        this.captionContainer.nativeElement.innerHTML = this.previewItem.description + " , " + this.previewItem.date;
-    };
-    AppComponent.prototype.imageLoaded = function () {
-        this.processingChange = false;
-        this.processingMessage = '';
-        console.log('image loaded');
-    };
-    /**
-      * Rotate Camera to SI view
-      */
-    AppComponent.prototype.transitionSICamera = function () {
-        var _this = this;
-        //update timeline color as true
-        this.timelineColor(true);
-        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
-        //stop rotation
-        this.controls.enableRotate = false;
-        var duration = 1000;
-        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        targetVector.set(1000, 4826, 428);
-        tweenPos.to(targetVector, duration);
-        tweenPos.start().onComplete(function () {
-            _this.controls.update();
-            _this.camera.lookAt(targetVector);
-        });
-        this.camera.zoom = 1;
-        this.camera.updateProjectionMatrix();
-    };
-    /**
-     * Rotate Camera to STC view
-     */
-    AppComponent.prototype.transitionSTCCamera = function () {
-        var _this = this;
-        //update timeline color as false
-        this.timelineColor(false);
-        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
-        //allow rotation
-        this.controls.enableRotate = true;
-        var duration = 1000;
-        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        targetVector.set(800, 912, 4755);
-        tweenPos.to(targetVector, duration);
-        tweenPos.start().onComplete(function () {
-            _this.controls.update();
-            _this.camera.lookAt(targetVector);
-        });
-        this.camera.zoom = 1;
-        this.camera.updateProjectionMatrix();
-    };
-    AppComponent.prototype.transitionJPCamera = function () {
-        var _this = this;
-        // update timeline color
-        this.timelineColor(false);
-        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
-        // stop rotation
-        this.controls.enableRotate = false;
-        var duration = 1000;
-        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var targetVector2 = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        var tweenRot = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        // targetVector.set(1000, 4826, 428);
-        targetVector.set(1000, 10826, 428);
-        tweenPos.to(targetVector, duration);
-        tweenPos.start().onComplete(function () {
-            _this.controls.update();
-            _this.camera.lookAt(targetVector);
-            //
-            _this.camera.zoom = 0.7;
-            _this.camera.updateProjectionMatrix();
-            targetVector2.set(644.2056736616696, 9000.63192337427, -5.384615481310194);
-            tweenRot.to(targetVector2, 2000);
-            tweenRot.start().onComplete(function () {
-                _this.camera.lookAt(targetVector2);
-                _this.controls.update();
-            });
-        });
-    };
-    AppComponent.prototype.resetScene = function () {
-        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
-        this.gCube.transitionSTC();
-        this.sCube.transitionSTC();
-        this.nCube.transitionSTC();
-        //rotate camera to STC
-        this.transitionSTCCamera();
-    };
-    AppComponent.prototype.restoreCamera = function (position, rotation, controlCenter) {
-        var _this = this;
-        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var targetVector2 = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
-        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        var tweenRot = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
-        // this.camera.position.set(position.x, position.y, position.z);
-        targetVector.set(position.x, position.y, position.z);
-        tweenPos.to(targetVector, 1000);
-        tweenPos.start().onComplete(function () {
-            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
-            _this.controls.update();
-        });
-        // this.camera.rotation.set(rotation.x, rotation.y, rotation.z);
-        targetVector2.set(rotation.x, rotation.y, rotation.z);
-        tweenRot.to(targetVector2, 1000);
-        tweenRot.start().onComplete(function () {
-            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
-            _this.controls.update();
-        });
-        // this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
-        // this.controls.update();  
-    };
-    /**
-     * This function is used to update brush timeline color
-     */
-    AppComponent.prototype.timelineColor = function (visible) {
-        if (visible == true) {
-            // D3.select('#timeLegend').classed('hide', false)
-            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'block');
-        }
-        else {
-            // D3.select('#timeLegend').classed('hide', true)
-            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'none');
-        }
-    };
-    AppComponent.prototype.usePerspectiveCamera = function () {
-        var cameraPosition = this.orthographicCamera.position.clone();
-        var cameraZoom = this.orthographicCamera.zoom;
-        this.camera = this.perspectiveCamera;
-        this.camera.zoom = cameraZoom;
-        this.camera.position.copy(cameraPosition);
-        this.camera.updateProjectionMatrix();
-        this.controls.object = this.camera;
-    };
-    AppComponent.prototype.useOrthographicCamera = function () {
-        var cameraPosition = this.perspectiveCamera.position.clone();
-        var cameraZoom = this.perspectiveCamera.zoom;
-        this.camera = this.orthographicCamera;
-        this.camera.zoom = cameraZoom;
-        this.camera.position.copy(cameraPosition);
-        this.camera.updateProjectionMatrix();
-        this.controls.object = this.camera;
-    };
-    AppComponent.prototype.closePicture = function () {
-        this.modalContainer.nativeElement.style.display = 'none';
-        this.imgContainer.nativeElement.style.display = 'none';
-        this.imgContainer.nativeElement.src = '';
-        this.captionContainer.nativeElement.innerHTML = '';
-    };
-    AppComponent.prototype.openPicture = function (url, desc, date) {
-        this.modalContainer.nativeElement.style.display = 'block';
-        this.imgContainer.nativeElement.style.display = 'block';
-        this.imgContainer.nativeElement.src = url;
-        this.captionContainer.nativeElement.innerHTML = desc + " , " + date;
-    };
-    /**
-     * Function called each iteration of the rendering loop
-     * Renders the scene from the cameras PoV
-     */
-    AppComponent.prototype.render = function () {
-        _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["update"]();
-        this.controls.update();
-        this.webGLRenderer.render(this.webGLScene, this.camera);
-        this.css3DRenderer.render(this.cssScene, this.camera);
-    };
-    /**
-     * Updates the current view with the users section
-     * @param view - string: user selection stating which cube should be displayed
-     */
-    AppComponent.prototype.setCubeView = function (view) {
-        switch (view) {
-            case 'GEO_CUBE':
-                this.gCube.toggleDisplayCube();
-                this.gBtn.nativeElement.className = this.gCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
-                break;
-            case 'SET_CUBE':
-                this.sCube.toggleDisplayCube();
-                this.sBtn.nativeElement.className = this.sCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
-                break;
-            case 'NET_CUBE':
-                this.nCube.toggleDisplayCube();
-                this.nBtn.nativeElement.className = this.nCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
-                break;
-            // case 'POLY_CUBE': this.currentViewState = VIEW_STATES.POLY_CUBE; break; -- doesn't exist
-            default:
-                return;
-        }
-        this.updateCubesView();
-    };
-    AppComponent.prototype.filterDataWithTimeSlider = function ($event) {
-        this.currentlySelectedDateExtent[0] = $event[0];
-        this.currentlySelectedDateExtent[1] = $event[1];
-        this.applyFilter();
-    };
-    AppComponent.prototype.clearCategoryFilter = function () {
-        this.currentlySelectedCategory = "";
-        this.applyFilter();
-    };
-    AppComponent.prototype.filterDataByCategory = function (category) {
-        this.currentlySelectedCategory = category;
-        this.applyFilter();
-    };
-    AppComponent.prototype.applyFilter = function () {
-        this.gCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
-        this.sCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
-        this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
-    };
-    AppComponent.prototype.formatDate = function (date) {
-        return moment__WEBPACK_IMPORTED_MODULE_13__(date).format('DD/MM/YYYY');
-    };
-    /**
-     *
-     */
-    AppComponent.prototype.getMinDate = function () { return this.dataManager.getMinDate(); };
-    /**
-     *
-     */
-    AppComponent.prototype.getMaxDate = function () { return this.dataManager.getMaxDate(); };
-    /**
-     *
-     */
-    AppComponent.prototype.getWindowInnerHeight = function () { return window.innerHeight; };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('webGLCanvas'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "webGLContainer", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('cssCanvas'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "cssContainer", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('spreadsheetInput'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "spreadsheetId", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('modal'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "modalContainer", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('img'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "imgContainer", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('caption'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "captionContainer", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('geobtn'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "gBtn", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('setbtn'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "sBtn", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('netbtn'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "nBtn", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('tooltip'),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
-    ], AppComponent.prototype, "tooltip", void 0);
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
-            styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css"), __webpack_require__(/*! ./bootstrap.min.css */ "./src/app/bootstrap.min.css")]
-        })
-        /**
-         * PolyCube main controller
-         * - loads and parses data
-         * - initializes threejs scene
-         * - initializes cube components
-         */
-        ,
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+            styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -1136,12 +378,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_timeslider_component_timeslider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/timeslider.component/timeslider */ "./src/app/components/timeslider.component/timeslider.ts");
-/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng-sidebar */ "./node_modules/ng-sidebar/lib/index.js");
-/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(ng_sidebar__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.routing.module */ "./src/app/app.routing.module.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _services_graph_position_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/graph.position.service */ "./src/app/services/graph.position.service.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/cube.component/cube.component */ "./src/app/components/cube.component/cube.component.ts");
+/* harmony import */ var _components_timeslider_component_timeslider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/timeslider.component/timeslider */ "./src/app/components/timeslider.component/timeslider.ts");
+/* harmony import */ var _util_forceDirectedSimulation_forceDirectedSimulation__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./util/forceDirectedSimulation/forceDirectedSimulation */ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.ts");
+/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ng-sidebar */ "./node_modules/ng-sidebar/lib/index.js");
+/* harmony import */ var ng_sidebar__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(ng_sidebar__WEBPACK_IMPORTED_MODULE_12__);
+
+
+
+// Routing
+
+
 
 
 
@@ -1156,19 +409,64 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _components_timeslider_component_timeslider__WEBPACK_IMPORTED_MODULE_6__["TimeSliderComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"],
+                _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_9__["CubeComponent"],
+                _components_timeslider_component_timeslider__WEBPACK_IMPORTED_MODULE_10__["TimeSliderComponent"],
+                _util_forceDirectedSimulation_forceDirectedSimulation__WEBPACK_IMPORTED_MODULE_11__["ForceDirectedComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                ng_sidebar__WEBPACK_IMPORTED_MODULE_7__["SidebarModule"].forRoot(),
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
+                ng_sidebar__WEBPACK_IMPORTED_MODULE_12__["SidebarModule"].forRoot(),
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"]
             ],
-            providers: [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__["GoogleDriveProvider"]],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
+            providers: [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_5__["GoogleDriveProvider"], _services_graph_position_service__WEBPACK_IMPORTED_MODULE_6__["GraphPositionService"], _classes_datamanager__WEBPACK_IMPORTED_MODULE_7__["DataManager"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/app.routing.module.ts":
+/*!***************************************!*\
+  !*** ./src/app/app.routing.module.ts ***!
+  \***************************************/
+/*! exports provided: AppRoutingModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/cube.component/cube.component */ "./src/app/components/cube.component/cube.component.ts");
+/* harmony import */ var _util_forceDirectedSimulation_forceDirectedSimulation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/forceDirectedSimulation/forceDirectedSimulation */ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.ts");
+
+
+
+
+
+var routes = [
+    { path: 'home', component: _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_3__["CubeComponent"] },
+    { path: 'fd', component: _util_forceDirectedSimulation_forceDirectedSimulation__WEBPACK_IMPORTED_MODULE_4__["ForceDirectedComponent"] },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '**', redirectTo: '/home' },
+];
+var AppRoutingModule = /** @class */ (function () {
+    function AppRoutingModule() {
+    }
+    AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes)],
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
+        })
+    ], AppRoutingModule);
+    return AppRoutingModule;
 }());
 
 
@@ -1196,23 +494,27 @@ module.exports = "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n * Copyr
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataManager", function() { return DataManager; });
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
-/* harmony import */ var _data_cushman_nodes_position__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../data/cushman_nodes_position */ "./src/data/cushman_nodes_position.ts");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var _services_graph_position_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/graph.position.service */ "./src/app/services/graph.position.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
 
 
 
 
 var DataManager = /** @class */ (function () {
-    function DataManager() {
+    function DataManager(gps) {
+        this.gps = gps;
         this._data_map = new Map();
-        this._cushman_pos = new _data_cushman_nodes_position__WEBPACK_IMPORTED_MODULE_3__["CushmanForcedDirected"]();
         this._numSlices = 10;
         this._timeRange = new Array();
         this._categories = new Map();
-        this._colors = d3__WEBPACK_IMPORTED_MODULE_0__["scaleOrdinal"]([
+        this._colors = d3__WEBPACK_IMPORTED_MODULE_1__["scaleOrdinal"]([
             '#e6194b', '#f58231', '#ffe119', '#bfef45', '#3cb44b',
             '#808000', '#42d4f4', '#4363d8', '#911eb4', '#f032e6',
             '#fabebe', '#ffd8b1', '#9a6324', '#800000', '#e6beff',
@@ -1238,10 +540,10 @@ var DataManager = /** @class */ (function () {
             // NOTE: not guarenteed to return same amount of ticks as passed
             // need to define tickValues function to enforce same amount of ticks 
             // https://stackoverflow.com/questions/51497534/how-to-force-a-specific-amount-of-y-axis-ticks-in-d3-chartshttps://stackoverflow.com/questions/24541296/d3-js-time-scale-nicely-spaced-ticks-at-minute-intervals-when-data-is-in-second
-            this._timeRange = d3__WEBPACK_IMPORTED_MODULE_0__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
-            this.timeLinearScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]()
+            this._timeRange = d3__WEBPACK_IMPORTED_MODULE_1__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
+            this.timeLinearScale = d3__WEBPACK_IMPORTED_MODULE_1__["scaleLinear"]()
                 .domain([this.MIN_DATE, this.MAX_DATE])
-                .range([-_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2]);
+                .range([-_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2]);
             this.createDataMap();
             this.createCategories();
         },
@@ -1291,11 +593,11 @@ var DataManager = /** @class */ (function () {
             });
         }
     };
-    DataManager.prototype.getForcedDirectedCushmanPositionMap = function () {
-        return this._cushman_pos.nodesPosMap;
+    DataManager.prototype.getForcedDirectedPositionMap = function () {
+        return this.gps.nodesPosMap;
     };
     DataManager.prototype.getDataPositionDimensions = function () {
-        return this._cushman_pos.getDataPositionDimensions();
+        return this.gps.getDataPositionDimensions();
     };
     Object.defineProperty(DataManager.prototype, "numSlices", {
         get: function () {
@@ -1308,10 +610,10 @@ var DataManager = /** @class */ (function () {
             // NOTE: not guarenteed to return same amount of ticks as passed
             // need to define tickValues function to enforce same amount of ticks 
             // https://stackoverflow.com/questions/51497534/how-to-force-a-specific-amount-of-y-axis-ticks-in-d3-chartshttps://stackoverflow.com/questions/24541296/d3-js-time-scale-nicely-spaced-ticks-at-minute-intervals-when-data-is-in-second
-            this._timeRange = d3__WEBPACK_IMPORTED_MODULE_0__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
-            this.timeLinearScale = d3__WEBPACK_IMPORTED_MODULE_0__["scaleLinear"]()
+            this._timeRange = d3__WEBPACK_IMPORTED_MODULE_1__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
+            this.timeLinearScale = d3__WEBPACK_IMPORTED_MODULE_1__["scaleLinear"]()
                 .domain([this.MIN_DATE, this.MAX_DATE])
-                .range([-_cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2]);
+                .range([-_cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2, _cube_config__WEBPACK_IMPORTED_MODULE_3__["CUBE_CONFIG"].WIDTH / 2]);
         },
         enumerable: true,
         configurable: true
@@ -1322,7 +624,7 @@ var DataManager = /** @class */ (function () {
         return this.timeLinearScale;
     };
     DataManager.prototype.getTimeExtentAsDate = function () {
-        return d3__WEBPACK_IMPORTED_MODULE_0__["extent"](this._data, function (d) {
+        return d3__WEBPACK_IMPORTED_MODULE_1__["extent"](this._data, function (d) {
             return d.date_time;
         });
     };
@@ -1337,27 +639,31 @@ var DataManager = /** @class */ (function () {
         // need to define tickValues function to enforce same amount of ticks 
         // https://stackoverflow.com/questions/51497534/how-to-force-a-specific-amount-of-y-axis-ticks-in-d3-charts
         // https://stackoverflow.com/questions/24541296/d3-js-time-scale-nicely-spaced-ticks-at-minute-intervals-when-data-is-in-second
-        this._timeRange = d3__WEBPACK_IMPORTED_MODULE_0__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
+        this._timeRange = d3__WEBPACK_IMPORTED_MODULE_1__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(this._numSlices);
         // TODO: Consider temporal granularity (currently in years) -> days?
-        var myQuantizeFunction = d3__WEBPACK_IMPORTED_MODULE_0__["scaleQuantize"]()
+        var myQuantizeFunction = d3__WEBPACK_IMPORTED_MODULE_1__["scaleQuantize"]()
             .domain([this.MIN_DATE, this.MAX_DATE])
             .range(this._timeRange.map(function (d) { return d.getFullYear(); }));
         return myQuantizeFunction(date);
     };
     DataManager.prototype.getCustomTimeQuantile = function (date, slice) {
         if (slice === void 0) { slice = this._numSlices; }
-        var timeRange = d3__WEBPACK_IMPORTED_MODULE_0__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(slice);
+        var timeRange = d3__WEBPACK_IMPORTED_MODULE_1__["scaleTime"]().domain([this.MIN_DATE, this.MAX_DATE]).ticks(slice);
         // TODO: Consider temporal granularity (currently in years) -> days?
-        var myQuantizeFunction = d3__WEBPACK_IMPORTED_MODULE_0__["scaleQuantize"]()
+        var myQuantizeFunction = d3__WEBPACK_IMPORTED_MODULE_1__["scaleQuantize"]()
             .domain([this.MIN_DATE, this.MAX_DATE])
             .range(timeRange.map(function (d) { return d.getFullYear(); }));
         return myQuantizeFunction(date);
     };
     DataManager.prototype.getTimeExtentAsUnix = function () {
-        return d3__WEBPACK_IMPORTED_MODULE_0__["extent"](this._data, function (d) {
-            return moment__WEBPACK_IMPORTED_MODULE_1__(d.date_time).unix();
+        return d3__WEBPACK_IMPORTED_MODULE_1__["extent"](this._data, function (d) {
+            return moment__WEBPACK_IMPORTED_MODULE_2__(d.date_time).unix();
         });
     };
+    DataManager = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_graph_position_service__WEBPACK_IMPORTED_MODULE_4__["GraphPositionService"]])
+    ], DataManager);
     return DataManager;
 }()); //end class
 
@@ -2334,7 +1640,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import { POINT_CONVERSION_HYBRID } from 'constants';
 var NetCube = /** @class */ (function () {
     function NetCube(dm, camera, webGLScene, cssScene) {
         this.cube_id = 'NET_CUBE';
@@ -2383,6 +1688,9 @@ var NetCube = /** @class */ (function () {
         this.createNodes();
         this.createLinks();
         this.showCubeLinks_aggregated();
+    };
+    NetCube.prototype.setGraphPositionService = function (gps) {
+        this.gps = gps;
     };
     NetCube.prototype.addNetworkDegreeToNodes = function () {
         var _this = this;
@@ -2481,6 +1789,8 @@ var NetCube = /** @class */ (function () {
         });
         this.currentTimeSetting === 'aggregated' ? this.showCubeLinks_aggregated() : this.showCubeLinks_absolute();
     };
+    // TODO: This function is not called from anywhere
+    // What is its purpose?????
     NetCube.prototype.countDistanceBetweenLayersToFixAbsolutePositionBug = function () {
         var layers = [];
         var distance_between_layers = 0;
@@ -2948,7 +2258,7 @@ var NetCube = /** @class */ (function () {
         return correspondingSlice;
     };
     NetCube.prototype.resetNodesInTimeSlices = function () {
-        var save_nonNodes_slice_content = [];
+        var save_nonNodes_slice_content = new Array();
         //create slices saving conditions
         this.slices.forEach(function (slice) {
             save_nonNodes_slice_content.push([]);
@@ -3052,13 +2362,13 @@ var NetCube = /** @class */ (function () {
     NetCube.prototype.onDblClick = function ($event) {
     };
     NetCube.prototype.getNormalizedPositionWithChargeById = function (id) {
-        var pos_map = this.dm.getForcedDirectedCushmanPositionMap();
+        var pos_map = this.dm.getForcedDirectedPositionMap();
         var pos_dim = this.dm.getDataPositionDimensions();
         var normalized_x = null;
         var normalized_z = null;
-        if (pos_map[id]) {
-            normalized_x = ((pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
-            normalized_z = ((pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+        if (pos_map.has("" + id)) {
+            normalized_x = ((pos_map.get("" + id).x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
+            normalized_z = ((pos_map.get("" + id).y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y)) * this.chargeFactor) + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / 2;
         }
         if (normalized_x)
             return { x: normalized_x, y: null, z: normalized_z };
@@ -3066,13 +2376,13 @@ var NetCube = /** @class */ (function () {
             return null;
     };
     NetCube.prototype.getNormalizedPositionById = function (id) {
-        var pos_map = this.dm.getForcedDirectedCushmanPositionMap();
+        var pos_map = this.dm.getForcedDirectedPositionMap();
         var pos_dim = this.dm.getDataPositionDimensions();
         var normalized_x = null;
         var normalized_z = null;
-        if (pos_map[id]) {
-            normalized_x = pos_map[id].x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
-            normalized_z = pos_map[id].y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
+        if (pos_map.has("" + id)) {
+            normalized_x = pos_map.get("" + id).x * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_x - pos_dim.min_x);
+            normalized_z = pos_map.get("" + id).y * _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH / Math.abs(pos_dim.max_y - pos_dim.min_y);
         }
         if (normalized_x)
             return { x: normalized_x, y: null, z: normalized_z };
@@ -3091,7 +2401,8 @@ var NetCube = /** @class */ (function () {
             var dataItem = this.dm.data[i];
             for (var a = 0; a < this.linksPerNode; a++) {
                 var targetId = dataItem.target_nodes[a];
-                targetBy_map[targetId].push(dataItem.id);
+                if (targetBy_map[targetId])
+                    targetBy_map[targetId].push(dataItem.id);
             }
         }
         //add targetBy information to data items
@@ -3151,7 +2462,7 @@ var NetCube = /** @class */ (function () {
         this.links_si = new three_full__WEBPACK_IMPORTED_MODULE_1__["Group"]();
         for (var i = 0; i < this.dm.data.length; i++) {
             var dataItem = this.dm.data[i];
-            var sourceNode_position = this.getNormalizedPositionById(dataItem.id);
+            var sourceNode_position = this.getNormalizedPositionById("" + dataItem.id);
             sourceNode_position.y = this.getTimeSliceByDate(dataItem.date_time).position.y;
             for (var a = 0; a < this.linksPerNode; a++) {
                 var targetId = dataItem.target_nodes[a];
@@ -3403,6 +2714,8 @@ var NetCube = /** @class */ (function () {
             });
         });
     };
+    // TODO: useless function?x`
+    // Should we remove
     //saving useful scripts for future usage
     NetCube.prototype.parsingCushmanPositionData = function () {
         // let new_temp_data = [];
@@ -4389,6 +3702,836 @@ var VIEW_STATES;
 
 /***/ }),
 
+/***/ "./src/app/components/cube.component/cube.component.css":
+/*!**************************************************************!*\
+  !*** ./src/app/components/cube.component/cube.component.css ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    width: 100vw;\n    height: 100vh;\n    display: flex;\n    flex-direction: row;\n}\n.canvases {\n    width: 100vw;\n    height: inherit;\n}\n.options {\n    position: absolute !important;\n    z-index: 1048;\n    bottom: 4em;\n    right: 4em;\n    /* left: 5em; */\n}\n::ng-deep .side-bar {\n    padding: 1em;\n    background-color: #fff;\n    border-right: 2px dashed #f3f3f3;\n    z-index: 1049 !important;\n}\n::ng-deep .side-bar-content {\n    overflow: hidden;\n    max-height: 100vh;\n    max-width: 100vw;\n}\n#webgl-canvas,\n#css-canvas {\n    /* avoid scrollbars */\n    width: calc(100vw - .2em);\n    height: calc(100vh - .2em);\n}\n#css-canvas {\n    position: absolute;\n    top: 0em;\n    z-index: -999;\n}\n#close-preview {\n    color: #6c757d !important; \n    outline: 0;\n}\nbutton,\nbutton:focus {\n    outline: 0 !important;\n}\n.categories {\n    margin-top: 0.5em;\n    margin-bottom: 0.5em;\n}\n.category-legend {\n    position: absolute;\n    bottom: 1em;\n    width: 100vw;\n    margin: auto;\n    /* z-index: 999; */\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n    z-index: 1;\n}\n.category-legend span {\n    margin-top: 1em; /* vertically */\n}\n.category-wrapper {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-content: center;\n}\n.category-wrapper > div {\n    margin: .25em;\n}\n.category-wrapper > div > span {\n    cursor: pointer;\n    border-radius: 5px;\n    height: 20px;\n    width: 20px;\n}\n.error {\n    position: absolute !important; \n    bottom: 0em;\n    max-width: 512px;\n    margin: 0.5em;\n    z-index: 1000;\n}\n.active {\n    border: 4px solid black;\n}\n.inactive {\n    border: 4px solid transparent;\n}\n.error p {\n    word-break: break-word;\n}\n.pc-tooltip {\n    position: absolute;\n    opacity: 0;\n    width: 250px;\n    height: auto;\n    background-color: white;\n    padding: 25px;\n    border-radius: 5px;\n    top: 0;\n    left: 0;\n    transition: all 0.25s ease-in-out;\n}\n/** Image grid for related pics **/\n.image-grid {\n    display: flex;\n    flex-wrap: wrap;\n    flex-direction: row;\n}\n.image-grid-cell {\n    width: 15%;\n    /* margin: .125em; */\n}\n.image-grid-image {\n    max-width: 100%;\n}\n.preview-item {\n    margin-top: 2em;\n    margin-bottom: 2em;\n    max-width: 25vw;\n}\n.preview-title {\n    color: gray;\n}\n.preview-picture {\n    max-width: inherit;\n}\n.preview-metainfo {\n    /* font-style: italic; */\n    font-size: 16px;\n    color: gray;\n    margin-bottom: 0px;\n}\n.related {\n    font-size: small;\n    color: gray;\n}\n.preview-description {\n    text-align: justify;\n    font-size: larger;\n    /* font-style: italic; */\n}\n::ng-deep .time-slice-label {\n    opacity: 1;\n    transition: all 0.25s ease-in-out;\n}\n::ng-deep .animateButton,\n::ng-deep .animateButton text {\n    cursor: pointer;\n}\n::ng-deep .resetButton,\n::ng-deep .resetButton text {\n    cursor: pointer;\n}\n/*DAT GUI*/\n::ng-deep .dg.ac {\n    z-index: 1000 !important;\n}\n/*MODAL CSS*/\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    padding-top: 100px; /* Location of the box */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */\n  }\n/* Modal Content (Image) */\n.modal-content {\n    margin: auto;\n    display: block;\n    width: auto !important;\n    max-width: 100%;\n    max-height: 80%;\n  }\n/* Caption of Modal Image (Image Text) - Same Width as the Image */\n#caption {\n    margin: auto;\n    display: block;\n    width: 80%;\n    max-width: 700px;\n    text-align: center;\n    color: #ccc;\n    padding: 10px 0;\n    height: 150px;\n  }\n/* Add Animation - Zoom in the Modal */\n.modal-content, #caption { \n    -webkit-animation-name: zoom; \n            animation-name: zoom;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n  }\n@-webkit-keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n@keyframes zoom {\n    from {-webkit-transform:scale(0);transform:scale(0)} \n    to {-webkit-transform:scale(1);transform:scale(1)}\n  }\n/* The Close Button */\n.close {\n    position: absolute;\n    top: 15px;\n    right: 35px;\n    color: #f1f1f1 !important;\n    font-size: 40px;\n    font-weight: bold;\n    transition: 0.3s;\n  }\n.close:hover,\n  .close:focus {\n    color: #bbb;\n    text-decoration: none;\n    cursor: pointer;\n  }\n/* 100% Image Width on Smaller Screens */\n@media only screen and (max-width: 700px){\n    .modal-content {\n      width: 100%;\n    }\n  }\n/* Processing spinner */\n.processing-change {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    width: 25%;\n    height: 25%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-content: center;\n    align-items: center;\n    -webkit-transform: translate(-50%, -50%);\n            transform: translate(-50%, -50%);\n    background-color: #000;\n    opacity: .5;\n    border-radius: .25rem;\n    z-index: 1000;\n}\n.processing-change p {\n    color: white;\n}\n/*navigation buttons*/\n#next,\n#previous {\n    position: relative;\n    top: -55%;\n    font-size: 2em;\n    color: white;\n    text-shadow: 0 1px 0 #fff;\n    opacity: .5;\n    display: inline;\n}\n#next {\n    float: right;   \n    margin-right: 5em;\n}\n#previous {\n    float: left;\n    margin-left: 5em;\n}\n/*overlay*/\n.overlay {\n    position: absolute;\n    /* width: 100%; */\n    bottom: 0em;\n    right: 2em;\n    /* display: flex; */\n    /* flex-direction: column; */\n    /* align-items: center; */\n    /* justify-content: center; */\n    font-size: 28px;\n    color: #6c757d;\n    opacity: .5;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9jdWJlLmNvbXBvbmVudC9jdWJlLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSx3QkFBd0I7QUFDNUI7QUFDQTtJQUNJLFlBQVk7SUFDWixhQUFhO0lBQ2IsYUFBYTtJQUNiLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGVBQWU7QUFDbkI7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixhQUFhO0lBQ2IsV0FBVztJQUNYLFVBQVU7SUFDVixlQUFlO0FBQ25CO0FBRUE7SUFDSSxZQUFZO0lBQ1osc0JBQXNCO0lBQ3RCLGdDQUFnQztJQUNoQyx3QkFBd0I7QUFDNUI7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsZ0JBQWdCO0FBQ3BCO0FBRUE7O0lBRUkscUJBQXFCO0lBQ3JCLHlCQUF5QjtJQUN6QiwwQkFBMEI7QUFDOUI7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsYUFBYTtBQUNqQjtBQUVBO0lBQ0kseUJBQXlCO0lBQ3pCLFVBQVU7QUFDZDtBQUVBOztJQUVJLHFCQUFxQjtBQUN6QjtBQUVBO0lBQ0ksaUJBQWlCO0lBQ2pCLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixxQkFBcUI7SUFDckIsVUFBVTtBQUNkO0FBRUE7SUFDSSxlQUFlLEVBQUUsZUFBZTtBQUNwQztBQUVBO0lBQ0ksYUFBYTtJQUNiLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIscUJBQXFCO0FBQ3pCO0FBRUE7SUFDSSxhQUFhO0FBQ2pCO0FBRUE7SUFDSSxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7SUFDWixXQUFXO0FBQ2Y7QUFFQTtJQUNJLDZCQUE2QjtJQUM3QixXQUFXO0lBQ1gsZ0JBQWdCO0lBQ2hCLGFBQWE7SUFDYixhQUFhO0FBQ2pCO0FBRUE7SUFDSSx1QkFBdUI7QUFDM0I7QUFFQTtJQUNJLDZCQUE2QjtBQUNqQztBQUVBO0lBQ0ksc0JBQXNCO0FBQzFCO0FBRUE7SUFDSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osdUJBQXVCO0lBQ3ZCLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsTUFBTTtJQUNOLE9BQU87SUFDUCxpQ0FBaUM7QUFDckM7QUFFQSxrQ0FBa0M7QUFDbEM7SUFDSSxhQUFhO0lBQ2IsZUFBZTtJQUNmLG1CQUFtQjtBQUN2QjtBQUVBO0lBQ0ksVUFBVTtJQUNWLG9CQUFvQjtBQUN4QjtBQUVBO0lBQ0ksZUFBZTtBQUNuQjtBQUVBO0lBQ0ksZUFBZTtJQUNmLGtCQUFrQjtJQUNsQixlQUFlO0FBQ25CO0FBRUE7SUFDSSxXQUFXO0FBQ2Y7QUFDQTtJQUNJLGtCQUFrQjtBQUN0QjtBQUNBO0lBQ0ksd0JBQXdCO0lBQ3hCLGVBQWU7SUFDZixXQUFXO0lBQ1gsa0JBQWtCO0FBQ3RCO0FBRUE7SUFDSSxnQkFBZ0I7SUFDaEIsV0FBVztBQUNmO0FBRUE7SUFDSSxtQkFBbUI7SUFDbkIsaUJBQWlCO0lBQ2pCLHdCQUF3QjtBQUM1QjtBQUVBO0lBQ0ksVUFBVTtJQUNWLGlDQUFpQztBQUNyQztBQUVBOztJQUVJLGVBQWU7QUFDbkI7QUFFQTs7SUFFSSxlQUFlO0FBQ25CO0FBRUEsVUFBVTtBQUNWO0lBQ0ksd0JBQXdCO0FBQzVCO0FBRUEsWUFBWTtBQUNaO0lBQ0ksYUFBYSxFQUFFLHNCQUFzQjtJQUNyQyxlQUFlLEVBQUUsa0JBQWtCO0lBQ25DLFVBQVUsRUFBRSxlQUFlO0lBQzNCLGtCQUFrQixFQUFFLHdCQUF3QjtJQUM1QyxPQUFPO0lBQ1AsTUFBTTtJQUNOLFdBQVcsRUFBRSxlQUFlO0lBQzVCLFlBQVksRUFBRSxnQkFBZ0I7SUFDOUIsY0FBYyxFQUFFLDRCQUE0QjtJQUM1Qyw0QkFBNEIsRUFBRSxtQkFBbUI7SUFDakQsaUNBQWlDLEVBQUUscUJBQXFCO0VBQzFEO0FBRUEsMEJBQTBCO0FBQzFCO0lBQ0UsWUFBWTtJQUNaLGNBQWM7SUFDZCxzQkFBc0I7SUFDdEIsZUFBZTtJQUNmLGVBQWU7RUFDakI7QUFFQSxrRUFBa0U7QUFDbEU7SUFDRSxZQUFZO0lBQ1osY0FBYztJQUNkLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxlQUFlO0lBQ2YsYUFBYTtFQUNmO0FBRUEsc0NBQXNDO0FBQ3RDO0lBQ0UsNEJBQW9CO1lBQXBCLG9CQUFvQjtJQUNwQixnQ0FBd0I7WUFBeEIsd0JBQXdCO0VBQzFCO0FBRUE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCO0FBSEE7SUFDRSxNQUFNLDBCQUFpQixDQUFqQixrQkFBa0I7SUFDeEIsSUFBSSwwQkFBaUIsQ0FBakIsa0JBQWtCO0VBQ3hCO0FBRUEscUJBQXFCO0FBQ3JCO0lBQ0Usa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gseUJBQXlCO0lBQ3pCLGVBQWU7SUFDZixpQkFBaUI7SUFDakIsZ0JBQWdCO0VBQ2xCO0FBRUE7O0lBRUUsV0FBVztJQUNYLHFCQUFxQjtJQUNyQixlQUFlO0VBQ2pCO0FBRUEsd0NBQXdDO0FBQ3hDO0lBQ0U7TUFDRSxXQUFXO0lBQ2I7RUFDRjtBQUVGLHVCQUF1QjtBQUN2QjtJQUNJLGtCQUFrQjtJQUNsQixRQUFRO0lBQ1IsU0FBUztJQUNULFVBQVU7SUFDVixXQUFXO0lBQ1gsYUFBYTtJQUNiLHNCQUFzQjtJQUN0Qix1QkFBdUI7SUFDdkIscUJBQXFCO0lBQ3JCLG1CQUFtQjtJQUNuQix3Q0FBZ0M7WUFBaEMsZ0NBQWdDO0lBQ2hDLHNCQUFzQjtJQUN0QixXQUFXO0lBQ1gscUJBQXFCO0lBQ3JCLGFBQWE7QUFDakI7QUFFQTtJQUNJLFlBQVk7QUFDaEI7QUFFQSxxQkFBcUI7QUFFckI7O0lBRUksa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxjQUFjO0lBQ2QsWUFBWTtJQUNaLHlCQUF5QjtJQUN6QixXQUFXO0lBQ1gsZUFBZTtBQUNuQjtBQUVBO0lBQ0ksWUFBWTtJQUNaLGlCQUFpQjtBQUNyQjtBQUVBO0lBQ0ksV0FBVztJQUNYLGdCQUFnQjtBQUNwQjtBQUdBLFVBQVU7QUFDVjtJQUNJLGtCQUFrQjtJQUNsQixpQkFBaUI7SUFDakIsV0FBVztJQUNYLFVBQVU7SUFDVixtQkFBbUI7SUFDbkIsNEJBQTRCO0lBQzVCLHlCQUF5QjtJQUN6Qiw2QkFBNkI7SUFDN0IsZUFBZTtJQUNmLGNBQWM7SUFDZCxXQUFXO0FBQ2YiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2N1YmUuY29tcG9uZW50L2N1YmUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5oaWRle1xuICAgIGRpc3BsYXk6IG5vbmUgIWltcG9ydGFudDtcbn1cbi53cmFwcGVyIHtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgaGVpZ2h0OiAxMDB2aDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5jYW52YXNlcyB7XG4gICAgd2lkdGg6IDEwMHZ3O1xuICAgIGhlaWdodDogaW5oZXJpdDtcbn1cblxuLm9wdGlvbnMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICAgIHotaW5kZXg6IDEwNDg7XG4gICAgYm90dG9tOiA0ZW07XG4gICAgcmlnaHQ6IDRlbTtcbiAgICAvKiBsZWZ0OiA1ZW07ICovXG59XG5cbjo6bmctZGVlcCAuc2lkZS1iYXIge1xuICAgIHBhZGRpbmc6IDFlbTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmO1xuICAgIGJvcmRlci1yaWdodDogMnB4IGRhc2hlZCAjZjNmM2YzO1xuICAgIHotaW5kZXg6IDEwNDkgIWltcG9ydGFudDtcbn1cblxuOjpuZy1kZWVwIC5zaWRlLWJhci1jb250ZW50IHtcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgIG1heC1oZWlnaHQ6IDEwMHZoO1xuICAgIG1heC13aWR0aDogMTAwdnc7XG59XG5cbiN3ZWJnbC1jYW52YXMsXG4jY3NzLWNhbnZhcyB7XG4gICAgLyogYXZvaWQgc2Nyb2xsYmFycyAqL1xuICAgIHdpZHRoOiBjYWxjKDEwMHZ3IC0gLjJlbSk7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gLjJlbSk7XG59XG5cbiNjc3MtY2FudmFzIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAwZW07XG4gICAgei1pbmRleDogLTk5OTtcbn1cblxuI2Nsb3NlLXByZXZpZXcge1xuICAgIGNvbG9yOiAjNmM3NTdkICFpbXBvcnRhbnQ7IFxuICAgIG91dGxpbmU6IDA7XG59XG5cbmJ1dHRvbixcbmJ1dHRvbjpmb2N1cyB7XG4gICAgb3V0bGluZTogMCAhaW1wb3J0YW50O1xufVxuXG4uY2F0ZWdvcmllcyB7XG4gICAgbWFyZ2luLXRvcDogMC41ZW07XG4gICAgbWFyZ2luLWJvdHRvbTogMC41ZW07XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBib3R0b206IDFlbTtcbiAgICB3aWR0aDogMTAwdnc7XG4gICAgbWFyZ2luOiBhdXRvO1xuICAgIC8qIHotaW5kZXg6IDk5OTsgKi9cbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xuICAgIHotaW5kZXg6IDE7XG59XG5cbi5jYXRlZ29yeS1sZWdlbmQgc3BhbiB7XG4gICAgbWFyZ2luLXRvcDogMWVtOyAvKiB2ZXJ0aWNhbGx5ICovXG59XG5cbi5jYXRlZ29yeS13cmFwcGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xufVxuXG4uY2F0ZWdvcnktd3JhcHBlciA+IGRpdiB7XG4gICAgbWFyZ2luOiAuMjVlbTtcbn1cblxuLmNhdGVnb3J5LXdyYXBwZXIgPiBkaXYgPiBzcGFuIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICAgIGhlaWdodDogMjBweDtcbiAgICB3aWR0aDogMjBweDtcbn1cblxuLmVycm9yIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGUgIWltcG9ydGFudDsgXG4gICAgYm90dG9tOiAwZW07XG4gICAgbWF4LXdpZHRoOiA1MTJweDtcbiAgICBtYXJnaW46IDAuNWVtO1xuICAgIHotaW5kZXg6IDEwMDA7XG59XG5cbi5hY3RpdmUge1xuICAgIGJvcmRlcjogNHB4IHNvbGlkIGJsYWNrO1xufVxuXG4uaW5hY3RpdmUge1xuICAgIGJvcmRlcjogNHB4IHNvbGlkIHRyYW5zcGFyZW50O1xufVxuXG4uZXJyb3IgcCB7XG4gICAgd29yZC1icmVhazogYnJlYWstd29yZDtcbn1cblxuLnBjLXRvb2x0aXAge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvcGFjaXR5OiAwO1xuICAgIHdpZHRoOiAyNTBweDtcbiAgICBoZWlnaHQ6IGF1dG87XG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgcGFkZGluZzogMjVweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgdG9wOiAwO1xuICAgIGxlZnQ6IDA7XG4gICAgdHJhbnNpdGlvbjogYWxsIDAuMjVzIGVhc2UtaW4tb3V0O1xufVxuXG4vKiogSW1hZ2UgZ3JpZCBmb3IgcmVsYXRlZCBwaWNzICoqL1xuLmltYWdlLWdyaWQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC13cmFwOiB3cmFwO1xuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XG59XG5cbi5pbWFnZS1ncmlkLWNlbGwge1xuICAgIHdpZHRoOiAxNSU7XG4gICAgLyogbWFyZ2luOiAuMTI1ZW07ICovXG59XG5cbi5pbWFnZS1ncmlkLWltYWdlIHtcbiAgICBtYXgtd2lkdGg6IDEwMCU7XG59XG5cbi5wcmV2aWV3LWl0ZW0ge1xuICAgIG1hcmdpbi10b3A6IDJlbTtcbiAgICBtYXJnaW4tYm90dG9tOiAyZW07XG4gICAgbWF4LXdpZHRoOiAyNXZ3O1xufVxuXG4ucHJldmlldy10aXRsZSB7XG4gICAgY29sb3I6IGdyYXk7XG59XG4ucHJldmlldy1waWN0dXJlIHtcbiAgICBtYXgtd2lkdGg6IGluaGVyaXQ7XG59XG4ucHJldmlldy1tZXRhaW5mbyB7XG4gICAgLyogZm9udC1zdHlsZTogaXRhbGljOyAqL1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICBjb2xvcjogZ3JheTtcbiAgICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi5yZWxhdGVkIHtcbiAgICBmb250LXNpemU6IHNtYWxsO1xuICAgIGNvbG9yOiBncmF5O1xufVxuXG4ucHJldmlldy1kZXNjcmlwdGlvbiB7XG4gICAgdGV4dC1hbGlnbjoganVzdGlmeTtcbiAgICBmb250LXNpemU6IGxhcmdlcjtcbiAgICAvKiBmb250LXN0eWxlOiBpdGFsaWM7ICovXG59XG5cbjo6bmctZGVlcCAudGltZS1zbGljZS1sYWJlbCB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiBhbGwgMC4yNXMgZWFzZS1pbi1vdXQ7XG59XG5cbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbixcbjo6bmctZGVlcCAuYW5pbWF0ZUJ1dHRvbiB0ZXh0IHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbjo6bmctZGVlcCAucmVzZXRCdXR0b24sXG46Om5nLWRlZXAgLnJlc2V0QnV0dG9uIHRleHQge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLypEQVQgR1VJKi9cbjo6bmctZGVlcCAuZGcuYWMge1xuICAgIHotaW5kZXg6IDEwMDAgIWltcG9ydGFudDtcbn1cblxuLypNT0RBTCBDU1MqL1xuLm1vZGFsIHtcbiAgICBkaXNwbGF5OiBub25lOyAvKiBIaWRkZW4gYnkgZGVmYXVsdCAqL1xuICAgIHBvc2l0aW9uOiBmaXhlZDsgLyogU3RheSBpbiBwbGFjZSAqL1xuICAgIHotaW5kZXg6IDE7IC8qIFNpdCBvbiB0b3AgKi9cbiAgICBwYWRkaW5nLXRvcDogMTAwcHg7IC8qIExvY2F0aW9uIG9mIHRoZSBib3ggKi9cbiAgICBsZWZ0OiAwO1xuICAgIHRvcDogMDtcbiAgICB3aWR0aDogMTAwJTsgLyogRnVsbCB3aWR0aCAqL1xuICAgIGhlaWdodDogMTAwJTsgLyogRnVsbCBoZWlnaHQgKi9cbiAgICBvdmVyZmxvdzogYXV0bzsgLyogRW5hYmxlIHNjcm9sbCBpZiBuZWVkZWQgKi9cbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMCwwLDApOyAvKiBGYWxsYmFjayBjb2xvciAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwwLDAsMC45KTsgLyogQmxhY2sgdy8gb3BhY2l0eSAqL1xuICB9XG4gIFxuICAvKiBNb2RhbCBDb250ZW50IChJbWFnZSkgKi9cbiAgLm1vZGFsLWNvbnRlbnQge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogYXV0byAhaW1wb3J0YW50O1xuICAgIG1heC13aWR0aDogMTAwJTtcbiAgICBtYXgtaGVpZ2h0OiA4MCU7XG4gIH1cbiAgXG4gIC8qIENhcHRpb24gb2YgTW9kYWwgSW1hZ2UgKEltYWdlIFRleHQpIC0gU2FtZSBXaWR0aCBhcyB0aGUgSW1hZ2UgKi9cbiAgI2NhcHRpb24ge1xuICAgIG1hcmdpbjogYXV0bztcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogODAlO1xuICAgIG1heC13aWR0aDogNzAwcHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGNvbG9yOiAjY2NjO1xuICAgIHBhZGRpbmc6IDEwcHggMDtcbiAgICBoZWlnaHQ6IDE1MHB4O1xuICB9XG4gIFxuICAvKiBBZGQgQW5pbWF0aW9uIC0gWm9vbSBpbiB0aGUgTW9kYWwgKi9cbiAgLm1vZGFsLWNvbnRlbnQsICNjYXB0aW9uIHsgXG4gICAgYW5pbWF0aW9uLW5hbWU6IHpvb207XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjZzO1xuICB9XG4gIFxuICBAa2V5ZnJhbWVzIHpvb20ge1xuICAgIGZyb20ge3RyYW5zZm9ybTpzY2FsZSgwKX0gXG4gICAgdG8ge3RyYW5zZm9ybTpzY2FsZSgxKX1cbiAgfVxuICBcbiAgLyogVGhlIENsb3NlIEJ1dHRvbiAqL1xuICAuY2xvc2Uge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDE1cHg7XG4gICAgcmlnaHQ6IDM1cHg7XG4gICAgY29sb3I6ICNmMWYxZjEgIWltcG9ydGFudDtcbiAgICBmb250LXNpemU6IDQwcHg7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgdHJhbnNpdGlvbjogMC4zcztcbiAgfVxuICBcbiAgLmNsb3NlOmhvdmVyLFxuICAuY2xvc2U6Zm9jdXMge1xuICAgIGNvbG9yOiAjYmJiO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbiAgXG4gIC8qIDEwMCUgSW1hZ2UgV2lkdGggb24gU21hbGxlciBTY3JlZW5zICovXG4gIEBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzAwcHgpe1xuICAgIC5tb2RhbC1jb250ZW50IHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgIH1cbiAgfVxuXG4vKiBQcm9jZXNzaW5nIHNwaW5uZXIgKi9cbi5wcm9jZXNzaW5nLWNoYW5nZSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB3aWR0aDogMjUlO1xuICAgIGhlaWdodDogMjUlO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDAwO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGJvcmRlci1yYWRpdXM6IC4yNXJlbTtcbiAgICB6LWluZGV4OiAxMDAwO1xufVxuXG4ucHJvY2Vzc2luZy1jaGFuZ2UgcCB7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG4vKm5hdmlnYXRpb24gYnV0dG9ucyovXG5cbiNuZXh0LFxuI3ByZXZpb3VzIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgdG9wOiAtNTUlO1xuICAgIGZvbnQtc2l6ZTogMmVtO1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICB0ZXh0LXNoYWRvdzogMCAxcHggMCAjZmZmO1xuICAgIG9wYWNpdHk6IC41O1xuICAgIGRpc3BsYXk6IGlubGluZTtcbn1cblxuI25leHQge1xuICAgIGZsb2F0OiByaWdodDsgICBcbiAgICBtYXJnaW4tcmlnaHQ6IDVlbTtcbn1cblxuI3ByZXZpb3VzIHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBtYXJnaW4tbGVmdDogNWVtO1xufVxuXG5cbi8qb3ZlcmxheSovXG4ub3ZlcmxheSB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIC8qIHdpZHRoOiAxMDAlOyAqL1xuICAgIGJvdHRvbTogMGVtO1xuICAgIHJpZ2h0OiAyZW07XG4gICAgLyogZGlzcGxheTogZmxleDsgKi9cbiAgICAvKiBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyAqL1xuICAgIC8qIGFsaWduLWl0ZW1zOiBjZW50ZXI7ICovXG4gICAgLyoganVzdGlmeS1jb250ZW50OiBjZW50ZXI7ICovXG4gICAgZm9udC1zaXplOiAyOHB4O1xuICAgIGNvbG9yOiAjNmM3NTdkO1xuICAgIG9wYWNpdHk6IC41O1xufSJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/components/cube.component/cube.component.html":
+/*!***************************************************************!*\
+  !*** ./src/app/components/cube.component/cube.component.html ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} @ {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related pictures:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information at Indiana University</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-share-alt\"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/cube.component/cube.component.ts":
+/*!*************************************************************!*\
+  !*** ./src/app/components/cube.component/cube.component.ts ***!
+  \*************************************************************/
+/*! exports provided: CubeComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CubeComponent", function() { return CubeComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var three_full__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three-full */ "./node_modules/three-full/builds/Three.es.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/src/Tween.js");
+/* harmony import */ var _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var _classes_geocube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../classes/geocube */ "./src/app/classes/geocube.ts");
+/* harmony import */ var _classes_setcube__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../classes/setcube */ "./src/app/classes/setcube.ts");
+/* harmony import */ var _classes_netcube__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../classes/netcube */ "./src/app/classes/netcube.ts");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _services_graph_position_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../services/graph.position.service */ "./src/app/services/graph.position.service.ts");
+/* harmony import */ var _classes_viewStates__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../classes/viewStates */ "./src/app/classes/viewStates.ts");
+/* harmony import */ var _classes_gui__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../classes/gui */ "./src/app/classes/gui.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_14__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var CubeComponent = /** @class */ (function () {
+    // inject google
+    function CubeComponent(google, gps, dataManager, compRef) {
+        var _this = this;
+        this.google = google;
+        this.gps = gps;
+        this.dataManager = dataManager;
+        this.compRef = compRef;
+        this.title = 'PolyCube';
+        // processing & updating
+        this.processingChange = true;
+        this.processingMessage = 'Loading dataset...';
+        this.previewPanel = false;
+        // set default view to display all cubes
+        this.currentViewState = _classes_viewStates__WEBPACK_IMPORTED_MODULE_10__["VIEW_STATES"].POLY_CUBE;
+        // data management
+        this.loadingDataset = true;
+        this.dataLoaded = false;
+        // error management
+        this.errorOccurred = false;
+        this.showColorCodingLegend = true;
+        /**
+         * Initializes the THREEJS scene
+         * - creating renderers
+         * - creating camera
+         * - creating scenes
+         * - creating controls
+         * - creating lighting
+         * - call the animation loop
+         */
+        this.initScene = function () {
+            _this.webGLScene = new three_full__WEBPACK_IMPORTED_MODULE_2__["Scene"]();
+            _this.cssScene = new three_full__WEBPACK_IMPORTED_MODULE_2__["Scene"]();
+            var WIDTH = _this.webGLContainer.nativeElement.offsetWidth;
+            var HEIGHT = _this.webGLContainer.nativeElement.offsetHeight;
+            _this.webGLRenderer = new three_full__WEBPACK_IMPORTED_MODULE_2__["WebGLRenderer"]({ canvas: _this.webGLContainer.nativeElement, alpha: true });
+            _this.webGLRenderer.setSize(WIDTH, HEIGHT);
+            _this.webGLRenderer.setClearColor(0xffffff, 0);
+            _this.css3DRenderer = new three_full__WEBPACK_IMPORTED_MODULE_2__["CSS3DRenderer"]();
+            _this.css3DRenderer.setSize(WIDTH, HEIGHT);
+            _this.cssContainer.nativeElement.appendChild(_this.css3DRenderer.domElement);
+            _this.orthographicCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrthographicCamera"](WIDTH / -2, WIDTH / 2, HEIGHT / 2, HEIGHT / -2, -10000, 10000);
+            _this.perspectiveCamera = new three_full__WEBPACK_IMPORTED_MODULE_2__["PerspectiveCamera"](20, WIDTH / HEIGHT, 1, 100000);
+            _this.camera = _this.perspectiveCamera;
+            // this.camera = this.orthographicCamera;
+            _this.camera.up.set(0, 1, 0);
+            // this.camera.position.set(200, 200, 4800); // for orthocamera
+            _this.camera.position.set(803, 912, 4755);
+            _this.camera.lookAt(_this.webGLScene.position.x, _this.webGLScene.position.y, _this.webGLScene.position.z);
+            _this.controls = new three_full__WEBPACK_IMPORTED_MODULE_2__["OrbitControls"](_this.camera, _this.webGLRenderer.domElement);
+            _this.controls.target = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1000, 0, 0);
+            _this.controls.enableZoom = true;
+            _this.controls.zoomSpeed = 1.2;
+            //hold initial camera and position values
+            _this.camToSave = {};
+            _this.camToSave.position = _this.camera.position.clone();
+            _this.camToSave.rotation = _this.camera.rotation.clone();
+            _this.camToSave.controlCenter = _this.controls.target.clone();
+        };
+        /**
+         * Initializes the cubes, assigns the data manager and passes the
+         * webGL and css3D scenes so that the cubes can create their objects
+         * and append themselves to the scene
+         */
+        this.initCubes = function () {
+            // initialize cubes
+            _this.gCube = new _classes_geocube__WEBPACK_IMPORTED_MODULE_5__["GeoCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.sCube = new _classes_setcube__WEBPACK_IMPORTED_MODULE_6__["SetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            _this.nCube = new _classes_netcube__WEBPACK_IMPORTED_MODULE_7__["NetCube"](_this.dataManager, _this.camera, _this.webGLScene, _this.cssScene);
+            // setup gps service
+            _this.nCube.setGraphPositionService(_this.gps);
+        };
+        /**
+         * This function is called when the dataset has been changed
+         * to notify the cubes that they should update the dataset
+         * and re-initialize themselves
+         */
+        this.updateCubes = function () {
+            _this.gCube.updateData();
+            _this.sCube.updateData();
+            _this.nCube.updateData();
+        };
+        this.addEventListeners = function () {
+            _this.webGLContainer.nativeElement.addEventListener('click', function ($event) {
+                $event.preventDefault();
+                var foundItem = _this.getClickedItem($event);
+                if (foundItem) {
+                    _this.previewItem = {
+                        title: "Picture #" + foundItem.id,
+                        id: foundItem.id,
+                        mediaURL: foundItem.external_url,
+                        date: moment__WEBPACK_IMPORTED_MODULE_14__(foundItem.date_time).format('DD-MM-YYYY'),
+                        location: foundItem.location_name,
+                        description: foundItem.description,
+                        externalURL: foundItem.media_url,
+                        related: foundItem.target_nodes,
+                        categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5],
+                        network_degree_in: foundItem.network_degree_in,
+                        network_degree_out: foundItem.network_degree_out,
+                        network_degree_overall: foundItem.network_degree_overall,
+                    };
+                    _this.openPreview();
+                }
+                else {
+                    _this.previewItem = null;
+                    _this.tooltip.nativeElement.style.display = 'none';
+                    _this.tooltip.nativeElement.style.opacity = '0';
+                    _this.closePreview();
+                }
+            });
+        };
+        this.getClickedItem = function ($event) {
+            // look for item across cubes
+            var foundItem = _this.gCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
+            if (!foundItem)
+                foundItem = _this.sCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
+            if (!foundItem)
+                foundItem = _this.nCube.onClick($event, _this.tooltip, _this.webGLContainer.nativeElement);
+            // if item clicked highlight accross cubes
+            if (foundItem) {
+                _this.gCube.highlightObject(foundItem.id);
+                _this.sCube.highlightObject(foundItem.id);
+                _this.nCube.highlightObject(foundItem.id);
+            }
+            return foundItem;
+        };
+        /**
+         * Initializes the GUI elements including button event listeners
+         */
+        this.initGUI = function () {
+            _this.gui = new _classes_gui__WEBPACK_IMPORTED_MODULE_11__["GUI"]();
+            // general settings
+            _this.processingMessage = 'Processing new configuration...';
+            _this.gui.pCubeConfigEmitter.on('processing', function (change) {
+                _this.processingChange = change;
+            });
+            _this.gui.pCubeConfigEmitter.on('change', function (change) {
+                if (change.dataSet) {
+                    _this.initDataset();
+                }
+                if (change.backgroundColor) {
+                    _this.compRef.nativeElement.ownerDocument.body.style.backgroundColor = change.backgroundColor;
+                }
+                if (change.time) {
+                    _this.gCube.updateTime(change.time);
+                    // this.sCube.updateTime(change.time);
+                    // this.nCube.updateTime(change.time);
+                }
+                if (change.numSlices) {
+                    _this.dataManager.numSlices = change.numSlices;
+                    _this.gCube.updateNumSlices(change.numSlices);
+                    _this.sCube.updateNumSlices(change.numSlices);
+                    _this.nCube.updateNumSlices(change.numSlices);
+                    // this.processingChange = false;
+                }
+                if (change.nodeSize) {
+                    _this.gCube.updateNodeSize(change.nodeSize);
+                    _this.sCube.updateNodeSize(change.nodeSize);
+                    _this.nCube.updateNodeSize(change.nodeSize);
+                }
+                if (change.nodeColor) {
+                    _this.showColorCodingLegend = change.nodeColor !== 'categorical' ? false : true;
+                    _this.gCube.updateNodeColor(change.nodeColor);
+                    _this.sCube.updateNodeColor(change.nodeColor);
+                    _this.nCube.updateNodeColor(change.nodeColor);
+                    //update timeline color
+                    if (change.nodeColor === 'temporal') {
+                        _this.timelineColor(true);
+                    }
+                    else {
+                        _this.timelineColor(false);
+                    }
+                }
+                // camera switch 
+                if (change.cameraType) {
+                    if (change.cameraType === 'Perspective') {
+                        _this.usePerspectiveCamera();
+                    }
+                    else if (change.cameraType === 'Orthographic') {
+                        _this.useOrthographicCamera();
+                    }
+                }
+                // reset scene
+                if (change.reset) {
+                    _this.resetScene();
+                }
+                // we should be done processing changes
+                _this.processingChange = false;
+            });
+            // geocube settings
+            _this.gui.gCubeConfigEmitter.on('change', function (change) {
+                if (change.jitter) {
+                    _this.gCube.updateJitter(change.jitter);
+                }
+            });
+            // setcube settings
+            _this.gui.sCubeConfigEmitter.on('change', function (change) {
+                if (change.sLayout) {
+                    _this.sCube.updateLayout(change.sLayout);
+                }
+                //hull button
+                if (change.hull == true) {
+                    if (!_this.sCube.getHullState()) {
+                        _this.sCube.drawHull();
+                    }
+                    else {
+                        _this.sCube.showHull();
+                    }
+                }
+                else {
+                    _this.sCube.hideHull();
+                }
+            });
+            // netcube settings
+            _this.gui.nCubeConfigEmitter.on('change', function (change) {
+                if (change.nNodeSize) {
+                    _this.nCube.changeNodeSizeEncode(change.nNodeSize);
+                }
+                if (change.nCharge) {
+                    _this.nCube.changeChargeFactor(change.nCharge);
+                }
+            });
+            // button event listeners
+            _this.gui.geoBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_10__["VIEW_STATES"].GEO_CUBE); });
+            _this.gui.setBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_10__["VIEW_STATES"].SET_CUBE); });
+            _this.gui.netBtn.addEventListener('click', function () { _this.setCubeView(_classes_viewStates__WEBPACK_IMPORTED_MODULE_10__["VIEW_STATES"].NET_CUBE); });
+            _this.gui.stcBtn.addEventListener('click', function () {
+                _this.gCube.transitionSTC();
+                _this.sCube.transitionSTC();
+                _this.nCube.transitionSTC();
+                //rotate camera to STC
+                _this.transitionSTCCamera();
+            });
+            _this.gui.jpBtn.addEventListener('click', function () {
+                _this.gCube.transitionJP();
+                _this.sCube.transitionJP();
+                _this.nCube.transitionJP();
+                //rotate camera to JP
+                _this.transitionJPCamera();
+            });
+            _this.gui.siBtn.addEventListener('click', function () {
+                _this.gCube.updateNodeColor('temporal');
+                _this.nCube.updateNodeColor('temporal');
+                _this.gCube.transitionSI();
+                _this.sCube.transitionSI();
+                _this.nCube.transitionSI();
+                //this.sCube.updateNodeColor('temporal'); //FIXME: need to be called after SI is finished in SCUBE
+                //rotate camera to SI
+                _this.transitionSICamera();
+            });
+        };
+        /**
+         * Clears the current (webGL) scene from all cube groups
+         */
+        this.removeAllCubeViews = function () {
+            _this.gCube.hideCube();
+            _this.sCube.hideCube();
+            _this.nCube.hideCube();
+        };
+        /**
+         * This function is used to position the camera
+         */
+        this.positionCamera = function () {
+            var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+            var camLookAt = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"](0, 0, -1);
+            var cubePos;
+            var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](_this.camera.position);
+            var tweenLookAt = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](camLookAt.applyQuaternion(_this.camera.quaternion));
+            switch (_this.currentViewState) {
+                case 'GEO_CUBE':
+                    cubePos = _this.gCube.getCubePosition();
+                    break;
+                case 'SET_CUBE':
+                    cubePos = _this.sCube.getCubePosition();
+                    break;
+                case 'NET_CUBE':
+                    cubePos = _this.nCube.getCubePosition();
+                    break;
+                case 'POLY_CUBE':
+                    cubePos = _this.sCube.getCubePosition();
+                    break;
+                default: break;
+            }
+            var currentXPos = 0;
+            if (_this.gCube.cubeToggle) {
+                // pos gCube
+                _this.gCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.gCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].GUTTER;
+            }
+            if (_this.sCube.cubeToggle) {
+                _this.sCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.sCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+                currentXPos += _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].WIDTH + _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].GUTTER;
+            }
+            if (_this.nCube) {
+                _this.nCube.cubeGroupGL.position.set(currentXPos, 0, 0);
+                _this.nCube.cubeGroupCSS.position.set(currentXPos, 0, 0);
+            }
+            // targetVector.set(cubePos.x + CUBE_CONFIG.WIDTH/2, this.camera.position.y, this.camera.position.z);
+            // tweenPos.to(targetVector, 250);
+            // tweenLookAt.to(cubePos, 250);
+            // tweenPos.start().onComplete(() => {
+            //    tweenLookAt.start().onUpdate((target: THREE.Vector3) => {
+            //       this.camera.lookAt(target);
+            //       this.controls.update();
+            //    });
+            // });
+        };
+        /**
+         * Updates which cubes are shown based on user selection
+         */
+        this.updateCubesView = function () {
+            _this.removeAllCubeViews();
+            _this.gCube.updateView(_this.currentViewState);
+            _this.sCube.updateView(_this.currentViewState);
+            _this.nCube.updateView(_this.currentViewState);
+            _this.positionCamera();
+        };
+        /**
+         * Starts the animation (rendering) loop
+         */
+        this.animate = function () {
+            requestAnimationFrame(_this.animate);
+            _this.render();
+        };
+        this.previewItem = null;
+        this.categories = new Array();
+        this.categoriesAndColors = new Map();
+        this.duration = _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].DURATION ? _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].DURATION : 2000;
+        this.currentlySelectedCategory = '';
+        this.currentlySelectedDateExtent = new Array();
+    }
+    /**
+     * Lifecycle hook called when the DOM is initialized
+     */
+    CubeComponent.prototype.ngAfterViewInit = function () {
+        // set initial classses
+        this.gBtn.nativeElement.className = 'btn  btn-secondary';
+        this.sBtn.nativeElement.className = 'btn  btn-secondary';
+        this.nBtn.nativeElement.className = 'btn  btn-secondary';
+        this.initDataset();
+    };
+    /**
+     * Initializes the component with the default (Cushman) dataset
+     * Once data is loaded initializes the scene, cubes, and GUI
+     */
+    CubeComponent.prototype.initDataset = function () {
+        var _this = this;
+        this.loadingDataset = true;
+        var _id = _cube_config__WEBPACK_IMPORTED_MODULE_13__["CUBE_CONFIG"].DATA_SET.id; // Cushman dataset ID
+        // perform request to get spreadsheet json 
+        // parse it when done and pass to datamanager
+        this.google.load(_id).then(function (success) {
+            // only overwrite if we have no data in the data manager
+            // otherwise we probably got data from another endpoint
+            if (!_this.dataManager.data) {
+                console.log('no data init cushman');
+                _this.dataManager.data = success;
+                _this.gps.defaultDataSet();
+            }
+            _this.processingChange = false;
+            _this.processingMessage = '';
+            _this.loadingDataset = false;
+            _this.dataLoaded = true;
+            // default date extent for filtering
+            _this.currentlySelectedDateExtent.push(_this.dataManager.getMinDate());
+            _this.currentlySelectedDateExtent.push(_this.dataManager.getMaxDate());
+            _this.categories = Array.from(_this.dataManager.categories.keys());
+            _this.categoriesAndColors = _this.dataManager.categories;
+            _this.initScene();
+            _this.initCubes();
+            _this.initGUI();
+            _this.addEventListeners();
+            _this.animate();
+        });
+    };
+    /**
+     * Updates the data set with a new dataset
+     * We get the ID from the text input
+     */
+    CubeComponent.prototype.updateDataset = function () {
+        var _this = this;
+        this.loadingDataset = true;
+        var id = this.spreadsheetId.nativeElement.value;
+        if (!id) {
+            console.error('No spredsheet id provided.');
+            this.loadingDataset = false;
+            this.errorOccurred = true;
+            this.errorMessage = 'No spreadsheet id provided.';
+            return;
+        }
+        this.google.load(id).then(function (success) {
+            // only overwrite if we have no data in the data manager
+            // otherwise we probably got data from another endpoint
+            if (!_this.dataManager.data) {
+                _this.dataManager.data = success;
+                _this.gps.defaultDataSet();
+            }
+            _this.loadingDataset = false;
+        }).catch(function (err) {
+            _this.errorOccurred = true;
+            _this.errorMessage = err;
+        });
+    };
+    /**
+     * Open / Close the preview panel (details on the side)
+     */
+    CubeComponent.prototype.openPreview = function () {
+        this.previewPanel = true;
+    };
+    CubeComponent.prototype.closePreview = function () {
+        this.previewPanel = false;
+    };
+    /**
+     * Return details about related nodes
+     * @param id Node ID
+     */
+    CubeComponent.prototype.getRelatedNode = function (id) {
+        var found = this.dataManager.data.find(function (d) {
+            return d.id === id;
+        });
+        return found;
+    };
+    CubeComponent.prototype.selectNode = function (id) {
+        var selected = this.dataManager.data.find(function (d) {
+            return d.id === id;
+        });
+        // update this.preview
+        this.previewItem = {
+            title: "Picture #" + selected.id,
+            id: selected.id,
+            mediaURL: selected.external_url,
+            date: moment__WEBPACK_IMPORTED_MODULE_14__(selected.date_time).format('DD-MM-YYYY'),
+            related: selected.target_nodes,
+            location: selected.location_name,
+            description: selected.description,
+            externalURL: selected.media_url,
+            categories: [selected.category_1, selected.category_2, selected.category_3, selected.category_4, selected.category_5]
+        };
+        // highlight in cubes
+        this.gCube.highlightObject(selected.id);
+        this.sCube.highlightObject(selected.id);
+        this.nCube.highlightObject(selected.id);
+    };
+    CubeComponent.prototype.getPrevious = function () {
+        this.processingChange = true;
+        this.processingMessage = 'Loading image...';
+        var currentItem = this.previewItem;
+        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
+        var foundItem = this.dataManager.data[(foundIdx - 1) % this.dataManager.data.length];
+        this.previewItem = {
+            title: "Picture #" + foundItem.id,
+            id: foundItem.id,
+            mediaURL: foundItem.external_url,
+            date: moment__WEBPACK_IMPORTED_MODULE_14__(foundItem.date_time).format('DD-MM-YYYY'),
+            location: foundItem.location_name,
+            related: foundItem.target_nodes,
+            description: foundItem.description,
+            externalURL: foundItem.media_url,
+            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
+        };
+        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
+        this.captionContainer.nativeElement.innerHTML = this.previewItem.description + " , " + this.previewItem.date;
+    };
+    CubeComponent.prototype.getNext = function () {
+        this.processingChange = true;
+        this.processingMessage = 'Loading image...';
+        var currentItem = this.previewItem;
+        var foundIdx = this.dataManager.data.map(function (d) { return d.id; }).indexOf(currentItem.id);
+        var foundItem = this.dataManager.data[(foundIdx + 1) % this.dataManager.data.length];
+        this.previewItem = {
+            title: "Picture #" + foundItem.id,
+            id: foundItem.id,
+            mediaURL: foundItem.external_url,
+            date: moment__WEBPACK_IMPORTED_MODULE_14__(foundItem.date_time).format('DD-MM-YYYY'),
+            related: foundItem.target_nodes,
+            location: foundItem.location_name,
+            description: foundItem.description,
+            externalURL: foundItem.media_url,
+            categories: [foundItem.category_1, foundItem.category_2, foundItem.category_3, foundItem.category_4, foundItem.category_5]
+        };
+        this.imgContainer.nativeElement.src = this.previewItem.mediaURL;
+        this.captionContainer.nativeElement.innerHTML = this.previewItem.description + " , " + this.previewItem.date;
+    };
+    CubeComponent.prototype.imageLoaded = function () {
+        this.processingChange = false;
+        this.processingMessage = '';
+        console.log('image loaded');
+    };
+    /**
+      * Rotate Camera to SI view
+      */
+    CubeComponent.prototype.transitionSICamera = function () {
+        var _this = this;
+        //update timeline color as true
+        this.timelineColor(true);
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        //stop rotation
+        this.controls.enableRotate = false;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        targetVector.set(1000, 4826, 428);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+            _this.controls.update();
+            _this.camera.lookAt(targetVector);
+        });
+        this.camera.zoom = 1;
+        this.camera.updateProjectionMatrix();
+    };
+    /**
+     * Rotate Camera to STC view
+     */
+    CubeComponent.prototype.transitionSTCCamera = function () {
+        var _this = this;
+        //update timeline color as false
+        this.timelineColor(false);
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        //allow rotation
+        this.controls.enableRotate = true;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        targetVector.set(800, 912, 4755);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+            _this.controls.update();
+            _this.camera.lookAt(targetVector);
+        });
+        this.camera.zoom = 1;
+        this.camera.updateProjectionMatrix();
+    };
+    CubeComponent.prototype.transitionJPCamera = function () {
+        var _this = this;
+        // update timeline color
+        this.timelineColor(false);
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        // stop rotation
+        this.controls.enableRotate = false;
+        var duration = 1000;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var targetVector2 = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        var tweenRot = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        // targetVector.set(1000, 4826, 428);
+        targetVector.set(1000, 10826, 428);
+        tweenPos.to(targetVector, duration);
+        tweenPos.start().onComplete(function () {
+            _this.controls.update();
+            _this.camera.lookAt(targetVector);
+            //
+            _this.camera.zoom = 0.7;
+            _this.camera.updateProjectionMatrix();
+            targetVector2.set(644.2056736616696, 9000.63192337427, -5.384615481310194);
+            tweenRot.to(targetVector2, 2000);
+            tweenRot.start().onComplete(function () {
+                _this.camera.lookAt(targetVector2);
+                _this.controls.update();
+            });
+        });
+    };
+    CubeComponent.prototype.resetScene = function () {
+        this.restoreCamera(this.camToSave.position, this.camToSave.rotation, this.camToSave.controlCenter);
+        this.gCube.transitionSTC();
+        this.sCube.transitionSTC();
+        this.nCube.transitionSTC();
+        //rotate camera to STC
+        this.transitionSTCCamera();
+    };
+    CubeComponent.prototype.restoreCamera = function (position, rotation, controlCenter) {
+        var _this = this;
+        var targetVector = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var targetVector2 = new three_full__WEBPACK_IMPORTED_MODULE_2__["Vector3"]();
+        var tweenPos = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        var tweenRot = new _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["Tween"](this.camera.position);
+        // this.camera.position.set(position.x, position.y, position.z);
+        targetVector.set(position.x, position.y, position.z);
+        tweenPos.to(targetVector, 1000);
+        tweenPos.start().onComplete(function () {
+            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+            _this.controls.update();
+        });
+        // this.camera.rotation.set(rotation.x, rotation.y, rotation.z);
+        targetVector2.set(rotation.x, rotation.y, rotation.z);
+        tweenRot.to(targetVector2, 1000);
+        tweenRot.start().onComplete(function () {
+            _this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+            _this.controls.update();
+        });
+        // this.controls.target.set(controlCenter.x, controlCenter.y, controlCenter.z);
+        // this.controls.update();  
+    };
+    /**
+     * This function is used to update brush timeline color
+     */
+    CubeComponent.prototype.timelineColor = function (visible) {
+        if (visible == true) {
+            // D3.select('#timeLegend').classed('hide', false)
+            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'block');
+        }
+        else {
+            // D3.select('#timeLegend').classed('hide', true)
+            d3__WEBPACK_IMPORTED_MODULE_4__["select"]('#timeLegend').style('display', 'none');
+        }
+    };
+    CubeComponent.prototype.usePerspectiveCamera = function () {
+        var cameraPosition = this.orthographicCamera.position.clone();
+        var cameraZoom = this.orthographicCamera.zoom;
+        this.camera = this.perspectiveCamera;
+        this.camera.zoom = cameraZoom;
+        this.camera.position.copy(cameraPosition);
+        this.camera.updateProjectionMatrix();
+        this.controls.object = this.camera;
+    };
+    CubeComponent.prototype.useOrthographicCamera = function () {
+        var cameraPosition = this.perspectiveCamera.position.clone();
+        var cameraZoom = this.perspectiveCamera.zoom;
+        this.camera = this.orthographicCamera;
+        this.camera.zoom = cameraZoom;
+        this.camera.position.copy(cameraPosition);
+        this.camera.updateProjectionMatrix();
+        this.controls.object = this.camera;
+    };
+    CubeComponent.prototype.closePicture = function () {
+        this.modalContainer.nativeElement.style.display = 'none';
+        this.imgContainer.nativeElement.style.display = 'none';
+        this.imgContainer.nativeElement.src = '';
+        this.captionContainer.nativeElement.innerHTML = '';
+    };
+    CubeComponent.prototype.openPicture = function (url, desc, date) {
+        this.modalContainer.nativeElement.style.display = 'block';
+        this.imgContainer.nativeElement.style.display = 'block';
+        this.imgContainer.nativeElement.src = url;
+        this.captionContainer.nativeElement.innerHTML = desc + " , " + date;
+    };
+    /**
+     * Function called each iteration of the rendering loop
+     * Renders the scene from the cameras PoV
+     */
+    CubeComponent.prototype.render = function () {
+        _tweenjs_tween_js__WEBPACK_IMPORTED_MODULE_3__["update"]();
+        this.controls.update();
+        this.webGLRenderer.render(this.webGLScene, this.camera);
+        this.css3DRenderer.render(this.cssScene, this.camera);
+    };
+    /**
+     * Updates the current view with the users section
+     * @param view - string: user selection stating which cube should be displayed
+     */
+    CubeComponent.prototype.setCubeView = function (view) {
+        switch (view) {
+            case 'GEO_CUBE':
+                this.gCube.toggleDisplayCube();
+                this.gBtn.nativeElement.className = this.gCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
+                break;
+            case 'SET_CUBE':
+                this.sCube.toggleDisplayCube();
+                this.sBtn.nativeElement.className = this.sCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
+                break;
+            case 'NET_CUBE':
+                this.nCube.toggleDisplayCube();
+                this.nBtn.nativeElement.className = this.nCube.cubeToggle ? 'btn  btn-secondary' : 'btn  btn-outline-secondary';
+                break;
+            // case 'POLY_CUBE': this.currentViewState = VIEW_STATES.POLY_CUBE; break; -- doesn't exist
+            default:
+                return;
+        }
+        this.updateCubesView();
+    };
+    CubeComponent.prototype.filterDataWithTimeSlider = function ($event) {
+        this.currentlySelectedDateExtent[0] = $event[0];
+        this.currentlySelectedDateExtent[1] = $event[1];
+        this.applyFilter();
+    };
+    CubeComponent.prototype.clearCategoryFilter = function () {
+        this.currentlySelectedCategory = "";
+        this.applyFilter();
+    };
+    CubeComponent.prototype.filterDataByCategory = function (category) {
+        this.currentlySelectedCategory = category;
+        this.applyFilter();
+    };
+    CubeComponent.prototype.applyFilter = function () {
+        this.gCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+        this.sCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+        this.nCube.filterData(this.currentlySelectedCategory, this.currentlySelectedDateExtent[0], this.currentlySelectedDateExtent[1]);
+    };
+    CubeComponent.prototype.formatDate = function (date) {
+        return moment__WEBPACK_IMPORTED_MODULE_14__(date).format('DD/MM/YYYY');
+    };
+    /**
+     *
+     */
+    CubeComponent.prototype.getMinDate = function () { return this.dataManager.getMinDate(); };
+    /**
+     *
+     */
+    CubeComponent.prototype.getMaxDate = function () { return this.dataManager.getMaxDate(); };
+    /**
+     *
+     */
+    CubeComponent.prototype.getWindowInnerHeight = function () { return window.innerHeight; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('webGLCanvas'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "webGLContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('cssCanvas'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "cssContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('spreadsheetInput'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "spreadsheetId", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('modal'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "modalContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('img'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "imgContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('caption'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "captionContainer", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('geobtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "gBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('setbtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "sBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('netbtn'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "nBtn", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('tooltip'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], CubeComponent.prototype, "tooltip", void 0);
+    CubeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-cube',
+            template: __webpack_require__(/*! ./cube.component.html */ "./src/app/components/cube.component/cube.component.html"),
+            styles: [__webpack_require__(/*! ./cube.component.css */ "./src/app/components/cube.component/cube.component.css"), __webpack_require__(/*! ../../bootstrap.min.css */ "./src/app/bootstrap.min.css")]
+        })
+        /**
+         * PolyCube main controller
+         * - loads and parses data
+         * - initializes threejs scene
+         * - initializes cube components
+         */
+        ,
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_8__["GoogleDriveProvider"], _services_graph_position_service__WEBPACK_IMPORTED_MODULE_9__["GraphPositionService"], _classes_datamanager__WEBPACK_IMPORTED_MODULE_12__["DataManager"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+    ], CubeComponent);
+    return CubeComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/timeslider.component/timeslider.css":
 /*!****************************************************************!*\
   !*** ./src/app/components/timeslider.component/timeslider.css ***!
@@ -4805,10 +4948,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*
-  Generated class for the GoogleDrive provider.
+    Generated class for the GoogleDrive provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
+    See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+    for more info on providers and Angular 2 DI.
 */
 var GoogleDriveProvider = /** @class */ (function () {
     function GoogleDriveProvider(http) {
@@ -4827,8 +4970,10 @@ var GoogleDriveProvider = /** @class */ (function () {
                 _this.http.get(url)
                     .subscribe(function (data) {
                     data.forEach(function (item) {
+                        // convert target_nodes to string 
+                        var targetNodes = "" + item.target_nodes; // forcing to string so that a single id does not get parsed as a number just yet
                         item.date_time = moment__WEBPACK_IMPORTED_MODULE_3__(item.date_time).toDate();
-                        item.target_nodes = item.target_nodes.split(';').map(Number);
+                        item.target_nodes = targetNodes.split(';').map(Number);
                         item.category_1 = item.category_1 === "" ? "No Category" : item.category_1;
                         item.label = item.label.split(';').map(Number);
                         // TODO: data.date_range, data.range
@@ -4851,23 +4996,53 @@ var GoogleDriveProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/data/cushman_nodes_position.ts":
-/*!********************************************!*\
-  !*** ./src/data/cushman_nodes_position.ts ***!
-  \********************************************/
-/*! exports provided: CushmanForcedDirected */
+/***/ "./src/app/services/graph.position.service.ts":
+/*!****************************************************!*\
+  !*** ./src/app/services/graph.position.service.ts ***!
+  \****************************************************/
+/*! exports provided: GraphPositionService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CushmanForcedDirected", function() { return CushmanForcedDirected; });
-var CushmanForcedDirected = /** @class */ (function () {
-    function CushmanForcedDirected() {
-        this._position_map = [];
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GraphPositionService", function() { return GraphPositionService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+/*
+    Generated class for the GoogleDrive provider.
+
+    See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+    for more info on providers and Angular 2 DI.
+*/
+var GraphPositionService = /** @class */ (function () {
+    function GraphPositionService() {
+        this._position = new Array();
         this._position_map = new Map();
-        this.buildPosition();
     }
-    CushmanForcedDirected.prototype.buildPosition = function () {
+    Object.defineProperty(GraphPositionService.prototype, "nodePos", {
+        set: function (positions) {
+            this._position = positions;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphPositionService.prototype, "nodesPos", {
+        get: function () {
+            return this._position;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GraphPositionService.prototype, "nodesPosMap", {
+        get: function () {
+            return this._position_map;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GraphPositionService.prototype.defaultDataSet = function () {
         this._position = [
             {
                 "id": "5502",
@@ -14697,27 +14872,13 @@ var CushmanForcedDirected = /** @class */ (function () {
         ];
         this.buildPositionMap();
     };
-    CushmanForcedDirected.prototype.buildPositionMap = function () {
+    GraphPositionService.prototype.buildPositionMap = function () {
         var _this = this;
         this._position.forEach(function (e) {
-            _this._position_map[e.id] = { x: e.x, y: e.y };
+            _this._position_map.set("" + e.id, { x: e.x, y: e.y });
         });
     };
-    Object.defineProperty(CushmanForcedDirected.prototype, "nodesPos", {
-        get: function () {
-            return this._position;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CushmanForcedDirected.prototype, "nodesPosMap", {
-        get: function () {
-            return this._position_map;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CushmanForcedDirected.prototype.getDataPositionDimensions = function () {
+    GraphPositionService.prototype.getDataPositionDimensions = function () {
         var max_x = 0;
         var min_x = 0;
         var max_y = 0;
@@ -14734,7 +14895,195 @@ var CushmanForcedDirected = /** @class */ (function () {
         });
         return { max_x: max_x, min_x: min_x, max_y: max_y, min_y: min_y };
     };
-    return CushmanForcedDirected;
+    GraphPositionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], GraphPositionService);
+    return GraphPositionService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.css":
+/*!**************************************************************************!*\
+  !*** ./src/app/util/forceDirectedSimulation/forceDirectedSimulation.css ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3V0aWwvZm9yY2VEaXJlY3RlZFNpbXVsYXRpb24vZm9yY2VEaXJlY3RlZFNpbXVsYXRpb24uY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.html":
+/*!***************************************************************************!*\
+  !*** ./src/app/util/forceDirectedSimulation/forceDirectedSimulation.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n    <input #inputText placeholder=\"Google Spreadsheet ID\"> \n</div>\n<div>\n    <button mat-input (click)=\"runSimulation()\">Run Simulation</button>\n    <button mat-input (click)=\"use()\">Use this data</button>\n</div>\n\n<div>\n    <svg id=\"graph\"></svg>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/util/forceDirectedSimulation/forceDirectedSimulation.ts ***!
+  \*************************************************************************/
+/*! exports provided: ForceDirectedComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForceDirectedComponent", function() { return ForceDirectedComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _cube_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../cube.config */ "./src/app/cube.config.js");
+/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
+/* harmony import */ var _services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/google.drive.service */ "./src/app/services/google.drive.service.ts");
+/* harmony import */ var _services_graph_position_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/graph.position.service */ "./src/app/services/graph.position.service.ts");
+/* harmony import */ var _classes_datamanager__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../classes/datamanager */ "./src/app/classes/datamanager.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+
+
+
+
+var ForceDirectedComponent = /** @class */ (function () {
+    function ForceDirectedComponent(google, dm, router, graphData) {
+        this.google = google;
+        this.dm = dm;
+        this.router = router;
+        this.graphData = graphData;
+        this.nodeData = new Array();
+        this.linkData = new Array();
+        this.outputData = new Array();
+    }
+    ForceDirectedComponent.prototype.ngAfterViewInit = function () {
+    };
+    ForceDirectedComponent.prototype.doesNodeExist = function (id) {
+        var check = false;
+        this.nodeData.forEach(function (n) {
+            if (n.id === id) {
+                // console.log('node found');
+                check = true;
+                return;
+            }
+        });
+        return check;
+    };
+    // run simulation 
+    ForceDirectedComponent.prototype.runSimulation = function () {
+        var _this = this;
+        if (!this.textInput.nativeElement.value)
+            return;
+        this.google.load(this.textInput.nativeElement.value).then(function (success) {
+            // create out nodeData and linkData structures for d3 sim
+            _this.dm.data = success;
+            success.forEach(function (item) {
+                if (!item.id) {
+                    // console.log('empty id');
+                    // console.log(item);
+                    return;
+                }
+                _this.nodeData.push({ id: "" + item.id });
+            });
+            success.forEach(function (item) {
+                item.target_nodes.forEach(function (target) {
+                    if (!target) {
+                        // console.log('empty target');
+                        // console.log(target);
+                        return;
+                    }
+                    // target does not exist as a source node
+                    if (!_this.doesNodeExist("" + target)) {
+                        // console.log('target does not exist as a source');
+                        // console.log(target);
+                        return;
+                    }
+                    _this.linkData.push({
+                        source: "" + item.id,
+                        target: "" + target
+                    });
+                });
+            });
+            var simulation = d3__WEBPACK_IMPORTED_MODULE_3__["forceSimulation"](_this.nodeData)
+                .force('link', d3__WEBPACK_IMPORTED_MODULE_3__["forceLink"](_this.linkData).id(function (d) { return d.id; }))
+                .force('charge', d3__WEBPACK_IMPORTED_MODULE_3__["forceManyBody"]())
+                .force('center', d3__WEBPACK_IMPORTED_MODULE_3__["forceCenter"](0, 0))
+                .force('x', d3__WEBPACK_IMPORTED_MODULE_3__["forceX"]())
+                .force('y', d3__WEBPACK_IMPORTED_MODULE_3__["forceY"]())
+                // .alphaTarget(0.3)
+                .on('tick', _this.tick.bind(_this));
+            _this.svg = d3__WEBPACK_IMPORTED_MODULE_3__["select"]('#graph')
+                .attr('width', _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH)
+                .attr('height', _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT)
+                .attr('viewBox', "0 0 " + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].WIDTH + " " + _cube_config__WEBPACK_IMPORTED_MODULE_2__["CUBE_CONFIG"].HEIGHT);
+            _this.links = _this.svg.append('g')
+                .attr('class', 'links')
+                .selectAll('line')
+                .data(_this.linkData)
+                .enter()
+                .append('line')
+                .attr('stroke', '#999')
+                .attr('stroke-opacity', .4);
+            _this.nodes = _this.svg.append('g')
+                .attr('class', 'nodes')
+                .selectAll('circle')
+                .data(_this.nodeData)
+                .enter()
+                .append('circle')
+                .attr('r', 2)
+                .attr('fill', '#ff0000')
+                .attr('cx', 0)
+                .attr('cy', 0);
+        });
+    };
+    ForceDirectedComponent.prototype.tick = function () {
+        this.links
+            .attr('x1', function (d) { return d.source.x; })
+            .attr('x2', function (d) { return d.target.x; })
+            .attr('y1', function (d) { return d.source.y; })
+            .attr('y2', function (d) { return d.target.y; });
+        this.nodes.attr('transform', function (d) { return "translate(" + d.x + ", " + d.y + ")"; });
+    };
+    ForceDirectedComponent.prototype.use = function () {
+        // TODO: Rewrite cushman data 
+        this.generatePositionArray();
+        this.graphData.nodePos = this.outputData;
+        this.graphData.buildPositionMap();
+        this.router.navigateByUrl('/home');
+    };
+    ForceDirectedComponent.prototype.generatePositionArray = function () {
+        var _this = this;
+        if (!this.nodes)
+            return;
+        this.nodes.each(function (d) {
+            _this.outputData.push({
+                id: d.id,
+                x: d.x,
+                y: d.y
+            });
+        });
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('inputText'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"])
+    ], ForceDirectedComponent.prototype, "textInput", void 0);
+    ForceDirectedComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-force-directed',
+            template: __webpack_require__(/*! ./forceDirectedSimulation.html */ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.html"),
+            styles: [__webpack_require__(/*! ./forceDirectedSimulation.css */ "./src/app/util/forceDirectedSimulation/forceDirectedSimulation.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_google_drive_service__WEBPACK_IMPORTED_MODULE_4__["GoogleDriveProvider"], _classes_datamanager__WEBPACK_IMPORTED_MODULE_6__["DataManager"], _angular_router__WEBPACK_IMPORTED_MODULE_7__["Router"], _services_graph_position_service__WEBPACK_IMPORTED_MODULE_5__["GraphPositionService"]])
+    ], ForceDirectedComponent);
+    return ForceDirectedComponent;
 }());
 
 

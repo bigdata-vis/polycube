@@ -1,0 +1,158 @@
+<div class="modal" #modal>
+        <span class="close" (click)="closePicture()">&times;</span>
+        <img class="modal-content" id="img01" #img (load)="imageLoaded()">
+        <div id="caption" #caption></div>
+        <button id="previous" type="button" class="btn btn-default" aria-label="Left Align" (click)="getPrevious()">
+            <i class="fa fa-chevron-left"></i>
+        </button>
+        <button id="next" type="button" class="btn btn-default" aria-label="Right Align" (click)="getNext()">
+            <i class="fa fa-chevron-right"></i>
+        </button>
+</div>
+
+<!-- Modal -->
+<div [ngClass]="{'show': showModal}" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Most Influential Movies, Based on Cinematic References</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This data shows the most influential 2000 feature films with regard to references between movies. It is an excerpt from the study of Spitz & Horvat (2014) on the long-term impact which movies had on other movies throughout film history (link). In the PolyCube system, the year of production, country of origin, movie genre, and movie references are represented from left to right.
+      </div>
+      <div class="modal-footer">
+        <button (click)="showModal=false" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper">
+    <ng-sidebar-container>
+        <!-- Preview Panel Side Bar -->
+        <ng-sidebar [(opened)]="previewPanel" mode="over" animate="false" sidebarClass="side-bar">
+            <div class="pc-tooltip" #tooltip></div>
+            
+            <div class="preview-item" *ngIf="previewItem">
+                <button id="close-preview" type="button" class="close" aria-label="Close Preview" (click)="closePreview()">
+                    <span>&times;</span>
+                </button>
+                <!-- <h2 class="preview-title">{{ previewItem.title }} </h2> -->
+                <img (click)="openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)" class="preview-picture"
+                    [src]="previewItem.mediaURL" (load)="imageLoaded()">
+                <div *ngFor="let cat of previewItem.categories" class="categories">
+                    <span class="badge badge-secondary">{{ cat }}</span>
+                </div>
+                <p class="preview-metainfo">{{ previewItem.date }} @ {{ previewItem.location }}</p>
+                <br>
+                <p class="preview-description">{{ previewItem.description }}</p>
+                <div class="related">
+                    <p>Related pictures:</p>
+                    <div class="image-grid">
+                        <div class="image-grid-cell" *ngFor="let r of previewItem.related; let i = index">
+                            <div *ngIf="i < 6">
+                                <a href="javascript:void(0)" (click)="selectNode(r)">
+                                    <img class="image-grid-image" [src]="getRelatedNode(r).media_url"  data-toggle="tooltip" data-placement="bottom" [title]="getRelatedNode(r).description">
+                                    <!-- {{ getRelatedNode(r).description === "" ? 'No description' : getRelatedNode(r).description }} -->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let r of previewItem.related">
+                            <a href="javascript:void(0)" (click)="selectNode(r)">
+                                <img class="list-group-item-thumbnail" [src]="getRelatedNode(r).external_url" [alt]="getRelatedNode(r).description">
+                            </a>
+                        </li>
+                    </ul> -->
+                </div>
+                <br>
+                <!--
+                <div class="network-degree">
+                    <p>Network degree in: {{previewItem.network_degree_in}}</p>
+                    <p>Network degree out: {{previewItem.network_degree_out}}</p>
+                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>
+                </div>
+                -->
+                <br>
+                <a [attr.href]="previewItem.externalURL" target="_blank">More information at Indiana University</a>
+            </div>
+        </ng-sidebar>
+
+        <!-- Page Content -->
+        <div ng-sidebar-content class="side-bar-content">
+            <div class="canvases">
+                <canvas id="webgl-canvas" #webGLCanvas></canvas>
+                <div id="css-canvas" #cssCanvas></div>
+            </div>
+
+            <app-timeslider 
+                *ngIf="dataLoaded" 
+                [minDate]="getMinDate()" 
+                [maxDate]="getMaxDate()" 
+                [width]="60"
+                [height]="getWindowInnerHeight()" 
+                (onSelect)="filterDataWithTimeSlider($event)">
+            </app-timeslider>
+
+            
+            <div class="category-legend" *ngIf="dataLoaded">
+                <!-- <label>Clickable Legend:</label> -->
+                <span class="category-selection">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>
+                <div class="category-wrapper" *ngIf="showColorCodingLegend">
+                    <div *ngFor="let c of categories">
+                        <span data-toggle="tooltip" data-placement="bottom" [title]="c"
+                            (click)="filterDataByCategory(c)"
+                            [className]="c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'"
+                            [ngStyle]="{ 'background-color' : categoriesAndColors.get(c) }">&nbsp;</span>
+                    </div>
+                </div>
+                <div class="category-wrapper">
+                    <div>
+                        <span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Clear"
+                            (click)="clearCategoryFilter()" style="background-color:#a9a9a9; font-size: 12px;">&times;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" id="geo-view-button" #geobtn title="Maps">  <i class="fa fa-map-o"></i></button>
+                <button type="button" class="btn" id="set-view-button" #setbtn title="Categories "> <i class="fa fa-spinner"></i></button>
+                <button type="button" class="btn" id="net-view-button" #netbtn title="Relations"> <i class="fa fa-connectdevelop "></i></button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn  btn-outline-secondary" id="stc-view-button" title="3D View"> <i class="fa fa-cube"></i></button>
+                <button type="button" class="btn  btn-outline-secondary" id="jp-view-button" title="Split View"><i class="fa fa-object-ungroup"></i></button>
+                <button type="button" class="btn  btn-outline-secondary" id="si-view-button" title="Colored View"> <i class="fa fa-object-group"></i></button>
+            </div>
+            </div>
+
+            <div class="overlay" *ngIf="dataLoaded">
+               <!-- <p>{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p> -->
+                <p> 
+                <a href="#" (click)="showModal=true">Vis info  | </a> 
+                <a target="_blank" href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108857#s2'>Data Source </a> 
+                </p>
+            </div>
+        </div>
+    </ng-sidebar-container>
+   
+
+    <div class="processing-change" *ngIf="processingChange">
+        <div class="spinner-border text-info" role="status">
+            <span class="sr-only"></span>
+        </div>
+        <p>{{ processingMessage }}</p>
+    </div>
+
+    <div *ngIf="errorOccurred" class="alert alert-danger error">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="errorOccurred = false">&times;</a>
+        <strong>Error</strong>
+        <p>{{ errorMessage }}</p>
+    </div>
+</div>
