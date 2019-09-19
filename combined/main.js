@@ -455,8 +455,8 @@ var routes = [
     { path: 'home', component: _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_3__["CubeComponent"] },
     { path: 'polycube/combined/home', component: _components_cube_component_cube_component__WEBPACK_IMPORTED_MODULE_3__["CubeComponent"] },
     { path: 'fd', component: _util_forceDirectedSimulation_forceDirectedSimulation__WEBPACK_IMPORTED_MODULE_4__["ForceDirectedComponent"] },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: '**', redirectTo: '/home' },
+    { path: '', redirectTo: '/polycube/combined/home', pathMatch: 'full' },
+    { path: '**', redirectTo: '/polycube/combined/home' },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
