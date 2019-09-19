@@ -925,6 +925,9 @@ var GeoCube = /** @class */ (function () {
                 point.type = 'DATA_POINT';
                 _this.findTimeSlice(dataItem.date_time).add(point);
             }
+            // for default settings (TODO: move to a better)
+            _this.updateTime('absolute');
+            _this.updateJitter(5);
         });
     };
     /**
@@ -3720,7 +3723,7 @@ module.exports = ".hide{\n    display: none !important;\n}\n.wrapper {\n    widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<!-- Modal 2 -->\n<div [ngClass]=\"{'show': showModal}\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Most Influential Movies, Based on Cinematic References</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        This data shows the most influential 2000 feature films with regard to references between movies. It is an excerpt from the study of Spitz & Horvat (2014) on the long-term impact which movies had on other movies throughout film history (link). In the PolyCube system, the year of production, country of origin, movie genre, and movie references are represented from left to right.\n      </div>\n      <div class=\"modal-footer\">\n        <button (click)=\"showModal=false\" type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }} , {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related objects:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information on this object</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-connectdevelop\"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <!--{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>-->\n\n                <p> \n                <a (click)=\"showModal=true\">Vis info  | </a> \n                <a target=\"_blank\" href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108857#s2'>Data Source </a> \n                </p>\n\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
+module.exports = "<div class=\"modal\" #modal>\n        <span class=\"close\" (click)=\"closePicture()\">&times;</span>\n        <img class=\"modal-content\" id=\"img01\" #img (load)=\"imageLoaded()\">\n        <div id=\"caption\" #caption></div>\n        <button id=\"previous\" type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\" (click)=\"getPrevious()\">\n            <i class=\"fa fa-chevron-left\"></i>\n        </button>\n        <button id=\"next\" type=\"button\" class=\"btn btn-default\" aria-label=\"Right Align\" (click)=\"getNext()\">\n            <i class=\"fa fa-chevron-right\"></i>\n        </button>\n</div>\n\n<!-- Modal 2 -->\n<div [ngClass]=\"{'show': showModal}\" class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Most Influential Movies, Based on Cinematic References\n</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\nThis data set contains about 2000 photographs from the Charles W. Cushman collection . Cushman (1896-1972), was a well-travelled amateur photographer and U.S. citizen. The visualized selection is part of his lifework collection (aggregating 14.500 Kodachrome pictures) at Indiana University, and it shows pictures taken on the U.S. mainland between 1938 and 1955. For more information, see Mayr et al., 2019       </div>\n      <div class=\"modal-footer\">\n        <button (click)=\"showModal=false\" type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n<div class=\"wrapper\">\n    <ng-sidebar-container>\n        <!-- Preview Panel Side Bar -->\n        <ng-sidebar [(opened)]=\"previewPanel\" mode=\"over\" animate=\"false\" sidebarClass=\"side-bar\">\n            <div class=\"pc-tooltip\" #tooltip></div>\n            \n            <div class=\"preview-item\" *ngIf=\"previewItem\">\n                <button id=\"close-preview\" type=\"button\" class=\"close\" aria-label=\"Close Preview\" (click)=\"closePreview()\">\n                    <span>&times;</span>\n                </button>\n                <!-- <h2 class=\"preview-title\">{{ previewItem.title }} </h2> -->\n                <img (click)=\"openPicture(previewItem.mediaURL, previewItem.description, previewItem.date)\" class=\"preview-picture\"\n                    [src]=\"previewItem.mediaURL\" (load)=\"imageLoaded()\">\n                <div *ngFor=\"let cat of previewItem.categories\" class=\"categories\">\n                    <span class=\"badge badge-secondary\">{{ cat }}</span>\n                </div>\n                <p class=\"preview-metainfo\">{{ previewItem.date }}, {{ previewItem.location }}</p>\n                <br>\n                <p class=\"preview-description\">{{ previewItem.description }}</p>\n                <div class=\"related\">\n                    <p>Related objects:</p>\n                    <div class=\"image-grid\">\n                        <div class=\"image-grid-cell\" *ngFor=\"let r of previewItem.related; let i = index\">\n                            <div *ngIf=\"i < 6\">\n                                <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                    <img class=\"image-grid-image\" [src]=\"getRelatedNode(r).external_url\"  data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"getRelatedNode(r).description\">\n                                    <!-- {{ getRelatedNode(r).description === \"\" ? 'No description' : getRelatedNode(r).description }} -->\n                                </a>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- <ul class=\"list-group\">\n                        <li class=\"list-group-item\" *ngFor=\"let r of previewItem.related\">\n                            <a href=\"javascript:void(0)\" (click)=\"selectNode(r)\">\n                                <img class=\"list-group-item-thumbnail\" [src]=\"getRelatedNode(r).external_url\" [alt]=\"getRelatedNode(r).description\">\n                            </a>\n                        </li>\n                    </ul> -->\n                </div>\n                <br>\n                <div class=\"network-degree\">\n                    <p>Network degree in: {{previewItem.network_degree_in}}</p>\n                    <p>Network degree out: {{previewItem.network_degree_out}}</p>\n                    <p>Network degree overall: {{previewItem.network_degree_overall}}</p>\n                </div>\n                <br>\n                <a [attr.href]=\"previewItem.externalURL\" target=\"_blank\">More information on this object</a>\n            </div>\n        </ng-sidebar>\n\n        <!-- Page Content -->\n        <div ng-sidebar-content class=\"side-bar-content\">\n            <div class=\"canvases\">\n                <canvas id=\"webgl-canvas\" #webGLCanvas></canvas>\n                <div id=\"css-canvas\" #cssCanvas></div>\n            </div>\n\n            <app-timeslider \n                *ngIf=\"dataLoaded\" \n                [minDate]=\"getMinDate()\" \n                [maxDate]=\"getMaxDate()\" \n                [width]=\"60\"\n                [height]=\"getWindowInnerHeight()\" \n                (onSelect)=\"filterDataWithTimeSlider($event)\">\n            </app-timeslider>\n\n            \n            <div class=\"category-legend\" *ngIf=\"dataLoaded\">\n                <!-- <label>Clickable Legend:</label> -->\n                <span class=\"category-selection\">Selected: {{ currentlySelectedCategory ? currentlySelectedCategory : 'none' }}</span>\n                <div class=\"category-wrapper\" *ngIf=\"showColorCodingLegend\">\n                    <div *ngFor=\"let c of categories\">\n                        <span data-toggle=\"tooltip\" data-placement=\"bottom\" [title]=\"c\"\n                            (click)=\"filterDataByCategory(c)\"\n                            [className]=\"c === currentlySelectedCategory ? 'badge badge-secondary active' : 'badge badge-secondary inactive'\"\n                            [ngStyle]=\"{ 'background-color' : categoriesAndColors.get(c) }\">&nbsp;</span>\n                    </div>\n                </div>\n                <div class=\"category-wrapper\">\n                    <div>\n                        <span class=\"badge badge-secondary\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Clear\"\n                            (click)=\"clearCategoryFilter()\" style=\"background-color:#a9a9a9; font-size: 12px;\">&times;</span>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"options\">\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn\" id=\"geo-view-button\" #geobtn title=\"Maps\">  <i class=\"fa fa-map-o\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"set-view-button\" #setbtn title=\"Categories \"> <i class=\"fa fa-spinner\"></i></button>\n                <button type=\"button\" class=\"btn\" id=\"net-view-button\" #netbtn title=\"Relations\"> <i class=\"fa fa-connectdevelop\"></i></button>\n            </div>\n            <div class=\"btn-group\" role=\"group\">\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"stc-view-button\" title=\"3D View\"> <i class=\"fa fa-cube\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"jp-view-button\" title=\"Split View\"><i class=\"fa fa-object-ungroup\"></i></button>\n                <button type=\"button\" class=\"btn  btn-outline-secondary\" id=\"si-view-button\" title=\"Colored View\"> <i class=\"fa fa-object-group\"></i></button>\n            </div>\n            </div>\n\n            <div class=\"overlay\" *ngIf=\"dataLoaded\">\n                <!--{{ formatDate(currentlySelectedDateExtent[0]) }} - {{ formatDate(currentlySelectedDateExtent[1]) }}</p>-->\n\n                <p> \n                <a (click)=\"showModal=true\">Vis info  | </a> \n                <a target=\"_blank\" href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108857#s2'>Data Source </a> \n                </p>\n\n            </div>\n        </div>\n    </ng-sidebar-container>\n   \n\n    <div class=\"processing-change\" *ngIf=\"processingChange\">\n        <div class=\"spinner-border text-info\" role=\"status\">\n            <span class=\"sr-only\"></span>\n        </div>\n        <p>{{ processingMessage }}</p>\n    </div>\n\n    <div *ngIf=\"errorOccurred\" class=\"alert alert-danger error\">\n        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"errorOccurred = false\">&times;</a>\n        <strong>Error</strong>\n        <p>{{ errorMessage }}</p>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -3911,7 +3914,7 @@ var CubeComponent = /** @class */ (function () {
                 }
                 if (change.time) {
                     _this.gCube.updateTime(change.time);
-                    _this.sCube.updateTime(change.time);
+                    // this.sCube.updateTime(change.time);
                     _this.nCube.updateTime(change.time);
                 }
                 if (change.numSlices) {
@@ -4141,7 +4144,14 @@ var CubeComponent = /** @class */ (function () {
             _this.initGUI();
             _this.addEventListeners();
             _this.animate();
+            _this.defaultSetup(); // just the default setup
         });
+    };
+    /**
+     * function for default cube inital setup
+     */
+    CubeComponent.prototype.defaultSetup = function () {
+        this.nCube.updateTime('absolute');
     };
     /**
      * Updates the data set with a new dataset
@@ -14877,10593 +14887,10453 @@ var GraphPositionService = /** @class */ (function () {
         this._position = [
             {
                 "id": "408",
-                "x": -230.39542534758016,
-                "y": -6.791142629819698
+                "x": 132.34641530860623,
+                "y": -139.92825599155762
             },
             {
                 "id": "698",
-                "x": -250.45135206720664,
-                "y": 42.89207205475089
+                "x": 48.68212865264881,
+                "y": -69.45621133199691
             },
             {
                 "id": "747",
-                "x": -610.0187765012068,
-                "y": -248.13109731815388
+                "x": 326.53958902920596,
+                "y": -491.8424844645705
             },
             {
                 "id": "1070",
-                "x": 255.04794942088367,
-                "y": -697.9232548992063
+                "x": 373.3411677463153,
+                "y": 652.605312868304
             },
             {
                 "id": "1074",
-                "x": 259.013964073586,
-                "y": 143.67699163177647
+                "x": -255.29664218421158,
+                "y": -212.7761829886968
             },
             {
                 "id": "1139",
-                "x": 223.1480116165905,
-                "y": -718.03226971807
+                "x": 390.743673806969,
+                "y": 660.1130251273795
             },
             {
                 "id": "1232",
-                "x": 241.2324028195503,
-                "y": -712.7058728490593
+                "x": 353.73579706317724,
+                "y": 666.1404233116215
             },
             {
                 "id": "1254",
-                "x": 220.71605369598174,
-                "y": -702.8079469930665
+                "x": 362.4097049841169,
+                "y": 615.5401118149197
             },
             {
                 "id": "1613",
-                "x": -35.36720050910927,
-                "y": -233.33009574691562
+                "x": -13.869403983765643,
+                "y": 249.938696182895
             },
             {
                 "id": "1775",
-                "x": 96.62289785130943,
-                "y": 238.80684280658912
+                "x": -331.36699460388394,
+                "y": -17.918184297906837
             },
             {
                 "id": "1913",
-                "x": 227.50046488949988,
-                "y": -191.05256215987495
+                "x": -148.07610795959528,
+                "y": 311.7816200978282
             },
             {
                 "id": "1961",
-                "x": 63.766819479577144,
-                "y": -169.0063786945142
+                "x": -147.37533929055417,
+                "y": 178.56166328651156
             },
             {
                 "id": "2336",
-                "x": -331.0147168630247,
-                "y": -179.3811340649597
+                "x": 57.15627029030058,
+                "y": -48.21417250976164
             },
             {
                 "id": "2508",
-                "x": -212.5073884945186,
-                "y": 351.71748051515715
+                "x": -187.46326764123808,
+                "y": -352.32520958655306
             },
             {
                 "id": "2730",
-                "x": 461.15819368901657,
-                "y": -380.7811501167015
+                "x": 420.74348653609195,
+                "y": 422.1981968028921
             },
             {
                 "id": "3031",
-                "x": -293.0842308436874,
-                "y": 255.43800788202725
+                "x": 52.48080683918654,
+                "y": -325.4974174436878
             },
             {
                 "id": "3143",
-                "x": 45.437268754014845,
-                "y": 286.9116995264925
+                "x": -3.2339727889879857,
+                "y": -249.73752730501755
             },
             {
                 "id": "3220",
-                "x": 270.0469804547968,
-                "y": -113.38103615329703
+                "x": -230.22627018783697,
+                "y": 151.6849714985614
             },
             {
                 "id": "4072",
-                "x": -90.34370132752292,
-                "y": -316.61866892252056
+                "x": 328.6789994885039,
+                "y": 120.4184921218356
             },
             {
                 "id": "4217",
-                "x": -0.16162787797237743,
-                "y": 265.9435575062045
+                "x": -189.53684170693998,
+                "y": -234.87110322332066
             },
             {
                 "id": "4795",
-                "x": 170.80965196487273,
-                "y": -275.0089153179455
+                "x": -121.64424636199105,
+                "y": 286.1984124707829
             },
             {
                 "id": "4989",
-                "x": -248.09222891328676,
-                "y": 375.0927729168405
+                "x": 141.12111624025906,
+                "y": -374.90717119626305
             },
             {
                 "id": "4992",
-                "x": -58.172600605872475,
-                "y": 540.3953142932469
+                "x": -171.48636676763815,
+                "y": 600.8932687386457
             },
             {
                 "id": "4994",
-                "x": -17.55403500642091,
-                "y": 534.879518617496
+                "x": -233.91339587068524,
+                "y": 569.6591827513255
             },
             {
                 "id": "4996",
-                "x": -23.17482372364873,
-                "y": 603.6419966530693
+                "x": -211.84283619790975,
+                "y": 634.8350349763515
             },
             {
                 "id": "5000",
-                "x": -42.85538869478915,
-                "y": 602.2258619552991
+                "x": -240.07878331485415,
+                "y": 629.0340801693626
             },
             {
                 "id": "5012",
-                "x": -227.9812844037134,
-                "y": -202.6808008529634
+                "x": 170.46934791979302,
+                "y": 175.23511674128264
             },
             {
                 "id": "5067",
-                "x": 131.47483883441168,
-                "y": 4.046663364746438
+                "x": -238.87464191352507,
+                "y": 1.245231086428931
             },
             {
                 "id": "5629",
-                "x": 331.8444189914106,
-                "y": 461.8936130066614
+                "x": 70.24289713649682,
+                "y": -519.4935150783845
             },
             {
                 "id": "5714",
-                "x": 54.09483764742792,
-                "y": -120.95653840596869
+                "x": -58.5624419397963,
+                "y": 166.37101492615832
             },
             {
                 "id": "5789",
-                "x": -271.06249934006297,
-                "y": -80.79106001799809
+                "x": -54.27298249839565,
+                "y": 141.26648700734688
             },
             {
                 "id": "5810",
-                "x": 273.30785079250364,
-                "y": 682.4331455732165
+                "x": 98.51519393952945,
+                "y": -760.6639855731149
             },
             {
                 "id": "6202",
-                "x": 40.11439162875741,
-                "y": 207.1031764475138
+                "x": -358.881955926983,
+                "y": 42.57714565290445
             },
             {
                 "id": "6247",
-                "x": 574.7902671251283,
-                "y": 438.27122024883795
+                "x": -707.3174938154934,
+                "y": -189.61886631118387
             },
             {
                 "id": "7027",
-                "x": 34.37828752760561,
-                "y": -311.5349542374255
+                "x": -106.68926126813267,
+                "y": 303.9082355822192
             },
             {
                 "id": "7090",
-                "x": -771.4687041171545,
-                "y": -18.617530687265884
+                "x": -630.1909462555947,
+                "y": -375.6644117419224
             },
             {
                 "id": "7094",
-                "x": -768.3352833395953,
-                "y": -47.76578679968844
+                "x": -638.6831704354829,
+                "y": -404.49340837096213
             },
             {
                 "id": "7403",
-                "x": -6.016960934880387,
-                "y": 205.6246023037281
+                "x": 132.49006342884638,
+                "y": 28.010009035876887
             },
             {
                 "id": "7444",
-                "x": -230.92557868863932,
-                "y": 90.7651128730278
+                "x": 187.1489626857898,
+                "y": 78.63873304680223
             },
             {
                 "id": "7448",
-                "x": -366.7756152400452,
-                "y": 94.10187256921036
+                "x": 306.2806008481323,
+                "y": -0.9618350201983075
             },
             {
                 "id": "7449",
-                "x": -228.98200910576736,
-                "y": 45.585897803845484
+                "x": 307.6453176862168,
+                "y": 80.71792820106383
             },
             {
                 "id": "7450",
-                "x": -273.0586423939557,
-                "y": 115.14659754715022
+                "x": 285.1770810709148,
+                "y": 43.875551414277794
             },
             {
                 "id": "7732",
-                "x": -305.5404926636545,
-                "y": 111.13696409640329
+                "x": 126.83922151393817,
+                "y": -68.05213010767666
             },
             {
                 "id": "8497",
-                "x": -333.8192086883974,
-                "y": -34.32674094242387
+                "x": 204.5581201574039,
+                "y": -118.2253342435154
             },
             {
                 "id": "8498",
-                "x": -266.5259853745291,
-                "y": -2.7087055128186788
+                "x": 140.68692702821602,
+                "y": -165.87874494847094
             },
             {
                 "id": "8579",
-                "x": 104.04897258659098,
-                "y": 188.0588447932982
+                "x": -44.77777741592168,
+                "y": -15.361273965767587
             },
             {
                 "id": "8603",
-                "x": 162.5176147579227,
-                "y": 9.363309725209561
+                "x": -143.88291866376343,
+                "y": 206.4953442465165
             },
             {
                 "id": "9056",
-                "x": -308.514230592394,
-                "y": 309.3372290335224
+                "x": -541.7497708273695,
+                "y": 110.8716532904134
             },
             {
                 "id": "10136",
-                "x": -256.8767798338737,
-                "y": -270.6798327306378
+                "x": 151.8325367455205,
+                "y": 242.71440920424283
             },
             {
                 "id": "10857",
-                "x": -742.6463798573714,
-                "y": 124.93213822193925
+                "x": 721.748344431765,
+                "y": -109.20147907947643
             },
             {
                 "id": "11615",
-                "x": -106.86842403100871,
-                "y": 105.57173209972359
+                "x": 82.91334168894481,
+                "y": -91.17531796506942
             },
             {
                 "id": "11618",
-                "x": 241.63075669516857,
-                "y": 27.513694379243635
+                "x": -273.07223465174405,
+                "y": -74.30601920247557
             },
             {
                 "id": "13697",
-                "x": 238.61378319609182,
-                "y": -695.261917294959
+                "x": 385.2778363768368,
+                "y": 625.5159906451174
             },
             {
                 "id": "14099",
-                "x": -244.47140922419882,
-                "y": -65.29525457111137
+                "x": 209.82807546946614,
+                "y": -29.639387680243917
             },
             {
                 "id": "14158",
-                "x": -700.3635798837511,
-                "y": -315.33471708103764
+                "x": 398.2093329715319,
+                "y": -562.9470032982468
             },
             {
                 "id": "14348",
-                "x": 701.9254030114122,
-                "y": 234.50035391197935
+                "x": 778.5942611792766,
+                "y": -96.96520513094616
             },
             {
                 "id": "14612",
-                "x": 15.84568233261876,
-                "y": 196.53375221820954
+                "x": -415.3494963758902,
+                "y": 123.46975774190305
             },
             {
                 "id": "14681",
-                "x": 107.8826474023692,
-                "y": -113.39731096170921
+                "x": -97.04007264646624,
+                "y": 149.1966771408356
             },
             {
                 "id": "14684",
-                "x": 34.50012615555029,
-                "y": 11.324205508082963
+                "x": -333.9075528364369,
+                "y": 178.49476638404374
             },
             {
                 "id": "14685",
-                "x": 184.538396744884,
-                "y": -31.892252001937216
+                "x": -373.07693626926323,
+                "y": 216.74210115983476
             },
             {
                 "id": "15056",
-                "x": 109.24282113778429,
-                "y": -142.59152120614766
+                "x": -187.04066216976108,
+                "y": 235.44320175458287
             },
             {
                 "id": "15622",
-                "x": -50.529225062886134,
-                "y": -237.85061935223808
+                "x": 79.39492251788843,
+                "y": 143.53663308295015
             },
             {
                 "id": "15958",
-                "x": 268.3883108444252,
-                "y": -234.6549357409342
+                "x": -260.16937211351205,
+                "y": 358.5219750459855
             },
             {
                 "id": "16112",
-                "x": -412.7993092365466,
-                "y": -195.46733135802384
+                "x": 193.25277046273595,
+                "y": 435.5455868779005
             },
             {
                 "id": "16182",
-                "x": -196.05672344427535,
-                "y": -151.6240826350795
+                "x": -154.3758144656038,
+                "y": -386.08912222534804
             },
             {
                 "id": "16244",
-                "x": 316.53219309394495,
-                "y": -720.7174049717358
+                "x": 444.17162212370533,
+                "y": -643.0536081812353
             },
             {
                 "id": "16335",
-                "x": -539.5176336288149,
-                "y": -558.7070901415116
+                "x": 593.7586874917199,
+                "y": 492.5298947399646
             },
             {
                 "id": "16371",
-                "x": -480.0209325676335,
-                "y": -345.0909225436766
+                "x": 308.6413770558242,
+                "y": -387.4727502022779
             },
             {
                 "id": "16417",
-                "x": -567.0423584249,
-                "y": -333.6778400490342
+                "x": 311.7042550534557,
+                "y": -454.79811707024214
             },
             {
                 "id": "16418",
-                "x": -565.236002901634,
-                "y": -301.938859171085
+                "x": 296.03502612366543,
+                "y": -450.7903857677342
             },
             {
                 "id": "16419",
-                "x": -527.9105189471082,
-                "y": -298.50403099518314
+                "x": 244.1121254887581,
+                "y": -450.31213431962357
             },
             {
                 "id": "16420",
-                "x": -510.4683870596414,
-                "y": -320.6503537380357
+                "x": 253.5960469190648,
+                "y": -404.30498946677847
             },
             {
                 "id": "16421",
-                "x": -443.2308183419992,
-                "y": -272.3812753483266
+                "x": 244.01159509958302,
+                "y": -327.49723582621374
             },
             {
                 "id": "16423",
-                "x": -472.2073706992135,
-                "y": -313.6371853779564
+                "x": 278.54023832625273,
+                "y": -352.73990159660855
             },
             {
                 "id": "16432",
-                "x": -551.0093782563666,
-                "y": -316.5081533778524
+                "x": 316.2037594887273,
+                "y": -435.01256585380816
             },
             {
                 "id": "16434",
-                "x": -521.9213381346543,
-                "y": -284.1356955402111
+                "x": 248.78861578103331,
+                "y": -426.3095946397715
             },
             {
                 "id": "16436",
-                "x": -545.0919331466627,
-                "y": -332.56640523428916
+                "x": 301.25634821027046,
+                "y": -435.3795183586607
             },
             {
                 "id": "16438",
-                "x": -566.9724866366281,
-                "y": -317.9080220016329
+                "x": 280.56259393494236,
+                "y": -452.5790101688312
             },
             {
                 "id": "16455",
-                "x": -558.1038141445144,
-                "y": -348.3267867937937
+                "x": 292.96237807686555,
+                "y": -468.73853907962206
             },
             {
                 "id": "16456",
-                "x": -104.42010379585858,
-                "y": -242.63628531552382
+                "x": 46.23175745459191,
+                "y": 232.46230246529257
             },
             {
                 "id": "16563",
-                "x": -61.21479829481289,
-                "y": -173.43772493500254
+                "x": -42.46810112164796,
+                "y": 163.01107619267643
             },
             {
                 "id": "16580",
-                "x": -68.22474643584945,
-                "y": -266.0859273313452
+                "x": -12.900160355421198,
+                "y": 276.73204343863193
             },
             {
                 "id": "16604",
-                "x": -139.26598164266488,
-                "y": -323.0971661958343
+                "x": -34.75314780565811,
+                "y": 297.7180521230308
             },
             {
                 "id": "16664",
-                "x": -407.63996593195253,
-                "y": -293.10719252471233
+                "x": 210.41128556455476,
+                "y": -299.2280223575879
             },
             {
                 "id": "16729",
-                "x": 267.720759291922,
-                "y": 62.20017670046988
+                "x": -170.57336272451354,
+                "y": 205.038849359476
             },
             {
                 "id": "16939",
-                "x": 686.9332739763418,
-                "y": -335.106812554667
+                "x": -106.5337603243067,
+                "y": 739.8822581153922
             },
             {
                 "id": "16965",
-                "x": 236.37215287787268,
-                "y": -251.0427186957072
+                "x": -256.9284155513338,
+                "y": 250.11664853730022
             },
             {
                 "id": "17015",
-                "x": -60.05219308388171,
-                "y": 253.7442237773711
+                "x": 27.314704621585886,
+                "y": -138.08477082888422
             },
             {
                 "id": "17200",
-                "x": 233.55382176776308,
-                "y": 0.7957642429728883
+                "x": 15.687904514534026,
+                "y": 158.7252415920105
             },
             {
                 "id": "17729",
-                "x": 292.1617234541234,
-                "y": -66.99075670741522
+                "x": -323.4591655337549,
+                "y": 208.44051484234137
             },
             {
                 "id": "17891",
-                "x": -432.46828806629367,
-                "y": 120.98372906862055
+                "x": 336.53290111331825,
+                "y": -84.70341514010764
             },
             {
                 "id": "18001",
-                "x": 53.48355616285384,
-                "y": -38.517572904642904
+                "x": -271.55917568183196,
+                "y": -146.25979874405888
             },
             {
                 "id": "18132",
-                "x": -213.7976978894581,
-                "y": -191.56278113255996
+                "x": 158.83401438549154,
+                "y": 110.67966051869007
             },
             {
                 "id": "18316",
-                "x": 537.4186389805328,
-                "y": 78.66445121215445
+                "x": -482.61615158938463,
+                "y": 370.4518900801019
             },
             {
                 "id": "18317",
-                "x": 515.6964893310583,
-                "y": 25.249777266190844
+                "x": -426.70215449124106,
+                "y": 397.4441889693863
             },
             {
                 "id": "18479",
-                "x": 186.25307474806118,
-                "y": -105.1078342996203
+                "x": -47.359117326621565,
+                "y": 78.46706207472948
             },
             {
                 "id": "18605",
-                "x": -490.17537483802215,
-                "y": -598.467031983642
+                "x": -378.8713178064932,
+                "y": -677.6443897586176
             },
             {
                 "id": "18660",
-                "x": -283.0273273451145,
-                "y": -9.897544213438733
+                "x": 88.24737994688303,
+                "y": -204.60933466464888
             },
             {
                 "id": "19111",
-                "x": 43.62840228538685,
-                "y": 79.34877041103381
+                "x": -102.81062517209577,
+                "y": 3.9563620821457293
             },
             {
                 "id": "19279",
-                "x": 206.10973476548543,
-                "y": -168.5350547639328
+                "x": -348.250718455908,
+                "y": 247.21224694044136
             },
             {
                 "id": "19312",
-                "x": 177.55949527082748,
-                "y": -11.700881798424001
+                "x": -182.49349749705075,
+                "y": -51.24451682492485
             },
             {
                 "id": "19428",
-                "x": -15.83611933963693,
-                "y": 23.688236385444288
+                "x": -12.741844979422334,
+                "y": 62.63457133504565
             },
             {
                 "id": "19448",
-                "x": -81.8676606794574,
-                "y": 4.0951709357761095
+                "x": 28.414091007173862,
+                "y": -93.8003146351947
             },
             {
                 "id": "19795",
-                "x": 569.2841276652904,
-                "y": 404.93571724977085
+                "x": -746.936806388718,
+                "y": -155.33515398261184
             },
             {
                 "id": "19796",
-                "x": 573.7508775093884,
-                "y": 390.2137913897475
+                "x": -740.6955348418063,
+                "y": -202.05674468844066
             },
             {
                 "id": "19797",
-                "x": 588.3796585064606,
-                "y": 424.2394707280608
+                "x": -722.0236812236864,
+                "y": -177.45522235591324
             },
             {
                 "id": "19798",
-                "x": 554.0404189560968,
-                "y": 415.6056549806712
+                "x": -734.397260774155,
+                "y": -185.55126483281225
             },
             {
                 "id": "20346",
-                "x": -113.72924381918506,
-                "y": 339.734972791665
+                "x": 185.05557751703236,
+                "y": -188.62640568998478
             },
             {
                 "id": "20380",
-                "x": -8.805977397764108,
-                "y": 453.4939074786129
+                "x": -197.4286896160997,
+                "y": 500.28534974207577
             },
             {
                 "id": "20430",
-                "x": -186.9425224908109,
-                "y": -90.80643626585064
+                "x": 102.36505219712363,
+                "y": 39.15397436514029
             },
             {
                 "id": "20438",
-                "x": -137.44433363556277,
-                "y": 181.25763401402253
+                "x": -22.156871274113847,
+                "y": -244.82109439555734
             },
             {
                 "id": "20604",
-                "x": 67.32372312904891,
-                "y": -405.9056301945472
+                "x": 56.37281322861253,
+                "y": 345.815485230886
             },
             {
                 "id": "20672",
-                "x": 140.40595482021766,
-                "y": 39.76897187247472
+                "x": -118.09414325732831,
+                "y": -72.68297478537626
             },
             {
                 "id": "20881",
-                "x": -509.4740118607456,
-                "y": -210.6888691185411
+                "x": 472.83990811285565,
+                "y": -39.498286294253035
             },
             {
                 "id": "21306",
-                "x": -443.4275005255029,
-                "y": 292.9712408417602
+                "x": 367.38055478259645,
+                "y": -214.88308299944137
             },
             {
                 "id": "21992",
-                "x": -31.64766418445745,
-                "y": 232.65629788725983
+                "x": -145.3699958194144,
+                "y": -177.5799978515385
             },
             {
                 "id": "22188",
-                "x": -404.1657057739823,
-                "y": 605.5199471924951
+                "x": -144.57723626635314,
+                "y": -748.1392305023113
             },
             {
                 "id": "22223",
-                "x": 85.8794879360636,
-                "y": -150.3182878237396
+                "x": 96.33053943022703,
+                "y": -76.36208263027459
             },
             {
                 "id": "22226",
-                "x": -362.9048706149414,
-                "y": 565.0614722843052
+                "x": -120.79564251626242,
+                "y": -663.1197547019503
             },
             {
                 "id": "22460",
-                "x": -51.63989454229864,
-                "y": -163.26327161019057
+                "x": -11.79757507382408,
+                "y": 229.02011161795687
             },
             {
                 "id": "22771",
-                "x": 24.842574146931184,
-                "y": 186.15530094145024
+                "x": -187.41135735294537,
+                "y": -226.738229181129
             },
             {
                 "id": "22938",
-                "x": -99.2696804083569,
-                "y": -266.63862125159494
+                "x": 294.9442788156524,
+                "y": 207.98485428923811
             },
             {
                 "id": "22948",
-                "x": 5.738997964986709,
-                "y": 33.15235574566655
+                "x": 112.85187155592268,
+                "y": -91.74957135210649
             },
             {
                 "id": "22950",
-                "x": -95.03668024216762,
-                "y": -5.562839058341935
+                "x": 15.677048694169555,
+                "y": -123.51121741720628
             },
             {
                 "id": "23579",
-                "x": -307.5132422673,
-                "y": 119.51713866314795
+                "x": 242.86741356613467,
+                "y": -75.7039807374262
             },
             {
                 "id": "24109",
-                "x": 156.1855339682902,
-                "y": -1.8654945365634559
+                "x": -142.86995820331282,
+                "y": 86.87011942680256
             },
             {
                 "id": "24145",
-                "x": -61.83009100880187,
-                "y": -99.19781496640661
+                "x": -113.10480399059902,
+                "y": 185.06980588564244
             },
             {
                 "id": "25318",
-                "x": 19.39328080749257,
-                "y": -250.92963502162678
+                "x": -132.85298128170174,
+                "y": 310.88183916402943
             },
             {
                 "id": "25349",
-                "x": 28.596294163696818,
-                "y": -764.8124208742171
+                "x": 639.4668612025579,
+                "y": 318.50294786875065
             },
             {
                 "id": "25436",
-                "x": 23.626176567210766,
-                "y": -244.1587456533486
+                "x": -4.591201445547654,
+                "y": 298.86951368552803
             },
             {
                 "id": "25518",
-                "x": 421.9866155566569,
-                "y": 102.31176386370356
+                "x": -477.54131145286294,
+                "y": -8.137038104660277
             },
             {
                 "id": "25526",
-                "x": -353.8263962683379,
-                "y": 70.26186541948282
+                "x": 159.71297477817453,
+                "y": -269.6148200967108
             },
             {
                 "id": "26189",
-                "x": 84.486961415664,
-                "y": 195.73013629391073
+                "x": -237.4841778384031,
+                "y": -135.14833120209903
             },
             {
                 "id": "27056",
-                "x": -39.1883342016586,
-                "y": 281.41838386605787
+                "x": -34.66303333302495,
+                "y": -316.9664516729991
             },
             {
                 "id": "27760",
-                "x": 484.699661839306,
-                "y": -392.56566974831156
+                "x": 482.31246568634856,
+                "y": 391.94340805845167
             },
             {
                 "id": "27890",
-                "x": 142.09074416181738,
-                "y": 10.260853665744065
+                "x": -246.03866244210727,
+                "y": 25.20363771764548
             },
             {
                 "id": "27898",
-                "x": 74.33617982116898,
-                "y": 196.63547485264792
+                "x": -201.35058238647187,
+                "y": -173.95498651776526
             },
             {
                 "id": "27911",
-                "x": 157.61427085171226,
-                "y": -195.43670209440475
+                "x": 184.82730612118485,
+                "y": 231.3969434464895
             },
             {
                 "id": "28552",
-                "x": -153.7908358891019,
-                "y": 102.83325510123365
+                "x": -340.8289847482363,
+                "y": 90.7795640137838
             },
             {
                 "id": "28553",
-                "x": -173.80671050658808,
-                "y": 36.04556017312867
+                "x": -226.1054898078554,
+                "y": 109.51096762063304
             },
             {
                 "id": "28900",
-                "x": 105.4822260430925,
-                "y": -156.56832165978756
+                "x": -79.98402147612283,
+                "y": 129.45099679491082
             },
             {
                 "id": "30171",
-                "x": -11.239857222587238,
-                "y": -291.2031854497893
+                "x": -44.74704813064652,
+                "y": 204.65182879885907
             },
             {
                 "id": "30697",
-                "x": 121.01465633546837,
-                "y": -42.12298663015129
+                "x": -189.49654113395667,
+                "y": 225.80933863889834
             },
             {
                 "id": "30698",
-                "x": 261.743335005396,
-                "y": 30.404234108095014
+                "x": -225.45520695253504,
+                "y": 17.9729935767307
             },
             {
                 "id": "30699",
-                "x": 289.97675995239064,
-                "y": -1.164503027368269
+                "x": -312.60367060792845,
+                "y": 45.85015913075459
             },
             {
                 "id": "30728",
-                "x": 381.7557782650828,
-                "y": -166.92465480780024
+                "x": -365.27180806032544,
+                "y": 181.27560185616065
             },
             {
                 "id": "30885",
-                "x": 26.1008894124888,
-                "y": 55.837138668429425
+                "x": -245.937655719706,
+                "y": 64.29593402071872
             },
             {
                 "id": "30890",
-                "x": 148.99974087939816,
-                "y": 107.05047484703518
+                "x": -290.1595810414096,
+                "y": 159.19358600951162
             },
             {
                 "id": "31237",
-                "x": 70.94807999376877,
-                "y": 278.8391677214004
+                "x": -47.670636976934134,
+                "y": -243.60376389437337
             },
             {
                 "id": "32370",
-                "x": -113.56884776945728,
-                "y": -107.63155942586484
+                "x": 142.88910389408417,
+                "y": 56.738787251936294
             },
             {
                 "id": "32565",
-                "x": -110.14677408514775,
-                "y": 85.80764563880122
+                "x": -126.16986699980585,
+                "y": -151.7117786406831
             },
             {
                 "id": "33031",
-                "x": 749.2927265326899,
-                "y": 3.133242448469183
+                "x": 687.2977648658451,
+                "y": 55.929381155837085
             },
             {
                 "id": "33033",
-                "x": -566.4723518429653,
-                "y": 248.35585556201877
+                "x": 796.6122380023056,
+                "y": 60.905882946036726
             },
             {
                 "id": "33119",
-                "x": 158.60894400376117,
-                "y": -289.8973463551491
+                "x": -217.9612647364743,
+                "y": 154.60222199171594
             },
             {
                 "id": "33179",
-                "x": 38.38807645477822,
-                "y": -88.6577963952456
+                "x": -171.7815967705584,
+                "y": 185.99222424857524
             },
             {
                 "id": "33564",
-                "x": 87.24339397366603,
-                "y": -108.52707979296636
+                "x": -98.95232692382028,
+                "y": -2.8114057893157502
             },
             {
                 "id": "33600",
-                "x": -174.07922700693805,
-                "y": 74.92249600257526
+                "x": -62.52044192924743,
+                "y": -170.3784328070983
             },
             {
                 "id": "33723",
-                "x": -167.239536609412,
-                "y": 101.17251103021876
+                "x": 90.1855537469389,
+                "y": -116.9305939956842
             },
             {
                 "id": "33746",
-                "x": -214.97167998851063,
-                "y": -44.7011528383835
+                "x": 198.5308718388914,
+                "y": -92.90811666408948
             },
             {
                 "id": "33989",
-                "x": 440.5407695858705,
-                "y": 19.86772915744449
+                "x": -387.75970576598934,
+                "y": 345.04702710706937
             },
             {
                 "id": "33990",
-                "x": 531.9623769079442,
-                "y": 92.47871653868727
+                "x": -466.7935872638427,
+                "y": 374.91299623782214
             },
             {
                 "id": "33991",
-                "x": 311.1961355501459,
-                "y": 2.0679978063651694
+                "x": -296.93952909859007,
+                "y": 276.2149735192408
             },
             {
                 "id": "33992",
-                "x": 461.8241500146761,
-                "y": 20.27971605156184
+                "x": -406.6948893474658,
+                "y": 340.93494937804684
             },
             {
                 "id": "33996",
-                "x": 477.19822479243476,
-                "y": 34.713565550834005
+                "x": -402.46901152771653,
+                "y": 366.19574058641723
             },
             {
                 "id": "34000",
-                "x": 360.5101211702175,
-                "y": 47.001273929789654
+                "x": -344.1551734853913,
+                "y": 299.23146845985696
             },
             {
                 "id": "34004",
-                "x": 540.6332004292861,
-                "y": 64.28271135807412
+                "x": -473.7470369099104,
+                "y": 389.0201689362686
             },
             {
                 "id": "34005",
-                "x": 234.03333630745254,
-                "y": -124.60918091668803
+                "x": -59.371309680673676,
+                "y": 184.6541975466835
             },
             {
                 "id": "34008",
-                "x": 453.92163374527007,
-                "y": 68.71434374457812
+                "x": -438.30950333911403,
+                "y": 343.86830584566366
             },
             {
                 "id": "34010",
-                "x": 482.8770293748385,
-                "y": 73.9787774027614
+                "x": -457.60589039882416,
+                "y": 325.67558024193687
             },
             {
                 "id": "34013",
-                "x": 520.0732662222233,
-                "y": 51.69561310964529
+                "x": -468.6759556497631,
+                "y": 354.9970717934987
             },
             {
                 "id": "34014",
-                "x": 508.12287507845554,
-                "y": 65.5846750683004
+                "x": -436.94640955964843,
+                "y": 381.52819772639737
             },
             {
                 "id": "34028",
-                "x": -54.11715727910776,
-                "y": 71.6072526652941
-            },
-            {
-                "id": "34237",
-                "x": 536.2682955790151,
-                "y": 49.14569724254701
+                "x": -83.41121971534754,
+                "y": -71.77717943418375
             },
             {
                 "id": "34238",
-                "x": 523.0425314015564,
-                "y": 78.31342177928781
+                "x": -486.0513290543537,
+                "y": 355.1472196006427
             },
             {
                 "id": "34499",
-                "x": -72.64193936767494,
-                "y": -347.0955156713531
+                "x": 163.08896154845704,
+                "y": 266.82873780785263
             },
             {
                 "id": "34518",
-                "x": -51.49749664582401,
-                "y": -360.0218114135625
+                "x": 230.2905864713615,
+                "y": 199.91711511494535
             },
             {
                 "id": "34527",
-                "x": 53.22327442248235,
-                "y": 788.073123097155
+                "x": 464.6883909016839,
+                "y": -626.323974219455
             },
             {
                 "id": "34895",
-                "x": 64.38271308206318,
-                "y": -127.5888185528296
+                "x": -99.47226839931339,
+                "y": 130.53025503077777
             },
             {
                 "id": "35263",
-                "x": -156.61007781097726,
-                "y": -190.7584835787809
+                "x": 109.55897226921503,
+                "y": 127.64168330648556
             },
             {
                 "id": "35537",
-                "x": 89.61787308452716,
-                "y": 644.635056717382
+                "x": 609.8806533448555,
+                "y": -402.7479984259399
             },
             {
                 "id": "35837",
-                "x": -61.26951529402261,
-                "y": 242.65363226707285
+                "x": -234.54416064587153,
+                "y": -208.8879405531712
             },
             {
                 "id": "35856",
-                "x": 179.21423558676491,
-                "y": -3.6804523383413597
+                "x": -177.43655762428338,
+                "y": 15.054653590476903
             },
             {
                 "id": "36154",
-                "x": -152.04134366658542,
-                "y": 87.31357476618925
+                "x": -156.32524615512455,
+                "y": -292.7781980346992
             },
             {
                 "id": "36435",
-                "x": 45.49279692897806,
-                "y": -207.56001871032691
+                "x": -175.44414120627425,
+                "y": 321.4490769453668
             },
             {
                 "id": "36437",
-                "x": 41.13859544100487,
-                "y": -301.33987028342466
+                "x": -210.54619289656964,
+                "y": 400.94362671183455
             },
             {
                 "id": "36627",
-                "x": 253.21071408557535,
-                "y": 198.42477973307783
+                "x": -138.25080376505915,
+                "y": -280.0277793457136
             },
             {
                 "id": "37562",
-                "x": 382.3450714789202,
-                "y": 34.13018290928137
+                "x": -339.02331086073406,
+                "y": 145.5149757050989
             },
             {
                 "id": "37993",
-                "x": -133.91180875860982,
-                "y": 165.26732780343156
+                "x": 10.688919440822158,
+                "y": -142.84968032934248
             },
             {
                 "id": "38746",
-                "x": 41.73864931254536,
-                "y": -175.5891765466601
+                "x": -67.67071003633764,
+                "y": 357.13551319652
             },
             {
                 "id": "39016",
-                "x": 220.45484511087864,
-                "y": -83.94383967274356
+                "x": -325.9812095558046,
+                "y": 245.08996262343015
             },
             {
                 "id": "39282",
-                "x": 147.91385937312717,
-                "y": -228.27437236499483
+                "x": -112.63946309215873,
+                "y": 294.916707106145
             },
             {
                 "id": "39405",
-                "x": -77.55090151630814,
-                "y": -148.10573410745275
+                "x": 33.65210690574259,
+                "y": -102.67670912178434
             },
             {
                 "id": "40442",
-                "x": -329.9590703465393,
-                "y": 156.14348600428877
+                "x": 184.30767459080943,
+                "y": -174.9941580351577
             },
             {
                 "id": "40703",
-                "x": 90.06205256848534,
-                "y": 718.707161007086
+                "x": 572.6807715516424,
+                "y": -366.4770228524225
             },
             {
                 "id": "41083",
-                "x": 752.2515124951246,
-                "y": -145.59062093297075
+                "x": -604.60965952021,
+                "y": 460.9676615767035
             },
             {
                 "id": "41177",
-                "x": -561.4093928957086,
-                "y": -99.68678247678965
+                "x": 474.0328133294424,
+                "y": -143.56972611330212
             },
             {
                 "id": "41179",
-                "x": -0.46011541007662554,
-                "y": -268.36476407944485
+                "x": -62.84315758690204,
+                "y": 115.89884312037233
             },
             {
                 "id": "41183",
-                "x": -71.07505181659442,
-                "y": -195.21640599611413
+                "x": -95.29577439255443,
+                "y": 227.4062476088889
             },
             {
                 "id": "41185",
-                "x": 141.84218690340856,
-                "y": -57.496481554061496
+                "x": -227.1171079541116,
+                "y": 72.40371168135717
             },
             {
                 "id": "41355",
-                "x": 154.8255212791219,
-                "y": -83.1760214563463
+                "x": -22.175224804500893,
+                "y": -57.29958486866299
             },
             {
                 "id": "41786",
-                "x": -392.1394798278712,
-                "y": 590.4651422034714
+                "x": -101.53466946825613,
+                "y": -758.5622609906187
             },
             {
                 "id": "41812",
-                "x": 334.02594297552514,
-                "y": -629.0635204742198
+                "x": 267.2774565365392,
+                "y": -659.589858731505
             },
             {
                 "id": "41816",
-                "x": 368.437265487871,
-                "y": -615.5003547098662
+                "x": 285.20369484370576,
+                "y": -649.987155376149
             },
             {
                 "id": "41817",
-                "x": 341.9194063116118,
-                "y": -648.3744273520958
+                "x": 297.5352393241681,
+                "y": -702.1927878858861
             },
             {
                 "id": "41818",
-                "x": 348.2868532800277,
-                "y": -605.9464231453536
+                "x": 266.8041969894431,
+                "y": -706.2782604655487
             },
             {
                 "id": "41819",
-                "x": 360.03428655393606,
-                "y": -642.7848136799244
+                "x": 300.2657681681088,
+                "y": -676.4615148387865
             },
             {
                 "id": "41823",
-                "x": 338.7347550455145,
-                "y": -667.172756952544
+                "x": 279.1807116392261,
+                "y": -688.4720778991899
             },
             {
                 "id": "41824",
-                "x": 372.6244688738218,
-                "y": -655.7172318743196
+                "x": 283.99373321885486,
+                "y": -668.6781088962372
             },
             {
                 "id": "41825",
-                "x": 316.85386672348267,
-                "y": -631.4953161250978
+                "x": 311.35658882544755,
+                "y": -689.4385519853912
             },
             {
                 "id": "41826",
-                "x": 357.3448711963309,
-                "y": -667.2626472620095
+                "x": 256.83655242881736,
+                "y": -692.2469388813432
             },
             {
                 "id": "41827",
-                "x": 377.08939754496555,
-                "y": -633.9007563545601
+                "x": 283.6125778506558,
+                "y": -712.3730206332444
             },
             {
                 "id": "41830",
-                "x": 323.38502991215876,
-                "y": -651.9917489289659
+                "x": 304.1759318138126,
+                "y": -653.3290676590144
             },
             {
                 "id": "41835",
-                "x": 352.5277708806836,
-                "y": -624.0437190393936
+                "x": 258.6621303375546,
+                "y": -675.3943149348464
             },
             {
                 "id": "41956",
-                "x": -355.52425456437743,
-                "y": 19.49304755167439
+                "x": 248.56506029982143,
+                "y": -141.87718878609058
             },
             {
                 "id": "42237",
-                "x": -579.9234495850334,
-                "y": -119.65569629973595
+                "x": 498.48838598800796,
+                "y": -108.16107794581528
             },
             {
                 "id": "42405",
-                "x": -544.8736179406287,
-                "y": 398.6044564380376
+                "x": 395.5230938282765,
+                "y": -442.7171142225751
             },
             {
                 "id": "42428",
-                "x": -41.556349756314866,
-                "y": -266.2064957189327
+                "x": -403.12196010838613,
+                "y": 136.8350548445057
             },
             {
                 "id": "42591",
-                "x": -181.19358154862098,
-                "y": 196.00661534933644
+                "x": -56.02473961229404,
+                "y": -178.26470437732775
             },
             {
                 "id": "42624",
-                "x": -254.3409335761892,
-                "y": 193.42594096524422
+                "x": -184.4172724302088,
+                "y": -172.31911981365454
             },
             {
                 "id": "42746",
-                "x": -568.8975913257088,
-                "y": -472.4625944268688
+                "x": 144.32942715632805,
+                "y": 745.1305312242202
             },
             {
                 "id": "42888",
-                "x": -179.79505247795535,
-                "y": 26.261384786355944
+                "x": 33.75872396312285,
+                "y": -168.40331033361707
             },
             {
                 "id": "42959",
-                "x": -429.9875516355824,
-                "y": 626.6478545019129
+                "x": -90.00703522416045,
+                "y": -747.1950130248432
             },
             {
                 "id": "43232",
-                "x": 146.04839910703473,
-                "y": -754.7157932567494
+                "x": -761.7770820629624,
+                "y": 217.14395083475065
             },
             {
                 "id": "43382",
-                "x": -194.61645594817992,
-                "y": 25.455268518868397
+                "x": 65.22343676836401,
+                "y": -57.69011810402971
             },
             {
                 "id": "43391",
-                "x": 245.76292339267343,
-                "y": 231.73490640967086
+                "x": -199.72410202366007,
+                "y": -334.57857989009534
             },
             {
                 "id": "44146",
-                "x": 24.3121515035161,
-                "y": 203.83602648863348
+                "x": -4.333425559641007,
+                "y": -126.62633377872976
             },
             {
                 "id": "44216",
-                "x": 69.37873241438783,
-                "y": 29.554094202700234
+                "x": -108.6560569730068,
+                "y": -102.59987132585354
             },
             {
                 "id": "44412",
-                "x": 174.75446522267936,
-                "y": 113.73748738890221
+                "x": -214.14300209646908,
+                "y": -21.791790109433112
             },
             {
                 "id": "44468",
-                "x": 705.688534344367,
-                "y": 52.20886348717123
+                "x": 725.8616975971705,
+                "y": 61.501105440017774
             },
             {
                 "id": "44486",
-                "x": 722.4406473050614,
-                "y": 49.22238898338548
+                "x": 728.17582509095,
+                "y": 76.46075110988231
             },
             {
                 "id": "44617",
-                "x": -88.08218022984249,
-                "y": 55.7605853823597
+                "x": -307.7053480005566,
+                "y": 84.09357047760761
             },
             {
                 "id": "44873",
-                "x": 773.0436066806874,
-                "y": -163.25298554529382
+                "x": -617.6302258949452,
+                "y": 478.0597962734557
             },
             {
                 "id": "44878",
-                "x": 762.7745074636332,
-                "y": -183.61229315760247
+                "x": -600.9727001825173,
+                "y": 488.2382731613951
             },
             {
                 "id": "45128",
-                "x": -378.36523085113237,
-                "y": 617.8364109561487
+                "x": -132.19057316418582,
+                "y": -690.3267200320157
             },
             {
                 "id": "45129",
-                "x": -383.42096764861185,
-                "y": 502.89299322389854
+                "x": 271.22589471867695,
+                "y": -581.4339028070352
             },
             {
                 "id": "45130",
-                "x": -414.69616752659596,
-                "y": 620.4980207881223
+                "x": -161.13898180525374,
+                "y": -758.900712113715
             },
             {
                 "id": "45132",
-                "x": -396.56514302265725,
-                "y": 620.2888267947358
+                "x": -129.58097231550016,
+                "y": -751.5548333956543
             },
             {
                 "id": "45358",
-                "x": -755.5594103067431,
-                "y": -115.08559649447926
+                "x": 533.8563896592467,
+                "y": 535.0602897710803
             },
             {
                 "id": "45393",
-                "x": -374.57848016990346,
-                "y": 442.1295964067495
+                "x": 225.4561747533356,
+                "y": -526.6545259390946
             },
             {
                 "id": "45425",
-                "x": 141.6755475047139,
-                "y": 141.7303017258596
+                "x": -17.60406642281569,
+                "y": 1.9104808360901009
             },
             {
                 "id": "45523",
-                "x": -146.396730917941,
-                "y": -222.93427146901294
+                "x": 6.190818909707719,
+                "y": 144.4135023747544
             },
             {
                 "id": "45556",
-                "x": 411.92112878135777,
-                "y": 506.41487557261416
+                "x": -317.34639854039375,
+                "y": -557.274218404868
             },
             {
                 "id": "45743",
-                "x": 136.688925130078,
-                "y": -148.22627955800814
+                "x": -337.9716634626347,
+                "y": 198.27775929262052
             },
             {
                 "id": "45772",
-                "x": 73.0642489716268,
-                "y": 41.418411602258885
+                "x": -291.6726876789809,
+                "y": -29.647145773160663
             },
             {
                 "id": "45895",
-                "x": 248.19820435071256,
-                "y": 149.2194852002488
+                "x": -105.93056647256027,
+                "y": -155.25833777484607
             },
             {
                 "id": "46330",
-                "x": -254.9049693811679,
-                "y": 25.09158981863565
+                "x": 209.1705530955168,
+                "y": -13.980075411601597
             },
             {
                 "id": "46331",
-                "x": -408.8280486064873,
-                "y": -32.416135904126634
+                "x": 301.21523372342097,
+                "y": -64.59415263293306
             },
             {
                 "id": "46339",
-                "x": -412.52742442213673,
-                "y": -72.56867064121667
+                "x": 320.31488443095924,
+                "y": -125.06026863543799
             },
             {
                 "id": "46393",
-                "x": -130.43674896997373,
-                "y": 95.91615900817348
+                "x": -102.2397387501983,
+                "y": -93.08771260668009
             },
             {
                 "id": "46407",
-                "x": -26.900636446761172,
-                "y": -118.7127923043162
+                "x": -62.4769448751038,
+                "y": 42.34946636570617
             },
             {
                 "id": "46566",
-                "x": -169.26873103320895,
-                "y": 65.50642074312283
+                "x": -104.81969292729454,
+                "y": -46.47510589388795
             },
             {
                 "id": "46568",
-                "x": 214.80389235680624,
-                "y": -15.309172799268518
+                "x": -122.8019118844237,
+                "y": 42.85446509646565
             },
             {
                 "id": "46601",
-                "x": 353.939345276789,
-                "y": -320.9175819125
+                "x": 365.2961771179772,
+                "y": 151.42155034990623
             },
             {
                 "id": "46786",
-                "x": 344.728839541272,
-                "y": 404.9599617148158
+                "x": -307.75530765007693,
+                "y": -434.4748352958136
             },
             {
                 "id": "47021",
-                "x": -22.10536629955607,
-                "y": 173.08677219119926
+                "x": -197.50182815976794,
+                "y": -27.12542963547454
             },
             {
                 "id": "47741",
-                "x": -509.60569297433887,
-                "y": -43.091992735501925
+                "x": 424.87143417264366,
+                "y": -49.95079084576813
             },
             {
                 "id": "48220",
-                "x": -322.6488005693464,
-                "y": -664.9730689876608
+                "x": -172.4598069432233,
+                "y": -642.7176359194954
             },
             {
                 "id": "48221",
-                "x": -345.6400061671054,
-                "y": -665.9554663748221
+                "x": -148.2909659495297,
+                "y": -604.9361648147168
             },
             {
                 "id": "48224",
-                "x": -366.73697559115226,
-                "y": -676.3127384831594
+                "x": -143.31949230350938,
+                "y": -635.478999072333
             },
             {
                 "id": "48225",
-                "x": -314.75276455582895,
-                "y": -680.3404611683192
+                "x": -185.18378578408135,
+                "y": -618.1940687780959
             },
             {
                 "id": "48227",
-                "x": -351.14580382525986,
-                "y": -689.1682931524914
+                "x": -130.57979182949734,
+                "y": -611.7789536971624
             },
             {
                 "id": "48234",
-                "x": -344.57434033324,
-                "y": -646.5900469671211
+                "x": -190.5722120045259,
+                "y": -636.6866842181785
             },
             {
                 "id": "48236",
-                "x": -319.3597438485854,
-                "y": -648.8730831431908
+                "x": -168.93671176416342,
+                "y": -606.0540768053893
             },
             {
                 "id": "48313",
-                "x": 139.03271178967867,
-                "y": 77.40452750823934
+                "x": -198.72800299731048,
+                "y": 68.1224182166211
             },
             {
                 "id": "48569",
-                "x": -342.93710179673616,
-                "y": -129.79221843776472
+                "x": 266.6939006998269,
+                "y": -51.74781489096829
             },
             {
                 "id": "48928",
-                "x": 156.6149485737902,
-                "y": 45.81863735535042
+                "x": -159.40627783305263,
+                "y": 2.76901140424904
             },
             {
                 "id": "49103",
-                "x": 312.4840625618272,
-                "y": 67.25420036091727
+                "x": -382.0368451672119,
+                "y": 44.694039527266575
             },
             {
                 "id": "49363",
-                "x": 66.92931460891128,
-                "y": -109.90539830408775
+                "x": -46.16350325320921,
+                "y": 105.13254490731208
             },
             {
                 "id": "49669",
-                "x": 259.657007893833,
-                "y": 108.26221774033166
+                "x": -337.67094358565134,
+                "y": -78.02397427115126
             },
             {
                 "id": "49906",
-                "x": 43.78289903929282,
-                "y": 247.70039019809144
+                "x": -3.9015523727842316,
+                "y": -262.17914660264677
             },
             {
                 "id": "49990",
-                "x": -162.93293037519797,
-                "y": 705.980313153401
+                "x": 162.33109961329902,
+                "y": -623.8461664324792
             },
             {
                 "id": "50063",
-                "x": -115.11100269054243,
-                "y": -49.81077477181012
+                "x": -16.551019243250725,
+                "y": 338.0299405813067
             },
             {
                 "id": "50471",
-                "x": 50.30987048022976,
-                "y": -20.036899618276344
+                "x": -61.84513934596908,
+                "y": -73.34364070022598
             },
             {
                 "id": "50567",
-                "x": -546.6719032543584,
-                "y": 251.32420006938708
+                "x": 797.7232246685725,
+                "y": 39.389441493330416
             },
             {
                 "id": "50580",
-                "x": 475.13791751307343,
-                "y": -546.5931488417863
+                "x": -536.3643481134073,
+                "y": -520.9211005998292
             },
             {
                 "id": "50768",
-                "x": 34.54473754174126,
-                "y": -710.2458658583541
+                "x": 637.5223965225855,
+                "y": 333.6877136906733
             },
             {
                 "id": "50771",
-                "x": 283.95201174218903,
-                "y": -204.84458973258893
+                "x": 112.7494426162521,
+                "y": 180.12989746132843
             },
             {
                 "id": "50824",
-                "x": 13.956199086680739,
-                "y": -759.5427310931204
+                "x": 611.2772285533603,
+                "y": 343.3833496885375
             },
             {
                 "id": "50825",
-                "x": 15.026240398957198,
-                "y": -717.5558975310823
+                "x": 655.4202531709847,
+                "y": 316.67841803107535
             },
             {
                 "id": "50826",
-                "x": -21.22997305713813,
-                "y": -711.556018807892
+                "x": 605.1415363819212,
+                "y": 314.2305038016399
             },
             {
                 "id": "50827",
-                "x": 44.306742308189534,
-                "y": -757.2310783968755
+                "x": 599.1409043235985,
+                "y": 331.22479255450054
             },
             {
                 "id": "50828",
-                "x": -0.4776070248497433,
-                "y": -649.6520505599304
+                "x": 564.2210178076311,
+                "y": 292.87821505884807
             },
             {
                 "id": "50831",
-                "x": 3.985563888341012,
-                "y": -732.2171312454216
+                "x": 637.6944523289494,
+                "y": 357.1866090625573
             },
             {
                 "id": "51397",
-                "x": -290.25350004849054,
-                "y": 62.27008812472476
+                "x": 203.9744384119796,
+                "y": 38.26818903751062
             },
             {
                 "id": "51489",
-                "x": -103.6029338264986,
-                "y": 130.01906216174754
+                "x": 55.6687884762935,
+                "y": -67.7552536945783
             },
             {
                 "id": "51660",
-                "x": -194.28966441553072,
-                "y": 273.80771194142955
+                "x": -436.7271488924163,
+                "y": -5.140702582680704
             },
             {
                 "id": "51661",
-                "x": 20.41705321599338,
-                "y": 144.6110050293819
+                "x": -219.4609774312883,
+                "y": -12.568117097810978
             },
             {
                 "id": "51797",
-                "x": 97.4955634953102,
-                "y": -405.70408992087766
+                "x": -39.2303263284012,
+                "y": 425.84637640098987
             },
             {
                 "id": "51814",
-                "x": 360.7841931106339,
-                "y": 3.871456004577395
+                "x": -227.39993486606133,
+                "y": 380.04659953306344
             },
             {
                 "id": "52023",
-                "x": -263.41279556494794,
-                "y": -63.39800384139592
+                "x": 162.04406809951928,
+                "y": -18.598919316483137
             },
             {
                 "id": "52300",
-                "x": -14.327884887093267,
-                "y": 104.28818362643717
+                "x": -153.7995906644908,
+                "y": -128.2524983515001
             },
             {
                 "id": "52363",
-                "x": -539.2714356902034,
-                "y": 465.6017563311906
-            },
-            {
-                "id": "52364",
-                "x": -575.4001982168656,
-                "y": 455.9381962138843
+                "x": 524.2031975873937,
+                "y": -523.614301873351
             },
             {
                 "id": "52365",
-                "x": -554.8190338675663,
-                "y": 498.5209171543009
+                "x": 567.4619626094216,
+                "y": -526.0878482939878
             },
             {
                 "id": "52367",
-                "x": -544.3634868798459,
-                "y": 484.946482744024
-            },
-            {
-                "id": "52368",
-                "x": -592.9304681520588,
-                "y": 482.47188626527685
+                "x": 507.68238277833814,
+                "y": -532.1080487433413
             },
             {
                 "id": "52370",
-                "x": -536.4898537348722,
-                "y": 501.14855623688385
+                "x": 524.2859935848503,
+                "y": -504.6015498298862
             },
             {
                 "id": "52371",
-                "x": -555.0464677291706,
-                "y": 472.2548992396607
+                "x": 542.9064979028324,
+                "y": -516.5232374809598
             },
             {
                 "id": "52373",
-                "x": -585.4789059489508,
-                "y": 515.9838589871447
+                "x": 542.3943876216221,
+                "y": -567.9551215365503
             },
             {
                 "id": "52375",
-                "x": -560.9056361191338,
-                "y": 532.8966510774288
+                "x": 579.7291631595916,
+                "y": -538.5082525114067
             },
             {
                 "id": "52377",
-                "x": -607.3645246300435,
-                "y": 489.6723507308015
+                "x": 527.3145844647815,
+                "y": -547.2892016154242
             },
             {
                 "id": "52378",
-                "x": -547.3096204775055,
-                "y": 515.5826803993781
+                "x": 549.239369818686,
+                "y": -550.9002895974878
             },
             {
                 "id": "52384",
-                "x": -572.2927373240723,
-                "y": 498.6915414277393
+                "x": 543.1481405754963,
+                "y": -500.8224368656301
             },
             {
                 "id": "52387",
-                "x": -582.2944422824771,
-                "y": 470.93688728207115
+                "x": 528.156228448979,
+                "y": -570.6521063476324
             },
             {
                 "id": "52392",
-                "x": -543.733738900541,
-                "y": 530.7193758390231
+                "x": 555.5313376117806,
+                "y": -532.9217943747631
             },
             {
                 "id": "52395",
-                "x": -558.8434355145639,
-                "y": 457.5506538942774
-            },
-            {
-                "id": "52396",
-                "x": -579.0926423460347,
-                "y": 529.6273360707551
-            },
-            {
-                "id": "52398",
-                "x": -565.393019317704,
-                "y": 516.2808665425457
-            },
-            {
-                "id": "52401",
-                "x": -604.6686835458073,
-                "y": 469.9882221941556
+                "x": 508.88019250431853,
+                "y": -515.3091740579791
             },
             {
                 "id": "52544",
-                "x": -242.39193428500127,
-                "y": -118.7665574795094
+                "x": -12.347958425174511,
+                "y": -98.23525857896145
             },
             {
                 "id": "52666",
-                "x": -210.58834769659697,
-                "y": 182.24843325915276
+                "x": 116.13854911806669,
+                "y": -52.96872353563997
             },
             {
                 "id": "52701",
-                "x": -621.7062896761275,
-                "y": 301.89198243831333
+                "x": 497.18256928149043,
+                "y": -295.9854981919958
             },
             {
                 "id": "52702",
-                "x": -610.1353922352656,
-                "y": 344.63149074307745
+                "x": 529.6702480768998,
+                "y": -297.9007428699521
             },
             {
                 "id": "52704",
-                "x": -639.650584074229,
-                "y": 308.8868026336467
+                "x": 523.5419243397686,
+                "y": -249.6481736537695
             },
             {
                 "id": "52705",
-                "x": -608.0507737101044,
-                "y": 290.17034792537834
+                "x": 503.40657061923554,
+                "y": -312.90190524921303
             },
             {
                 "id": "52706",
-                "x": -611.7927276110913,
-                "y": 317.25434502825607
+                "x": 508.6353215458925,
+                "y": -260.8715841579168
             },
             {
                 "id": "52709",
-                "x": -623.2992702108438,
-                "y": 282.6827607502045
+                "x": 506.2096973873863,
+                "y": -277.11520085517094
             },
             {
                 "id": "52711",
-                "x": -596.1244802742851,
-                "y": 340.65773202367063
+                "x": 523.129624356329,
+                "y": -282.33047902259545
             },
             {
                 "id": "52712",
-                "x": -539.1153285533351,
-                "y": 289.5130933174985
+                "x": 433.3013941211315,
+                "y": -234.26186381610583
             },
             {
                 "id": "52715",
-                "x": -525.0563360120607,
-                "y": 322.59650169357616
+                "x": 439.4198792158844,
+                "y": -259.987837482372
             },
             {
                 "id": "52717",
-                "x": -517.1918453388225,
-                "y": 282.4613124415509
+                "x": 419.042647511025,
+                "y": -262.1100084697434
             },
             {
                 "id": "52718",
-                "x": -637.6593218025233,
-                "y": 292.2780540658997
+                "x": 527.3617163296649,
+                "y": -264.43577929523366
             },
             {
                 "id": "52720",
-                "x": -596.8302126858042,
-                "y": 325.06240069717865
+                "x": 513.3856613901062,
+                "y": -297.7317541604548
             },
             {
                 "id": "52731",
-                "x": -640.5431005890489,
-                "y": 327.8095365485839
+                "x": 543.6963301908781,
+                "y": -260.92388052848105
             },
             {
                 "id": "52733",
-                "x": -568.7785158063208,
-                "y": 310.94832880188886
+                "x": 481.6160433526113,
+                "y": -257.04991558492924
             },
             {
                 "id": "52734",
-                "x": -598.0487333374814,
-                "y": 305.8357589161134
+                "x": 484.2663256822819,
+                "y": -286.20721016772603
             },
             {
                 "id": "52735",
-                "x": -554.2077175735913,
-                "y": 291.1218183915465
+                "x": 371.41600022692734,
+                "y": -253.82974250258275
             },
             {
                 "id": "52736",
-                "x": -625.1450288202471,
-                "y": 324.4689433996599
+                "x": 486.2399524076314,
+                "y": -310.40426663131177
             },
             {
                 "id": "52739",
-                "x": -624.7862303197292,
-                "y": 343.40640391650123
+                "x": 540.3553672641814,
+                "y": -279.1787766499766
             },
             {
                 "id": "52751",
-                "x": 228.45858999835477,
-                "y": -236.8640213812929
+                "x": -131.3676140396101,
+                "y": 363.30535385507534
             },
             {
                 "id": "52938",
-                "x": 11.59933091400193,
-                "y": 153.71260842278366
+                "x": -220.8165806822283,
+                "y": -95.25526029991777
             },
             {
                 "id": "53080",
-                "x": 213.06568692837521,
-                "y": 187.1234393223072
+                "x": -249.5582464571398,
+                "y": -152.2352400054356
             },
             {
                 "id": "53087",
-                "x": -215.30804028814936,
-                "y": 191.18474514372477
+                "x": -392.17870457564715,
+                "y": 24.56570796225932
             },
             {
                 "id": "53088",
-                "x": -353.01460402888597,
-                "y": 306.4820547856403
+                "x": -534.9772900488196,
+                "y": 16.361199959191424
             },
             {
                 "id": "53141",
-                "x": 116.01769754293733,
-                "y": -13.97234717930097
+                "x": -155.64935265955364,
+                "y": 83.6791413056506
             },
             {
                 "id": "53236",
-                "x": 130.25892770907532,
-                "y": 635.9385852019111
+                "x": 593.6770871995324,
+                "y": -403.2030771928955
             },
             {
                 "id": "53287",
-                "x": 109.05554461038773,
-                "y": 88.57335789401444
+                "x": -204.9288979511757,
+                "y": -47.467135267404466
             },
             {
                 "id": "53298",
-                "x": 162.941644243782,
-                "y": 85.27078577803482
+                "x": -236.61807297797358,
+                "y": 133.7357223297163
             },
             {
                 "id": "53315",
-                "x": 665.4720988355107,
-                "y": 288.9808909776761
+                "x": 422.2300382707518,
+                "y": -651.1879983936055
             },
             {
                 "id": "54407",
-                "x": -12.262292351841547,
-                "y": -733.7164806096488
+                "x": 651.3155452979947,
+                "y": 342.4260508814332
             },
             {
                 "id": "55319",
-                "x": -135.87699764055256,
-                "y": 71.71441887304829
+                "x": -43.04659868008253,
+                "y": -50.66995286988488
             },
             {
                 "id": "55354",
-                "x": 42.7850524481079,
-                "y": -186.2696762337076
+                "x": -59.95316722501392,
+                "y": 120.90762362426679
             },
             {
                 "id": "55405",
-                "x": -266.07286859753873,
-                "y": 751.2058314897944
+                "x": 84.8924207528901,
+                "y": 749.1771681813073
             },
             {
                 "id": "55406",
-                "x": -241.5966135287444,
-                "y": 766.1531465233697
-            },
-            {
-                "id": "55409",
-                "x": -249.88052451187,
-                "y": 731.4195451987242
+                "x": 102.85318283875563,
+                "y": 770.6536316792749
             },
             {
                 "id": "55437",
-                "x": 121.74633371500859,
-                "y": 666.4202118017478
+                "x": 621.9060250784916,
+                "y": -395.1046703805435
             },
             {
                 "id": "55439",
-                "x": 107.9375734208067,
-                "y": 674.8667880750523
+                "x": 563.3259847213561,
+                "y": -393.90873718294716
             },
             {
                 "id": "55440",
-                "x": 81.92853937408306,
-                "y": 703.3980222352185
+                "x": 583.7717294920335,
+                "y": -376.526785154231
             },
             {
                 "id": "55441",
-                "x": 138.05413609168303,
-                "y": 670.757462694565
+                "x": 596.7130175161022,
+                "y": -366.46437685147316
             },
             {
                 "id": "55442",
-                "x": 101.38469565227561,
-                "y": 639.2635141483025
+                "x": 580.7493352510821,
+                "y": -409.4840109407347
             },
             {
                 "id": "55443",
-                "x": 65.75947134271067,
-                "y": 621.6571664259391
+                "x": 554.1067218206872,
+                "y": -354.04128044622666
             },
             {
                 "id": "55444",
-                "x": 136.85154259528673,
-                "y": 698.2753177177124
+                "x": 559.8165104609095,
+                "y": -378.13718465321284
             },
             {
                 "id": "55445",
-                "x": 67.85645454891092,
-                "y": 656.1120124560248
+                "x": 607.3867387484729,
+                "y": -418.33423679104436
             },
             {
                 "id": "55446",
-                "x": 116.90516193797846,
-                "y": 696.0405294184394
+                "x": 612.1660203493773,
+                "y": -363.50233575286694
             },
             {
                 "id": "55447",
-                "x": 115.36277082149984,
-                "y": 712.0539654094227
+                "x": 561.4251196544274,
+                "y": -429.40118321826424
             },
             {
                 "id": "55448",
-                "x": 57.1311065766524,
-                "y": 684.108680659647
+                "x": 597.2642442771737,
+                "y": -386.3303271178286
             },
             {
                 "id": "55449",
-                "x": 127.20671655181741,
-                "y": 652.1687642368653
+                "x": 582.9478032479582,
+                "y": -353.1326186100516
             },
             {
                 "id": "55450",
-                "x": 77.83365491015093,
-                "y": 648.8083517168175
+                "x": 577.2420923877261,
+                "y": -390.4959455841043
             },
             {
                 "id": "55451",
-                "x": 94.36764642404688,
-                "y": 662.7254902852161
+                "x": 637.6246067458222,
+                "y": -392.5766582751249
             },
             {
                 "id": "55452",
-                "x": 130.04834628904493,
-                "y": 712.1534694634288
+                "x": 549.1909151559046,
+                "y": -397.61252206630814
             },
             {
                 "id": "55453",
-                "x": 70.78885507011103,
-                "y": 674.4320755391537
+                "x": 617.2014036089782,
+                "y": -430.867691715854
             },
             {
                 "id": "55454",
-                "x": 146.79785765535988,
-                "y": 660.7992450583229
+                "x": 612.4248939509403,
+                "y": -348.26340764328035
             },
             {
                 "id": "55455",
-                "x": 99.21272514468714,
-                "y": 704.3517793015213
+                "x": 574.2655700396048,
+                "y": -422.98459870032394
             },
             {
                 "id": "55456",
-                "x": 57.284621601118744,
-                "y": 667.524029013666
+                "x": 635.4815856874075,
+                "y": -408.36222857394165
             },
             {
                 "id": "55457",
-                "x": 125.81319818432944,
-                "y": 683.8293616715938
+                "x": 612.5088749144646,
+                "y": -380.12768731878646
             },
             {
                 "id": "55458",
-                "x": 72.4871902612613,
-                "y": 713.366464611732
+                "x": 592.5784229271775,
+                "y": -425.3727063534916
             },
             {
                 "id": "55459",
-                "x": 99.77430481309236,
-                "y": 687.7490129733344
+                "x": 626.8836634558423,
+                "y": -374.5854808064668
             },
             {
                 "id": "55460",
-                "x": 116.12857167162332,
-                "y": 635.1691862990546
+                "x": 562.5032537076274,
+                "y": -410.3764445415113
             },
             {
                 "id": "55461",
-                "x": 62.10138580139844,
-                "y": 698.071495494532
+                "x": 625.416397823132,
+                "y": -418.08486931926575
             },
             {
                 "id": "55507",
-                "x": -71.12867391874141,
-                "y": -108.59669280025211
+                "x": 17.677407396587057,
+                "y": 66.59818734512935
             },
             {
                 "id": "55518",
-                "x": -112.18435024219274,
-                "y": -2.4727649696409326
+                "x": -172.5449587050596,
+                "y": 79.06052548567658
             },
             {
                 "id": "55648",
-                "x": 175.67733292993222,
-                "y": -77.17257742621624
+                "x": -63.45568698546178,
+                "y": 215.82599350293108
             },
             {
                 "id": "56220",
-                "x": 302.1033590356478,
-                "y": -275.1529245858971
+                "x": -350.7241600557845,
+                "y": 141.78091398024614
             },
             {
                 "id": "56953",
-                "x": 88.09346014560342,
-                "y": -201.59585577856188
+                "x": -161.82740974392945,
+                "y": 203.85483560540897
             },
             {
                 "id": "57105",
-                "x": -421.66305601836905,
-                "y": -446.598839596841
+                "x": 154.01908242392977,
+                "y": 613.0165980249351
             },
             {
                 "id": "57148",
-                "x": -276.8602498235212,
-                "y": -96.27932890948061
+                "x": 179.5962128317298,
+                "y": 100.75219406691807
             },
             {
                 "id": "57261",
-                "x": -178.51523991410886,
-                "y": -102.62432028970447
+                "x": 115.52266499487968,
+                "y": 59.64782614353301
             },
             {
                 "id": "57487",
-                "x": 100.84146441934419,
-                "y": 81.02914090532163
+                "x": -154.83789276949688,
+                "y": 30.067789021647606
             },
             {
                 "id": "57708",
-                "x": 90.52927412111886,
-                "y": -68.69540488396922
+                "x": -109.5190780620385,
+                "y": 242.81938264500616
             },
             {
                 "id": "58184",
-                "x": -70.55186383072603,
-                "y": -9.701196755815985
+                "x": -183.31471294825067,
+                "y": 141.78678372783256
             },
             {
                 "id": "58205",
-                "x": -25.01599908070847,
-                "y": 590.2328104685561
+                "x": -249.60030364888487,
+                "y": 616.4412286439813
             },
             {
                 "id": "58233",
-                "x": -60.42780308281506,
-                "y": 595.110321113866
+                "x": -225.49440525222514,
+                "y": 636.5768909260661
             },
             {
                 "id": "58673",
-                "x": 249.2486204413551,
-                "y": -80.6218265754154
+                "x": -293.07535932416215,
+                "y": -48.90876426811456
             },
             {
                 "id": "59007",
-                "x": 220.2146127556223,
-                "y": 150.08243719837813
+                "x": -293.0315227142064,
+                "y": -166.9689324442308
             },
             {
                 "id": "59154",
-                "x": 135.61498685522363,
-                "y": -259.9225037810702
+                "x": 96.25879378149271,
+                "y": 206.9674230221368
             },
             {
                 "id": "59591",
-                "x": 17.272333345724814,
-                "y": 97.79286348390072
+                "x": -153.89067818092462,
+                "y": 43.52722467572017
             },
             {
                 "id": "59673",
-                "x": -151.15287323748177,
-                "y": 27.188683560333452
+                "x": 122.7556975169324,
+                "y": -40.25406862612584
             },
             {
                 "id": "59715",
-                "x": 108.36815480985015,
-                "y": 654.7316113365118
+                "x": 627.8249528995643,
+                "y": -357.141002390331
             },
             {
                 "id": "60021",
-                "x": 283.5203118935439,
-                "y": -121.03291893022946
+                "x": -232.8994690434603,
+                "y": 311.0067780659557
             },
             {
                 "id": "60054",
-                "x": 360.75297850185274,
-                "y": 451.6002701657214
+                "x": -265.8136332517202,
+                "y": -515.0280345471834
             },
             {
                 "id": "60199",
-                "x": -206.36953817418654,
-                "y": -85.76169582220814
+                "x": 72.8100005003556,
+                "y": 39.75351034890999
             },
             {
                 "id": "60235",
-                "x": -57.9207354702841,
-                "y": 268.65911918839663
+                "x": -14.984278699246753,
+                "y": 98.39859797458087
             },
             {
                 "id": "60251",
-                "x": 82.56309067267719,
-                "y": -89.88777271561725
+                "x": -12.004491854622284,
+                "y": 184.3746639984597
             },
             {
                 "id": "60287",
-                "x": -138.01542598478528,
-                "y": 145.9680655810728
+                "x": -369.10441086184267,
+                "y": 96.60157872850374
             },
             {
                 "id": "60351",
-                "x": -422.5363187557789,
-                "y": 606.9892830848846
+                "x": -116.45096535106191,
+                "y": -696.7376097986382
             },
             {
                 "id": "60409",
-                "x": -83.50336922612155,
-                "y": -261.9703903104388
+                "x": -19.552533655135278,
+                "y": 300.5540220093189
             },
             {
                 "id": "60556",
-                "x": -81.28560420820313,
-                "y": -162.19642198021816
+                "x": -86.84909168575378,
+                "y": 337.8082288876448
             },
             {
                 "id": "60641",
-                "x": -116.73649420899427,
-                "y": -179.18673617441704
+                "x": 141.4360709819281,
+                "y": 109.25907762530478
             },
             {
                 "id": "60646",
-                "x": 124.67622707386226,
-                "y": 125.97561265660816
+                "x": -198.52910945162918,
+                "y": 21.468446231277824
             },
             {
                 "id": "60763",
-                "x": -12.62874373227904,
-                "y": -156.58561456044555
+                "x": -221.45865862667898,
+                "y": 221.38347836288358
             },
             {
                 "id": "60836",
-                "x": 118.61581984694007,
-                "y": -0.3575014611784246
+                "x": -232.04433628525584,
+                "y": 129.94049457701865
             },
             {
                 "id": "60860",
-                "x": 71.80361537349143,
-                "y": -325.8480163838295
+                "x": -192.55824918514142,
+                "y": 395.24982520716134
             },
             {
                 "id": "61073",
-                "x": 9.549604439875802,
-                "y": 57.555963153125525
+                "x": -173.48276348260092,
+                "y": -20.584389597314726
             },
             {
                 "id": "61619",
-                "x": 745.887724885276,
-                "y": 33.371407627909264
+                "x": 664.515601685583,
+                "y": 98.42604075283896
             },
             {
                 "id": "61871",
-                "x": 522.6760629400814,
-                "y": -534.1494356286634
+                "x": -479.87267204138004,
+                "y": -489.60607832743057
             },
             {
                 "id": "62097",
-                "x": 13.768413286144533,
-                "y": -233.31268533989953
+                "x": -88.44843268475002,
+                "y": 193.09887301434023
             },
             {
                 "id": "62129",
-                "x": -93.72754824613135,
-                "y": -84.62712685335447
+                "x": -47.72802009618077,
+                "y": 290.1587973332673
             },
             {
                 "id": "62572",
-                "x": -127.74151190268343,
-                "y": -23.312815116406984
+                "x": -33.78863369150673,
+                "y": 137.00081732341883
             },
             {
                 "id": "62654",
-                "x": 117.96704911389384,
-                "y": -260.319226542137
+                "x": -157.19593690308756,
+                "y": 267.2515759545631
             },
             {
                 "id": "63671",
-                "x": 169.71357054321624,
-                "y": -100.99224755313911
+                "x": 16.43393474006483,
+                "y": 196.20761124355573
             },
             {
                 "id": "64650",
-                "x": 488.9877096701122,
-                "y": -571.7898773044793
+                "x": -492.17216228790426,
+                "y": -546.9090080723748
             },
             {
                 "id": "64749",
-                "x": 487.0561875291165,
-                "y": -509.20163309381536
+                "x": -519.5717512677736,
+                "y": -491.56805854386766
             },
             {
                 "id": "65104",
-                "x": -439.51519504686894,
-                "y": 641.6701340166123
+                "x": -129.74302633763682,
+                "y": -704.9173695043352
             },
             {
                 "id": "65217",
-                "x": -204.1402054284291,
-                "y": -261.59224280708537
+                "x": 166.25639245514287,
+                "y": 330.01865710803804
             },
             {
                 "id": "65295",
-                "x": -261.25257691795304,
-                "y": -28.971782169087714
+                "x": 188.45546962319494,
+                "y": 36.464930407975025
             },
             {
                 "id": "65674",
-                "x": -269.97484061944084,
-                "y": -187.81208032121168
+                "x": 184.46471397584554,
+                "y": 205.2985062492068
             },
             {
                 "id": "65708",
-                "x": 160.96478984736027,
-                "y": -13.874794776859096
+                "x": 183.48377037239086,
+                "y": 173.9292032582526
             },
             {
                 "id": "65761",
-                "x": 772.2836335793369,
-                "y": -141.09771880043442
+                "x": -622.283207973357,
+                "y": 440.3811776790371
             },
             {
                 "id": "66098",
-                "x": 71.57321893551071,
-                "y": 17.607725356788062
+                "x": -84.06849504859053,
+                "y": -21.3691980765334
             },
             {
                 "id": "66312",
-                "x": 47.63002602346391,
-                "y": -730.9916003150803
+                "x": 622.5756267880749,
+                "y": 371.5137914171529
             },
             {
                 "id": "66590",
-                "x": -281.89784081750224,
-                "y": -85.0202725073612
+                "x": -177.37040949276977,
+                "y": 108.95736819906803
             },
             {
                 "id": "66736",
-                "x": -136.28541527458125,
-                "y": 81.52024048553929
+                "x": 72.1467697245631,
+                "y": 234.41572040111305
             },
             {
                 "id": "66795",
-                "x": 380.40047598212186,
-                "y": 521.6150099767057
+                "x": -334.2353751628233,
+                "y": -574.1504872204104
             },
             {
                 "id": "67342",
-                "x": 696.2943192515047,
-                "y": 329.59355539785804
+                "x": -260.29198882540817,
+                "y": 732.7470962896066
             },
             {
                 "id": "67343",
-                "x": 692.7758926516032,
-                "y": 300.26153827134283
+                "x": -232.53685704614247,
+                "y": 722.6550062115302
             },
             {
                 "id": "68093",
-                "x": -332.8670515437138,
-                "y": 719.8031718097003
+                "x": -396.18321403851627,
+                "y": -656.1247367345286
             },
             {
                 "id": "68549",
-                "x": -319.59750909656856,
-                "y": -439.0575683387954
+                "x": 167.1246544184321,
+                "y": 536.529383607439
             },
             {
                 "id": "68552",
-                "x": -347.2849328675623,
-                "y": -481.4724871008352
+                "x": 210.38622972015563,
+                "y": 568.5796780845751
             },
             {
                 "id": "69231",
-                "x": -497.370910989115,
-                "y": -25.133179922939306
+                "x": 387.46656549544605,
+                "y": -128.04685836605327
             },
             {
                 "id": "69280",
-                "x": 67.03505007001785,
-                "y": -233.36113990104383
+                "x": -71.00650388246062,
+                "y": 253.90871193433526
             },
             {
                 "id": "69567",
-                "x": -210.77629800043263,
-                "y": 245.79997566531355
+                "x": -285.5852793487156,
+                "y": -266.0408247003676
             },
             {
                 "id": "70045",
-                "x": 183.051924547612,
-                "y": -59.4501328349096
+                "x": -207.87976845924024,
+                "y": 166.65312337981896
             },
             {
                 "id": "70147",
-                "x": -83.20640700258909,
-                "y": -26.287686327855045
+                "x": -202.18807093691876,
+                "y": 44.066647576853335
             },
             {
                 "id": "70595",
-                "x": -753.0450092182148,
-                "y": -182.26940823577146
+                "x": 701.5166622793947,
+                "y": -333.65175605822805
             },
             {
                 "id": "70602",
-                "x": -746.4836126199045,
-                "y": -211.8463826673607
+                "x": 700.2668904620107,
+                "y": -305.13831982137066
             },
             {
                 "id": "70707",
-                "x": -141.6645134688952,
-                "y": -162.1535070262615
+                "x": -216.61921933741382,
+                "y": 239.8337221306173
             },
             {
                 "id": "70715",
-                "x": 7.834428315272297,
-                "y": 0.029729835685292166
+                "x": -23.321011798504582,
+                "y": 52.30297939988202
             },
             {
                 "id": "70855",
-                "x": 228.06584501320273,
-                "y": -680.8709391222743
+                "x": 370.25718129303704,
+                "y": 669.7540503675959
             },
             {
                 "id": "71121",
-                "x": 171.3107922034893,
-                "y": 210.9482177898777
+                "x": -340.72547668516995,
+                "y": -10.885299635244694
             },
             {
                 "id": "71801",
-                "x": -314.6719047295429,
-                "y": -144.8846514040568
+                "x": 56.273481864480864,
+                "y": 2.6388012282034086
             },
             {
                 "id": "71802",
-                "x": -245.7630753834395,
-                "y": -132.96927754462814
+                "x": 62.399329337476445,
+                "y": 12.142100107122733
             },
             {
                 "id": "71892",
-                "x": -320.8785563696891,
-                "y": -45.551343617304724
+                "x": 100.65670263672499,
+                "y": 17.41939169962397
             },
             {
                 "id": "71910",
-                "x": -45.81780684425786,
-                "y": 162.43496961612362
+                "x": 17.29854476830025,
+                "y": -162.85713510647906
             },
             {
                 "id": "72044",
-                "x": 19.292801967035903,
-                "y": -58.36119212989286
+                "x": -176.00937192463923,
+                "y": 173.0883582487974
             },
             {
                 "id": "73074",
-                "x": 19.534831213400697,
-                "y": -9.6610041552398
+                "x": -46.115336483747164,
+                "y": -7.220634976354258
             },
             {
                 "id": "73123",
-                "x": 142.55197667884093,
-                "y": 644.9958826989313
+                "x": 597.6431904421095,
+                "y": -347.7264285121715
             },
             {
                 "id": "73156",
-                "x": 126.10139793362268,
-                "y": -171.03329453667683
+                "x": 110.40162537674537,
+                "y": 354.3330865420353
             },
             {
                 "id": "73523",
-                "x": -562.6095150113025,
-                "y": 388.6305861237851
+                "x": 410.57601552617746,
+                "y": -424.2618106154962
             },
             {
                 "id": "73582",
-                "x": -106.24184713878643,
-                "y": -301.1642747033703
+                "x": -96.48733544168452,
+                "y": 362.3429349574476
             },
             {
                 "id": "73954",
-                "x": -55.806316006951576,
-                "y": -37.81680140768943
+                "x": -19.584700687992257,
+                "y": 34.868267312082644
             },
             {
                 "id": "74030",
-                "x": 304.080026899642,
-                "y": -6.3911311776737385
+                "x": 118.00878634712782,
+                "y": 85.6801302220163
             },
             {
                 "id": "74035",
-                "x": 277.06979030804695,
-                "y": 84.3448471893802
+                "x": -64.84706164243553,
+                "y": -35.13144842771161
             },
             {
                 "id": "74206",
-                "x": -599.2214748276793,
-                "y": -488.833985185835
+                "x": 760.3526591978213,
+                "y": -229.47181296976322
             },
             {
                 "id": "74534",
-                "x": 207.16575874154304,
-                "y": 270.4114785029974
+                "x": -279.09188705976436,
+                "y": -138.4975099635447
             },
             {
                 "id": "74648",
-                "x": -103.59205386304507,
-                "y": 468.2802514315984
+                "x": -444.4902036027804,
+                "y": -236.3910583073732
             },
             {
                 "id": "75082",
-                "x": -683.9290211455354,
-                "y": -306.62492865817484
+                "x": 393.9085783957861,
+                "y": -543.7260519991793
             },
             {
                 "id": "75087",
-                "x": -48.835659424139614,
-                "y": 209.3533582945242
+                "x": 41.08531673235975,
+                "y": 60.12635779634036
             },
             {
                 "id": "75303",
-                "x": 137.86242659312603,
-                "y": -26.926669991262173
+                "x": -226.843833446079,
+                "y": 176.68386837296921
             },
             {
                 "id": "76152",
-                "x": -416.83707795139804,
-                "y": 6.901837469232141
+                "x": 310.2062133142669,
+                "y": -43.55808188268314
             },
             {
                 "id": "76216",
-                "x": 487.34641984445864,
-                "y": -217.91705799792172
+                "x": -334.2251048757708,
+                "y": 478.51322450379973
             },
             {
                 "id": "76231",
-                "x": -732.7181595478238,
-                "y": 106.42164468736348
+                "x": 693.726208554995,
+                "y": -111.46139860141729
             },
             {
                 "id": "76495",
-                "x": 588.6315673763286,
-                "y": 409.07997708569695
+                "x": -698.4172203968876,
+                "y": -177.6562325520896
             },
             {
                 "id": "76834",
-                "x": 6.50023632466148,
-                "y": 114.8788251706905
+                "x": -141.28751861605835,
+                "y": -59.65521755522973
             },
             {
                 "id": "76868",
-                "x": 108.53655762287522,
-                "y": 212.4694017740482
+                "x": -227.52289583580813,
+                "y": -122.71450257529516
             },
             {
                 "id": "77787",
-                "x": 104.80723460163142,
-                "y": 12.56388725773154
+                "x": -233.00949464620317,
+                "y": 29.2139630186144
             },
             {
                 "id": "77858",
-                "x": -11.232642104496641,
-                "y": -203.48995853095616
+                "x": 55.677643462607215,
+                "y": 201.43147265306234
             },
             {
                 "id": "78150",
-                "x": 92.37019608543774,
-                "y": 87.3577110297278
+                "x": -172.5059628695402,
+                "y": -1.810748826105417
             },
             {
                 "id": "78540",
-                "x": -665.6720474184706,
-                "y": 423.5324389788929
+                "x": -302.3733714190801,
+                "y": -719.3690324090472
             },
             {
                 "id": "79256",
-                "x": -332.8436160709832,
-                "y": 110.50145370498844
+                "x": 160.18893804954917,
+                "y": -179.79912642020125
             },
             {
                 "id": "79359",
-                "x": -300.94063279229624,
-                "y": 274.8001461735805
+                "x": -496.76409882239335,
+                "y": 78.4858324233256
             },
             {
                 "id": "79607",
-                "x": -207.74325593521633,
-                "y": -335.98832016760286
+                "x": 228.26727740960166,
+                "y": 240.54225403232235
             },
             {
                 "id": "79752",
-                "x": -260.0755685927077,
-                "y": 235.08764980607822
+                "x": -485.60218971988513,
+                "y": 112.74915769626722
             },
             {
                 "id": "79850",
-                "x": -146.13582801784065,
-                "y": -14.803374229791759
+                "x": -286.47092343316393,
+                "y": 52.979532450743385
             },
             {
                 "id": "80111",
-                "x": -29.006259951955677,
-                "y": 32.172849559395615
+                "x": -245.7298265235616,
+                "y": 118.65615451809761
             },
             {
                 "id": "80112",
-                "x": 162.07213413522493,
-                "y": 25.98156941841386
+                "x": -287.88832669498373,
+                "y": 224.30529664083195
             },
             {
                 "id": "80115",
-                "x": 24.094542615032537,
-                "y": 131.55137626990006
+                "x": -294.0745302217166,
+                "y": 43.56261179661253
             },
             {
                 "id": "80204",
-                "x": 34.00179315217771,
-                "y": -744.9415658617003
+                "x": 666.6033828016573,
+                "y": 334.01429407552354
             },
             {
                 "id": "80408",
-                "x": -241.40745738932796,
-                "y": -366.07340240078133
-            },
-            {
-                "id": "80589",
-                "x": 631.3737681227082,
-                "y": -180.6937268256688
+                "x": 280.97351580155015,
+                "y": 258.28011252892617
             },
             {
                 "id": "81203",
-                "x": -113.7231930858093,
-                "y": -353.90236587758613
+                "x": 151.53866003204016,
+                "y": 271.81457123552923
             },
             {
                 "id": "81702",
-                "x": 244.87676878692477,
-                "y": 157.52878715193918
+                "x": -383.0844101579897,
+                "y": -94.73642132925215
             },
             {
                 "id": "81965",
-                "x": 224.8745109367872,
-                "y": -4.906051906732475
+                "x": -300.93665131786355,
+                "y": -24.30755632625135
             },
             {
                 "id": "82098",
-                "x": 279.2196653448899,
-                "y": 225.16827147042252
+                "x": -225.48194726218688,
+                "y": -205.17078436654126
             },
             {
                 "id": "82124",
-                "x": -32.715387071344146,
-                "y": 87.44562269188035
+                "x": -254.71368360776296,
+                "y": 106.48974086559738
             },
             {
                 "id": "82928",
-                "x": 209.05464505782612,
-                "y": -38.817315850258176
+                "x": -252.3383458168662,
+                "y": 26.17725113664211
             },
             {
                 "id": "83250",
-                "x": 111.81409234681342,
-                "y": 42.861347022547434
+                "x": -94.1553030458391,
+                "y": -5.804652329803897
             },
             {
                 "id": "83397",
-                "x": -724.716394510642,
-                "y": 120.30903634234805
+                "x": 710.6736527828172,
+                "y": -119.20841973817916
             },
             {
                 "id": "83416",
-                "x": 50.02501978507251,
-                "y": 233.47457117553574
+                "x": -61.8644094002259,
+                "y": -198.67671231214246
             },
             {
                 "id": "83467",
-                "x": -36.6158237404501,
-                "y": 24.659797490409286
+                "x": -300.63301255952763,
+                "y": 57.574993495749816
             },
             {
                 "id": "83583",
-                "x": -34.72343184201666,
-                "y": -77.94373665154914
+                "x": -49.091063286924324,
+                "y": 88.01382057139921
             },
             {
                 "id": "83650",
-                "x": 272.95860414134205,
-                "y": 643.0793042396858
+                "x": 105.39114011642407,
+                "y": -711.5312192229502
             },
             {
                 "id": "83669",
-                "x": 27.270860778110467,
-                "y": -91.42036940012274
+                "x": -27.905395314999026,
+                "y": 155.06613387664225
             },
             {
                 "id": "83895",
-                "x": 138.668359847246,
-                "y": 176.85431344137788
+                "x": -152.41972041376698,
+                "y": -138.81889102561107
             },
             {
                 "id": "84212",
-                "x": -138.6241278136508,
-                "y": 780.8926706185392
+                "x": 151.48019583831626,
+                "y": 717.3340379790487
             },
             {
                 "id": "84331",
-                "x": -464.69283762768345,
-                "y": -313.6414451676362
+                "x": 484.8206349937628,
+                "y": -71.59905725405366
             },
             {
                 "id": "84338",
-                "x": -500.33896469634516,
-                "y": -398.3450977016875
+                "x": 556.7151440772775,
+                "y": -31.415753278012144
             },
             {
                 "id": "84527",
-                "x": -199.5361235564428,
-                "y": 220.5154704061801
+                "x": -172.5197842581416,
+                "y": -157.76189710876557
             },
             {
                 "id": "84859",
-                "x": -100.91558417513855,
-                "y": -26.2206594644636
+                "x": -25.27794931507816,
+                "y": 4.568937598509081
             },
             {
                 "id": "84885",
-                "x": 338.0462129010517,
-                "y": 61.668018108214554
+                "x": -446.8204822901184,
+                "y": 194.7391185887468
             },
             {
                 "id": "84925",
-                "x": 724.2725549919451,
-                "y": 19.135864132110317
+                "x": 710.1860741931632,
+                "y": 73.533929010441
             },
             {
                 "id": "85099",
-                "x": 479.4170701419337,
-                "y": 42.45955170776631
+                "x": -525.3144309898748,
+                "y": -124.3547145544428
             },
             {
                 "id": "85100",
-                "x": 366.3931135660333,
-                "y": -14.087729918861777
+                "x": -419.7578752438302,
+                "y": -57.42260923867508
             },
             {
                 "id": "85102",
-                "x": 490.53664019106105,
-                "y": 14.52807283392074
+                "x": -515.8150108231935,
+                "y": -146.83636487711203
             },
             {
                 "id": "85428",
-                "x": 441.80882724361595,
-                "y": 625.821560770842
+                "x": 705.3718350301857,
+                "y": 203.18341319332802
             },
             {
                 "id": "85450",
-                "x": -666.400529115993,
-                "y": 125.51994405898611
+                "x": 625.62274937682,
+                "y": -121.53162807117143
             },
             {
                 "id": "85563",
-                "x": 171.33051865054202,
-                "y": 155.7311518036837
+                "x": -176.27851448831586,
+                "y": -248.2026754844924
             },
             {
                 "id": "85976",
-                "x": -733.1516044226173,
-                "y": 158.00628753598656
+                "x": 670.1316622532883,
+                "y": -83.03972064115804
             },
             {
                 "id": "86044",
-                "x": -692.178537430666,
-                "y": 89.11290289446848
+                "x": 642.6232817077511,
+                "y": -99.0856551598817
             },
             {
                 "id": "86045",
-                "x": -685.5237713892543,
-                "y": 104.7951793433269
+                "x": 649.326038110713,
+                "y": -80.7750330995845
             },
             {
                 "id": "86046",
-                "x": -652.9104236069238,
-                "y": 109.96542793987699
+                "x": 613.5089057858897,
+                "y": -99.5340105469166
             },
             {
                 "id": "86049",
-                "x": -750.8199939909478,
-                "y": 103.5697187125068
+                "x": 662.7968344371006,
+                "y": -137.71734717282376
             },
             {
                 "id": "86065",
-                "x": 227.89870412410593,
-                "y": 284.6673601328644
+                "x": -435.2170021326702,
+                "y": -40.46579257306605
             },
             {
                 "id": "86075",
-                "x": -371.8079144936243,
-                "y": 210.52034396806056
+                "x": -456.7509318018332,
+                "y": 110.46854342433264
             },
             {
                 "id": "86101",
-                "x": -13.651200804480492,
-                "y": -84.63989411036924
+                "x": -81.95531880812271,
+                "y": 96.62165837920286
             },
             {
                 "id": "86105",
-                "x": -385.039908699719,
-                "y": -121.16944277194746
+                "x": 329.2357419407976,
+                "y": 76.37559783227597
             },
             {
                 "id": "86129",
-                "x": -476.56891190973715,
-                "y": -66.62546231537304
+                "x": 395.9551945101575,
+                "y": -79.1236576361405
             },
             {
                 "id": "86130",
-                "x": -535.8085273763061,
-                "y": -84.17731865816205
+                "x": 435.70968987840996,
+                "y": -119.7106251929226
             },
             {
                 "id": "86131",
-                "x": -566.7733735302528,
-                "y": -77.17092718515458
+                "x": 478.8020130734783,
+                "y": -119.78043504161874
             },
             {
                 "id": "86132",
-                "x": -496.78008805414083,
-                "y": -95.94160293204553
+                "x": 394.4591908961108,
+                "y": -143.17720530213396
             },
             {
                 "id": "86138",
-                "x": -572.0527414076948,
-                "y": -61.95270987805073
+                "x": 485.6997288593853,
+                "y": -93.91456018366756
             },
             {
                 "id": "86141",
-                "x": -597.5684281626685,
-                "y": -111.04748620429277
+                "x": 505.31184437697885,
+                "y": -144.44005614192557
             },
             {
                 "id": "86161",
-                "x": -467.4102610627161,
-                "y": -101.4304079597824
+                "x": 398.0154423746933,
+                "y": -6.348484267396541
             },
             {
                 "id": "86366",
-                "x": -603.17708975648,
-                "y": -86.47585140101614
+                "x": 516.2309878234405,
+                "y": -111.15174179046757
             },
             {
                 "id": "86609",
-                "x": -537.4162068571702,
-                "y": -345.09821011016084
+                "x": 274.857896707997,
+                "y": -471.55239108150585
             },
             {
                 "id": "86854",
-                "x": -199.38722983792036,
-                "y": 151.88937142942945
+                "x": 12.287408642787705,
+                "y": -221.43956910990195
             },
             {
                 "id": "87082",
-                "x": -21.420808070806995,
-                "y": 274.86877646554814
+                "x": -275.84092803101794,
+                "y": -99.94768322209735
             },
             {
                 "id": "87411",
-                "x": -568.790885972137,
-                "y": -45.44227548971371
+                "x": 464.42898660247084,
+                "y": -153.04205873744849
             },
             {
                 "id": "87587",
-                "x": 184.01165982275253,
-                "y": 139.2787204815363
+                "x": -347.413688216782,
+                "y": -153.14904014376023
             },
             {
                 "id": "87723",
-                "x": 92.07026191466097,
-                "y": 204.70328643169884
+                "x": -97.33418743878349,
+                "y": 205.1521475928635
             },
             {
                 "id": "87748",
-                "x": 68.4328249867492,
-                "y": -195.6659410092627
+                "x": -128.79599025585912,
+                "y": 243.13083128079688
             },
             {
                 "id": "88087",
-                "x": -162.503652104855,
-                "y": -143.54182903994374
+                "x": 45.63853972902521,
+                "y": 125.43763060064029
             },
             {
                 "id": "88097",
-                "x": -125.43506610402837,
-                "y": -299.29996930718886
+                "x": 95.89243240523987,
+                "y": 164.44720126767365
             },
             {
                 "id": "88150",
-                "x": 118.50010614976343,
-                "y": -118.27485123497657
+                "x": -282.3042065332861,
+                "y": 148.05008188460351
             },
             {
                 "id": "88553",
-                "x": 207.8245011493978,
-                "y": -691.0045318781238
+                "x": 352.5529289196595,
+                "y": 646.2461700777478
             },
             {
                 "id": "88576",
-                "x": 303.08148476372014,
-                "y": 640.7454244479593
+                "x": 99.51381389754809,
+                "y": -691.9986519196508
             },
             {
                 "id": "88895",
-                "x": -353.09924918436275,
-                "y": -14.752247731463758
+                "x": 183.84777744393327,
+                "y": -87.09235595312178
             },
             {
                 "id": "89245",
-                "x": -97.1801759656477,
-                "y": -227.94043173887465
+                "x": 53.07089279301689,
+                "y": 219.4940106664894
             },
             {
                 "id": "89434",
-                "x": 9.477743841564717,
-                "y": -387.77864927265404
+                "x": 80.61544289627996,
+                "y": 407.3260861226859
             },
             {
                 "id": "89453",
-                "x": 226.43767137375448,
-                "y": -196.26206071705968
+                "x": -297.4009166489018,
+                "y": -58.18620857397212
             },
             {
                 "id": "89511",
-                "x": -358.66895846640034,
-                "y": 503.67839605557253
+                "x": 278.44882401922,
+                "y": -549.6483589920344
             },
             {
                 "id": "89535",
-                "x": 197.69328297404692,
-                "y": 270.48282422672276
+                "x": -131.5992428356543,
+                "y": -213.61228892233194
             },
             {
                 "id": "89637",
-                "x": 262.21509752497434,
-                "y": -85.72862973598006
+                "x": -267.667854030044,
+                "y": 128.90667281031352
             },
             {
                 "id": "89988",
-                "x": -315.0542300643913,
-                "y": -60.726650402754196
+                "x": 194.36814128478534,
+                "y": -142.5523789328567
             },
             {
                 "id": "90124",
-                "x": -717.3364474362071,
-                "y": 135.68516145777733
+                "x": 688.3600715126142,
+                "y": -87.74417478114898
             },
             {
                 "id": "90231",
-                "x": 296.0177037099403,
-                "y": -671.1030000775249
+                "x": 226.28079317426622,
+                "y": -762.3424140192866
             },
             {
                 "id": "90269",
-                "x": -191.700021020194,
-                "y": -14.469662603852026
+                "x": 123.53375756164904,
+                "y": -56.112778532122725
             },
             {
                 "id": "92425",
-                "x": -180.79066932023588,
-                "y": 684.7172517634529
+                "x": 168.51938873709366,
+                "y": -642.0226230223477
             },
             {
                 "id": "93120",
-                "x": -754.0426852502535,
-                "y": 138.36732399902172
+                "x": 676.9065840946877,
+                "y": -121.21991668056602
             },
             {
                 "id": "93450",
-                "x": -747.1049541307459,
-                "y": 154.8190841859232
+                "x": 706.8779531769393,
+                "y": -81.78896832054254
             },
             {
                 "id": "93737",
-                "x": 164.35461349896846,
-                "y": -147.55531992817382
+                "x": -148.67086767227275,
+                "y": 221.97574948093762
             },
             {
                 "id": "94874",
-                "x": -16.263896267992187,
-                "y": 206.4131259762599
+                "x": -7.614080007746301,
+                "y": 34.91143563898167
             },
             {
                 "id": "96080",
-                "x": -717.72231893557,
-                "y": 274.1618730216077
+                "x": -692.0504878221794,
+                "y": 325.25680498075525
             },
             {
                 "id": "97480",
-                "x": -17.508883362838805,
-                "y": -177.36206599085895
+                "x": -318.8760946638895,
+                "y": 128.4850198710993
             },
             {
                 "id": "97546",
-                "x": 21.199569400829667,
-                "y": -19.044686873112745
+                "x": -125.60107857527898,
+                "y": 146.82272358078538
             },
             {
                 "id": "98036",
-                "x": -264.81224860421327,
-                "y": 150.78155258067366
+                "x": -128.64076616277669,
+                "y": -294.83921820117075
             },
             {
                 "id": "98156",
-                "x": 125.40698213810114,
-                "y": -365.4456596792165
+                "x": -16.86109283847781,
+                "y": 415.7267553110515
             },
             {
                 "id": "98268",
-                "x": 260.14185315427176,
-                "y": 668.6693460958237
+                "x": 72.04410330439244,
+                "y": -767.5724346527512
             },
             {
                 "id": "98592",
-                "x": 198.02115295685357,
-                "y": 57.00071517539313
+                "x": -252.3818831846067,
+                "y": 134.8657928745784
             },
             {
                 "id": "98824",
-                "x": 147.83534569460497,
-                "y": 270.61402829501924
+                "x": 6.3084534854250105,
+                "y": -203.18647388950683
             },
             {
                 "id": "99229",
-                "x": -31.11345429880533,
-                "y": 285.0451199326802
+                "x": 101.60725245176455,
+                "y": -191.3936330811911
             },
             {
                 "id": "99978",
-                "x": 303.1493516908811,
-                "y": -701.2909041142468
+                "x": 254.39371985860842,
+                "y": -752.6740352053037
             },
             {
                 "id": "100263",
-                "x": -122.90957317130527,
-                "y": -92.402900774682
+                "x": 74.80685532002114,
+                "y": 98.17805430713132
             },
             {
                 "id": "100471",
-                "x": 247.53798541187632,
-                "y": -197.57768082887327
+                "x": 69.65710786465127,
+                "y": 212.30886703506718
             },
             {
                 "id": "101222",
-                "x": 81.18780514883366,
-                "y": 27.969081932395323
+                "x": -141.10419984651566,
+                "y": -80.40599428360514
             },
             {
                 "id": "101598",
-                "x": -46.60688531164209,
-                "y": 4.685750730733437
+                "x": -191.4718006737521,
+                "y": 51.89019843450985
             },
             {
                 "id": "101629",
-                "x": -346.7496348023189,
-                "y": 62.12398545154488
+                "x": 296.98221724661187,
+                "y": 77.44471920462205
             },
             {
                 "id": "101797",
-                "x": -4.9563714843132605,
-                "y": -63.72765910900574
+                "x": -221.05126253225455,
+                "y": 59.67798832274758
             },
             {
                 "id": "102213",
-                "x": 137.99607122319586,
-                "y": -41.986720750084736
+                "x": -74.83014718865988,
+                "y": 105.43328763017477
             },
             {
                 "id": "102287",
-                "x": 687.6131917257394,
-                "y": 53.901517966880895
+                "x": 672.8198142471499,
+                "y": 42.93657937720098
             },
             {
                 "id": "102333",
-                "x": 200.70188852084243,
-                "y": 47.50429994041061
+                "x": -371.6739847190129,
+                "y": 49.047144642875544
             },
             {
                 "id": "102350",
-                "x": 172.54360488913366,
-                "y": -208.36776629939766
+                "x": -44.03875102247375,
+                "y": 254.43329170080128
             },
             {
                 "id": "102761",
-                "x": -61.955189178060834,
-                "y": -246.01848537025154
+                "x": 10.265097045791242,
+                "y": 87.57236555010282
             },
             {
                 "id": "102808",
-                "x": 126.54406623285385,
-                "y": -194.6252414640544
+                "x": -233.09647808987032,
+                "y": 290.7058109441375
             },
             {
                 "id": "102820",
-                "x": 60.90057633152884,
-                "y": -208.70282603894336
+                "x": -63.49837196600188,
+                "y": 295.7649531581605
             },
             {
                 "id": "103058",
-                "x": 68.30202348929436,
-                "y": -36.346270192097045
+                "x": -136.53342997220548,
+                "y": 14.323488287638622
             },
             {
                 "id": "103272",
-                "x": -84.58872031844305,
-                "y": -65.51535737577987
+                "x": 97.06119742337141,
+                "y": 241.2990943783395
             },
             {
                 "id": "103305",
-                "x": 357.9605868726406,
-                "y": 125.36846295398807
+                "x": -205.06748225983276,
+                "y": -81.45253416131963
             },
             {
                 "id": "103385",
-                "x": -196.10240637955027,
-                "y": 195.83977612577246
+                "x": 90.43239648792243,
+                "y": -145.74305467812445
             },
             {
                 "id": "103718",
-                "x": -298.6228485611979,
-                "y": -201.98964170292794
+                "x": 260.96504460309376,
+                "y": -63.338816498729614
             },
             {
                 "id": "103841",
-                "x": 148.00006572179706,
-                "y": -199.89200217443448
+                "x": -247.9468301889981,
+                "y": 303.0761393978601
             },
             {
                 "id": "104296",
-                "x": -18.66291308897133,
-                "y": -88.22333279516498
+                "x": -10.98569151961777,
+                "y": -34.54035358420766
             },
             {
                 "id": "104334",
-                "x": 75.3403798011361,
-                "y": 66.37256756227866
+                "x": 108.5066961058561,
+                "y": -250.66006266738938
             },
             {
                 "id": "104679",
-                "x": -63.67703967300942,
-                "y": -80.73241896105604
+                "x": -116.65358470648734,
+                "y": 221.7078080954587
             },
             {
                 "id": "104825",
-                "x": -424.86723727693277,
-                "y": 571.2936174414925
+                "x": -141.18568496547127,
+                "y": -732.6633664806229
             },
             {
                 "id": "104918",
-                "x": 0.18931753757063358,
-                "y": -12.11358745182646
+                "x": -24.70539624419032,
+                "y": 146.1869271244608
             },
             {
                 "id": "104951",
-                "x": -77.91285540386386,
-                "y": -111.72687113968763
+                "x": -13.761503487443495,
+                "y": 131.6988756755928
             },
             {
                 "id": "105087",
-                "x": 126.41335832781677,
-                "y": -15.627484958321386
+                "x": -162.08910137312688,
+                "y": 55.614068111464746
             },
             {
                 "id": "105203",
-                "x": -408.65822696545456,
-                "y": 649.1533186786594
+                "x": -115.42326522493038,
+                "y": -745.7762049217753
             },
             {
                 "id": "105606",
-                "x": -147.40518499393463,
-                "y": 48.72705963548449
+                "x": 45.266789143579494,
+                "y": 73.11934445600254
             },
             {
                 "id": "105883",
-                "x": 22.20911459267552,
-                "y": -198.36314429656753
+                "x": 27.888057185601813,
+                "y": 156.921892407036
             },
             {
                 "id": "106229",
-                "x": -117.9231821903309,
-                "y": -328.8865555635317
+                "x": -132.2661808030672,
+                "y": 334.7476390682704
             },
             {
                 "id": "106265",
-                "x": -178.84576255172084,
-                "y": -140.14768166699878
+                "x": -29.841489689105096,
+                "y": 79.91487538472876
             },
             {
                 "id": "106589",
-                "x": -454.1169717765283,
-                "y": -185.57682402985094
+                "x": 407.06851744552324,
+                "y": -51.42626384193393
             },
             {
                 "id": "106638",
-                "x": 127.72081231141915,
-                "y": 14.234789680044095
+                "x": -245.4401370907306,
+                "y": 72.13835373233769
             },
             {
                 "id": "106930",
-                "x": -195.7746462833566,
-                "y": -291.57852583948795
+                "x": 246.04953162163253,
+                "y": 191.95253676661332
             },
             {
                 "id": "106931",
-                "x": -47.76633600488077,
-                "y": -288.74489355691446
+                "x": 133.86683453477383,
+                "y": 242.0012044724098
             },
             {
                 "id": "106958",
-                "x": -219.51158245580612,
-                "y": 8.766886787377159
+                "x": 14.726434510666191,
+                "y": -260.8942379404616
             },
             {
                 "id": "107080",
-                "x": -482.0798519610159,
-                "y": -17.33458197144291
+                "x": 375.8119579374458,
+                "y": -52.34547505876178
             },
             {
                 "id": "107102",
-                "x": 22.664028426169413,
-                "y": 43.24767285440454
+                "x": -8.121351020854913,
+                "y": 82.51870225381961
             },
             {
                 "id": "107695",
-                "x": -185.7035352011471,
-                "y": -220.67666112273474
+                "x": 220.92035751406073,
+                "y": -38.70290554829278
             },
             {
                 "id": "107746",
-                "x": -387.71632886400613,
-                "y": 481.040558695776
+                "x": 285.79194294043754,
+                "y": -567.1244303575382
             },
             {
                 "id": "108165",
-                "x": -47.604271002123646,
-                "y": -206.9968528070042
+                "x": -58.76323232533547,
+                "y": 259.5679617219954
             },
             {
                 "id": "108173",
-                "x": 100.69523068219277,
-                "y": -40.5562464852048
+                "x": 41.12163605212052,
+                "y": -82.30770332163262
             },
             {
                 "id": "108410",
-                "x": 102.32921077300615,
-                "y": -209.4709036028588
+                "x": -164.60128874741767,
+                "y": 321.1747039354322
             },
             {
                 "id": "108424",
-                "x": -261.70213922699753,
-                "y": 326.2960707281658
+                "x": -547.15481283042,
+                "y": 58.693019102010304
             },
             {
                 "id": "108594",
-                "x": -208.64470259763883,
-                "y": -162.81689326480426
+                "x": 132.36580088221461,
+                "y": 138.08099831976128
             },
             {
                 "id": "109064",
-                "x": 181.91057694057648,
-                "y": 103.11339080425378
+                "x": -163.4594980390971,
+                "y": -33.80426264843882
             },
             {
                 "id": "109552",
-                "x": 54.459858921420825,
-                "y": 208.1072412952242
+                "x": -147.8809281197265,
+                "y": -51.597943040926296
             },
             {
                 "id": "109677",
-                "x": -225.54044392340094,
-                "y": 748.2790274124698
+                "x": 114.51430395773258,
+                "y": 743.0984525321451
             },
             {
                 "id": "109752",
-                "x": -391.1228117049557,
-                "y": -89.8286538297635
+                "x": 249.877591439367,
+                "y": -199.82196375015155
             },
             {
                 "id": "109872",
-                "x": -337.13269753003493,
-                "y": -8.037420526466438
+                "x": 240.70542603049958,
+                "y": -7.639870726064681
             },
             {
                 "id": "109888",
-                "x": -475.1350806350811,
-                "y": -43.78147049833671
+                "x": 397.63198453104434,
+                "y": 14.172896192069258
             },
             {
                 "id": "110167",
-                "x": -236.73503812942496,
-                "y": -213.95821485369484
+                "x": 256.95113521204536,
+                "y": -30.799910398118865
             },
             {
                 "id": "110234",
-                "x": -308.3115487795857,
-                "y": 88.50449657370677
+                "x": 264.4070927140256,
+                "y": 46.233589767512754
             },
             {
                 "id": "110345",
-                "x": -764.4387749477046,
-                "y": -93.11122435060597
+                "x": -754.8241547125449,
+                "y": 78.58991709975915
             },
             {
                 "id": "110652",
-                "x": -411.5699504525599,
-                "y": 154.95147836547122
+                "x": 239.528620744378,
+                "y": -222.72308334517274
             },
             {
                 "id": "110732",
-                "x": 123.18188709088837,
-                "y": 171.99915908312292
+                "x": 56.176268918759256,
+                "y": -34.469599656598064
             },
             {
                 "id": "110748",
-                "x": -347.90539691526044,
-                "y": 182.7040192808434
+                "x": 318.09462243564076,
+                "y": -5.921726955756025
             },
             {
                 "id": "110752",
-                "x": -332.3640270793153,
-                "y": 218.27527859109313
+                "x": 338.4257239454465,
+                "y": 28.089828124517524
             },
             {
                 "id": "110754",
-                "x": -305.926550872821,
-                "y": 159.60654811936237
+                "x": 292.5786908330065,
+                "y": 32.88138785470271
             },
             {
                 "id": "110755",
-                "x": -355.2068144096314,
-                "y": 201.2059816965254
+                "x": 339.8135926558278,
+                "y": 60.30923756076308
             },
             {
                 "id": "110756",
-                "x": -252.87766093542447,
-                "y": 177.60183621399446
+                "x": 274.9440087449586,
+                "y": 71.31526287317843
             },
             {
                 "id": "110757",
-                "x": -299.8350178187643,
-                "y": 202.05912073958993
+                "x": 272.28913404067333,
+                "y": 4.744199103913837
             },
             {
                 "id": "110760",
-                "x": -384.94677920743965,
-                "y": 171.99531098898777
+                "x": 365.8551686409991,
+                "y": 18.070037272551964
             },
             {
                 "id": "110899",
-                "x": -390.9868978693535,
-                "y": -1.5102505326633846
+                "x": 326.3885155309192,
+                "y": -7.6951715536508996
             },
             {
                 "id": "111047",
-                "x": -43.19108334448246,
-                "y": 80.53640064251043
+                "x": -49.81973843420572,
+                "y": -187.64120425947456
             },
             {
                 "id": "111077",
-                "x": 57.57465680441126,
-                "y": 164.2806229931766
+                "x": -18.2881553512389,
+                "y": -83.59339632551665
             },
             {
                 "id": "111141",
-                "x": -299.5942321970367,
-                "y": 210.8505097895667
+                "x": -453.5306740586421,
+                "y": 85.12099095420261
             },
             {
                 "id": "111418",
-                "x": 14.925581464992916,
-                "y": -270.1368792425667
+                "x": -80.7963056812668,
+                "y": 264.49587688224085
             },
             {
                 "id": "111785",
-                "x": -67.22041908430569,
-                "y": 715.8049112363504
+                "x": 22.796299021357548,
+                "y": 711.2430684278065
             },
             {
                 "id": "111934",
-                "x": 193.2132330789621,
-                "y": -72.77003106805391
+                "x": -193.5645898022123,
+                "y": 73.53635796594357
             },
             {
                 "id": "112118",
-                "x": -74.8703049514869,
-                "y": -221.08801336356694
+                "x": 28.169270645031798,
+                "y": 315.29375179305487
             },
             {
                 "id": "113410",
-                "x": 129.4972361151019,
-                "y": 292.82846997734447
+                "x": -321.8074047927112,
+                "y": -201.7144618820093
             },
             {
                 "id": "113482",
-                "x": 584.4754636423569,
-                "y": 376.93823403938273
+                "x": -683.7434105971505,
+                "y": -219.25673138594698
             },
             {
                 "id": "113558",
-                "x": 417.0563682499413,
-                "y": 634.0345423108463
+                "x": 716.7438969795128,
+                "y": 282.64041875022457
             },
             {
                 "id": "114829",
-                "x": -117.74546927547759,
-                "y": -547.1231057941341
+                "x": -35.142122739831535,
+                "y": 615.4783888078197
             },
             {
                 "id": "114830",
-                "x": -87.53127619210012,
-                "y": -420.05737742650706
+                "x": -36.972554820468325,
+                "y": 484.941774773886
             },
             {
                 "id": "114832",
-                "x": -140.28371203876546,
-                "y": -550.786533799333
+                "x": -22.909157965616984,
+                "y": 597.7439877491613
             },
             {
                 "id": "114833",
-                "x": -94.74410562036886,
-                "y": -561.6389483824184
+                "x": -10.97405279241957,
+                "y": 620.2886419896964
             },
             {
                 "id": "114856",
-                "x": -75.35204761676773,
-                "y": -71.26040082233908
+                "x": -189.2963203125585,
+                "y": 87.80661973998873
             },
             {
                 "id": "115340",
-                "x": 22.036843198043197,
-                "y": 81.51510175221132
+                "x": -55.879644632276595,
+                "y": -109.98537671759682
             },
             {
                 "id": "115774",
-                "x": -134.5090204370431,
-                "y": 240.53805136854746
+                "x": -87.74110352763334,
+                "y": -251.18868470334976
             },
             {
                 "id": "116205",
-                "x": -57.07406307085269,
-                "y": 20.832750171444452
+                "x": 27.389691290671788,
+                "y": 138.44877676223408
             },
             {
                 "id": "116225",
-                "x": -439.23697449623154,
-                "y": 614.9949567325618
+                "x": -151.1303820936093,
+                "y": -691.0192812167835
             },
             {
                 "id": "116374",
-                "x": 490.58468138105746,
-                "y": -525.1663348819329
+                "x": -477.04192803188994,
+                "y": -547.1488692559383
             },
             {
                 "id": "116380",
-                "x": -86.48303043669777,
-                "y": -200.47339486693014
+                "x": -90.89630175777256,
+                "y": 250.1508345211407
             },
             {
                 "id": "116383",
-                "x": -144.19536661869412,
-                "y": -141.39653337082632
+                "x": -143.38846219742388,
+                "y": 159.41353299559702
             },
             {
                 "id": "116442",
-                "x": -34.76293472141444,
-                "y": 518.321764672102
+                "x": -198.2738972104524,
+                "y": 571.0640505791025
             },
             {
                 "id": "116555",
-                "x": 129.69980847200924,
-                "y": 375.00415854660326
+                "x": 8.795174948505549,
+                "y": -338.14489172868275
             },
             {
                 "id": "116625",
-                "x": -78.12584271476531,
-                "y": 135.02093179759154
+                "x": -44.442782166247795,
+                "y": -280.0131517089392
             },
             {
                 "id": "116694",
-                "x": -75.19139245210994,
-                "y": 33.48813951699674
+                "x": -39.30572720023881,
+                "y": 3.642608460225134
             },
             {
                 "id": "116746",
-                "x": -168.1703801674118,
-                "y": -17.106500284258942
+                "x": 45.18097065317633,
+                "y": -34.65697321857985
             },
             {
                 "id": "116846",
-                "x": 221.39609850254953,
-                "y": 185.84086781938763
+                "x": -379.11800629412386,
+                "y": 190.99036338224172
             },
             {
                 "id": "117406",
-                "x": -542.1141988730595,
-                "y": -286.1932637051644
+                "x": 272.6790418710447,
+                "y": -432.9166712065674
             },
             {
                 "id": "117407",
-                "x": 396.7313465905117,
-                "y": 494.20969745424003
+                "x": -312.8113780907823,
+                "y": -572.0656755924168
             },
             {
                 "id": "117519",
-                "x": 289.5783764461791,
-                "y": 24.768885259984913
+                "x": -360.03906130569226,
+                "y": 5.960332413524529
             },
             {
                 "id": "117551",
-                "x": 181.44708406760924,
-                "y": -170.00768529003636
+                "x": -283.39857186744894,
+                "y": 198.89646216475242
             },
             {
                 "id": "117689",
-                "x": -365.231379930236,
-                "y": -23.04834369518483
+                "x": 145.12945571327694,
+                "y": -201.73766537211245
             },
             {
                 "id": "117698",
-                "x": 103.38111795897763,
-                "y": 229.36188006044287
+                "x": -72.40224794463147,
+                "y": -120.5932940156446
             },
             {
                 "id": "118040",
-                "x": 307.85288872649505,
-                "y": 377.83185263158776
+                "x": -278.5623659817374,
+                "y": -394.7114714447232
             },
             {
                 "id": "118546",
-                "x": -33.03559491557341,
-                "y": -318.93556836992195
+                "x": 38.53669014970144,
+                "y": 335.8402055247494
             },
             {
                 "id": "118551",
-                "x": -328.65171838496076,
-                "y": -117.76002528942837
+                "x": 234.45774753828968,
+                "y": 296.13859179532847
             },
             {
                 "id": "118751",
-                "x": -272.3265752220086,
-                "y": -364.14457980841826
+                "x": 103.5768294879864,
+                "y": 480.0457734475575
             },
             {
                 "id": "118752",
-                "x": -338.9598049233006,
-                "y": -358.8472752952434
+                "x": 103.21934571608924,
+                "y": 506.7703727999458
             },
             {
                 "id": "118756",
-                "x": -392.02716751051366,
-                "y": -443.21462833189065
+                "x": 157.112717795279,
+                "y": 585.1445839719837
             },
             {
                 "id": "118757",
-                "x": -364.49137683574526,
-                "y": -431.2874738060671
+                "x": 109.40307702090988,
+                "y": 585.9554678047324
             },
             {
                 "id": "118759",
-                "x": -411.7443703265927,
-                "y": -434.7341525586912
+                "x": 162.1947517405982,
+                "y": 597.6002342668144
             },
             {
                 "id": "118760",
-                "x": -339.08018254864584,
-                "y": -390.7635995731815
+                "x": 85.1335357230165,
+                "y": 532.2334165116141
             },
             {
                 "id": "118768",
-                "x": -432.8463532334788,
-                "y": -378.99280702462244
+                "x": 89.03155329110444,
+                "y": 574.6470643297392
             },
             {
                 "id": "118770",
-                "x": -397.2586530503042,
-                "y": -398.2106735468745
+                "x": 143.5977405386914,
+                "y": 555.752305789725
             },
             {
                 "id": "118874",
-                "x": 59.658350589083156,
-                "y": 98.20036821898519
+                "x": 84.70182441506296,
+                "y": 1.0360743255452887
             },
             {
                 "id": "119015",
-                "x": -263.1242330468668,
-                "y": 290.9974763978003
+                "x": -510.9805185560767,
+                "y": 71.43975064043919
             },
             {
                 "id": "119023",
-                "x": -287.2335285812166,
-                "y": 202.45895403242005
+                "x": -441.86292722850516,
+                "y": 107.19968832946581
             },
             {
                 "id": "119268",
-                "x": 16.54645024573266,
-                "y": -76.10228049564918
+                "x": 102.90926176439702,
+                "y": 19.487124021282895
             },
             {
                 "id": "119503",
-                "x": -129.52199913269357,
-                "y": -200.1563621234032
+                "x": -33.275983805953715,
+                "y": 310.95231158738665
             },
             {
                 "id": "119561",
-                "x": 111.47831844464639,
-                "y": -51.16633037611322
+                "x": -133.0390472882903,
+                "y": 255.03403178666957
             },
             {
                 "id": "119668",
-                "x": 362.9078313041885,
-                "y": -256.3331987998297
+                "x": 377.87682258055605,
+                "y": -113.4507605164786
             },
             {
                 "id": "119674",
-                "x": 158.42653841771343,
-                "y": 169.33673828738767
+                "x": -204.73084276882176,
+                "y": -198.61750410924557
             },
             {
                 "id": "120385",
-                "x": 111.15182947353054,
-                "y": 259.0696485087573
+                "x": 67.09580924732072,
+                "y": -205.17432641557275
             },
             {
                 "id": "120697",
-                "x": 83.559917662906,
-                "y": 125.85307987903369
+                "x": 23.192392855845696,
+                "y": -1.8598969228239135
             },
             {
                 "id": "120733",
-                "x": -328.31700753541975,
-                "y": -62.684447426768045
+                "x": 252.35418980021245,
+                "y": -44.47693825914171
             },
             {
                 "id": "121037",
-                "x": -165.36341725179477,
-                "y": -192.30714271639664
+                "x": 69.88547678710758,
+                "y": 189.54178557762734
             },
             {
                 "id": "121383",
-                "x": -54.55362127296369,
-                "y": 50.561397617473936
+                "x": -100.17288232751359,
+                "y": 87.35365863521719
             },
             {
                 "id": "121911",
-                "x": 221.86789563789006,
-                "y": -277.12911743836406
+                "x": 89.27156049748626,
+                "y": 359.3307640518955
             },
             {
                 "id": "122224",
-                "x": -89.5955237403056,
-                "y": -144.2591383573715
+                "x": 74.72624998092002,
+                "y": 294.62989531267164
             },
             {
                 "id": "122265",
-                "x": 203.218521507722,
-                "y": -130.66341155555173
+                "x": -73.9311596292144,
+                "y": 46.770093065956395
             },
             {
                 "id": "122416",
-                "x": 420.4788176846822,
-                "y": -11.642477741282207
+                "x": -370.20850229970836,
+                "y": -165.2585310994374
             },
             {
                 "id": "122436",
-                "x": -36.72451596992254,
-                "y": 91.5744348577175
+                "x": 79.60943004775332,
+                "y": 48.07188862885076
             },
             {
                 "id": "122550",
-                "x": 460.13807549604525,
-                "y": -518.0971440964456
+                "x": -500.744203528723,
+                "y": -515.5913167562917
             },
             {
                 "id": "122770",
-                "x": 25.703948940883432,
-                "y": 79.93542483796034
+                "x": 147.89534604412165,
+                "y": -140.8372594202603
             },
             {
                 "id": "123876",
-                "x": 532.6500731313905,
-                "y": 391.1278980818306
+                "x": -665.7951844244949,
+                "y": -183.97299722483294
             },
             {
                 "id": "123944",
-                "x": -136.1752196024146,
-                "y": 156.23351849381316
+                "x": 100.09533349019038,
+                "y": -181.94065678882956
             },
             {
                 "id": "123973",
-                "x": -78.05886831982757,
-                "y": 213.75999175600347
+                "x": 183.72002805586874,
+                "y": -11.195696785384731
             },
             {
                 "id": "124353",
-                "x": -349.2624505717482,
-                "y": 87.01783333826054
+                "x": 230.77746073914884,
+                "y": -93.92666934671088
             },
             {
                 "id": "124358",
-                "x": -337.8653615019819,
-                "y": 17.138979098896435
+                "x": 272.9885553672543,
+                "y": -17.54998034363366
             },
             {
                 "id": "124370",
-                "x": -388.43279385263776,
-                "y": 130.3273275315903
+                "x": 234.77343889726333,
+                "y": -168.98513176507606
             },
             {
                 "id": "124374",
-                "x": -413.2353044719638,
-                "y": 27.025573285327944
+                "x": 273.4642915539371,
+                "y": -156.82621052919126
             },
             {
                 "id": "124544",
-                "x": 586.6959041642511,
-                "y": 445.01369321398454
+                "x": -702.4145182306809,
+                "y": -136.34154926518238
             },
             {
                 "id": "124561",
-                "x": 551.0683674715729,
-                "y": 397.6302707847579
+                "x": -676.3167488145351,
+                "y": -200.05418676981463
             },
             {
                 "id": "124562",
-                "x": 589.3417358120797,
-                "y": 393.7024448325226
+                "x": -718.2078980974628,
+                "y": -213.82262758805254
             },
             {
                 "id": "124563",
-                "x": 561.0038370410722,
-                "y": 432.5819752456351
+                "x": -707.6031145397875,
+                "y": -152.14147088269084
             },
             {
                 "id": "124564",
-                "x": 600.3573096661061,
-                "y": 381.64821028792977
+                "x": -668.6918512893634,
+                "y": -210.13238612344955
             },
             {
                 "id": "124565",
-                "x": 500.9301143524598,
-                "y": 344.4032986314696
+                "x": -620.2255993085653,
+                "y": -140.1485561003471
             },
             {
                 "id": "124566",
-                "x": 533.751332555149,
-                "y": 425.6754112434755
+                "x": -683.0968102111012,
+                "y": -175.41389575222652
             },
             {
                 "id": "124567",
-                "x": 515.6651677957302,
-                "y": 408.66289508088096
+                "x": -657.3654001649334,
+                "y": -165.95465476958702
             },
             {
                 "id": "124569",
-                "x": 539.7819576860925,
-                "y": 411.2464539444112
+                "x": -731.642335990291,
+                "y": -127.97533347613214
             },
             {
                 "id": "124570",
-                "x": 570.3718960866229,
-                "y": 368.80006883089857
+                "x": -723.9286405710026,
+                "y": -197.42474556005422
             },
             {
                 "id": "124571",
-                "x": 604.4843730753704,
-                "y": 415.2732189883548
+                "x": -748.5381092274049,
+                "y": -184.30504793847743
             },
             {
                 "id": "124572",
-                "x": 546.5204876926475,
-                "y": 434.9531293690013
+                "x": -690.6214991206595,
+                "y": -162.3613969848491
             },
             {
                 "id": "124573",
-                "x": 547.1578976662995,
-                "y": 358.99869069625356
+                "x": -664.3050597910369,
+                "y": -147.7008452186943
             },
             {
                 "id": "124574",
-                "x": 546.0410746346101,
-                "y": 372.06206966489276
+                "x": -685.0394945844723,
+                "y": -128.76115179838334
             },
             {
                 "id": "124575",
-                "x": 502.25338550662286,
-                "y": 370.2699382963296
+                "x": -626.3002004584802,
+                "y": -166.79587873441585
             },
             {
                 "id": "124576",
-                "x": 619.8478987945825,
-                "y": 403.38894102077023
+                "x": -702.9583769757272,
+                "y": -230.39105911515497
             },
             {
                 "id": "124577",
-                "x": 570.1522365062154,
-                "y": 463.889615727053
+                "x": -718.7601923211613,
+                "y": -134.74285374972607
             },
             {
                 "id": "124579",
-                "x": 583.7822616657527,
-                "y": 360.4426075065778
+                "x": -706.8200576511025,
+                "y": -204.8447120215636
             },
             {
                 "id": "124581",
-                "x": 599.5632106644082,
-                "y": 435.46256231857274
+                "x": -730.3848752442448,
+                "y": -161.81540066573743
             },
             {
                 "id": "124584",
-                "x": 532.820219727597,
-                "y": 441.334717705686
-            },
-            {
-                "id": "124585",
-                "x": 612.559408865596,
-                "y": 373.8588674447462
+                "x": -745.0660458885377,
+                "y": -169.80888348858915
             },
             {
                 "id": "124586",
-                "x": 571.4833444349447,
-                "y": 420.0330259516041
-            },
-            {
-                "id": "124587",
-                "x": 560.6041129704356,
-                "y": 383.89044189252445
+                "x": -688.0921575192255,
+                "y": -232.26589579119178
             },
             {
                 "id": "124604",
-                "x": 604.5715581575602,
-                "y": 398.5202537207072
+                "x": -710.7909570133272,
+                "y": -122.78479288375044
             },
             {
                 "id": "124608",
-                "x": 554.3056817738344,
-                "y": 462.3531019416335
-            },
-            {
-                "id": "124611",
-                "x": 598.8007786470803,
-                "y": 364.4264433671428
+                "x": -695.1158364491881,
+                "y": -211.95069277844743
             },
             {
                 "id": "125131",
-                "x": 91.08611529402174,
-                "y": 250.22157424330072
+                "x": -86.96988345283455,
+                "y": -106.47375038195271
             },
             {
                 "id": "125152",
-                "x": -264.8288954137161,
-                "y": 14.932339606101676
+                "x": 73.01378670329424,
+                "y": -157.97273068176088
             },
             {
                 "id": "125461",
-                "x": -186.7219115394293,
-                "y": 138.41881887316956
+                "x": 145.89243233544428,
+                "y": -28.377876253516195
             },
             {
                 "id": "125529",
-                "x": -134.45042736633528,
-                "y": 15.125670370363753
+                "x": 41.7764097631035,
+                "y": 224.69590136852355
             },
             {
                 "id": "125740",
-                "x": -436.7749731373078,
-                "y": 577.3580046106216
+                "x": -172.03354473103803,
+                "y": -732.60871684232
             },
             {
                 "id": "126092",
-                "x": 40.08530035725737,
-                "y": 52.35793188056345
+                "x": -48.695685450063095,
+                "y": -121.17459111488144
             },
             {
                 "id": "126152",
-                "x": -19.407292382389027,
-                "y": 7.761733622694313
+                "x": -120.89277750118026,
+                "y": 185.11764991712403
             },
             {
                 "id": "126158",
-                "x": 232.02620253689844,
-                "y": -51.965168440534754
+                "x": -206.82945571134815,
+                "y": 274.04450919064936
             },
             {
                 "id": "126159",
-                "x": -23.146580925978434,
-                "y": -231.97571190058522
+                "x": 60.287958632971474,
+                "y": 312.41471205250616
             },
             {
                 "id": "126294",
-                "x": -153.77776234756652,
-                "y": -126.7540936985782
+                "x": 43.46018998586002,
+                "y": 53.23173501234748
             },
             {
                 "id": "127563",
-                "x": 530.3232390534321,
-                "y": -547.0755497335821
+                "x": -502.0721679727962,
+                "y": -533.9456729084411
             },
             {
                 "id": "127569",
-                "x": -545.785485184907,
-                "y": 230.927725814505
+                "x": 786.0470467916681,
+                "y": 80.53196964703967
             },
             {
                 "id": "127708",
-                "x": 318.3055027392525,
-                "y": 57.302486280651024
+                "x": -370.1207049883705,
+                "y": 30.58964397686087
             },
             {
                 "id": "127731",
-                "x": -96.81329074400409,
-                "y": 149.73222736619118
-            },
-            {
-                "id": "127864",
-                "x": -18.278218793522242,
-                "y": -237.86606832469278
+                "x": 121.14707718136161,
+                "y": 26.10787334109959
             },
             {
                 "id": "128495",
-                "x": 655.8086669911274,
-                "y": 245.31243225320614
+                "x": -680.1500829288125,
+                "y": -333.72927139577996
             },
             {
                 "id": "128580",
-                "x": -184.45413662601922,
-                "y": -202.18819617522047
+                "x": 156.3738827816495,
+                "y": 58.83907782393175
             },
             {
                 "id": "128582",
-                "x": -124.95423026390534,
-                "y": -259.24084964379125
+                "x": -55.52070310304921,
+                "y": 216.15291731022518
             },
             {
                 "id": "128708",
-                "x": 107.83047793604496,
-                "y": -173.21750312898027
+                "x": 239.4305092224837,
+                "y": 171.01771468965987
             },
             {
                 "id": "128738",
-                "x": -255.40778189497217,
-                "y": -58.955334435978514
+                "x": 95.87036392528104,
+                "y": -42.34966545865357
             },
             {
                 "id": "129021",
-                "x": -116.32841360203186,
-                "y": 5.9988688269160155
+                "x": 106.39004861653643,
+                "y": -5.167680842570425
             },
             {
                 "id": "129352",
-                "x": -386.9473028279857,
-                "y": 649.5324327632004
+                "x": -158.98993360203357,
+                "y": -741.2260269375996
             },
             {
                 "id": "129675",
-                "x": 447.431847256582,
-                "y": -538.4364320178547
+                "x": -469.13101410891574,
+                "y": -530.6040944842949
             },
             {
                 "id": "129680",
-                "x": 475.6757155619877,
-                "y": -529.7191416927534
+                "x": -519.3658574950124,
+                "y": -475.49165572165936
             },
             {
                 "id": "130328",
-                "x": 702.2036871455973,
-                "y": 78.78646810525542
+                "x": 688.1578860250842,
+                "y": 37.177176778670294
             },
             {
                 "id": "130544",
-                "x": 42.285130304238315,
-                "y": 105.82716193963716
+                "x": -151.51355488518556,
+                "y": -10.651486017426015
             },
             {
                 "id": "130551",
-                "x": 257.6134647604612,
-                "y": -165.88250974537317
+                "x": -179.07628602846245,
+                "y": -160.7020957855963
             },
             {
                 "id": "130705",
-                "x": -69.33688412550688,
-                "y": -87.34610968312809
+                "x": -277.16405683303446,
+                "y": 100.91082129015402
             },
             {
                 "id": "131301",
-                "x": 40.55199600947041,
-                "y": 144.27515440021574
+                "x": -268.48032583595227,
+                "y": -257.58273101984946
             },
             {
                 "id": "131366",
-                "x": -68.06868461891669,
-                "y": 71.28735469373369
+                "x": -49.00802499789883,
+                "y": -201.63675675841628
             },
             {
                 "id": "131664",
-                "x": 120.12726995074935,
-                "y": -299.66501329332283
+                "x": -38.67251447850197,
+                "y": 367.55475491100066
             },
             {
                 "id": "131753",
-                "x": 496.7681854555394,
-                "y": -498.59738528255343
+                "x": -507.12596883436555,
+                "y": -499.6685555294326
             },
             {
                 "id": "132059",
-                "x": 377.65295113352687,
-                "y": 537.4594915442951
+                "x": -298.99856441927085,
+                "y": -560.2430855988533
             },
             {
                 "id": "132266",
-                "x": -430.21412466982343,
-                "y": 595.0233725642871
+                "x": -114.92575805116726,
+                "y": -716.1626885129748
             },
             {
                 "id": "132272",
-                "x": -384.98796460273036,
-                "y": 603.9541808625418
+                "x": -168.49503542609907,
+                "y": -696.3061202361328
             },
             {
                 "id": "132850",
-                "x": -177.19111748080888,
-                "y": -162.76618923441225
+                "x": 106.65114661389363,
+                "y": 179.13498000377888
             },
             {
                 "id": "132852",
-                "x": -212.05295658498946,
-                "y": -126.30051399944999
+                "x": 25.034428471144434,
+                "y": 240.60791284311037
             },
             {
                 "id": "133637",
-                "x": 177.1872863329646,
-                "y": -206.6275555516351
+                "x": 32.67864742795879,
+                "y": 349.09443970390544
             },
             {
                 "id": "133732",
-                "x": -580.1129734397563,
-                "y": 232.4290923078451
+                "x": 770.8366492439282,
+                "y": 69.20331433696121
             },
             {
                 "id": "133734",
-                "x": -373.09557362816463,
-                "y": 232.27157762162295
+                "x": 766.460318023219,
+                "y": 25.11187181989828
             },
             {
                 "id": "133847",
-                "x": 709.5381464659675,
-                "y": 33.277981732913815
+                "x": 663.8431160405933,
+                "y": 31.342693002271822
             },
             {
                 "id": "134196",
-                "x": -116.17160473182061,
-                "y": 98.10263376430908
+                "x": 1.3397151987363236,
+                "y": -151.6792552227825
             },
             {
                 "id": "134719",
-                "x": -478.5488169296114,
-                "y": -101.52683668568467
+                "x": 404.58215002125417,
+                "y": -35.07522855145235
             },
             {
                 "id": "134785",
-                "x": 97.54134322879608,
-                "y": -387.52699588699903
+                "x": 341.02508589094236,
+                "y": 128.12166948101344
             },
             {
                 "id": "134789",
-                "x": 69.38997933854547,
-                "y": 170.9823103335324
+                "x": -176.78357916647246,
+                "y": -71.4221583732549
             },
             {
                 "id": "134822",
-                "x": -281.9255073050032,
-                "y": -155.41241402065526
+                "x": 256.62932031181697,
+                "y": 64.1066830349922
             },
             {
                 "id": "135213",
-                "x": 221.28272260574718,
-                "y": -139.84419798971655
+                "x": -209.58043365958756,
+                "y": 179.13811471053444
             },
             {
                 "id": "135930",
-                "x": -221.2533549673199,
-                "y": -137.5086500438039
+                "x": 169.10458333719197,
+                "y": 139.821706960021
             },
             {
                 "id": "137048",
-                "x": -711.2567177676968,
-                "y": -100.14005069245084
+                "x": 474.4245663280013,
+                "y": 508.0192539837317
             },
             {
                 "id": "137192",
-                "x": -327.4399747241557,
-                "y": 96.04441492073236
+                "x": -119.95238387584453,
+                "y": -348.78027412071833
             },
             {
                 "id": "137349",
-                "x": 158.7452508153906,
-                "y": -114.09752192848805
+                "x": -156.63940620424,
+                "y": 146.4458814338499
             },
             {
                 "id": "137821",
-                "x": -255.8938632119355,
-                "y": 123.68693079998374
+                "x": 90.12115884321595,
+                "y": -66.69579632508014
             },
             {
                 "id": "138499",
-                "x": -271.4817782269746,
-                "y": 159.0512255254762
+                "x": 130.00968652531577,
+                "y": -192.41156930122347
             },
             {
                 "id": "139363",
-                "x": -734.3118587737567,
-                "y": 140.22008588478408
+                "x": 709.4912553896163,
+                "y": -133.65888331377255
             },
             {
                 "id": "139633",
-                "x": -4.884727624811128,
-                "y": -362.6538099283241
+                "x": 85.15309215654699,
+                "y": 314.1498769794248
             },
             {
                 "id": "140304",
-                "x": 265.79218364727154,
-                "y": -60.63914840367295
+                "x": -85.28399337132052,
+                "y": 206.72997168138068
             },
             {
                 "id": "140775",
-                "x": -637.2975752241365,
-                "y": -290.9182141295349
+                "x": 390.7834695913346,
+                "y": -500.0291623270688
             },
             {
                 "id": "140777",
-                "x": 634.7423005942015,
-                "y": -159.4966146680721
+                "x": -680.4253515333982,
+                "y": 202.47754891176945
             },
             {
                 "id": "140790",
-                "x": 216.17910775569695,
-                "y": 10.185508243471897
+                "x": -239.11407224857956,
+                "y": 53.04069855535579
             },
             {
                 "id": "140904",
-                "x": 173.91630717227608,
-                "y": 233.46711957700083
+                "x": -296.19689194348905,
+                "y": -87.59850164688787
             },
             {
                 "id": "141718",
-                "x": 127.1652612593993,
-                "y": -609.710150690791
+                "x": 307.89333817200696,
+                "y": 538.6175768772222
             },
             {
                 "id": "141989",
-                "x": -253.10940079130518,
-                "y": -183.1035727359343
+                "x": 115.41678957883451,
+                "y": 31.413392226196702
             },
             {
                 "id": "142314",
-                "x": 24.08159254877005,
-                "y": -262.79635812710507
+                "x": 291.0320544432798,
+                "y": 22.75922112092802
             },
             {
                 "id": "142548",
-                "x": -710.4828373375127,
-                "y": -281.89269981333746
+                "x": 393.75637626930285,
+                "y": -583.059454437533
             },
             {
                 "id": "142720",
-                "x": 270.5867996843203,
-                "y": -265.6845468355832
+                "x": -212.81760771437303,
+                "y": 311.36720641069957
             },
             {
                 "id": "142789",
-                "x": -365.605696247235,
-                "y": 601.6215654575902
+                "x": -180.88237588234796,
+                "y": -709.740077457675
             },
             {
                 "id": "142896",
-                "x": -290.26087496612814,
-                "y": 88.82934444118673
+                "x": -362.2055364687475,
+                "y": 151.5214972767002
             },
             {
                 "id": "142986",
-                "x": 692.6375328153288,
-                "y": 39.57686992918276
+                "x": 656.8490360272721,
+                "y": 85.35341265409245
             },
             {
                 "id": "143303",
-                "x": -182.17982916227885,
-                "y": 14.552378702252684
+                "x": 41.01438212444471,
+                "y": -195.36099029186846
             },
             {
                 "id": "143600",
-                "x": 82.31133945000572,
-                "y": -418.22180056444313
+                "x": 42.05215906428026,
+                "y": 370.5167460342233
             },
             {
                 "id": "143650",
-                "x": -66.64197740698185,
-                "y": 270.4396362471924
+                "x": -238.0595704016361,
+                "y": -163.16502391841948
             },
             {
                 "id": "144034",
-                "x": 123.12052722619117,
-                "y": -21.910226829275807
+                "x": -368.40926865794904,
+                "y": 280.67233697846837
             },
             {
                 "id": "144195",
-                "x": 93.6596771753237,
-                "y": -239.93712328343736
+                "x": -62.50986355814311,
+                "y": 344.96898811904515
             },
             {
                 "id": "144312",
-                "x": -23.923271906566388,
-                "y": -149.25102831288498
+                "x": -264.0361491624256,
+                "y": 263.623908993822
             },
             {
                 "id": "144314",
-                "x": 34.92513538561195,
-                "y": -146.8116815535143
+                "x": -52.57116779519509,
+                "y": 205.61957900945706
             },
             {
                 "id": "144567",
-                "x": -190.40778641608333,
-                "y": 181.05056800549133
+                "x": -62.054826849511656,
+                "y": -216.97659874162827
             },
             {
                 "id": "144730",
-                "x": 168.0754096932458,
-                "y": 129.47168579185092
+                "x": -157.75406066389027,
+                "y": -91.0463872117523
             },
             {
                 "id": "145708",
-                "x": 430.57081210785617,
-                "y": -131.82787923177943
+                "x": 98.08796280168481,
+                "y": -349.4268946117213
             },
             {
                 "id": "145813",
-                "x": -8.321817266702997,
-                "y": -186.87202381919565
+                "x": 125.4164136376875,
+                "y": 109.29396916270973
             },
             {
                 "id": "146056",
-                "x": -82.87267919476909,
-                "y": 54.34138411102884
+                "x": -81.54298115408291,
+                "y": 1.5604055557768055
             },
             {
                 "id": "146199",
-                "x": -265.8352823292511,
-                "y": 276.05172772573724
+                "x": 352.4122896262109,
+                "y": 27.1811774255305
             },
             {
                 "id": "146234",
-                "x": -316.4414406526291,
-                "y": -216.43824143317585
+                "x": 95.04486675088887,
+                "y": -171.8950790001046
             },
             {
                 "id": "146235",
-                "x": -347.4480848930859,
-                "y": -180.7492999644314
+                "x": 8.2801547465184,
+                "y": -239.26501438549363
             },
             {
                 "id": "146242",
-                "x": 497.200091835723,
-                "y": -637.8631972930874
+                "x": -33.781945286719605,
+                "y": 764.2342284387117
             },
             {
                 "id": "146495",
-                "x": 582.5572821219013,
-                "y": 458.9759868530659
+                "x": -732.2169028072663,
+                "y": -217.19797771731058
             },
             {
                 "id": "146796",
-                "x": 82.21893147066326,
-                "y": -339.6501340427918
+                "x": -134.19675793425787,
+                "y": 368.7775350332741
             },
             {
                 "id": "146797",
-                "x": 76.57945264063336,
-                "y": -376.69180843017995
+                "x": -72.85091360099061,
+                "y": 423.8011092639243
             },
             {
                 "id": "146894",
-                "x": -107.55840461194981,
-                "y": -70.9648307512575
+                "x": 30.894197722983264,
+                "y": -64.60927179455439
             },
             {
                 "id": "146896",
-                "x": 9.66824533745995,
-                "y": -699.5119978034446
+                "x": 625.8540197101393,
+                "y": 347.8486275691816
             },
             {
                 "id": "147179",
-                "x": -707.2613786314033,
-                "y": -298.84761888973355
+                "x": 377.168415432553,
+                "y": -585.7155161060892
             },
             {
                 "id": "147319",
-                "x": -220.5094988476247,
-                "y": 312.68126712990335
-            },
-            {
-                "id": "147528",
-                "x": 315.29836071811957,
-                "y": 672.9181070920828
+                "x": -41.12093638067148,
+                "y": -302.27249031913686
             },
             {
                 "id": "147667",
-                "x": -52.05325819222881,
-                "y": -371.6327039857144
+                "x": 135.0742558595791,
+                "y": 320.8224816819873
             },
             {
                 "id": "147674",
-                "x": -191.9391759990563,
-                "y": -278.68260327791074
+                "x": 230.86015035295082,
+                "y": 168.60087228411635
             },
             {
                 "id": "147718",
-                "x": -266.48170878286464,
-                "y": -218.39123658146704
+                "x": 185.13089684606078,
+                "y": 25.545553116835396
             },
             {
                 "id": "147847",
-                "x": -290.26800667432485,
-                "y": 3.5406163548443725
+                "x": 135.9040877949396,
+                "y": -25.17547469755191
             },
             {
                 "id": "148029",
-                "x": 328.3744532677178,
-                "y": -611.9251028295819
+                "x": 317.52790036855976,
+                "y": -666.4034187999226
             },
             {
                 "id": "148040",
-                "x": 138.6710867440038,
-                "y": -239.3925846793528
+                "x": -205.45329260945488,
+                "y": 318.51393949042154
             },
             {
                 "id": "148063",
-                "x": -145.10359557158165,
-                "y": 7.224088273595687
+                "x": 13.022451258709165,
+                "y": 237.8635344370088
             },
             {
                 "id": "148077",
-                "x": 242.33924932460664,
-                "y": -671.050434331286
+                "x": 400.013688675341,
+                "y": 617.5235953132001
             },
             {
                 "id": "148191",
-                "x": 560.0298403991758,
-                "y": 448.9070516454971
+                "x": -725.6466102566415,
+                "y": -147.89186921909612
             },
             {
                 "id": "148629",
-                "x": 208.11629604620887,
-                "y": 172.097117300704
+                "x": -279.59347512543104,
+                "y": 73.1926682606284
             },
             {
                 "id": "148989",
-                "x": 194.3355428057326,
-                "y": 177.83519456438523
+                "x": -327.9677404396092,
+                "y": -124.16275880230747
             },
             {
                 "id": "149065",
-                "x": -69.84746992367714,
-                "y": 125.8527109035569
+                "x": -178.32853134944273,
+                "y": -100.31537355180933
             },
             {
                 "id": "149367",
-                "x": 98.4228532006631,
-                "y": 53.267823686033616
+                "x": -256.3525531700873,
+                "y": -5.209225670407356
             },
             {
                 "id": "149560",
-                "x": -422.9535536559927,
-                "y": 653.4528523508237
+                "x": -166.91058152634497,
+                "y": -712.3953320191846
             },
             {
                 "id": "149811",
-                "x": -572.407761838199,
-                "y": -505.6819241829361
+                "x": -358.9157966074925,
+                "y": -663.9851007953142
             },
             {
                 "id": "150101",
-                "x": -282.1642228579537,
-                "y": 70.07131476703137
+                "x": 247.67891653808857,
+                "y": 114.13895069622504
             },
             {
                 "id": "150102",
-                "x": -372.56946719549444,
-                "y": 115.81288393492264
+                "x": 266.57514850619293,
+                "y": 93.63985796598243
             },
             {
                 "id": "150111",
-                "x": 29.48694151328247,
-                "y": -126.0733951808668
+                "x": -42.34512540958601,
+                "y": 267.5103903819769
             },
             {
                 "id": "150237",
-                "x": 17.64051624149305,
-                "y": -39.458107778718244
+                "x": 53.226445210493246,
+                "y": 144.14073452058324
             },
             {
                 "id": "150239",
-                "x": 254.93178427169116,
-                "y": -64.46436624435991
+                "x": -22.071548868720065,
+                "y": 223.84064133665262
             },
             {
                 "id": "150795",
-                "x": -756.8354149278456,
-                "y": 118.64958754192041
+                "x": 664.0176430300958,
+                "y": -106.85251305031515
             },
             {
                 "id": "150800",
-                "x": -674.975947051332,
-                "y": 139.6052623374458
+                "x": 636.4353883825809,
+                "y": -72.16158511431297
             },
             {
                 "id": "151053",
-                "x": 152.66378829441496,
-                "y": -60.02869924099492
+                "x": -191.132566735026,
+                "y": 264.46296409190427
             },
             {
                 "id": "151206",
-                "x": 145.4596895181695,
-                "y": -605.6537893183945
+                "x": 321.6158164963924,
+                "y": 527.6493336545589
             },
             {
                 "id": "151211",
-                "x": -723.8845994038752,
-                "y": 250.63312496151724
+                "x": -646.4759168609274,
+                "y": -364.15934902539277
             },
             {
                 "id": "152154",
-                "x": 218.15589674748793,
-                "y": 316.9998680974629
+                "x": -395.6602097092736,
+                "y": -215.31488213449603
             },
             {
                 "id": "152170",
-                "x": 136.95052180322133,
-                "y": 790.6515328338621
+                "x": 116.7821989912936,
+                "y": 714.8304539387102
             },
             {
                 "id": "152246",
-                "x": -448.7496805465776,
-                "y": 598.820380975774
+                "x": -155.60679054253333,
+                "y": -722.4439640972113
             },
             {
                 "id": "152594",
-                "x": 299.2933650207113,
-                "y": 673.2458380184613
+                "x": 123.96271191905487,
+                "y": -729.9036541271543
             },
             {
                 "id": "152972",
-                "x": 74.13360198121204,
-                "y": 151.4192979728995
+                "x": -236.81027579771938,
+                "y": -191.38266315598347
             },
             {
                 "id": "153581",
-                "x": -216.46479476573444,
-                "y": -301.8544716989833
+                "x": 209.4655260251213,
+                "y": 115.36862209011844
             },
             {
                 "id": "153875",
-                "x": 194.93563881840439,
-                "y": 388.6270791158905
+                "x": -61.97721063575613,
+                "y": 479.67007075674934
             },
             {
                 "id": "154297",
-                "x": 185.8976461045725,
-                "y": 173.18896045016913
+                "x": -303.0008515360199,
+                "y": -160.02258160080981
             },
             {
                 "id": "154611",
-                "x": -11.009938086528528,
-                "y": 463.08719345704156
+                "x": 373.9137004317152,
+                "y": 106.37850277374011
             },
             {
                 "id": "154612",
-                "x": -28.345412190285757,
-                "y": 387.8096912007792
+                "x": 292.3378246009866,
+                "y": 55.60634997677771
             },
             {
                 "id": "154800",
-                "x": 89.92160745399056,
-                "y": -285.12090472167245
+                "x": -36.02977376409163,
+                "y": 338.4561306629067
             },
             {
                 "id": "154802",
-                "x": 199.76275049179156,
-                "y": -217.43360127892976
+                "x": -17.887809936423373,
+                "y": 318.18909411380594
             },
             {
                 "id": "155767",
-                "x": -2.8248993675159912,
-                "y": 129.1407704039116
+                "x": -131.28259207119393,
+                "y": -119.88980856177147
             },
             {
                 "id": "156194",
-                "x": 44.73917004727887,
-                "y": 37.52876288075903
+                "x": -265.16998534415217,
+                "y": -48.24565069262793
             },
             {
                 "id": "156305",
-                "x": -352.0477348434528,
-                "y": -449.2307793659323
+                "x": 168.22052331313597,
+                "y": 566.0920143683375
             },
             {
                 "id": "156306",
-                "x": -439.9944050500047,
-                "y": -433.2489001936821
+                "x": 138.14951205589813,
+                "y": 604.6201989942429
             },
             {
                 "id": "156307",
-                "x": -404.51194511382647,
-                "y": -462.1416100569493
+                "x": 173.4277347964892,
+                "y": 610.0028540298499
             },
             {
                 "id": "156750",
-                "x": 702.4932730377066,
-                "y": -305.7415123353493
+                "x": -118.65103588586022,
+                "y": 701.9973295298346
             },
             {
                 "id": "156980",
-                "x": -7.307320310455562,
-                "y": -699.6582699302087
+                "x": 638.1594676489487,
+                "y": 301.48781637397184
             },
             {
                 "id": "158262",
-                "x": -522.2804113703751,
-                "y": 497.6558653375203
+                "x": 561.1070223763932,
+                "y": -506.9799007789959
             },
             {
                 "id": "158654",
-                "x": -690.0037347331096,
-                "y": -292.1264165571826
+                "x": 360.1378796218742,
+                "y": -556.5269930199657
             },
             {
                 "id": "158676",
-                "x": 310.85526845432025,
-                "y": 688.8937072203131
+                "x": 111.49619010171129,
+                "y": -746.6897656568918
             },
             {
                 "id": "158677",
-                "x": 273.60928545195435,
-                "y": 658.699993786918
+                "x": 87.84505446746674,
+                "y": -771.3881860225987
             },
             {
                 "id": "159282",
-                "x": 209.96037428696334,
-                "y": -671.350810651705
+                "x": 368.70520849339806,
+                "y": 634.0340426922935
             },
             {
                 "id": "160287",
-                "x": 619.0217250804086,
-                "y": 418.65206934847185
+                "x": -741.5716791319712,
+                "y": -141.16473654819427
             },
             {
                 "id": "160909",
-                "x": 95.74508688919887,
-                "y": 159.719649519886
+                "x": -172.5244708201951,
+                "y": -141.0419621876156
             },
             {
                 "id": "160910",
-                "x": 72.71742882080864,
-                "y": -63.748150730698356
+                "x": -75.07404407530059,
+                "y": -68.76740344653071
             },
             {
                 "id": "161651",
-                "x": 89.3126343499284,
-                "y": -186.5847902960782
+                "x": -65.73585663813968,
+                "y": 332.18716905697124
             },
             {
                 "id": "161653",
-                "x": 190.25250212773756,
-                "y": -135.63488669539834
+                "x": -159.14934898765478,
+                "y": 214.73598443383656
             },
             {
                 "id": "161654",
-                "x": 34.77618662916091,
-                "y": -231.15268001532183
+                "x": 24.41751883364309,
+                "y": 276.08475577875026
             },
             {
                 "id": "161702",
-                "x": 298.78761229611507,
-                "y": -44.7713343787317
+                "x": -278.56524729524585,
+                "y": 176.00023862819157
             },
             {
                 "id": "161750",
-                "x": 126.98223294132346,
-                "y": -531.9944363507271
+                "x": 246.2100330340143,
+                "y": 482.2024920909019
             },
             {
                 "id": "161987",
-                "x": -320.5989023252656,
-                "y": -371.40999703070145
+                "x": 133.87554388560835,
+                "y": 512.4366882785258
             },
             {
                 "id": "162303",
-                "x": -41.749753017578584,
-                "y": -24.461656649550285
+                "x": -94.9523916157003,
+                "y": -80.41015806607882
             },
             {
                 "id": "162306",
-                "x": -663.3778942833411,
-                "y": -240.12181104456346
+                "x": 372.5778529211941,
+                "y": -505.99508713412985
             },
             {
                 "id": "162812",
-                "x": 63.729675694932105,
-                "y": 77.17949084852117
+                "x": -157.92046829656854,
+                "y": -277.1990926662536
             },
             {
                 "id": "164371",
-                "x": 199.44637131793962,
-                "y": -261.2687887963273
+                "x": -158.36487772907893,
+                "y": 184.18051409735017
             },
             {
                 "id": "164476",
-                "x": 202.72008617634538,
-                "y": 1.3063279647766008
+                "x": -70.90031760892128,
+                "y": -47.21742511324262
             },
             {
                 "id": "165092",
-                "x": 223.4055877589687,
-                "y": 228.17289895266555
+                "x": -220.44365362118117,
+                "y": -249.44429513253263
             },
             {
                 "id": "165366",
-                "x": 253.08946078770478,
-                "y": 597.4897965112257
+                "x": 53.11603917349066,
+                "y": -636.9487416528905
             },
             {
                 "id": "166142",
-                "x": -141.22599485834894,
-                "y": 672.3557906475669
+                "x": 196.75471675419104,
+                "y": -603.9805213054145
             },
             {
                 "id": "166407",
-                "x": 68.60113431073997,
-                "y": -143.12515928976953
+                "x": -171.82430457462058,
+                "y": 222.3062569542014
             },
             {
                 "id": "166654",
-                "x": -251.26444512331756,
-                "y": 114.28033477928989
+                "x": 182.05058628976073,
+                "y": -233.90243627886613
             },
             {
                 "id": "167073",
-                "x": -115.86852687791259,
-                "y": -21.467739693791323
+                "x": -55.88483424433644,
+                "y": -43.13639689871129
             },
             {
                 "id": "167324",
-                "x": -169.9622931939181,
-                "y": 97.49748837540332
-            },
-            {
-                "id": "167457",
-                "x": 251.2062461139011,
-                "y": -658.071519341134
+                "x": -384.9346192634451,
+                "y": -112.19500288321186
             },
             {
                 "id": "167983",
-                "x": -193.42748589054554,
-                "y": 234.27110664046276
+                "x": 52.33968436920922,
+                "y": -271.234897832687
             },
             {
                 "id": "168117",
-                "x": -589.8329389186707,
-                "y": 498.3901619537492
+                "x": 515.7719225737852,
+                "y": -561.1060475616681
             },
             {
                 "id": "168139",
-                "x": -163.35680433031283,
-                "y": 2.545795673387184
+                "x": -152.2305601997737,
+                "y": -231.81519460206428
             },
             {
                 "id": "168279",
-                "x": 182.78331555411467,
-                "y": -20.47012962667852
+                "x": -199.14845798674983,
+                "y": -118.25663965061467
             },
             {
                 "id": "169247",
-                "x": -292.81353874086005,
-                "y": -73.7369740520797
-            },
-            {
-                "id": "169297",
-                "x": -689.576002306742,
-                "y": -254.93492452339595
+                "x": 140.65058143448954,
+                "y": -173.65105894635522
             },
             {
                 "id": "169298",
-                "x": -670.0707689680761,
-                "y": -309.29399873365077
+                "x": 412.5329349975723,
+                "y": -551.6027031049595
             },
             {
                 "id": "170062",
-                "x": 48.65073029073274,
-                "y": -716.5175014436875
+                "x": 609.4822024400227,
+                "y": 365.69156903997174
             },
             {
                 "id": "170063",
-                "x": -27.167223392245972,
-                "y": -726.5537400033861
+                "x": 624.3611053896124,
+                "y": 294.48531879093207
             },
             {
                 "id": "170077",
-                "x": 25.151200441196462,
-                "y": -699.131673373512
+                "x": 666.189620688005,
+                "y": 350.07099224181377
             },
             {
                 "id": "170078",
-                "x": 16.344162484390633,
-                "y": -743.852578357406
+                "x": 599.4927518238978,
+                "y": 352.65832791373305
             },
             {
                 "id": "170079",
-                "x": -3.121643152978082,
-                "y": -751.1062723496724
+                "x": 663.6421476374362,
+                "y": 302.18910095677484
             },
             {
                 "id": "170226",
-                "x": -66.01595907386489,
-                "y": 225.32726428047337
+                "x": -214.3415078628437,
+                "y": -201.79025027877688
             },
             {
                 "id": "170546",
-                "x": -694.8372597590219,
-                "y": -274.87318226608625
+                "x": 380.67734445293127,
+                "y": -568.3556611789543
             },
             {
                 "id": "170883",
-                "x": 13.16542135434369,
-                "y": 40.11393520732133
+                "x": -155.851079112828,
+                "y": -67.72721739626694
             },
             {
                 "id": "170986",
-                "x": 51.305966364550976,
-                "y": -365.04557333769685
+                "x": 11.35194403540778,
+                "y": 378.81089967997536
             },
             {
                 "id": "171626",
-                "x": -748.9608927620624,
-                "y": -137.63191666631977
+                "x": 403.30159942594554,
+                "y": -663.9527134426751
             },
             {
                 "id": "171662",
-                "x": -303.78785224832507,
-                "y": 23.636223742200567
+                "x": 221.950448144886,
+                "y": -131.73071749787755
             },
             {
                 "id": "171955",
-                "x": 2.440491280604294,
-                "y": -768.2911558092943
+                "x": 619.1312105803885,
+                "y": 326.713202637624
             },
             {
                 "id": "171964",
-                "x": -4.034970964379363,
-                "y": -715.2992762112366
+                "x": 671.6503054273084,
+                "y": 319.70159988762606
             },
             {
                 "id": "171985",
-                "x": 492.9463075786962,
-                "y": 91.02849758686749
+                "x": -436.1547063577154,
+                "y": 363.1576964457031
             },
             {
                 "id": "172233",
-                "x": 85.50633025455431,
-                "y": 230.37595915500876
+                "x": -293.4789304293081,
+                "y": -108.51910521626138
             },
             {
                 "id": "172402",
-                "x": 24.23156608115203,
-                "y": -139.34615091193038
+                "x": -305.1003403280011,
+                "y": 65.90221184785891
             },
             {
                 "id": "173064",
-                "x": 61.86227259523977,
-                "y": 298.5905603679208
+                "x": -218.4438837503639,
+                "y": -115.11865964919654
             },
             {
                 "id": "173167",
-                "x": 191.79197484581957,
-                "y": -694.6759655201292
+                "x": 406.3562825278991,
+                "y": 635.9533593599109
             },
             {
                 "id": "173248",
-                "x": 55.05416543522299,
-                "y": -743.2137146363474
+                "x": 638.1645344910827,
+                "y": 373.3288828573936
             },
             {
                 "id": "173393",
-                "x": -25.727280460495837,
-                "y": -744.103066290548
+                "x": 619.9585271908097,
+                "y": 309.15200671480204
             },
             {
                 "id": "173395",
-                "x": -34.58225154551532,
-                "y": 133.86932940248585
+                "x": -16.946884780226974,
+                "y": -144.40496358203131
             },
             {
                 "id": "173577",
-                "x": -529.3035277104105,
-                "y": 517.5694764417325
+                "x": 537.7011578861105,
+                "y": -534.4009389806513
             },
             {
                 "id": "173603",
-                "x": -16.22507971038775,
-                "y": -758.5535624750734
+                "x": 649.2868529072681,
+                "y": 292.0820164925206
             },
             {
                 "id": "173604",
-                "x": 28.419467144634982,
-                "y": -727.7239058781884
+                "x": 653.9729880224145,
+                "y": 363.09058607950954
             },
             {
                 "id": "173938",
-                "x": -334.0690707667112,
-                "y": 43.82181485904886
+                "x": -164.94684484513226,
+                "y": -44.13866592205188
             },
             {
                 "id": "174347",
-                "x": -174.8990720690903,
-                "y": -254.44943053196306
+                "x": 73.74527957417983,
+                "y": -4.065612399549398
             },
             {
                 "id": "174519",
-                "x": -116.6425673857686,
-                "y": -147.74683245970203
+                "x": -22.788426076027548,
+                "y": 191.1652599599486
             },
             {
                 "id": "174633",
-                "x": 251.94966966379442,
-                "y": 680.0696037348758
+                "x": 67.66909263658059,
+                "y": -749.3952723780351
             },
             {
                 "id": "174672",
-                "x": -232.56988520911855,
-                "y": -98.21718001695112
+                "x": 197.45722049337112,
+                "y": 266.83220273724623
             },
             {
                 "id": "175337",
-                "x": -339.1743849978303,
-                "y": -157.20036178752395
+                "x": 59.60558638277461,
+                "y": -21.912656654949366
             },
             {
                 "id": "175640",
-                "x": 99.41217188988284,
-                "y": -134.92478096229615
+                "x": -267.0363553536579,
+                "y": 208.08056124354968
             },
             {
                 "id": "175924",
-                "x": 234.00530616705302,
-                "y": -650.4213108479106
+                "x": 378.68953403618826,
+                "y": 608.71968576442
             },
             {
                 "id": "176277",
-                "x": -401.642706391476,
-                "y": 101.80104180000086
+                "x": 152.5552792038466,
+                "y": -10.214768702018059
             },
             {
                 "id": "176286",
-                "x": 68.4679624437977,
-                "y": -48.166967794212646
+                "x": -106.55347986941895,
+                "y": 111.85724770057617
             },
             {
                 "id": "176682",
-                "x": -20.548419842994388,
-                "y": -71.44249990828536
+                "x": -198.97469358830983,
+                "y": 177.74411429027234
             },
             {
                 "id": "176880",
-                "x": -222.49163430959194,
-                "y": 152.8762722622106
+                "x": -122.30777838629281,
+                "y": -226.56781042127986
             },
             {
                 "id": "177033",
-                "x": 729.4407820068625,
-                "y": 33.704700531259455
+                "x": 671.8827504995598,
+                "y": 74.63059399417463
             },
             {
                 "id": "177091",
-                "x": 134.2583187970045,
-                "y": -80.11986157949654
+                "x": -246.49311240303945,
+                "y": 167.66130501365603
             },
             {
                 "id": "177440",
-                "x": -383.2650998379346,
-                "y": -567.1189785219219
+                "x": 610.517204491265,
+                "y": 200.15916428886513
             },
             {
                 "id": "177441",
-                "x": -354.21439767417763,
-                "y": -593.7498638819691
+                "x": 591.6778381131275,
+                "y": 228.11927460678794
             },
             {
                 "id": "177771",
-                "x": -29.3006488408689,
-                "y": -211.5462287158688
+                "x": -241.1594431110706,
+                "y": 153.89674346489684
             },
             {
                 "id": "178126",
-                "x": 54.647025187354735,
-                "y": -54.2485330628959
+                "x": -223.7717247215712,
+                "y": -62.40331592767919
             },
             {
                 "id": "178480",
-                "x": -236.42785506241975,
-                "y": 48.925065001512095
+                "x": -91.94596744412536,
+                "y": -213.06157185399704
             },
             {
                 "id": "178669",
-                "x": -45.73581268523513,
-                "y": 203.47918389194575
+                "x": -145.58586401399788,
+                "y": -241.70685619723764
             },
             {
                 "id": "178694",
-                "x": -191.64395618778218,
-                "y": 338.47560382762134
+                "x": -304.2956202805794,
+                "y": -289.330042095659
             },
             {
                 "id": "179106",
-                "x": 386.1060050167988,
-                "y": -40.11962389093283
+                "x": -464.036190761164,
+                "y": 140.22690985207814
             },
             {
                 "id": "179109",
-                "x": 257.2263354153776,
-                "y": 88.39556821374343
+                "x": -304.7593005833395,
+                "y": -179.58315276691974
             },
             {
                 "id": "179647",
-                "x": 740.6619349292536,
-                "y": 50.44965901522519
+                "x": 706.169033521544,
+                "y": 103.35987372510247
             },
             {
                 "id": "179819",
-                "x": 241.53721933358923,
-                "y": 723.973749395695
+                "x": 80.719987243569,
+                "y": -695.0968748881119
             },
             {
                 "id": "180635",
-                "x": 665.4091127849025,
-                "y": -199.43533589258604
+                "x": -696.3037273789654,
+                "y": 231.95809514491333
             },
             {
                 "id": "180737",
-                "x": -148.15133722368566,
-                "y": 689.6554367146673
+                "x": 146.83617457827353,
+                "y": -619.4501325507534
             },
             {
                 "id": "180740",
-                "x": -184.74696435789158,
-                "y": 701.2130086094629
+                "x": 159.51008220193492,
+                "y": -599.3890222728047
             },
             {
                 "id": "180741",
-                "x": -180.75958012010332,
-                "y": 645.7519156169694
+                "x": 128.74102248150047,
+                "y": -585.3994151089479
             },
             {
                 "id": "180742",
-                "x": -140.76753954587997,
-                "y": 642.9663681980006
+                "x": 152.80446891648643,
+                "y": -570.4505847497728
             },
             {
                 "id": "180743",
-                "x": -199.85230017970338,
-                "y": 694.01988445516
+                "x": 173.18361589151783,
+                "y": -607.8773456607604
             },
             {
                 "id": "180745",
-                "x": -131.60380189859947,
-                "y": 687.1620632913713
+                "x": 140.10220677736623,
+                "y": -605.043781209604
             },
             {
                 "id": "181172",
-                "x": -358.4350799410762,
-                "y": -42.57542337620765
+                "x": 203.2540722686173,
+                "y": -167.35655614525788
             },
             {
                 "id": "181241",
-                "x": -120.44655429482361,
-                "y": 93.22603497902561
+                "x": 63.646716259777186,
+                "y": -185.34760960188427
             },
             {
                 "id": "181626",
-                "x": -164.7104825354781,
-                "y": 688.457933003783
+                "x": 135.5592879334759,
+                "y": -630.7387390885405
             },
             {
                 "id": "181627",
-                "x": -181.84591505658622,
-                "y": 668.2249290028456
+                "x": 181.25014073886842,
+                "y": -625.0079060637885
             },
             {
                 "id": "181628",
-                "x": -159.4666597044662,
-                "y": 635.675325345642
+                "x": 171.90674350802817,
+                "y": -569.3667631575014
             },
             {
                 "id": "181629",
-                "x": -160.4801228255107,
-                "y": 669.7533757365405
+                "x": 152.58116188452797,
+                "y": -641.7629189528855
             },
             {
                 "id": "181630",
-                "x": -171.27410433838156,
-                "y": 720.8463320010865
+                "x": 200.55004561527747,
+                "y": -619.8920983062422
             },
             {
                 "id": "181632",
-                "x": -151.97429629926336,
-                "y": 718.0947009268533
+                "x": 124.2981660327575,
+                "y": -614.3751131561481
             },
             {
                 "id": "181633",
-                "x": -170.77024520052396,
-                "y": 632.513779983074
+                "x": 128.88872663345316,
+                "y": -572.1737696557807
             },
             {
                 "id": "181743",
-                "x": -157.6592005894901,
-                "y": -46.138013538172956
+                "x": -23.372402384619278,
+                "y": -23.53568085688525
             },
             {
                 "id": "181836",
-                "x": 663.5387736485914,
-                "y": -138.97138547500683
+                "x": -709.0936284285959,
+                "y": 200.0083380455637
             },
             {
                 "id": "181837",
-                "x": 289.37435166291607,
-                "y": 78.86817719785097
+                "x": -364.4202284925642,
+                "y": 60.14919951897333
             },
             {
                 "id": "181998",
-                "x": 668.2129606835261,
-                "y": -160.50962800906805
+                "x": -715.4027483998904,
+                "y": 223.3851119887807
             },
             {
                 "id": "181999",
-                "x": 653.2957203930441,
-                "y": -208.65839443661633
+                "x": -719.5186725011816,
+                "y": 186.94728489590318
             },
             {
                 "id": "182000",
-                "x": 661.8167184666228,
-                "y": -176.06131548603585
+                "x": -679.7786888092273,
+                "y": 244.6719657735785
             },
             {
                 "id": "182001",
-                "x": 676.8361320210442,
-                "y": -148.43107286195982
+                "x": -694.0529588279504,
+                "y": 194.05811901319416
             },
             {
                 "id": "182020",
-                "x": -131.2416734243545,
-                "y": -9.654758415063895
+                "x": -133.7096251916383,
+                "y": -241.5377366908465
             },
             {
                 "id": "182094",
-                "x": 154.82187920105412,
-                "y": 23.412000104320118
+                "x": -335.4730068863157,
+                "y": 119.86337679750953
             },
             {
                 "id": "182413",
-                "x": -375.86473998677434,
-                "y": 589.3821351504515
+                "x": -175.0367862726812,
+                "y": -748.4420673574665
             },
             {
                 "id": "182518",
-                "x": 164.42649021196172,
-                "y": 69.70598825704162
+                "x": -4.447856193043523,
+                "y": 166.3652793787327
             },
             {
                 "id": "182519",
-                "x": 250.42538580540057,
-                "y": -30.37907916904716
+                "x": 31.04425463910322,
+                "y": 208.19395399777213
             },
             {
                 "id": "182520",
-                "x": 208.10587304480552,
-                "y": -75.63184775555823
+                "x": 39.013981659617436,
+                "y": 245.45049287573335
             },
             {
                 "id": "182521",
-                "x": 150.26909831541045,
-                "y": -20.564136494890658
+                "x": -0.5612860170058418,
+                "y": 118.51698934377637
             },
             {
                 "id": "182802",
-                "x": -42.218087533310076,
-                "y": 566.9102032363833
+                "x": -250.55005979300483,
+                "y": 601.2675422554316
             },
             {
                 "id": "183005",
-                "x": 248.3454887023446,
-                "y": 73.28622681978833
+                "x": -336.7122391643217,
+                "y": 39.080482910512856
             },
             {
                 "id": "183157",
-                "x": -287.98436109058343,
-                "y": 305.95412472599196
+                "x": -530.7617936087755,
+                "y": 102.81526646657802
             },
             {
                 "id": "183728",
-                "x": 53.773635208638225,
-                "y": 65.46002797692184
+                "x": -206.09917283685925,
+                "y": 12.846380309799988
             },
             {
                 "id": "184965",
-                "x": -4.649286644636975,
-                "y": 81.21183220498855
+                "x": -136.7744858538963,
+                "y": -54.684967396329256
             },
             {
                 "id": "185009",
-                "x": 216.09336578319667,
-                "y": -194.18317481852625
+                "x": 40.27478468912613,
+                "y": 143.01228928674186
             },
             {
                 "id": "185281",
-                "x": -200.58865658313402,
-                "y": -73.42277011759833
+                "x": 127.43772883952467,
+                "y": 264.4165288294593
             },
             {
                 "id": "185473",
-                "x": -364.9625971661877,
-                "y": 630.9775403774844
+                "x": -136.25305880877812,
+                "y": -718.2336865211939
             },
             {
                 "id": "185481",
-                "x": -349.89984031552024,
-                "y": 242.69128117889346
+                "x": -518.0474218763857,
+                "y": 131.5444176905957
             },
             {
                 "id": "186006",
-                "x": -326.98813035318466,
-                "y": 136.55262232741126
+                "x": 144.41664179218068,
+                "y": -226.14265825253037
             },
             {
                 "id": "186253",
-                "x": 121.48363191401714,
-                "y": -62.495298376005564
+                "x": -342.5072123365786,
+                "y": -63.00073650793924
             },
             {
                 "id": "186369",
-                "x": -27.244898860657116,
-                "y": -7.44331660731244
+                "x": -242.665932479468,
+                "y": 34.81120357296646
             },
             {
                 "id": "186382",
-                "x": 33.91268169466352,
-                "y": -60.91809044006156
+                "x": -35.88652895792497,
+                "y": 19.22457759832133
             },
             {
                 "id": "186533",
-                "x": 507.12741754512,
-                "y": -509.25496522291434
+                "x": -494.30608269246267,
+                "y": -484.3133195846744
             },
             {
                 "id": "187067",
-                "x": -455.76716734202023,
-                "y": 611.8526239970138
+                "x": -104.00881497155508,
+                "y": -694.0253027541273
             },
             {
                 "id": "187863",
-                "x": -139.78457724932653,
-                "y": 704.9120655699722
+                "x": 194.8101972912927,
+                "y": -635.8279016186372
             },
             {
                 "id": "188125",
-                "x": 680.3665330213894,
-                "y": -173.5041790268885
-            },
-            {
-                "id": "188126",
-                "x": 646.4984964175125,
-                "y": -175.74549356907875
+                "x": -722.1311252988662,
+                "y": 208.44649391935357
             },
             {
                 "id": "188321",
-                "x": 692.602765323399,
-                "y": 68.19592060920446
+                "x": 655.3820689717385,
+                "y": 48.10674045634313
             },
             {
                 "id": "188378",
-                "x": -84.58151897479023,
-                "y": 211.5147597398421
+                "x": -126.21231371003417,
+                "y": -257.50422989188127
             },
             {
                 "id": "188381",
-                "x": -32.47811372557369,
-                "y": 106.6462995559005
+                "x": -137.5148166032835,
+                "y": -90.96961727263512
             },
             {
                 "id": "188693",
-                "x": -636.5347575095258,
-                "y": -134.16764392314735
+                "x": 393.09702155687484,
+                "y": 496.6536331790346
             },
             {
                 "id": "188900",
-                "x": -77.47600383688716,
-                "y": 85.32283125843713
+                "x": -132.34282115281005,
+                "y": 20.882171086193612
             },
             {
                 "id": "189030",
-                "x": 321.39673524326963,
-                "y": 360.7810848367528
+                "x": 21.965834913281668,
+                "y": -423.1426359116169
             },
             {
                 "id": "189116",
-                "x": 26.196161130171795,
-                "y": 238.57132639957123
+                "x": -21.09983442518118,
+                "y": -174.93886294443132
             },
             {
                 "id": "189237",
-                "x": -248.02605832976286,
-                "y": -96.5974730445712
+                "x": -315.18091976879396,
+                "y": 302.5782294363013
             },
             {
                 "id": "189341",
-                "x": -89.15127773392709,
-                "y": 92.89438263854436
+                "x": -18.89376366246968,
+                "y": -119.86312637643384
             },
             {
                 "id": "190414",
-                "x": -449.2946716769429,
-                "y": 628.0963062972928
+                "x": -184.1768277888354,
+                "y": -727.0053069894051
             },
             {
                 "id": "191398",
-                "x": 179.24064348054893,
-                "y": 26.243722713557332
+                "x": -255.93657770661116,
+                "y": -82.73106599451052
             },
             {
                 "id": "191460",
-                "x": -19.617337602452807,
-                "y": 122.80068201815028
+                "x": -180.5369469758686,
+                "y": -15.143835573116284
             },
             {
                 "id": "191559",
-                "x": 170.45922549597273,
-                "y": -52.28944824706047
+                "x": -120.52757769394987,
+                "y": -10.35356758658391
             },
             {
                 "id": "192063",
-                "x": 282.96842094529023,
-                "y": 671.4205209806715
+                "x": 131.04460103871548,
+                "y": -745.0920012022638
             },
             {
                 "id": "192064",
-                "x": 243.56252809737322,
-                "y": 660.1296320368647
+                "x": 39.3954951199166,
+                "y": -719.3354430595158
             },
             {
                 "id": "192065",
-                "x": 327.31653931783984,
-                "y": 666.6665723547695
+                "x": 90.62503987985167,
+                "y": -706.5119795306642
             },
             {
                 "id": "192066",
-                "x": 259.21654728685826,
-                "y": 650.8637944188634
-            },
-            {
-                "id": "192067",
-                "x": 230.1916533867488,
-                "y": 667.1081721644529
+                "x": 127.34537566217,
+                "y": -701.3687311455651
             },
             {
                 "id": "192068",
-                "x": 306.0451069655641,
-                "y": 715.7332559320738
+                "x": 43.78260156483093,
+                "y": -704.8048196496408
             },
             {
                 "id": "192069",
-                "x": 255.24156299724675,
-                "y": 702.2337444448457
+                "x": 109.33911311235744,
+                "y": -729.9136371090073
             },
             {
                 "id": "192070",
-                "x": 292.01760717429784,
-                "y": 657.4938753944796
+                "x": 77.80317384249419,
+                "y": -738.2078297563367
             },
             {
                 "id": "192071",
-                "x": 291.4600831065174,
-                "y": 718.6335388443509
+                "x": 70.41700566041787,
+                "y": -707.3410795384501
             },
             {
                 "id": "192073",
-                "x": 235.34048301442303,
-                "y": 695.5761177399431
-            },
-            {
-                "id": "192074",
-                "x": 326.01010539960055,
-                "y": 686.2892508574585
+                "x": 139.67982116356973,
+                "y": -733.0016773097742
             },
             {
                 "id": "192078",
-                "x": 264.66565666060177,
-                "y": 692.634662554107
+                "x": 43.23102327642821,
+                "y": -751.2123698975395
             },
             {
                 "id": "192081",
-                "x": 238.24614571175854,
-                "y": 680.4995496308669
+                "x": 94.32040909456059,
+                "y": -725.7302762084071
             },
             {
                 "id": "192082",
-                "x": 291.7248103631717,
-                "y": 688.1860028908379
+                "x": 120.87072563760442,
+                "y": -713.9853255559191
             },
             {
                 "id": "192086",
-                "x": 243.0562003849544,
-                "y": 708.0156079401652
+                "x": 57.97029308323308,
+                "y": -698.4667368292505
             },
             {
                 "id": "192090",
-                "x": 308.7225117629737,
-                "y": 657.9170194800884
+                "x": 114.07206399337625,
+                "y": -692.3410004644402
             },
             {
                 "id": "192092",
-                "x": 271.0852492794638,
-                "y": 712.1692510795981
+                "x": 57.37196828878305,
+                "y": -761.7863194359129
             },
             {
                 "id": "192334",
-                "x": 96.23352329239272,
-                "y": 18.966564507094272
+                "x": -109.03970875631433,
+                "y": 26.07106268815535
             },
             {
                 "id": "192335",
-                "x": 216.63893620637063,
-                "y": -132.09245839766012
+                "x": -191.23490975599998,
+                "y": 161.13211592770352
             },
             {
                 "id": "192336",
-                "x": 215.10550557780678,
-                "y": -158.35923223448597
+                "x": -268.4436564266141,
+                "y": 182.48252335715586
             },
             {
                 "id": "192379",
-                "x": 62.82705015111047,
-                "y": -69.15030964852964
+                "x": -128.6014572002077,
+                "y": 93.89191546488557
             },
             {
                 "id": "193310",
-                "x": 37.766749300118896,
-                "y": 97.64554691106157
+                "x": -90.28923907045458,
+                "y": -89.52693703027451
             },
             {
                 "id": "193317",
-                "x": -43.05574835776271,
-                "y": 118.70771238350133
+                "x": -139.81023040580808,
+                "y": 40.50223894528039
             },
             {
                 "id": "193757",
-                "x": 14.17812636632664,
-                "y": -81.82059038004232
+                "x": -308.2719634787431,
+                "y": 102.8331855548083
             },
             {
                 "id": "193820",
-                "x": -155.2644271386728,
-                "y": -91.53310687876098
-            },
-            {
-                "id": "194001",
-                "x": -660.346063122891,
-                "y": -296.4102334293565
+                "x": -30.282178398468677,
+                "y": 375.4146449549189
             },
             {
                 "id": "194139",
-                "x": 299.0912662146928,
-                "y": 702.6289696021555
+                "x": 95.26299919670102,
+                "y": -742.961879611848
             },
             {
                 "id": "194490",
-                "x": 104.5906292628241,
-                "y": -59.36922945782925
+                "x": -10.672994817637637,
+                "y": 160.30613620747576
             },
             {
                 "id": "194628",
-                "x": -541.3622793450437,
-                "y": -358.1543707719445
+                "x": 264.50048174731126,
+                "y": -459.229034150372
             },
             {
                 "id": "194714",
-                "x": 200.54921372323864,
-                "y": -66.31833426286263
+                "x": -187.47153863568732,
+                "y": 212.2663297864477
             },
             {
                 "id": "195253",
-                "x": -516.4826462643321,
-                "y": -382.2052701992944
+                "x": 559.8400411083755,
+                "y": -57.231006561954736
             },
             {
                 "id": "195258",
-                "x": 426.475899785189,
-                "y": -376.9074714821962
+                "x": 403.6243985255868,
+                "y": 385.7325332151076
             },
             {
                 "id": "195602",
-                "x": 246.63668434973033,
-                "y": 24.564294768087155
+                "x": -390.0109499870796,
+                "y": -27.23464341803862
             },
             {
                 "id": "195763",
-                "x": -56.70427780197395,
-                "y": 13.39514850066027
+                "x": -47.29062063446637,
+                "y": -84.45505879331215
             },
             {
                 "id": "195814",
-                "x": -122.0460759485225,
-                "y": -69.62200061747906
+                "x": 65.76141530835409,
+                "y": -78.2201627733578
             },
             {
                 "id": "195835",
-                "x": -265.1106168652388,
-                "y": 82.25915612974062
+                "x": 126.12032849086634,
+                "y": -168.80550293825942
             },
             {
                 "id": "195838",
-                "x": -344.7931224160013,
-                "y": 112.35413453876659
+                "x": 174.06270697259447,
+                "y": -232.698212978609
             },
             {
                 "id": "195860",
-                "x": 8.385357431717184,
-                "y": 739.5106307786176
+                "x": 762.5621429443321,
+                "y": -166.3205464624554
             },
             {
                 "id": "196119",
-                "x": 15.80808632389244,
-                "y": 156.49809786130817
+                "x": 127.41585564136365,
+                "y": 172.12136454504596
             },
             {
                 "id": "196372",
-                "x": 317.7649278670175,
-                "y": 702.6745960003333
+                "x": 79.43583065693122,
+                "y": -720.6508657583847
             },
             {
                 "id": "196473",
-                "x": 15.23231621676575,
-                "y": -105.35422391367005
+                "x": -231.0194523590768,
+                "y": 182.96542539611767
             },
             {
                 "id": "197340",
-                "x": -85.88998148394771,
-                "y": 159.7548904491089
+                "x": -144.14944880509896,
+                "y": -35.804582505424484
             },
             {
                 "id": "197475",
-                "x": 96.01616300578654,
-                "y": -252.72895654917923
+                "x": 66.40807956804319,
+                "y": 256.7692513332346
             },
             {
                 "id": "197646",
-                "x": 94.08728828373694,
-                "y": -381.7253112792813
+                "x": 120.4983204690568,
+                "y": 348.8052699620946
             },
             {
                 "id": "197792",
-                "x": -101.32533593822332,
-                "y": -168.0112764771006
+                "x": -37.08145497367973,
+                "y": -3.703164701461189
             },
             {
                 "id": "197797",
-                "x": -716.3272797595066,
-                "y": 153.34424772001344
+                "x": 704.5448960400995,
+                "y": -99.19282019401136
             },
             {
                 "id": "197801",
-                "x": -457.578681369605,
-                "y": 30.42658233350613
+                "x": 305.43397917685496,
+                "y": -79.81464773918573
             },
             {
                 "id": "198187",
-                "x": -361.75265215841705,
-                "y": 615.7749947740308
+                "x": -123.01510655227551,
+                "y": -731.4156130295878
             },
             {
                 "id": "199362",
-                "x": 228.7495140839437,
-                "y": 112.96990873359474
+                "x": -254.66776934401457,
+                "y": -190.93507658430386
             },
             {
                 "id": "199409",
-                "x": -673.3647354217103,
-                "y": -330.2491643161756
+                "x": 362.3819928457723,
+                "y": -574.0356701703137
             },
             {
                 "id": "199644",
-                "x": -101.54303379181674,
-                "y": 223.07636291622333
+                "x": 2.313953940408865,
+                "y": 25.098151658873782
             },
             {
                 "id": "199658",
-                "x": 304.1723023125266,
-                "y": 47.15116982591424
+                "x": -297.5268126505326,
+                "y": -125.35711706822717
             },
             {
                 "id": "200011",
-                "x": 709.8781789069413,
-                "y": 163.74053038076934
+                "x": -271.61464001179763,
+                "y": -712.6558062326143
             },
             {
                 "id": "200073",
-                "x": -112.63343900913887,
-                "y": 129.81648665649274
+                "x": -170.81232234395983,
+                "y": 20.272076600695225
             },
             {
                 "id": "200521",
-                "x": 717.6909845840463,
-                "y": 186.00675633401391
+                "x": -44.342504806267534,
+                "y": -655.5842528942047
             },
             {
                 "id": "200526",
-                "x": 690.0746895604166,
-                "y": 209.51296595574675
+                "x": -11.293846763769608,
+                "y": -662.5512775751581
             },
             {
                 "id": "200533",
-                "x": 732.3411133296967,
-                "y": 203.0759212466691
+                "x": -29.77223650792401,
+                "y": -676.0734669503271
             },
             {
                 "id": "200538",
-                "x": 692.2427622577527,
-                "y": 187.06245724646138
+                "x": -35.309009584578746,
+                "y": -634.5010972250421
             },
             {
                 "id": "200540",
-                "x": 715.6190692490236,
-                "y": 218.1588834654906
+                "x": -11.658995748508504,
+                "y": -638.5506834823742
             },
             {
                 "id": "200555",
-                "x": -438.40854765144144,
-                "y": -450.3228625675459
+                "x": 137.46853537985825,
+                "y": 620.0370877560787
             },
             {
                 "id": "200799",
-                "x": -41.55145120849886,
-                "y": -98.16308073828073
+                "x": 12.32366946602748,
+                "y": -14.821981252441596
             },
             {
                 "id": "201078",
-                "x": -48.29947013647409,
-                "y": -112.58191248446752
+                "x": -78.50907988870023,
+                "y": 166.84939686937426
             },
             {
                 "id": "201111",
-                "x": 280.96159064199094,
-                "y": 624.1309983831069
+                "x": 65.47423251373912,
+                "y": -678.1929184175752
             },
             {
                 "id": "201256",
-                "x": 206.14702417877606,
-                "y": 215.34891126258864
+                "x": -309.3392739557357,
+                "y": -147.29992982749576
             },
             {
                 "id": "202163",
-                "x": -13.856876812571914,
-                "y": -115.0999646081873
+                "x": -111.72418668935912,
+                "y": 89.46665696603385
             },
             {
                 "id": "203130",
-                "x": 181.04468732816545,
-                "y": 189.35347817269206
+                "x": -215.37412046483084,
+                "y": -137.79561085761836
             },
             {
                 "id": "203144",
-                "x": 199.3324940473388,
-                "y": -97.97643685465529
+                "x": -69.92230835949793,
+                "y": 51.97003486863489
             },
             {
                 "id": "203639",
-                "x": 190.49674073167077,
-                "y": -112.84162663948145
+                "x": -160.85312532347282,
+                "y": -115.067421167398
             },
             {
                 "id": "203805",
-                "x": 211.05822376443462,
-                "y": 108.06309540372342
+                "x": -304.56147711609566,
+                "y": -127.86540659817655
             },
             {
                 "id": "204156",
-                "x": -494.00204227780296,
-                "y": 368.307682020152
+                "x": 350.73983447695747,
+                "y": -383.1828228936766
             },
             {
                 "id": "204379",
-                "x": 34.39592968935249,
-                "y": -3.6207927921701826
+                "x": -265.776927742841,
+                "y": -18.279090787472345
             },
             {
                 "id": "204538",
-                "x": -248.56009320767137,
-                "y": -229.2669971993885
+                "x": 188.99506713353017,
+                "y": 222.18957587352008
             },
             {
                 "id": "204829",
-                "x": 81.05362286022245,
-                "y": -134.96785024615056
+                "x": -203.9460754400833,
+                "y": 158.49247204445612
             },
             {
                 "id": "205178",
-                "x": 753.2283724430155,
-                "y": -126.05144777132512
+                "x": -627.3747818081765,
+                "y": 459.11709256001706
             },
             {
                 "id": "205291",
-                "x": -78.41909927915484,
-                "y": 27.114445154328358
+                "x": -314.46471295837387,
+                "y": 10.695696864698888
             },
             {
                 "id": "205295",
-                "x": -33.91487591429913,
-                "y": 56.67207772317757
+                "x": -281.41353976624293,
+                "y": -9.61699976574221
             },
             {
                 "id": "205990",
-                "x": 9.383519718219622,
-                "y": -173.58178863440008
+                "x": 114.54108692691278,
+                "y": 216.29811615690414
             },
             {
                 "id": "206128",
-                "x": 25.70262599073613,
-                "y": 114.68289143444576
+                "x": -133.72367642173973,
+                "y": -102.10792488738412
             },
             {
                 "id": "206652",
-                "x": 191.3189138949302,
-                "y": -84.28676481432692
+                "x": 16.094085370589863,
+                "y": -187.41926131117606
             },
             {
                 "id": "206771",
-                "x": -253.70364035626235,
-                "y": 61.02843012471059
+                "x": 13.922539559756093,
+                "y": -275.79509767457125
             },
             {
                 "id": "206924",
-                "x": -252.8398549716617,
-                "y": 158.1687523570842
+                "x": 220.9151233942156,
+                "y": -22.17072420694832
             },
             {
                 "id": "207396",
-                "x": 84.8400503268321,
-                "y": -230.71863928359807
+                "x": -47.291067802510725,
+                "y": 243.12628811363248
             },
             {
                 "id": "207525",
-                "x": 141.74975096414937,
-                "y": 95.10758238381943
+                "x": -106.39976949878724,
+                "y": -8.757096577426434
             },
             {
                 "id": "207700",
-                "x": -282.89722106575437,
-                "y": 242.31262285699594
+                "x": -479.10813075691226,
+                "y": 64.29954583483868
             },
             {
                 "id": "208102",
-                "x": 245.77301856334543,
-                "y": -109.46503115556078
+                "x": 17.200094635419852,
+                "y": -140.14495624752328
             },
             {
                 "id": "208185",
-                "x": 52.485564885030946,
-                "y": -291.07113781251996
+                "x": -144.28708820918283,
+                "y": 109.01249076249704
             },
             {
                 "id": "208203",
-                "x": 731.8238525153886,
-                "y": 155.21290432290877
+                "x": -261.1810228270054,
+                "y": -682.197758082384
             },
             {
                 "id": "208405",
-                "x": -428.7451732869772,
-                "y": -419.5524171171702
+                "x": 189.8560431686959,
+                "y": 520.7140749454157
             },
             {
                 "id": "208409",
-                "x": -418.9421169583236,
-                "y": -387.9346766909416
+                "x": 192.1273192415742,
+                "y": 553.6067766108823
             },
             {
                 "id": "208496",
-                "x": 501.02789202453357,
-                "y": 412.19395971632974
+                "x": -654.616546489595,
+                "y": -224.49529667985362
             },
             {
                 "id": "208746",
-                "x": -50.772068758821945,
-                "y": 88.12894147540756
+                "x": 34.16293437702766,
+                "y": -82.851392272844
             },
             {
                 "id": "209249",
-                "x": 638.1113203823885,
-                "y": -451.3812021953306
+                "x": -617.194441131281,
+                "y": -430.141513321416
             },
             {
                 "id": "209297",
-                "x": -402.15200245221206,
-                "y": 635.4494169928738
+                "x": -96.18011738079066,
+                "y": -709.1293938905814
             },
             {
                 "id": "209316",
-                "x": 302.4163837358533,
-                "y": -171.17931117172822
+                "x": -249.52444409501206,
+                "y": 214.28254258624602
             },
             {
                 "id": "209474",
-                "x": 42.626769696298524,
-                "y": 176.84393832930832
+                "x": -167.84224314618444,
+                "y": 176.81228836594994
             },
             {
                 "id": "209602",
-                "x": 1.7321722510003696,
-                "y": -98.99858018584642
+                "x": 81.21550006763368,
+                "y": 235.09793835437367
             },
             {
                 "id": "209944",
-                "x": 294.7649726177851,
-                "y": 239.900357860915
+                "x": -446.25520287550904,
+                "y": -155.5482150721139
             },
             {
                 "id": "210162",
-                "x": 138.2485659089185,
-                "y": -298.8890107445002
+                "x": -93.6658233748416,
+                "y": 302.2428729126614
             },
             {
                 "id": "210233",
-                "x": -215.90612045734807,
-                "y": 86.38861970306834
+                "x": -36.40518976997629,
+                "y": -230.82141363496956
             },
             {
                 "id": "210486",
-                "x": 353.6306789184005,
-                "y": 213.761941712482
+                "x": -206.95101777373122,
+                "y": -304.59778104327586
             },
             {
                 "id": "210583",
-                "x": 80.80846587730215,
-                "y": 689.8408678852085
+                "x": 640.8808567269143,
+                "y": -374.9503060465729
             },
             {
                 "id": "210690",
-                "x": -62.32698857442131,
-                "y": 146.2075722417727
+                "x": -8.269034513445241,
+                "y": -114.48575016433321
             },
             {
                 "id": "211151",
-                "x": 189.4383015664417,
-                "y": 336.74330289580865
+                "x": 168.19776188601185,
+                "y": -258.9886264307468
             },
             {
                 "id": "211406",
-                "x": -274.25876613432644,
-                "y": -34.50554761339464
+                "x": 34.91122320628235,
+                "y": 85.60339159891521
             },
             {
                 "id": "211578",
-                "x": 417.85771014769574,
-                "y": 39.209105609539264
+                "x": -430.18811121741686,
+                "y": -131.98030003190453
             },
             {
                 "id": "211680",
-                "x": -141.81744356009523,
-                "y": 280.7013797800473
+                "x": -363.6040143115028,
+                "y": 134.1521342001884
             },
             {
                 "id": "212720",
-                "x": 235.12644363199075,
-                "y": -267.7859760543041
+                "x": -191.7856607657518,
+                "y": 370.82656730597705
             },
             {
                 "id": "213854",
-                "x": -583.6650746321382,
-                "y": -104.86625127295018
+                "x": 509.6834971808037,
+                "y": -126.3195275026831
             },
             {
                 "id": "214115",
-                "x": 445.58086680593766,
-                "y": 145.9779020856821
+                "x": -505.1000988108568,
+                "y": -74.49165670813525
             },
             {
                 "id": "214408",
-                "x": -127.65839185462899,
-                "y": -129.16588165103812
+                "x": -107.53108202026739,
+                "y": 56.72845780700995
             },
             {
                 "id": "214948",
-                "x": 141.19904099669353,
-                "y": -9.131643732886749
+                "x": 229.39051709750797,
+                "y": 8.23898687167333
             },
             {
                 "id": "215012",
-                "x": 114.46567392442759,
-                "y": 201.77359274055482
+                "x": -119.42867461521092,
+                "y": -169.14760695311153
             },
             {
                 "id": "215306",
-                "x": 150.85151376647664,
-                "y": 36.40723293645175
+                "x": -198.7208046523529,
+                "y": -57.56223806570367
             },
             {
                 "id": "215395",
-                "x": -27.71162332530491,
-                "y": 573.3745480260296
+                "x": -197.47648567839792,
+                "y": 634.3366550024061
             },
             {
                 "id": "215498",
-                "x": -169.43852949009704,
-                "y": -212.02952701874725
+                "x": 148.25397937832895,
+                "y": 93.62944119471031
             },
             {
                 "id": "215636",
-                "x": 71.68955255683997,
-                "y": 119.15292984710833
+                "x": -92.91415262415893,
+                "y": -139.22130015155827
             },
             {
                 "id": "216233",
-                "x": -508.5264931510711,
-                "y": -296.9666132979752
+                "x": 272.09206433159585,
+                "y": -408.84654143162646
             },
             {
                 "id": "216578",
-                "x": -347.7478903816851,
-                "y": -30.945589848061008
+                "x": 234.28603882839607,
+                "y": -150.84130602858474
             },
             {
                 "id": "217139",
-                "x": 59.27094529541632,
-                "y": 250.50449788455106
+                "x": -152.89935362109443,
+                "y": -215.6616054307456
             },
             {
                 "id": "217362",
-                "x": -169.10961428623392,
-                "y": 254.24472199301147
+                "x": -401.4492868258824,
+                "y": 57.41182968531502
             },
             {
                 "id": "217529",
-                "x": 518.7104318694838,
-                "y": -558.3194522827682
+                "x": -511.4110434501981,
+                "y": -552.8046478667901
             },
             {
                 "id": "217546",
-                "x": 107.43840815174453,
-                "y": -28.58067745112256
+                "x": -111.18618111133497,
+                "y": -25.793693245676582
             },
             {
                 "id": "217725",
-                "x": 125.77258376268442,
-                "y": 184.65310838993372
+                "x": -58.3936222934752,
+                "y": -275.61281642336905
             },
             {
                 "id": "217770",
-                "x": -372.4436615697185,
-                "y": 645.2481897186566
+                "x": -130.69353693851625,
+                "y": -767.939355853773
             },
             {
                 "id": "218057",
-                "x": -745.3317971163127,
-                "y": 231.85957603142032
+                "x": 202.64993628925353,
+                "y": 738.1743648702994
             },
             {
                 "id": "218741",
-                "x": -293.85189130409435,
-                "y": -104.16012152950404
+                "x": 115.11616720698397,
+                "y": -62.51758630742741
             },
             {
                 "id": "218951",
-                "x": 519.2477007662275,
-                "y": 99.53228572459344
+                "x": -457.2590024700917,
+                "y": 388.69558255960175
             },
             {
                 "id": "219091",
-                "x": 106.13391022062342,
-                "y": -7.134636120180858
+                "x": -273.83504060514053,
+                "y": 22.73065886634756
             },
             {
                 "id": "219250",
-                "x": 2.3496240246551783,
-                "y": 11.631888204726735
+                "x": 43.50027615715441,
+                "y": 34.27980744152746
             },
             {
                 "id": "219299",
-                "x": 155.60560783802575,
-                "y": -140.1981302775179
+                "x": -328.9668130682936,
+                "y": 98.46205112109956
             },
             {
                 "id": "219468",
-                "x": 152.25347370905618,
-                "y": 335.5504443941723
+                "x": 111.85153712524667,
+                "y": -285.47881324125547
             },
             {
                 "id": "219989",
-                "x": -383.7746627791337,
-                "y": 633.3808861218749
+                "x": -100.60089885138709,
+                "y": -722.7344658897074
             },
             {
                 "id": "221224",
-                "x": -59.82919259210472,
-                "y": 568.1568569537724
+                "x": -226.66153691467093,
+                "y": 616.7313508347291
             },
             {
                 "id": "221551",
-                "x": -69.4711849707355,
-                "y": -49.05869817387872
+                "x": -270.6006379681663,
+                "y": 110.95754956147978
             },
             {
                 "id": "221714",
-                "x": -430.0070951335109,
-                "y": -85.05778106242744
+                "x": 347.0304121067689,
+                "y": -56.837255633458796
             },
             {
                 "id": "221716",
-                "x": -543.8899455851288,
-                "y": -106.23155952399478
+                "x": 459.1804045959685,
+                "y": -106.71697970824395
             },
             {
                 "id": "222174",
-                "x": -274.04642578623594,
-                "y": 100.46171285607872
+                "x": -215.5123166218731,
+                "y": -160.79484024149585
             },
             {
                 "id": "222229",
-                "x": -60.51534041488257,
-                "y": -156.46069513802658
+                "x": 28.91645473053508,
+                "y": 183.81414103666663
             },
             {
                 "id": "222488",
-                "x": -135.59895788600213,
-                "y": -41.07888037805091
+                "x": -94.85367987143944,
+                "y": 21.20620233380707
             },
             {
                 "id": "223026",
-                "x": -107.08446270000924,
-                "y": 207.9804039699219
+                "x": 117.77971805387574,
+                "y": -145.0930271018758
             },
             {
                 "id": "223398",
-                "x": -724.0334881689804,
-                "y": -188.46220367848147
+                "x": -324.3976672778265,
+                "y": 680.707514291952
             },
             {
                 "id": "223433",
-                "x": 652.5408920286744,
-                "y": -287.2714178567844
+                "x": -145.42421777290693,
+                "y": 740.5187858825651
             },
             {
                 "id": "223529",
-                "x": 52.65994602306923,
-                "y": -13.772973208392361
+                "x": 29.44657604233693,
+                "y": 51.68570394116091
             },
             {
                 "id": "225402",
-                "x": -57.34989244827428,
-                "y": 214.85020553550572
+                "x": -337.3916079072585,
+                "y": 70.74721906874201
             },
             {
                 "id": "225403",
-                "x": 112.17029442485313,
-                "y": 123.64126977667915
+                "x": -198.1701462497075,
+                "y": -2.1686277686759663
             },
             {
                 "id": "225510",
-                "x": -312.5773761873649,
-                "y": 266.64529088703523
+                "x": -453.4764806263523,
+                "y": 129.58520153942027
             },
             {
                 "id": "225797",
-                "x": 58.165971998544876,
-                "y": -76.09594768882675
+                "x": 17.65773763470226,
+                "y": -99.56716570893265
             },
             {
                 "id": "225974",
-                "x": 169.946122296707,
-                "y": -120.8206945203255
+                "x": 87.906531571923,
+                "y": 122.39262691608712
             },
             {
                 "id": "226616",
-                "x": 460.41874434392327,
-                "y": -532.5829411842783
+                "x": -552.8438169224199,
+                "y": -524.1653619435142
             },
             {
                 "id": "226623",
-                "x": 12.851663726780195,
-                "y": -151.5278835829583
+                "x": -3.296467688169937,
+                "y": 44.448253143880386
             },
             {
                 "id": "226664",
-                "x": -702.7471334591394,
-                "y": 350.36420527210146
+                "x": 512.7562695671912,
+                "y": 558.5464330433227
             },
             {
                 "id": "226848",
-                "x": -246.75991874077823,
-                "y": -155.49659777995038
+                "x": 159.18199435311533,
+                "y": 261.0491477516939
             },
             {
                 "id": "226968",
-                "x": -113.90486234188248,
-                "y": 218.42496672726037
+                "x": 267.99169339813454,
+                "y": 373.26304031336844
             },
             {
                 "id": "226979",
-                "x": -57.45617451922826,
-                "y": 354.8233923979599
+                "x": 222.01296921221487,
+                "y": 437.11279084747827
             },
             {
                 "id": "226981",
-                "x": -67.48279862256061,
-                "y": 396.090953677057
+                "x": 252.7807430876261,
+                "y": 435.37422604627625
             },
             {
                 "id": "226987",
-                "x": -2.188066614427362,
-                "y": 336.90609941769657
+                "x": 87.7576856256941,
+                "y": 425.71888472652824
             },
             {
                 "id": "227048",
-                "x": 557.2532898871309,
-                "y": -322.0799816197416
-            },
-            {
-                "id": "227049",
-                "x": 604.5472592434722,
-                "y": -385.6755882390521
+                "x": 331.8028224338765,
+                "y": 496.23717306808254
             },
             {
                 "id": "227051",
-                "x": 493.4793652606026,
-                "y": -242.09750715662517
+                "x": 256.605047409876,
+                "y": 444.3105807748595
             },
             {
                 "id": "227053",
-                "x": 578.8237138354651,
-                "y": -315.6201478553816
+                "x": 354.9196458056785,
+                "y": 532.2253055237549
             },
             {
                 "id": "227054",
-                "x": 627.2208512261324,
-                "y": -394.7441485018179
+                "x": 415.70601377811937,
+                "y": 578.633613808985
             },
             {
                 "id": "227055",
-                "x": 589.3426935625791,
-                "y": -388.9928586096801
+                "x": 419.6344672589024,
+                "y": 539.3499210234957
             },
             {
                 "id": "227056",
-                "x": 589.2769956674874,
-                "y": -341.5913957268595
+                "x": 378.5561242060686,
+                "y": 538.6994022666411
             },
             {
                 "id": "227060",
-                "x": 566.3774730716535,
-                "y": -347.0545991882998
+                "x": 373.8284094297564,
+                "y": 511.19124873056677
             },
             {
                 "id": "227063",
-                "x": 606.0441728093582,
-                "y": -360.97331320229
+                "x": 400.02023058458263,
+                "y": 556.21436694125
             },
             {
                 "id": "227079",
-                "x": 628.6595393151198,
-                "y": -371.55578074958555
+                "x": 434.5878757887635,
+                "y": 565.1443648094282
             },
             {
                 "id": "227116",
-                "x": 168.64068234901825,
-                "y": -317.77629350362844
+                "x": -300.19348618819356,
+                "y": 256.91465713428425
             },
             {
                 "id": "227294",
-                "x": 683.595178949174,
-                "y": -302.21589251268483
+                "x": -122.03573055466772,
+                "y": 721.1863699129423
             },
             {
                 "id": "227411",
-                "x": -288.3294581370525,
-                "y": 317.5851081586723
+                "x": -555.9111374927023,
+                "y": 113.87983881743318
             },
             {
                 "id": "227832",
-                "x": 298.1403834022571,
-                "y": -218.09263639613704
+                "x": 304.7548751520388,
+                "y": -106.74112350598332
             },
             {
                 "id": "227848",
-                "x": 28.224595896897373,
-                "y": -111.2582532597401
+                "x": -25.183726017193738,
+                "y": 21.88066058487835
             },
             {
                 "id": "227997",
-                "x": 245.39917015135072,
-                "y": 175.03778751893324
+                "x": -342.9187466562452,
+                "y": -160.30504758041286
             },
             {
                 "id": "228325",
-                "x": -107.02565728797138,
-                "y": -92.2453734131721
+                "x": 56.88595006272844,
+                "y": 227.7626900167539
             },
             {
                 "id": "228401",
-                "x": -46.06315223289672,
-                "y": -314.3530376023421
+                "x": 210.64463177867003,
+                "y": 336.8873054299467
             },
             {
                 "id": "228508",
-                "x": 69.3208582125808,
-                "y": -539.3106940949065
+                "x": 150.25042769433654,
+                "y": 544.5352664284949
             },
             {
                 "id": "228514",
-                "x": 40.87756647573797,
-                "y": -354.6959653522122
+                "x": 25.58761398832908,
+                "y": 374.95303493446454
             },
             {
                 "id": "229616",
-                "x": -143.14568246698266,
-                "y": 311.3511221051167
+                "x": -64.38037176483826,
+                "y": -331.05265312586846
             },
             {
                 "id": "229865",
-                "x": -286.45556592875164,
-                "y": -117.84614653407684
+                "x": 251.4027880046283,
+                "y": 83.09666850923206
             },
             {
                 "id": "230532",
-                "x": 711.7463895731587,
-                "y": 269.173907276859
+                "x": -756.0353924219286,
+                "y": 47.677495985821885
             },
             {
                 "id": "231049",
-                "x": 477.0510306301054,
-                "y": 231.43052775133592
+                "x": -214.26662608844887,
+                "y": -447.61150085162416
             },
             {
                 "id": "231156",
-                "x": 660.2457064576104,
-                "y": -303.1912672129557
+                "x": -104.64155180992283,
+                "y": 722.5779703053745
             },
             {
                 "id": "231157",
-                "x": 686.7661720041309,
-                "y": -269.9274708966985
+                "x": -138.5984707414271,
+                "y": 723.4241867747778
             },
             {
                 "id": "231161",
-                "x": 652.8323769141364,
-                "y": -333.3807388960025
+                "x": -83.46664255513565,
+                "y": 731.1060134091555
             },
             {
                 "id": "231162",
-                "x": 671.8153087655649,
-                "y": -288.181422065465
+                "x": -116.6188596307262,
+                "y": 751.9239329905013
             },
             {
                 "id": "231163",
-                "x": 698.1335272707996,
-                "y": -321.50807568287485
+                "x": -128.81200466465788,
+                "y": 742.0344677747033
             },
             {
                 "id": "231175",
-                "x": 643.9653145215657,
-                "y": -310.91610909558307
+                "x": -101.65805145299439,
+                "y": 700.3759903965562
             },
             {
                 "id": "231176",
-                "x": 692.0253572324858,
-                "y": -283.71305163461386
+                "x": -149.36011203502673,
+                "y": 707.1122710065988
             },
             {
                 "id": "231177",
-                "x": 670.7511596163118,
-                "y": -340.47855400938147
+                "x": -76.87052540281985,
+                "y": 715.7114770947877
             },
             {
                 "id": "231178",
-                "x": 616.4140188048683,
-                "y": -285.5586027824614
+                "x": -113.96546874920566,
+                "y": 661.6844735519785
             },
             {
                 "id": "231179",
-                "x": 705.9623183838828,
-                "y": -288.305805713071
+                "x": -155.55239693829705,
+                "y": 723.5456578876174
             },
             {
                 "id": "231180",
-                "x": 659.6651475347554,
-                "y": -320.8874148745142
+                "x": -90.45345874885804,
+                "y": 710.2277100642964
             },
             {
                 "id": "231181",
-                "x": 667.6211329303298,
-                "y": -272.7759243684038
+                "x": -134.76598635151583,
+                "y": 699.4832693157184
             },
             {
                 "id": "231303",
-                "x": -219.51537025406134,
-                "y": -710.8298090694628
+                "x": -469.29854851483276,
+                "y": 577.3144487237287
             },
             {
                 "id": "231305",
-                "x": -171.5160089719896,
-                "y": -721.5468184216303
+                "x": -421.28827946932284,
+                "y": 565.5403204424409
             },
             {
                 "id": "231306",
-                "x": -166.77543988237062,
-                "y": -672.2023185686895
+                "x": -460.1635342683192,
+                "y": 546.9593145387865
             },
             {
                 "id": "231307",
-                "x": -190.96658445987885,
-                "y": -700.5508380182105
+                "x": -403.53010966386944,
+                "y": 594.394630341774
             },
             {
                 "id": "231309",
-                "x": -150.86320466069662,
-                "y": -697.9091217612047
+                "x": -438.33146888410573,
+                "y": 582.1562712240916
             },
             {
                 "id": "231310",
-                "x": -220.39226454047127,
-                "y": -686.0650432295239
+                "x": -496.9005206441652,
+                "y": 552.0952625771714
             },
             {
                 "id": "231311",
-                "x": -187.06386096996752,
-                "y": -717.0089581353707
+                "x": -422.79964337392965,
+                "y": 582.8813152355729
             },
             {
                 "id": "231312",
-                "x": -153.12612712073212,
-                "y": -679.0149914853799
+                "x": -471.67440281638824,
+                "y": 594.8681668728924
             },
             {
                 "id": "231313",
-                "x": -205.4040421007878,
-                "y": -692.4138901261246
+                "x": -441.6586572901097,
+                "y": 565.8850030201122
             },
             {
                 "id": "231315",
-                "x": -155.84863799514005,
-                "y": -729.8457842683212
+                "x": -431.60877319022995,
+                "y": 554.1065510783183
             },
             {
                 "id": "231318",
-                "x": -184.2833259039936,
-                "y": -686.2076151468397
+                "x": -490.525256370703,
+                "y": 566.0926478086179
             },
             {
                 "id": "231319",
-                "x": -192.71352070211915,
-                "y": -732.0182222340637
+                "x": -416.2902335482811,
+                "y": 601.6892988433406
             },
             {
                 "id": "231320",
-                "x": -140.55314464883966,
-                "y": -713.3788366050417
+                "x": -456.94282061164245,
+                "y": 563.5198402629645
             },
             {
                 "id": "231321",
-                "x": -209.29647799149487,
-                "y": -675.5557345138549
+                "x": -475.1537255975823,
+                "y": 561.5130941604572
             },
             {
                 "id": "231322",
-                "x": -173.4155762985223,
-                "y": -703.6402202146149
+                "x": -434.72890146662087,
+                "y": 614.790571073872
             },
             {
                 "id": "231323",
-                "x": -166.64588824728497,
-                "y": -689.283882356551
+                "x": -485.59235886348057,
+                "y": 583.2061161532455
             },
             {
                 "id": "231324",
-                "x": -204.18972681869045,
-                "y": -711.284343967462
+                "x": -408.82955311061363,
+                "y": 578.143272230265
             },
             {
                 "id": "231325",
-                "x": -157.00663009814625,
-                "y": -713.4920713983042
+                "x": -448.3450600746635,
+                "y": 599.8754618253632
             },
             {
                 "id": "231326",
-                "x": -195.86147688500387,
-                "y": -672.111524412858
+                "x": -484.3646538292313,
+                "y": 545.7352849051272
             },
             {
                 "id": "231327",
-                "x": -175.80366514007878,
-                "y": -737.5461065221665
+                "x": -419.9173575989761,
+                "y": 623.3839626128914
             },
             {
                 "id": "231329",
-                "x": -131.03395300617748,
-                "y": -701.6779781496846
+                "x": -454.44781824198697,
+                "y": 583.8248617729887
             },
             {
                 "id": "231337",
-                "x": -224.47949255337707,
-                "y": -724.716178826036
+                "x": -446.4474833030914,
+                "y": 547.1790742221281
             },
             {
                 "id": "231338",
-                "x": -160.4067234006946,
-                "y": -746.7093005155606
+                "x": -449.0615442414047,
+                "y": 621.982631774462
             },
             {
                 "id": "231339",
-                "x": -181.18882229108954,
-                "y": -669.9307845184704
+                "x": -502.42366774883106,
+                "y": 574.1684901777586
             },
             {
                 "id": "231340",
-                "x": -190.19638294384922,
-                "y": -748.7230927407617
+                "x": -407.9599996959946,
+                "y": 613.8459478265928
             },
             {
                 "id": "231341",
-                "x": -129.19478292834393,
-                "y": -722.633321315839
+                "x": -462.6622955752464,
+                "y": 607.8378171562816
             },
             {
                 "id": "231342",
-                "x": -226.68571236393615,
-                "y": -699.4791651608082
+                "x": -471.62727112465114,
+                "y": 539.772775777151
             },
             {
                 "id": "231345",
-                "x": -173.7127062052648,
-                "y": -753.8067608027669
+                "x": -435.15213582555606,
+                "y": 630.8279025909619
             },
             {
                 "id": "231346",
-                "x": -139.60450672015423,
-                "y": -687.1659889689244
+                "x": -498.49164803382575,
+                "y": 591.6547926115177
             },
             {
                 "id": "231347",
-                "x": -209.91405339201455,
-                "y": -728.6132685019223
+                "x": -431.00882634053085,
+                "y": 599.9581284056718
             },
             {
                 "id": "231348",
-                "x": -145.92293959942205,
-                "y": -746.7069255199243
+                "x": -462.7765799124998,
+                "y": 625.7822327710372
             },
             {
                 "id": "231825",
-                "x": 47.22008804147153,
-                "y": 356.72631542665124
+                "x": 65.72188772277828,
+                "y": -249.40753065518402
             },
             {
                 "id": "232178",
-                "x": 503.78579059583217,
-                "y": -582.5995014999128
+                "x": -461.3374223047729,
+                "y": -543.3520977098888
             },
             {
                 "id": "232181",
-                "x": 714.9092931512633,
-                "y": 66.04943077382235
+                "x": 675.6493401401268,
+                "y": 110.38199264352029
             },
             {
                 "id": "232458",
-                "x": 460.6254168372794,
-                "y": -550.7422683686602
+                "x": -481.22014831340755,
+                "y": -514.5033597967283
             },
             {
                 "id": "233806",
-                "x": 492.9754257483163,
-                "y": -541.4136068757061
+                "x": -556.0161690850057,
+                "y": -510.97186776516054
             },
             {
                 "id": "233809",
-                "x": 535.9375330783574,
-                "y": -526.8705116234108
+                "x": -490.44922534425683,
+                "y": -501.3215040219335
             },
             {
                 "id": "234493",
-                "x": -267.66546933488627,
-                "y": 28.462100843862515
+                "x": 97.24966717214977,
+                "y": -54.85396191916211
             },
             {
                 "id": "235001",
-                "x": 68.60036376529568,
-                "y": 93.06189177335051
+                "x": -16.1229520035825,
+                "y": 108.87338339420694
             },
             {
                 "id": "235311",
-                "x": -422.20796608744763,
-                "y": 638.5564807130211
+                "x": -146.72087643000515,
+                "y": -765.063688170835
             },
             {
                 "id": "235365",
-                "x": 225.0060423847198,
-                "y": -118.97621055179096
+                "x": -265.9081421327744,
+                "y": 191.96433841203705
             },
             {
                 "id": "236241",
-                "x": 135.02626604773428,
-                "y": 251.51886693601227
+                "x": -347.3980262675951,
+                "y": -16.53939474587079
             },
             {
                 "id": "236371",
-                "x": 247.40503198387543,
-                "y": -158.5208278536114
+                "x": -310.6820122330737,
+                "y": 138.17940085953742
             },
             {
                 "id": "236617",
-                "x": -46.62250422295404,
-                "y": 38.64823775342087
+                "x": -28.039807882722357,
+                "y": 203.28425829827248
             },
             {
                 "id": "236768",
-                "x": -208.6289511415907,
-                "y": 76.98104323764238
+                "x": 100.15133537819528,
+                "y": -207.1894993131218
             },
             {
                 "id": "237072",
-                "x": -162.34835852978628,
-                "y": -72.95273214699822
+                "x": -267.757722992338,
+                "y": 230.524955365182
             },
             {
                 "id": "237234",
-                "x": -175.3475630620853,
-                "y": -120.0715328994333
+                "x": -17.765747929022893,
+                "y": 241.3318659010534
             },
             {
                 "id": "237257",
-                "x": -320.8341022343109,
-                "y": 170.48711050917836
+                "x": 108.15781659025481,
+                "y": -237.1086342388049
             },
             {
                 "id": "237924",
-                "x": 288.1134106699931,
-                "y": 110.2818037957521
+                "x": -357.33903714057624,
+                "y": -53.22115977770729
             },
             {
                 "id": "237937",
-                "x": 350.35913603658514,
-                "y": -22.618254689173916
+                "x": -412.9664728101654,
+                "y": -45.71058312741218
             },
             {
                 "id": "238456",
-                "x": -237.57984548504982,
-                "y": 80.56789816005788
+                "x": -106.0034464856928,
+                "y": -265.49567108647244
             },
             {
                 "id": "238700",
-                "x": -172.90186483710127,
-                "y": -86.27571704941883
+                "x": 182.72996813682153,
+                "y": 123.28631555696575
             },
             {
                 "id": "238766",
-                "x": 137.21003270829934,
-                "y": -210.35141084335797
+                "x": 103.61176407908893,
+                "y": 233.48685266848258
             },
             {
                 "id": "238972",
-                "x": -238.70612927446277,
-                "y": 187.69898443065776
+                "x": 264.56468527395316,
+                "y": 14.801539343151141
             },
             {
                 "id": "239041",
-                "x": -202.26585390214765,
-                "y": 401.3969790842444
+                "x": -32.28691646166721,
+                "y": -420.51295591020244
             },
             {
                 "id": "239043",
-                "x": -236.56961026598222,
-                "y": 282.9477203567602
+                "x": 11.596619528497756,
+                "y": -326.96630958917467
             },
             {
                 "id": "239095",
-                "x": -233.57892569200277,
-                "y": 241.35491083010442
+                "x": -28.545614028583156,
+                "y": -265.1203874482004
             },
             {
                 "id": "239128",
-                "x": -168.79180425151227,
-                "y": -151.50380175929806
+                "x": 108.90870461278698,
+                "y": 292.4386194399544
             },
             {
                 "id": "239757",
-                "x": -30.942652059903207,
-                "y": 74.57170917914591
+                "x": -155.7469462509875,
+                "y": -337.27825512908794
             },
             {
                 "id": "240141",
-                "x": -164.58569364518303,
-                "y": -57.95016476106075
+                "x": 128.64517239200927,
+                "y": -160.41317719582761
             },
             {
                 "id": "240148",
-                "x": 206.5377816660919,
-                "y": -55.261138804314996
+                "x": -198.24092234353145,
+                "y": 142.14894808625925
             },
             {
                 "id": "240219",
-                "x": -373.3561143735098,
-                "y": -597.6522785775869
+                "x": 567.854604213974,
+                "y": 194.47627741201381
             },
             {
                 "id": "240220",
-                "x": -271.3909878494653,
-                "y": -451.7401926862633
+                "x": 405.77000257423856,
+                "y": 196.680656101541
             },
             {
                 "id": "240221",
-                "x": -387.68620176491686,
-                "y": -590.4515363939375
+                "x": 592.344388604306,
+                "y": 192.77152864296482
             },
             {
                 "id": "240222",
-                "x": -330.11105197808047,
-                "y": -545.7701601966844
+                "x": 534.300609100923,
+                "y": 218.74032627408698
             },
             {
                 "id": "240223",
-                "x": -399.58882908863285,
-                "y": -581.2484970470126
+                "x": 605.6203720726098,
+                "y": 216.5481237478483
             },
             {
                 "id": "240225",
-                "x": -367.9592073821421,
-                "y": -580.4120510228121
+                "x": 575.9529273844275,
+                "y": 181.59166308720603
             },
             {
                 "id": "240232",
-                "x": -339.37346725932207,
-                "y": -565.780690545792
+                "x": 555.6276362543226,
+                "y": 208.72310783556838
             },
             {
                 "id": "240233",
-                "x": -401.7122556877473,
-                "y": -551.5865542367911
+                "x": 605.8759202398742,
+                "y": 181.8358710109398
             },
             {
                 "id": "240310",
-                "x": 517.1522129351135,
-                "y": -579.3554047502021
+                "x": -524.6138239741094,
+                "y": -508.7544035007114
             },
             {
                 "id": "240382",
-                "x": -61.264795216230056,
-                "y": -205.9115057705481
+                "x": 182.2583164787933,
+                "y": 264.1494575907953
             },
             {
                 "id": "240432",
-                "x": 211.16045901451488,
-                "y": -225.8635408219126
+                "x": -178.0348476396978,
+                "y": 241.75103008700324
             },
             {
                 "id": "240433",
-                "x": 246.4700783987649,
-                "y": -74.43075631063647
+                "x": -284.8813187570544,
+                "y": 246.53220401407253
             },
             {
                 "id": "240436",
-                "x": 226.8846740217668,
-                "y": -164.26737124020775
+                "x": -231.78926037083733,
+                "y": 246.1126421470922
             },
             {
                 "id": "240445",
-                "x": 668.6741004722965,
-                "y": 29.696171453201476
+                "x": 630.2928338554896,
+                "y": 67.80761278947993
             },
             {
                 "id": "240561",
-                "x": -157.8236949115072,
-                "y": -345.5975051802446
+                "x": 297.51773747746546,
+                "y": 137.81989429714272
             },
             {
                 "id": "240861",
-                "x": -272.7621276502992,
-                "y": -199.86702137324514
+                "x": 236.00392468571619,
+                "y": 65.09849216716367
             },
             {
                 "id": "240949",
-                "x": 65.293499225293,
-                "y": -182.14015608743685
+                "x": -96.66260214063544,
+                "y": 277.5866459539426
             },
             {
                 "id": "240950",
-                "x": 183.2117144413081,
-                "y": -237.64724757483634
+                "x": -157.36323089457,
+                "y": 342.1027157719151
             },
             {
                 "id": "241074",
-                "x": -32.98950208255884,
-                "y": -131.38686452558593
+                "x": -3.6450371710927736,
+                "y": 93.22733930187367
             },
             {
                 "id": "241677",
-                "x": -96.43467573668777,
-                "y": -207.8623955119025
+                "x": 75.63913807506054,
+                "y": 124.42405132247632
             },
             {
                 "id": "241978",
-                "x": 62.012176387178336,
-                "y": 36.7669423191418
+                "x": -333.40898992259764,
+                "y": 110.17483133843784
             },
             {
                 "id": "242103",
-                "x": -116.88830866013139,
-                "y": -568.302235629305
+                "x": 3.8829320358160486,
+                "y": 605.3371411237606
             },
             {
                 "id": "242234",
-                "x": -164.8458133394901,
-                "y": -175.45455165255072
+                "x": 167.788378233292,
+                "y": 115.71861786190414
             },
             {
                 "id": "242461",
-                "x": -131.7464545241218,
-                "y": -148.60966336901973
+                "x": 93.93540813230031,
+                "y": 191.06443085992598
             },
             {
                 "id": "242465",
-                "x": -132.23149940587797,
-                "y": -243.40043294664466
+                "x": 116.3899359734284,
+                "y": 265.52800268965393
             },
             {
                 "id": "242503",
-                "x": 277.8125048625965,
-                "y": 139.24203849230972
+                "x": -59.94898989739361,
+                "y": -246.12355253232332
             },
             {
                 "id": "242858",
-                "x": -184.10868190172772,
-                "y": -81.04849853414889
+                "x": 1.6646425204302209,
+                "y": 208.09110182721213
             },
             {
                 "id": "243053",
-                "x": 280.8211939399819,
-                "y": -131.828456218368
+                "x": -377.7169116803061,
+                "y": 21.293488902529052
             },
             {
                 "id": "244196",
-                "x": 472.9342863147061,
-                "y": -565.0889500737162
+                "x": -485.8035602152524,
+                "y": -529.5270560397565
             },
             {
                 "id": "244505",
-                "x": -112.46871574041299,
-                "y": -201.7108817874091
+                "x": 20.64804899404341,
+                "y": 318.3089730380488
             },
             {
                 "id": "244506",
-                "x": -22.35109210813886,
-                "y": -260.1081690938962
+                "x": 76.76406553614912,
+                "y": 320.4614287276517
             },
             {
                 "id": "245030",
-                "x": -194.63567747041034,
-                "y": -114.25780493164089
+                "x": 80.177454995226,
+                "y": 102.77059617606456
             },
             {
                 "id": "245035",
-                "x": 51.5944354746377,
-                "y": -78.42904350406377
+                "x": 50.5451086735789,
+                "y": 48.03598083289649
             },
             {
                 "id": "245169",
-                "x": -404.7583826117012,
-                "y": 487.5846620208892
+                "x": 257.02638867481187,
+                "y": -557.427880034572
             },
             {
                 "id": "245423",
-                "x": -246.6916203534371,
-                "y": 234.5195999569197
+                "x": 144.71142265045665,
+                "y": -258.8269181397026
             },
             {
                 "id": "245430",
-                "x": 599.2456087268965,
-                "y": 452.47447109726073
+                "x": -711.5903739831722,
+                "y": -166.0279430362051
             },
             {
                 "id": "245761",
-                "x": -412.2832200110412,
-                "y": 591.0001861898955
+                "x": -101.53881951357634,
+                "y": -737.8400544825583
             },
             {
                 "id": "245802",
-                "x": 390.0063418853657,
-                "y": 477.60344222491295
+                "x": -341.0723804053307,
+                "y": -520.581192446127
             },
             {
                 "id": "246131",
-                "x": -693.884166019994,
-                "y": -83.09700780918284
+                "x": 466.1211358143377,
+                "y": 532.2938679366065
             },
             {
                 "id": "246160",
-                "x": -163.84165668821717,
-                "y": 198.9884311295578
+                "x": -43.299507516967175,
+                "y": -225.6675194566187
             },
             {
                 "id": "246413",
-                "x": -369.1518950999221,
-                "y": 108.92418390280781
+                "x": 266.84628305122413,
+                "y": -84.95070238144562
             },
             {
                 "id": "246943",
-                "x": -568.6377131665831,
-                "y": 481.2835722179324
+                "x": 558.3733337141291,
+                "y": -565.2947266267018
             },
             {
                 "id": "247059",
-                "x": -171.04682164593711,
-                "y": 10.114539605261115
+                "x": 85.63715824687006,
+                "y": -46.32220519807865
             },
             {
                 "id": "247072",
-                "x": -94.61706906528146,
-                "y": -66.06671545273643
+                "x": 248.3937222781858,
+                "y": 10.364765692507705
             },
             {
                 "id": "247450",
-                "x": 54.74045167852172,
-                "y": 113.28541248831878
+                "x": -163.1175597341346,
+                "y": -89.65026662782871
             },
             {
                 "id": "247858",
-                "x": 41.44110057017361,
-                "y": 57.800899011434794
+                "x": -176.6975400912656,
+                "y": -27.721432490372305
             },
             {
                 "id": "247982",
-                "x": 347.9783384667686,
-                "y": 74.40786303627017
+                "x": -385.7431573072292,
+                "y": -44.96030358333979
             },
             {
                 "id": "248494",
-                "x": -216.66421024663623,
-                "y": -223.164830737284
+                "x": -121.58835498980186,
+                "y": -456.97108018124885
             },
             {
                 "id": "249308",
-                "x": -375.7494760578043,
-                "y": 321.70084078355376
+                "x": -578.4807203149647,
+                "y": 79.63434701857764
             },
             {
                 "id": "249496",
-                "x": 136.46997134629706,
-                "y": -89.79156150506898
+                "x": -87.30981132575323,
+                "y": 49.72503643865451
             },
             {
                 "id": "249667",
-                "x": -304.9936170154728,
-                "y": 8.373156171687208
+                "x": 189.99735485430062,
+                "y": -100.35084678611042
             },
             {
                 "id": "250045",
-                "x": 197.91747226850424,
-                "y": -308.4623698101818
+                "x": -150.03260649290087,
+                "y": 365.21668451452746
             },
             {
                 "id": "250904",
-                "x": -27.613067607360307,
-                "y": 20.07807549225535
+                "x": -50.79326127779617,
+                "y": -143.61620431914105
             },
             {
                 "id": "250998",
-                "x": 50.37005587929981,
-                "y": -150.73888614736097
+                "x": -138.60427409444776,
+                "y": 235.82869642825975
             },
             {
                 "id": "251065",
-                "x": 59.50117981921843,
-                "y": 171.23712696058323
+                "x": -253.4603078457532,
+                "y": -71.15375809775026
             },
             {
                 "id": "251185",
-                "x": 79.91292465014054,
-                "y": -34.77847020357081
+                "x": -34.26426082015718,
+                "y": -31.327733857665216
             },
             {
                 "id": "251612",
-                "x": -1.396786861601896,
-                "y": -227.59486736640974
+                "x": 19.203145643457834,
+                "y": 254.0693794156706
             },
             {
                 "id": "251615",
-                "x": -113.59551921534434,
-                "y": -115.24420231983484
+                "x": -6.315885822491266,
+                "y": 203.75864246846223
             },
             {
                 "id": "251712",
-                "x": 122.96037369186499,
-                "y": 338.2961215083806
+                "x": -133.52549477086902,
+                "y": -307.1268785799487
             },
             {
                 "id": "251863",
-                "x": 523.0052064602255,
-                "y": -515.4476624491672
+                "x": -527.9731691677096,
+                "y": -557.0646376818845
             },
             {
                 "id": "251875",
-                "x": 690.8454703040966,
-                "y": 24.68463568810896
+                "x": 691.041471134062,
+                "y": 72.84326705588472
             },
             {
                 "id": "252195",
-                "x": 223.167134456535,
-                "y": 129.21729835798837
+                "x": -325.93867988020037,
+                "y": -39.60508502966229
             },
             {
                 "id": "252316",
-                "x": 102.71498393718154,
-                "y": -221.7920102516371
+                "x": -108.8171064951442,
+                "y": 235.88720337966043
             },
             {
                 "id": "252415",
-                "x": -699.649286376989,
-                "y": -124.85544848661036
+                "x": 445.23363410042475,
+                "y": 527.1652918350286
             },
             {
                 "id": "252431",
-                "x": 281.60055044127074,
-                "y": 701.4258997410457
+                "x": 54.267486667120345,
+                "y": -740.6190378377697
             },
             {
                 "id": "252691",
-                "x": -197.79908586981637,
-                "y": 675.3153592607637
+                "x": 183.422431750415,
+                "y": -595.9539582928758
             },
             {
                 "id": "252700",
-                "x": -264.16186432381875,
-                "y": 39.012101926015376
+                "x": 147.6851355520986,
+                "y": -108.85168574567814
             },
             {
                 "id": "252979",
-                "x": -189.5260817459605,
-                "y": 154.9977542047329
+                "x": -25.638051355929424,
+                "y": -147.18918639097802
             },
             {
                 "id": "253005",
-                "x": -398.08214587921594,
-                "y": 178.99623578261105
+                "x": 327.6999991292631,
+                "y": -76.25632491908087
             },
             {
                 "id": "253006",
-                "x": -145.87546881977076,
-                "y": 210.4969978613804
+                "x": -54.846237789265366,
+                "y": -101.02125017851507
             },
             {
                 "id": "253040",
-                "x": 156.25231105357983,
-                "y": 188.33802143793912
+                "x": -112.72187125425965,
+                "y": -126.01509715202032
             },
             {
                 "id": "253393",
-                "x": 225.1107864338394,
-                "y": -107.55979141048346
+                "x": -311.4060207684936,
+                "y": 254.377127223532
             },
             {
                 "id": "253581",
-                "x": 107.59361359481579,
-                "y": 313.9025391454981
+                "x": -1.8319598662546612,
+                "y": -308.4725559489375
             },
             {
                 "id": "253588",
-                "x": 454.99092064630014,
-                "y": -568.649473368386
+                "x": -470.5015354305823,
+                "y": -560.4782617167041
             },
             {
                 "id": "254888",
-                "x": 759.1591300402946,
-                "y": 22.201234307213458
+                "x": 696.3088968385559,
+                "y": 114.97433729932352
             },
             {
                 "id": "254945",
-                "x": -233.65071756902327,
-                "y": 28.19475260113419
+                "x": -117.12345601797853,
+                "y": 24.14833032074453
             },
             {
                 "id": "255061",
-                "x": 145.88481478603663,
-                "y": -97.88840008257374
+                "x": -189.9680338990566,
+                "y": 100.63182287493984
             },
             {
                 "id": "255129",
-                "x": -260.14087215008885,
-                "y": 137.98537393419107
+                "x": -24.38942608741305,
+                "y": -216.7270996233123
             },
             {
                 "id": "255156",
-                "x": 107.40458110072827,
-                "y": 108.89164921588352
+                "x": -285.72765044517416,
+                "y": -78.94959715998475
             },
             {
                 "id": "255268",
-                "x": 178.1966950348545,
-                "y": 95.88744679677649
+                "x": -199.5664285009091,
+                "y": -131.46210577404068
             },
             {
                 "id": "255296",
-                "x": -252.01262105815476,
-                "y": -220.97876536538834
+                "x": 18.550204639190802,
+                "y": 43.98606757914311
             },
             {
                 "id": "255852",
-                "x": -159.9711425671656,
-                "y": -263.63722165798805
+                "x": 156.18073014496719,
+                "y": 188.9635490939069
             },
             {
                 "id": "256098",
-                "x": -86.26500555805387,
-                "y": 134.64280402437706
+                "x": -73.36856200564591,
+                "y": -28.78314778251283
             },
             {
                 "id": "256547",
-                "x": -15.908333124604534,
-                "y": -414.2053910409484
+                "x": 153.25325676072984,
+                "y": 359.55087888595017
             },
             {
                 "id": "256783",
-                "x": 473.1841690599024,
-                "y": -510.8247463691606
+                "x": -535.7997580087635,
+                "y": -498.87991016323565
             },
             {
                 "id": "256789",
-                "x": 716.9153587005318,
-                "y": 83.24030809989505
+                "x": 714.69318976367,
+                "y": 47.17060143590955
             },
             {
                 "id": "256819",
-                "x": 705.3300727433643,
-                "y": 14.820713140787662
+                "x": 669.6401714455237,
+                "y": 59.025462212276615
             },
             {
                 "id": "257212",
-                "x": -20.25275138875695,
-                "y": 190.88735508082473
+                "x": 13.631088877396763,
+                "y": 182.11863249739505
             },
             {
                 "id": "257243",
-                "x": 27.477369212002372,
-                "y": 276.5435650895813
+                "x": -97.88921677239598,
+                "y": -294.0058192379234
             },
             {
                 "id": "257563",
-                "x": -232.10680687102987,
-                "y": -112.46727630565336
+                "x": 137.69757792946967,
+                "y": 162.20329926997218
             },
             {
                 "id": "257890",
-                "x": -73.48307886781937,
-                "y": 46.27456908234768
+                "x": -272.73496277740105,
+                "y": 71.90024657000976
             },
             {
                 "id": "258091",
-                "x": 463.5213300907689,
-                "y": -580.6459826899204
+                "x": -484.1944822351522,
+                "y": -569.2869831373409
             },
             {
                 "id": "258229",
-                "x": -63.18271605333233,
-                "y": -478.7927795219958
+                "x": 202.9429396347621,
+                "y": 412.06439744111395
             },
             {
                 "id": "258231",
-                "x": -0.43906796463498515,
-                "y": -424.8288790114102
+                "x": 141.68984947712235,
+                "y": 367.2813028232602
             },
             {
                 "id": "258255",
-                "x": -4.350452405208547,
-                "y": -335.46700381746007
+                "x": 95.75710026887558,
+                "y": 307.34630057659297
             },
             {
                 "id": "258256",
-                "x": -34.97798374679207,
-                "y": -458.2046425192436
+                "x": 169.83061975837305,
+                "y": 397.9528334568736
             },
             {
                 "id": "258262",
-                "x": -99.31820115831741,
-                "y": -418.77131211538546
+                "x": 112.85150435654917,
+                "y": 406.210736556273
             },
             {
                 "id": "258275",
-                "x": -118.38991313238665,
-                "y": -601.5730415312765
+                "x": 450.2321051895869,
+                "y": 316.20639917856244
             },
             {
                 "id": "258276",
-                "x": -142.86695070170623,
-                "y": -589.763382612253
+                "x": 458.42407146220677,
+                "y": 296.1919169611326
             },
             {
                 "id": "258280",
-                "x": -67.75651457512224,
-                "y": -548.4363682901165
+                "x": 362.57427665938013,
+                "y": 327.69840108988933
             },
             {
                 "id": "258312",
-                "x": 131.12793972325736,
-                "y": -219.366650444957
+                "x": -190.02907647112588,
+                "y": 301.60548446662443
             },
             {
                 "id": "258412",
-                "x": -91.86065197453321,
-                "y": -298.259316994135
+                "x": 325.4445057170956,
+                "y": -164.29824337608298
             },
             {
                 "id": "258678",
-                "x": -188.3582518299811,
-                "y": -144.58785960706592
+                "x": 180.83490163363174,
+                "y": 185.69251597716945
             },
             {
                 "id": "258691",
-                "x": -227.58402161651648,
-                "y": -269.5919455130247
+                "x": 258.63410583016775,
+                "y": 254.7904471467624
             },
             {
                 "id": "258692",
-                "x": -228.53332073137534,
-                "y": -304.5602083168844
+                "x": 227.97367137060849,
+                "y": 265.93243083168136
             },
             {
                 "id": "258693",
-                "x": -279.32936527768817,
-                "y": -276.156984555773
+                "x": 295.26988154888437,
+                "y": 247.7552963494893
             },
             {
                 "id": "258703",
-                "x": 517.329603594882,
-                "y": -497.12238587010273
+                "x": -516.416746164217,
+                "y": -521.7141283799432
             },
             {
                 "id": "258832",
-                "x": 147.48997431363014,
-                "y": -124.9376409326634
+                "x": 36.15309751404644,
+                "y": 255.9247767100931
             },
             {
                 "id": "259126",
-                "x": -22.89774129829694,
-                "y": 202.6294079280666
+                "x": -50.4528453210674,
+                "y": -137.2602920326852
             },
             {
                 "id": "259162",
-                "x": 138.11993190028085,
-                "y": -181.59173564868027
+                "x": 55.897523143962474,
+                "y": 23.791386946348048
             },
             {
                 "id": "259263",
-                "x": 118.23849868422782,
-                "y": 163.47169382722154
+                "x": -122.52298176138189,
+                "y": -111.06609549616378
             },
             {
                 "id": "259372",
-                "x": 376.5568584594483,
-                "y": 501.6243712137205
+                "x": -330.16051094367884,
+                "y": -547.8832741872003
             },
             {
                 "id": "259373",
-                "x": 351.63457772920225,
-                "y": 511.519681578759
+                "x": -283.15895843470906,
+                "y": -552.2429914635704
             },
             {
                 "id": "259374",
-                "x": 376.16720637270527,
-                "y": 487.05423444220384
+                "x": -348.9738787714907,
+                "y": -531.9150406762495
             },
             {
                 "id": "259389",
-                "x": 342.565235676888,
-                "y": 454.88758932675614
-            },
-            {
-                "id": "259399",
-                "x": 394.3506737059415,
-                "y": 509.42165590501435
-            },
-            {
-                "id": "259409",
-                "x": 419.16000086649143,
-                "y": 519.9542646445009
+                "x": -302.1422882623712,
+                "y": -484.6822595390217
             },
             {
                 "id": "259410",
-                "x": 363.27136452204167,
-                "y": 537.2432713909731
+                "x": -297.9685301185375,
+                "y": -578.7592986922693
             },
             {
                 "id": "259411",
-                "x": 408.5952671438931,
-                "y": 484.8504698902295
+                "x": -344.00796153495935,
+                "y": -551.4338459307075
             },
             {
                 "id": "259412",
-                "x": 397.27730310067614,
-                "y": 524.8002485609918
+                "x": -299.5120869081187,
+                "y": -543.1541821022746
             },
             {
                 "id": "259413",
-                "x": 366.26840276979976,
-                "y": 512.4428014705364
+                "x": -327.62187689261305,
+                "y": -528.4682721010475
             },
             {
                 "id": "259414",
-                "x": 426.3443401959859,
-                "y": 502.1993590852213
+                "x": -320.64848349052244,
+                "y": -584.4050158056737
             },
             {
                 "id": "259415",
-                "x": 320.1758975599028,
-                "y": 448.44154997888586
+                "x": -268.6047055734691,
+                "y": -486.348666996546
             },
             {
                 "id": "259417",
-                "x": 405.8025953447882,
-                "y": 470.53970976072185
+                "x": -356.75553116674166,
+                "y": -545.0302178217087
             },
             {
                 "id": "259429",
-                "x": 409.2829673407389,
-                "y": 533.1293698349779
+                "x": -314.9598182799033,
+                "y": -536.9451032431366
             },
             {
                 "id": "259431",
-                "x": 348.30191670724145,
-                "y": 492.1574502544456
+                "x": -297.50923034047975,
+                "y": -521.5124495084269
             },
             {
                 "id": "259434",
-                "x": 422.93606583114916,
-                "y": 484.1053738477771
+                "x": -348.03304821118076,
+                "y": -568.1962083227646
             },
             {
                 "id": "259442",
-                "x": 391.85826211360967,
-                "y": 540.8920334966109
-            },
-            {
-                "id": "259443",
-                "x": 352.77593707771985,
-                "y": 526.5902068113925
+                "x": -284.272245954561,
+                "y": -569.5782429954708
             },
             {
                 "id": "259713",
-                "x": -331.6605531033817,
-                "y": 54.58536114219132
+                "x": 52.37675171613779,
+                "y": -171.58741079505404
             },
             {
                 "id": "259916",
-                "x": -141.10222529767887,
-                "y": 190.1106629196596
+                "x": -106.6661625524622,
+                "y": -197.26468966075979
             },
             {
                 "id": "260035",
-                "x": 678.0016303612963,
-                "y": -319.6415603919599
+                "x": -91.3793108803449,
+                "y": 745.2916103432048
             },
             {
                 "id": "260362",
-                "x": 667.6711214944138,
-                "y": 317.9975282487034
+                "x": -261.4273928479577,
+                "y": 705.183785655308
             },
             {
                 "id": "260426",
-                "x": 541.8892789059398,
-                "y": 453.0624267908854
+                "x": -716.5906806314546,
+                "y": -228.24763955645582
             },
             {
                 "id": "260435",
-                "x": -132.75875157225767,
-                "y": -221.9744307092871
+                "x": 209.63039238201853,
+                "y": -46.430516458414445
             },
             {
                 "id": "261273",
-                "x": 346.5712579071228,
-                "y": -12.045024593958674
+                "x": -313.17442532487473,
+                "y": 354.59376556654826
             },
             {
                 "id": "261321",
-                "x": 279.67304576893815,
-                "y": -65.12245104104163
+                "x": -284.1328920028359,
+                "y": 47.782973588806776
             },
             {
                 "id": "261341",
-                "x": 132.75662316918016,
-                "y": 51.66940670783592
+                "x": -127.25339051051813,
+                "y": 30.634201361120695
             },
             {
                 "id": "262555",
-                "x": -234.02451303932207,
-                "y": -164.11158507597708
+                "x": 23.054049674529125,
+                "y": 174.3831709561726
             },
             {
                 "id": "262561",
-                "x": 112.5720011357218,
-                "y": 250.7393151776044
+                "x": -288.3103157001426,
+                "y": -193.67092584535678
             },
             {
                 "id": "262752",
-                "x": -78.40175039540968,
-                "y": 753.3036779880578
+                "x": 7.72336328426738,
+                "y": 721.2190355909871
             },
             {
                 "id": "262763",
-                "x": 446.2959969928463,
-                "y": -556.0805334661509
+                "x": -462.5802656638472,
+                "y": -518.3414455376217
             },
             {
                 "id": "262973",
-                "x": 66.52051200283715,
-                "y": 126.6901724298249
-            },
-            {
-                "id": "263678",
-                "x": 502.901045450872,
-                "y": 602.1973825781575
+                "x": -388.73541958475965,
+                "y": 186.38100118687154
             },
             {
                 "id": "264023",
-                "x": -371.04364838361465,
-                "y": -62.569840464607054
+                "x": 270.98648803553607,
+                "y": -193.31067963889674
             },
             {
                 "id": "264408",
-                "x": -14.706660824345981,
-                "y": -378.3964095206622
+                "x": 177.62598933959748,
+                "y": 319.3020031199457
             },
             {
                 "id": "264564",
-                "x": -395.15441107939955,
-                "y": -416.6742513111601
+                "x": 135.72495062286652,
+                "y": 575.9099790643994
             },
             {
                 "id": "264870",
-                "x": 146.32548884096815,
-                "y": -174.58141813230262
+                "x": -155.01210188226344,
+                "y": 256.6113952178046
             },
             {
                 "id": "265236",
-                "x": 733.0222202322045,
-                "y": 80.81376247290936
+                "x": 721.6336339828623,
+                "y": 88.96481590811631
             },
             {
                 "id": "265242",
-                "x": 490.63119246574007,
-                "y": -588.7684374457318
+                "x": -504.8984507024964,
+                "y": -476.11193154360797
             },
             {
                 "id": "265704",
-                "x": 487.8633595860789,
-                "y": 570.3665451494792
+                "x": 687.8651745598177,
+                "y": -420.9469682026092
             },
             {
                 "id": "266194",
-                "x": 70.45197512046614,
-                "y": -12.547180895270621
+                "x": -46.311607357470514,
+                "y": -44.96047073854376
             },
             {
                 "id": "266578",
-                "x": 242.1745738737392,
-                "y": 113.85780676765157
+                "x": -322.79704961231636,
+                "y": 6.0295226840079685
             },
             {
                 "id": "266638",
-                "x": -139.2372447744732,
-                "y": 222.97376042336
+                "x": -62.99856894916929,
+                "y": -179.87569295143106
             },
             {
                 "id": "266641",
-                "x": -172.45113351253366,
-                "y": 263.31874426189023
+                "x": 66.75464741579832,
+                "y": -223.322376718338
             },
             {
                 "id": "266692",
-                "x": 83.88719054449828,
-                "y": -222.51634252096272
+                "x": -187.5820831371444,
+                "y": 318.4507485207315
             },
             {
                 "id": "266913",
-                "x": -48.03485678521917,
-                "y": -172.81343152733396
+                "x": -96.42188435764764,
+                "y": 176.54040751460755
             },
             {
                 "id": "266990",
-                "x": 174.74287267203712,
-                "y": 165.85493968770234
+                "x": -244.256477831717,
+                "y": -117.7202670667538
             },
             {
                 "id": "266991",
-                "x": 144.01741408012407,
-                "y": 80.50063024519031
+                "x": -210.47264920452673,
+                "y": -65.64460431635794
             },
             {
                 "id": "267051",
-                "x": -141.89702068661035,
-                "y": 116.85723242552902
+                "x": 58.87917149465961,
+                "y": -8.629993888334992
             },
             {
                 "id": "267151",
-                "x": -8.511849314706373,
-                "y": -103.76357434039046
+                "x": -67.36973023821403,
+                "y": 239.25117520279346
             },
             {
                 "id": "267265",
-                "x": -96.76688746331784,
-                "y": 174.87636790795915
+                "x": -167.64222507867723,
+                "y": 88.66931892118096
             },
             {
                 "id": "267746",
-                "x": 243.87806947791995,
-                "y": 628.6375002935704
+                "x": 53.971828341338906,
+                "y": -669.9652341014009
             },
             {
                 "id": "267837",
-                "x": -287.0583542255113,
-                "y": 128.31602208146944
+                "x": 230.42477860936418,
+                "y": -40.68060902158599
             },
             {
                 "id": "267839",
-                "x": -241.99874683894222,
-                "y": -1.4589862025329376
+                "x": 193.00248013152864,
+                "y": 82.96319749471289
             },
             {
                 "id": "267840",
-                "x": -96.66384602924663,
-                "y": -15.045736688371875
+                "x": 72.2740335843176,
+                "y": -14.762584487349681
             },
             {
                 "id": "267935",
-                "x": -11.174494549611406,
-                "y": 574.9938562689404
+                "x": -186.18511158635732,
+                "y": 623.8774598039178
             },
             {
                 "id": "267936",
-                "x": -67.50339738644281,
-                "y": 580.0851123499467
+                "x": -234.17063795159652,
+                "y": 599.2725023178087
             },
             {
                 "id": "267937",
-                "x": -3.043157660131341,
-                "y": 553.6659192842936
+                "x": -191.37845869679919,
+                "y": 592.8008402405175
             },
             {
                 "id": "267938",
-                "x": -45.571402981580206,
-                "y": 584.6803926463642
+                "x": -202.85175003663903,
+                "y": 615.1666317477546
             },
             {
                 "id": "267940",
-                "x": -36.642905021894734,
-                "y": 404.30435518971314
+                "x": -158.48485144629404,
+                "y": 485.82501461622314
             },
             {
                 "id": "268126",
-                "x": 8.536950268498357,
-                "y": 71.11989496362902
+                "x": -74.14709875742348,
+                "y": -109.05571932431008
             },
             {
                 "id": "268459",
-                "x": -673.4623816846223,
-                "y": -262.27767378157165
+                "x": 421.1276855393717,
+                "y": -565.4394579221563
             },
             {
                 "id": "268728",
-                "x": 743.4285516244584,
-                "y": 16.97371772979402
+                "x": 696.897320604699,
+                "y": 20.180324929003657
             },
             {
                 "id": "270532",
-                "x": -66.25700543933748,
-                "y": -35.25698535453991
+                "x": 86.35854314039987,
+                "y": 20.00682180691098
             },
             {
                 "id": "270623",
-                "x": 91.86685582593195,
-                "y": 227.354193472205
+                "x": -29.230621057784724,
+                "y": -228.79016032718775
             },
             {
                 "id": "270973",
-                "x": -127.31103096235319,
-                "y": 296.3807531281212
+                "x": 176.2185811006465,
+                "y": -213.0616644330121
             },
             {
                 "id": "271424",
-                "x": 252.0034700478444,
-                "y": 21.099086155273557
+                "x": -211.74696850357788,
+                "y": 95.59641033466508
             },
             {
                 "id": "271687",
-                "x": 376.4277790710964,
-                "y": 165.25141682476558
+                "x": -143.01681946139604,
+                "y": -147.02809394099756
             },
             {
                 "id": "272028",
-                "x": -252.66656102755644,
-                "y": 80.78855567569576
+                "x": 86.46663491950686,
+                "y": -159.3246285395372
             },
             {
                 "id": "272197",
-                "x": -130.44152897274316,
-                "y": -81.0515284473839
+                "x": -26.73884868463954,
+                "y": -76.87963364385469
             },
             {
                 "id": "272326",
-                "x": 657.8973197451438,
-                "y": -420.9348968025238
+                "x": -267.95379259390415,
+                "y": -738.3059442361495
             },
             {
                 "id": "272555",
-                "x": 235.25238891968266,
-                "y": 44.91444188464438
+                "x": -213.97630673884188,
+                "y": -0.40217220065479287
             },
             {
                 "id": "273036",
-                "x": -136.14292330016033,
-                "y": -136.6823318049887
+                "x": -52.56207142990933,
+                "y": 25.581364807626453
             },
             {
                 "id": "273218",
-                "x": 363.5160429219741,
-                "y": -24.766487686305222
+                "x": -380.6925156722981,
+                "y": 78.58860941305885
             },
             {
                 "id": "273303",
-                "x": 250.20071836208695,
-                "y": 617.788919692129
+                "x": 89.66275180088056,
+                "y": -660.2630205171321
             },
             {
                 "id": "273953",
-                "x": 292.88409695531016,
-                "y": -152.51728711060017
+                "x": -337.8058563663115,
+                "y": 170.51979575003372
             },
             {
                 "id": "274145",
-                "x": -267.0748135394713,
-                "y": 643.7871806938592
+                "x": 670.8987592704377,
+                "y": -220.1298012656267
             },
             {
                 "id": "274187",
-                "x": -206.76826396957017,
-                "y": -742.9363805921301
-            },
-            {
-                "id": "274189",
-                "x": 508.9218704029621,
-                "y": 566.4808338310407
+                "x": -477.17891765469585,
+                "y": 615.211094785739
             },
             {
                 "id": "274572",
-                "x": -296.28764685975756,
-                "y": -229.1975566327764
+                "x": 58.98449507288698,
+                "y": 92.6136300121701
             },
             {
                 "id": "274645",
-                "x": 268.3832078439292,
-                "y": -25.677332332903035
+                "x": -205.4365768280505,
+                "y": 359.62420104897683
             },
             {
                 "id": "274750",
-                "x": 294.29163401315594,
-                "y": 61.80812184575599
+                "x": -418.79361254053845,
+                "y": -1.3846427332465576
             },
             {
                 "id": "274952",
-                "x": -91.76149250999246,
-                "y": -103.76013489507534
+                "x": 107.07843729514512,
+                "y": 100.9573365892119
             },
             {
                 "id": "274961",
-                "x": -51.100974602789385,
-                "y": 227.64773288245075
+                "x": 114.19081059256003,
+                "y": -25.912240841708204
             },
             {
                 "id": "275220",
-                "x": 77.34186484204547,
-                "y": -2.085501419359899
+                "x": 60.963573443678484,
+                "y": 173.69254779701478
             },
             {
                 "id": "275270",
-                "x": -59.29588021826112,
-                "y": -188.21248468442522
+                "x": -219.7574962071513,
+                "y": 205.5588641540009
             },
             {
                 "id": "275286",
-                "x": 2.400250313214153,
-                "y": -257.9408778798708
+                "x": 6.501248225373236,
+                "y": 212.8727967440955
             },
             {
                 "id": "276028",
-                "x": 255.41610057307315,
-                "y": 720.8093583275519
+                "x": 111.15835744472724,
+                "y": -765.8828472171596
             },
             {
                 "id": "276448",
-                "x": -54.79775863867741,
-                "y": -219.20378877514227
+                "x": 83.33588894083236,
+                "y": 164.84973393388475
             },
             {
                 "id": "276720",
-                "x": -162.05451706515404,
-                "y": -19.762079592778047
+                "x": 122.54197474014791,
+                "y": 95.60793362902855
             },
             {
                 "id": "276998",
-                "x": 690.8085953813224,
-                "y": 7.961979504855909
+                "x": 703.9663375245356,
+                "y": 57.143308418908305
             },
             {
                 "id": "277240",
-                "x": 121.9811769785159,
-                "y": -53.67692621196011
+                "x": -54.63201963714404,
+                "y": 52.53513952863122
             },
             {
                 "id": "277583",
-                "x": 50.80154062901447,
-                "y": 4.954561843926912
+                "x": -192.56642473839784,
+                "y": -37.94377991578236
             },
             {
                 "id": "277626",
-                "x": -123.61949366801872,
-                "y": 138.18645792573247
+                "x": -106.4022215367267,
+                "y": -143.98678835540798
             },
             {
                 "id": "278106",
-                "x": -287.9308691015634,
-                "y": 181.65403337704527
+                "x": 80.63615666908477,
+                "y": -227.9639316301579
             },
             {
                 "id": "278397",
-                "x": -150.91022770765093,
-                "y": -34.65448975620741
+                "x": 66.75487322921666,
+                "y": 47.75716187419459
             },
             {
                 "id": "278477",
-                "x": 195.2670231336529,
-                "y": -675.5053254128786
+                "x": 347.8243559055358,
+                "y": 626.3231500517669
             },
             {
                 "id": "279185",
-                "x": -525.158564927038,
-                "y": 386.39068702023087
+                "x": 373.05538052164195,
+                "y": -424.8494716816763
             },
             {
                 "id": "279293",
-                "x": -192.38765632491103,
-                "y": 125.88102163560019
+                "x": 145.01679579572084,
+                "y": -86.68832474928017
             },
             {
                 "id": "279320",
-                "x": 63.557196517620504,
-                "y": -149.2346907750804
+                "x": -124.4054071411896,
+                "y": 319.6884161677533
             },
             {
                 "id": "279388",
-                "x": -98.92966543611166,
-                "y": 247.75363867450076
+                "x": 114.54986328065979,
+                "y": -116.64975387537005
             },
             {
                 "id": "279414",
-                "x": -180.07348279856234,
-                "y": -192.45985430175165
+                "x": 201.67489797599669,
+                "y": 52.037549953093695
             },
             {
                 "id": "279506",
-                "x": -206.36436382893814,
-                "y": 17.797167082703627
+                "x": 13.890192049305533,
+                "y": -86.52797963784388
             },
             {
                 "id": "279667",
-                "x": -93.09601441872105,
-                "y": 402.63590831338746
+                "x": -371.72748015969637,
+                "y": -205.7595628945582
             },
             {
                 "id": "280058",
-                "x": 179.01264065329232,
-                "y": -109.96139722747641
+                "x": -176.65582367710024,
+                "y": 157.50299017198174
             },
             {
                 "id": "280150",
-                "x": -398.1664408688471,
-                "y": 658.0465346507024
+                "x": -149.89884684193987,
+                "y": -705.2132785586803
             },
             {
                 "id": "280156",
-                "x": -116.6039114380241,
-                "y": 191.58321754499752
+                "x": -202.6177636951588,
+                "y": -225.29927916982277
             },
             {
                 "id": "280261",
-                "x": 40.26696225278575,
-                "y": 190.3770028766093
+                "x": -264.1976756174294,
+                "y": -116.54599004141517
             },
             {
                 "id": "280426",
-                "x": -107.61788785303095,
-                "y": -220.676866529542
+                "x": 141.43005754616448,
+                "y": 174.04369786950056
             },
             {
                 "id": "281580",
-                "x": 7.825184973902743,
-                "y": -135.52008046796846
+                "x": -316.1706054620106,
+                "y": 51.76433675943548
             },
             {
                 "id": "281681",
-                "x": 232.02032437160852,
-                "y": -68.42080831000764
+                "x": -27.837149103389763,
+                "y": 176.73002088847335
             },
             {
                 "id": "282174",
-                "x": -440.2415186599885,
-                "y": -76.42289811695012
+                "x": 347.49552644145496,
+                "y": -29.566581341389693
             },
             {
                 "id": "282418",
-                "x": -61.089253950680494,
-                "y": -319.2122587139053
+                "x": 162.82725676164574,
+                "y": 208.08981965897695
             },
             {
                 "id": "282790",
-                "x": -299.67856120864127,
-                "y": 726.6394655091966
+                "x": -17.562139696678784,
+                "y": -794.0098895427182
             },
             {
                 "id": "282836",
-                "x": -419.0217861478941,
-                "y": -464.1549143950512
+                "x": 185.80804194150693,
+                "y": 598.517059826529
             },
             {
                 "id": "282856",
-                "x": 449.03039634679675,
-                "y": -87.68511438389984
+                "x": -490.22868095305523,
+                "y": 178.10800645319887
             },
             {
                 "id": "283438",
-                "x": 157.52434027917852,
-                "y": -216.3423312389799
+                "x": -269.970786132061,
+                "y": 323.1741178514789
             },
             {
                 "id": "283683",
-                "x": -6.191209257556207,
-                "y": 47.971732001155736
+                "x": -319.6048860126957,
+                "y": -5.946351767725164
             },
             {
                 "id": "283738",
-                "x": -96.71017689117772,
-                "y": -124.78598606647296
+                "x": -7.550473883665714,
+                "y": 71.00681551277123
             },
             {
                 "id": "283802",
-                "x": -134.38124457428447,
-                "y": -180.65295793068742
+                "x": 139.25061032523038,
+                "y": 205.9525054327637
             },
             {
                 "id": "283957",
-                "x": 177.6836824292224,
-                "y": -139.75619225121466
+                "x": -293.8436683562971,
+                "y": 174.8547118609715
             },
             {
                 "id": "283982",
-                "x": 3.999852167584642,
-                "y": -112.34403335000037
+                "x": -70.18561151382727,
+                "y": 201.70309640639732
             },
             {
                 "id": "284135",
-                "x": 93.49328058513579,
-                "y": -140.0212253963443
+                "x": -282.11621560539095,
+                "y": 291.4939830895795
             },
             {
                 "id": "284234",
-                "x": -171.2908357120981,
-                "y": 115.72142535794532
+                "x": 3.516218362849177,
+                "y": -189.56167841661667
             },
             {
                 "id": "284327",
-                "x": 123.2842115061366,
-                "y": -91.45970932772302
+                "x": -73.61666250104248,
+                "y": 83.34904270696421
             },
             {
                 "id": "284328",
-                "x": 225.72151633693022,
-                "y": -29.407552337557785
+                "x": -116.85636103830879,
+                "y": 119.09592589800857
             },
             {
                 "id": "284333",
-                "x": 226.13338753847572,
-                "y": 89.99139733769962
+                "x": -208.83242960150415,
+                "y": 37.78021517833857
             },
             {
                 "id": "284653",
-                "x": 21.581700276659618,
-                "y": -342.21576379827087
+                "x": -142.76392940210465,
+                "y": 392.88888430032944
             },
             {
                 "id": "284776",
-                "x": -392.4113196149294,
-                "y": 550.4000705887016
+                "x": -138.64761614158408,
+                "y": -662.2063006914187
             },
             {
                 "id": "284794",
-                "x": -416.9367047201749,
-                "y": 406.06252403230224
+                "x": 227.8464095008977,
+                "y": -501.2571556220432
             },
             {
                 "id": "285506",
-                "x": 318.23138515203874,
-                "y": -19.69646011998549
+                "x": -347.92695894391437,
+                "y": 62.910945233525084
             },
             {
                 "id": "285515",
-                "x": 731.702310272522,
-                "y": 64.99788674991441
+                "x": 715.5781457115529,
+                "y": 25.76774011096362
             },
             {
                 "id": "285580",
-                "x": 166.83853616095465,
-                "y": -22.134934503594106
+                "x": -142.44717826080608,
+                "y": 119.63043129104331
             },
             {
                 "id": "285613",
-                "x": -91.51086217366952,
-                "y": -213.4871903106138
+                "x": -141.9079757451019,
+                "y": 188.98607756014928
             },
             {
                 "id": "285733",
-                "x": 126.01324598722282,
-                "y": 102.3545662866574
+                "x": -88.99699705546524,
+                "y": 127.31400984428072
             },
             {
                 "id": "285912",
-                "x": 153.79370145316022,
-                "y": -435.21158031898085
+                "x": 59.33196171377194,
+                "y": 447.93787887482483
             },
             {
                 "id": "285916",
-                "x": 195.60611171505397,
-                "y": -458.83822716496667
+                "x": 151.74585362778566,
+                "y": 454.2640219455144
             },
             {
                 "id": "285917",
-                "x": 51.49525445908003,
-                "y": -451.0255485028047
+                "x": 178.4299514969668,
+                "y": 357.98250075763406
             },
             {
                 "id": "285919",
-                "x": 132.46795981006676,
-                "y": -469.2232719104989
+                "x": 114.09327035253429,
+                "y": 450.18393643468903
             },
             {
                 "id": "285920",
-                "x": 167.71492306887345,
-                "y": -354.95994250765204
+                "x": 43.546459467283604,
+                "y": 386.6285628733601
             },
             {
                 "id": "285925",
-                "x": 41.9722857412208,
-                "y": -341.71757542867454
+                "x": 41.50948699880961,
+                "y": 322.79160039833835
             },
             {
                 "id": "285926",
-                "x": 120.70315411223793,
-                "y": -448.3117159949656
+                "x": 74.4559551337273,
+                "y": 456.4289587343138
             },
             {
                 "id": "285934",
-                "x": 161.12432380236504,
-                "y": -405.1313437765777
+                "x": 7.654763903133278,
+                "y": 426.57963027253595
             },
             {
                 "id": "285939",
-                "x": 146.04757695215523,
-                "y": -346.5687862457349
+                "x": 18.541138442603053,
+                "y": 385.27616288927453
             },
             {
                 "id": "285944",
-                "x": 89.99203301405895,
-                "y": -163.75086759024538
+                "x": -137.6080472692493,
+                "y": 222.82809361499065
             },
             {
                 "id": "285950",
-                "x": 133.47621789527074,
-                "y": -171.56699791548138
+                "x": -209.08471417105855,
+                "y": 216.87757508863302
             },
             {
                 "id": "285951",
-                "x": 197.53871201089314,
-                "y": -202.2770020732247
+                "x": -261.13447505487744,
+                "y": 243.37001440847672
             },
             {
                 "id": "285952",
-                "x": 9.423798949522464,
-                "y": -205.07952021644059
+                "x": -79.57031720344267,
+                "y": 218.53502731156914
             },
             {
                 "id": "285954",
-                "x": 72.6532195284396,
-                "y": -244.72448178006658
+                "x": -143.97688383188574,
+                "y": 285.19283840321737
             },
             {
                 "id": "285955",
-                "x": 50.896914087261436,
-                "y": -220.17895541547762
+                "x": -76.95318877791198,
+                "y": 300.48008590498506
             },
             {
                 "id": "286063",
-                "x": 50.446406771176086,
-                "y": -247.8627446828914
+                "x": -235.51331649835066,
+                "y": 236.8606380484934
             },
             {
                 "id": "286172",
-                "x": 84.13140652690362,
-                "y": -315.6469402198021
+                "x": -112.85716644366846,
+                "y": 335.6877819737958
             },
             {
                 "id": "286581",
-                "x": -153.25628414876982,
-                "y": -319.02422873084953
+                "x": 182.2706912692298,
+                "y": 149.54130663685973
             },
             {
                 "id": "286961",
-                "x": 704.060838275172,
-                "y": -3.6881854277417574
+                "x": 654.9202538756437,
+                "y": 67.67189192396543
             },
             {
                 "id": "288096",
-                "x": 106.72969950701815,
-                "y": 64.73063225647266
+                "x": -103.05335601581513,
+                "y": 16.950182065511424
             },
             {
                 "id": "288119",
-                "x": -700.0859481870461,
-                "y": 146.1392244373287
+                "x": 689.8153215697863,
+                "y": -129.73338988939327
             },
             {
                 "id": "288170",
-                "x": 48.643732666222945,
-                "y": 136.75505066074047
+                "x": 10.158344247318103,
+                "y": -59.7054677096034
             },
             {
                 "id": "289439",
-                "x": 90.80397308757763,
-                "y": 163.92606043985054
+                "x": -259.73295039186354,
+                "y": 17.988571242074613
             },
             {
                 "id": "289873",
-                "x": -104.95201017089343,
-                "y": 154.4144801441371
+                "x": 44.448078296814586,
+                "y": -161.8677645814882
             },
             {
                 "id": "290405",
-                "x": -306.7772672468568,
-                "y": -33.89996288325259
+                "x": 250.47713369557806,
+                "y": -93.11972587641856
             },
             {
                 "id": "290419",
-                "x": -239.53346209778434,
-                "y": -49.35163289830485
+                "x": 175.02441068441007,
+                "y": -22.606528870816085
             },
             {
                 "id": "290621",
-                "x": 181.1526427054784,
-                "y": -122.30069154262303
+                "x": -77.18168899576217,
+                "y": -6.780227868230775
             },
             {
                 "id": "290737",
-                "x": 61.78780609680785,
-                "y": -5.073261922663591
+                "x": -96.68499891014186,
+                "y": 157.63915660492572
             },
             {
                 "id": "290769",
-                "x": 487.55572212199763,
-                "y": -419.5473796318364
+                "x": 499.7822852243165,
+                "y": 363.4170642347563
             },
             {
                 "id": "290771",
-                "x": 407.2965549275875,
-                "y": -380.20106648298037
+                "x": 455.0558690549433,
+                "y": 336.1253942458923
             },
             {
                 "id": "290773",
-                "x": 490.95663334523715,
-                "y": -369.7775589706132
+                "x": 480.9318497027869,
+                "y": 375.9943807903412
             },
             {
                 "id": "290774",
-                "x": 453.9330205906766,
-                "y": -418.221286960207
+                "x": 501.7337445590656,
+                "y": 392.7047023372514
             },
             {
                 "id": "290805",
-                "x": 500.5213759539564,
-                "y": -407.3197264242819
+                "x": 457.32099610299525,
+                "y": 407.249652721239
             },
             {
                 "id": "290806",
-                "x": 506.5596796357338,
-                "y": -392.6176217318651
+                "x": 486.57645388792224,
+                "y": 352.6426497939039
             },
             {
                 "id": "290807",
-                "x": 362.49528423617005,
-                "y": -311.0185153640116
+                "x": 316.4957091078386,
+                "y": 318.56680724533334
             },
             {
                 "id": "290808",
-                "x": 490.9396335565912,
-                "y": -382.16559972349313
+                "x": 450.9998635127559,
+                "y": 390.5959999469727
             },
             {
                 "id": "290809",
-                "x": 436.6126001888966,
-                "y": -407.8515181440665
+                "x": 457.002367660165,
+                "y": 367.1142228273808
             },
             {
                 "id": "290811",
-                "x": 479.69476884191914,
-                "y": -405.0574549006981
+                "x": 468.47544760870727,
+                "y": 427.19857349779295
             },
             {
                 "id": "290812",
-                "x": 401.6603405616597,
-                "y": -352.8610219822902
+                "x": 367.9207307106178,
+                "y": 365.6147189851898
             },
             {
                 "id": "290813",
-                "x": 427.0091484783088,
-                "y": -330.8106012582859
+                "x": 387.665374126515,
+                "y": 344.30088718227347
             },
             {
                 "id": "290814",
-                "x": 455.1134774119501,
-                "y": -351.4098031818807
+                "x": 427.2767967184678,
+                "y": 369.44940583046616
             },
             {
                 "id": "290816",
-                "x": 441.13265903769326,
-                "y": -368.27952310805495
+                "x": 433.90783540435564,
+                "y": 352.67516945865003
             },
             {
                 "id": "290818",
-                "x": 451.32797936932604,
-                "y": -400.83328401743495
+                "x": 473.3918915702689,
+                "y": 415.9722301135505
             },
             {
                 "id": "290819",
-                "x": 507.5635248978144,
-                "y": -374.26286824290696
+                "x": 463.3639057584033,
+                "y": 382.5075305970242
             },
             {
                 "id": "290820",
-                "x": 438.33074777247754,
-                "y": -424.691970681918
+                "x": 496.0574572289411,
+                "y": 377.8401690100377
             },
             {
                 "id": "290821",
-                "x": 465.4188217739532,
-                "y": -392.3664097963187
+                "x": 450.0453796341047,
+                "y": 421.81403878077197
             },
             {
                 "id": "290823",
-                "x": 494.9784524184122,
-                "y": -356.9068847030952
+                "x": 474.23734085750084,
+                "y": 360.50345519209384
             },
             {
                 "id": "290824",
-                "x": 461.3147937152883,
-                "y": -429.4818092190011
+                "x": 492.7716276967845,
+                "y": 408.89798972379765
             },
             {
                 "id": "290825",
-                "x": 475.72736988564606,
-                "y": -362.7995030597629
+                "x": 439.75256055737214,
+                "y": 402.0690976249276
             },
             {
                 "id": "291327",
-                "x": -557.439300427897,
-                "y": 370.7835912803015
+                "x": 397.87537797664186,
+                "y": -405.1370702543339
             },
             {
                 "id": "291480",
-                "x": -239.39641175525188,
-                "y": 233.5797878798719
+                "x": -158.7645526814364,
+                "y": -320.33264645914994
             },
             {
                 "id": "291492",
-                "x": -195.88456178436357,
-                "y": 106.77228910200041
+                "x": 82.77001909289422,
+                "y": -124.63695811847059
             },
             {
                 "id": "292056",
-                "x": -239.44713767481448,
-                "y": 178.81870962274104
+                "x": -331.6666330944638,
+                "y": -58.149958093193675
             },
             {
                 "id": "292171",
-                "x": 129.118577021002,
-                "y": 137.86536181857534
+                "x": -191.8695932799957,
+                "y": -121.32734755300883
             },
             {
                 "id": "292397",
-                "x": 198.04846097664392,
-                "y": 101.37580428791368
+                "x": -125.0992450146287,
+                "y": -79.37341208778398
             },
             {
                 "id": "293207",
-                "x": 467.2972291192911,
-                "y": -412.68816484892614
+                "x": 473.85322440035327,
+                "y": 402.4796560541926
             },
             {
                 "id": "293350",
-                "x": 188.09563792581503,
-                "y": -167.34609069961093
+                "x": -211.98102063514582,
+                "y": 255.30554296413897
             },
             {
                 "id": "293385",
-                "x": 181.46944181550515,
-                "y": -223.1247864879998
+                "x": -220.9803018325863,
+                "y": 298.4304277262365
             },
             {
                 "id": "294338",
-                "x": -135.64491329927057,
-                "y": -94.26485170954349
+                "x": -151.5295656500912,
+                "y": 115.19963354586997
             },
             {
                 "id": "295027",
-                "x": 96.85052580002676,
-                "y": 334.2454422293761
+                "x": -405.4235350673829,
+                "y": -176.47237161736214
             },
             {
                 "id": "295490",
-                "x": 99.34085194863346,
-                "y": -199.3259247301293
+                "x": -125.30357838407909,
+                "y": 210.2630278779772
             },
             {
                 "id": "295678",
-                "x": 67.33931415895184,
-                "y": -586.3730718889676
+                "x": 195.93972486591542,
+                "y": 639.8269288189827
             },
             {
                 "id": "295679",
-                "x": 83.01364821341429,
-                "y": -663.5520475607343
+                "x": 258.23019849069925,
+                "y": 686.5936077564479
             },
             {
                 "id": "295688",
-                "x": 109.44027141576557,
-                "y": -670.3309872033124
+                "x": 240.20894800693864,
+                "y": 675.1074408219613
             },
             {
                 "id": "295697",
-                "x": 126.1304246934217,
-                "y": -682.2069309795975
+                "x": 226.3769371834308,
+                "y": 700.3529829796333
             },
             {
                 "id": "295701",
-                "x": 107.03393177265156,
-                "y": -690.856265909548
+                "x": 244.21075426737505,
+                "y": 700.0890848223639
             },
             {
                 "id": "295717",
-                "x": -207.9007766438606,
-                "y": 165.43295143567804
+                "x": -17.963888909197067,
+                "y": 408.22493402221556
             },
             {
                 "id": "295718",
-                "x": -165.11417065174282,
-                "y": 77.39839332741448
+                "x": -17.016222484748095,
+                "y": 325.3949755150675
             },
             {
                 "id": "295725",
-                "x": 90.38288615955102,
-                "y": -640.7405100801823
+                "x": 226.71808976353515,
+                "y": 648.0758097583831
             },
             {
                 "id": "295731",
-                "x": 131.59059712438366,
-                "y": -662.0018310008787
+                "x": 209.71965174685295,
+                "y": 692.8930996034505
             },
             {
                 "id": "295733",
-                "x": 89.3809570344079,
-                "y": -679.9540213731144
+                "x": 257.2702756943934,
+                "y": 665.8505035070824
             },
             {
                 "id": "295735",
-                "x": 112.39950982106082,
-                "y": -648.812075515358
+                "x": 218.49057052434046,
+                "y": 676.073726418804
             },
             {
                 "id": "296082",
-                "x": 83.71865439992735,
-                "y": 102.29958814994019
+                "x": -122.75317657880447,
+                "y": -59.1368591064857
             },
             {
                 "id": "296653",
-                "x": -160.14966749270025,
-                "y": -227.25374515684922
+                "x": 133.61970749115983,
+                "y": 193.76508480102422
             },
             {
                 "id": "296926",
-                "x": -291.68429084235356,
-                "y": 105.11288087559181
+                "x": 379.88487411823564,
+                "y": 94.13840126216698
             },
             {
                 "id": "297017",
-                "x": -188.31107883481462,
-                "y": 715.9523988938018
+                "x": 182.2998699044426,
+                "y": -648.5281302813879
             },
             {
                 "id": "297034",
-                "x": -332.5040709515314,
-                "y": -690.2281775468515
+                "x": -123.53533914074444,
+                "y": -628.0227232896261
             },
             {
                 "id": "297295",
-                "x": -271.77900427792866,
-                "y": 209.39005989353527
+                "x": 92.61754278658147,
+                "y": -241.77269176689646
             },
             {
                 "id": "297659",
-                "x": -34.66513961265183,
-                "y": -170.41786816501522
+                "x": -45.08085640064605,
+                "y": 136.27504061023834
             },
             {
                 "id": "297660",
-                "x": -20.37650534471468,
-                "y": -12.513262733552937
+                "x": -113.68543072121194,
+                "y": 161.0083548865536
             },
             {
                 "id": "297684",
-                "x": 115.93144586954794,
-                "y": 222.31902269201612
+                "x": -175.39730883696237,
+                "y": -229.34202852866392
             },
             {
                 "id": "298256",
-                "x": 721.3675647942533,
-                "y": -9.546353813091978
+                "x": 700.5878812220352,
+                "y": 87.4440506530557
             },
             {
                 "id": "298577",
-                "x": -365.1580050382991,
-                "y": 486.63453487723
+                "x": 250.9417099290263,
+                "y": -575.7505250649784
             },
             {
                 "id": "298921",
-                "x": -405.9961977523364,
-                "y": 245.68503303436137
+                "x": 351.20835788689726,
+                "y": -165.78310315021477
             },
             {
                 "id": "298994",
-                "x": 184.52597108801035,
-                "y": -278.67054542321296
+                "x": -221.10026613231287,
+                "y": 337.0933968744764
             },
             {
                 "id": "299056",
-                "x": 43.94326922580794,
-                "y": 117.78012156106632
+                "x": -103.73177756670987,
+                "y": 39.52121355173327
             },
             {
                 "id": "299085",
-                "x": -141.36552552340785,
-                "y": -185.19629041044269
+                "x": -143.7564028024871,
+                "y": 149.45051247728622
             },
             {
                 "id": "299127",
-                "x": 82.1314227713516,
-                "y": 183.48255635753466
+                "x": -171.04066772145035,
+                "y": 60.30327164405742
             },
             {
                 "id": "299177",
-                "x": 35.083295563487496,
-                "y": -317.6263937892373
+                "x": 260.55975507976694,
+                "y": 114.31250676727265
             },
             {
                 "id": "299200",
-                "x": -714.473673265092,
-                "y": 96.55032044858012
+                "x": 719.6320359325091,
+                "y": -90.69627995334791
             },
             {
                 "id": "299245",
-                "x": 218.8761192055421,
-                "y": -181.8403255615398
+                "x": -172.7770174467539,
+                "y": 301.06047471742636
             },
             {
                 "id": "299320",
-                "x": -405.28500439828287,
-                "y": -567.1364844868908
+                "x": 572.9948990016421,
+                "y": 167.7801206899018
             },
             {
                 "id": "299321",
-                "x": -358.7813831575832,
-                "y": -534.9619596863419
+                "x": 541.9269356990236,
+                "y": 189.587271133736
             },
             {
                 "id": "299325",
-                "x": -53.662061988765906,
-                "y": 136.26197210479492
+                "x": 85.63402340845477,
+                "y": -86.76855845256748
             },
             {
                 "id": "299330",
-                "x": -28.310509625497147,
-                "y": -431.37326285342135
+                "x": 150.66690995978183,
+                "y": 383.9113288199283
             },
             {
                 "id": "299341",
-                "x": 552.0616913411645,
-                "y": -167.43410401973387
+                "x": -419.9511848266573,
+                "y": 477.83016467568734
             },
             {
                 "id": "299352",
-                "x": -222.15469070009195,
-                "y": 24.491841087623854
+                "x": 58.571653111971486,
+                "y": 302.2913515530353
             },
             {
                 "id": "299418",
-                "x": 207.56577366054907,
-                "y": -14.327417689335388
+                "x": -296.0718666034888,
+                "y": 93.69249832748434
             },
             {
                 "id": "299489",
-                "x": -11.019989706687369,
-                "y": 87.21535046132024
+                "x": -35.1504220626796,
+                "y": -108.89679500872548
             },
             {
                 "id": "299751",
-                "x": -332.0691051598987,
-                "y": -75.0528879649783
+                "x": 213.0557963456673,
+                "y": 45.71884614024623
             },
             {
                 "id": "299925",
-                "x": 275.78499413176735,
-                "y": 38.11545645633954
+                "x": -223.71557559815125,
+                "y": 24.48131005754686
             },
             {
                 "id": "300266",
-                "x": 300.7124733676554,
-                "y": 144.88268713600672
+                "x": -358.8386947223022,
+                "y": -128.9653346888744
             },
             {
                 "id": "300410",
-                "x": 46.408810789609866,
-                "y": -388.05780699647465
+                "x": 42.348735951805885,
+                "y": 400.5449422626817
             },
             {
                 "id": "300585",
-                "x": 142.72715151696457,
-                "y": -133.40414585961773
+                "x": 22.186124277363945,
+                "y": 259.39748985326065
             },
             {
                 "id": "300593",
-                "x": -63.36994770942458,
-                "y": 185.7029197942332
+                "x": 172.10137876700077,
+                "y": -136.9725461709575
             },
             {
                 "id": "300597",
-                "x": -18.459621347431902,
-                "y": -22.279816968679206
+                "x": -101.72214842596068,
+                "y": -73.4157486441973
             },
             {
                 "id": "300704",
-                "x": -67.02745812855319,
-                "y": -160.58113525414987
+                "x": 141.70838546146337,
+                "y": -10.751458526951827
             },
             {
                 "id": "301003",
-                "x": -158.93054631663796,
-                "y": -358.64697467615474
+                "x": 16.308479076391585,
+                "y": 432.59095490812626
             },
             {
                 "id": "301450",
-                "x": -22.041609544357968,
-                "y": -284.75335297661354
+                "x": 84.32910414570361,
+                "y": 261.78295484661555
             },
             {
                 "id": "301519",
-                "x": 31.704001728357753,
-                "y": 71.77043851865392
+                "x": -68.00054697052616,
+                "y": -81.21068220506997
             },
             {
                 "id": "301563",
-                "x": 297.78913060410554,
-                "y": 41.11997507780716
+                "x": -319.6839218429133,
+                "y": 28.11686199073064
             },
             {
                 "id": "301606",
-                "x": 2.1208915071094574,
-                "y": 108.41715939804303
+                "x": -258.79137912888945,
+                "y": -202.3319025757209
             },
             {
                 "id": "301734",
-                "x": -155.71604053367685,
-                "y": -70.29946275398954
+                "x": 69.1364998042205,
+                "y": 53.950541697312886
             },
             {
                 "id": "301750",
-                "x": 191.56253447093917,
-                "y": 28.243776997649768
+                "x": -132.57069184334406,
+                "y": 57.12354928411365
             },
             {
                 "id": "301818",
-                "x": 106.23902248035256,
-                "y": 723.0744521162973
+                "x": 581.2140837864608,
+                "y": -437.4074471070622
             },
             {
                 "id": "301821",
-                "x": -360.33228920609525,
-                "y": -105.2158946588229
+                "x": 270.1224129739109,
+                "y": -58.649307792196225
             },
             {
                 "id": "301997",
-                "x": -61.23191202281525,
-                "y": 166.08644738041326
+                "x": 74.15296363445833,
+                "y": 62.57261731455521
             },
             {
                 "id": "302060",
-                "x": -61.11563205363243,
-                "y": -72.67105344323204
+                "x": 98.02868386971032,
+                "y": 52.5453114314984
             },
             {
                 "id": "302169",
-                "x": -259.6727012256697,
-                "y": 104.15381259638045
+                "x": -414.539096286264,
+                "y": 141.53094724672073
             },
             {
                 "id": "302212",
-                "x": 47.403021377352644,
-                "y": -101.29409753190218
+                "x": -200.7366041885359,
+                "y": 197.14824910245594
             },
             {
                 "id": "302277",
-                "x": -72.08169450445551,
-                "y": -139.66317830441866
+                "x": -40.7499795965158,
+                "y": 147.55169229468754
             },
             {
                 "id": "302448",
-                "x": 160.30157212454571,
-                "y": -70.94816352352395
+                "x": -190.90222995212028,
+                "y": 22.836569398682993
             },
             {
                 "id": "302554",
-                "x": -150.0475705547945,
-                "y": -95.65784339085837
+                "x": -402.6344236466365,
+                "y": 71.5643223262894
             },
             {
                 "id": "302561",
-                "x": -397.77254102492,
-                "y": 569.3654532740076
+                "x": -78.98203126297776,
+                "y": -697.6091681805917
             },
             {
                 "id": "302724",
-                "x": -277.09530522620105,
-                "y": -22.617464221500853
+                "x": 213.2198383349956,
+                "y": -85.81243798760248
             },
             {
                 "id": "302810",
-                "x": 53.04901457580017,
-                "y": 79.4938852424682
+                "x": 91.28401317439176,
+                "y": 70.18433383778671
             },
             {
                 "id": "302882",
-                "x": -380.16753599322607,
-                "y": -130.12364192893278
+                "x": 315.08659549664475,
+                "y": -39.086172085853406
             },
             {
                 "id": "302921",
-                "x": 138.95182521581052,
-                "y": 107.14575374387917
+                "x": -76.91683061285313,
+                "y": 71.42976186809543
             },
             {
                 "id": "302926",
-                "x": -639.1679083854726,
-                "y": -427.2198056191957
+                "x": 727.0046119999663,
+                "y": 188.6601582631253
             },
             {
                 "id": "302971",
-                "x": 73.43865746985705,
-                "y": 59.4863469538042
+                "x": -246.44095309627244,
+                "y": -102.04164369431916
             },
             {
                 "id": "303214",
-                "x": -254.54494039930026,
-                "y": 209.00710515519523
+                "x": 230.8070154587986,
+                "y": 42.986449110108786
             },
             {
                 "id": "303386",
-                "x": 119.35186361664856,
-                "y": 322.2760021469436
+                "x": 109.16719817815788,
+                "y": -225.8093243106287
             },
             {
                 "id": "303520",
-                "x": 653.7123544968322,
-                "y": 471.68603905075906
+                "x": -594.7343831317608,
+                "y": -409.8473557434541
             },
             {
                 "id": "303632",
-                "x": -500.3022813133723,
-                "y": -333.7194266470376
+                "x": 282.7646540103156,
+                "y": -388.19243972988613
             },
             {
                 "id": "303951",
-                "x": -161.05652727759173,
-                "y": 138.06938796669007
+                "x": 113.53859879991327,
+                "y": 210.06547113068945
             },
             {
                 "id": "304178",
-                "x": 84.49373266856743,
-                "y": 674.1265795645149
+                "x": 601.9802370171953,
+                "y": -438.4605913138115
             },
             {
                 "id": "304289",
-                "x": -463.4137609182256,
-                "y": -617.7864146149666
+                "x": 662.9935807608634,
+                "y": 413.91032315980414
             },
             {
                 "id": "304324",
-                "x": 48.36115974920273,
-                "y": 18.115364507319022
+                "x": -151.30822803482604,
+                "y": 67.60323444254135
             },
             {
                 "id": "304356",
-                "x": 14.492872042033031,
-                "y": 244.8322556244073
+                "x": -274.67033068500285,
+                "y": -172.33690538741882
             },
             {
                 "id": "304740",
-                "x": 180.18692172273674,
-                "y": -757.5569388190614
+                "x": 175.0526724811345,
+                "y": 731.8673988416398
             },
             {
                 "id": "304756",
-                "x": 165.18943756273964,
-                "y": 56.7859331346725
+                "x": -296.36005507237866,
+                "y": 25.62504204671702
             },
             {
                 "id": "305012",
-                "x": -282.7032228522147,
-                "y": -53.9666129814043
+                "x": 211.4190526953136,
+                "y": 155.86721212083484
             },
             {
                 "id": "305106",
-                "x": -152.73382535594976,
-                "y": 159.82346035369895
+                "x": -97.51391030704512,
+                "y": -187.61591196362423
             },
             {
                 "id": "305255",
-                "x": 343.4089318669614,
-                "y": -212.58029045417553
+                "x": -397.7792648850835,
+                "y": -64.19492396364754
             },
             {
                 "id": "305315",
-                "x": 134.32720055282354,
-                "y": -115.87665659686574
+                "x": -67.40282042273165,
+                "y": 22.604966069252985
             },
             {
                 "id": "305617",
-                "x": 192.86941661655808,
-                "y": 10.183445927742047
+                "x": -277.88225614180294,
+                "y": 126.43853515938973
             },
             {
                 "id": "305685",
-                "x": 12.846465780593606,
-                "y": 278.00198524996915
+                "x": -78.67088368374631,
+                "y": -264.86416537935287
             },
             {
                 "id": "305784",
-                "x": -431.5278029647074,
-                "y": -21.794544069134833
+                "x": 327.2792169219161,
+                "y": -30.18026657468431
             },
             {
                 "id": "305888",
-                "x": -36.11733497946502,
-                "y": 792.3582250706643
+                "x": -279.2215766680175,
+                "y": -659.8883860365045
             },
             {
                 "id": "306067",
-                "x": 391.12335570313616,
-                "y": 71.90219164805097
+                "x": -402.4017090868562,
+                "y": 275.1988325933209
             },
             {
                 "id": "306070",
-                "x": 468.72891306485644,
-                "y": 102.55725439368685
+                "x": -473.0786975909446,
+                "y": 314.76678551056875
             },
             {
                 "id": "306240",
-                "x": 58.804098877367124,
-                "y": -315.93500825752284
+                "x": -0.4577684250913464,
+                "y": 268.1807853804238
             },
             {
                 "id": "306300",
-                "x": 38.19121543341904,
-                "y": -288.0787429341223
+                "x": 18.76319740346722,
+                "y": 284.62517704691726
             },
             {
                 "id": "306410",
-                "x": -80.97900841036356,
-                "y": 153.8342098875642
+                "x": -46.881968826598545,
+                "y": -153.00256796652835
             },
             {
                 "id": "306588",
-                "x": -198.09993981415485,
-                "y": 34.91179257525976
+                "x": -72.30507184261884,
+                "y": -216.97412107895633
             },
             {
                 "id": "306605",
-                "x": 224.60190737827023,
-                "y": 67.33231558242998
+                "x": 186.28578244509333,
+                "y": 59.21571169966977
             },
             {
                 "id": "306689",
-                "x": 70.85570224518439,
-                "y": 157.01106544168772
+                "x": -117.45985803260892,
+                "y": -153.57424132188584
             },
             {
                 "id": "307040",
-                "x": -30.77484889743168,
-                "y": 77.66195524261579
+                "x": 53.517927193967864,
+                "y": -23.380643543370994
             },
             {
                 "id": "307091",
-                "x": 96.80825263417363,
-                "y": -0.03977944676350856
+                "x": -129.95514048322576,
+                "y": -37.292791379114064
             },
             {
                 "id": "307220",
-                "x": 159.7233601222278,
-                "y": 245.8555958730919
+                "x": -112.72409690778541,
+                "y": -119.50752967354127
             },
             {
                 "id": "307520",
-                "x": 188.76967529175192,
-                "y": -194.48051582967028
+                "x": -132.78791843743892,
+                "y": 262.3088160533815
             },
             {
                 "id": "307583",
-                "x": -722.7735102612951,
-                "y": 169.53382942821682
+                "x": 693.2479760618808,
+                "y": -143.80866936026536
             },
             {
                 "id": "307903",
-                "x": -575.9278133760566,
-                "y": 210.2906897625807
+                "x": 773.9254149613965,
+                "y": 46.76104972098771
             },
             {
                 "id": "308086",
-                "x": 68.60483632137198,
-                "y": -185.42593730117795
+                "x": -77.72965946755781,
+                "y": 233.00398534789798
             },
             {
                 "id": "308358",
-                "x": 37.83525333244913,
-                "y": 263.7521177259592
+                "x": 42.31414174511231,
+                "y": -144.06892869651088
             },
             {
                 "id": "308385",
-                "x": 236.80018475791945,
-                "y": 198.11162315989733
+                "x": -184.6716422925845,
+                "y": -178.83342622652083
             },
             {
                 "id": "308548",
-                "x": -234.80294128142896,
-                "y": 1.6774248468616706
+                "x": 183.37905756982144,
+                "y": 6.375544863608539
             },
             {
                 "id": "308647",
-                "x": -212.32735613680114,
-                "y": -57.91028499027506
+                "x": 71.5416632957507,
+                "y": 81.38314836533098
             },
             {
                 "id": "308818",
-                "x": 750.631040137029,
-                "y": -166.8443289115936
+                "x": -587.6699172326607,
+                "y": 446.3708186374246
             },
             {
                 "id": "308904",
-                "x": -14.15329921681354,
-                "y": 744.2482792914141
+                "x": -295.16366369934906,
+                "y": -687.7844927731026
             },
             {
                 "id": "309142",
-                "x": 176.58137466319985,
-                "y": 44.902614927505155
+                "x": -295.1748078117839,
+                "y": 121.26547303690798
             },
             {
                 "id": "309143",
-                "x": -19.123680665775396,
-                "y": 40.164954463457185
+                "x": -116.07253243857828,
+                "y": 79.35229965528255
             },
             {
                 "id": "309999",
-                "x": -149.26656567374528,
-                "y": -280.15232690858386
+                "x": 100.21757501413286,
+                "y": 213.10754736785336
             },
             {
                 "id": "310000",
-                "x": -91.51911981208738,
-                "y": -243.8236936540742
+                "x": 8.213654739383529,
+                "y": 227.75269027002935
             },
             {
                 "id": "310054",
-                "x": -288.85044886119283,
-                "y": 50.145415162893734
+                "x": 200.74056688788133,
+                "y": 4.490788804503697
             },
             {
                 "id": "310200",
-                "x": -385.7162552404036,
-                "y": 93.4601240314875
+                "x": 287.3570914394923,
+                "y": -152.30944709031206
             },
             {
                 "id": "310328",
-                "x": 650.0898147671425,
-                "y": -153.66654320556927
+                "x": -694.5702576791813,
+                "y": 215.1068545645531
             },
             {
                 "id": "310451",
-                "x": 253.75289235882815,
-                "y": 2.82995191291934
+                "x": -262.89437002056223,
+                "y": 168.32950625175968
             },
             {
                 "id": "310534",
-                "x": 735.1825815664488,
-                "y": -1.7174765417888116
+                "x": 679.247720856049,
+                "y": 88.0652294368605
             },
             {
                 "id": "310560",
-                "x": -84.27200592392751,
-                "y": 176.48563514481057
+                "x": 6.001725658423255,
+                "y": -102.35866495865551
             },
             {
                 "id": "310571",
-                "x": -148.1980253269709,
-                "y": 36.10933359645315
+                "x": -96.9808393950249,
+                "y": -240.92078892203375
             },
             {
                 "id": "310585",
-                "x": -396.9586018079665,
-                "y": 30.83746228198732
+                "x": 271.77653407366387,
+                "y": -125.84298399573976
             },
             {
                 "id": "310922",
-                "x": -11.932953858841731,
-                "y": 774.9199899847189
+                "x": -316.52425974217823,
+                "y": -666.6616607120055
             },
             {
                 "id": "310950",
-                "x": 309.8045246906798,
-                "y": 139.87541853691772
+                "x": -313.78005731471933,
+                "y": -32.024676979343525
             },
             {
                 "id": "311037",
-                "x": 137.11878225659132,
-                "y": 216.93014644211826
+                "x": -238.68736975183984,
+                "y": -248.2771252574048
             },
             {
                 "id": "311111",
-                "x": -490.11486489766037,
-                "y": -9.16877297011318
+                "x": 398.1700806406844,
+                "y": -25.439088634339463
             },
             {
                 "id": "311233",
-                "x": -99.43660966792486,
-                "y": -257.73608109042704
+                "x": 49.78982696748496,
+                "y": 90.79007950704695
             },
             {
                 "id": "311247",
-                "x": 63.37420126303906,
-                "y": -203.38033524416448
+                "x": 270.0909265532887,
+                "y": -230.0609171650969
             },
             {
                 "id": "311632",
-                "x": 22.60380670439664,
-                "y": 26.138970704062835
+                "x": -130.6488359556527,
+                "y": -0.8203320127101403
             },
             {
                 "id": "311637",
-                "x": 132.7257855457846,
-                "y": 66.54204442816977
+                "x": -110.7765999746853,
+                "y": 49.75461914113785
             },
             {
                 "id": "311638",
-                "x": 117.7822230249792,
-                "y": 51.57931217974611
+                "x": -70.13195379489753,
+                "y": 3.8292805289978444
             },
             {
                 "id": "311678",
-                "x": -196.6388073363602,
-                "y": 89.3454452094681
+                "x": 120.30582420779018,
+                "y": -90.15414746085081
             },
             {
                 "id": "311929",
-                "x": 241.98994508938935,
-                "y": -22.111692326988877
+                "x": -149.45747218502737,
+                "y": 283.8916761447191
             },
             {
                 "id": "312002",
-                "x": 77.78952724809972,
-                "y": 85.21627133546285
+                "x": -140.4131743863849,
+                "y": 0.44925869354414194
             },
             {
                 "id": "312041",
-                "x": -102.61145078216458,
-                "y": -63.04255998583861
+                "x": 11.034991288789305,
+                "y": 128.91534357449686
             },
             {
                 "id": "312169",
-                "x": 2.3544795559296454,
-                "y": -34.25658919499123
+                "x": -327.64137092468593,
+                "y": 169.8181052151143
             },
             {
                 "id": "312182",
-                "x": 13.817043533989585,
-                "y": 87.7003048297305
+                "x": -232.4177468906999,
+                "y": 2.354452101605581
             },
             {
                 "id": "312463",
-                "x": 138.33829602217372,
-                "y": -570.9577990492761
+                "x": 272.6019895359025,
+                "y": 520.3411879700895
             },
             {
                 "id": "312484",
-                "x": -190.53165201287,
-                "y": -42.16053351494773
+                "x": -5.561929835107789,
+                "y": 421.99844611511446
             },
             {
                 "id": "312522",
-                "x": -258.5806440370134,
-                "y": -202.32153047939715
+                "x": 166.87523899687272,
+                "y": 292.33144579202394
             },
             {
                 "id": "312552",
-                "x": 670.7116995513682,
-                "y": 442.51397330417717
+                "x": -608.5014933235732,
+                "y": -384.1471977787201
             },
             {
                 "id": "312674",
-                "x": 121.7640151995523,
-                "y": 334.1709494648562
+                "x": -33.42748466293826,
+                "y": 386.89108638662105
             },
             {
                 "id": "312800",
-                "x": -249.87138475506876,
-                "y": 264.1175073087671
+                "x": 157.1983013384871,
+                "y": -223.680674255755
             },
             {
                 "id": "313160",
-                "x": -218.13157294435047,
-                "y": -27.75564115506569
+                "x": 203.28804286742803,
+                "y": 85.50701883843583
             },
             {
                 "id": "313583",
-                "x": -119.20411608179215,
-                "y": 47.13947169992127
+                "x": 143.77213037684015,
+                "y": -70.80850999832398
             },
             {
                 "id": "313661",
-                "x": 115.49559344058214,
-                "y": 100.22197051793607
+                "x": -88.68502671545824,
+                "y": 140.47022390367317
             },
             {
                 "id": "313975",
-                "x": -635.1067006423892,
-                "y": -261.7096902740942
+                "x": 344.6980282408372,
+                "y": -521.729376798739
             },
             {
                 "id": "313981",
-                "x": 512.0036722889076,
-                "y": -194.26785838189608
+                "x": -368.845911442908,
+                "y": 473.4029682012436
             },
             {
                 "id": "313982",
-                "x": 375.8824691075917,
-                "y": -227.58581226427503
+                "x": -239.77939660258735,
+                "y": 421.0499482634722
             },
             {
                 "id": "314043",
-                "x": 106.84631708755843,
-                "y": 616.8749666447685
+                "x": 528.0488751301187,
+                "y": -384.0604528010597
             },
             {
                 "id": "314139",
-                "x": -316.2556182113197,
-                "y": 46.066059307188446
+                "x": 237.93547153490283,
+                "y": -56.009421215297145
             },
             {
                 "id": "314174",
-                "x": -295.02568744576126,
-                "y": -59.19352804133884
+                "x": 220.6386809094421,
+                "y": 55.4385401099605
             },
             {
                 "id": "314255",
-                "x": -213.96537649392533,
-                "y": -281.2383070134949
+                "x": 267.8547106306622,
+                "y": 143.87235198515722
             },
             {
                 "id": "314256",
-                "x": -197.07986971110876,
-                "y": -211.61220037766168
+                "x": 222.57178058611237,
+                "y": 107.10933284544636
             },
             {
                 "id": "314257",
-                "x": 61.26190362987542,
-                "y": -276.4085656145263
+                "x": 22.349071508759163,
+                "y": 227.99104774730134
             },
             {
                 "id": "314303",
-                "x": -94.4862812289388,
-                "y": -142.80990453088233
+                "x": -83.5346264444194,
+                "y": 181.92503706649063
             },
             {
                 "id": "314387",
-                "x": 168.0465754648796,
-                "y": 118.55325858131454
+                "x": -285.5678844188541,
+                "y": -37.484301403567926
             },
             {
                 "id": "314545",
-                "x": -589.5271130351356,
-                "y": -90.02450890982028
+                "x": 509.3128405258434,
+                "y": -93.803716194121
             },
             {
                 "id": "314638",
-                "x": -12.40664742835678,
-                "y": -396.78307614581104
+                "x": 26.690284733247648,
+                "y": 410.17889769555353
             },
             {
                 "id": "314651",
-                "x": 90.13776866903626,
-                "y": 349.859920523969
+                "x": 91.2052724674352,
+                "y": -386.0187447442972
             },
             {
                 "id": "314657",
-                "x": -252.87846097201074,
-                "y": -19.962918501182237
+                "x": 176.34598212424297,
+                "y": -149.31889305303815
             },
             {
                 "id": "314660",
-                "x": 97.97879564890863,
-                "y": -95.88442323119826
+                "x": -229.9152616810081,
+                "y": 270.5998895944993
             },
             {
                 "id": "315018",
-                "x": -375.45242840081784,
-                "y": -80.31421949985047
+                "x": 285.30144930023636,
+                "y": 14.322572473049396
             },
             {
                 "id": "315107",
-                "x": -658.8478092529278,
-                "y": -328.49044946236137
+                "x": 377.6147570591909,
+                "y": -536.3464315030553
             },
             {
                 "id": "315139",
-                "x": -258.90404410170476,
-                "y": 247.78893312303956
+                "x": -149.28048223052772,
+                "y": -196.07947850114996
             },
             {
                 "id": "315181",
-                "x": 7.69661209682266,
-                "y": -293.7237927735092
+                "x": -316.16314349594694,
+                "y": 236.49497547464787
             },
             {
                 "id": "315218",
-                "x": 144.2667976824645,
-                "y": 684.6146440474214
+                "x": 547.9906963632025,
+                "y": -416.36798054474787
             },
             {
                 "id": "315269",
-                "x": -89.56007575000545,
-                "y": 80.99149158199653
+                "x": -80.58919411869198,
+                "y": -186.31691091514028
             },
             {
                 "id": "315277",
-                "x": -741.7335470476764,
-                "y": 91.10223091395117
+                "x": 697.2459334638257,
+                "y": -70.82223682405639
             },
             {
                 "id": "315279",
-                "x": 17.765216202387567,
-                "y": 5.025075577278406
+                "x": -108.19271159369217,
+                "y": 95.38212073355093
             },
             {
                 "id": "315529",
-                "x": -35.67965640451533,
-                "y": -409.63266083969995
+                "x": 198.98770052847726,
+                "y": 324.5744048997918
             },
             {
                 "id": "315581",
-                "x": 529.4477953866522,
-                "y": -570.9707935711067
+                "x": -552.3873317984134,
+                "y": -498.22212222758355
             },
             {
                 "id": "315587",
-                "x": 40.88295092094894,
-                "y": -43.83630550355577
+                "x": -96.103876740252,
+                "y": 43.10518374130748
             },
             {
                 "id": "315636",
-                "x": 147.06489467061942,
-                "y": -147.26732282247156
+                "x": -309.73811272885655,
+                "y": 113.9331571153932
             },
             {
                 "id": "315680",
-                "x": 46.17823314916486,
-                "y": 226.07214263533464
+                "x": -44.913261631540585,
+                "y": -207.14845959044405
             },
             {
                 "id": "315722",
-                "x": -84.56095020041418,
-                "y": 721.3795577222738
+                "x": 43.749916992328714,
+                "y": 753.8101432941494
             },
             {
                 "id": "315801",
-                "x": 194.7600166195561,
-                "y": -17.884660333788016
+                "x": -257.7591739685715,
+                "y": 57.9931273322443
             },
             {
                 "id": "315884",
-                "x": 146.79627892830058,
-                "y": -337.60182958682316
+                "x": 330.3853901943423,
+                "y": -91.46397672041515
             },
             {
                 "id": "315911",
-                "x": 94.96849095752995,
-                "y": -562.7271979258913
+                "x": 287.8848363371245,
+                "y": 483.84135908379045
             },
             {
                 "id": "316112",
-                "x": 403.7693304980651,
-                "y": -11.059915053662177
+                "x": -338.49292064115303,
+                "y": 359.1563590358702
             },
             {
                 "id": "316167",
-                "x": -161.8110945066503,
-                "y": 211.18722447210857
+                "x": -179.4014244869317,
+                "y": -216.8627695803773
             },
             {
                 "id": "316184",
-                "x": -248.0449373598471,
-                "y": -4.481499580309277
+                "x": -409.90045660676276,
+                "y": 111.28554054021448
             },
             {
                 "id": "316691",
-                "x": -75.94169266007415,
-                "y": 162.82679694515508
+                "x": 56.521841757658635,
+                "y": -102.98380176108563
             },
             {
                 "id": "316874",
-                "x": 211.23557490416175,
-                "y": 125.41212307405611
+                "x": -99.01687423567799,
+                "y": -110.71742266697747
             },
             {
                 "id": "317060",
-                "x": -17.281453200999497,
-                "y": -122.95948645586941
+                "x": 26.867681466760807,
+                "y": 209.60080343008391
             },
             {
                 "id": "317116",
-                "x": 414.0546485719031,
-                "y": -42.9899469913427
+                "x": -448.4867469090214,
+                "y": 254.02734566588327
             },
             {
                 "id": "317196",
-                "x": -507.5024028645443,
-                "y": -530.3510061917202
+                "x": 561.7960832021666,
+                "y": 466.3695425619567
             },
             {
                 "id": "317201",
-                "x": 234.8929573834293,
-                "y": -100.41262493069569
+                "x": -136.3807967644007,
+                "y": 158.21514121959575
             },
             {
                 "id": "317977",
-                "x": 67.08905243218761,
-                "y": -340.8078986819046
+                "x": 1.5370249384080696,
+                "y": 300.9839195450202
             },
             {
                 "id": "318117",
-                "x": -31.783757052050916,
-                "y": -280.56454844434376
+                "x": 135.64751157592542,
+                "y": 82.47276802540883
             },
             {
                 "id": "318160",
-                "x": -302.491039415767,
-                "y": -119.51054379589121
+                "x": 235.3154575174734,
+                "y": 227.83679033342386
             },
             {
                 "id": "318213",
-                "x": -363.650976471138,
-                "y": 316.1564276410385
+                "x": -562.8638424496808,
+                "y": 59.84732723608523
             },
             {
                 "id": "318295",
-                "x": -128.26155682072968,
-                "y": 266.8434483240978
+                "x": -80.83453064633865,
+                "y": -289.286717260458
             },
             {
                 "id": "318330",
-                "x": 329.4121944517462,
-                "y": -114.93376581329166
+                "x": -235.02333405805163,
+                "y": -33.29715241567037
             },
             {
                 "id": "318338",
-                "x": 774.021159007296,
-                "y": -89.0078535207179
+                "x": -642.9290176312576,
+                "y": 403.04219392305737
             },
             {
                 "id": "318340",
-                "x": 779.427633524816,
-                "y": -59.93156765548539
+                "x": -654.2326622168025,
+                "y": 376.8722551582192
             },
             {
                 "id": "318356",
-                "x": -526.0010879718703,
-                "y": -539.594153271336
+                "x": 581.7468384591074,
+                "y": 474.4303677768644
             },
             {
                 "id": "318357",
-                "x": -501.41439442361377,
-                "y": -555.4328995581743
+                "x": 556.322561654786,
+                "y": 489.48709239529245
             },
             {
                 "id": "318360",
-                "x": -549.7913581222989,
-                "y": -536.2393272555331
+                "x": 604.2550964011688,
+                "y": 468.48013053090193
             },
             {
                 "id": "318361",
-                "x": -531.082195451852,
-                "y": -516.9277186885213
+                "x": 583.3550293814707,
+                "y": 451.64037733444275
             },
             {
                 "id": "318370",
-                "x": -519.468303638566,
-                "y": -565.8957488546096
+                "x": 573.7459592934596,
+                "y": 501.3002646137764
             },
             {
                 "id": "318437",
-                "x": -4.86657799682169,
-                "y": 183.3635900701094
+                "x": -157.14748266389142,
+                "y": -187.91754968189053
             },
             {
                 "id": "318545",
-                "x": 312.80591516176924,
-                "y": 104.09615897137586
+                "x": -388.77233922520946,
+                "y": 117.70012574504553
             },
             {
                 "id": "318608",
-                "x": -22.144402535263854,
-                "y": -300.41131797559314
+                "x": -34.01534542721372,
+                "y": 240.0667764366643
             },
             {
                 "id": "318609",
-                "x": -50.390066370235445,
-                "y": -255.49622882162174
+                "x": -103.07151095502296,
+                "y": 189.3195128813872
             },
             {
                 "id": "318610",
-                "x": 120.66143907668422,
-                "y": -239.16493954960248
+                "x": -232.08689675992275,
+                "y": 196.7090555260713
             },
             {
                 "id": "318651",
-                "x": 71.19611376461943,
-                "y": -25.302648955759334
+                "x": 150.86483271611445,
+                "y": 21.574353204548565
             },
             {
                 "id": "318798",
-                "x": 370.17969881019195,
-                "y": -49.89537634782493
+                "x": 22.90137414373501,
+                "y": -235.3227393347354
             },
             {
                 "id": "318804",
-                "x": 155.9869492115819,
-                "y": -313.890223579695
+                "x": -67.1600973104155,
+                "y": 444.2399970447786
             },
             {
                 "id": "318808",
-                "x": 110.01999015553335,
-                "y": -312.83027103925883
+                "x": -64.97096216442173,
+                "y": 405.67816604306137
             },
             {
                 "id": "318854",
-                "x": -18.815231674742403,
-                "y": 66.2015773725469
+                "x": -163.36238250307665,
+                "y": 256.367179031586
             },
             {
                 "id": "318989",
-                "x": -528.0850986404971,
-                "y": 480.4479961927445
+                "x": 507.7813151290368,
+                "y": -547.4214056567012
             },
             {
                 "id": "318990",
-                "x": -591.9480038597753,
-                "y": 457.221036451164
+                "x": 577.3830123254038,
+                "y": -516.5625022871325
             },
             {
                 "id": "319310",
-                "x": -160.27172617627346,
-                "y": 118.60559486690038
+                "x": -19.459533579812454,
+                "y": -162.87061158821317
             },
             {
                 "id": "319329",
-                "x": 238.24974230018643,
-                "y": 67.98272785656245
+                "x": -367.98197733859655,
+                "y": 9.233957943075639
             },
             {
                 "id": "319505",
-                "x": 98.07512931391723,
-                "y": 42.29343924876036
+                "x": -165.25217700180897,
+                "y": -25.052430489819812
             },
             {
                 "id": "319625",
-                "x": 11.882681517634293,
-                "y": -59.77707023032917
+                "x": -291.11884638781726,
+                "y": 79.12861667756223
             },
             {
                 "id": "319654",
-                "x": -88.4940300498078,
-                "y": -168.66433005900205
+                "x": -219.56975001957744,
+                "y": 183.6002300118435
             },
             {
                 "id": "319698",
-                "x": 339.0958130210692,
-                "y": -70.78838686480734
+                "x": -350.9040758543519,
+                "y": 92.14670129983816
             },
             {
                 "id": "319935",
-                "x": -703.3179883956041,
-                "y": 163.41217319522937
+                "x": 674.8001312629134,
+                "y": -145.05127889676618
             },
             {
                 "id": "319941",
-                "x": -401.4409344950773,
-                "y": 299.5571602311876
+                "x": -566.4275360731881,
+                "y": 24.880617608328944
             },
             {
                 "id": "319942",
-                "x": -346.8261968562232,
-                "y": 265.52452388348195
+                "x": -509.2844311662782,
+                "y": 47.63325481341417
             },
             {
                 "id": "319960",
-                "x": -171.06350490172827,
-                "y": -59.15639136160232
+                "x": -93.62776681162195,
+                "y": 110.22075971286353
             },
             {
                 "id": "320016",
-                "x": -37.618927585806816,
-                "y": -378.89467342767836
+                "x": 117.31855912816488,
+                "y": 312.02324614568676
             },
             {
                 "id": "320093",
-                "x": 289.8720948429453,
-                "y": -81.6271681529904
+                "x": -331.04252908528554,
+                "y": -104.77699458552308
             },
             {
                 "id": "320094",
-                "x": 336.1266320049655,
-                "y": -99.26498952970243
+                "x": -381.64289018103585,
+                "y": -15.442511508576453
             },
             {
                 "id": "320196",
-                "x": -94.00690137086741,
-                "y": -113.39041589671861
+                "x": 12.338143304192261,
+                "y": 176.23276044711318
             },
             {
                 "id": "320206",
-                "x": 274.18924089053576,
-                "y": -100.81888288834249
+                "x": -398.26793480406275,
+                "y": 29.991615905842025
             },
             {
                 "id": "320321",
-                "x": 47.4816616879275,
-                "y": -156.8971536630835
+                "x": -258.195968590778,
+                "y": 159.32082963900424
             },
             {
                 "id": "320322",
-                "x": 120.36668576295854,
-                "y": -156.1691032277681
+                "x": -177.26237532396942,
+                "y": 126.52548612837863
             },
             {
                 "id": "320376",
-                "x": 187.8305008494417,
-                "y": 71.2418405483439
+                "x": -135.62801850614554,
+                "y": 183.5057724270341
             },
             {
                 "id": "320893",
-                "x": 414.952887561427,
-                "y": -654.2748881756387
+                "x": -297.5551685195286,
+                "y": 696.3247659909963
             },
             {
                 "id": "320958",
-                "x": -2.9283311792741484,
-                "y": 103.63597419767962
+                "x": -43.954460078092055,
+                "y": -173.87611247768916
             },
             {
                 "id": "321309",
-                "x": -463.12377663081,
-                "y": 341.63385244520157
+                "x": 289.8729443484715,
+                "y": -360.2265833005675
             },
             {
                 "id": "321456",
-                "x": -181.63182070387933,
-                "y": -283.6512172337529
+                "x": 115.29747311197026,
+                "y": 257.8618100235292
             },
             {
                 "id": "321458",
-                "x": 11.212087311222076,
-                "y": -286.6514356748499
+                "x": -96.52683182929687,
+                "y": 329.4288492786684
             },
             {
                 "id": "321463",
-                "x": -2.4562752128239165,
-                "y": -246.93772318484267
+                "x": -153.2797983653628,
+                "y": 303.15918222633053
             },
             {
                 "id": "321476",
-                "x": 12.965701014172602,
-                "y": 536.4918967008392
+                "x": -200.9683881495491,
+                "y": 549.308173184451
             },
             {
                 "id": "321478",
-                "x": 124.3697123661931,
-                "y": 149.00990939013192
+                "x": -97.19376355205313,
+                "y": 77.16324768116338
             },
             {
                 "id": "321541",
-                "x": -192.6710175584231,
-                "y": 164.05027695303428
+                "x": -338.641096448714,
+                "y": 152.96090191083167
             },
             {
                 "id": "321560",
-                "x": 574.249375032781,
-                "y": -168.4915274741634
+                "x": -621.2402394361316,
+                "y": 195.13078483329136
             },
             {
                 "id": "321591",
-                "x": -256.17477675033024,
-                "y": -103.554891506761
+                "x": -96.44616773213843,
+                "y": 165.763800423049
             },
             {
                 "id": "321732",
-                "x": -134.80978148939838,
-                "y": 43.73319408369023
+                "x": -202.16491482505455,
+                "y": 105.32511034168161
             },
             {
                 "id": "321821",
-                "x": -145.94368139412902,
-                "y": -171.9113690088487
+                "x": 53.534150995022124,
+                "y": 164.80741258767668
             },
             {
                 "id": "321971",
-                "x": -341.93825007674127,
-                "y": -583.6773728076454
+                "x": 572.721674016906,
+                "y": 232.38916125256748
             },
             {
                 "id": "322229",
-                "x": 543.1008624121122,
-                "y": -511.4926654943881
+                "x": -518.5302441015757,
+                "y": -538.2993877534648
             },
             {
                 "id": "322292",
-                "x": -8.79322046474355,
-                "y": -6.126684220447843
+                "x": 1.0754248286441528,
+                "y": -37.55641920232375
             },
             {
                 "id": "322323",
-                "x": -132.69700470537373,
-                "y": -165.9599525398683
+                "x": 136.20392065770469,
+                "y": 70.03767339199744
             },
             {
                 "id": "322430",
-                "x": 353.7590050766211,
-                "y": -264.04411562941505
+                "x": 371.38767424487065,
+                "y": -123.95472539378075
             },
             {
                 "id": "322764",
-                "x": 50.14660455081554,
-                "y": -141.77421759752767
+                "x": -99.29837782339227,
+                "y": 199.72868396764403
             },
             {
                 "id": "322766",
-                "x": -177.85519047288437,
-                "y": 18.933439501389355
+                "x": 94.46421740636167,
+                "y": 98.22022752145635
             },
             {
                 "id": "323244",
-                "x": 333.8845814874407,
-                "y": 120.49142131722027
+                "x": -368.9590646578812,
+                "y": -85.1640307260734
             },
             {
                 "id": "323280",
-                "x": 63.463580113814054,
-                "y": -253.33243324124828
+                "x": 120.49161345062286,
+                "y": 119.99177680164588
             },
             {
                 "id": "323496",
-                "x": 138.6643009320937,
-                "y": 193.8347817706995
+                "x": -112.25095932589748,
+                "y": -53.87278638757895
             },
             {
                 "id": "323620",
-                "x": 107.97526852633608,
-                "y": -609.0872577917214
+                "x": 332.56750813872856,
+                "y": 511.7050598269842
             },
             {
                 "id": "324104",
-                "x": -171.16762343261678,
-                "y": 287.8391525776955
+                "x": -1.51291580004853,
+                "y": -289.9923825073698
             },
             {
                 "id": "324105",
-                "x": -227.0018169408275,
-                "y": 412.44898276146205
+                "x": -49.20295404768245,
+                "y": -437.53340774192935
             },
             {
                 "id": "324107",
-                "x": -219.33805691106573,
-                "y": 362.0881148675626
+                "x": -10.51606900810839,
+                "y": -397.2688119464267
             },
             {
                 "id": "324133",
-                "x": 253.29765029293438,
-                "y": -45.336272678005734
+                "x": -75.41883864499232,
+                "y": -142.34731808075355
             },
             {
                 "id": "324186",
-                "x": 159.5192620274396,
-                "y": -42.79554364488426
+                "x": -79.03730712898624,
+                "y": 119.06270752398014
             },
             {
                 "id": "324211",
-                "x": 754.4183577517484,
-                "y": 144.42668977871003
+                "x": -676.2711776329354,
+                "y": 345.5210339650161
             },
             {
                 "id": "324277",
-                "x": -16.188017174481352,
-                "y": 297.2203527716647
+                "x": -254.89475871847537,
+                "y": -97.57682601938414
             },
             {
                 "id": "324619",
-                "x": 134.72941669243914,
-                "y": 159.47499028282326
+                "x": -14.69465679103181,
+                "y": -176.53386103248678
             },
             {
                 "id": "324650",
-                "x": -53.58367080239275,
-                "y": -305.98321855400434
+                "x": 49.90929829828603,
+                "y": -237.92791305961433
             },
             {
                 "id": "324651",
-                "x": -116.55840001876597,
-                "y": -392.70152723803955
+                "x": 91.73403398422901,
+                "y": -331.90463261379284
             },
             {
                 "id": "325009",
-                "x": 240.32223636197088,
-                "y": -190.55428141189438
+                "x": -310.8291863287309,
+                "y": 210.2027822370352
             },
             {
                 "id": "325157",
-                "x": -151.6574952444401,
-                "y": -139.90887692925097
+                "x": 137.1574630052623,
+                "y": 17.05635917945067
             },
             {
                 "id": "325334",
-                "x": 318.0715111217761,
-                "y": -109.74012713758391
+                "x": 95.18589766818323,
+                "y": 124.57698726274637
             },
             {
                 "id": "325421",
-                "x": 539.9126232364414,
-                "y": -559.0758348221751
+                "x": -550.4190633429266,
+                "y": -537.5431696467948
             },
             {
                 "id": "325568",
-                "x": 16.317468955887357,
-                "y": -242.53590970594414
+                "x": -45.057153051048076,
+                "y": 227.71721184772784
             },
             {
                 "id": "325765",
-                "x": -79.90749630490157,
-                "y": 771.534045889645
+                "x": 41.44278031348635,
+                "y": 711.1032710942428
             },
             {
                 "id": "326109",
-                "x": -230.8355669744361,
-                "y": 285.21368659842153
+                "x": 128.54308313856092,
+                "y": -292.90139654682224
             },
             {
                 "id": "326326",
-                "x": -92.12179760565246,
-                "y": -308.0103749355142
+                "x": 187.75555175556113,
+                "y": 201.38686737737783
             },
             {
                 "id": "326415",
-                "x": 733.2533169079567,
-                "y": -136.24864037057893
+                "x": -604.7172470725203,
+                "y": 434.9560994350995
             },
             {
                 "id": "326416",
-                "x": -367.6517746918058,
-                "y": -657.0525405207482
+                "x": -159.1180886086897,
+                "y": -626.0560236798023
             },
             {
                 "id": "326493",
-                "x": -230.35844895523576,
-                "y": -74.71331164394152
+                "x": 42.965051086779184,
+                "y": -129.18343384797592
             },
             {
                 "id": "326642",
-                "x": 546.8373734685683,
-                "y": -543.3456086816904
+                "x": -541.3886048887107,
+                "y": -551.7407618019611
             },
             {
                 "id": "326689",
-                "x": 252.4688257065005,
-                "y": -133.64749594851378
+                "x": -224.37211957393674,
+                "y": 274.840149033046
             },
             {
                 "id": "326701",
-                "x": -3.972281024997347,
-                "y": 587.8708713118857
+                "x": -215.96154078454694,
+                "y": 603.7994298564729
             },
             {
                 "id": "326735",
-                "x": -107.68763428555928,
-                "y": 57.48835408284959
+                "x": 9.280267223708837,
+                "y": 98.53170816102909
             },
             {
                 "id": "327089",
-                "x": -0.6769403260416186,
-                "y": -20.244750312778173
+                "x": -296.50358146968784,
+                "y": 214.49526471834776
             },
             {
                 "id": "327120",
-                "x": -206.65652609101977,
-                "y": -108.51542711605202
+                "x": 161.97227191027352,
+                "y": 27.8248119276274
             },
             {
                 "id": "327400",
-                "x": -50.0371129870951,
-                "y": -59.20780429125447
+                "x": -4.100876854495473,
+                "y": 123.23427335656366
             },
             {
                 "id": "327910",
-                "x": 352.23142831152495,
-                "y": -62.500339977888515
+                "x": -237.5098851468947,
+                "y": 358.8587284088287
             },
             {
                 "id": "327995",
-                "x": 234.49842855491295,
-                "y": -33.21718298626607
+                "x": -240.30114281269903,
+                "y": 82.80818445017154
             },
             {
                 "id": "328448",
-                "x": 40.687585459714626,
-                "y": -135.19899926632738
+                "x": 9.475872602114709,
+                "y": 29.700095267702352
             },
             {
                 "id": "328675",
-                "x": -26.781785434296435,
-                "y": -46.49239807554809
+                "x": -58.78948117150512,
+                "y": 73.71760075523608
             },
             {
                 "id": "328688",
-                "x": -171.01890140163906,
-                "y": 480.1441305809055
+                "x": 322.05944725825606,
+                "y": -331.11262042240713
             },
             {
                 "id": "328742",
-                "x": -147.65577132259347,
-                "y": -46.61290561661081
+                "x": 43.65503266389398,
+                "y": -49.590859200178784
             },
             {
                 "id": "328840",
-                "x": 759.9784515434065,
-                "y": 40.167294477070975
+                "x": 720.0387953397261,
+                "y": 103.42091713937367
             },
             {
                 "id": "328960",
-                "x": -176.87516718130414,
-                "y": -37.28706314388162
+                "x": 82.98540098432343,
+                "y": -15.775504483204745
             },
             {
                 "id": "329065",
-                "x": 741.3979230429334,
-                "y": -184.76522467899386
+                "x": -583.5548328098296,
+                "y": 483.394371363608
             },
             {
                 "id": "329255",
-                "x": -146.4704635563575,
-                "y": 59.959829612713094
+                "x": -29.518269812961314,
+                "y": 47.636909329531306
             },
             {
                 "id": "329422",
-                "x": -320.28266407727665,
-                "y": 79.96051477601422
+                "x": 190.3950713778572,
+                "y": -124.00771851377795
             },
             {
                 "id": "329604",
-                "x": -153.6412837843614,
-                "y": 413.54765027639263
+                "x": 268.52384486226293,
+                "y": -288.9913604174368
             },
             {
                 "id": "329735",
-                "x": -45.538270377324906,
-                "y": 172.73806210984125
+                "x": -55.33137484815045,
+                "y": 132.07529217383464
             },
             {
                 "id": "330048",
-                "x": -312.13554074774777,
-                "y": 251.1280821274255
+                "x": -468.12475116030583,
+                "y": 64.95197178695318
             },
             {
                 "id": "330256",
-                "x": -102.37681124629431,
-                "y": 15.010413418940244
+                "x": -169.3131271950188,
+                "y": -188.60447930940782
             },
             {
                 "id": "330287",
-                "x": 48.51938530845484,
-                "y": 148.44479467191127
+                "x": -250.4672741153668,
+                "y": -53.54110286356814
             },
             {
                 "id": "330489",
-                "x": -726.0991207730232,
-                "y": 87.05128418891832
+                "x": 680.1379337290788,
+                "y": -70.00081922437558
             },
             {
                 "id": "331074",
-                "x": 136.61114001602976,
-                "y": -336.4265438836554
+                "x": 128.5456623096507,
+                "y": 306.75480218609187
             },
             {
                 "id": "331224",
-                "x": -663.30756396044,
-                "y": -280.80182394729366
+                "x": 399.37337658801545,
+                "y": -528.4061898096304
             },
             {
                 "id": "331225",
-                "x": -687.6468345187047,
-                "y": -327.0672340269648
+                "x": 375.18792510642504,
+                "y": -551.8732764417985
             },
             {
                 "id": "331228",
-                "x": -704.5253096758499,
-                "y": -262.4591466366575
+                "x": 409.1156426164656,
+                "y": -578.2029220329368
             },
             {
                 "id": "331379",
-                "x": 71.16367429933786,
-                "y": -299.5206907115728
+                "x": 4.861640438623999,
+                "y": 341.84518044176485
             },
             {
                 "id": "331428",
-                "x": -41.02797721843775,
-                "y": -116.50811449482707
+                "x": -42.66526569605328,
+                "y": 185.00817822153238
             },
             {
                 "id": "331438",
-                "x": -765.4621836372702,
-                "y": -69.52986547571665
+                "x": 684.8900292510315,
+                "y": -291.384108908322
             },
             {
                 "id": "331491",
-                "x": -198.74458449092276,
-                "y": 53.537227267924976
+                "x": 160.54113535743576,
+                "y": -107.13722052586773
             },
             {
                 "id": "331493",
-                "x": -105.35107368591758,
-                "y": -54.07845155626527
+                "x": 134.88744320248273,
+                "y": 49.978071911140866
             },
             {
                 "id": "331536",
-                "x": -377.7484382149358,
-                "y": -99.48147199757253
+                "x": 6.561642051783489,
+                "y": 11.151283357007786
             },
             {
                 "id": "331537",
-                "x": -393.9911591890343,
-                "y": -181.7952362195557
+                "x": 211.0518835769427,
+                "y": -52.423629994476144
             },
             {
                 "id": "331545",
-                "x": -286.38790179045685,
-                "y": 158.88043692525454
+                "x": 39.681853770837755,
+                "y": -282.2250083299524
             },
             {
                 "id": "331555",
-                "x": -129.0044544982537,
-                "y": -222.10704746684542
+                "x": 124.32957871590905,
+                "y": 222.4700902909624
             },
             {
                 "id": "331565",
-                "x": -269.77221933290133,
-                "y": -141.61386418361715
+                "x": 245.6515881664615,
+                "y": 140.94132549789583
             },
             {
                 "id": "331609",
-                "x": -113.51891178798246,
-                "y": 165.34099882669946
+                "x": -182.53520422568775,
+                "y": -79.6759547582072
             },
             {
                 "id": "331673",
-                "x": -8.290716742611606,
-                "y": 146.83753925364968
+                "x": -322.3618144943172,
+                "y": -13.32387062624679
             },
             {
                 "id": "331727",
-                "x": 508.3821028026173,
-                "y": -543.4682442687284
+                "x": -519.9913489520245,
+                "y": -569.0144874824804
             },
             {
                 "id": "331730",
-                "x": 645.078361130335,
-                "y": -193.83014986352146
+                "x": -694.358167421593,
+                "y": 250.4653290542433
             },
             {
                 "id": "331731",
-                "x": 637.8806860860371,
-                "y": -140.95277655529893
+                "x": -693.4649158174518,
+                "y": 178.6285614933935
             },
             {
                 "id": "331732",
-                "x": 634.7506529859855,
-                "y": -205.32077950164424
+                "x": -710.6293780996596,
+                "y": 239.58482051838308
             },
             {
                 "id": "331734",
-                "x": 675.3072422344734,
-                "y": -189.3676466790541
+                "x": -679.8682402636304,
+                "y": 225.01292261888594
             },
             {
                 "id": "331735",
-                "x": 651.1398509985544,
-                "y": -130.78563615384456
+                "x": -708.1925247186751,
+                "y": 174.23007790383255
             },
             {
                 "id": "331736",
-                "x": 606.2466185868257,
-                "y": -156.47410345038227
+                "x": -662.3090404995313,
+                "y": 173.0761886666372
             },
             {
                 "id": "331737",
-                "x": 594.5757506697558,
-                "y": -157.240210198571
+                "x": -635.2589507019597,
+                "y": 240.10328948380212
             },
             {
                 "id": "331738",
-                "x": 611.69488924477,
-                "y": -196.88298683299772
+                "x": -658.2898560279307,
+                "y": 224.98908505468304
             },
             {
                 "id": "331741",
-                "x": 585.4466620549329,
-                "y": -184.74798971967797
+                "x": -634.8437357650602,
+                "y": 211.68744972979823
             },
             {
                 "id": "331899",
-                "x": -36.38963448050328,
-                "y": -187.0371395801709
+                "x": -18.41018052936123,
+                "y": 272.29614892010386
             },
             {
                 "id": "331944",
-                "x": -432.5533244438826,
-                "y": -58.99137833586803
+                "x": 265.86015067349047,
+                "y": -214.4765668464891
             },
             {
                 "id": "332087",
-                "x": 164.08237683693238,
-                "y": -238.5564879438872
+                "x": -230.80717521202752,
+                "y": 206.6576125070016
             },
             {
                 "id": "332095",
-                "x": -379.65469080302887,
-                "y": 233.78079074753654
+                "x": 364.7469614687544,
+                "y": -23.786967569421186
             },
             {
                 "id": "332110",
-                "x": 79.11267849983791,
-                "y": 53.65219349912238
+                "x": -82.08062923165102,
+                "y": -43.667767415998526
             },
             {
                 "id": "332152",
-                "x": 612.6764408648179,
-                "y": 433.8460862351663
+                "x": -687.9003218111869,
+                "y": -193.51230923759874
             },
             {
                 "id": "332155",
-                "x": 243.67086126121913,
-                "y": 641.7524446807595
+                "x": 80.5901074593326,
+                "y": -674.3597776725437
             },
             {
                 "id": "332158",
-                "x": 606.8223678385373,
-                "y": -274.0319565421663
+                "x": -95.68509694631695,
+                "y": 665.0869019577973
             },
             {
                 "id": "332171",
-                "x": 532.3213894953568,
-                "y": -501.5761375923515
+                "x": -469.91694308453236,
+                "y": -503.15171077709624
             },
             {
                 "id": "332218",
-                "x": 2.530188997504339,
-                "y": -184.00072470668604
+                "x": -200.82011999368493,
+                "y": 239.97003428704815
             },
             {
                 "id": "332297",
-                "x": 304.7098334830509,
-                "y": -144.62316986398568
+                "x": -274.3953727022448,
+                "y": 153.09073319426676
             },
             {
                 "id": "332401",
-                "x": 507.6321105694772,
-                "y": -524.8142326442767
+                "x": -502.3901454648464,
+                "y": -574.743439374309
             },
             {
                 "id": "332406",
-                "x": -301.6229435038277,
-                "y": -719.4061020671351
+                "x": 486.4729626887777,
+                "y": 585.4033062722267
             },
             {
                 "id": "332526",
-                "x": -126.4859549471235,
-                "y": 28.435885339835856
+                "x": 22.50407654651939,
+                "y": -36.474290018118666
             },
             {
                 "id": "332684",
-                "x": 205.0097671061306,
-                "y": -634.0728779347969
+                "x": 332.59573626720373,
+                "y": 601.024424082861
             },
             {
                 "id": "332687",
-                "x": 218.92132513274197,
-                "y": -659.2165204990314
+                "x": 335.28592372840274,
+                "y": 640.629605621711
             },
             {
                 "id": "332698",
-                "x": 20.964325789385335,
-                "y": 350.15543704015465
+                "x": 24.286065668434265,
+                "y": -385.80666673304756
             },
             {
                 "id": "332727",
-                "x": -709.0466877009399,
-                "y": 112.4444981941395
+                "x": 678.2885525420328,
+                "y": -100.16023614401608
             },
             {
                 "id": "332739",
-                "x": 688.2445005578509,
-                "y": 248.99586746456183
+                "x": -757.1278539451638,
+                "y": 17.552767804520716
             },
             {
                 "id": "332778",
-                "x": -701.3400982758952,
-                "y": 128.38376542964585
+                "x": 657.7114069474671,
+                "y": -123.78757180984316
             },
             {
                 "id": "333209",
-                "x": 99.06854180041171,
-                "y": 138.52044367059258
+                "x": -205.7721441562109,
+                "y": 79.31296172365754
             },
             {
                 "id": "333271",
-                "x": 195.2358483363533,
-                "y": 82.84596377688818
+                "x": -235.64548263127097,
+                "y": -40.88099118409732
             },
             {
                 "id": "334053",
-                "x": 99.18028319803207,
-                "y": -332.54404847744667
+                "x": 10.637176972221898,
+                "y": 335.2874694934427
             },
             {
                 "id": "334104",
-                "x": 128.10652703195927,
-                "y": -101.7813368182905
+                "x": -184.84947721590555,
+                "y": 38.118161799337514
             },
             {
                 "id": "334241",
-                "x": 150.2473604939481,
-                "y": 65.70722815574258
+                "x": -173.01941996336134,
+                "y": 197.40526359112502
             },
             {
                 "id": "334382",
-                "x": -133.33828617998392,
-                "y": 105.08605055822416
+                "x": -53.21192956430084,
+                "y": 107.29064648105651
             },
             {
                 "id": "334736",
-                "x": -39.16340316403859,
-                "y": 197.30275012623224
+                "x": -193.01515366797636,
+                "y": -146.06491866576377
             },
             {
                 "id": "334788",
-                "x": -413.70144869118644,
-                "y": -2.435702495735013
+                "x": 306.8360069715822,
+                "y": -31.06641452974572
             },
             {
                 "id": "334792",
-                "x": 204.60223744962914,
-                "y": 145.44430457988247
+                "x": -291.57732241797095,
+                "y": -91.94828905999425
             },
             {
                 "id": "334823",
-                "x": 126.61725808278784,
-                "y": -284.5043143324565
+                "x": -161.41184183268876,
+                "y": 283.62205874534123
             },
             {
                 "id": "335110",
-                "x": -147.5896868791381,
-                "y": -290.97342735439287
+                "x": 151.3415067769255,
+                "y": 217.51768189858788
             },
             {
                 "id": "335128",
-                "x": -41.04186128530376,
-                "y": -147.92995284105763
+                "x": 27.779626462350244,
+                "y": 134.4079363128116
             },
             {
                 "id": "335155",
-                "x": -398.94261876617117,
-                "y": -90.06996030299243
+                "x": 327.14228189900786,
+                "y": 45.92990795553093
             },
             {
                 "id": "335185",
-                "x": -145.0456224036839,
-                "y": -341.7108344885479
+                "x": -150.6635332108932,
+                "y": 408.42882450699904
             },
             {
                 "id": "335215",
-                "x": -523.3982690054451,
-                "y": 404.525569607416
+                "x": 374.01163346513175,
+                "y": -445.0527270923165
             },
             {
                 "id": "335471",
-                "x": -349.4561867629059,
-                "y": 333.5530353309428
+                "x": -572.0028099150506,
+                "y": 50.74571911913155
             },
             {
                 "id": "336117",
-                "x": -101.35337698082368,
-                "y": 29.015407533456347
+                "x": -50.08953577807912,
+                "y": -40.32859249427718
             },
             {
                 "id": "336137",
-                "x": -108.8431084144089,
-                "y": -273.42478971009035
+                "x": 16.838366638448722,
+                "y": 302.95124027215496
             },
             {
                 "id": "336319",
-                "x": 96.24950881520087,
-                "y": 118.6804406923758
+                "x": -174.18703386102467,
+                "y": -126.04844921712551
             },
             {
                 "id": "336499",
-                "x": 116.12804636827684,
-                "y": -228.6278007241457
+                "x": -249.5157512177288,
+                "y": 276.6320067721927
             },
             {
                 "id": "336507",
-                "x": 113.11528057556262,
-                "y": -250.8058722681495
+                "x": 160.32868586925247,
+                "y": -143.34254232866843
             },
             {
                 "id": "336957",
-                "x": 304.8743555393935,
-                "y": 28.386181243535706
+                "x": -313.84903621901304,
+                "y": -212.43502575892785
             },
             {
                 "id": "337068",
-                "x": 332.3852178173333,
-                "y": -57.555448026492144
+                "x": -373.58327797035065,
+                "y": 243.17546921974912
             },
             {
                 "id": "337107",
-                "x": 8.543399394949342,
-                "y": -336.0048258909293
+                "x": 202.849207308813,
+                "y": 212.51350217603215
             },
             {
                 "id": "337345",
-                "x": 76.4967606789025,
-                "y": -469.7129977198896
+                "x": 31.6388538231311,
+                "y": 477.18052478332226
             },
             {
                 "id": "337584",
-                "x": -185.66610615216462,
-                "y": 122.87413706043333
+                "x": -412.94571439200564,
+                "y": -31.03609795157785
             },
             {
                 "id": "337666",
-                "x": 719.3405976320329,
-                "y": 5.376351232050326
+                "x": 688.2176917388269,
+                "y": 101.3188883574267
             },
             {
                 "id": "337746",
-                "x": 550.2040918645182,
-                "y": -526.6551920095447
+                "x": -533.7384760986329,
+                "y": -537.9464153970454
             },
             {
                 "id": "337819",
-                "x": -558.567588960955,
-                "y": 215.89204586549536
+                "x": 787.6444776454372,
+                "y": 19.92410274682775
             },
             {
                 "id": "337957",
-                "x": 731.3359738599075,
-                "y": -159.82061823104726
+                "x": -579.4096841174597,
+                "y": 465.0442491710974
             },
             {
                 "id": "338158",
-                "x": -241.20027090979073,
-                "y": 306.9155979993503
+                "x": -525.9067172230858,
+                "y": 94.4150735647576
             },
             {
                 "id": "339103",
-                "x": 9.279644526758744,
-                "y": -306.0711174095485
+                "x": -61.861316006713714,
+                "y": 267.60248317304513
             },
             {
                 "id": "339293",
-                "x": -73.43233690612892,
-                "y": -25.169245595095614
+                "x": -303.95510355442076,
+                "y": 129.68068927941226
             },
             {
                 "id": "339605",
-                "x": 175.0183285605948,
-                "y": 203.9678713822532
+                "x": -233.34074280637,
+                "y": -226.81092478358434
             },
             {
                 "id": "339686",
-                "x": 40.970261501131624,
-                "y": -111.48073618845498
+                "x": -156.72149121696071,
+                "y": 101.25177877362515
             },
             {
                 "id": "339870",
-                "x": 673.2197478141022,
-                "y": 269.78884977144776
+                "x": -655.5051833252618,
+                "y": -348.26854741242295
             },
             {
                 "id": "339888",
-                "x": -212.67107667650754,
-                "y": 106.61882392703937
+                "x": -228.24434609844317,
+                "y": -27.91171073030855
             },
             {
                 "id": "339930",
-                "x": 746.2180756805718,
-                "y": -79.04742932565263
+                "x": -655.9199632917052,
+                "y": 356.9348656475332
             },
             {
                 "id": "339971",
-                "x": -121.02664880218616,
-                "y": -120.43149847152729
+                "x": 75.83114685183949,
+                "y": 77.31912729317925
             },
             {
                 "id": "341124",
-                "x": 445.65170794895704,
-                "y": -19.901276016521695
+                "x": -413.1765288917074,
+                "y": -101.59994205120138
             },
             {
                 "id": "341170",
-                "x": -26.95955775093235,
-                "y": -58.167467893620774
+                "x": -14.017348734474206,
+                "y": -10.062207747183423
             },
             {
                 "id": "341230",
-                "x": -342.8387924439949,
-                "y": 226.29780731909867
+                "x": -490.9716886050349,
+                "y": 52.375698086678554
             },
             {
                 "id": "341294",
-                "x": -319.76484923534554,
-                "y": -257.3586488267986
+                "x": 133.38791150588835,
+                "y": -230.35705315816207
             },
             {
                 "id": "341422",
-                "x": -66.22214566464793,
-                "y": 738.6405151363444
+                "x": 26.470419391497856,
+                "y": 760.540671068432
             },
             {
                 "id": "341628",
-                "x": 190.53516503771996,
-                "y": -64.45636564579999
+                "x": 133.98527861010191,
+                "y": 148.16496855845327
             },
             {
                 "id": "341646",
-                "x": -57.89689054603316,
-                "y": 80.87944846416327
+                "x": -37.324703916586735,
+                "y": 107.65694849101006
             },
             {
                 "id": "341649",
-                "x": -210.07198615521293,
-                "y": 41.11396674193294
+                "x": 162.71985173983234,
+                "y": 82.85911966216032
             },
             {
                 "id": "341788",
-                "x": -230.49705640549126,
-                "y": -119.4925670059375
+                "x": -151.69130766085598,
+                "y": 73.6999050159651
             },
             {
                 "id": "342110",
-                "x": 22.54865253238454,
-                "y": -175.6137559224905
+                "x": -245.03193950621494,
+                "y": 224.2900264493192
             },
             {
                 "id": "342284",
-                "x": -133.16125205451658,
-                "y": 135.91434526207956
+                "x": -2.933663291295226,
+                "y": -167.10279908907344
             },
             {
                 "id": "342651",
-                "x": 124.23955925884121,
-                "y": -275.75080923289835
+                "x": -73.93442795398468,
+                "y": 318.12082923892416
             },
             {
                 "id": "342652",
-                "x": 110.84247532350538,
-                "y": -214.9716546537588
+                "x": -133.18587584593698,
+                "y": 296.6874321682755
             },
             {
                 "id": "342841",
-                "x": -146.5283618806771,
-                "y": -120.96157931478378
+                "x": 19.43303938166934,
+                "y": 94.49377562307346
             },
             {
                 "id": "342862",
-                "x": 301.9124700823925,
-                "y": 57.77095898297504
+                "x": -127.22880180424654,
+                "y": 135.05705699908566
             },
             {
                 "id": "342968",
-                "x": -717.5951701463318,
-                "y": 304.4000786698237
+                "x": 478.704237705141,
+                "y": -604.6278345790554
             },
             {
                 "id": "342978",
-                "x": -58.08309270625169,
-                "y": 764.9158216520811
+                "x": 32.159759024193804,
+                "y": 732.891365960762
             },
             {
                 "id": "343017",
-                "x": -49.781395089821785,
-                "y": 726.0582046235784
+                "x": 0.9079590502801722,
+                "y": 738.3800265025683
             },
             {
                 "id": "343081",
-                "x": 81.27012905863933,
-                "y": 75.36016634073053
+                "x": -77.14720785249138,
+                "y": -19.414490711405485
             },
             {
                 "id": "343094",
-                "x": -14.982220499543493,
-                "y": 241.85328291464484
+                "x": -355.8490179718706,
+                "y": -77.27083998268112
             },
             {
                 "id": "343270",
-                "x": -113.60121582313865,
-                "y": -33.25439158119126
+                "x": -161.96454470318827,
+                "y": 125.88637134154496
             },
             {
                 "id": "343783",
-                "x": 498.84342648263515,
-                "y": 202.4608240783194
+                "x": -198.7986175443583,
+                "y": -442.0856953383088
             },
             {
                 "id": "343784",
-                "x": 479.23587985800975,
-                "y": 201.99951608951977
+                "x": -227.16281120561507,
+                "y": -420.55330987662023
             },
             {
                 "id": "343785",
-                "x": 438.3607879079703,
-                "y": 197.26188276745458
+                "x": -185.72919585929387,
+                "y": -392.08944887470005
             },
             {
                 "id": "343786",
-                "x": 493.2706453856847,
-                "y": 221.62297254082543
+                "x": -232.37850478779328,
+                "y": -437.75753099138973
             },
             {
                 "id": "343800",
-                "x": 386.48395245167313,
-                "y": 98.75891511572779
+                "x": -199.8027861370002,
+                "y": -270.12574899340075
             },
             {
                 "id": "343948",
-                "x": -8.04084953905891,
-                "y": -143.06918600098015
+                "x": 65.34891439786757,
+                "y": 219.87555563596237
             },
             {
                 "id": "344136",
-                "x": 257.4648468776147,
-                "y": -680.2308742584902
+                "x": 338.33231120340423,
+                "y": 660.1590796031887
             },
             {
                 "id": "344512",
-                "x": -410.8577966128297,
-                "y": 576.6071349700077
+                "x": -114.85402049060876,
+                "y": -764.5141576425679
             },
             {
                 "id": "344613",
-                "x": 185.91171728149368,
-                "y": -245.82817262457917
+                "x": -200.02748646299153,
+                "y": 270.096364031316
             },
             {
                 "id": "344679",
-                "x": -89.11672917408167,
-                "y": 5.1184771981851895
+                "x": -148.17307931135684,
+                "y": -86.17090864889865
             },
             {
                 "id": "344726",
-                "x": -201.91505980139527,
-                "y": -302.26149656286236
+                "x": 212.82792580426852,
+                "y": 217.90765680437408
             },
             {
                 "id": "344730",
-                "x": -29.55672994123847,
-                "y": -35.524390121271466
+                "x": 121.5968756593786,
+                "y": 136.88261661054875
             },
             {
                 "id": "344758",
-                "x": 324.5872703368797,
-                "y": 431.3826919065465
+                "x": -262.15960202241274,
+                "y": -471.951332112994
             },
             {
                 "id": "344897",
-                "x": -448.7538201534767,
-                "y": 584.8801515318388
+                "x": -85.5180797035982,
+                "y": -729.0824819848054
             },
             {
                 "id": "345008",
-                "x": 273.3460372608497,
-                "y": 100.92753611329024
+                "x": -235.6679187883058,
+                "y": -168.9253003371465
             },
             {
                 "id": "345096",
-                "x": 81.53265846813548,
-                "y": -69.87766235306268
+                "x": 127.8319937641579,
+                "y": 45.060055557413584
             },
             {
                 "id": "345109",
-                "x": -112.25992742589503,
-                "y": 62.154329768316046
+                "x": -313.59127377536566,
+                "y": 189.4877854095758
             },
             {
                 "id": "345140",
-                "x": 85.39813095738191,
-                "y": 159.3299207389039
+                "x": -202.74447171512594,
+                "y": -153.93792784001792
             },
             {
                 "id": "345602",
-                "x": -739.2798525034218,
-                "y": -158.24718679418044
+                "x": 747.764765504255,
+                "y": 173.67968532031156
             },
             {
                 "id": "346008",
-                "x": -47.14500800900125,
-                "y": 747.7078853799936
+                "x": 13.88451742195025,
+                "y": 748.9621024731729
             },
             {
                 "id": "346235",
-                "x": -538.8646397415664,
-                "y": 371.3428533179064
+                "x": 390.7100153859785,
+                "y": -422.5011498497488
             },
             {
                 "id": "346245",
-                "x": -356.63676515373265,
-                "y": -567.0647575748268
+                "x": 570.8033669729207,
+                "y": 217.33514805560796
             },
             {
                 "id": "346566",
-                "x": 288.4805115023272,
-                "y": 641.6772883081427
+                "x": 54.965943930791205,
+                "y": -717.5229095005968
             },
             {
                 "id": "346567",
-                "x": 228.67944932356625,
-                "y": 710.80424857426
+                "x": 124.06161321675,
+                "y": -757.4994932650318
             },
             {
                 "id": "346568",
-                "x": 318.4001587064614,
-                "y": 648.6205810166116
+                "x": 38.237376801393594,
+                "y": -734.0116468658388
             },
             {
                 "id": "346569",
-                "x": 265.84118929193187,
-                "y": 729.2496386384947
+                "x": 83.6567423322448,
+                "y": -754.359533469545
             },
             {
                 "id": "346574",
-                "x": 224.2025150767756,
-                "y": 686.9356689331793
+                "x": 138.00129002779113,
+                "y": -716.3067030022411
             },
             {
                 "id": "346592",
-                "x": 32.689176831314505,
-                "y": -24.1479258167906
+                "x": -197.62580025080678,
+                "y": 59.455935641750756
             },
             {
                 "id": "346680",
-                "x": -217.70438997537113,
-                "y": 135.687736319319
+                "x": 226.21794528022053,
+                "y": -197.42858175311315
             },
             {
                 "id": "346692",
-                "x": -72.5783332620825,
-                "y": -279.90496367456643
+                "x": 88.35016017898468,
+                "y": 275.1433424719836
             },
             {
                 "id": "346708",
-                "x": 747.7520218358053,
-                "y": 69.78727389488792
+                "x": 679.3972796453662,
+                "y": 22.70939777446004
             },
             {
                 "id": "346732",
-                "x": -179.3378515157819,
-                "y": 95.44259194802976
+                "x": -133.65010559429996,
+                "y": -174.9010424391902
             },
             {
                 "id": "346826",
-                "x": -136.81252445721898,
-                "y": -231.67892968491955
+                "x": 97.40414549635601,
+                "y": 101.70672720243324
             },
             {
                 "id": "347097",
-                "x": -326.5424700485747,
-                "y": 2.244560434151645
+                "x": 255.16123442538537,
+                "y": -177.386268216718
             },
             {
                 "id": "347317",
-                "x": -192.07385846411483,
-                "y": 139.49804662035424
+                "x": -82.56249317281124,
+                "y": -239.34981123220473
             },
             {
                 "id": "347507",
-                "x": 220.13025513124143,
-                "y": 37.52003031465686
+                "x": -290.04687158385826,
+                "y": 5.943491392378178
             },
             {
                 "id": "347711",
-                "x": -600.8848255194496,
-                "y": 509.9276319228627
+                "x": 570.6229896888739,
+                "y": -552.5492411879782
             },
             {
                 "id": "348172",
-                "x": -652.610385965752,
-                "y": -313.39094418093475
+                "x": 415.6006295980227,
+                "y": -528.111489223687
             },
             {
                 "id": "348348",
-                "x": -129.0875327760719,
-                "y": 129.4939443082559
+                "x": 93.73967514585527,
+                "y": -165.14817659411943
             },
             {
                 "id": "348955",
-                "x": -369.51279291108636,
-                "y": -554.6393328942819
+                "x": 586.99837743309,
+                "y": 209.63827157253468
             },
             {
                 "id": "349248",
-                "x": -181.21283380656726,
-                "y": 344.6850440064335
+                "x": -101.24164692425886,
+                "y": -183.5153837579979
             },
             {
                 "id": "350194",
-                "x": -17.147863719457458,
-                "y": -135.9927634584686
+                "x": -124.98480622507904,
+                "y": -27.29953106147326
             },
             {
                 "id": "350539",
-                "x": 489.66656059364624,
-                "y": -556.3469759669508
+                "x": -533.3423907438424,
+                "y": -478.7176539470688
             },
             {
                 "id": "350772",
-                "x": 756.0634130515081,
-                "y": 56.06170182024185
+                "x": 703.2878992092403,
+                "y": 35.31151149357803
             },
             {
                 "id": "351310",
-                "x": 223.8797634045012,
-                "y": 160.47726151255668
+                "x": -270.8955824486222,
+                "y": -126.02246864589182
             },
             {
                 "id": "353960",
-                "x": 309.48289007254607,
-                "y": -78.10325580394937
+                "x": 130.93632080619065,
+                "y": 173.56202340403757
             },
             {
                 "id": "354201",
-                "x": -153.42152484443946,
-                "y": 191.55879740982408
+                "x": 75.01315748318456,
+                "y": -47.533672458293196
             },
             {
                 "id": "354715",
-                "x": -686.4148031352374,
-                "y": -106.09441490699102
+                "x": 452.1856212382157,
+                "y": 502.3647795760734
             },
             {
                 "id": "354842",
-                "x": 267.7093989410117,
-                "y": -174.39071066741985
+                "x": -309.3862454078807,
+                "y": -25.57717958202763
             },
             {
                 "id": "355104",
-                "x": -623.9209268231139,
-                "y": -445.4449796535736
+                "x": 719.2969844019883,
+                "y": 221.15847975879555
             },
             {
                 "id": "355107",
-                "x": -599.3696584557218,
-                "y": -460.9045584903184
+                "x": 714.5481118036158,
+                "y": 249.3260632334737
             },
             {
                 "id": "355548",
-                "x": -118.98906353700742,
-                "y": 68.8419574509749
+                "x": 43.849337942322485,
+                "y": -99.66968469006225
             },
             {
                 "id": "355787",
-                "x": -433.497800094719,
-                "y": -133.3495528071288
+                "x": 356.1143818488213,
+                "y": -6.337176941946628
             },
             {
                 "id": "356054",
-                "x": -227.919222670695,
-                "y": 174.74529459719292
+                "x": -143.79553946883635,
+                "y": -267.3002352425508
             },
             {
                 "id": "357365",
-                "x": -73.91002816149529,
-                "y": 112.43856072515203
+                "x": -162.01530822272065,
+                "y": -104.21921546694782
             },
             {
                 "id": "358045",
-                "x": 11.917869713585569,
-                "y": 172.01091436270153
+                "x": -164.97750352616012,
+                "y": -68.26391141935639
             },
             {
                 "id": "358925",
-                "x": 233.44704858067857,
-                "y": 225.93172821621775
+                "x": -312.1409576721954,
+                "y": -85.67216856882442
             },
             {
                 "id": "359187",
-                "x": 206.8394686792485,
-                "y": -89.541060343819
+                "x": -233.55349497075235,
+                "y": 58.903292686966005
             },
             {
                 "id": "359323",
-                "x": -47.91466262942675,
-                "y": -138.00373090951084
+                "x": -208.7109629853269,
+                "y": 293.6419127290604
             },
             {
                 "id": "359346",
-                "x": 201.49077470563992,
-                "y": -240.14089541430164
+                "x": -276.33175480713686,
+                "y": 274.7556537944881
             },
             {
                 "id": "359499",
-                "x": 184.3935149811196,
-                "y": 56.494033996639985
+                "x": -305.7731149733628,
+                "y": -91.34001646184164
             },
             {
                 "id": "361013",
-                "x": 108.4040593640094,
-                "y": -288.68185614399545
+                "x": -37.22964808297396,
+                "y": 287.30488306694497
             },
             {
                 "id": "361798",
-                "x": -216.24235872830107,
-                "y": -72.24660577782868
+                "x": 141.57165960446625,
+                "y": 154.28817856314976
             },
             {
                 "id": "362320",
-                "x": 67.35613560943459,
-                "y": -278.9051530737382
+                "x": 32.089646918181465,
+                "y": 356.4012603352749
             },
             {
                 "id": "362340",
-                "x": 15.934474530218969,
-                "y": -194.6351210410038
+                "x": -85.04213573293815,
+                "y": 270.15951080197624
             },
             {
                 "id": "362976",
-                "x": 52.594655603677886,
-                "y": -269.7462022455897
+                "x": -119.99190997368542,
+                "y": 268.5810434021395
             },
             {
                 "id": "363079",
-                "x": -92.43058684847797,
-                "y": -132.46562985943075
+                "x": 49.19214360798284,
+                "y": 117.0846089481863
             },
             {
                 "id": "363723",
-                "x": 158.81626564278397,
-                "y": 209.62567371406868
+                "x": -277.4598357876005,
+                "y": -110.6454030200679
             },
             {
                 "id": "363760",
-                "x": -93.35012228589214,
-                "y": 31.50559846513723
+                "x": 22.747787695528658,
+                "y": -24.22759282536002
             },
             {
                 "id": "364464",
-                "x": 353.94503653228094,
-                "y": 430.75650060958463
+                "x": -306.6495153237305,
+                "y": -468.4923350069809
             },
             {
                 "id": "364498",
-                "x": -95.0420940399652,
-                "y": 736.9418953063912
+                "x": 55.53865974275869,
+                "y": 739.8358270916409
             },
             {
                 "id": "364759",
-                "x": -239.98620674605513,
-                "y": 119.48391736622585
+                "x": -11.4729296111001,
+                "y": -276.5767808885117
             },
             {
                 "id": "365039",
-                "x": 280.542131029858,
-                "y": 726.9961189988669
+                "x": 64.42753048309136,
+                "y": -728.2776387700025
             },
             {
                 "id": "365378",
-                "x": -47.01404028643253,
-                "y": 14.525682478071484
+                "x": -106.45862130129098,
+                "y": -35.52571988558889
             },
             {
                 "id": "365578",
-                "x": -2.0137855602021637,
-                "y": -206.4486728785775
+                "x": 24.72822610055136,
+                "y": 106.55354815215176
             },
             {
                 "id": "365616",
-                "x": -312.15015746644235,
-                "y": 177.67181707014484
+                "x": 187.4157623717876,
+                "y": -112.6284852484321
             },
             {
                 "id": "366378",
-                "x": 307.0632255151839,
-                "y": -43.403159929406996
+                "x": -232.72028432003262,
+                "y": -53.01608710240151
             },
             {
                 "id": "366583",
-                "x": -455.774598834825,
-                "y": -159.7346916100973
+                "x": 318.4116956961574,
+                "y": -223.26300272913062
             },
             {
                 "id": "366662",
-                "x": -83.19486136041573,
-                "y": -183.60984388705052
+                "x": 87.93124662305402,
+                "y": 86.05208305563012
             },
             {
                 "id": "366847",
-                "x": -98.93498667769676,
-                "y": 191.77902341701798
+                "x": 157.88425114255534,
+                "y": -90.08975858422386
             },
             {
                 "id": "367166",
-                "x": 642.7814535561284,
-                "y": 58.73848063151503
+                "x": 728.0700814490185,
+                "y": 42.58392676262477
             },
             {
                 "id": "367442",
-                "x": 476.6946562183509,
-                "y": -585.6800250677977
+                "x": -497.806695114663,
+                "y": -561.0335920761792
             },
             {
                 "id": "367569",
-                "x": -57.10068982359096,
-                "y": 102.40474389693718
+                "x": -77.26182968191118,
+                "y": -165.65249774711677
             },
             {
                 "id": "367842",
-                "x": -132.6943350823659,
-                "y": -117.05399906507935
+                "x": 11.444473373548838,
+                "y": -44.00914713450081
             },
             {
                 "id": "368048",
-                "x": -117.47232300481177,
-                "y": 295.9109445082057
+                "x": 178.34549972137899,
+                "y": -204.8630495383716
             },
             {
                 "id": "368729",
-                "x": 107.53931736055807,
-                "y": -102.27396101978158
+                "x": -124.89847173030506,
+                "y": 174.0294228758918
             },
             {
                 "id": "368879",
-                "x": 5.38262289395479,
-                "y": -48.55432404341047
+                "x": -171.53039017466625,
+                "y": 105.41432476432678
             },
             {
                 "id": "369452",
-                "x": 240.05516793862432,
-                "y": -216.01721345519653
+                "x": -343.2446128297476,
+                "y": 189.45951965449876
             },
             {
                 "id": "369532",
-                "x": 74.06790488241508,
-                "y": -120.3022288489442
+                "x": 6.069173311431793,
+                "y": 290.5150706244433
             },
             {
                 "id": "369910",
-                "x": -98.87515151606165,
-                "y": 756.7341075866541
+                "x": 57.365114809971104,
+                "y": 721.5132180759521
             },
             {
                 "id": "370030",
-                "x": 52.45080519438073,
-                "y": 266.2899269701014
+                "x": 75.88487907071234,
+                "y": -315.2388058029522
             },
             {
                 "id": "370306",
-                "x": -68.93938999199312,
-                "y": 22.203024339651403
+                "x": -237.01066005768536,
+                "y": 96.57944931931713
             },
             {
                 "id": "370340",
-                "x": 504.93603097366616,
-                "y": -564.1456687562677
+                "x": -546.3116369329864,
+                "y": -485.0133992116478
             },
             {
                 "id": "370420",
-                "x": -88.29930166242852,
-                "y": -360.89695693059275
+                "x": -111.10443929261785,
+                "y": 392.07122119855336
             },
             {
                 "id": "370422",
-                "x": -167.6775236485354,
-                "y": -452.84913231273606
+                "x": -113.72384209238223,
+                "y": 503.9711437055904
             },
             {
                 "id": "370425",
-                "x": -118.07459566776357,
-                "y": -406.55661005397724
+                "x": -154.2479520382472,
+                "y": 455.1490415448772
             },
             {
                 "id": "370426",
-                "x": -179.3551520149887,
-                "y": -378.70707985384234
+                "x": -132.5688588302028,
+                "y": 441.9976824225845
             },
             {
                 "id": "370439",
-                "x": -148.6869146793096,
-                "y": -416.10815501297157
+                "x": -64.61957208190607,
+                "y": 454.24851254726406
             },
             {
                 "id": "370500",
-                "x": -180.65115265896083,
-                "y": -47.521501492698214
+                "x": 46.72519122738795,
+                "y": 2.7656618539805953
             },
             {
                 "id": "371964",
-                "x": -228.4105111170855,
-                "y": -187.00335883160454
+                "x": 203.46929556269367,
+                "y": -16.910712091115077
             },
             {
                 "id": "372361",
-                "x": 619.1480111877662,
-                "y": 388.49910728503016
+                "x": -689.7892183828257,
+                "y": -148.13634179159374
             },
             {
                 "id": "372634",
-                "x": -167.70486759147332,
-                "y": 39.636060275310435
+                "x": 45.54570799525095,
+                "y": 166.6524372103766
             },
             {
                 "id": "372677",
-                "x": 321.1276195243519,
-                "y": -150.89588743554114
+                "x": -348.1453840756592,
+                "y": 235.9515827974534
             },
             {
                 "id": "373278",
-                "x": 32.63483459085459,
-                "y": 770.0929715413597
+                "x": -339.84841228862587,
+                "y": -682.8622735141819
             },
             {
                 "id": "373279",
-                "x": 9.183517187464115,
-                "y": 787.7732382763794
+                "x": -330.6683384137777,
+                "y": -711.0294143277973
             },
             {
                 "id": "373309",
-                "x": 215.33873872153163,
-                "y": 25.876677256798303
+                "x": -252.3013550580233,
+                "y": -24.093711016769007
             },
             {
                 "id": "373366",
-                "x": 246.45961733246207,
-                "y": 377.09535274912804
+                "x": -440.7809127883797,
+                "y": -262.29423848535015
             },
             {
                 "id": "374002",
-                "x": -678.220698457495,
-                "y": -277.87530362790494
+                "x": 424.56985695682755,
+                "y": -542.3936657331377
             },
             {
                 "id": "374035",
-                "x": -329.3138188320241,
-                "y": 238.59294601773055
+                "x": -506.37189592338575,
+                "y": 114.25801252450005
             },
             {
                 "id": "374188",
-                "x": 306.3355471091689,
-                "y": 472.6873925507599
+                "x": 97.82564627859173,
+                "y": -511.22505861709703
             },
             {
                 "id": "374224",
-                "x": -10.291138710946225,
-                "y": 161.63957904965662
+                "x": 51.11033918063873,
+                "y": -117.97803426494467
             },
             {
                 "id": "374296",
-                "x": 347.40657751677907,
-                "y": -121.62923733228904
+                "x": 63.9286697814047,
+                "y": -261.9210368300695
             },
             {
                 "id": "374311",
-                "x": -356.9691818198577,
-                "y": -38.19059412932341
+                "x": 237.98235750970605,
+                "y": 30.152015467303357
             },
             {
                 "id": "375097",
-                "x": 259.17810433910654,
-                "y": -15.6292823730323
+                "x": -294.61965156519244,
+                "y": -4.1656929666107425
             },
             {
                 "id": "375173",
-                "x": 226.24122089487616,
-                "y": 27.644426469396443
+                "x": -300.08247957560354,
+                "y": 159.69884305114886
             },
             {
                 "id": "375383",
-                "x": -89.91558373236272,
-                "y": -44.91250993668906
+                "x": -5.056636598234814,
+                "y": 11.516199170147368
             },
             {
                 "id": "375829",
-                "x": -244.90141064542868,
-                "y": 651.8557138070004
+                "x": 725.0657773691521,
+                "y": -232.8722457382543
             },
             {
                 "id": "375831",
-                "x": -246.8461015461199,
-                "y": 633.9992736433555
+                "x": 668.9475045190787,
+                "y": -242.84834290486685
             },
             {
                 "id": "375832",
-                "x": -298.3993405919335,
-                "y": 657.0080408341871
+                "x": 708.6936034584041,
+                "y": -204.8419808725913
             },
             {
                 "id": "375844",
-                "x": -264.8169567289235,
-                "y": 666.7596397758346
+                "x": 703.8583102192725,
+                "y": -261.02457348917676
             },
             {
                 "id": "375850",
-                "x": -290.29168329424414,
-                "y": 677.7370749776444
+                "x": 684.244687921396,
+                "y": -232.50270128797433
             },
             {
                 "id": "375851",
-                "x": -249.3207128882504,
-                "y": 672.0476154047635
+                "x": 725.0308345360984,
+                "y": -214.55598723220365
             },
             {
                 "id": "375852",
-                "x": -281.3420607890211,
-                "y": 659.8215180770164
+                "x": 683.0858561873192,
+                "y": -256.4539582407019
             },
             {
                 "id": "375853",
-                "x": -291.5438152762055,
-                "y": 638.1580429525496
+                "x": 687.5838954816084,
+                "y": -208.3768433225734
             },
             {
                 "id": "375854",
-                "x": -270.2858670332097,
-                "y": 684.9123304807758
+                "x": 722.0139282355848,
+                "y": -251.14780250707383
             },
             {
                 "id": "375856",
-                "x": -261.5985733432902,
-                "y": 623.1543568084205
+                "x": 702.247442977547,
+                "y": -243.40157752520682
             },
             {
                 "id": "376264",
-                "x": 13.605861784517451,
-                "y": 286.5347402151785
+                "x": 17.750283544907745,
+                "y": 268.1667919154828
             },
             {
                 "id": "377046",
-                "x": -594.9959094710251,
-                "y": -70.72795609026917
+                "x": 495.62513413206426,
+                "y": -133.20544145972977
             },
             {
                 "id": "377349",
-                "x": -279.35549601726325,
-                "y": 625.023664249465
+                "x": 703.560188160701,
+                "y": -223.15354626125253
             },
             {
                 "id": "377360",
-                "x": -139.1162399535763,
-                "y": -733.5298861035232
-            },
-            {
-                "id": "377364",
-                "x": 482.07624195899086,
-                "y": 606.7248075858188
-            },
-            {
-                "id": "377365",
-                "x": 517.3993698626116,
-                "y": 586.242092023069
-            },
-            {
-                "id": "377367",
-                "x": 474.00269805522504,
-                "y": 586.9507230140215
+                "x": -487.6769572749552,
+                "y": 603.7375039145611
             },
             {
                 "id": "377417",
-                "x": -386.6137570753481,
-                "y": -546.1954544674489
+                "x": 591.8072637128965,
+                "y": 169.75418162527856
             },
             {
                 "id": "377440",
-                "x": -267.7259912699017,
-                "y": -84.82790456178967
+                "x": 163.31394698334475,
+                "y": -66.54341720635823
             },
             {
                 "id": "377740",
-                "x": -17.00536631789828,
-                "y": -48.03116108303143
+                "x": -186.37156332438295,
+                "y": 125.86847755386563
             },
             {
                 "id": "377969",
-                "x": 72.98724971344353,
-                "y": -230.69669149640262
+                "x": -333.2853836913008,
+                "y": 208.2764443385208
             },
             {
                 "id": "378007",
-                "x": 167.6740816533975,
-                "y": -247.99377907498464
+                "x": -191.37924522313173,
+                "y": 286.5913417310619
             },
             {
                 "id": "378270",
-                "x": 202.5338686275547,
-                "y": -711.73212868532
+                "x": 392.60030761114535,
+                "y": 643.7127900385477
             },
             {
                 "id": "378373",
-                "x": -93.62178164228604,
-                "y": 244.75655945883756
+                "x": 126.50580309136004,
+                "y": -11.899820779790549
             },
             {
                 "id": "378591",
-                "x": -153.95673120945523,
-                "y": 255.61240990260603
+                "x": -397.4184505217136,
+                "y": -24.448475850362403
             },
             {
                 "id": "378724",
-                "x": 276.6213704641955,
-                "y": -49.05314275825085
+                "x": -334.18866464902345,
+                "y": 56.38119380844681
             },
             {
                 "id": "378894",
-                "x": 33.6560212100192,
-                "y": 47.49357161838798
+                "x": -233.64188140015327,
+                "y": -309.2235825499162
             },
             {
                 "id": "379223",
-                "x": -723.6809408028251,
-                "y": 7.934570500051885
+                "x": 338.6984699942264,
+                "y": -705.3880906096055
             },
             {
                 "id": "379226",
-                "x": -754.1423996745036,
-                "y": 11.536389228290247
+                "x": 378.9596515247931,
+                "y": -698.4135533890204
             },
             {
                 "id": "379236",
-                "x": -745.7015034025861,
-                "y": 29.045030331114976
+                "x": 354.01401789601124,
+                "y": -726.6129572894424
             },
             {
                 "id": "379238",
-                "x": -706.4437275459212,
-                "y": 17.92556731393713
+                "x": 350.5295919640008,
+                "y": -689.9210496436915
             },
             {
                 "id": "379239",
-                "x": -742.960119934502,
-                "y": -7.484281635374813
+                "x": 371.2257973288146,
+                "y": -716.3986878413835
             },
             {
                 "id": "379240",
-                "x": -724.3611710270567,
-                "y": 32.588891079535635
+                "x": 333.08963471524,
+                "y": -725.4975411178979
             },
             {
                 "id": "379241",
-                "x": -720.6462181339618,
-                "y": -11.143301869491191
+                "x": 365.9889915546254,
+                "y": -680.0813064815737
             }
         ];
         this.buildPositionMap();
@@ -25666,6 +25536,7 @@ var ForceDirectedComponent = /** @class */ (function () {
                 y: d.y
             });
         });
+        // console.log(JSON.stringify(this.outputData))
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('inputText'),
